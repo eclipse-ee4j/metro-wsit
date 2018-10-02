@@ -1,0 +1,26 @@
+#
+# Copyright (c) 2017, 2018 Oracle and/or its affiliates. All rights reserved.
+#
+# This program and the accompanying materials are made available under the
+# terms of the Eclipse Distribution License v. 1.0, which is available at
+# http://www.eclipse.org/org/documents/edl-v10.php.
+#
+# SPDX-License-Identifier: BSD-3-Clause
+#
+
+#
+#
+# Metro Translation Files (Metro is used in FMW Web Services).
+#
+#  Date         Author          Comments
+#  11-20-2013   UMJOSHI         Added Metro RM file entry for translation
+#
+#
+
+#****************** Metro Files ****************** 
+
+Contact: uday.joshi@oracle.com
+
+Languages: Std_Admin
+ws-rx/wsrm-impl/src/main/resources/com/sun/xml/ws/rx/rm/localization
+                Localization%j.properties

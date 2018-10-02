@@ -1,0 +1,175 @@
+<?xml version="1.0"?>
+<!--
+
+    Copyright (c) 2011, 2018 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Distribution License v. 1.0, which is available at
+    http://www.eclipse.org/org/documents/edl-v10.php.
+
+    SPDX-License-Identifier: BSD-3-Clause
+
+-->
+
+<project name="Metro on Tomcat" default="help">
+    <property environment="env"/>
+    <property name="tomcat.home" value="${@catalina.home.env.string@}"/>
+    <property name="catalina.home" value="${tomcat.home}"/>
+    <property name="catalina.lib.home" value="${catalina.home}/shared/lib"/>
+    <property name="catalina.endorsed" value="${catalina.home}/common/endorsed"/>
+
+    <!-- Check if we are running JAVA SE 6 --> 
+    <condition property="jdk6+">
+        <or>
+            <contains string="${@java.version.string@}" substring="1.6.0"/>
+            <contains string="${@java.version.string@}" substring="1.7.0"/>
+        </or>
+    </condition>
+
+    <condition property="catalina.home.exists">
+        <available file="${catalina.home}" type="dir"/>
+    </condition>
+
+    <condition property="tomcat6">
+        <not>
+            <available file="${catalina.home}/common/endorsed"/>
+        </not>
+    </condition>
+ 
+    <target name="catalinahome-test" unless="catalina.home.exists">
+        <fail message="The environment variable CATALINA_HOME was not set or does not point to an existing directory."/>
+    </target>
+
+    <target name="init" depends="catalinahome-test"/>
+
+    <target name="jdk-message" if="jdk6+">
+        <echo message="Metro is being installed using Java SE ${@java.version.string@}."/>
+        <echo/>
+        <echo message="  ${product.name} provides JAX-WS API ${jaxws-api.version} while Java SE ${@java.version.string@} includes"/>
+        <echo message="  another version. If you want to run Metro applications"/>
+        <echo message="  outside Tomcat, you will need to use the endorsed"/>
+        <echo message="  standards override mechanism. For more details see"/>
+        <echo message="  http://download.oracle.com/javase/6/docs/technotes/guides/standards/index.html"/>
+        <echo/>
+        <echo message="  If you want to enable JAX-WS ${jaxws-api.version} for all applications"/>
+        <echo message="  running under Java SE ${@java.version.string@}, you may run the command"/>
+        <echo message="  'ant install-api'."/>
+        <echo message="  That command will copy the file webservices-api.jar to"/>
+        <echo message="  ${@java.home.string@}/lib/endorsed."/>
+        <echo message="  The command needs to be run by a user that has the"/>
+        <echo message="  permissions to copy files into ${@java.home.string@}/lib/endorsed."/>
+        <echo/>
+        <echo message="  NOTE that any Java application that incidentally"/>
+        <echo message="  uses one of the APIs included in Metro but does"/>
+        <echo message="  not have all Metro JARs on its classpath may"/>
+        <echo message="  experience class loading issues if you proceed with"/>
+        <echo message="  'install-api'."/>
+    </target>
+    
+    <target name="install" depends="init,uninstall,update-catalina-props,check-api,install-api-tomcat" description="Install latest Metro jars">
+        <echo message="Installing ${product.name} for ${catalina.home} ..."/>
+
+        <mkdir dir="${catalina.lib.home}"/>
+        <copy toDir="${catalina.lib.home}" overwrite="true">
+            <fileset dir="lib">
+                <include name="webservices-rt.jar"/>
+                <include name="webservices-tools.jar"/>
+                <include name="webservices-extra.jar"/>
+                <include name="webservices-extra-api.jar"/>
+            </fileset>
+        </copy>
+        <echo message="... installation complete."/>
+    </target>
+
+    <!-- If we install into Tomcat 5.x, install the webservices-api.jar into common/endorsed. -->
+    <!-- If we install into Tomcat 6, install the webservices-api.jar into endorsed.          -->
+    <!-- If we install with Java SE 6, additionally install the webservices-api.jar           -->
+    <!-- into $JAVA_HOME/lib/endorsed.                                                        -->
+
+    <target name="install-api-tomcat" description="Installs 'webservices-api.jar'" depends="install-api-tomcat5,install-api-tomcat6"/>
+
+    <target name="install-api-tomcat5" description="Installs 'webservices-api.jar' into $CATALINA_HOME/common/endorsed" unless="tomcat6">
+        <copy toDir="${catalina.endorsed}" overwrite="true">
+            <fileset dir="lib">
+                <include name="webservices-api.jar"/>
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="install-api-tomcat6" description="Installs 'webservices-api.jar' into $CATALINA_HOME/endorsed" if="tomcat6">
+        <mkdir dir="${catalina.home}/endorsed"/>
+        <copy toDir="${catalina.home}/endorsed" overwrite="true">
+            <fileset dir="lib">
+                <include name="webservices-api.jar"/>
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="test-api" description="Test if 'webservices-api.jar' is already installed in $JAVA_HOME/lib/endorsed" if="jdk6+">
+        <available property="api.installed" file="${@java.home.string@}/lib/endorsed/webservices-api.jar"/>
+    </target>
+
+    <target name="check-api" depends="test-api" if="api.installed"
+            description="Print a warning if 'webservices-api.jar' is found in $JAVA_HOME/lib/endorsed">
+        <echo message="Found the file webservices-api.jar in ${@java.home.string@}/lib/endorsed."/>
+        <echo/>
+        <echo message="  This installation does not automatically overwrite"/>
+        <echo message="  'webservices-api.jar' in ${@java.home.string@}/lib/endorsed."/>
+        <echo message="  Please execute the command 'ant install-api' to"/>
+        <echo message="  update 'webservices-api.jar'."/>
+        <echo/>
+        <echo message="  NOTE that any Java application that incidentally uses"/>
+        <echo message="  one of the APIs included in Metro but does not"/>
+        <echo message="  have all Metro JARs on its classpath may experience"/>
+        <echo message="  class loading issues if you install webservices-api.jar"/>
+        <echo message="  into ${@java.home.string@}/lib/endorsed."/>
+    </target>
+
+    <target name="install-api" description="Installs 'webservices-api.jar' into $JAVA_HOME/lib/endorsed" if="jdk6+">
+        <mkdir dir="${@java.home.string@}/lib/endorsed"/>
+        <copy toDir="${@java.home.string@}/lib/endorsed" overwrite="true">
+            <fileset dir="lib">
+                <include name="webservices-api.jar"/>
+            </fileset>
+        </copy>
+    </target>
+
+    <taskdef name="updatesharedloaderprop" classname="com.sun.xml.ws.installer.UpdateSharedLoaderProp">
+        <classpath>
+            <fileset dir="./lib" includes="webservices-rt.jar"/>
+        </classpath>
+    </taskdef>
+
+    <target name="update-catalina-props">
+        <updatesharedloaderprop catalinaprops="${catalina.home}/conf/catalina.properties"/>
+    </target>
+
+    <target name="uninstall" depends="init"
+            description="Remove the Metro jar files.">
+        <delete quiet="true">
+            <fileset dir="${catalina.lib.home}" includes="webservices-rt.jar, webservices-tools.jar, webservices-extra.jar, webservices-extra-api.jar"/>
+        </delete>
+        <delete quiet="true">
+            <fileset dir="${catalina.endorsed}" includes="webservices-api.jar"/>
+        </delete>
+        <delete quiet="true">
+            <fileset dir="${@java.home.string@}/lib/endorsed" includes="webservices-api.jar"/>
+        </delete>
+    </target>
+
+    <target name="help">
+        <echo message="Usage:"/>
+        <echo message="  ant -f metro-on-tomcat.xml {install,uninstall}"/>
+        <echo/>
+        <echo message="$CATALINA_HOME must be set to the installation directory of Tomcat."/>
+        <echo/>
+        <echo message="install:"/>
+        <echo message="  Installs ${product.name} on Tomcat"/>
+        <echo/>
+        <echo message="uninstall: "/>
+        <echo message="  Uninstalls ${product.name} from Tomcat"/>
+        <echo/>
+        <antcall target="jdk-message"/>
+    </target>
+    
+</project>

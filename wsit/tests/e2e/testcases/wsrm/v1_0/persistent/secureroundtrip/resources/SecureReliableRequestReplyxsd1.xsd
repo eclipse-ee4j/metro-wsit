@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!--
+
+    Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Distribution License v. 1.0, which is available at
+    http://www.eclipse.org/org/documents/edl-v10.php.
+
+    SPDX-License-Identifier: BSD-3-Clause
+
+-->
+
+ <xs:schema elementFormDefault="qualified" targetNamespace="http://InteropBaseAddress/interop" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://InteropBaseAddress/interop">
+  <xs:element name="echo">
+    <xs:complexType>
+        <xs:sequence>
+            <xs:element minOccurs="0" name="request" nillable="true" type="xs:string" />
+        </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="echoResponse">
+    <xs:complexType>
+        <xs:sequence>
+         <xs:element minOccurs="0" name="echoResult" nillable="true" type="xs:string" />
+        </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Distribution License v. 1.0, which is available at
+    http://www.eclipse.org/org/documents/edl-v10.php.
+
+    SPDX-License-Identifier: BSD-3-Clause
+
+-->
+
+<definitions name="simple"  targetNamespace="http://example.org/"
+    xmlns:tns="http://example.org/"
+    xmlns="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+    xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"
+    xmlns:sunman="http://java.sun.com/xml/ns/metro/management"
+    xmlns:wsp="http://www.w3.org/ns/ws-policy">
+
+    <message name="addNumbers">
+            <part name="parameters" element="tns:addNumbers" />
+    </message>
+    <message name="addNumbersResponse">
+            <part name="result" element="tns:addNumbersResponse" />
+    </message>
+    <message name="addNumbersFault">
+            <part name="AddNumbersFault" element="tns:AddNumbersFault" />
+    </message>
+    <portType name="AddNumbersPortType">
+            <operation name="addNumbers">
+                    <input message="tns:addNumbers" />
+                    <output message="tns:addNumbersResponse" />
+                    <fault name="addNumbersFault" message="tns:addNumbersFault"/>
+            </operation>
+    </portType>
+    <binding name="AddNumbersBinding" type="tns:AddNumbersPortType">
+        <soap12:binding transport="http://www.w3.org/2003/05/soap/bindings/HTTP/" style="document" />
+        <operation name="addNumbers">
+                <soap12:operation soapAction="" />
+                <input>
+                    <soap12:body use="literal" />
+                </input>
+                <output>
+                    <soap12:body use="literal" />
+                </output>
+                <fault name="addNumbersFault">
+                    <soap12:fault name="addNumbersFault" use="literal" />
+                </fault>
+        </operation>
+    </binding>
+    <service name="AddNumbersService">
+            <port name="AddNumbersPort" binding="tns:AddNumbersBinding">
+                    <wsp:Policy wsu:Id="policy1">
+                        <wsp:ExactlyOne>
+                            <wsp:All>
+                                <sunman:ManagedService management="false" id="anid"/>
+                            </wsp:All>
+                        </wsp:ExactlyOne>
+                    </wsp:Policy>
+                    <soap12:address location="REPLACE_WITH_ACTUAL_URL" />
+            </port>
+    </service>
+</definitions>

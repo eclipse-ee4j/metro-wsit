@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Distribution License v. 1.0, which is available at
+    http://www.eclipse.org/org/documents/edl-v10.php.
+
+    SPDX-License-Identifier: BSD-3-Clause
+
+-->
+
+<!DOCTYPE book [
+<!ENTITY % ents SYSTEM "metro.ent">
+%ents;
+]>
+<chapter version="5.0" xml:id="furtherinfo" xml:lang="en"
+         xmlns="http://docbook.org/ns/docbook"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns:xlink="http://www.w3.org/1999/xlink"
+         xmlns:xi="http://www.w3.org/2001/XInclude"
+         xmlns:svg="http://www.w3.org/2000/svg"
+         xmlns:m="http://www.w3.org/1998/Math/MathML"
+         xmlns:html="http://www.w3.org/1999/xhtml"
+         xmlns:db="http://docbook.org/ns/docbook">
+    <title>Further Information</title>
+
+    <section xml:id="ahifd">
+        <title>Links to more information</title>
+
+        <para>For more information on Metro, visit the Metro web site at <link
+        xlink:href="https://javaee.github.io/metro/">https://javaee.github.io/metro/</link> .
+        On that site, you will find information about the specifications
+        implemented in Metro product, source code, support information, links
+        to documentation updates, and much more.</para>
+
+        <para>Some other sources that contain blogs and/or screencasts about
+        using Metro include the following:</para>
+
+        <itemizedlist>
+            <listitem>
+                <para>Sun Metro Bloggers:</para>
+
+                <para><link xlink:href="http://planets.sun.com/webservices/">
+                http://planets.sun.com/webservices/</link></para>
+            </listitem>
+
+            <listitem>
+                <para>Metro: An Overview: (of the WSIT portion of
+                Metro)</para>
+
+                <para><link
+                xlink:href="https://javaee.github.io/metro-wsit/docs/tango-overview.pdf">
+                https://javaee.github.io/metro-wsit/docs/tango-overview.pdf</link></para>
+            </listitem>
+
+            <listitem>
+                <para>Web Services blog:</para>
+
+                <para><link
+                xlink:href="https://blogs.oracle.com/arungupta/webservices-3">
+                https://blogs.oracle.com/arungupta/webservices-3</link></para>
+            </listitem>
+
+            <listitem>
+                <para>Manual Web Service Configuration Starting From Java Case
+                (and others):</para>
+
+                <para><link
+                xlink:href="https://blogs.oracle.com/japod/manual-web-service-configuration-in-from-java-case">
+                https://blogs.oracle.com/japod/manual-web-service-configuration-in-from-java-case</link></para>
+            </listitem>
+
+            <listitem>
+                <para>Develop WSTrust Application Using NetBeans (and
+                others):</para>
+
+                <para><link xlink:href="http://blogs.sun.com/shyamrao/">
+                http://blogs.sun.com/shyamrao/</link></para>
+            </listitem>
+
+            <listitem>
+                <para>Security in Metro (and others):</para>
+
+                <para><link xlink:href="http://blogs.sun.com/ashutosh/">
+                http://blogs.sun.com/ashutosh/</link></para>
+            </listitem>
+
+            <listitem>
+                <para>Metro Screencasts:</para>
+
+                <para><link
+                xlink:href="https://javaee.github.io/metro/discover/screencasts.html">
+                https://javaee.github.io/metro/discover/screencasts.html</link></para>
+            </listitem>
+
+            <listitem>
+                <para>WS-* Specifications Implemented by Metro:</para>
+
+                <para><link
+                xlink:href="https://javaee.github.io/metro-wsit/specification-links.html">
+                https://javaee.github.io/metro-wsit/specification-links.html</link></para>
+            </listitem>
+        </itemizedlist>
+    </section>
+</chapter>

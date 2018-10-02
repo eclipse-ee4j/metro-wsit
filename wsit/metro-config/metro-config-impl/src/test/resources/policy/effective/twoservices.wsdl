@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Distribution License v. 1.0, which is available at
+    http://www.eclipse.org/org/documents/edl-v10.php.
+
+    SPDX-License-Identifier: BSD-3-Clause
+
+-->
+
+<wsdl:definitions targetNamespace="http://example.org/"
+                  xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"
+                  xmlns:tns="http://example.org/"
+                  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+                  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+                  xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/"
+                  xmlns="http://schemas.xmlsoap.org/wsdl"
+                  xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy">
+    
+    <wsp:Policy wsu:Id="Message6">
+        <tns:MessagePolicyTestAssertion6/>
+    </wsp:Policy>
+    <wsp:Policy wsu:Id="Message7">
+        <tns:MessagePolicyTestAssertion7/>
+    </wsp:Policy>
+    <wsp:Policy wsu:Id="Message7-8">
+        <tns:MessagePolicyTestAssertion8/>
+        <wsp:PolicyReference wsp:URI="#Message7"/>
+    </wsp:Policy>
+    
+    <wsp:Policy wsu:Id="Operation6">
+        <tns:OperationPolicyTestAssertion6/>
+    </wsp:Policy>
+    <wsp:Policy wsu:Id="Operation7">
+        <tns:OperationPolicyTestAssertion7/>
+    </wsp:Policy>
+    <wsp:Policy wsu:Id="Operation7-8">
+        <tns:OperationPolicyTestAssertion8/>
+        <wsp:PolicyReference wsp:URI="#Operation7" />
+    </wsp:Policy>
+    
+    <wsp:Policy wsu:Id="Endpoint7">
+        <tns:EndpointPolicyTestAssertion7/>
+    </wsp:Policy>
+    
+    <wsp:Policy wsu:Id="Endpoint7-8">
+        <tns:EndpointPolicyTestAssertion8/>
+        <wsp:PolicyReference wsp:URI="#Endpoint7"/>
+    </wsp:Policy>
+    
+    <wsp:Policy wsu:Id="Service6">
+        <tns:ServicePolicyTestAssertion6/>
+    </wsp:Policy>
+    <wsp:Policy wsu:Id="Service7">
+        <tns:ServicePolicyTestAssertion7/>
+    </wsp:Policy>
+    <wsp:Policy wsu:Id="Service7-8">
+        <tns:ServicePolicyTestAssertion8/>
+        <wsp:PolicyReference wsp:URI="#Service7" />
+    </wsp:Policy>
+    
+    <wsdl:message name="Message">	
+        <wsp:PolicyReference wsp:URI="#Message7-8" />				
+    </wsdl:message>
+    
+    <wsdl:message name="MessageResponse">
+        <wsp:PolicyReference wsp:URI="#Message7-8" />				
+    </wsdl:message>
+    
+    <wsdl:message name="FaultMessage">
+        <wsp:PolicyReference wsp:URI="#Message7-8"/>				
+    </wsdl:message>
+    
+    <wsdl:portType name="PortType" wsp:PolicyURIs="#Endpoint7-8">
+        <wsdl:operation name="Operation">
+            <wsp:Policy>
+                <wsp:PolicyReference wsp:URI="#Operation7-8"/>							
+                <wsp:PolicyReference wsp:URI="#Operation6"/>	
+            </wsp:Policy>
+            <wsdl:input name="Input" message="tns:Message" wsp:PolicyURIs="#Message6" />
+            <wsdl:output name="Output" message="tns:MessageResponse" wsp:PolicyURIs="#Message6" />
+            <wsdl:fault name="Fault" message="tns:FaultMessage" wsp:PolicyURIs="#Message6" />
+        </wsdl:operation>
+    </wsdl:portType>
+    
+    <wsdl:binding name="Binding" type="tns:PortType">
+        <wsp:Policy wsu:Id="Endpoint6">
+            <tns:EndpointPolicyTestAssertion6/>
+        </wsp:Policy>
+        <wsdl:operation name="Operation">
+            <wsp:Policy>
+                <wsp:ExactlyOne>
+                    <tns:OperationPolicyTestAssertion3/>
+                    <tns:OperationPolicyTestAssertion4/>
+                </wsp:ExactlyOne>
+            </wsp:Policy>
+            <wsdl:input name="Input">
+                <wsp:Policy>
+                    <wsp:ExactlyOne>
+                        <tns:MessagePolicyTestAssertion2/>
+                        <tns:MessagePolicyTestAssertion4/>
+                    </wsp:ExactlyOne>
+                </wsp:Policy>
+            </wsdl:input>
+            <wsdl:output name="Output">
+                <wsp:Policy>
+                    <wsp:ExactlyOne>
+                        <tns:MessagePolicyTestAssertion1/>
+                        <tns:MessagePolicyTestAssertion3/>
+                    </wsp:ExactlyOne>
+                </wsp:Policy>
+            </wsdl:output>
+            <wsdl:fault name="Fault">
+                <wsp:Policy>
+                    <wsp:ExactlyOne>
+                        <tns:MessagePolicyTestAssertion0/>
+                        <tns:MessagePolicyTestAssertion5/>
+                    </wsp:ExactlyOne>
+                </wsp:Policy>
+            </wsdl:fault>
+        </wsdl:operation>
+    </wsdl:binding>
+    
+    <wsdl:service name="ServiceTwo">
+        <wsdl:port name="Port" binding="tns:Binding">
+        </wsdl:port>
+    </wsdl:service>
+    
+    <wsdl:service name="Service">
+        <wsp:Policy>
+            <wsp:ExactlyOne>
+                <tns:ServicePolicyTestAssertion4/>
+                <tns:ServicePolicyTestAssertion5/>
+            </wsp:ExactlyOne>
+            <wsp:PolicyReference wsp:URI="#Service7-8"/>
+            <wsp:PolicyReference wsp:URI="#Service6"/>
+        </wsp:Policy>
+        <wsdl:port name="Port" binding="tns:Binding">
+            <wsp:Policy>
+                <wsp:ExactlyOne>
+                    <tns:EndpointPolicyTestAssertion3/>
+                    <tns:EndpointPolicyTestAssertion4/>
+                </wsp:ExactlyOne>
+            </wsp:Policy>
+        </wsdl:port>
+    </wsdl:service>
+    
+</wsdl:definitions>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Distribution License v. 1.0, which is available at
+    http://www.eclipse.org/org/documents/edl-v10.php.
+
+    SPDX-License-Identifier: BSD-3-Clause
+
+-->
+
+<project name="Metro-Licence-Maintenance" default="jar" basedir=".">
+
+    <taskdef name="licensetool" classname="org.jvnet.licensetool.LicenseToolTask">
+        <classpath>
+            <pathelement location="lib/license-tool-1.0-SNAPSHOT.jar"/>
+        </classpath>
+    </taskdef>
+
+    <target name="check-copyright" description="Checks all source files has proper licence boilerplate">
+        <licensetool srcDir="../.."
+                     validate="true"
+                     skipdirs=".CVS"
+                     copyright="copyright.txt"
+                     includes="wsit/**/*.java **/*pom*.xml wsit/**/resources/**/*.xml wsit/**/resources/**/*.properties">
+        </licensetool>
+    </target>
+
+    <target name="fix-copyright" description="Fixes licence boilerplate at all source files">
+        <licensetool srcDir="../.."
+                     validate="false"
+                     skipdirs=".CVS"
+                     copyright="copyright.txt"
+                     includes="wsit/**/*.java **/*pom*.xml wsit/**/resources/**/*.xml wsit/**/resources/**/*.properties">
+        </licensetool>
+    </target>
+
+</project>

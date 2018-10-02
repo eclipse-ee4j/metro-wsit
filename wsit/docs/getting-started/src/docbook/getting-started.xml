@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Distribution License v. 1.0, which is available at
+    http://www.eclipse.org/org/documents/edl-v10.php.
+
+    SPDX-License-Identifier: BSD-3-Clause
+
+-->
+
+<book version="5.0"
+      xml:lang="en"
+      xml:id="getting-started"
+      xmlns:xi="http://www.w3.org/2001/XInclude"
+      xmlns="http://docbook.org/ns/docbook"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns:xlink="http://www.w3.org/1999/xlink">
+
+    <info>
+        <productnumber>
+            <?eval ${project.version}?>
+        </productnumber>
+        <title>Getting Started with Metro</title>
+        <abstract>
+            <para>
+                This series of articles will familiarize developers with the basics of Metro and introduce some of its
+                main
+                features.
+            </para>
+        </abstract>
+    </info>
+
+    <xi:include href="building-a-simple-metro-application.xml" />
+    <xi:include href="enabling-advanced-features-in-a-web-service-application.xml" />
+
+</book>

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Distribution License v. 1.0, which is available at
+    http://www.eclipse.org/org/documents/edl-v10.php.
+
+    SPDX-License-Identifier: BSD-3-Clause
+
+-->
+
+<!DOCTYPE book [
+<!ENTITY % ents SYSTEM "metro.ent">
+%ents;
+]>
+<chapter version="5.0" xml:id="bootstrap_config" xml:lang="en"
+         xmlns="http://docbook.org/ns/docbook"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns:xlink="http://www.w3.org/1999/xlink"
+         xmlns:xi="http://www.w3.org/2001/XInclude"
+         xmlns:svg="http://www.w3.org/2000/svg"
+         xmlns:m="http://www.w3.org/1998/Math/MathML"
+         xmlns:html="http://www.w3.org/1999/xhtml"
+         xmlns:db="http://docbook.org/ns/docbook">
+    <title>Bootstrapping and Configuration</title>
+
+    <section xml:id="bootstrap_config-server_endpoint">
+        <title>What is a Server-Side Endpoint?</title>
+
+        <para>Web services expose one or more endpoints to which messages can
+        be sent. A web service endpoint is an entity, processor, or resource
+        that can be referenced and to which web services messages can be
+        addressed. Endpoint references convey the information needed to
+        address a web service endpoint. Clients need to know this information
+        before they can access a service.</para>
+
+        <para>Typically, web services package endpoint descriptions and use a
+        WSDL file to share these descriptions with clients. Clients use the
+        web service endpoint description to generate code that can send SOAP
+        messages to and receive SOAP messages from the web service
+        endpoint.</para>
+    </section>
+
+    <section xml:id="bootstrap_config-client_from_wsdl">
+        <title>Creating a Client from WSDL</title>
+
+        <para>To create a web service client that can access and consume a web
+        service provider, you must obtain the information that defines the
+        interoperability requirements of the web service provider. Providers
+        make this information available by means of WSDL files. WSDL files may
+        be made available in service registries or published on the Internet
+        using a URL (or both). You can use a web browser or NetBeans IDE to
+        obtain WSDL files.</para>
+
+        <para>A WSDL file contains descriptions of the following:</para>
+
+        <itemizedlist>
+            <listitem>
+                <para><emphasis>Network services</emphasis>: The description
+                includes the name of the service, the location of the service,
+                and ways to communicate with the service, that is, what
+                transport to use.</para>
+            </listitem>
+
+            <listitem>
+                <para><emphasis>Web services policies</emphasis>: Policies
+                express the capabilities, requirements, and general
+                characteristics of a web service. Web service providers use
+                policies to specify policy information in a standardized way.
+                Policies convey conditions on interactions between two web
+                service endpoints. Typically, the provider of a web service
+                exposes a policy to convey conditions under which it provides
+                the service. A requester (a client) might use the policy to
+                decide whether or not to use the service.</para>
+            </listitem>
+        </itemizedlist>
+
+        <para>Web Services Metadata Exchange (WS-MEX) is the protocol for
+        requesting and transferring the WSDL from the provider to the client.
+        This protocol is a bootstrap mechanism for communication.</para>
+    </section>
+
+    <section xml:id="bootstrap_config-client_from_wsdl_examples">
+        <title>Client From WSDL Examples</title>
+
+        <para>The following sections, found in other chapters of this
+        tutorial, explain how to create a client from a WSDL file using the
+        example files in the tutorial bundle:</para>
+
+        <itemizedlist>
+            <listitem>
+                <para><xref
+                linkend="wsit_example_with_nb-creating_wsit_client"
+                xrefstyle="select:title" /> shows how to create a client from
+                WSDL using a web container and the NetBeans IDE.</para>
+            </listitem>
+
+            <listitem>
+                <para><xref linkend="ahigi" xrefstyle="select:title" /> shows
+                how to create a client from WSDL using only a web
+                container.</para>
+            </listitem>
+        </itemizedlist>
+    </section>
+</chapter>

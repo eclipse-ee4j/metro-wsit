@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Distribution License v. 1.0, which is available at
+    http://www.eclipse.org/org/documents/edl-v10.php.
+
+    SPDX-License-Identifier: BSD-3-Clause
+
+-->
+
+<resources>
+  <jdbc-connection-pool allow-non-component-callers="false" connection-validation-method="auto-commit" datasource-classname="org.apache.derby.jdbc.ClientDataSource" fail-all-connections="false" idle-timeout-in-seconds="300" is-connection-validation-required="false" is-isolation-level-guaranteed="true" max-pool-size="32" max-wait-time-in-millis="60000" name="wsitPool" non-transactional-connections="false" pool-resize-quantity="2" res-type="javax.sql.DataSource" steady-pool-size="8" validation-table-name="TAB_NAME">
+    <property name="serverName" value="localhost"/>
+    <property name="PortNumber" value="1527"/>
+    <property name="DatabaseName" value="WsitDemoDB"/>
+    <property name="User" value="WSIT"/>
+    <property name="Password" value="WSIT"/>
+    <property name="connectionAttributes" value=";create=true"/>
+  </jdbc-connection-pool>
+</resources>

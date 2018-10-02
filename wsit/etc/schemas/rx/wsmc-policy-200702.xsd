@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!--
+
+    Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Distribution License v. 1.0, which is available at
+    http://www.eclipse.org/org/documents/edl-v10.php.
+
+    SPDX-License-Identifier: BSD-3-Clause
+
+-->
+
+<!--
+    This XML schema document describes format of the WS-MC 200702 policy
+    assertion.
+
+    Naming conventiotns:
+    - Simple XSD types are suffixed with "SType"
+    - Complex XSD types are suffixed with "CType"
+-->
+<xs:schema
+xmlns:xs="http://www.w3.org/2001/XMLSchema"
+xmlns:wsmc="http://docs.oasis-open.org/ws-rx/wsmc/200702"
+targetNamespace="http://docs.oasis-open.org/ws-rx/wsmc/200702"
+elementFormDefault="qualified"
+attributeFormDefault="unqualified">
+    <!-- Policy Element -->
+    <xs:element name="MCSupported">
+        <xs:annotation>
+            <xs:documentation>
+                Indicates that the MakeConnection protocol (operation and the use
+                of the MakeConnection URI template in EndpointReferences) is required
+                for messages sent from this endpoint. This assertion has Endpoint
+                Policy Subject.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+            <xs:anyAttribute namespace="##other" processContents="lax"/>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>

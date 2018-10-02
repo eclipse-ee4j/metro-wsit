@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Distribution License v. 1.0, which is available at
+    http://www.eclipse.org/org/documents/edl-v10.php.
+
+    SPDX-License-Identifier: BSD-3-Clause
+
+-->
+
+<persistence version="1.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd">
+  <persistence-unit name="WSITDemoPU" transaction-type="JTA">
+    <provider>oracle.toplink.essentials.ejb.cmp3.EntityManagerFactoryProvider</provider>
+    <jta-data-source>jdbc/wsitSample</jta-data-source>
+    <properties>
+      <property name="toplink.ddl-generation" value="create-tables"/>
+    </properties>
+  </persistence-unit>
+</persistence>

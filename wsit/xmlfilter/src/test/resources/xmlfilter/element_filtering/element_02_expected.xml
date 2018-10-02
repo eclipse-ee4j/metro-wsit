@@ -1,0 +1,31 @@
+<!--
+
+    Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Distribution License v. 1.0, which is available at
+    http://www.eclipse.org/org/documents/edl-v10.php.
+
+    SPDX-License-Identifier: BSD-3-Clause
+
+-->
+
+<wsp:Policy 
+    xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy"
+    xmlns:policy="http://java.sun.com/xml/ns/wsit/policy" 
+    xmlns:wsss="http://schemas.sun.com/2006/03/wss/server"    
+    xmlns:wssc="http://schemas.sun.com/2006/03/wss/client"    
+    xmlns:scs="http://schemas.sun.com/ws/2006/05/sc/server"    
+    xmlns:scc="http://schemas.sun.com/ws/2006/05/sc/client"    
+    xmlns:trusts="http://schemas.sun.com/ws/2006/05/trust/server"  
+    xmlns:trustc="http://schemas.sun.com/ws/2006/05/trust/client"    
+    xmlns:ns0="http://com.foo/goo"
+>
+    <ns0:Assertion0/>
+    
+    <ns0:Assertion3 policy:visibility="private">
+        100
+    </ns0:Assertion3>
+    
+</wsp:Policy>
+

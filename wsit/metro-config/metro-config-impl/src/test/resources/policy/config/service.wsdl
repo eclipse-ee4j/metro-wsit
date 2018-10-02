@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<!--
+
+    Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Distribution License v. 1.0, which is available at
+    http://www.eclipse.org/org/documents/edl-v10.php.
+
+    SPDX-License-Identifier: BSD-3-Clause
+
+-->
+
+<definitions name="AddNumbers"
+
+targetNamespace="http://example.org/AddNumbers/service"
+          xmlns:tns="http://example.org/AddNumbers/service"
+          xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+          xmlns:pt="http://example.org/AddNumbers/porttype"
+          xmlns="http://schemas.xmlsoap.org/wsdl/">
+
+   <import namespace="http://example.org/AddNumbers/porttype"
+           location="porttype.wsdl"/>
+
+    <binding name="AddNumbersBinding" type="pt:AddNumbersPortType">
+        <wsp:PolicyReference
+            xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy"
+            URI="#AddNumbersServicePolicy"/>
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <operation name="Add">
+           <soap:operation soapAction="http://example.org/Add"/>
+           <input>
+               <soap:body use="literal"/>
+           </input>
+           <output>
+               <soap:body use="literal"/>
+           </output>
+        </operation>
+    </binding>
+
+    <service name="AddNumbersService">
+        <documentation>The add numbers service</documentation>
+        <port name="AddNumbersPort" binding="tns:AddNumbersBinding">
+           <soap:address location="http://example.org/AddNumbers"/>
+        </port>
+    </service>
+</definitions>
