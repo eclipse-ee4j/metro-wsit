@@ -100,6 +100,12 @@
             </modules>
         </profile>
         <profile>
+            <id>osgi-test</id>
+            <modules>
+                <module>osgi-test</module>
+            </modules>
+        </profile>
+        <profile>
             <id>coverage</id>
             <activation>
                 <!--<activeByDefault>true</activeByDefault>-->
