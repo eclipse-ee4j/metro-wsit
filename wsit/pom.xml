@@ -209,7 +209,6 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-enforcer-plugin</artifactId>
-                    <version>3.0.0-M1</version>
                     <executions>
                         <execution>
                             <id>enforce-versions</id>
@@ -232,7 +231,6 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-source-plugin</artifactId>
-                    <version>3.0.1</version>
                     <executions>
                         <execution>
                             <id>attach-sources</id>
@@ -404,10 +402,9 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-javadoc-plugin</artifactId>
-                    <version>3.0.0-M1</version>
                     <configuration>
                         <!-- disable checking -->
-                        <additionalparam>-Xdoclint:none</additionalparam>
+                        <doclint>none</doclint>
                         <minmemory>128m</minmemory>
                         <maxmemory>768m</maxmemory>
                         <sourcepath>${project.build.sourceDirectory}:target/generated-sources/rsrc-gen</sourcepath>
