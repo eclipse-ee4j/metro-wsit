@@ -327,12 +327,13 @@
             <artifactId>webservices-tools</artifactId>
             <version>${project.version}</version>
         </dependency>
-        <dependency>
+        <!-- wstx-services was removed from the project. -->
+        <!--dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>wstx-services</artifactId>
             <type>war</type>
             <version>${project.version}</version>
-        </dependency>
+        </dependency-->
         <dependency>
             <groupId>javax.xml.bind</groupId>
             <artifactId>jaxb-api</artifactId>

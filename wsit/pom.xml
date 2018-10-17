@@ -714,19 +714,7 @@
         </profile>
     </profiles>
 
-    <distributionManagement>
-        <snapshotRepository>
-            <id>jvnet-nexus-snapshots</id>
-            <uniqueVersion>false</uniqueVersion>
-            <url>https://maven.java.net/content/repositories/snapshots/</url>
-        </snapshotRepository>
-        <repository>
-            <id>jvnet-nexus-staging</id>
-            <name>Java.net Nexus Staging Repository</name>
-            <url>https://maven.java.net/service/local/staging/deploy/maven2/</url>
-        </repository>
-    </distributionManagement>
-
+    <!-- TODO: Remove after dependencies will be updated to not rely on java.net. -->
     <repositories>
         <repository>
             <id>releases.java.net</id>
