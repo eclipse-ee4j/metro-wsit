@@ -32,6 +32,7 @@
         <module>wstx-api</module>
         <module>wstx-core</module>
         <module>wstx-impl</module>
+        <module>wstx-services</module>
     </modules>
     
     <!--dependencies></dependencies-->
