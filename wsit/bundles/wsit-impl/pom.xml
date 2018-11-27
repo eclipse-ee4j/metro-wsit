@@ -17,7 +17,7 @@
     <parent>
         <groupId>org.glassfish.metro</groupId>
         <artifactId>bundles</artifactId>
-        <version>2.4.1-SNAPSHOT</version>
+        <version>2.4.3-SNAPSHOT</version>
     </parent>
 
     <artifactId>wsit-impl</artifactId>
@@ -189,6 +189,7 @@
                             <createSourcesJar>false</createSourcesJar>
                             <!--minimizeJar>true</minimizeJar-->
                             <promoteTransitiveDependencies>true</promoteTransitiveDependencies>
+                            <dependencyReducedPomLocation>${project.build.directory}/dependency-reduced-pom.xml</dependencyReducedPomLocation>
                             <transformers>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
                             </transformers>
@@ -201,38 +202,14 @@
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <configuration>
                     <excludePackageNames>com.sun.xml.ws.*</excludePackageNames>
+                    <additionalOptions>
+                        --add-exports java.security.jgss/sun.security.krb5=ALL-UNNAMED
+                        --add-exports java.xml/com.sun.org.apache.xerces.internal.impl.dv.util=ALL-UNNAMED
+                    </additionalOptions>
                 </configuration>
             </plugin>
         </plugins>
     </build>
-
-    <profiles>
-        <profile>
-            <id>release-9</id>
-            <activation>
-                <jdk>[9,)</jdk>
-            </activation>
-            <build>
-              <plugins>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-javadoc-plugin</artifactId>
-                    <configuration>
-                        <excludePackageNames>com.sun.xml.ws.*</excludePackageNames>
-                        <additionalJOptions>
-                            <additionalJOption>--add-modules</additionalJOption>
-                            <additionalJOption>java.activation</additionalJOption>
-                            <additionalJOption>--add-exports</additionalJOption>
-                            <additionalJOption>java.security.jgss/sun.security.krb5=ALL-UNNAMED</additionalJOption>
-                            <additionalJOption>--add-exports</additionalJOption>
-                            <additionalJOption>java.xml/com.sun.org.apache.xerces.internal.impl.dv.util=ALL-UNNAMED</additionalJOption>
-                        </additionalJOptions>
-                    </configuration>
-                </plugin>
-              </plugins>
-             </build>
-        </profile>
-    </profiles>
 
     <dependencies>
 
@@ -243,8 +220,8 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -258,18 +235,18 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>org.glassfish</groupId>
-            <artifactId>javax.ejb</artifactId>
+            <groupId>jakarta.ejb</groupId>
+            <artifactId>jakarta.ejb-api</artifactId>
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>javax.resource</groupId>
-            <artifactId>connector-api</artifactId>
+            <groupId>jakarta.xml.bind</groupId>
+            <artifactId>jakarta.xml.bind-api</artifactId>
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>javax.transaction</groupId>
-            <artifactId>javax.transaction-api</artifactId>
+            <groupId>jakarta.transaction</groupId>
+            <artifactId>jakarta.transaction-api</artifactId>
             <scope>provided</scope>
         </dependency>
         <dependency>
