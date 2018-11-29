@@ -20,7 +20,6 @@ import java.util.HashSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.apache.xml.security.utils.resolver.ResourceResolverContext;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Node;
 import org.w3c.dom.Element;
@@ -92,16 +91,6 @@ public class URIResolver extends ResourceResolverSpi {
         this.soapMsg = soapMsg;
     }
 
-    @Override
-    public XMLSignatureInput engineResolveURI(ResourceResolverContext context) throws ResourceResolverException {
-        return engineResolve(context.attr, context.baseUri);
-    }
-
-    @Override
-    public boolean engineCanResolveURI(ResourceResolverContext context) {
-        return engineCanResolve(context.attr, context.baseUri);
-    }
-
    public void setSOAPMessage(SOAPMessage soapMsg) {
         this.soapMsg = soapMsg;
    }
@@ -145,7 +134,7 @@ public class URIResolver extends ResourceResolverSpi {
                   try { 
                      result = _resolveClocation(uri, baseURI);
                   } catch (URIResolverException ure) {
-                     result = ResourceResolver.getInstance(uri, baseURI, false).resolve(uri, baseURI, false);
+                     result = ResourceResolver.getInstance(uri, baseURI).resolve(uri, baseURI);
                   }
                   break; 
           default:
@@ -160,8 +149,6 @@ public class URIResolver extends ResourceResolverSpi {
 
       XMLSignatureInput result = null;
 
-      String uriToResolve = uri != null ? uri.getValue() : null;
- 
       String uriNodeValue = uri.getNodeValue();
       Document doc = uri.getOwnerDocument();
 
@@ -178,14 +165,14 @@ public class URIResolver extends ResourceResolverSpi {
             log.log(Level.SEVERE,
                     LogStringsMessages.WSS_0603_XPATHAPI_TRANSFORMER_EXCEPTION(e.getMessage()),
                     e.getMessage());
-            throw new ResourceResolverException("empty", e, uriToResolve, baseUri);
+            throw new ResourceResolverException("empty", e, uri, baseUri);
          }
       }
 
       if (selectedElem == null) {
           log.log(Level.SEVERE,
                    LogStringsMessages.WSS_0604_CANNOT_FIND_ELEMENT());
-          throw new ResourceResolverException("empty", uriToResolve, baseUri);
+          throw new ResourceResolverException("empty", uri, baseUri);
       }
 
       Set resultSet = prepareNodeSet(selectedElem);
@@ -214,7 +201,6 @@ public class URIResolver extends ResourceResolverSpi {
    private XMLSignatureInput _resolveCid(Attr uri, String baseUri) 
                 throws ResourceResolverException {
 
-      String uriToResolve = uri != null ? uri.getValue() : null;
       XMLSignatureInput result = null;
       String uriNodeValue = uri.getNodeValue();
 
@@ -225,7 +211,7 @@ public class URIResolver extends ResourceResolverSpi {
               ((SecurableSoapMessage)soapMsg).getAttachmentPart(uriNodeValue);
          if (_part == null) {
              // log
-             throw new ResourceResolverException("empty", uriToResolve, baseUri);
+             throw new ResourceResolverException("empty", uri, baseUri);
          } 
          Object[] obj = AttachmentSignatureInput._getSignatureInput(_part); 
          result = new AttachmentSignatureInput((byte[])obj[1]);
@@ -233,7 +219,7 @@ public class URIResolver extends ResourceResolverSpi {
          ((AttachmentSignatureInput)result).setContentType(_part.getContentType()); 
       } catch (Exception e) {
          // log
-         throw new ResourceResolverException("empty", e, uriToResolve, baseUri);
+         throw new ResourceResolverException("empty", e, uri, baseUri);
       }
 
       try {
@@ -247,14 +233,13 @@ public class URIResolver extends ResourceResolverSpi {
 
    private XMLSignatureInput _resolveClocation(Attr uri, String baseUri) 
                 throws ResourceResolverException, URIResolverException {
-      String uriToResolve = uri != null ? uri.getValue() : null;
       URI uriNew = null;
       XMLSignatureInput result = null; 
       try {
          uriNew = getNewURI(uri.getNodeValue(), baseUri);
       } catch (URI.MalformedURIException ex) {
          // log          
-         throw new ResourceResolverException("empty", ex, uriToResolve, baseUri);
+         throw new ResourceResolverException("empty", ex, uri, baseUri);
       }
 
       if (soapMsg == null) throw generateException(uri, baseUri, errors[1]);
@@ -270,13 +255,13 @@ public class URIResolver extends ResourceResolverSpi {
          ((AttachmentSignatureInput)result).setMimeHeaders((Vector)obj[0]);
          ((AttachmentSignatureInput)result).setContentType(_part.getContentType()); 
       } catch (XWSSecurityException e) {
-         throw new ResourceResolverException("empty", e, uriToResolve, baseUri);
+         throw new ResourceResolverException("empty", e, uri, baseUri);
       } catch (SOAPException spe) {
          // log
-         throw new ResourceResolverException("empty", spe, uriToResolve, baseUri);
+         throw new ResourceResolverException("empty", spe, uri, baseUri);
       } catch (java.io.IOException ioe) {
          // log
-         throw new ResourceResolverException("empty", ioe, uriToResolve, baseUri);
+         throw new ResourceResolverException("empty", ioe, uri, baseUri);
       }
 
 
@@ -473,9 +458,8 @@ public class URIResolver extends ResourceResolverSpi {
     }
 
     private ResourceResolverException generateException(Attr uri, String baseUri, String error) {
-        String uriToResolve = uri != null ? uri.getValue() : null;
         XWSSecurityException xwssE = new XWSSecurityException(error);
-        return new ResourceResolverException("empty", xwssE, uriToResolve, baseUri);
+        return new ResourceResolverException("empty", xwssE, uri, baseUri);
     }
 
    /**
