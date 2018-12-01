@@ -12,8 +12,6 @@ package com.sun.xml.ws.security.impl.kerberos;
 
 import com.sun.xml.wss.XWSSecurityException;
 import com.sun.xml.wss.logging.LogDomainConstants;
-import com.sun.xml.wss.logging.LogStringsMessages;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.security.AccessControlContext;
 import java.security.AccessController;
@@ -22,9 +20,7 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.crypto.SecretKey;
 import javax.security.auth.Subject;
-import javax.security.auth.kerberos.KerberosTicket;
 import javax.security.auth.login.AccountExpiredException;
 import javax.security.auth.login.CredentialExpiredException;
 import javax.security.auth.login.FailedLoginException;
@@ -32,12 +28,9 @@ import javax.security.auth.login.LoginContext;
 import javax.security.auth.login.LoginException;
 import org.ietf.jgss.GSSContext;
 import org.ietf.jgss.GSSCredential;
-import org.ietf.jgss.GSSException;
 import org.ietf.jgss.GSSManager;
 import org.ietf.jgss.GSSName;
 import org.ietf.jgss.Oid;
-
-import sun.security.krb5.EncryptionKey;
 
 /**
  *
@@ -45,9 +38,7 @@ import sun.security.krb5.EncryptionKey;
  */
 public class KerberosLogin {
 
-    private static final String javaVersion = System.getProperty("java.version");
-    private static final boolean isJava6Or5 = javaVersion.startsWith("1.6") || javaVersion.startsWith("1.5");  //double check
-     private static Logger log = Logger.getLogger(
+    private static Logger log = Logger.getLogger(
             LogDomainConstants.WSS_API_DOMAIN,
             LogDomainConstants.WSS_API_DOMAIN_BUNDLE);
 
@@ -98,66 +89,25 @@ public class KerberosLogin {
                     krbContext.setGSSContext(gssContext);
                 }
             }
-            if (!isJava6Or5) {
-                if (gssContext != null && gssContext.isEstablished()) {
-                    /**
-                     *ExtendedGSSContext ex = (ExtendedGSSContext)x;
-                     *Key k = (Key)ex.inquireSecContext(
-                     *InquireType.KRB5_GET_SESSION_KEY);
-                     **/
-                    Class inquireType;
-                    try {
-                        inquireType = Class.forName("com.sun.security.jgss.InquireType");
-                        Class extendedGSSContext = Class.forName("com.sun.security.jgss.ExtendedGSSContext");
-                        Method inquireSecContext = extendedGSSContext.getMethod("inquireSecContext", inquireType);
-                        Key key = (Key) inquireSecContext.invoke(gssContext, Enum.valueOf(inquireType, "KRB5_GET_SESSION_KEY"));
-                        krbContext.setSecretKey(key.getEncoded());
-                    } catch (IllegalAccessException ex) {
-                        log.log(Level.SEVERE, null, ex);
-                        throw new XWSSecurityException(ex);
-                    } catch (IllegalArgumentException ex) {
-                        log.log(Level.SEVERE, null, ex);
-                        throw new XWSSecurityException(ex);
-                    } catch (InvocationTargetException ex) {
-                        log.log(Level.SEVERE, null, ex);
-                        throw new XWSSecurityException(ex);
-                    } catch (NoSuchMethodException ex) {
-                        log.log(Level.SEVERE, null, ex);
-                        throw new XWSSecurityException(ex);
-                    } catch (SecurityException ex) {
-                        log.log(Level.SEVERE, null, ex);
-                        throw new XWSSecurityException(ex);
-                    } catch (ClassNotFoundException ex) {
-                        log.log(Level.SEVERE, null, ex);
-                        throw new XWSSecurityException(ex);
-                    }
-
-                } else {
-                    throw new XWSSecurityException("GSSContext was null in the Login Subject");
+            if (gssContext != null && gssContext.isEstablished()) {
+                /**
+                 *ExtendedGSSContext ex = (ExtendedGSSContext)x;
+                 *Key k = (Key)ex.inquireSecContext(
+                 *InquireType.KRB5_GET_SESSION_KEY);
+                 **/
+                Class inquireType;
+                try {
+                    inquireType = Class.forName("com.sun.security.jgss.InquireType");
+                    Class extendedGSSContext = Class.forName("com.sun.security.jgss.ExtendedGSSContext");
+                    Method inquireSecContext = extendedGSSContext.getMethod("inquireSecContext", inquireType);
+                    Key key = (Key) inquireSecContext.invoke(gssContext, Enum.valueOf(inquireType, "KRB5_GET_SESSION_KEY"));
+                    krbContext.setSecretKey(key.getEncoded());
+                } catch (ReflectiveOperationException | IllegalArgumentException | SecurityException ex) {
+                    log.log(Level.SEVERE, null, ex);
+                    throw new XWSSecurityException(ex);
                 }
             } else {
-                Set<Object> setPrivCred = loginSubject.getPrivateCredentials();
-                Iterator<Object> iter2 = setPrivCred.iterator();
-                while (iter2.hasNext()) {
-                    Object privObject = iter2.next();
-                    if (privObject instanceof KerberosTicket) {
-                        KerberosTicket kerbTicket = (KerberosTicket) privObject;
-                        try {
-                            if (kerbTicket.getServer().getName().equals(gssContext.getTargName().toString())) {
-                                SecretKey sKey = kerbTicket.getSessionKey();
-                                byte[] secret = sKey.getEncoded();
-                                krbContext.setSecretKey(secret);
-                                break;
-                            } else {
-                                log.log(Level.WARNING, LogStringsMessages.WSS_1650_KERBEROS_KEY_WARNING(
-                                        kerbTicket.getServer().getName(),
-                                        gssContext.getTargName().toString()));
-                            }
-                        } catch (GSSException ex) {
-                            throw new XWSSecurityException(ex);
-                        }
-                    }
-                }
+                throw new XWSSecurityException("GSSContext was null in the Login Subject");
             }
         } catch (java.security.PrivilegedActionException pae) {
             throw new XWSSecurityException(pae);
@@ -209,55 +159,25 @@ public class KerberosLogin {
                     krbContext.setGSSContext(gssContext);
                 }
             }
-            if (!isJava6Or5) {
-                if (gssContext != null && gssContext.isEstablished()) {
-                    /**
-                     *ExtendedGSSContext ex = (ExtendedGSSContext)x;
-                     *Key k = (Key)ex.inquireSecContext(
-                     *InquireType.KRB5_GET_SESSION_KEY);
-                     **/
-                    Class inquireType;
-                    try {
-                        inquireType = Class.forName("com.sun.security.jgss.InquireType");
-                        Class extendedGSSContext = Class.forName("com.sun.security.jgss.ExtendedGSSContext");
-                        Method inquireSecContext = extendedGSSContext.getMethod("inquireSecContext", inquireType);
-                        Key key = (Key)inquireSecContext.invoke(gssContext, Enum.valueOf(inquireType, "KRB5_GET_SESSION_KEY"));
-                        krbContext.setSecretKey(key.getEncoded());
-                    } catch (IllegalAccessException ex) {
-                        log.log(Level.SEVERE, null, ex);
-                        throw new XWSSecurityException(ex);
-                    } catch (IllegalArgumentException ex) {
-                        log.log(Level.SEVERE, null, ex);
-                        throw new XWSSecurityException(ex);
-                    } catch (InvocationTargetException ex) {
-                        log.log(Level.SEVERE, null, ex);
-                        throw new XWSSecurityException(ex);
-                    } catch (NoSuchMethodException ex) {
-                        log.log(Level.SEVERE, null, ex);
-                        throw new XWSSecurityException(ex);
-                    } catch (SecurityException ex) {
-                        log.log(Level.SEVERE, null, ex);
-                        throw new XWSSecurityException(ex);
-                    } catch (ClassNotFoundException ex) {
-                        log.log(Level.SEVERE, null, ex);
-                        throw new XWSSecurityException(ex);
-                    }
-
-                } else {
-                    throw new XWSSecurityException("GSSContext was null in the Login Subject");
+            if (gssContext != null && gssContext.isEstablished()) {
+                /**
+                 *ExtendedGSSContext ex = (ExtendedGSSContext)x;
+                 *Key k = (Key)ex.inquireSecContext(
+                 *InquireType.KRB5_GET_SESSION_KEY);
+                 **/
+                Class inquireType;
+                try {
+                    inquireType = Class.forName("com.sun.security.jgss.InquireType");
+                    Class extendedGSSContext = Class.forName("com.sun.security.jgss.ExtendedGSSContext");
+                    Method inquireSecContext = extendedGSSContext.getMethod("inquireSecContext", inquireType);
+                    Key key = (Key)inquireSecContext.invoke(gssContext, Enum.valueOf(inquireType, "KRB5_GET_SESSION_KEY"));
+                    krbContext.setSecretKey(key.getEncoded());
+                } catch (ReflectiveOperationException | IllegalArgumentException | SecurityException ex) {
+                    log.log(Level.SEVERE, null, ex);
+                    throw new XWSSecurityException(ex);
                 }
             } else {
-                Set<Object> setPrivCred = loginSubject.getPrivateCredentials();
-                Iterator<Object> iter2 = setPrivCred.iterator();
-                while (iter2.hasNext()) {
-                    Object privObject = iter2.next();
-                    if (privObject instanceof EncryptionKey) {
-                        EncryptionKey encKey = (EncryptionKey) privObject;
-                        byte[] keyBytes = encKey.getBytes();
-                        krbContext.setSecretKey(keyBytes);
-                        break;
-                    }
-                }
+                throw new XWSSecurityException("GSSContext was null in the Login Subject");
             }
         } catch (java.security.PrivilegedActionException pae) {
             throw new XWSSecurityException(pae);
@@ -321,21 +241,6 @@ public class KerberosLogin {
             try {
                 
                 final GSSManager manager = GSSManager.getInstance();
-                final Oid krb5Oid = new Oid("1.2.840.113554.1.2.2");
-                if (isJava6Or5) {
-                    AccessController.doPrivileged(new java.security.PrivilegedAction() {
-
-                        public Object run() {
-                            try {
-                                manager.addProviderAtFront(new com.sun.xml.ws.security.jgss.XWSSProvider(), krb5Oid);
-                            } catch (GSSException gsse) {
-                                gsse.printStackTrace();
-                            }
-                            return null;
-                        }
-                    });
-                }
-                
                 GSSContext context = manager.createContext((GSSCredential)null);
                 byte[] outToken = context.acceptSecContext(token, 0, token.length);
                 if(outToken != null && outToken.length != 0){
