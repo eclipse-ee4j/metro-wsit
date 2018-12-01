@@ -109,10 +109,6 @@
             <artifactId>xmlsec</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.sun.xml.ws.security.kerb</groupId>
-            <artifactId>kerberos-wss-extension</artifactId>
-        </dependency>
-        <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>metro-runtime-api</artifactId>
             <version>${project.version}</version>
