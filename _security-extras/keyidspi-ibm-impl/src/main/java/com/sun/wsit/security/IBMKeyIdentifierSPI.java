@@ -15,7 +15,6 @@ import com.ibm.security.util.DerValue;
 import com.ibm.security.x509.KeyIdentifier;
 import com.sun.xml.wss.core.reference.KeyIdentifierSPI;
 
-import java.io.IOException;
 import java.security.cert.X509Certificate;
 
 public class IBMKeyIdentifierSPI extends KeyIdentifierSPI {
@@ -23,6 +22,7 @@ public class IBMKeyIdentifierSPI extends KeyIdentifierSPI {
     public IBMKeyIdentifierSPI() {
     }
 
+    @Override
     public byte[] getSubjectKeyIdentifier(X509Certificate cert) throws KeyIdentifierSPIException {
         byte[] subjectKeyIdentifier =
                 cert.getExtensionValue(SUBJECT_KEY_IDENTIFIER_OID);
@@ -50,6 +50,5 @@ public class IBMKeyIdentifierSPI extends KeyIdentifierSPI {
             //log exception
             throw new KeyIdentifierSPIException(e);
         }
-
     }
 }
