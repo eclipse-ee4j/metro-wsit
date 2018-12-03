@@ -77,6 +77,13 @@
                                     <overWrite>false</overWrite>
                                     <outputDirectory>${generated.sources.dir}</outputDirectory>
                                 </artifactItem>
+                                <artifactItem>
+                                    <groupId>jakarta.activation</groupId>
+                                    <artifactId>jakarta.activation-api</artifactId>
+                                    <classifier>sources</classifier>
+                                    <overWrite>false</overWrite>
+                                    <outputDirectory>${generated.sources.dir}</outputDirectory>
+                                </artifactItem>
                             </artifactItems>
                         </configuration>
                     </execution>
@@ -124,6 +131,7 @@
                                     <include>jakarta.xml.soap:jakarta.xml.soap-api</include>
                                     <include>jakarta.jws:jakarta.jws-api</include>
                                     <include>jakarta.transaction:jakarta.transaction-api</include>
+                                    <include>jakarta.activation:jakarta.activation-api</include>
                                 </includes>
                             </artifactSet>
                             <createSourcesJar>false</createSourcesJar>
@@ -156,9 +164,15 @@
                             <artifactId>jakarta.interceptor-api</artifactId>
                             <version>1.2.3</version>
                         </dependency>
+                        <dependency>
+                            <groupId>com.sun.activation</groupId>
+                            <artifactId>jakarta.activation</artifactId>
+                            <version>${javax.activation.version}</version>
+                        </dependency>
                     </additionalDependencies>
                     <sourceFileExcludes>
                         <sourceFileExclude>META-INF/**</sourceFileExclude>
+                        <sourceFileExclude>com/**</sourceFileExclude>
                     </sourceFileExcludes>
                 </configuration>
             </plugin>
@@ -186,6 +200,10 @@
         <dependency>
             <groupId>jakarta.transaction</groupId>
             <artifactId>jakarta.transaction-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.activation</groupId>
+            <artifactId>jakarta.activation-api</artifactId>
         </dependency>
     </dependencies>
     <properties>
