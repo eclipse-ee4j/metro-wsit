@@ -10,11 +10,8 @@
 
 package com.sun.xml.wss.provider;
 
-import com.sun.enterprise.security.jauth.AuthParam;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javax.security.auth.message.MessageInfo;
 import javax.xml.soap.SOAPMessage;
 
 /**
@@ -24,10 +21,10 @@ import javax.xml.soap.SOAPMessage;
 class AuthParamHelper {
 
     @SuppressWarnings("unchecked")
-    static SOAPMessage getRequest(AuthParam param) {
+    static SOAPMessage getRequest(MessageInfo param) {
         try {
             Class clz = param.getClass();
-            Method meth = clz.getMethod("getRequest", (Class[]) null);
+            Method meth = clz.getMethod("getRequestMessage", (Class[]) null);
             if (meth != null) {
                 Object obj = meth.invoke(param, (Object[]) null);
                 if (obj instanceof SOAPMessage) {
@@ -35,20 +32,16 @@ class AuthParamHelper {
                 }
             }
 
-        } catch (NoSuchMethodException ex) {
-        } catch (SecurityException ex) {
-        } catch (IllegalAccessException ex) {
-        } catch (IllegalArgumentException ex) {
-        } catch (InvocationTargetException ex) {
+        } catch (ReflectiveOperationException | SecurityException | IllegalArgumentException ex) {
         }
         return null;
     }
 
     @SuppressWarnings("unchecked")
-    static SOAPMessage getResponse(AuthParam param) {
+    static SOAPMessage getResponse(MessageInfo param) {
          try {
             Class clz = param.getClass();
-            Method meth = clz.getMethod("getResponse", (Class[]) null);
+            Method meth = clz.getMethod("getResponseMessage", (Class[]) null);
             if (meth != null) {
                 Object obj = meth.invoke(param, (Object[]) null);
                 if (obj instanceof SOAPMessage) {
@@ -56,11 +49,7 @@ class AuthParamHelper {
                 }
             }
 
-        } catch (NoSuchMethodException ex) {
-        } catch (SecurityException ex) {
-        } catch (IllegalAccessException ex) {
-        } catch (IllegalArgumentException ex) {
-        } catch (InvocationTargetException ex) {
+        } catch (ReflectiveOperationException | SecurityException | IllegalArgumentException ex) {
         }
         return null;
     }

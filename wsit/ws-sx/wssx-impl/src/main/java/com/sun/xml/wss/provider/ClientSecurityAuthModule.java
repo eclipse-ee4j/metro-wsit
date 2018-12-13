@@ -25,11 +25,6 @@ import javax.security.auth.Destroyable;
 import javax.security.auth.DestroyFailedException;
 import javax.security.auth.callback.CallbackHandler;
 
-import com.sun.enterprise.security.jauth.AuthParam;
-import com.sun.enterprise.security.jauth.AuthPolicy;
-//import com.sun.enterprise.security.jauth.SOAPAuthParam;
-import com.sun.enterprise.security.jauth.AuthException;
-import com.sun.enterprise.security.jauth.ClientAuthModule;
 import com.sun.xml.wss.impl.MessageConstants;
 
 import com.sun.xml.wss.impl.SecurityAnnotator;
@@ -37,10 +32,13 @@ import com.sun.xml.wss.impl.SecurityRecipient;
 import com.sun.xml.wss.XWSSecurityException;
 import com.sun.xml.wss.impl.ProcessingContextImpl;
 
-import com.sun.xml.wss.impl.policy.mls.MessagePolicy;
 import com.sun.xml.wss.impl.config.DeclarativeSecurityConfiguration;
 
-import com.sun.xml.wss.impl.WssProviderSecurityEnvironment;
+import javax.security.auth.message.AuthException;
+import javax.security.auth.message.AuthStatus;
+import javax.security.auth.message.MessageInfo;
+import javax.security.auth.message.MessagePolicy;
+import javax.security.auth.message.module.ClientAuthModule;
 
 
 public class ClientSecurityAuthModule extends WssProviderAuthModule
@@ -49,16 +47,17 @@ public class ClientSecurityAuthModule extends WssProviderAuthModule
        public ClientSecurityAuthModule() {
        }
 
-       public void initialize (AuthPolicy requestPolicy,
-                               AuthPolicy responsePolicy,
+       @Override
+       public void initialize (MessagePolicy requestPolicy,
+                               MessagePolicy responsePolicy,
                                CallbackHandler handler,
                                Map options) {
             super.initialize(requestPolicy, responsePolicy, handler, options, true); 
        }
+
        @SuppressWarnings("unchecked")
-       public void secureRequest (AuthParam param,
-                                  Subject subject,
-                                  Map sharedState)
+       @Override
+       public AuthStatus secureRequest (MessageInfo param, Subject subject)
                    throws AuthException {
              try {
 
@@ -66,11 +65,12 @@ public class ClientSecurityAuthModule extends WssProviderAuthModule
 
 
                  _sEnvironment.setSubject(subject, context.getExtraneousProperties());
+                 Map sharedState = param.getMap();
                  if (sharedState != null) {
                      sharedState.put(SELF_SUBJECT, subject);
                  }
 
-                 MessagePolicy senderConfg = 
+                 com.sun.xml.wss.impl.policy.mls.MessagePolicy senderConfg =
                   ((DeclarativeSecurityConfiguration)_policy).senderSettings();
 
                  //SOAPMessage msg = ((SOAPAuthParam)param).getRequest();
@@ -90,7 +90,8 @@ public class ClientSecurityAuthModule extends WssProviderAuthModule
 		     throw new AuthException(ex.getMessage());
 		   }
                  }
-                 SecurityAnnotator.secureMessage(context); 
+                 SecurityAnnotator.secureMessage(context);
+                 return AuthStatus.SEND_SUCCESS;
 
              } catch (XWSSecurityException xwsse) {
                  //TODO: log here
@@ -99,15 +100,17 @@ public class ClientSecurityAuthModule extends WssProviderAuthModule
              }
        }
 
-       public void validateResponse (AuthParam param,
+       @Override
+       public AuthStatus validateResponse (MessageInfo param,
                                      Subject subject,
-                                     Map sharedState)
+                                     Subject serviceSubject)
                    throws AuthException {
              try {
    
                  ProcessingContextImpl context = new ProcessingContextImpl();
 
                  // are the below two lines required ?.
+                 Map sharedState = param.getMap();
                  if (sharedState != null) {
                      Subject selfSubject = (Subject)sharedState.get(SELF_SUBJECT);
                      _sEnvironment.setSubject(selfSubject, context.getExtraneousProperties());
@@ -115,7 +118,7 @@ public class ClientSecurityAuthModule extends WssProviderAuthModule
  
                  _sEnvironment.setRequesterSubject(subject, context.getExtraneousProperties());
 
-                 MessagePolicy receiverConfg = 
+                 com.sun.xml.wss.impl.policy.mls.MessagePolicy receiverConfg =
                  ((DeclarativeSecurityConfiguration)_policy).receiverSettings();
                  
                  context.setSecurityPolicy(receiverConfg);
@@ -126,14 +129,15 @@ public class ClientSecurityAuthModule extends WssProviderAuthModule
                  SecurityRecipient.validateMessage(context);
 
                  context.getSecurableSoapMessage().deleteSecurityHeader();
+                 return AuthStatus.SUCCESS;
              } catch (XWSSecurityException xwsse) {
                 xwsse.printStackTrace();
                 throw new AuthException(xwsse.getMessage());
              } 
        }
 
-       public void disposeSubject (Subject subject,
-                                   Map sharedState)
+       @Override
+       public void cleanSubject (MessageInfo msg, Subject subject)
                    throws AuthException {
              if (subject == null) {
                 // log
