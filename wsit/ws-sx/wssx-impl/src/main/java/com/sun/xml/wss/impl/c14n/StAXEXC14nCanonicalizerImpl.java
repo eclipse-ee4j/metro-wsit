@@ -101,6 +101,18 @@ public class StAXEXC14nCanonicalizerImpl extends StAXC14nCanonicalizerImpl  {
         this.forceDefNS = isForce;
     }
     public void writeNamespace(String prefix, String namespaceURI) throws XMLStreamException {
+        if(prefix == null || prefix.length() == 0){
+            String defNS = exC14NContext.getNamespaceURI(prefix);
+            if((defNS == null || defNS.length()== 0) && (namespaceURI == null || namespaceURI.length() ==0)){
+                if(!forceDefNS)
+                    return;
+            }
+            if(namespaceURI == null){
+                namespaceURI = "";
+            }
+            _defURI = namespaceURI;
+            prefix = "";
+        }
         exC14NContext.declareNamespace(prefix,namespaceURI);
     }
 
