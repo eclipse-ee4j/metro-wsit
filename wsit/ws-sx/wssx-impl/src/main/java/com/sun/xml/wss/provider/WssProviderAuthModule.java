@@ -9,9 +9,9 @@
  */
 
 package com.sun.xml.wss.provider;
+
 import java.io.File;
 import java.util.Map;
-import java.util.List;
 import java.util.Iterator;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -23,8 +23,6 @@ import javax.security.auth.callback.Callback;
 import javax.security.auth.callback.NameCallback;
 import javax.security.auth.callback.CallbackHandler;
 import javax.security.auth.callback.PasswordCallback;
-import com.sun.enterprise.security.jauth.AuthPolicy;
-import com.sun.xml.wss.XWSSecurityException;
 import com.sun.xml.wss.impl.WssProviderSecurityEnvironment;
 import com.sun.xml.wss.impl.policy.mls.MessagePolicy;
 import com.sun.xml.wss.impl.config.SecurityConfigurationXmlReader;
@@ -39,6 +37,7 @@ import com.sun.xml.wss.impl.policy.mls.EncryptionPolicy;
 import com.sun.xml.wss.impl.policy.mls.AuthenticationTokenPolicy;
 import com.sun.xml.wss.impl.policy.mls.Target;
 import com.sun.xml.wss.impl.PolicyTypeUtil;
+
 public class WssProviderAuthModule implements ModuleOptions, ConfigurationStates {
        protected SecurityPolicy _policy = null;
        protected WssProviderSecurityEnvironment _sEnvironment = null;
@@ -61,6 +60,11 @@ public class WssProviderAuthModule implements ModuleOptions, ConfigurationStates
        protected boolean configOptimizeAttribute = true;
        public WssProviderAuthModule() {
        }
+
+       public Class[] getSupportedMessageTypes() {
+           return new Class[] { SOAPMessage.class };
+       }
+
       /**
        * Initialization method for Client and Server Auth Modules 
        * @param requestPolicy
@@ -77,8 +81,8 @@ public class WssProviderAuthModule implements ModuleOptions, ConfigurationStates
        *        indicates if the current instance is client or server module
        * @throws RuntimeException
        */
-       public void initialize (AuthPolicy requestPolicy,
-                               AuthPolicy responsePolicy,
+       public void initialize (javax.security.auth.message.MessagePolicy requestPolicy,
+                               javax.security.auth.message.MessagePolicy responsePolicy,
                                CallbackHandler handler,
                                Map options,
                                boolean isClientAuthModule) {
@@ -117,7 +121,7 @@ public class WssProviderAuthModule implements ModuleOptions, ConfigurationStates
                   }
                   String obj = (String)options.get(DYNAMIC_USERNAME_PASSWORD);
                   if (obj != null) {
-                      runtimeUsernamePassword = obj.equalsIgnoreCase("true") ? true : false;
+                      runtimeUsernamePassword = "true".equalsIgnoreCase(obj);
                   }
                   if (isClientAuthModule) {
                      augmentConfiguration(response_policy_state, true, handler, debugON, signAlias, encryptAlias);
@@ -133,21 +137,54 @@ public class WssProviderAuthModule implements ModuleOptions, ConfigurationStates
        }
       /**
        * Resolves the state of a policy object
-       * @param policy
+       * @param messagePolicy
        *        AuthPolicy object whose state is to be resolved
        * @return configurationState
        *        returns one of the possible states defined in ConfigurationStates
        * @throws RuntimeException
        */
-       public int resolveConfigurationState(AuthPolicy policy, boolean isRequestPolicy, boolean isClientAuthModule) {
-           boolean orderForValidation = isClientAuthModule ?
-                                        (isRequestPolicy ? false : true) :
-                                        (isRequestPolicy ? true : false); 
-           boolean sourceAuthRequired = policy.isSourceAuthRequired();
-           boolean recipientAuthRequired = policy.isRecipientAuthRequired();
-           boolean senderAuthRequired = policy.isSenderAuthRequired();
-           boolean contentAuthRequired = policy.isContentAuthRequired();
-           boolean beforeContent = policy.isRecipientAuthBeforeContent(orderForValidation);
+       @Override
+       public int resolveConfigurationState(javax.security.auth.message.MessagePolicy messagePolicy,
+               boolean isRequestPolicy, boolean isClientAuthModule) {
+           boolean orderForValidation = isClientAuthModule ? !isRequestPolicy : isRequestPolicy;
+           boolean recipientBeforeContent = false;
+           boolean recipientAuthRequired = false;
+           boolean sourceAuthRequired = false;
+           boolean senderAuthRequired = false;
+           boolean contentAuthRequired = false;
+           if (messagePolicy != null) {
+               javax.security.auth.message.MessagePolicy.TargetPolicy[] targetPolicies = messagePolicy.getTargetPolicies();
+               if (targetPolicies != null && targetPolicies.length > 0) {
+                   int contentInd = -1;
+                   int recipientInd = -1;
+                   for (int i = 0; i < targetPolicies.length; i++) {
+                       javax.security.auth.message.MessagePolicy.ProtectionPolicy pp
+                               = targetPolicies[i].getProtectionPolicy();
+
+                       if (javax.security.auth.message.MessagePolicy.ProtectionPolicy.AUTHENTICATE_RECIPIENT.equals(
+                               pp.getID())) {
+                           recipientInd = i;
+                           recipientAuthRequired = true;
+                       } else if (javax.security.auth.message.MessagePolicy.ProtectionPolicy.AUTHENTICATE_SENDER.equals(
+                               pp.getID())) {
+                           contentInd = i;
+                           sourceAuthRequired = true;
+                           senderAuthRequired = true;
+                       } else if (javax.security.auth.message.MessagePolicy.ProtectionPolicy.AUTHENTICATE_CONTENT.equals(
+                               pp.getID())) {
+                           contentInd = i;
+                           sourceAuthRequired = true;
+                           contentAuthRequired = true;
+                       }
+                   }
+
+                   if (recipientAuthRequired && contentInd >= 0) {
+                       recipientBeforeContent = (recipientInd < contentInd);
+                   }
+               }
+           }
+           boolean beforeContent = orderForValidation ? !recipientBeforeContent : recipientBeforeContent;
+
            int configurationState = -1;
            if (sourceAuthRequired && !recipientAuthRequired) {
               if (senderAuthRequired) 
