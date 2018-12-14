@@ -371,7 +371,6 @@
         <dependency>
             <groupId>jakarta.xml.rpc</groupId>
             <artifactId>jakarta.xml.rpc-api</artifactId>
-            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
@@ -381,12 +380,10 @@
         <dependency>
             <groupId>com.fasterxml.woodstox</groupId>
             <artifactId>woodstox-core</artifactId>
-            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.jvnet.mimepull</groupId>
             <artifactId>mimepull</artifactId>
-            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.sun.xml.ws</groupId>
