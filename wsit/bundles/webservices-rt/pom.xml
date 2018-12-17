@@ -190,6 +190,13 @@
                                     <outputDirectory>${generated.sources.dir}</outputDirectory>
                                 </artifactItem>
                                 <artifactItem>
+                                    <groupId>org.glassfish.pfl</groupId>
+                                    <artifactId>pfl-tf</artifactId>
+                                    <classifier>sources</classifier>
+                                    <overWrite>false</overWrite>
+                                    <outputDirectory>${generated.sources.dir}</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
                                     <groupId>org.glassfish.ha</groupId>
                                     <artifactId>ha-api</artifactId>
                                     <classifier>sources</classifier>
@@ -286,6 +293,7 @@
                                     <include>org.codehaus.woodstox:stax2-api</include>
                                     <include>org.glassfish.external:management-api</include>
                                     <include>org.glassfish.gmbal:gmbal</include>
+                                    <include>org.glassfish.pfl:pfl-tf</include>
                                     <include>org.glassfish.ha:ha-api</include>
                                     <include>org.jvnet.staxex:stax-ex</include>
                                     <include>org.jvnet.mimepull:mimepull</include>
@@ -342,6 +350,13 @@
                         --add-exports java.xml/com.sun.org.apache.xerces.internal.impl.dv.util=ALL-UNNAMED
                         --add-exports java.desktop/sun.font=ALL-UNNAMED
                     </additionalOptions>
+                    <additionalDependencies>
+                        <dependency>
+                            <groupId>org.glassfish.hk2</groupId>
+                            <artifactId>hk2-api</artifactId>
+                            <version>2.5.0</version>
+                        </dependency>
+                    </additionalDependencies>
                     <sourceFileExcludes>
                         <sourceFileExclude>META-INF/**</sourceFileExclude>
                         <sourceFileExclude>**/msv/**</sourceFileExclude>
