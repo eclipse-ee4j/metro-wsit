@@ -10,11 +10,7 @@
 
 package com.sun.xml.wss.provider;
 
-import com.sun.enterprise.security.jauth.AuthParam;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javax.security.auth.message.MessageInfo;
 import javax.xml.soap.SOAPMessage;
 
 /**
@@ -24,43 +20,23 @@ import javax.xml.soap.SOAPMessage;
 class AuthParamHelper {
 
     @SuppressWarnings("unchecked")
-    static SOAPMessage getRequest(AuthParam param) {
-        try {
-            Class clz = param.getClass();
-            Method meth = clz.getMethod("getRequest", (Class[]) null);
-            if (meth != null) {
-                Object obj = meth.invoke(param, (Object[]) null);
-                if (obj instanceof SOAPMessage) {
-                    return (SOAPMessage)obj;
-                }
+    static SOAPMessage getRequest(MessageInfo param) {
+        if (param != null) {
+            Object obj = param.getRequestMessage();
+            if (obj instanceof SOAPMessage) {
+                return (SOAPMessage) obj;
             }
-
-        } catch (NoSuchMethodException ex) {
-        } catch (SecurityException ex) {
-        } catch (IllegalAccessException ex) {
-        } catch (IllegalArgumentException ex) {
-        } catch (InvocationTargetException ex) {
         }
         return null;
     }
 
     @SuppressWarnings("unchecked")
-    static SOAPMessage getResponse(AuthParam param) {
-         try {
-            Class clz = param.getClass();
-            Method meth = clz.getMethod("getResponse", (Class[]) null);
-            if (meth != null) {
-                Object obj = meth.invoke(param, (Object[]) null);
-                if (obj instanceof SOAPMessage) {
-                    return (SOAPMessage)obj;
-                }
+    static SOAPMessage getResponse(MessageInfo param) {
+        if (param != null) {
+            Object obj = param.getResponseMessage();
+            if (obj instanceof SOAPMessage) {
+                return (SOAPMessage) obj;
             }
-
-        } catch (NoSuchMethodException ex) {
-        } catch (SecurityException ex) {
-        } catch (IllegalAccessException ex) {
-        } catch (IllegalArgumentException ex) {
-        } catch (InvocationTargetException ex) {
         }
         return null;
     }

@@ -14,9 +14,9 @@ import java.util.ResourceBundle;
 import java.util.Locale;
 import java.text.MessageFormat;
 
-import java.util.logging.*;
-import com.sun.logging.*;
 import com.sun.xml.wss.logging.LogDomainConstants;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Implementation of a local string manager.
@@ -60,6 +60,7 @@ public class LocalStringManagerImpl implements LocalStringManager {
      * @param defaultValue The default return value if not found
      * @return The localized value for the resource
      */
+    @Override
     public String getLocalString(
 	Class callerClass,
 	String key,
@@ -96,7 +97,7 @@ public class LocalStringManagerImpl implements LocalStringManager {
 	    return getLocalString(null, key, defaultValue);
 	} else {
       if (_logger.isLoggable(Level.FINE))
-	        _logger.log(Level.FINE,"No local string for " + key);
+	        _logger.log(Level.FINE, "No local string for {0}", key);
 	    return defaultValue;
 	}
     }
@@ -107,6 +108,7 @@ public class LocalStringManagerImpl implements LocalStringManager {
      * @param defaultValue The default return value if not found
      * @return The localized string
      */
+    @Override
     public String getLocalString(String key, String defaultValue) {
 	return getLocalString(null, key, defaultValue);
     }
@@ -115,11 +117,11 @@ public class LocalStringManagerImpl implements LocalStringManager {
      * Get a local string for the caller and format the arguments accordingly.
      * @param callerClass The caller (to walk through its class hierarchy)
      * @param key The key to the local format string
-     * @param fmt The default format if not found in the resources
+     * @param defaultFormat The default format if not found in the resources
      * @param arguments The set of arguments to provide to the formatter
      * @return A formatted localized string
      */
-
+    @Override
     public String getLocalString(
 	Class callerClass,
 	String key,
@@ -144,7 +146,7 @@ public class LocalStringManagerImpl implements LocalStringManager {
      * Get a local string from the package of the default class and
      * format the arguments accordingly.
      * @param key The key to the local format string
-     * @param fmt The default format if not found in the resources
+     * @param defaultFormat The default format if not found in the resources
      * @param arguments The set of arguments to provide to the formatter
      * @return A formatted localized string
      */

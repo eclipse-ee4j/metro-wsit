@@ -25,24 +25,20 @@ import javax.security.auth.Destroyable;
 import javax.security.auth.DestroyFailedException;
 import javax.security.auth.callback.CallbackHandler;
 
-import com.sun.enterprise.security.jauth.AuthParam;
-import com.sun.enterprise.security.jauth.AuthPolicy;
-//import com.sun.enterprise.security.jauth.SOAPAuthParam;
-import com.sun.enterprise.security.jauth.AuthException;
-import com.sun.enterprise.security.jauth.ServerAuthModule;
-
 import com.sun.xml.wss.impl.SecurityAnnotator;
 import com.sun.xml.wss.impl.SecurityRecipient;
-import com.sun.xml.wss.impl.SecurableSoapMessage;
 import com.sun.xml.wss.XWSSecurityException;
 import com.sun.xml.wss.impl.ProcessingContextImpl;
 
-import com.sun.xml.wss.impl.policy.mls.MessagePolicy;
 import com.sun.xml.wss.impl.config.DeclarativeSecurityConfiguration;
 
-import com.sun.xml.wss.impl.WssProviderSecurityEnvironment;
 
 import com.sun.xml.wss.impl.MessageConstants;
+import javax.security.auth.message.AuthException;
+import javax.security.auth.message.AuthStatus;
+import javax.security.auth.message.MessageInfo;
+import javax.security.auth.message.MessagePolicy;
+import javax.security.auth.message.module.ServerAuthModule;
 
 public class ServerSecurityAuthModule extends WssProviderAuthModule 
                                       implements ServerAuthModule {
@@ -50,16 +46,18 @@ public class ServerSecurityAuthModule extends WssProviderAuthModule
        public ServerSecurityAuthModule() {
        }
 
-       public void initialize (AuthPolicy requestPolicy,
-                               AuthPolicy responsePolicy,
+       @Override
+       public void initialize (MessagePolicy requestPolicy,
+                               MessagePolicy responsePolicy,
                                CallbackHandler handler,
                                Map options) {
             super.initialize(requestPolicy, responsePolicy, handler, options, false);  
        }
 
-       public void validateRequest (AuthParam param,
+       @Override
+       public AuthStatus validateRequest (MessageInfo param,
                                     Subject subject,
-                                    Map sharedState)
+                                    Subject serviceSubject)
                    throws AuthException {
              try {
 
@@ -67,7 +65,7 @@ public class ServerSecurityAuthModule extends WssProviderAuthModule
 
                  _sEnvironment.setRequesterSubject(subject, context.getExtraneousProperties());
 
-                 MessagePolicy receiverCnfg = 
+                 com.sun.xml.wss.impl.policy.mls.MessagePolicy receiverCnfg =
                  ((DeclarativeSecurityConfiguration)_policy).receiverSettings();
  
                  context.setSecurityPolicy(receiverCnfg);
@@ -76,29 +74,29 @@ public class ServerSecurityAuthModule extends WssProviderAuthModule
 
                  SecurityRecipient.validateMessage(context); 
 
-                 populateSharedStateFromContext(sharedState, context);
+                 populateSharedStateFromContext(param.getMap(), context);
  
                  context.getSecurableSoapMessage().deleteSecurityHeader();
-
+                 return AuthStatus.SUCCESS;
              } catch (XWSSecurityException xwsse) {
                 xwsse.printStackTrace();
                 throw new AuthException(xwsse.getMessage());
              }
        }
 
-       public void secureResponse (AuthParam param,
-                                   Subject subject,
-                                   Map sharedState)
+       @Override
+       public AuthStatus secureResponse (MessageInfo param,
+                                   Subject subject)
                    throws AuthException {
              try {
 
                ProcessingContextImpl context = new ProcessingContextImpl();
                _sEnvironment.setSubject(subject, context.getExtraneousProperties());
 
-               populateContextFromSharedState(context, sharedState);
+               populateContextFromSharedState(context, param.getMap());
 
  
-               MessagePolicy senderCnfg = 
+               com.sun.xml.wss.impl.policy.mls.MessagePolicy senderCnfg =
                  ((DeclarativeSecurityConfiguration)_policy).senderSettings();
               
                SOAPMessage msg = AuthParamHelper.getResponse(param);
@@ -119,20 +117,20 @@ public class ServerSecurityAuthModule extends WssProviderAuthModule
                 }
 
                SecurityAnnotator.secureMessage(context);
-               
+               return AuthStatus.SEND_SUCCESS;
 
              } catch (XWSSecurityException xwsse) {
                xwsse.printStackTrace();
                throw new AuthException(xwsse.getMessage());
-             } 
+             }
        }
 
-       public void disposeSubject (Subject subject,
-                                   Map sharedState)
+       @Override
+       public void cleanSubject (MessageInfo msg, Subject subject)
                    throws AuthException {
              if (subject == null) {
                 // log
-                throw new AuthException("Subject is null in disposeSubject");
+                throw new AuthException("Subject is null in cleanSubject");
              }
 
              if (!subject.isReadOnly()) {
@@ -157,11 +155,9 @@ public class ServerSecurityAuthModule extends WssProviderAuthModule
                     Destroyable dstroyable = 
                                    (Destroyable)pi.next();
                     dstroyable.destroy(); 
-                } catch (DestroyFailedException dfe) {
+                } catch (DestroyFailedException | ClassCastException dfe) {
                    // log
-                } catch (ClassCastException cce) {
-                   // log
-                }  
+                }
              }
 
              Iterator qi = publicCredentials.iterator();
@@ -170,11 +166,9 @@ public class ServerSecurityAuthModule extends WssProviderAuthModule
                     Destroyable dstroyable = 
                                    (Destroyable)qi.next();
                     dstroyable.destroy(); 
-                } catch (DestroyFailedException dfe) {
+                } catch (DestroyFailedException | ClassCastException dfe) {
                    // log
-                } catch (ClassCastException cce) {
-                   // log
-                }   
+                }
              }       
        }        
 

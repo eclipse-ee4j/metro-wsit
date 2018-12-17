@@ -14,7 +14,7 @@
 
 package com.sun.xml.wss.provider;
 
-import com.sun.enterprise.security.jauth.AuthPolicy;
+import javax.security.auth.message.MessagePolicy;
 
 public interface ConfigurationStates {
      public static final int AUTHENTICATE_RECIPIENT_ONLY = 1;
@@ -27,7 +27,6 @@ public interface ConfigurationStates {
      public static final int EMPTY_POLICY_STATE = 8;
 
      // resolve required config. state 
-     int resolveConfigurationState(AuthPolicy policy, 
-                                   boolean isRequestPolicy, 
-                                   boolean isClientAuthModule); 
+     int resolveConfigurationState(MessagePolicy policy,
+             boolean isRequestPolicy, boolean isClientAuthModule);
 }
