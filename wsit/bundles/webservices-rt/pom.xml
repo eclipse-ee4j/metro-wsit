@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-    Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+    Copyright (c) 1997, 2019 Oracle and/or its affiliates. All rights reserved.
 
     This program and the accompanying materials are made available under the
     terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -287,7 +287,7 @@
                                     <include>com.sun.xml.stream.buffer:streambuffer</include>
                                     <include>com.sun.xml.ws:jaxws-rt</include>
                                     <include>com.sun.xml.ws:policy</include>
-                                    <include>com.sun.xml.wss.core.reference:keyidspi-ibm-impl</include>
+                                    <include>org.glassfish.metro:keyidspi-ibm-impl</include>
                                     <include>net.java.dev.stax-utils:stax-utils</include>
                                     <include>com.fasterxml.woodstox:woodstox-core</include>
                                     <include>org.codehaus.woodstox:stax2-api</include>
@@ -440,7 +440,7 @@
             <artifactId>xmlsec</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.sun.xml.wss.core.reference</groupId>
+            <groupId>org.glassfish.metro</groupId>
             <artifactId>keyidspi-ibm-impl</artifactId>
         </dependency>
         <dependency>
