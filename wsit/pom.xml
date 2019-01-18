@@ -730,9 +730,9 @@
                 <version>${commons-logging.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.sun.xml.wss.core.reference</groupId>
+                <groupId>org.glassfish.metro</groupId>
                 <artifactId>keyidspi-ibm-impl</artifactId>
-                <version>1.0</version>
+                <version>1.1</version>
             </dependency>
             <dependency>
                 <groupId>net.java.dev.stax-utils</groupId>
