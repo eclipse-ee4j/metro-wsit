@@ -1,12 +1,20 @@
-[//]: # " Copyright (c) 2018 Oracle and/or its affiliates. All rights reserved. "
-[//]: # "  "
-[//]: # " This program and the accompanying materials are made available under the "
-[//]: # " terms of the Eclipse Distribution License v. 1.0, which is available at "
-[//]: # " http://www.eclipse.org/org/documents/edl-v10.php. "
-[//]: # "  "
-[//]: # " SPDX-License-Identifier: BSD-3-Clause "
+# METRO-WSIT
 
-# metro-wsit
-Welcome to WSIT for Metro.
-This project is part of Metro Web Services.
-You can read more about this project at the web-page: https://github.com/eclipse-ee4j/metro-wsit
+Welcome to WSIT for Metro. This project is part of Metro Web Services. 
+
+# <a name="Latest_News"></a>Latest News
+
+## Jan 21, 2019 - WSIT 2.4.3 Final Release ##
+
+The [2.4.3 release](https://github.com/eclipse-ee4j/metro-wsit/releases/tag/2.4.3)
+
+# <a name="Links"></a>Links #
+- [Metro project](https://projects.eclipse.org/projects/ee4j.metro)
+
+
+
+## Documentation
+Documentation for this release consists of the following:
+- [Getting started](https://eclipse-ee4j.github.io/metro-wsit/getting-started/index.html)
+- [Metro Users Guide](https://eclipse-ee4j.github.io/metro-wsit/guide/index.html)
+- [Javadocs](https://eclipse-ee4j.github.io/metro-wsit/javadocs/index.html)
