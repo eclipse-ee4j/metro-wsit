@@ -425,8 +425,8 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>com.sun.grizzly</groupId>
-            <artifactId>grizzly-framework-http</artifactId>
+            <groupId>org.glassfish.grizzly</groupId>
+            <artifactId>grizzly-framework</artifactId>
             <scope>provided</scope>
         </dependency>
         <dependency>

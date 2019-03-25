@@ -681,11 +681,6 @@
                 <version>3.2.5</version>
             </dependency>
             <dependency>
-                <groupId>com.sun.grizzly</groupId>
-                <artifactId>grizzly-framework-http</artifactId>
-                <version>1.0.40</version>
-            </dependency>
-            <dependency>
                 <groupId>jakarta.xml.registry</groupId>
                 <artifactId>jakarta.xml.registry-api</artifactId>
                 <version>1.0.9</version>
@@ -705,6 +700,11 @@
                 <groupId>jakarta.xml.rpc</groupId>
                 <artifactId>jakarta.xml.rpc-api</artifactId>
                 <version>${xmlrpc-api.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>xmlfilter</artifactId>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.sun.xml.rpc</groupId>
