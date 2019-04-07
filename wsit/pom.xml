@@ -445,6 +445,8 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-javadoc-plugin</artifactId>
                     <configuration>
+                        <detectJavaApiLink>false</detectJavaApiLink>
+                        <detectOfflineLinks>false</detectOfflineLinks>
                         <!-- disable checking -->
                         <doclint>none</doclint>
                         <minmemory>128m</minmemory>
@@ -698,6 +700,12 @@
                 <groupId>com.sun.xml.registry</groupId>
                 <artifactId>jaxr-impl</artifactId>
                 <version>1.0.9</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>*</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>jakarta.xml.rpc</groupId>
