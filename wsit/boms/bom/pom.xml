@@ -56,7 +56,7 @@
     </developers>
 
     <properties>
-        <jaxws.ri.version>2.3.2</jaxws.ri.version>
+        <jaxws.ri.version>2.4.0-SNAPSHOT</jaxws.ri.version>
     </properties>
 
     <dependencyManagement>

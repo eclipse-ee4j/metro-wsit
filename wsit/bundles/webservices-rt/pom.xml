@@ -59,13 +59,6 @@
                                     <outputDirectory>${generated.sources.dir}</outputDirectory>
                                 </artifactItem>
                                 <artifactItem>
-                                    <groupId>com.sun.org.apache.xml.internal</groupId>
-                                    <artifactId>resolver</artifactId>
-                                    <classifier>sources</classifier>
-                                    <overWrite>false</overWrite>
-                                    <outputDirectory>${generated.sources.dir}</outputDirectory>
-                                </artifactItem>
-                                <artifactItem>
                                     <groupId>org.glassfish.jaxb</groupId>
                                     <artifactId>jaxb-runtime</artifactId>
                                     <classifier>sources</classifier>
@@ -197,6 +190,13 @@
                                     <outputDirectory>${generated.sources.dir}</outputDirectory>
                                 </artifactItem>
                                 <artifactItem>
+                                    <groupId>org.glassfish.pfl</groupId>
+                                    <artifactId>pfl-basic</artifactId>
+                                    <classifier>sources</classifier>
+                                    <overWrite>false</overWrite>
+                                    <outputDirectory>${generated.sources.dir}</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
                                     <groupId>org.glassfish.ha</groupId>
                                     <artifactId>ha-api</artifactId>
                                     <classifier>sources</classifier>
@@ -273,7 +273,6 @@
                             <artifactSet>
                                 <includes>
                                     <include>${project.parent.groupId}:wsit*</include>
-                                    <include>com.sun.org.apache.xml.internal:resolver</include>
                                     <include>org.glassfish.jaxb:jaxb-runtime</include>
                                     <include>org.glassfish.jaxb:txw2</include>
                                     <include>com.sun.istack:istack-commons-runtime</include>
@@ -294,6 +293,7 @@
                                     <include>org.glassfish.external:management-api</include>
                                     <include>org.glassfish.gmbal:gmbal</include>
                                     <include>org.glassfish.pfl:pfl-tf</include>
+                                    <include>org.glassfish.pfl:pfl-basic</include>
                                     <include>org.glassfish.ha:ha-api</include>
                                     <include>org.jvnet.staxex:stax-ex</include>
                                     <include>org.jvnet.mimepull:mimepull</include>
@@ -355,6 +355,21 @@
                             <groupId>org.glassfish.hk2</groupId>
                             <artifactId>hk2-api</artifactId>
                             <version>2.5.0</version>
+                        </dependency>
+                        <dependency>
+                            <groupId>com.sun.org.apache.xml.internal</groupId>
+                            <artifactId>resolver</artifactId>
+                            <version>${resolver.version}</version>
+                        </dependency>
+                        <dependency>
+                            <groupId>org.glassfish.pfl</groupId>
+                            <artifactId>pfl-asm</artifactId>
+                            <version>4.0.1</version>
+                        </dependency>
+                        <dependency>
+                            <groupId>org.glassfish.pfl</groupId>
+                            <artifactId>pfl-dynamic</artifactId>
+                            <version>4.0.1</version>
                         </dependency>
                     </additionalDependencies>
                     <sourceFileExcludes>

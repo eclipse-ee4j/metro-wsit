@@ -310,7 +310,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-assembly-plugin</artifactId>
-                    <version>3.0.0</version>
+                    <version>3.1.1</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.felix</groupId>
@@ -402,43 +402,33 @@
                     <version>2.0.11</version>
                 </plugin>
                 <plugin>
-                    <groupId>org.codehaus.mojo</groupId>
-                    <artifactId>findbugs-maven-plugin</artifactId>
-                    <version>${findbugs.version}</version>
+                    <groupId>com.github.spotbugs</groupId>
+                    <artifactId>spotbugs-maven-plugin</artifactId>
+                    <version>${spotbugs.version}</version>
                     <configuration>
-                        <skip>${findbugs.skip}</skip>
-                        <threshold>${findbugs.threshold}</threshold>
+                        <skip>${spotbugs.skip}</skip>
+                        <threshold>${spotbugs.threshold}</threshold>
                         <findbugsXmlWithMessages>true</findbugsXmlWithMessages>
                         <excludeFilterFile>
-                            ${findbugs.common},${findbugs.exclude}
+                            ${spotbugs.common},${spotbugs.exclude}
                         </excludeFilterFile>
                         <fork>true</fork>
                         <jvmArgs>-Xms64m -Xmx256m</jvmArgs>
                     </configuration>
-                    <dependencies>
-                        <dependency>
-                            <groupId>org.glassfish.findbugs</groupId>
-                            <artifactId>findbugs</artifactId>
-                            <version>1.2</version>
-                        </dependency>
-                    </dependencies>
                 </plugin>
                 <plugin>
                     <groupId>org.glassfish.copyright</groupId>
                     <artifactId>glassfish-copyright-maven-plugin</artifactId>
-                    <version>1.50</version>
+                    <version>2.1</version>
                     <configuration>
-                        <templateFile>legal/maintenance/copyright.txt</templateFile>
-                        <excludeFile>legal/maintenance/copyright-exclude</excludeFile>
-                        <scm>git</scm>
+                        <templateFile>${copyright.template}</templateFile>
+                        <excludeFile>${copyright.exclude}</excludeFile>
                         <!-- skip files not under SCM-->
-                        <scmOnly>true</scmOnly>
-                        <!-- turn off warnings -->
-                        <warn>true</warn>
+                        <scmOnly>${copyright.scmonly}</scmOnly>
                         <!-- for use with repair -->
-                        <update>false</update>
+                        <update>${copyright.update}</update>
                         <!-- check that year is correct -->
-                        <ignoreYear>false</ignoreYear>
+                        <ignoreYear>${copyright.ignoreyear}</ignoreYear>
                     </configuration>
                 </plugin>
                 <plugin>
@@ -521,12 +511,12 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>findbugs-maven-plugin</artifactId>
-                <version>${findbugs.version}</version>
+                <version>${spotbugs.version}</version>
                 <configuration>
-                    <skip>${findbugs.skip}</skip>
-                    <threshold>${findbugs.threshold}</threshold>
+                    <skip>${spotbugs.skip}</skip>
+                    <threshold>${spotbugs.threshold}</threshold>
                     <excludeFilterFile>
-                        ${findbugs.common},${findbugs.exclude}
+                        ${spotbugs.common},${spotbugs.exclude}
                     </excludeFilterFile>
                 </configuration>
             </plugin>
@@ -653,6 +643,17 @@
     </profiles>
 
     <properties>
+        <copyright.exclude>legal/maintenance/copyright-exclude</copyright.exclude>
+        <copyright.ignoreyear>false</copyright.ignoreyear>
+        <copyright.scmonly>true</copyright.scmonly>
+        <copyright.template>legal/maintenance/copyright.txt</copyright.template>
+        <copyright.update>false</copyright.update>
+        <spotbugs.common>etc/exclude-common.xml</spotbugs.common>
+        <spotbugs.exclude/>
+        <spotbugs.skip>false</spotbugs.skip>
+        <spotbugs.threshold>High</spotbugs.threshold>
+        <spotbugs.version>3.1.11</spotbugs.version>
+
         <release.repository.url>https://maven.java.net/content/repositories/releases/</release.repository.url>
 
         <istack.plugins.version>3.0.8</istack.plugins.version>
@@ -667,15 +668,8 @@
         <www.guide.jaxws.version>${jaxws.ri.version}</www.guide.jaxws.version>
         <www.guide.jaxws.home.uri>${jaxws.home.uri}</www.guide.jaxws.home.uri>
 
-        <findbugs.skip>false</findbugs.skip>
-        <findbugs.threshold>High</findbugs.threshold>
-        <findbugs.common>exclude-common.xml</findbugs.common>
-        <findbugs.exclude/>
-        <findbugs.version>2.5.2</findbugs.version>
-
         <mf.dir>${project.build.outputDirectory}</mf.dir>
         <legal.doc.source>${maven.multiModuleProjectDirectory}/..</legal.doc.source>
-        <netbeans.hint.jdkPlatform>JDK_1.8</netbeans.hint.jdkPlatform>
     </properties>
 
     <dependencyManagement>

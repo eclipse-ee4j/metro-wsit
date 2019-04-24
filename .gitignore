@@ -1,5 +1,5 @@
-generated/
 target/
+work/
 *.class
 
 # eclipse
@@ -17,23 +17,13 @@ target/
 *.log
 *.tlog
 
-derbyDB/
-*.swp
 .DS_Store
-
-# junit
-TEST-*.txt
-TEST-*.xml
 
 # hprof
 java_pid*
 
 # vi backup file
 *~
-
-# gradle
-.gradle/
-/build
 
 wsit/ws-rx/wsrm-impl/PersistentRmJunitTestDb/
 wsit/ws-sx/wssx-impl/golden.mh
