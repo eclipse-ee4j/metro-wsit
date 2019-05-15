@@ -39,6 +39,12 @@ public class IssuedTokenManager {
          }
     }
     
+    public static void reInitialize(){
+        synchronized (IssuedTokenManager.class) {
+             manager = new IssuedTokenManager();
+         }
+    }
+    
     public IssuedTokenContext createIssuedTokenContext(IssuedTokenConfiguration config, String appliesTo){
         IssuedTokenContext ctx = new IssuedTokenContextImpl();
         ctx.getSecurityPolicy().add(config);
