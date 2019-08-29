@@ -8,10 +8,10 @@
 
 ### Dependency graph for Metro/JAXWS/JAXB ###
 
-* starts from 'metro-wsit' node
-* A node represents a repository
+* Starts from 'metro-wsit' node
+* A node represents a repository (except nodes prefixed with 'jaxb:' - these are contained within jaxbri repository)
 * A cluster with a label represents specific Eclipse project
-* Unnamed clusters are used to keep related nodes/clusters together
+* Unnamed clusters are used to keep related nodes/clusters together, ie API/IMPL
 * dotted edge - optional dependency
 * solid edge - compile/runtime dependency
 * green edge - a dependency directly accessed through JAXB-BOM from metro-jax-ws
