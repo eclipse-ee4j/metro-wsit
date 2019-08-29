@@ -185,6 +185,7 @@
                                 <artifactItem>
                                     <groupId>org.glassfish.pfl</groupId>
                                     <artifactId>pfl-tf</artifactId>
+                                    <version>4.0.1</version>
                                     <classifier>sources</classifier>
                                     <overWrite>false</overWrite>
                                     <outputDirectory>${generated.sources.dir}</outputDirectory>
@@ -192,6 +193,7 @@
                                 <artifactItem>
                                     <groupId>org.glassfish.pfl</groupId>
                                     <artifactId>pfl-basic</artifactId>
+                                    <version>4.0.1</version>
                                     <classifier>sources</classifier>
                                     <overWrite>false</overWrite>
                                     <outputDirectory>${generated.sources.dir}</outputDirectory>
