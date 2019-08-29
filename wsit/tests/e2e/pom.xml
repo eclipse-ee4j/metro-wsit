@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-    Copyright (c) 2012, 2018 Oracle and/or its affiliates. All rights reserved.
+    Copyright (c) 2012, 2019 Oracle and/or its affiliates. All rights reserved.
 
     This program and the accompanying materials are made available under the
     terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -37,18 +37,31 @@
         <ws.test>${project.basedir}/testcases</ws.test>
         <!--        <transport.hudson.url></transport.hudson.url>
         <wsit.hudson.url></wsit.hudson.url>-->
+        <!--<ws.jvmOpts>-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=6000</ws.jvmOpts>-->
         <ws.jvmOpts></ws.jvmOpts>
+        <extensions.dir>${project.build.directory}/test-extensions</extensions.dir>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>org.eclipse.persistence</groupId>
-            <artifactId>eclipselink</artifactId>
+            <artifactId>org.eclipse.persistence.moxy</artifactId>
+            <version>2.7.4</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.persistence</groupId>
+            <artifactId>org.eclipse.persistence.sdo</artifactId>
+            <version>2.7.4</version>
         </dependency>
         <dependency>
             <groupId>com.sun.xml.ws</groupId>
             <artifactId>jaxws-local-transport</artifactId>
             <version>${jaxws.ri.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
     
@@ -96,6 +109,17 @@
                             <includeArtifactIds>jaxws-local-transport,eclipselink</includeArtifactIds>
                         </configuration>
                     </execution>
+                    <execution>
+                        <id>prepare-extensions</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${extensions.dir}</outputDirectory>
+                            <includeArtifactIds>jakarta.servlet-api</includeArtifactIds>
+                        </configuration>
+                    </execution>
                 </executions>
             </plugin>
             <plugin>
@@ -106,6 +130,9 @@
                         <goals>
                             <goal>ws-test</goal>
                         </goals>
+                        <configuration>
+                            <extDir>${extensions.dir}</extDir>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>

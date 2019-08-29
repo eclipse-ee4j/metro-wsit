@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-    Copyright (c) 2012, 2018 Oracle and/or its affiliates. All rights reserved.
+    Copyright (c) 2012, 2019 Oracle and/or its affiliates. All rights reserved.
 
     This program and the accompanying materials are made available under the
     terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -27,7 +27,7 @@
     <name>Metro Web Services Stack Tests</name>
 
     <properties>
-        <netbeans.hint.jdkPlatform>JDK_1.6</netbeans.hint.jdkPlatform>
+        <test.harness.version>2.3.3</test.harness.version>
         <metro.dep.classifier></metro.dep.classifier>
         <!-- DEFAULT = JAXB, TOPLINK = MOXy -->
         <ws.databinding>DEFAULT</ws.databinding>
@@ -39,30 +39,13 @@
         <ws.jvmOpts></ws.jvmOpts>
     </properties>
 
-    <pluginRepositories>
-        <pluginRepository>
-            <!-- temporary definition for harness plugin to be found-->
-            <id>temp</id>
-            <url>https://maven.java.net/content/repositories/snapshots</url>
-            <releases>
-                <enabled>false</enabled>
-                <updatePolicy>never</updatePolicy>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-                <updatePolicy>always</updatePolicy>
-            </snapshots>
-            <layout>default</layout>
-        </pluginRepository>
-    </pluginRepositories>
-
     <build>
         <pluginManagement>
             <plugins>
                 <plugin>
                     <groupId>org.glassfish.metro</groupId>
                     <artifactId>harness-maven-plugin</artifactId>
-                    <version>2.3.1.1</version>
+                    <version>${test.harness.version}</version>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -72,6 +55,7 @@
                 <groupId>org.glassfish.metro</groupId>
                 <artifactId>harness-maven-plugin</artifactId>
                 <configuration>
+                    <harnessVersion>${test.harness.version}</harnessVersion>
                     <tests>${ws.test}</tests>
                     <version>${project.osgi.version}</version>
                     <databinding>${ws.databinding}</databinding>
@@ -85,6 +69,10 @@
             </plugin>
         </plugins>
     </build>
+
+    <modules>
+        <module>e2e</module>
+    </modules>
 
     <profiles>
 

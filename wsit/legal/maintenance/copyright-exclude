@@ -1,6 +1,9 @@
 /META-INF/services/
 /MANIFEST.MF
+/manifest.mf
 /README
+/work/
+.Designer.vb
 .gif
 .jpg
 .jpeg
@@ -23,6 +26,9 @@
 .envelope
 .txt
 .pdf
+.xlsm
+.sln
+.suo
 /copyright-exclude
 /LICENSE.md
 /copyright.txt
@@ -30,6 +36,27 @@ www
 site
 zip
 etc
-/com/sun/xml/ws/security/opt/crypto/dsig/internal/SignerOutputStream.java
-/com/sun/xml/ws/security/opt/crypto/dsig/internal/MacOutputStream.java
-/com/sun/xml/ws/security/opt/crypto/dsig/internal/DigesterOutputStream.java
+/docs/guide/src/docbook/download/WCFMtomClient/MtomClient/MtomClient/Service References/localhost.cs
+/metro-config/metro-config-impl/src/test/resources/policy/mex/mex.xml
+/ws-tx/wstx-services/src/main/webapp/WEB-INF/wsdls/wsc10/addressing.xsd
+/ws-tx/wstx-services/src/main/webapp/WEB-INF/wsdls/wsc10/wscoor.xsd
+/ws-tx/wstx-services/src/main/webapp/WEB-INF/wsdls/wsc10/wscoor.wsdl
+/ws-tx/wstx-services/src/main/webapp/WEB-INF/wsdls/wsc11/ws-addr.xsd
+/ws-tx/wstx-services/src/main/webapp/WEB-INF/wsdls/wsc11/wstx-wscoor-1.1-wsdl-200702.wsdl
+/ws-tx/wstx-services/src/main/webapp/WEB-INF/wsdls/wsc11/wstx-wscoor-1.1-schema-200701.xsd
+/ws-tx/wstx-services/src/main/webapp/WEB-INF/wsdls/wsat10/wsat.xsd
+/ws-tx/wstx-services/src/main/webapp/WEB-INF/wsdls/wsat10/addressing.xsd
+/ws-tx/wstx-services/src/main/webapp/WEB-INF/wsdls/wsat10/wsat.wsdl
+/ws-tx/wstx-services/src/main/webapp/WEB-INF/wsdls/wsat11/ws-addr.xsd
+/ws-tx/wstx-services/src/main/webapp/WEB-INF/wsdls/wsat11/wstx-wsat-1.1-wsdl-200702.wsdl
+/ws-tx/wstx-services/src/main/webapp/WEB-INF/wsdls/wsat11/wstx-wsat-1.1-schema-200701.xsd
+/ws-tx/wstx-services/src/main/webapp/WEB-INF/wsdl/addressing.xml
+/ws-tx/wstx-services/src/main/webapp/WEB-INF/wsdl/wsat.xsd
+/ws-tx/wstx-services/src/main/webapp/WEB-INF/wsdl/addressing.xsd
+/ws-tx/wstx-services/src/main/webapp/WEB-INF/wsdl/wscoor.xsd
+/ws-tx/wstx-services/src/main/webapp/WEB-INF/wsdl/wscoor.wsdl
+/ws-tx/wstx-services/src/main/webapp/WEB-INF/wsdl/wsat.wsdl
+/ws-sx/wssx-impl/src/main/java/com/sun/xml/ws/security/opt/crypto/dsig/internal/DigesterOutputStream.java
+/samples/excelclient/ExcelAddIn/ExcelAddIn1/Service References/localhost.vb
+/samples/excelclient/ExcelAddIn/ExcelAddIn1Setup/ExcelAddIn1Setup
+/samples/excelclient/ExcelAddIn/ExcelAddIn1/My Project/Resources.resx

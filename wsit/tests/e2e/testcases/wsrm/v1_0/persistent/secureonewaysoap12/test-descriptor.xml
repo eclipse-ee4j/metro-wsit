@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+
+    Copyright (c) 1997, 2019 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Distribution License v. 1.0, which is available at
+    http://www.eclipse.org/org/documents/edl-v10.php.
+
+    SPDX-License-Identifier: BSD-3-Clause
+
+-->
+
+<descriptor skip="true">
+    <description>Basic secured one-way RM test</description>
+    <!--client href ="test.bsh"/-->
+    <service basedir="./server">
+        <wsdl href="PingService.wsdl"/>
+    </service>
+</descriptor>
+
