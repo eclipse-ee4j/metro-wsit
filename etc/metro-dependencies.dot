@@ -1,0 +1,223 @@
+/********************************************************************************
+ * Copyright (c) 2019 Contributors to the Eclipse Foundation
+ * 
+ * See the NOTICE file(s) distributed with this work for additional
+ * information regarding copyright ownership.
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Distribution License v. 1.0 which is available at
+ * http://www.eclipse.org/org/documents/edl-v10.php.
+ * 
+ * SPDX-License-Identifier: BSD-3-Clause
+ ********************************************************************************/
+
+digraph G {
+    rankdir=LR;
+    rank=same;
+
+    node[ shape=box, style="rounded" ];
+
+    subgraph cluster_jaxb_project {
+
+        subgraph cluster_jaxb_api {
+            label = "Jakarta XML Binding";
+            URL = "https://projects.eclipse.org/projects/ee4j.jaxb";
+            xmlbind_api [ label="xml.bind-api", URL="https://github.com/eclipse-ee4j/jaxb-api" ];
+        }
+
+        subgraph cluster_jaxb {
+            label = "Eclipse Implementation of JAXB";
+            URL = "https://projects.eclipse.org/projects/ee4j.jaxb-impl";
+            dtdparser[ label="dtd-parser", URL="https://github.com/eclipse-ee4j/jaxb-dtd-parser" ];
+            fi[ label="fi", URL="https://github.com/eclipse-ee4j/jaxb-fi" ];
+            istack[ label="istack-commons", URL="https://github.com/eclipse-ee4j/jaxb-istack-commons" ];
+            staxex[ label="stax-ex", URL="https://github.com/eclipse-ee4j/jaxb-stax-ex" ];
+
+            subgraph cluster_jaxb_impl {
+                label = "";
+                URL = "";
+                jaxbri[ label="jaxb-ri", URL="https://github.com/eclipse-ee4j/jaxb-ri"];
+                jaxb_codemodel[ label="jaxb:codemodel", URL="https://github.com/eclipse-ee4j/jaxb-ri/tree/master/jaxb-ri/codemodel/codemodel" ];
+                jaxb_xsom[ label="jaxb:xsom", URL="https://github.com/eclipse-ee4j/jaxb-ri/tree/master/jaxb-ri/xsom" ];
+                jaxb_txw2[ label="jaxb:txw2", URL="https://github.com/eclipse-ee4j/jaxb-ri/tree/master/jaxb-ri/txw/runtime" ];
+                jaxb_rngom[ label="jaxb:rngom", URL="https://github.com/eclipse-ee4j/jaxb-ri/tree/master/jaxb-ri/external/rngom"];
+                jaxb_rxdt[ label="jaxb:relaxng-datatype", URL="https://github.com/eclipse-ee4j/jaxb-ri/tree/master/jaxb-ri/external/relaxng-datatype"];
+            }
+        }
+    }
+
+    subgraph cluster_jaxws_project {
+        subgraph cluster_jaxws_api {
+            label = "Jakarta XML Web Services";
+            URL = "https://projects.eclipse.org/projects/ee4j.jaxws";
+            jws_api[ label="jws-api", URL="https://github.com/eclipse-ee4j/jws-api" ];
+            xmlsoap_api[ label="xml.soap-api", URL="https://github.com/eclipse-ee4j/saaj-api" ];
+            xmlws_api[ label="xml.ws-api", URL="https://github.com/eclipse-ee4j/jax-ws-api" ];
+        }
+
+        subgraph cluster_metro {
+            label = "Eclipse Metro";
+            URL = "https://projects.eclipse.org/projects/ee4j.metro";
+            saaj_impl[label="metro-saaj", URL="https://github.com/eclipse-ee4j/metro-saaj" ];
+            policy[ label="metro-policy", URL="https://github.com/eclipse-ee4j/metro-policy" ];
+            mimepull[ label="mimepull", URL="https://github.com/eclipse-ee4j/metro-mimepull" ];
+            streambuffer[ label="xml-streambuffer", URL="https://github.com/eclipse-ee4j/metro-xmlstreambuffer"];
+            wstest_harness[ label="ws-test-harness", URL="https://github.com/eclipse-ee4j/metro-ws-test-harness" ];
+            jaxwsri[ label="metro-jax-ws", URL="https://github.com/eclipse-ee4j/metro-jax-ws" ];
+            wsit[ style = "rounded, bold"; label="metro-wsit", URL="https://github.com/eclipse-ee4j/metro-wsit"];
+
+            node[ color = grey; fontcolor = grey ];
+            jaxr_impl[ label="jaxr-impl", URL="https://github.com/eclipse-ee4j/jaxr-ri"];
+            rpc_impl[ label="xml.rpc-impl", URL="https://github.com/eclipse-ee4j/jax-rpc-ri"];
+        }
+    }
+
+    subgraph external_api {
+        activation_api[ label="activation-api", URL="https://github.com/eclipse-ee4j/jaf" ];
+        annotation_api[ label="annotation-api", URL="https://github.com/eclipse-ee4j/common-annotations-api" ];
+        ha_api[ label="ha-api"];
+        servlet_api[ label="servlet-api", URL="https://github.com/eclipse-ee4j/servlet-api"];
+        mail_api[ label="mail-api", URL="https://github.com/eclipse-ee4j/mail"];
+        persistence_api[ label="persistence-api", URL="https://github.com/eclipse-ee4j/jpa-api"];
+        eclipselink[ label="eclipselink", URL="https://github.com/eclipse-ee4j/eclipselink"];
+        resource_api[ label="resource-api", URL="https://github.com/eclipse-ee4j/jca-api"];
+        transaction_api[ label="transaction-api", URL="https://github.com/eclipse-ee4j/jta-api"];
+        ejb_api[ label="ejb-api", URL="https://github.com/eclipse-ee4j/ejb-api"];
+        jaspic_api[ label="security.auth.message-api", URL="https://github.com/eclipse-ee4j/jaspic"];
+        grizzly[ label="grizzly", URL="https://github.com/eclipse-ee4j/grizzly"];
+
+    // subgraph cluster_orb {
+    //     label = "Eclipse ORB";
+    //     URL = "https://projects.eclipse.org/projects/ee4j.orb";
+        gmbal[ label="gmbal", URL="https://github.com/eclipse-ee4j/orb-gmbal"];
+        management_api[ label="management-api", URL="https://github.com/eclipse-ee4j/orb-gmbal-commons" ];
+    // }
+        
+        node[ color = grey; fontcolor = grey ];
+        jaxr_api[ label="registry-api", URL="https://github.com/eclipse-ee4j/jaxr-api"];
+        rpc_api[ label="xml.rpc-api", URL="https://github.com/eclipse-ee4j/jax-rpc-api"];
+    }
+
+    // Compile time sependencies between projects.
+    edge[ style="solid" ];
+
+    xmlbind_api -> activation_api;
+    xmlsoap_api -> activation_api;
+    xmlws_api -> xmlbind_api;
+    xmlws_api -> annotation_api;
+    xmlws_api -> jws_api;
+    xmlws_api -> xmlsoap_api;
+
+    istack -> jaxb_codemodel;
+    fi -> jaxb_xsom;
+    staxex -> activation_api;
+    staxex -> xmlbind_api;
+
+    jaxb_rngom -> jaxb_rxdt;
+    jaxbri -> xmlbind_api;
+    jaxbri -> istack;
+    jaxbri -> dtdparser;
+    jaxbri -> fi;
+    jaxbri -> staxex;
+    jaxbri -> jaxb_codemodel;
+    jaxbri -> jaxb_xsom;
+    jaxbri -> jaxb_rngom;
+    jaxbri -> jaxb_rxdt;
+    jaxbri -> jaxb_txw2;
+
+    policy -> jaxb_txw2;
+    policy -> istack;
+    saaj_impl -> staxex;
+    saaj_impl -> xmlsoap_api;
+    saaj_impl -> activation_api;
+    wstest_harness -> istack;
+    wstest_harness -> activation_api;
+    wstest_harness -> jws_api;
+    wstest_harness -> xmlws_api;
+    streambuffer -> staxex;
+    streambuffer -> activation_api;
+    jaxwsri -> xmlsoap_api;
+    jaxwsri -> policy;
+    jaxwsri -> saaj_impl;
+    jaxwsri -> jws_api;
+    jaxwsri -> xmlws_api;
+    jaxwsri -> annotation_api;
+    jaxwsri -> activation_api;
+    jaxwsri -> management_api;
+    jaxwsri -> streambuffer;
+    jaxwsri -> mimepull;
+    jaxwsri -> servlet_api;
+    jaxwsri -> mail_api;
+    jaxwsri -> persistence_api;
+    jaxwsri -> eclipselink;
+    jaxwsri -> gmbal;
+    jaxwsri -> ha_api;
+    // jaxwsri -> jaxbri;
+    // wsit -> jaxwsri;
+    wsit -> resource_api;
+    wsit -> transaction_api;
+    wsit -> ejb_api;
+    wsit -> jaspic_api;
+    wsit -> grizzly;
+    
+    // Optional dependencies
+    edge[ style="dashed" ];
+    istack -> activation_api;
+    saaj_impl -> xmlbind_api;
+    saaj_impl -> fi;
+    saaj_impl -> mimepull;
+
+    // jaxws dependencies imported through JAXB-BOM
+    edge[ style="solid"; color = green ];
+    // jaxwsri -> activation_api;
+    jaxwsri -> jaxbri;
+    jaxbri -> xmlbind_api;
+    jaxbri -> fi;
+    jaxbri -> istack;
+    jaxbri -> staxex;
+    jaxbri -> jaxb_txw2;
+
+    // wsit dependencies imported through JAXWS-BOM/JAXB-BOM
+    edge[ style="solid"; color = blue ];
+    wsit -> jaxwsri;
+    jaxwsri -> jaxbri;
+    jaxbri -> istack;
+    jaxbri -> fi;
+    jaxbri -> xmlbind_api;
+    jaxbri -> staxex;
+    jaxwsri -> xmlws_api;
+    jaxwsri -> xmlsoap_api;
+    jaxwsri -> streambuffer;
+    jaxwsri -> policy;
+    jaxwsri -> gmbal;
+    jaxwsri -> ha_api;
+    jaxwsri -> annotation_api;
+    jaxwsri -> activation_api;
+    jaxwsri -> jws_api;
+    jaxwsri -> servlet_api;
+    jaxwsri -> mail_api;
+    jaxwsri -> saaj_impl;
+    jaxwsri -> mimepull;
+    jaxwsri -> management_api;
+    
+
+    // wsit dependencies to be removed
+    edge[ style="solid"; color = grey ];
+    wsit -> jaxr_api;
+    wsit -> rpc_api;
+    wsit -> jaxr_impl;
+    wsit -> rpc_impl;
+    
+    // other obsolete
+    rpc_impl -> activation_api;
+    rpc_impl -> mail_api;
+    rpc_impl -> servlet_api;
+    rpc_impl -> rpc_api;
+    rpc_impl -> saaj_impl;
+    rpc_impl -> fi;
+    jaxr_impl -> jaxr_api;
+    jaxr_impl -> xmlsoap_api;
+    jaxr_impl -> xmlbind_api;
+
+}
+
