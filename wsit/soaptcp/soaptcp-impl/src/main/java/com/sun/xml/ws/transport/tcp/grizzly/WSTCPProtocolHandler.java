@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2019 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -10,12 +10,16 @@
 
 package com.sun.xml.ws.transport.tcp.grizzly;
 
-import com.sun.enterprise.web.portunif.ProtocolHandler;
-import com.sun.enterprise.web.portunif.util.ProtocolInfo;
 import com.sun.xml.ws.transport.tcp.resources.MessagesMessages;
 import com.sun.xml.ws.transport.tcp.server.IncomeMessageProcessor;
 import com.sun.xml.ws.transport.tcp.util.TCPConstants;
+import org.glassfish.grizzly.filterchain.BaseFilter;
+import org.glassfish.grizzly.filterchain.FilterChainContext;
+import org.glassfish.grizzly.filterchain.NextAction;
+import org.glassfish.grizzly.nio.NIOConnection;
+
 import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.SocketChannel;
 import java.util.logging.Level;
@@ -24,31 +28,39 @@ import java.util.logging.Logger;
 /**
  * @author Alexey Stashok
  */
-public final class WSTCPProtocolHandler implements ProtocolHandler {
+public final class WSTCPProtocolHandler extends BaseFilter {
     private static final Logger logger = Logger.getLogger(
             com.sun.xml.ws.transport.tcp.util.TCPConstants.LoggingDomain + ".server");
-    
-    private static IncomeMessageProcessor processor;
-    
-    public static void setIncomingMessageProcessor(final IncomeMessageProcessor processor) {
-        WSTCPProtocolHandler.processor = processor;
+
+    private final IncomeMessageProcessor processor;
+
+    public WSTCPProtocolHandler(final IncomeMessageProcessor processor) {
+        this.processor = processor;
     }
-    
+
     public String[] getProtocols() {
-        return new String[] {TCPConstants.PROTOCOL_SCHEMA};
+        return new String[]{TCPConstants.PROTOCOL_SCHEMA};
     }
-    
-    public void handle(final ProtocolInfo tupple) throws IOException {
-        if (processor != null) {
-            tupple.byteBuffer.flip();
-            processor.process(tupple.byteBuffer, (SocketChannel) tupple.key.channel());
+
+    public NextAction handle(final FilterChainContext ctx) throws IOException {
+        if (processor != null && (ctx.getConnection() instanceof NIOConnection)) {
+            final ByteBuffer messageBuffer = ctx.getMessage();
+            messageBuffer.flip();
+            processor.process(messageBuffer, (SocketChannel) ((NIOConnection) ctx.getConnection()).getChannel());
         } else {
             logger.log(Level.WARNING, MessagesMessages.WSTCP_0013_TCP_PROCESSOR_NOT_REGISTERED());
         }
+        return null;
     }
-    
+
+    @Override
+    public NextAction handleRead(FilterChainContext ctx) throws IOException {
+        return handle(ctx);
+    }
+
     /**
      * Invoked when the SelectorThread is about to expire a SelectionKey.
+     *
      * @return true if the SelectorThread should expire the SelectionKey, false
      * if not.
      */
@@ -56,7 +68,7 @@ public final class WSTCPProtocolHandler implements ProtocolHandler {
         if (processor != null) {
             processor.notifyClosed((SocketChannel) key.channel());
         }
-        
+
         return true;
     }
 }

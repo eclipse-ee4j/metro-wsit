@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2019 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -10,36 +10,58 @@
 
 package com.sun.xml.ws.transport.tcp.grizzly;
 
-import com.sun.istack.NotNull;
 import com.sun.xml.ws.transport.tcp.server.IncomeMessageProcessor;
-import com.sun.enterprise.web.connector.grizzly.Handler;
+import org.glassfish.grizzly.filterchain.BaseFilter;
+import org.glassfish.grizzly.filterchain.FilterChainContext;
+import org.glassfish.grizzly.filterchain.NextAction;
+import org.glassfish.grizzly.memory.HeapBuffer;
+import org.glassfish.grizzly.nio.NIOConnection;
+
 import java.io.IOException;
-import java.nio.ByteBuffer;
+import java.net.InetSocketAddress;
 import java.nio.channels.SocketChannel;
 
 /**
  * @author Alexey Stashok
  */
 
-public final class WSTCPFramedConnectionHandler implements Handler {
-    private final WSTCPStreamAlgorithm streamAlgorithm;
-    private final IncomeMessageProcessor messageProcessor;
-    
-    public WSTCPFramedConnectionHandler(@NotNull final WSTCPStreamAlgorithm streamAlgorithm) {
-        this.streamAlgorithm = streamAlgorithm;
-        this.messageProcessor = IncomeMessageProcessor.getMessageProcessorForPort(streamAlgorithm.getPort());
-    }
-    
-    public int handle(final Object request, final int code) throws IOException {
-        if (code == REQUEST_BUFFERED) {
-            final ByteBuffer messageBuffer = streamAlgorithm.getByteBuffer();
-            final SocketChannel socketChannel = streamAlgorithm.getSocketChannel();
-            messageProcessor.process(messageBuffer, socketChannel);
+public final class WSTCPFramedConnectionHandler extends BaseFilter {
+
+
+    public NextAction handle(final FilterChainContext ctx) throws IOException {
+        final HeapBuffer messageBuffer = ctx.getMessage();
+        if (!(ctx.getConnection() instanceof NIOConnection)
+                || messageBuffer == null) {
+            return ctx.getStopAction();
         }
-        
-        return BREAK;
+        final NIOConnection connection = (NIOConnection) ctx.getConnection();
+        final IncomeMessageProcessor messageProcessor =
+                IncomeMessageProcessor.getMessageProcessorForPort(
+                        ((InetSocketAddress) connection.getLocalAddress()).getPort()
+                );
+
+
+        final SocketChannel socketChannel = (SocketChannel) connection.getChannel();
+        messageProcessor.process(messageBuffer.toByteBuffer(), socketChannel);
+
+        return ctx.getStopAction();
     }
-    
+
+    @Override
+    public NextAction handleRead(FilterChainContext ctx) throws IOException {
+        return handle(ctx);
+    }
+
+    @Override
+    public NextAction handleWrite(FilterChainContext ctx) throws IOException {
+        return handle(ctx);
+    }
+
+    @Override
+    public NextAction handleConnect(FilterChainContext ctx) throws IOException {
+        return handle(ctx);
+    }
+
     public void attachChannel(final SocketChannel socketChannel) {
     }
 }

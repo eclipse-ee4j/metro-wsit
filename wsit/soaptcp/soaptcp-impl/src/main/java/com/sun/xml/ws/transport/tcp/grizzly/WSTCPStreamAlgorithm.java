@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2019 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -10,51 +10,33 @@
 
 package com.sun.xml.ws.transport.tcp.grizzly;
 
-import com.sun.enterprise.web.connector.grizzly.Handler;
-import com.sun.enterprise.web.connector.grizzly.algorithms.StreamAlgorithmBase;
-import java.nio.ByteBuffer;
-import java.nio.channels.SocketChannel;
+import org.glassfish.grizzly.Connection;
+import org.glassfish.grizzly.IOEvent;
+import org.glassfish.grizzly.strategies.AbstractIOStrategy;
+
+import java.io.IOException;
+import java.util.concurrent.Executor;
 
 /**
  * @author Alexey Stashok
  */
-public final class WSTCPStreamAlgorithm extends StreamAlgorithmBase {
-    
-    private ByteBuffer resultByteBuffer;
-    
-    public Handler getHandler() {
-        return handler;
-    }
-    
-    public boolean parse(final ByteBuffer byteBuffer) {
-        byteBuffer.flip();
-        this.resultByteBuffer = byteBuffer;
+public final class WSTCPStreamAlgorithm extends AbstractIOStrategy {
+
+    @Override
+    public boolean executeIoEvent(Connection connection, IOEvent ioEvent, boolean isIoEventEnabled) throws IOException {
+
+        final boolean isReadOrWriteEvent = isReadWrite(ioEvent);
+        if (isReadOrWriteEvent) {
+            if (isIoEventEnabled) {
+                connection.disableIOEvent(ioEvent);
+            }
+
+        }
+        final Executor threadPool = getThreadPoolFor(connection, ioEvent);
+        if (threadPool != null) {
+            return false;
+        }
         return true;
-    }
-    
-    public SocketChannel getSocketChannel() {
-        return socketChannel;
-    }
-    
-    public ByteBuffer getByteBuffer() {
-        return resultByteBuffer;
-    }
-    
-    /**
-     * Algorith is usually created with Class.newInstance -> its port 
-     * is not set before,
-     * but port value is required in handler's constructor
-     */
-    public void setPort(final int port) {
-        super.setPort(port);
-        handler = new WSTCPFramedConnectionHandler(this);
-    }
 
-    public void recycle(){
-        resultByteBuffer = null;
-        socketChannel = null;
-        
-        super.recycle();
     }
-
 }
