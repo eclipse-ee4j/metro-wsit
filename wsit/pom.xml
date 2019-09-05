@@ -653,6 +653,7 @@
         <spotbugs.skip>false</spotbugs.skip>
         <spotbugs.threshold>High</spotbugs.threshold>
         <spotbugs.version>3.1.12.2</spotbugs.version>
+        <tomcat.coyote.version>9.0.8</tomcat.coyote.version>
 
         <release.repository.url>https://maven.java.net/content/repositories/releases/</release.repository.url>
 
@@ -746,6 +747,12 @@
                         <artifactId>jsr173-ri</artifactId>
                     </exclusion>
                 </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.tomcat</groupId>
+                <artifactId>tomcat-coyote</artifactId>
+                <version>${tomcat.coyote.version}</version>
+                <scope>provided</scope>
             </dependency>
 
             <!-- Testing -->
