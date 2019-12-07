@@ -175,7 +175,7 @@ public  class IssueSamlTokenContractImpl extends IssueSamlTokenContract {
             cipher.init(XMLCipher.WRAP_MODE, pubKey);
 
             encKey = cipher.encryptKey(doc, new SecretKeySpec(encryptedKey, "AES"));
-            final KeyInfo keyinfo = new KeyInfo(doc);
+            final KeyInfo keyinfo = new KeyInfo(doc);//tady
             //KeyIdentifier keyIdentifier = new KeyIdentifierImpl(MessageConstants.ThumbPrintIdentifier_NS,null);
             //keyIdentifier.setValue(Base64.encode(X509ThumbPrintIdentifier.getThumbPrintIdentifier(serCert)));
             byte[] skid = X509SubjectKeyIdentifier.getSubjectKeyIdentifier(cert);

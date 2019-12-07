@@ -20,6 +20,7 @@
         <groupId>org.glassfish.metro</groupId>
         <artifactId>wstx-project</artifactId>
         <version>2.5.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
 
     <artifactId>wstx-impl</artifactId>
@@ -28,22 +29,30 @@
 
     <!-- prerequisites -->
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>com.sun.istack</groupId>
-                <artifactId>istack-commons-maven-plugin</artifactId>
-                <inherited>true</inherited>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>build-helper-maven-plugin</artifactId>
-                <inherited>true</inherited>
-            </plugin>
-        </plugins>
-    </build>
-
     <dependencies>
+        <!-- Compile scope -->
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>metro-runtime-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>wstx-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>jakarta.activation</groupId>
+            <artifactId>jakarta.activation-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.sun.xml.ws</groupId>
+            <artifactId>jaxws-rt</artifactId>
+        </dependency>
+
         <!-- Provided scope -->
         <dependency>
             <groupId>jakarta.ejb</groupId>
@@ -61,60 +70,6 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- Compile scope -->
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>wstx-core</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>wstx-api</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>metro-runtime-api</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.sun.istack</groupId>
-            <artifactId>istack-commons-runtime</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>jakarta.xml.bind</groupId>
-            <artifactId>jakarta.xml.bind-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.sun.xml.bind</groupId>
-            <artifactId>jaxb-impl</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>jakarta.xml.ws</groupId>
-            <artifactId>jakarta.xml.ws-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.sun.xml.ws</groupId>
-            <artifactId>jaxws-rt</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>jakarta.jws</groupId>
-            <artifactId>jakarta.jws-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>jakarta.annotation</groupId>
-            <artifactId>jakarta.annotation-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.sun.xml.ws</groupId>
-            <artifactId>policy</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>jakarta.xml.soap</groupId>
-            <artifactId>jakarta.xml.soap-api</artifactId>
-        </dependency>
-
         <!-- Test scope -->
         <dependency>
             <groupId>junit</groupId>
@@ -122,5 +77,5 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-    <!--properties></properties-->
+
 </project>

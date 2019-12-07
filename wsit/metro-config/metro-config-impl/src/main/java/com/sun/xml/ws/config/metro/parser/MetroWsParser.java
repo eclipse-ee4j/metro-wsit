@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2019 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -11,9 +11,8 @@
 package com.sun.xml.ws.config.metro.parser;
 
 import com.sun.istack.logging.Logger;
-import com.sun.xml.ws.config.metro.dev.ElementFeatureMapping;
+import com.sun.xml.ws.config.metro.ElementFeatureMapping;
 import com.sun.xml.ws.config.metro.dev.FeatureReader;
-import com.sun.xml.ws.policy.privateutil.PolicyUtils;
 import com.sun.xml.ws.policy.sourcemodel.wspolicy.NamespaceVersion;
 import com.sun.xml.ws.policy.sourcemodel.wspolicy.XmlToken;
 
@@ -21,6 +20,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.ServiceLoader;
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLInputFactory;
@@ -71,25 +71,16 @@ class MetroWsParser {
             nameToReader.put(TUBELINE_ELEMENT_NAME,
                     instantiateFeatureReader("com.sun.xml.ws.runtime.config.TubelineFeatureReader"));
             // TODO move ServiceFinder to istack
-            final ElementFeatureMapping[] elementFeatureMappings = PolicyUtils.ServiceProvider.load(ElementFeatureMapping.class);
-            if (elementFeatureMappings != null) {
-                for (int i = 0; i < elementFeatureMappings.length; i++) {
-                    final ElementFeatureMapping elementFeatureMapping = elementFeatureMappings[i];
-                    final QName elementName = elementFeatureMapping.getElementName();
-                    if (nameToReader.containsKey(elementName)) {
-                        // TODO: logging message
-                        throw LOGGER.logSevereException(new WebServiceException("duplicate registration of reader ... for element ..."));
-                    }
-                    nameToReader.put(elementName, elementFeatureMapping.getFeatureReader());
+            ServiceLoader<ElementFeatureMapping> efms = ServiceLoader.load(ElementFeatureMapping.class);
+            for (ElementFeatureMapping elementFeatureMapping: efms) {
+                final QName elementName = elementFeatureMapping.getElementName();
+                if (nameToReader.containsKey(elementName)) {
+                    // TODO: logging message
+                    throw LOGGER.logSevereException(new WebServiceException("duplicate registration of reader ... for element ..."));
                 }
+                nameToReader.put(elementName, elementFeatureMapping.getFeatureReader());
             }
-        } catch (ClassNotFoundException ex) {
-            // TODO logging message
-            LOGGER.logSevereException(new WebServiceException("Failed to initialize feature readers", ex));
-        } catch (InstantiationException ex) {
-            // TODO logging message
-            LOGGER.logSevereException(new WebServiceException("Failed to initialize feature readers", ex));
-        } catch (IllegalAccessException ex) {
+        } catch (ReflectiveOperationException ex) {
             // TODO logging message
             LOGGER.logSevereException(new WebServiceException("Failed to initialize feature readers", ex));
         }
@@ -444,7 +435,7 @@ class MetroWsParser {
             throw LOGGER.logSevereException(new WebServiceException("failed to parse", e));
         }
     }
-    
+
     /**
      * Method checks whether the actual name of the end tag is equal to the expected name - the name of currently unmarshalled
      * XML policy model element. Throws exception, if the two FQNs are not equal as expected.

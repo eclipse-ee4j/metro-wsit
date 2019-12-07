@@ -16,6 +16,7 @@ import com.sun.xml.ws.api.pipe.ServerTubeAssemblerContext;
 import com.sun.xml.ws.api.pipe.TubelineAssembler;
 import com.sun.xml.ws.api.pipe.TubelineAssemblerFactory;
 import com.sun.xml.ws.api.server.ServiceDefinition;
+import com.sun.xml.ws.assembler.dev.ServerTubelineAssemblyContext;
 import com.sun.xml.ws.runtime.WsdlDocumentFilter;
 
 /**
@@ -25,7 +26,7 @@ import com.sun.xml.ws.runtime.WsdlDocumentFilter;
  */
 public final class MetroTubelineAssemblerFactoryImpl extends TubelineAssemblerFactory {
 
-    static final MetroConfigNameImpl METRO_TUBES_CONFIG_NAME = new MetroConfigNameImpl("metro-default.xml", "metro.xml");
+    static final MetroConfigName METRO_TUBES_CONFIG_NAME = new MetroConfigNameImpl("metro-default.xml", "metro.xml");
 
     @Override
     public TubelineAssembler doCreate(final BindingID bindingId) {
@@ -33,8 +34,8 @@ public final class MetroTubelineAssemblerFactoryImpl extends TubelineAssemblerFa
         return new MetroTubelineAssembler(bindingId, METRO_TUBES_CONFIG_NAME) {
             
             @Override
-            protected DefaultServerTubelineAssemblyContext createServerContext(ServerTubeAssemblerContext jaxwsContext) {
-                DefaultServerTubelineAssemblyContext context = super.createServerContext(jaxwsContext);
+            protected ServerTubelineAssemblyContext createServerContext(ServerTubeAssemblerContext jaxwsContext) {
+                ServerTubelineAssemblyContext context = super.createServerContext(jaxwsContext);
                 // JAX-WS extension: adding metro WsdlDocumentFilter
                 ServiceDefinition sd = context.getEndpoint().getServiceDefinition();
                 if (sd != null) {
@@ -43,6 +44,7 @@ public final class MetroTubelineAssemblerFactoryImpl extends TubelineAssemblerFa
                 return context;
             }
 
+            @Override
             protected MetroClientTubelineAssemblyContextImpl createClientContext(ClientTubeAssemblerContext jaxwsContext) {
                 // JAX-WS extension: creating extended client context - it needs to have reference to SecureConversationInitiator
                 return new MetroClientTubelineAssemblyContextImpl(jaxwsContext);

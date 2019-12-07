@@ -145,7 +145,7 @@ public class Base64 {
         int      numberLines       = (numberQuartet-1)/quartesPerLine;
         char     encodedData[]     = null;
         
-        encodedData = new char[numberQuartet*4+numberLines];
+        encodedData = new char[numberQuartet*4+numberLines*2];
         
         byte k=0, l=0, b1=0,b2=0,b3=0;
         
@@ -187,6 +187,7 @@ public class Base64 {
                 
                 i++;
             }
+            encodedData[encodedIndex++] = 0xd;
             encodedData[encodedIndex++] = 0xa;
         }
         
@@ -246,7 +247,8 @@ public class Base64 {
             encodedData[encodedIndex++] = lookUpBase64Alphabet[ l<<2 ];
             encodedData[encodedIndex++] = PAD;
         }
-        
+
+        //encodedData[encodedIndex] = 0xd;
         //encodedData[encodedIndex] = 0xa;
         
         return encodedData;
@@ -274,7 +276,7 @@ public class Base64 {
         int      numberLines       = (numberQuartet-1)/quartesPerLine;
         char     encodedData[]     = null;
         
-        encodedData = new char[numberQuartet*4+numberLines];
+        encodedData = new char[numberQuartet*4+numberLines*2];
         
         byte k=0, l=0, b1=0,b2=0,b3=0;
         
@@ -316,6 +318,7 @@ public class Base64 {
                 
                 i++;
             }
+            encodedData[encodedIndex++] = 0xd;
             encodedData[encodedIndex++] = 0xa;
         }
         
@@ -376,6 +379,7 @@ public class Base64 {
             encodedData[encodedIndex++] = PAD;
         }
         
+        //encodedData[encodedIndex] = 0xd;
         //encodedData[encodedIndex] = 0xa;
         
         return new String(encodedData);
@@ -411,7 +415,7 @@ public class Base64 {
         int      numberLines       = (numberQuartet-1)/quartesPerLine;
         // char     encodedData[]     = null;
         
-        //   encodedData = new char[numberQuartet*4+numberLines];
+        //   encodedData = new char[numberQuartet*4+numberLines*2];
         
         byte k=0, l=0, b1=0,b2=0,b3=0;
         
@@ -457,6 +461,7 @@ public class Base64 {
                 i++;
             }
             //encodedData[encodedIndex++] = 0xa;
+            stream.write(0xd);
             stream.write(0xa);
         }
         
@@ -529,6 +534,7 @@ public class Base64 {
             stream.write(PAD);
         }
         
+        //encodedData[encodedIndex] = 0xd;
         //encodedData[encodedIndex] = 0xa;
         
         //return new String(encodedData);
@@ -555,7 +561,7 @@ public class Base64 {
         int      numberLines       = (numberQuartet-1)/quartesPerLine;
         // char     encodedData[]     = null;
         
-        //   encodedData = new char[numberQuartet*4+numberLines];
+        //   encodedData = new char[numberQuartet*4+numberLines*2];
         
         byte k=0, l=0, b1=0,b2=0,b3=0;
         
@@ -601,6 +607,7 @@ public class Base64 {
                 i++;
             }
             //encodedData[encodedIndex++] = 0xa;
+            stream.write(0xd);
             stream.write(0xa);
         }
         
@@ -700,7 +707,7 @@ public class Base64 {
     protected final static byte[] decodeInternal(byte[] base64Data) throws Base64DecodingException {
         // remove white spaces
         int len = removeWhiteSpace(base64Data);
-        
+//        int len = base64Data.length;
         if (len%FOURBYTE != 0) {
             throw new Base64DecodingException("decoding.divisible.four");
             //should be divisible by four
@@ -791,6 +798,7 @@ public class Base64 {
             OutputStream os) throws Base64DecodingException, IOException {
         // remove white spaces
         int len = removeWhiteSpace(base64Data);
+//        int len = base64Data.length;
         
         if (len%FOURBYTE != 0) {
             throw new Base64DecodingException("decoding.divisible.four");

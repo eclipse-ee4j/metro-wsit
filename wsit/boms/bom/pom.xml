@@ -36,10 +36,6 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
-    <organization>
-        <name>Oracle Corporation</name>
-        <url>http://www.oracle.com/</url>
-    </organization>
 
     <scm>
         <connection>scm:git:git@github.com:eclipse-ee4j/metro-wsit.git</connection>
@@ -56,7 +52,7 @@
     </developers>
 
     <properties>
-        <jaxws.ri.version>2.3.2</jaxws.ri.version>
+        <jaxws.ri.version>2.3.3-b01</jaxws.ri.version>
     </properties>
 
     <dependencyManagement>
@@ -75,11 +71,6 @@
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>wstx-api</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>wstx-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -271,17 +262,17 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-enforcer-plugin</artifactId>
-                    <version>3.0.0-M2</version>
+                    <version>3.0.0-M3</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-javadoc-plugin</artifactId>
-                    <version>3.0.1</version>
+                    <version>3.1.1</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-source-plugin</artifactId>
-                    <version>3.0.1</version>
+                    <version>3.2.0</version>
                 </plugin>
             </plugins>
         </pluginManagement>
