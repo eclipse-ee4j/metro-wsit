@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2019 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -49,12 +49,14 @@ import com.sun.xml.wss.WSITXMLFactory;
 import com.sun.xml.wss.impl.XWSSecurityRuntimeException;
 import com.sun.xml.wss.impl.dsig.NamespaceContextImpl;
 import com.sun.xml.wss.logging.LogStringsMessages;
+import java.io.IOException;
 import javax.xml.namespace.NamespaceContext;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
+import org.apache.xml.security.utils.resolver.ResourceResolverContext;
 
 /**
  * This resolver is used for resolving URIs.
@@ -134,7 +136,7 @@ public class URIResolver extends ResourceResolverSpi {
                   try { 
                      result = _resolveClocation(uri, baseURI);
                   } catch (URIResolverException ure) {
-                     result = ResourceResolver.getInstance(uri, baseURI).resolve(uri, baseURI);
+                     result = ResourceResolver.getInstance(uri, baseURI, false).resolve(uri, baseURI, false);
                   }
                   break; 
           default:
@@ -166,6 +168,8 @@ public class URIResolver extends ResourceResolverSpi {
                     LogStringsMessages.WSS_0603_XPATHAPI_TRANSFORMER_EXCEPTION(e.getMessage()),
                     e.getMessage());
             throw new ResourceResolverException("empty", e, uri, baseUri);
+            // santuario 2.1.4:
+            // throw new ResourceResolverException(e, uri.getValue(), baseUri, "empty");
          }
       }
 
@@ -173,6 +177,8 @@ public class URIResolver extends ResourceResolverSpi {
           log.log(Level.SEVERE,
                    LogStringsMessages.WSS_0604_CANNOT_FIND_ELEMENT());
           throw new ResourceResolverException("empty", uri, baseUri);
+          // santuario 2.1.4:
+          // throw new ResourceResolverException("empty", uri.getValue(), baseUri);
       }
 
       Set resultSet = prepareNodeSet(selectedElem);
@@ -212,6 +218,8 @@ public class URIResolver extends ResourceResolverSpi {
          if (_part == null) {
              // log
              throw new ResourceResolverException("empty", uri, baseUri);
+             // santuario 2.1.4:
+             // throw new ResourceResolverException("empty", uri.getValue(), baseUri);
          } 
          Object[] obj = AttachmentSignatureInput._getSignatureInput(_part); 
          result = new AttachmentSignatureInput((byte[])obj[1]);
@@ -220,6 +228,8 @@ public class URIResolver extends ResourceResolverSpi {
       } catch (Exception e) {
          // log
          throw new ResourceResolverException("empty", e, uri, baseUri);
+         // santuario 2.1.4:
+         // throw new ResourceResolverException(e, uri.getValue(), baseUri, "empty");
       }
 
       try {
@@ -238,8 +248,10 @@ public class URIResolver extends ResourceResolverSpi {
       try {
          uriNew = getNewURI(uri.getNodeValue(), baseUri);
       } catch (URI.MalformedURIException ex) {
-         // log          
+         // log
          throw new ResourceResolverException("empty", ex, uri, baseUri);
+         // santuario 2.1.4:
+         // throw new ResourceResolverException(ex, uri.getValue(), baseUri, "empty");
       }
 
       if (soapMsg == null) throw generateException(uri, baseUri, errors[1]);
@@ -254,14 +266,11 @@ public class URIResolver extends ResourceResolverSpi {
          result = new AttachmentSignatureInput((byte[])obj[1]);
          ((AttachmentSignatureInput)result).setMimeHeaders((Vector)obj[0]);
          ((AttachmentSignatureInput)result).setContentType(_part.getContentType()); 
-      } catch (XWSSecurityException e) {
+      } catch (XWSSecurityException | SOAPException | IOException e) {
+         // log
          throw new ResourceResolverException("empty", e, uri, baseUri);
-      } catch (SOAPException spe) {
-         // log
-         throw new ResourceResolverException("empty", spe, uri, baseUri);
-      } catch (java.io.IOException ioe) {
-         // log
-         throw new ResourceResolverException("empty", ioe, uri, baseUri);
+         // santuario 2.1.4:
+         // throw new ResourceResolverException(e, uri.getValue(), baseUri, "empty");
       }
 
 
@@ -460,6 +469,8 @@ public class URIResolver extends ResourceResolverSpi {
     private ResourceResolverException generateException(Attr uri, String baseUri, String error) {
         XWSSecurityException xwssE = new XWSSecurityException(error);
         return new ResourceResolverException("empty", xwssE, uri, baseUri);
+        // santuario 2.1.4:
+        // return new ResourceResolverException(xwssE, uri.getValue(), baseUri, "empty");
     }
 
    /**
@@ -538,6 +549,16 @@ public class URIResolver extends ResourceResolverSpi {
             ((NamespaceContextImpl)nsContext).add("wsu", MessageConstants.WSU_NS);
             ((NamespaceContextImpl)nsContext).add("wsse", MessageConstants.WSSE_NS);
         return nsContext;
+    }
+
+    @Override
+    public XMLSignatureInput engineResolveURI(ResourceResolverContext rrc) throws ResourceResolverException {
+        return engineResolve(rrc.attr, rrc.baseUri);
+    }
+
+    @Override
+    public boolean engineCanResolveURI(ResourceResolverContext rrc) {
+        return engineCanResolve(rrc.attr, rrc.baseUri);
     }
 
     private static final class URIResolverException extends Exception {};

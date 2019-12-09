@@ -18,6 +18,7 @@
         <groupId>org.glassfish.metro</groupId>
         <artifactId>bundles</artifactId>
         <version>2.5.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
 
     <artifactId>webservices-rt</artifactId>
@@ -29,6 +30,27 @@
 
     <build>
         <plugins>
+            <plugin>
+                <groupId>com.sun.istack</groupId>
+                <artifactId>istack-commons-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>rs-gen</goal>
+                        </goals>
+                        <configuration>
+                            <resources>
+                                <directory>${basedir}/non-existing</directory>
+                                <includes>
+                                    <include>**/*.xyz</include>
+                                </includes>
+                            </resources>
+                            <destDir>${project.build.directory}/rsrc-gen</destDir>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin> <!-- want to unpack sources from individual modules -->
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
@@ -59,24 +81,8 @@
                                     <outputDirectory>${generated.sources.dir}</outputDirectory>
                                 </artifactItem>
                                 <artifactItem>
-                                    <groupId>org.glassfish.jaxb</groupId>
-                                    <artifactId>jaxb-runtime</artifactId>
-                                    <classifier>sources</classifier>
-                                    <overWrite>false</overWrite>
-                                    <outputDirectory>${generated.sources.dir}</outputDirectory>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>org.glassfish.jaxb</groupId>
-                                    <artifactId>txw2</artifactId>
-                                    <!-- should JAXB-RI export this ? -->
-                                    <version>${jaxb.version}</version>
-                                    <classifier>sources</classifier>
-                                    <overWrite>false</overWrite>
-                                    <outputDirectory>${generated.sources.dir}</outputDirectory>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>com.sun.istack</groupId>
-                                    <artifactId>istack-commons-runtime</artifactId>
+                                    <groupId>com.sun.xml.bind</groupId>
+                                    <artifactId>jaxb-impl</artifactId>
                                     <classifier>sources</classifier>
                                     <overWrite>false</overWrite>
                                     <outputDirectory>${generated.sources.dir}</outputDirectory>
@@ -275,9 +281,7 @@
                             <artifactSet>
                                 <includes>
                                     <include>${project.parent.groupId}:wsit*</include>
-                                    <include>org.glassfish.jaxb:jaxb-runtime</include>
-                                    <include>org.glassfish.jaxb:txw2</include>
-                                    <include>com.sun.istack:istack-commons-runtime</include>
+                                    <include>com.sun.xml.bind:jaxb-impl</include>
                                     <include>com.sun.xml.fastinfoset:FastInfoset</include>
                                     <include>com.sun.xml.messaging.saaj:saaj-impl</include>
                                     <include>com.sun.xml.registry:jaxr-impl</include>
@@ -347,11 +351,6 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <configuration>
-                    <additionalOptions>
-                        --add-exports java.security.jgss/sun.security.krb5=ALL-UNNAMED
-                        --add-exports java.xml/com.sun.org.apache.xerces.internal.impl.dv.util=ALL-UNNAMED
-                        --add-exports java.desktop/sun.font=ALL-UNNAMED
-                    </additionalOptions>
                     <additionalDependencies>
                         <dependency>
                             <groupId>org.glassfish.hk2</groupId>
@@ -378,6 +377,8 @@
                         <sourceFileExclude>META-INF/**</sourceFileExclude>
                         <sourceFileExclude>**/msv/**</sourceFileExclude>
                         <sourceFileExclude>**/osgi/**</sourceFileExclude>
+                        <sourceFileExclude>**/gmbal/**</sourceFileExclude>
+                        <sourceFileExclude>**/pfl/**</sourceFileExclude>
                         <sourceFileExclude>org/apache/**</sourceFileExclude>
                     </sourceFileExcludes>
                 </configuration>
@@ -511,12 +512,8 @@
             <artifactId>gmbal</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.glassfish.jaxb</groupId>
-            <artifactId>jaxb-runtime</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.sun.istack</groupId>
-            <artifactId>istack-commons-runtime</artifactId>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-impl</artifactId>
         </dependency>
         <dependency>
             <groupId>org.glassfish.external</groupId>

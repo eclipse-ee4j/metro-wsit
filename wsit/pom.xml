@@ -91,10 +91,6 @@
         <url>https://github.com/eclipse-ee4j/metro-wsit</url>
         <tag>HEAD</tag>
     </scm>
-   <organization>
-        <name>Oracle Corporation</name>
-        <url>http://www.oracle.com/</url>
-    </organization>
 
     <build>
         <pluginManagement>
@@ -103,303 +99,86 @@
                     <groupId>com.sun.istack</groupId>
                     <artifactId>import-properties-plugin</artifactId>
                     <version>${istack.plugins.version}</version>
-                    <executions>
-                        <execution>
-                            <phase>validate</phase>
-                            <goals>
-                                <goal>import-pom-properties</goal>
-                            </goals>
-                        </execution>
-                    </executions>
                 </plugin>
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>build-helper-maven-plugin</artifactId>
                     <version>3.0.0</version>
-                    <executions>
-                        <execution>
-                            <id>jaxb.version</id>
-                            <phase>validate</phase>
-                            <goals>
-                                <goal>parse-version</goal>
-                            </goals>
-                            <configuration>
-                                <propertyPrefix>jaxb</propertyPrefix>
-                                <versionString>${jaxb.version}</versionString>
-                            </configuration>
-                        </execution>
-                        <execution>
-                            <id>jaxb-api.version</id>
-                            <phase>validate</phase>
-                            <goals>
-                                <goal>parse-version</goal>
-                            </goals>
-                            <configuration>
-                                <propertyPrefix>jaxb-api</propertyPrefix>
-                                <versionString>${jaxb-api.version}</versionString>
-                            </configuration>
-                        </execution>
-                        <execution>
-                            <id>jaxws.version</id>
-                            <phase>validate</phase>
-                            <goals>
-                                <goal>parse-version</goal>
-                            </goals>
-                            <configuration>
-                                <propertyPrefix>jaxws</propertyPrefix>
-                                <versionString>${jaxws.version}</versionString>
-                            </configuration>
-                        </execution>
-                        <execution>
-                            <id>jaxws-api.version</id>
-                            <phase>validate</phase>
-                            <goals>
-                                <goal>parse-version</goal>
-                            </goals>
-                            <configuration>
-                                <propertyPrefix>jaxws-api</propertyPrefix>
-                                <versionString>${jaxws-api.version}</versionString>
-                            </configuration>
-                        </execution>
-                        <execution>
-                            <id>saaj-api.version</id>
-                            <phase>validate</phase>
-                            <goals>
-                                <goal>parse-version</goal>
-                            </goals>
-                            <configuration>
-                                <propertyPrefix>saaj-api</propertyPrefix>
-                                <versionString>${saaj-api.version}</versionString>
-                            </configuration>
-                        </execution>
-                        <execution>
-                            <id>saaj-impl.version</id>
-                            <phase>validate</phase>
-                            <goals>
-                                <goal>parse-version</goal>
-                            </goals>
-                            <configuration>
-                                <propertyPrefix>saaj-impl</propertyPrefix>
-                                <versionString>${saaj-impl.version}</versionString>
-                            </configuration>
-                        </execution>
-                        <execution>
-                            <id>mail.version</id>
-                            <phase>validate</phase>
-                            <goals>
-                                <goal>parse-version</goal>
-                            </goals>
-                            <configuration>
-                                <propertyPrefix>mail</propertyPrefix>
-                                <versionString>${mail.version}</versionString>
-                            </configuration>
-                        </execution>
-                        <execution>
-                            <id>jaxrpc-impl.version</id>
-                            <phase>validate</phase>
-                            <goals>
-                                <goal>parse-version</goal>
-                            </goals>
-                            <configuration>
-                                <propertyPrefix>jaxrpc-impl</propertyPrefix>
-                                <versionString>${jaxrpc-impl.version}</versionString>
-                            </configuration>
-                        </execution>
-                        <execution>
-                            <id>metro.version</id>
-                            <phase>validate</phase>
-                            <goals>
-                                <goal>parse-version</goal>
-                            </goals>
-                            <configuration>
-                                <propertyPrefix>metro</propertyPrefix>
-                            </configuration>
-                        </execution>
-                        <execution>
-                            <id>add-legal-resource</id>
-                            <phase>generate-resources</phase>
-                            <goals>
-                                <goal>add-resource</goal>
-                            </goals>
-                            <configuration>
-                                <resources>
-                                    <resource>
-                                        <directory>${legal.doc.source}</directory>
-                                        <includes>
-                                            <include>NOTICE.md</include>
-                                            <include>LICENSE.md</include>
-                                        </includes>
-                                        <targetPath>META-INF</targetPath>
-                                    </resource>
-                                </resources>
-                            </configuration>
-                        </execution>
-                        <execution>
-                            <id>add.source</id>
-                            <phase>generate-sources</phase>
-                            <goals>
-                                <goal>add-source</goal>
-                            </goals>
-                            <configuration>
-                                <sources>
-                                    <source>${project.build.directory}/generated-sources/rsrc-gen</source>
-                                </sources>
-                            </configuration>
-                        </execution>
-                    </executions>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-enforcer-plugin</artifactId>
-                    <executions>
-                        <execution>
-                            <id>enforce-versions</id>
-                            <goals>
-                                <goal>enforce</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                    <configuration>
-                        <rules>
-                            <requireJavaVersion>
-                                <version>[1.8,)</version>
-                            </requireJavaVersion>
-                            <requireMavenVersion>
-                                <version>[3.0.3,)</version>
-                            </requireMavenVersion>
-                        </rules>
-                    </configuration>
+                    <version>3.0.0-M3</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-source-plugin</artifactId>
-                    <executions>
-                        <execution>
-                            <id>attach-sources</id>
-                            <phase>verify</phase>
-                            <goals>
-                                <goal>jar-no-fork</goal>
-                            </goals>
-                        </execution>
-                    </executions>
+                    <version>3.2.0</version>
                 </plugin>
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>buildnumber-maven-plugin</artifactId>
                     <version>1.4</version>
-                    <configuration>
-                        <shortRevisionLength>7</shortRevisionLength>
-                        <getRevisionOnlyOnce>true</getRevisionOnlyOnce>
-                        <timestampFormat>{0,date,yyyy-MM-dd'T'HH:mm:ssZ}</timestampFormat>
-                        <revisionOnScmFailure>false</revisionOnScmFailure>
-                    </configuration>
-                    <executions>
-                        <execution>
-                            <phase>validate</phase>
-                            <goals>
-                                <goal>create</goal>
-                            </goals>
-                        </execution>
-                    </executions>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-clean-plugin</artifactId>
-                    <version>3.0.0</version>
+                    <version>3.1.0</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-assembly-plugin</artifactId>
-                    <version>3.1.1</version>
+                    <version>3.2.0</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.felix</groupId>
                     <artifactId>maven-bundle-plugin</artifactId>
-                    <version>4.1.0</version>
+                    <version>4.2.1</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.8.0</version>
-                    <configuration>
-                        <source>1.8</source>
-                        <target>1.8</target>
-                        <encoding>UTF-8</encoding>
-                    </configuration>
+                    <version>3.8.1</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-dependency-plugin</artifactId>
-                    <version>3.0.1</version>
+                    <version>3.1.1</version>
                 </plugin>
                 <plugin>
                     <groupId>com.sun.istack</groupId>
                     <artifactId>istack-commons-maven-plugin</artifactId>
                     <version>${istack.plugins.version}</version>
-                    <executions>
-                        <execution>
-                            <phase>generate-sources</phase>
-                            <goals>
-                                <goal>rs-gen</goal>
-                            </goals>
-                            <configuration>
-                                <resources>
-                                    <directory>${basedir}/src/main/resources</directory>
-                                    <includes>
-                                        <include>**/*.properties</include>
-                                    </includes>
-                                </resources>
-                                <destDir>${project.build.directory}/rsrc-gen</destDir>
-                            </configuration>
-                        </execution>
-                    </executions>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-jar-plugin</artifactId>
-                    <version>3.1.0</version>
-                    <configuration>
-                        <archive>
-                            <manifest>
-                                <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-                            </manifest>
-                            <manifestEntries>
-                                <Implementation-Build-Id>${scmBranch}-${buildNumber}, ${timestamp}</Implementation-Build-Id>
-                            </manifestEntries>
-                        </archive>
-                    </configuration>
+                    <version>3.2.0</version>
                 </plugin>
                 <plugin>
                     <groupId>com.google.code.maven-replacer-plugin</groupId>
                     <artifactId>maven-replacer-plugin</artifactId>
-                    <version>1.3.5</version>
+                    <version>1.4.1</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-resources-plugin</artifactId>
-                    <version>3.0.2</version>
+                    <version>3.1.0</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-shade-plugin</artifactId>
-                    <version>3.0.0</version>
+                    <version>3.2.1</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
-                    <version>3.0.0-M1</version>
-                    <configuration>
-                        <forkMode>once</forkMode>
-                        <childDelegation>false</childDelegation>
-                        <argLine>
-                            -Djava.awt.headless=true -Xmx256m
-                        </argLine>
-                    </configuration>
+                    <version>3.0.0-M3</version>
                 </plugin>
                 <plugin>
                     <groupId>com.agilejava.docbkx</groupId>
                     <artifactId>docbkx-maven-plugin</artifactId>
-                    <version>2.0.11</version>
+                    <version>2.0.17</version>
                 </plugin>
                 <plugin>
                     <groupId>com.github.spotbugs</groupId>
@@ -419,7 +198,7 @@
                 <plugin>
                     <groupId>org.glassfish.copyright</groupId>
                     <artifactId>glassfish-copyright-maven-plugin</artifactId>
-                    <version>2.2</version>
+                    <version>2.3</version>
                     <configuration>
                         <templateFile>${copyright.template}</templateFile>
                         <excludeFile>${copyright.exclude}</excludeFile>
@@ -434,46 +213,193 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-javadoc-plugin</artifactId>
-                    <configuration>
-                        <detectJavaApiLink>false</detectJavaApiLink>
-                        <detectOfflineLinks>false</detectOfflineLinks>
-                        <!-- disable checking -->
-                        <doclint>none</doclint>
-                        <minmemory>128m</minmemory>
-                        <maxmemory>768m</maxmemory>
-                        <!--<sourcepath>${project.build.sourceDirectory}:target/generated-sources/rsrc-gen</sourcepath>-->
-                    </configuration>
+                    <version>3.1.1</version>
                 </plugin>
             </plugins>
         </pluginManagement>
+
         <plugins>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
-                <artifactId>buildnumber-maven-plugin</artifactId>
-                <inherited>true</inherited>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>add-legal-resource</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>add-resource</goal>
+                        </goals>
+                        <configuration>
+                            <resources>
+                                <resource>
+                                    <directory>${legal.doc.source}</directory>
+                                    <includes>
+                                        <include>NOTICE.md</include>
+                                        <include>LICENSE.md</include>
+                                    </includes>
+                                    <targetPath>META-INF</targetPath>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>add.source</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>add-source</goal>
+                        </goals>
+                        <configuration>
+                            <sources>
+                                <source>${project.build.directory}/generated-sources/rsrc-gen</source>
+                            </sources>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
-                <groupId>com.sun.istack</groupId>
-                <artifactId>import-properties-plugin</artifactId>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <configuration>
+                    <rules>
+                        <requireJavaVersion>
+                            <version>[11,)</version>
+                        </requireJavaVersion>
+                        <requireMavenVersion>
+                            <version>[3.6.0,)</version>
+                        </requireMavenVersion>
+                    </rules>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>enforce-versions</id>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
-                <artifactId>build-helper-maven-plugin</artifactId>
+                <artifactId>buildnumber-maven-plugin</artifactId>
+                <configuration>
+                    <shortRevisionLength>7</shortRevisionLength>
+                    <getRevisionOnlyOnce>true</getRevisionOnlyOnce>
+                    <timestampFormat>{0,date,yyyy-MM-dd'T'HH:mm:ssZ}</timestampFormat>
+                    <revisionOnScmFailure>false</revisionOnScmFailure>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>create</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+                <plugin>
+                    <groupId>com.sun.istack</groupId>
+                    <artifactId>istack-commons-maven-plugin</artifactId>
+                    <executions>
+                        <execution>
+                            <phase>generate-sources</phase>
+                            <goals>
+                                <goal>rs-gen</goal>
+                            </goals>
+                            <configuration>
+                                <resources>
+                                    <directory>${basedir}/src/main/resources</directory>
+                                    <includes>
+                                        <include>**/*.properties</include>
+                                    </includes>
+                                </resources>
+                                <destDir>${project.build.directory}/rsrc-gen</destDir>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <configuration>
+                    <source>9</source>
+                    <target>9</target>
+                    <encoding>UTF-8</encoding>
+                    <compilerArguments>
+                        <Xlint:all/>
+                    </compilerArguments>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>base-compile</id>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                        <configuration>
+                            <release>${base.java.level}</release>
+                            <excludes>
+                                <exclude>module-info.java</exclude>
+                            </excludes>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <inherited>true</inherited>
+                <configuration>
+                    <forkMode>once</forkMode>
+                    <argLine>
+                        -Djava.awt.headless=true -Xmx256m
+                    </argLine>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                        </manifest>
+                        <manifestEntries>
+                            <Implementation-Build-Id>${scmBranch}-${buildNumber}</Implementation-Build-Id>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
-                <inherited>true</inherited>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <inherited>true</inherited>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <configuration>
+                    <!--<source>11</source>-->
+                    <release>11</release>
+                    <detectOfflineLinks>false</detectOfflineLinks>
+                    <!-- disable checking -->
+                    <doclint>none</doclint>
+                    <quiet>true</quiet>
+                    <minmemory>512m</minmemory>
+                    <maxmemory>1024m</maxmemory>
+                    <additionalJOptions>
+<!--                        <additionalJOption>-Xmaxerrs</additionalJOption>
+                        <additionalJOption>65536</additionalJOption>-->
+                        <additionalJOption>-Xmaxwarns</additionalJOption>
+                        <additionalJOption>10</additionalJOption>
+                    </additionalJOptions>
+                    <!--<sourcepath>${project.build.sourceDirectory}:target/generated-sources/rsrc-gen</sourcepath>-->
+                </configuration>
             </plugin>
         </plugins>
     </build>
@@ -624,19 +550,6 @@
                             </execution>
                         </executions>
                     </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-source-plugin</artifactId>
-                        <inherited>true</inherited>
-                        <executions>
-                            <execution>
-                                <id>attach-sources</id>
-                                <goals>
-                                    <goal>jar</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
                 </plugins>
             </build>
         </profile>
@@ -657,7 +570,7 @@
 
         <release.repository.url>https://maven.java.net/content/repositories/releases/</release.repository.url>
 
-        <istack.plugins.version>3.0.9</istack.plugins.version>
+        <istack.plugins.version>3.0.10</istack.plugins.version>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.build.timestamp.format>yyyy-MM-dd'T'HH:mm:ssZ</maven.build.timestamp.format>
@@ -679,12 +592,12 @@
             <dependency>
                 <groupId>jakarta.ejb</groupId>
                 <artifactId>jakarta.ejb-api</artifactId>
-                <version>3.2.5</version>
+                <version>3.2.6</version>
             </dependency>
             <dependency>
                 <groupId>jakarta.xml.registry</groupId>
                 <artifactId>jakarta.xml.registry-api</artifactId>
-                <version>1.0.9</version>
+                <version>1.0.10</version>
             </dependency>
             <dependency>
                 <groupId>com.sun.xml.registry</groupId>
@@ -716,11 +629,17 @@
                 <groupId>com.sun.xml.rpc</groupId>
                 <artifactId>jaxrpc-impl</artifactId>
                 <version>${xmlrpc-impl.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>*</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>jakarta.security.auth.message</groupId>
                 <artifactId>jakarta.security.auth.message-api</artifactId>
-                <version>1.1.2</version>
+                <version>1.1.3</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.santuario</groupId>
@@ -736,6 +655,12 @@
                 <groupId>org.glassfish.metro</groupId>
                 <artifactId>keyidspi-ibm-impl</artifactId>
                 <version>1.1</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>*</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>net.java.dev.stax-utils</groupId>
@@ -752,7 +677,6 @@
                 <groupId>org.apache.tomcat</groupId>
                 <artifactId>tomcat-coyote</artifactId>
                 <version>${tomcat.coyote.version}</version>
-                <scope>provided</scope>
             </dependency>
 
             <!-- Testing -->
@@ -760,7 +684,6 @@
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
                 <version>4.12</version>
-                <scope>test</scope>
             </dependency>
 
         </dependencies>

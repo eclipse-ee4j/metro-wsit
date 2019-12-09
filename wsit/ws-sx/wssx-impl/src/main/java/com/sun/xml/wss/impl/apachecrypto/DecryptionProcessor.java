@@ -20,7 +20,6 @@ import com.sun.xml.wss.impl.misc.Base64;
 import org.apache.xml.security.encryption.EncryptedKey;
 import org.apache.xml.security.encryption.XMLCipher;
 import org.apache.xml.security.encryption.XMLEncryptionException;
-import org.apache.xml.security.algorithms.JCEMapper;
 
 import com.sun.xml.util.XMLCipherAdapter;
 import com.sun.xml.wss.impl.FilterProcessingContext;
@@ -504,8 +503,7 @@ public class DecryptionProcessor {
         Element actualEncrypted = null;
         //String processedEncryptedDataId = xencEncryptedData.getId();
         AttachmentPart encryptedAttachment = null;
-        com.sun.xml.messaging.saaj.soap.AttachmentPartImpl _attachmentBuffer =
-                new com.sun.xml.messaging.saaj.soap.AttachmentPartImpl();
+        AttachmentPart _attachmentBuffer = secureMessage.createAttachmentPart();
         if (isAttachment) {
             // decrypt attachment
             String uri = xencEncryptedData.getCipherReference(false, null).getAttribute("URI");

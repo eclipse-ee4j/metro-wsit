@@ -18,6 +18,7 @@
         <groupId>org.glassfish.metro</groupId>
         <artifactId>bundles</artifactId>
         <version>2.5.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
 
     <artifactId>wsit-impl</artifactId>
@@ -52,14 +53,6 @@
                                 <artifactItem>
                                     <groupId>${project.groupId}</groupId>
                                     <artifactId>wstx-impl</artifactId>
-                                    <version>${project.version}</version>
-                                    <classifier>sources</classifier>
-                                    <overWrite>false</overWrite>
-                                    <outputDirectory>${generated.sources.dir}</outputDirectory>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>${project.groupId}</groupId>
-                                    <artifactId>wstx-core</artifactId>
                                     <version>${project.version}</version>
                                     <classifier>sources</classifier>
                                     <overWrite>false</overWrite>
@@ -202,10 +195,6 @@
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <configuration>
                     <excludePackageNames>com.sun.xml.ws.*</excludePackageNames>
-                    <additionalOptions>
-                        --add-exports java.security.jgss/sun.security.krb5=ALL-UNNAMED
-                        --add-exports java.xml/com.sun.org.apache.xerces.internal.impl.dv.util=ALL-UNNAMED
-                    </additionalOptions>
                 </configuration>
             </plugin>
         </plugins>
@@ -294,11 +283,6 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>wssx-impl</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>wstx-core</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>

@@ -20,33 +20,21 @@
         <groupId>org.glassfish.metro</groupId>
         <artifactId>metro-project</artifactId>
         <version>2.5.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
 
     <artifactId>metro-commons</artifactId>
     <packaging>jar</packaging>
     <name>Metro Common Utilities and Classes</name>
 
-    <!-- prerequisites -->
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>build-helper-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
-
     <dependencies>
         <!-- Compile scope -->
         <dependency>
-            <groupId>com.sun.xml.bind</groupId>
-            <artifactId>jaxb-impl</artifactId>
+            <groupId>jakarta.activation</groupId>
+            <artifactId>jakarta.activation-api</artifactId>
+            <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>com.sun.xml.stream.buffer</groupId>
-            <artifactId>streambuffer</artifactId>
-        </dependency>
+
         <dependency>
             <groupId>com.sun.xml.ws</groupId>
             <artifactId>jaxws-rt</artifactId>
@@ -59,5 +47,5 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-    <!--properties></properties-->
+
 </project>

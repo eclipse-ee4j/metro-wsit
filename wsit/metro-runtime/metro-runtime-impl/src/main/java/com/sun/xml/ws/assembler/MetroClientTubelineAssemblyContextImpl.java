@@ -8,15 +8,11 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.sun.xml.ws.assembler;
 
 import com.sun.istack.NotNull;
 import com.sun.xml.ws.api.pipe.ClientTubeAssemblerContext;
-import com.sun.xml.ws.assembler.dev.MetroClientTubelineAssemblyContext;
+import com.sun.xml.ws.assembler.metro.dev.MetroClientTubelineAssemblyContext;
 import com.sun.xml.ws.security.secconv.SecureConversationInitiator;
 
 /**

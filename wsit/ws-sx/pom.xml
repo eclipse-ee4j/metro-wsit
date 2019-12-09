@@ -20,6 +20,7 @@
         <groupId>org.glassfish.metro</groupId>
         <artifactId>metro-project</artifactId>
         <version>2.5.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
 
     <artifactId>wssx-project</artifactId>

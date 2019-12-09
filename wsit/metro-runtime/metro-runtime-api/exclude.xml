@@ -17,8 +17,8 @@
     -->
     <Match>
         <Or>
-            <Class name="com.sun.xml.ws.assembler.ServerPipelineHook"/>
-            <Class name="com.sun.xml.ws.assembler.dev.ClientPipelineHook"/>
+            <Class name="com.sun.xml.ws.assembler.metro.ServerPipelineHook"/>
+            <Class name="com.sun.xml.ws.assembler.metro.dev.ClientPipelineHook"/>
         </Or>
         <Bug pattern="NM_SAME_SIMPLE_NAME_AS_SUPERCLASS"/>
     </Match>
