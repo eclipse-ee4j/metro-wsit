@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2019 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -175,7 +175,7 @@ public  class IssueSamlTokenContractImpl extends IssueSamlTokenContract {
             cipher.init(XMLCipher.WRAP_MODE, pubKey);
 
             encKey = cipher.encryptKey(doc, new SecretKeySpec(encryptedKey, "AES"));
-            final KeyInfo keyinfo = new KeyInfo(doc);//tady
+            final KeyInfo keyinfo = new KeyInfo(doc);
             //KeyIdentifier keyIdentifier = new KeyIdentifierImpl(MessageConstants.ThumbPrintIdentifier_NS,null);
             //keyIdentifier.setValue(Base64.encode(X509ThumbPrintIdentifier.getThumbPrintIdentifier(serCert)));
             byte[] skid = X509SubjectKeyIdentifier.getSubjectKeyIdentifier(cert);
