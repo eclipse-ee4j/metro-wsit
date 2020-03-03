@@ -221,12 +221,12 @@
             <id>coverage</id>
             <activation>
                 <property>
-                    <name>cobertura-build</name>
+                    <name>jacoco-build</name>
                 </property>
             </activation>
             <properties>
-                <net.sourceforge.cobertura.datafile>${project.build.directory}/target/cobertura/cobertura.ser</net.sourceforge.cobertura.datafile>
-                <ws.jvmOpts>-Dnet.sourceforge.cobertura.datafile=${project.build.directory}/cobertura.ser</ws.jvmOpts>
+                <jacoco-agent.destfile>${project.build.directory}/target/jacoco/jacoco.exec</jacoco-agent.destfile>
+                <ws.jvmOpts>-Djacoco-agent.destfile=${project.build.directory}/jacoco.exec</ws.jvmOpts>
             </properties>
             <build>
                 <plugins>
@@ -235,14 +235,14 @@
                         <artifactId>maven-antrun-plugin</artifactId>
                         <executions>
                             <execution>
-                                <id>copy-ser-file</id>
+                                <id>copy-exec-file</id>
                                 <phase>package</phase>
                                 <goals>
                                     <goal>run</goal>
                                 </goals>
                                 <configuration>
                                     <target>
-                                        <copy todir="target/cobertura" file="${basedir}/target/cobertura.ser" verbose="true" failonerror="true"/>
+                                        <copy todir="target/jacoco" file="${basedir}/target/jacoco.exec" verbose="true" failonerror="true"/>
                                     </target>
                                 </configuration>
                             </execution>

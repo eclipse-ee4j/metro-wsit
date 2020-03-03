@@ -454,22 +454,22 @@
             <id>coverage</id>
             <activation>
                 <property>
-                    <name>cobertura-build</name>
+                    <name>jacoco-build</name>
                 </property>
             </activation>
             <properties>
-                <cobertura.report.format>xml</cobertura.report.format>
-                <cobertura.version>1.9.4.1</cobertura.version>
-                <cobertura.skip>false</cobertura.skip>
-                <net.sourceforge.cobertura.datafile>${basedir}/target/cobertura/cobertura.ser</net.sourceforge.cobertura.datafile>
-                <mf.dir>${project.build.directory}/generated-classes/cobertura</mf.dir>
+                <jacoco.report.format>xml</jacoco.report.format>
+                <jacoco.version>0.8.5</jacoco.version>
+                <jacoco.skip>false</jacoco.skip>
+                <org.jacoco-destfile>${basedir}/target/jacoco/jacoco.exec</org.jacoco-destfile>
+                <mf.dir>${project.build.directory}/generated-classes/jacoco</mf.dir>
             </properties>
             <dependencies>
-                <!-- cobertura library -->
+                <!-- jacoco library -->
                 <dependency>
-                    <groupId>net.sourceforge.cobertura</groupId>
-                    <artifactId>cobertura</artifactId>
-                    <version>${cobertura.version}</version>
+                    <groupId>org.jacoco</groupId>
+                    <artifactId>org.jacoco.agent</artifactId>
+                    <version>${jacoco.version}</version>
                     <exclusions>
                         <exclusion>
                             <groupId>oro</groupId>
@@ -489,7 +489,62 @@
                         </exclusion>
                     </exclusions>
                 </dependency>
-                <!-- needed for cobertura-instrument ant task to work (in *-rt, *-tools)
+                <dependency>
+                    <groupId>org.jacoco</groupId>
+                    <artifactId>org.jacoco.agent</artifactId>
+                    <classifier>runtime</classifier>
+                    <version>${jacoco.version}</version>
+                    <exclusions>
+                        <exclusion>
+                            <groupId>oro</groupId>
+                            <artifactId>oro</artifactId>
+                        </exclusion>
+                        <exclusion>
+                            <groupId>asm</groupId>
+                            <artifactId>asm</artifactId>
+                        </exclusion>
+                        <exclusion>
+                            <groupId>asm</groupId>
+                            <artifactId>asm-tree</artifactId>
+                        </exclusion>
+                        <exclusion>
+                            <groupId>log4j</groupId>
+                            <artifactId>log4j</artifactId>
+                        </exclusion>
+                    </exclusions>
+                </dependency>
+                <dependency>
+                    <groupId>org.jacoco</groupId>
+                    <artifactId>org.jacoco.ant</artifactId>
+                    <version>${jacoco.version}</version>
+                    <exclusions>
+                        <exclusion>
+                            <groupId>oro</groupId>
+                            <artifactId>oro</artifactId>
+                        </exclusion>
+                        <exclusion>
+                            <groupId>asm</groupId>
+                            <artifactId>asm</artifactId>
+                        </exclusion>
+                        <exclusion>
+                            <groupId>asm</groupId>
+                            <artifactId>asm-tree</artifactId>
+                        </exclusion>
+                        <exclusion>
+                            <groupId>asm</groupId>
+                            <artifactId>asm-common</artifactId>
+                        </exclusion>
+                        <exclusion>
+                            <groupId>asm</groupId>
+                            <artifactId>asm-analysis</artifactId>
+                        </exclusion>
+                        <exclusion>
+                            <groupId>log4j</groupId>
+                            <artifactId>log4j</artifactId>
+                        </exclusion>
+                    </exclusions>
+                </dependency>
+                <!-- needed for jacoco-instrument ant task to work (in *-rt, *-tools)
                      and to not be included in assemblies/shaded jars -->
                 <dependency>
                     <groupId>oro</groupId>
@@ -522,7 +577,7 @@
                         <plugin>
                             <groupId>org.jacoco</groupId>
                             <artifactId>jacoco-maven-plugin</artifactId>
-                            <version>0.8.5</version>
+                            <version>${jacoco.version}</version>
                         </plugin>
                         <plugin>
                             <groupId>org.apache.maven.plugins</groupId>
