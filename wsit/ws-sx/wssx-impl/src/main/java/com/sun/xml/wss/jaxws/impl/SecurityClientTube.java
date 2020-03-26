@@ -253,6 +253,10 @@ public class SecurityClientTube extends SecurityTubeBase implements SecureConver
         ProcessingContext ctx = initializeOutgoingProcessingContext(packet, isSCMessage);
         ((ProcessingContextImpl) ctx).setIssuedTokenContextMap(issuedTokenContextMap);
         ((ProcessingContextImpl) ctx).setSCPolicyIDtoSctIdMap(scPolicyIDtoSctIdMap);
+        String sigAlg = (String)(packet.invocationProperties.get("sts-signature-algorithm"));
+        if(sigAlg!=null && (!sigAlg.equals(""))) {
+            ((ProcessingContextImpl) ctx).getAlgorithmSuite().setSignatureAlgorithm((String) (packet.invocationProperties.get("signature-algorithm")));
+        }
         ctx.isClient(true);
         try {
             if (hasKerberosTokenPolicy()) {
