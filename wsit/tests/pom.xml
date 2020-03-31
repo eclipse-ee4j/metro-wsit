@@ -70,9 +70,9 @@
         </plugins>
     </build>
 
-    <modules>
+<!--    <modules>
         <module>e2e</module>
-    </modules>
+    </modules>-->
 
     <profiles>
 
