@@ -354,9 +354,6 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
                     <forkMode>once</forkMode>
-                    <argLine>
-                        -Djava.awt.headless=true -Xmx256m
-                    </argLine>
                 </configuration>
             </plugin>
             <plugin>
@@ -477,10 +474,9 @@
                 </property>
             </activation>
             <properties>
-                <jacoco.report.format>xml</jacoco.report.format>
                 <jacoco.version>0.8.5</jacoco.version>
                 <jacoco.skip>false</jacoco.skip>
-                <org.jacoco-destfile>${basedir}/target/jacoco/jacoco.exec</org.jacoco-destfile>
+                <jacoco-agent.destfile>${basedir}/target/jacoco/jacoco.exec</jacoco-agent.destfile>
                 <mf.dir>${project.build.directory}/generated-classes/jacoco</mf.dir>
             </properties>
             <dependencies>
@@ -611,6 +607,18 @@
                         <artifactId>jacoco-maven-plugin</artifactId>
                         <executions>
                             <execution>
+                                <id>default-instrument</id>
+                                <goals>
+                                    <goal>instrument</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>default-restore-instrumented-classes</id>
+                                <goals>
+                                    <goal>restore-instrumented-classes</goal>
+                                </goals>
+                            </execution>
+                            <execution>
                                 <id>default-prepare-agent</id>
                                 <goals>
                                     <goal>prepare-agent</goal>
@@ -658,6 +666,10 @@
 
         <mf.dir>${project.build.outputDirectory}</mf.dir>
         <legal.doc.source>${maven.multiModuleProjectDirectory}/..</legal.doc.source>
+
+        <argLine>
+            -Djava.awt.headless=true -Xmx256m
+        </argLine>
     </properties>
 
     <dependencyManagement>
