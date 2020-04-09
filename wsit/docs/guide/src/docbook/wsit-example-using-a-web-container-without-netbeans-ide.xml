@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-    Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+    Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
 
     This program and the accompanying materials are made available under the
     terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -173,12 +173,12 @@
             service from scratch or have an existing Java class you wish to
             expose as a web service, this is the most direct approach.</para>
 
-            <para>The Java API for XML Web Services (JAX-WS) 2.0
-            Specification, JSR-224, relies heavily on the use of annotations
+            <para>The Jakarta XML Web Services
+            Specification relies heavily on the use of annotations
             as specified in A Metadata Facility for the Java Programming
-            Language (JSR-175) and Web Services Metadata for the Java Platform
-            (JSR-181), as well as additional annotations defined by the JAX-WS
-            2.0 specification.</para>
+            Language (JSR-175) and Jakarta Web Services Metadata,
+            as well as additional annotations defined by the Jakarta XML
+            Web Services specification.</para>
 
             <para>The web service is written as a normal Java class. Then the
             class and its exposed methods are annotated with the web service
@@ -271,7 +271,8 @@ public class AddNumbersImpl {
                 </listitem>
 
                 <listitem>
-                    <para>These files are standard files required for JAX-WS.
+                    <para>These files are standard files required for Jakarta
+                    XML Web Services.
                     Examples of these files are provided in the
                     <code>wsit-enabled-fromjava</code> sample
                     directory.</para>
@@ -399,7 +400,7 @@ public class AddNumbersImpl {
             <para>Typically, you start from WSDL to build your web service if
             you want to implement a web service that is already defined either
             by a standard or an existing instance of the service. In either
-            case, the WSDL already exists. The JAX-WS <code>wsimport</code>
+            case, the WSDL already exists. The <code>wsimport</code>
             tool processes the existing WSDL document, either from a local
             copy on disk or by retrieving it from a network address or URL.
             For an example of using a web browser to access a service’s WSDL,
@@ -451,7 +452,8 @@ public class AddNumbersImpl {
                 </listitem>
             </itemizedlist>
 
-            <para>The following files are standard files required for JAX-WS.
+            <para>The following files are standard files required for Jakarta
+            XML Web Services.
             Examples of these files are provided in the <code>fromwsdl</code>
             sample directory.</para>
 
@@ -550,7 +552,7 @@ public class AddNumbersImpl{
 
         <para>Once configured, you can build and deploy a WSIT-enabled web
         service in the same manner as you would build and deploy a standard
-        JAX-WS web service.</para>
+        Jakarta XML Web Service.</para>
 
         <para>The following topics describe how to perform this task:</para>
 
@@ -588,8 +590,8 @@ public class AddNumbersImpl{
             WAR file to the web container.</para>
 
             <para>The <code>ant</code> command calls multiple tools to build
-            and deploy the web service. The JAX-WS annotation processing tool
-            (<code>apt</code>) processes the annotated source code and invokes
+            and deploy the web service. The <code>wsgen</code> tool
+            processes the annotated source code and invokes
             the compiler itself, resulting in the class files for each of the
             Java source files. In the <code>wsit-enabled-fromjava</code>
             example, the Ant target <code>build-server-java</code> in

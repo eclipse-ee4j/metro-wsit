@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-    Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+    Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
 
     This program and the accompanying materials are made available under the
     terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -35,7 +35,7 @@
         <itemizedlist>
             <listitem>
                 <para><link
-                xlink:href="http://download.oracle.com/javase/">Oracle JavaSE
+                xlink:href="https://www.oracle.com/java/technologies/javase-downloads.html">Oracle Java SE 8
                 Runtime or Development Kit</link></para>
             </listitem>
 
@@ -44,7 +44,7 @@
                 container) <itemizedlist>
                         <listitem>
                             <para><link
-                            xlink:href="http://javaee.github.io/glassfish">GlassFish
+                            xlink:href="https://eclipse-ee4j.github.io/glassfish/">GlassFish
                             Server</link></para>
                         </listitem>
 
@@ -57,7 +57,7 @@
             </listitem>
 
             <listitem>
-                <para><link xlink:href="http://javaee.github.io/metro">Metro</link>
+                <para><link xlink:href="https://eclipse-ee4j.github.io/metro-wsit/">Metro</link>
                 binary. See the particular release page for instructions about
                 downloading and installing Metro in a servlet
                 container.</para>

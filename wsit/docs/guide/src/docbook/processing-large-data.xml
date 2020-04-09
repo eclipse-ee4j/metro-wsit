@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-    Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+    Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
 
     This program and the accompanying materials are made available under the
     terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -35,17 +35,17 @@
         <section xml:id="providermessage">
             <title>Provider&lt;Message&gt;</title>
 
-            <para><link
-            xlink:href="https://community.oracle.com/people/kohsuke/blog/2007/03/01/dispatch-and-provider">JAX-WS
-            RI extension Provider&lt;Message&gt;</link> can be used to read an
+            <para>An implementation extension<link
+            xlink:href="https://community.oracle.com/people/kohsuke/blog/2007/03/01/dispatch-and-provider">
+            Provider&lt;Message&gt;</link> can be used to read an
             incoming SOAP message by using <code>XMLStreamReader</code> (among
             other things.) This allows you to read the SOAP message on-demand
             lazily, without needing to buffer the whole message in
             memory.</para>
 
             <para>See <link
-            xlink:href="https://javaee.github.io/jaxb-v2/doc/user-guide/ch03.html#unmarshalling-dealing-with-large-documents">the
-            relevant JAXB users guide section</link> for how to combine JAXB
+            xlink:href="https://eclipse-ee4j.github.io/jaxb-ri/doc/user-guide/ch03.html#unmarshalling-dealing-with-large-documents">the
+            relevant Eclipse implementation of JAXB users guide section</link> for how to combine Jakarta XML Binding
             with such streaming processing.</para>
         </section>
     </section>
@@ -153,7 +153,7 @@ Content-ID: &lt;5aeaa450-17f0-4484-b845-a8480c363444@example.org&gt;
                 attribute to indicate the type of binary that is expected.
                 <code>wsimport</code> recognizes this annotation and will map
                 the binary data to its proper Java representation instead. The
-                table below is taken from JAXB spec Table 9-1, which shows the
+                table below is taken from Jakarta XML Binding spec Table 9-1, which shows the
                 mapping rules:</para>
 
                 <table frame="all">
@@ -299,7 +299,8 @@ public class HelloImpl implements Hello {
                 </listitem>
 
                 <listitem>
-                    <para>If you are using JAX-WS RI via Spring, you can also
+                    <para>If you are using Eclipse Implementation of Jakarta
+                    XML Web Services via Spring, you can also
                     enable MTOM from the bean definition file. See the JAX-WS
                     spring extension for more.</para>
                 </listitem>
@@ -338,7 +339,8 @@ Dispatch d = new HelloService().createDispatch(....,new MTOMFeature());</program
 
             <para>As discussed above, in rare situations where you have a lot
             of tiny attachments, the overhead of MTOM may outweigh the benefit
-            of binary transfer. To cope with this situation, the JAX-WS RI
+            of binary transfer. To cope with this situation, the Eclipse
+            Implementation of Jakarta XML Web Services
             supports the notion of "threshold" --- if an attachment is smaller
             than the size specified in threshold, it will simply inline the
             binary data as base64 binary instead of making it an attachment.
@@ -383,15 +385,19 @@ Dispatch d = new HelloService().createDispatch(....,new MTOMFeature());</program
             </section>
 
             <section xml:id="using-jax-ws-ri-distribution">
-                <title>Using JAX-WS RI distribution</title>
+                <title>Using Eclipse Implementation of Jakarta
+                    XML Web Services distribution</title>
 
-                <para>If you are using JAX-WS RI distribution, MTOM interop
+                <para>If you are using Eclipse Implementation of Jakarta
+                XML Web Services distribution, MTOM interop
                 with .NET client or server will not work out of the box. The
-                reason behind this is that JAX-WS RI does not have built in
+                reason behind this is that Eclipse Implementation of Jakarta
+                XML Web Services does not have built in
                 support for WS-Policy and .NET 3.0/.NET 3.5 looks for an MTOM
                 policy assertion in the WSDL before turning on MTOM encoding.
                 So, you will need to turn it on explicitly on your .NET
-                3.0/3.5 or JAX-WS RI client.</para>
+                3.0/3.5 or Eclipse Implementation of Jakarta
+                XML Web Services client.</para>
 
                 <para>The MTOM policy assertion that .NET 3.0/.NET 3.5
                 understands is: <emphasis
@@ -405,9 +411,11 @@ Dispatch d = new HelloService().createDispatch(....,new MTOMFeature());</program
                 </section>
 
                 <section xml:id="jax-ws-ri-client-and-net-endpoint">
-                    <title>JAX-WS RI client and .NET endpoint</title>
+                    <title>Eclipse Implementation of Jakarta
+                    XML Web Services client and .NET endpoint</title>
 
-                    <para>Turn on MTOM on JAX-WS RI client as defined <link
+                    <para>Turn on MTOM on Eclipse Implementation of Jakarta
+                    XML Web Services client as defined <link
                     xlink:href="#Enabling_MTOM_on_client">above</link>.</para>
                 </section>
 
@@ -425,7 +433,8 @@ Dispatch d = new HelloService().createDispatch(....,new MTOMFeature());</program
     <section xml:id="large-attachments">
         <title>Large Attachments</title>
 
-        <para>JAX-WS RI provides support for sending and receiving large
+        <para>Eclipse Implementation of Jakarta XML Web Services
+        provides support for sending and receiving large
         attachments in a streaming fashion. Often times, large attachments
         need to be stored on the file system since they cannot be kept in
         memory(limited by heap size). But in certain cases, streaming of
@@ -447,7 +456,7 @@ Dispatch d = new HelloService().createDispatch(....,new MTOMFeature());</program
             <title>Client Side</title>
 
             <para>RI uses Java SE's <link
-            xlink:href="http://download.oracle.com/javase/6/docs/api/java/net/HttpURLConnection.html">HttpURLConnection</link>
+            xlink:href="https://docs.oracle.com/javase/8/docs/api/java/net/HttpURLConnection.html">HttpURLConnection</link>
             for web service invocations. <code>HttpURLConnection</code>
             buffers the request data by default. So the client applications
             need to enable streaming explicitly, see <link

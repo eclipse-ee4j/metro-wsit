@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-    Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+    Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
 
     This program and the accompanying materials are made available under the
     terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -194,20 +194,20 @@
 
             <itemizedlist>
                 <listitem>
-                    <para>Using the local JTA transaction manager, a
+                    <para>Using the local Jakarta Transactions transaction manager, a
                     transaction can be imported to or exported from the local
-                    JTA environment as a subordinate transaction, all within
+                    Jakarta Transactions environment as a subordinate transaction, all within
                     the context of a Web service request.</para>
                 </listitem>
 
                 <listitem>
                     <para>Creation and management of the coordination context
-                    is handled by the local JTA transaction manager.</para>
+                    is handled by the local Jakarta Transactions transaction manager.</para>
                 </listitem>
 
                 <listitem>
                     <para>All transaction integrity management and recovery
-                    processing is done by the local JTA transaction
+                    processing is done by the local Jakarta Transactions transaction
                     manager.</para>
                 </listitem>
             </itemizedlist>
@@ -218,7 +218,7 @@
             <orderedlist>
                 <listitem>
                     <para>Application A begins a transaction on the current
-                    thread of control using the JTA transaction manager on
+                    thread of control using the Jakarta Transactions transaction manager on
                     Server A.</para>
                 </listitem>
 
@@ -398,10 +398,10 @@
                             </entry>
 
                             <entry>
-                                <para>JTA transaction: Do not export transaction
+                                <para>Jakarta Transactions transaction: Do not export transaction
                                 coordination context.</para>
 
-                                <para>No JTA transaction: Do not export transaction
+                                <para>No Jakarta Transactions transaction: Do not export transaction
                                 coordination context.</para>
                             </entry>
 
@@ -430,10 +430,10 @@
                             </entry>
 
                             <entry>
-                                <para>JTA transaction: Export transaction
+                                <para>Jakarta Transactions transaction: Export transaction
                                 coordination context.</para>
 
-                                <para>No JTA transaction: Do not export transaction
+                                <para>No Jakarta Transactions transaction: Do not export transaction
                                 coordination context.</para>
                             </entry>
 
@@ -459,10 +459,10 @@
                             </entry>
 
                             <entry>
-                                <para>JTA transaction: Export transaction
+                                <para>Jakarta Transactions transaction: Export transaction
                                 coordination context.</para>
 
-                                <para>No JTA transaction: An exception is
+                                <para>No Jakarta Transactions transaction: An exception is
                                 thrown.</para>
                             </entry>
 
@@ -566,7 +566,7 @@
 
                     <para>The following example shows how to add
                     <code>@Transactional</code> annotation on a Web service
-                    class. As shown in the example, there is an active JTA
+                    class. As shown in the example, there is an active Jakarta Transactions
                     transaction.</para>
 
                     <example>
@@ -952,7 +952,7 @@ public class WsatBankTransferService {
 
                 <para>The following example illustrates how to annotate the
                 Web service reference injection point. As shown in the
-                example, the active JTA transaction becomes a part of the
+                example, the active Jakarta Transactions transaction becomes a part of the
                 atomic transaction.</para>
 
                 <example>
@@ -1290,7 +1290,7 @@ public class WsatBankTransferServlet extends HttpServlet {
 
         <orderedlist>
             <listitem>
-                <para>Developers use existing Java Transaction APIs (JTA).
+                <para>Developers use existing Jakarta Transactions APIs.
                 Invocations of transacted web service operations flow
                 transactional context from client to web service. Persistent
                 resources updated with client-created transactions are all
@@ -1299,7 +1299,7 @@ public class WsatBankTransferServlet extends HttpServlet {
             </listitem>
 
             <listitem>
-                <para>After the client-side code commits or aborts the JTA
+                <para>After the client-side code commits or aborts the Jakarta Transactions
                 transaction, the client confirms that all operations in the
                 transaction succeeded or failed by using calls to
                 <code>verify</code> methods on the transacted web
@@ -1329,17 +1329,17 @@ public class WsatBankTransferServlet extends HttpServlet {
 
             <listitem>
                 <para><code>LibraryFacadeWebServiceBean</code>, a web service
-                that uses the Java Persistence API (JPA) with two JDBC
+                that uses the Jakarta Persistence API with two JDBC
                 resources</para>
             </listitem>
 
             <listitem>
-                <para>Managed Java EE resources participating in a distributed
+                <para>Managed Jakarta EE resources participating in a distributed
                 transaction having its transacted updates all committed or
                 rolled back</para>
 
                 <para>The servlet and CMT EJB transacted web service
-                operations manipulate two JMS resources:</para>
+                operations manipulate two Jakarta Messaging resources:</para>
 
                 <itemizedlist>
                     <listitem>
@@ -1348,7 +1348,7 @@ public class WsatBankTransferServlet extends HttpServlet {
                     </listitem>
 
                     <listitem>
-                        <para><code>jms/Queue</code>, a JMS queue</para>
+                        <para><code>jms/Queue</code>, a Jakarta Messaging queue</para>
                     </listitem>
                 </itemizedlist>
 
@@ -1370,7 +1370,7 @@ public class WsatBankTransferServlet extends HttpServlet {
         </orderedlist>
 
         <para>This example shows how to use <code>XATransaction</code>
-        -enabled JMS and JDBC. The first version of this example, showing
+        -enabled Jakarta Messaging and JDBC. The first version of this example, showing
         WSIT-to-WSIT operations, has the <code>SampleServiceClient</code>
         client configured to run on one GlassFish instance and the service
         running on the other GlassFish instance. Either the Java client or the
@@ -1453,7 +1453,7 @@ public class WsatBankTransferServlet extends HttpServlet {
             </listitem>
         </itemizedlist>
 
-        <para>The <code>SimpleService</code> web service uses two JMS
+        <para>The <code>SimpleService</code> web service uses two Jakarta Messaging
         resources that are created in domain1:</para>
 
         <itemizedlist>
@@ -1463,12 +1463,12 @@ public class WsatBankTransferServlet extends HttpServlet {
             </listitem>
 
             <listitem>
-                <para><code>jms/Queue</code>, a JMS queue</para>
+                <para><code>jms/Queue</code>, a Jakarta Messaging queue</para>
             </listitem>
         </itemizedlist>
 
         <para>The <code>LibraryFacadeWebServiceBean</code> web service uses
-        the Java Persistence API (JPA) with two JDBC resources that are
+        the Jakarta Persistence API with two JDBC resources that are
         created in domain1:</para>
 
         <itemizedlist>
@@ -1851,7 +1851,7 @@ public class WsatBankTransferServlet extends HttpServlet {
                         <step>
                             <para><emphasis role="bold">Use the Server drop-down
                             list to point to the default domain, domain1, for
-                            the Application Server (or Glassfish) server
+                            the GlassFish server
                             instance you registered in Step 5.</emphasis></para>
                         </step>
 

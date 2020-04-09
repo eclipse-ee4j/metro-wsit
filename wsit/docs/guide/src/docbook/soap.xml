@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-    Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+    Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
 
     This program and the accompanying materials are made available under the
     terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -38,20 +38,24 @@
 
         <para>That said, there are many WSDLs out there that do not specify
         SOAP headers explicitly, yet the protocol still requires such headers
-        to be sent, so the JAX-WS RI offers convenient ways for you to
+        to be sent, so the Eclipse Implementation of Jakarta XML Web Services
+        offers convenient ways for you to
         send/receive additional headers at runtime.</para>
 
         <section xml:id="adding-soap-headers-when-sending-requests">
             <title>Adding SOAP headers when sending requests</title>
 
-            <para>The portable way of doing this is that you creaate a
-            <code>SOAPHandler</code> and mess with SAAJ, but the RI provides a
+            <para>The portable way of doing this is that you create a
+            <code>SOAPHandler</code> and mess with Jakarta SOAP with Attachments,
+            but the Eclipse Implementation of Jakarta XML Web Services provides a
             better way of doing this.</para>
 
             <para>When you create a proxy or dispatch object, they implement
-            <code>BindingProvider</code> interface. When you use the JAX-WS
-            RI, you can downcast to <code>WSBindingProvider</code> which
-            defines a few more methods provided only by the JAX-WS RI.</para>
+            <code>BindingProvider</code> interface. When you use the Eclipse
+            Implementation of Jakarta XML Web Services,
+            you can downcast to <code>WSBindingProvider</code> which
+            defines a few more methods provided only by the Eclipse
+            Implementation of Jakarta XML Web Services.</para>
 
             <para>This interface lets you set an arbitrary number of
             <code>Header</code> object, each representing a SOAP header. You
@@ -181,8 +185,8 @@ Header h = hl.get(MYHEADER);</programlisting>
             <para>In the above schema in the wsdl:binding section
             tns:additionalHeader is bound but if you see this header is not
             part of the <emphasis role="bold">echo</emphasis> abstract
-            contract (i.e., the wsdl:portType section). According to JAX-WS
-            2.1 specification only the wsdl:part's from the abstract portion
+            contract (i.e., the wsdl:portType section). According to Jakarta
+            XML Web Services specification only the wsdl:part's from the abstract portion
             are mapped to Java method parameters.</para>
 
             <para>Running wsimport on this wsdl will generate this method
@@ -197,7 +201,7 @@ Header h = hl.get(MYHEADER);</programlisting>
             </example>
 
             <note>
-                <para>Since JAX-WS RI 2.1.3, wsimport has a new option
+                <para>wsimport has an option
                 -XadditionalHeaders, this option will map such additional
                 headers as method parameters.</para>
             </note>
@@ -217,16 +221,17 @@ Header h = hl.get(MYHEADER);</programlisting>
         <title>Schema Validation</title>
 
         <para>SOAP messages are not validated against schemas by default with
-        the JAX-WS RI. However, this can be enabled for doc/lit cases. The
-        JAXWS-RI uses JAXP's <link
-        xlink:href="http://download.oracle.com/javase/6/docs/api/javax/xml/validation/SchemaFactory.html">SchemaFactory</link>
+        the Eclipse Implementation of Jakarta XML Web Services. However, this
+        can be enabled for doc/lit cases. The Eclipse Implementation of Jakarta
+        XML Web Services uses JAXP's <link
+        xlink:href="https://docs.oracle.com/javase/8/docs/api/javax/xml/validation/SchemaFactory.html">SchemaFactory</link>
         API to do the validation.</para>
 
         <section xml:id="server-side-schema-validation">
             <title>Server Side Schema Validation</title>
 
             <para>The <link
-            xlink:href="https://github.com/javaee/metro-jax-ws/blob/master/jaxws-ri/rt/src/main/java/com/sun/xml/ws/developer/SchemaValidation.java">
+            xlink:href="https://github.com/eclipse-ee4j/metro-jax-ws/blob/master/jaxws-ri/runtime/rt/src/main/java/com/sun/xml/ws/developer/SchemaValidation.java">
             <code>@SchemaValidation</code> </link> annotation needs to be
             specified on the endpoint implementation to enable server side
             validation. Both the incoming SOAP request and outgoing SOAP
@@ -247,10 +252,10 @@ public class HelloImpl {
 
             <para>If a application wants to have complete control over
             validation error handling, it can set up a <link
-            xlink:href="https://github.com/javaee/metro-jax-ws/blob/master/jaxws-ri/rt/src/main/java/com/sun/xml/ws/developer/ValidationErrorHandler.java"><code>ValidationErrorHandler</code></link>
+            xlink:href="https://github.com/eclipse-ee4j/metro-jax-ws/blob/master/jaxws-ri/runtime/rt/src/main/java/com/sun/xml/ws/developer/ValidationErrorHandler.java"><code>ValidationErrorHandler</code></link>
             to receive notification of errors. The handler has access to the
             <link
-            xlink:href="https://github.com/javaee/metro-jax-ws/blob/master/jaxws-ri/rt/src/main/java/com/sun/xml/ws/api/message/Packet.java"><code>Packet</code></link>
+            xlink:href="https://github.com/eclipse-ee4j/metro-jax-ws/blob/master/jaxws-ri/runtime/rt/src/main/java/com/sun/xml/ws/api/message/Packet.java"><code>Packet</code></link>
             and can store any information in its invocationProperties. These
             properties are accessible from the endpoint's
             <code>MessageContext</code>.</para>
@@ -289,7 +294,7 @@ public class MyErrorHandler extends ValidationErrorHandler {
             <title>Client Side Schema Validation</title>
 
             <para>Proxy needs to be created with <link
-            xlink:href="https://github.com/javaee/metro-jax-ws/blob/master/jaxws-ri/rt/src/main/java/com/sun/xml/ws/developer/SchemaValidationFeature.java"><code>SchemaValidationFeature</code></link>
+            xlink:href="https://github.com/eclipse-ee4j/metro-jax-ws/blob/master/jaxws-ri/runtime/rt/src/main/java/com/sun/xml/ws/developer/SchemaValidationFeature.java"><code>SchemaValidationFeature</code></link>
             to enable client side validation. Both the outgoing SOAP request
             and incoming SOAP response will be validated.</para>
 

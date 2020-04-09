@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-    Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+    Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
 
     This program and the accompanying materials are made available under the
     terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -47,8 +47,8 @@ $ wsimport -p org.acme.foo second.wsdl</programlisting>
         overwritten multiple times, but since they are identical, in the end
         this will produce the desired result. If the common part is separated
         into its own namespace, you can use <link
-        xlink:href="https://javaee.github.io/jaxb-v2/doc/user-guide/ch03.html#customization-of-schema-compilation-customizing-java-packages">a
-        JAXB customization</link> so that the common part will go to the
+        xlink:href="https://eclipse-ee4j.github.io/jaxb-ri/doc/user-guide/ch03.html#customization-of-schema-compilation-customizing-java-packages">a
+        Jakarta XML Binding customization</link> so that the common part will go to the
         overwritten package while everything else will get its own
         package.</para>
 
@@ -118,7 +118,7 @@ line 1 of http://131.107.72.15/Security_WsSecurity_Service_Indigo/WSSecureConver
                 <para>For the schema for Schema, potential name conflicts may
                 arise. This was discussed <link
                 xlink:href="http://forums.java.net/jive/thread.jspa?messageID=205301">here
-                at length</link> and a JAXB <link
+                at length</link> and a Jakarta XML Binding <link
                 xlink:href="http://weblogs.java.net/blog/kohsuke/archive/20070228/xsd.xjb">customization</link>
                 has been created to resolve such conflicts.</para>
             </listitem>
@@ -139,13 +139,14 @@ line 1 of http://131.107.72.15/Security_WsSecurity_Service_Indigo/WSSecureConver
         <section xml:id="how-to-get-simple-and-better-typed-binding">
             <title>How to get simple and better typed binding</title>
 
-            <para>wsimport uses JAXB RI's XJC tool internally to achive XML
+            <para>wsimport internally uses XJC tool from Eclipse Implementation
+            of JAXB to achive XML
             Schema to Java binding. The default behaviour is strictly as per
-            JAXB 2.x specification. However it does not work for everyone, for
+            Jakarta XML Binding specification. However it does not work for everyone, for
             example if you want to map xs:anyURI to java.net.URI instead of
             java.lang.String (default mapping).</para>
 
-            <para>There is a JAXB global customization that can help you
+            <para>There is a Jakarta XML Binding global customization that can help you
             achieve these tasks:</para>
 
             <itemizedlist>
