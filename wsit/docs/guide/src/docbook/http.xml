@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-    Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+    Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
 
     This program and the accompanying materials are made available under the
     terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -179,14 +179,14 @@ port.getRequestContext().put(BindingProvider.SESSION_MAINTAIN_PROPERTY,true);</p
     <section xml:id="http-client-streaming-support">
         <title>HTTP client streaming support</title>
 
-        <para>JAX-WS uses Java SE's <link
-        xlink:href="http://download.oracle.com/javase/6/docs/api/java/net/HttpURLConnection.html">HttpURLConnection</link>
+        <para>Jakarta XML Web Services uses Java SE's <link
+        xlink:href="https://docs.oracle.com/javase/8/docs/api/java/net/HttpURLConnection.html">HttpURLConnection</link>
         to send requests to web service. By default, HttpURLConnection buffers
         the entire request before sending it on the wire. To enable HTTP
         streaming support, one needs to enable <link
-        xlink:href="http://download.oracle.com/javase/6/docs/api/java/net/HttpURLConnection.html#setChunkedStreamingMode%28int%29">setChunkedStreamingMode()</link>
+        xlink:href="https://docs.oracle.com/javase/8/docs/api/java/net/HttpURLConnection.html#setChunkedStreamingMode-int-">setChunkedStreamingMode()</link>
         on the connection. The same thing can be achieved by doing the
-        following in JAX-WS clients.</para>
+        following in Jakarta XML Web Services clients.</para>
 
         <example>
             <title>HTTP client streaming support</title>
@@ -303,14 +303,14 @@ ctxt.put(JAXWSProperties.HTTP_CLIENT_STREAMING_CHUNK_SIZE, chunkSize);</programl
     <section xml:id="http-timeouts">
         <title>HTTP Timeouts</title>
 
-        <para>JAX-WS uses Java SE's <link
-        xlink:href="http://download.oracle.com/javase/6/docs/api/java/net/HttpURLConnection.html">HttpURLConnection</link>
+        <para>Jakarta XML Web Services uses Java SE's <link
+        xlink:href="https://docs.oracle.com/javase/8/docs/api/java/net/HttpURLConnection.html">HttpURLConnection</link>
         to send requests to web services. URLConnection offers <link
-        xlink:href="http://download.oracle.com/javase/6/docs/api/java/net/URLConnection.html#setConnectTimeout%28int%29">setConnectTimeout()</link>
+        xlink:href="https://docs.oracle.com/javase/8/docs/api/java/net/URLConnection.html#setConnectTimeout-int-">setConnectTimeout()</link>
         and <link
-        xlink:href="http://download.oracle.com/javase/6/docs/api/java/net/URLConnection.html#setReadTimeout%28int%29">setReadTimeout()</link>
+        xlink:href="https://docs.oracle.com/javase/8/docs/api/java/net/URLConnection.html#setReadTimeout-int-">setReadTimeout()</link>
         methods so that clients can control connection timeouts. The same
-        things can be achieved by doing the following in JAX-WS
+        things can be achieved by doing the following in Jakarta XML Web Services
         clients:</para>
 
         <example>
@@ -333,27 +333,27 @@ ctxt.put("com.sun.xml.ws.request.timeout", timeout);</programlisting>
 
         <para>Persistent connections improve performance by allowing the
         underlying socket connection to be reused for multiple http requests.
-        JAX-WS uses Java SE's <link
-        xlink:href="http://download.oracle.com/javase/6/docs/api/java/net/HttpURLConnection.html">HttpURLConnection</link>
+        Jakarta XML Web Services uses Java SE's <link
+        xlink:href="https://docs.oracle.com/javase/8/docs/api/java/net/HttpURLConnection.html">HttpURLConnection</link>
         to send requests to web services. HTTP keep-alive behavior can be
         controlled by the http.keepAlive (default: true) and
         http.maxConnections (default: 5) system properties. For more
         information, see <link
-        xlink:href="http://download.oracle.com/javase/6/docs/technotes/guides/net/properties.html">Networking
+        xlink:href="https://docs.oracle.com/javase/8/docs/technotes/guides/net/properties.html">Networking
         Properties</link></para>
     </section>
 
     <section xml:id="https-hostnameverifier">
         <title>HTTPS HostnameVerifier</title>
 
-        <para>JAX-WS uses Java SE's <link
-        xlink:href="http://download.oracle.com/javase/6/docs/api/javax/net/ssl/HttpsURLConnection.html">HttpsURLConnection</link>
+        <para>Jakarta XML Web Services uses Java SE's <link
+        xlink:href="https://docs.oracle.com/javase/8/docs/api/javax/net/ssl/HttpsURLConnection.html">HttpsURLConnection</link>
         to send requests to web services that use the HTTPS transport.
         HttpsURLConnection offers a <link
-        xlink:href="http://download.oracle.com/javase/6/docs/api/javax/net/ssl/HttpsURLConnection.html#setHostnameVerifier%28javax.net.ssl.HostnameVerifier%29">setHostnameVerifier()</link>
+        xlink:href="https://docs.oracle.com/javase/8/docs/api/javax/net/ssl/HttpsURLConnection.html#setDefaultHostnameVerifier-javax.net.ssl.HostnameVerifier-">setHostnameVerifier()</link>
         method so that the client's verification callback can be called to
         determine whether a connection is allowed. The same thing can be
-        achieved by doing the following in JAX-WS clients:</para>
+        achieved by doing the following in Jakarta XML Web Services clients:</para>
 
         <example>
             <title>SSL Hostname Verification</title>
@@ -368,14 +368,14 @@ ctxt.put(JAXWSProperties.HOSTNAME_VERIFIER, hostNameVerifier);</programlisting>
     <section xml:id="https-sslsocketfactory">
         <title>HTTPS SSLSocketFactory</title>
 
-        <para>JAX-WS uses Java SE's <link
-        xlink:href="http://download.oracle.com/javase/6/docs/api/javax/net/ssl/HttpsURLConnection.html">HttpsURLConnection</link>
+        <para>Jakarta XML Web Services uses Java SE's <link
+        xlink:href="https://docs.oracle.com/javase/8/docs/api/javax/net/ssl/HttpsURLConnection.html">HttpsURLConnection</link>
         to send requests to web services that use HTTPS transport.
         HttpsURLConnection offers <link
-        xlink:href="http://java.sun.com/j2se/1.5.0/docs/api/javax/net/ssl/HttpsURLConnection.html#setSSLSocketFactory(javax.net.ssl.SSLSocketFactory)">setSSLSocketFactory()</link>
+        xlink:href="https://docs.oracle.com/javase/8/docs/api/javax/net/ssl/HttpsURLConnection.html#setSSLSocketFactory-javax.net.ssl.SSLSocketFactory-">setSSLSocketFactory()</link>
         method and that factory is used when creating sockets for secure https
         URL connections. The same thing can be achieved by doing the following
-        in JAX-WS clients:</para>
+        in Jakarta XML Web Services clients:</para>
 
         <example>
             <title>HTTPS SSLSocketFactory</title>

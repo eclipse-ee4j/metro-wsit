@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-    Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+    Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
 
     This program and the accompanying materials are made available under the
     terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -588,7 +588,7 @@
                         Properties for more description of the components for
                         each of these algorithm suites. A link to this
                         document can be found at <link
-                        xlink:href="http://javaee.github.io/metro">http://javaee.github.io/metro</link>.</para></entry>
+                        xlink:href="https://eclipse-ee4j.github.io/metro-wsit/">https://eclipse-ee4j.github.io/metro-wsit</link>.</para></entry>
                     </row>
 
                     <row>
@@ -846,7 +846,7 @@ Symmetric.svc</programlisting>
                             </itemizedlist> <para>Examples of the layout rules
                         are described in the OASIS WS-SecurityPolicy
                         specification, a link to which can be found at <link
-                        xlink:href="http://javaee.github.io/metro">http://javaee.github.io/metro</link>.</para></entry>
+                        xlink:href="https://eclipse-ee4j.github.io/metro-wsit/">https://eclipse-ee4j.github.io/metro-wsit</link>.</para></entry>
                     </row>
 
                     <row>
@@ -960,7 +960,7 @@ Symmetric.svc</programlisting>
         </orderedlist>
 
         <para>As a reference, <link
-        xlink:href="https://github.com/javaee/metro-wsit/blob/master/wsit/samples/ws-trust/basic/src/common/MySTSAttributeProvider.java">
+        xlink:href="https://github.com/eclipse-ee4j/metro-wsit/blob/master/wsit/samples/ws-trust/basic/src/common/MySTSAttributeProvider.java">
         here</link> is a sample STSAttributeProvider.</para>
 
         <section xml:id="sts-claims">
@@ -1132,7 +1132,7 @@ config.setClaims(claims);</programlisting>
                     WS-Trust to define the content of the Claims. So you need
                     to implement com.sun.xml.ws.api.security.trust.Claims to
                     manage claims in your environment. Here is a <link
-                    xlink:href="https://github.com/javaee/metro-wsit/blob/master/wsit/samples/ws-trust/runtime/src/common/MyClaims.java">sample</link>
+                    xlink:href="https://github.com/eclipse-ee4j/metro-wsit/blob/master/wsit/samples/ws-trust/runtime/src/common/MyClaims.java">sample</link>
                     for managing claim types of the following form: <example>
                             <programlisting language="java"
                                             linenumbering="unnumbered">&lt;wst:Claims Dialect="http://schemas.xmlsoap.org/ws/2005/05/identity"

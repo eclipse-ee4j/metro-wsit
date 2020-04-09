@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-    Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+    Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
 
     This program and the accompanying materials are made available under the
     terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -31,10 +31,10 @@
             from a WSDL document, to deploy that application into a web
             container, and to build a corresponding web service client
             application. In this example, the resulting application is
-            portable across JAX-WS 2.0 implementations and do not use any
-            Metro-specific technologies. It is intended as a baseline from
-            which to develop your understanding of the larger Metro
-            stack.</para>
+            portable across Jakarta XML Web Services implementations
+            and do not use any Metro-specific technologies. It is intended
+            as a baseline from which to develop your understanding of
+            the larger Metro stack.</para>
         </abstract>
     </info>
 
@@ -42,7 +42,7 @@
         <title>Overview</title>
 
         <para>Supporting code samples are included to demonstrate building a
-        JAX-WS web service in the Metro environment. The examples show how to
+        XML Web Service in the Metro environment. The examples show how to
         develop a web service both starting from Java source code and starting
         from an existing WSDL document. For both scenarios, it shows how to
         develop a corresponding client application from the web service's WSDL
@@ -91,25 +91,25 @@
             <itemizedlist>
                 <listitem>
                     <para><link
-                    xlink:href="http://www.oracle.com/technetwork/java/javase/downloads/index.html">JDK
-                    6.0 Update 29</link> or later,</para>
+                    xlink:href="https://www.oracle.com/java/technologies/javase-downloads.html">Java
+                    SE 8</link> or later,</para>
                 </listitem>
 
                 <listitem>
                     <para><link xlink:href="http://ant.apache.org/">Apache Ant
-                    1.6.5</link> or later,</para>
+                    1.9.7</link> or later,</para>
                 </listitem>
 
                 <listitem>
                     <para>web container: either <link
-                    xlink:href="https://javaee.github.io/glassfish/">Glassfish</link>
+                    xlink:href="https://eclipse-ee4j.github.io/glassfish/">GlassFish</link>
                     or <link
                     xlink:href="http://tomcat.apache.org/">Apache Tomcat
                     7.0</link></para>
                 </listitem>
 
                 <listitem>
-                    <para><link xlink:href="https://javaee.github.io/metro/">Metro
+                    <para><link xlink:href="https://eclipse-ee4j.github.io/metro-wsit/">Metro
                     Standalone Budle 2.x</link> (in case of using Apache
                     Tomcat as a web container)</para>
                 </listitem>
@@ -121,7 +121,7 @@
             container</title>
 
             <para>The following steps are required only if using Apache Tomcat
-            as a web container (Glassfish v3 already contains Metro
+            as a web container (GlassFish already contains Metro
             libraries): Unzip downloaded Metro Standalone Bundle and copy all
             <literal>.jar</literal> files from the <literal>lib/</literal>
             directory into
@@ -207,7 +207,7 @@
     </section>
 
     <section xml:id="basma-building">
-        <title>Building a JAX-WS Web Service</title>
+        <title>Building a Jakarta XML Web Service</title>
 
         <section>
             <title>Starting from Java</title>
@@ -254,7 +254,7 @@ public class AddNumbersImpl {
             that were called by ant during this step are briefly described
             next.</para>
 
-            <para>The JAX-WS tool <command>apt</command> (annotation
+            <para>The <command>apt</command> tool (annotation
             processing tool) processes the annotated source code and invokes
             the compiler itself, resulting in the class files for each of the
             Java source files. In the accompanying <literal>fromjava</literal>
@@ -274,7 +274,7 @@ public class AddNumbersImpl {
             <para>Typically, you would start from WSDL to build your web
             service if you want to implement a web service that is already
             defined either by a standard or an existing instance of the
-            service. In either case, the WSDL already exists. The JAX-WS
+            service. In either case, the WSDL already exists. The
             <command>wsimport</command> tool will process the existing WSDL
             document, either from a local copy on disk or by retrieving it
             from a network address. An example of manually accessing a
@@ -394,7 +394,7 @@ public class AddNumbersImpl {
     </section>
 
     <section xml:id="basma-building-client">
-        <title>Building a JAX-WS Web Service Client</title>
+        <title>Building a Jakarta XML Web Service Client</title>
 
         <para>Unlike developing a web service provider, the process for
         creating a web service client application will always start with an
@@ -462,7 +462,7 @@ int result = port.addNumbers(a,b);</programlisting>
     </section>
 
     <section xml:id="basma-undeploying">
-        <title>Undeploying a JAX-WS Web Service</title>
+        <title>Undeploying a Jakarta XML Web Service</title>
 
         <para>Undeploying a web service means to disable &amp; remove it from
         the web container. Clients will no longer be able to use the web

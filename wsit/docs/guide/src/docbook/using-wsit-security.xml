@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-    Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+    Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
 
     This program and the accompanying materials are made available under the
     terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -64,13 +64,14 @@
                         <para>When creating an application using the wizards
                         in NetBeans IDE and running on GlassFish, the Java EE
                         Version defaults to Java EE 5. This results in an
-                        application compliant with JSR-109, Implementing
-                        Enterprise Web Services, which can be read at <link
-                        xlink:href="http://jcp.org/en/jsr/detail?id=109">http://jcp.org/en/jsr/detail?id=109</link>.
+                        application compliant with Jakarta Enterprise Web Services
+                        Specification, which can be read at <link
+                        xlink:href="https://jakarta.ee/specifications/enterprise-ws/">
+                        https://jakarta.ee/specifications/enterprise-ws/</link>.
                         If you select a value other than the default, for
                         example, J2EE 1.4, the application that is created is
-                        not JSR-109 compliant, which means that the
-                        application is not JAX-WS, but is JAX-RPC.</para>
+                        not Jakarta Enterprise Web Services compliant, which means that the
+                        application is not Jakarta XML Web Service, but is JAX-RPC.</para>
                     </note>
                 </step>
 
@@ -667,7 +668,7 @@
                 </listitem>
 
                 <listitem>
-                    <para><emphasis>User in Glassfish</emphasis> : To use a
+                    <para><emphasis>User in GlassFish</emphasis> : To use a
                     mechanism that requires a user database for
                     authentication, you can add a user to the file realm of
                     GlassFish. Select Use Development Defaults, or follow the
@@ -681,7 +682,7 @@
                     Click the Kerbeos button to specify the login module to be
                     used for this service. Login Modules can be specified in
                     $GLASSFISH_HOME/domains/domain1/config/login.conf for
-                    Glassfish. An example showing use of Kerberos Tokens can
+                    GlassFish. An example showing use of Kerberos Tokens can
                     be found at <xref linkend="gfzhh"
                     xrefstyle="select:title" />.</para>
                 </listitem>
@@ -1107,7 +1108,7 @@
                 </listitem>
 
                 <listitem>
-                    <para><emphasis>User in Glassfish</emphasis>: To use a
+                    <para><emphasis>User in GlassFish</emphasis>: To use a
                     mechanism that requires a user database for
                     authentication, select Use Development Defaults, or add a
                     user to the <code>file</code> realm of GlassFish.
@@ -1332,7 +1333,7 @@
                         URL:</para>
 
                         <para><link
-                        xlink:href="https://github.com/javaee/metro-wsit/blob/master/wsit/tests/e2e/testcases/xwss/s11/resources/wsit-client.xml">https://github.com/javaee/metro-wsit/blob/master/wsit/tests/e2e/testcases/xwss/s11/resources/wsit-client.xml</link></para>
+                        xlink:href="https://github.com/eclipse-ee4j/metro-wsit/blob/master/wsit/tests/e2e/testcases/xwss/s11/resources/wsit-client.xml">https://github.com/eclipse-ee4j/metro-wsit/blob/master/wsit/tests/e2e/testcases/xwss/s11/resources/wsit-client.xml</link></para>
                     </listitem>
 
                     <listitem>
@@ -1813,7 +1814,7 @@ HTTPS hostname wrong: should be &lt;hostname as in the certificate&gt;</programl
             <para>An STS is a service that implements the protocol defined in
             the WS-Trust specification (you can find a link to this
             specification at <link
-            xlink:href="http://javaee.github.io/metro">http://javaee.github.io/metro</link> ).
+            xlink:href="https://eclipse-ee4j.github.io/metro-wsit/">https://eclipse-ee4j.github.io/metro-wsit</link> ).
             This protocol defines message formats and message exchange
             patterns for issuing, renewing, canceling, and validating security
             tokens.</para>
@@ -3405,7 +3406,7 @@ Certificate fingerprint (MD5): E4:E3:A9:02:3C:B0:36:0C:C1:48:6E:0E:3E:5C:5E:84</
 
                 <tasksummary>
                     <para>To set the validator configuration options for a
-                    non-JSR-109-compliant application (such as a J2SE client),
+                    non-JSR-109-compliant application (such as a Java SE client),
                     perform the following steps.</para>
                 </tasksummary>
 
@@ -3490,9 +3491,9 @@ Certificate fingerprint (MD5): E4:E3:A9:02:3C:B0:36:0C:C1:48:6E:0E:3E:5C:5E:84</
     </section>
 
     <section xml:id="ConfiguringKerberos">
-        <title>Configuring Kerberos for Glassfish and Tomcat</title>
+        <title>Configuring Kerberos for GlassFish and Tomcat</title>
 
-        <para>This section explains how to setup Glassfish or Tomcat to use
+        <para>This section explains how to setup GlassFish or Tomcat to use
         Kerberos Authentication. It assumes that the underlying infrastructure
         has Kerberos Authentication available. If you need information on how
         to setup Kerberos in Solaris or Ubuntu Linux environments, refer to
@@ -3521,8 +3522,8 @@ Certificate fingerprint (MD5): E4:E3:A9:02:3C:B0:36:0C:C1:48:6E:0E:3E:5C:5E:84</
         for Windows Release 3.2.2</link>.You can then use the client module to
         authenticate against a KDC that was set up on a UNIX system.</para>
 
-        <section xml:id="KerberosForGlassfish">
-            <title>For Glassfish</title>
+        <section xml:id="KerberosForGlassFish">
+            <title>For GlassFish</title>
 
             <para>Specify the JAAS login modules to be used for Kerberos in
             the $GLASSFISH_HOME/domains/domain1/config/login.conf file, as
@@ -3553,7 +3554,7 @@ KerberosServer {
         <section xml:id="KerberosForTomcat">
             <title>For Tomcat</title>
 
-            <para>Glassfish picks the login modules from
+            <para>GlassFish picks the login modules from
             $GLASSFISH_HOME/domains/domain1/config/login.conf. In Tomcat we
             need to specify the file explicitly using
             java.security.auth.login.config system property. Here are the
@@ -4344,8 +4345,8 @@ KerberosServer {
                     browser window. </emphasis> <note>
                             <para>If you are receiving compilation errors during
                             the build, you may need to update your JRE's JAX-WS
-                            version to the latest release version. See <link
-                            xlink:href="http://metro.java.net/guide/Using_JAX_WS_2_x___Metro_1_x_2_0_with_Java_SE_6.html#Endorsed_directory">here</link>
+                            version to the latest release version. See <xref 
+                            linkend="using-jax-ws-2.x---metro-1.x-2.0-with-java-se-6">here</xref>
                             for more details.</para>
                         </note></para>
                 </step>
@@ -5114,7 +5115,7 @@ public class SampleWsitDigestPasswordValidator extends
                             <para>Use of Digest Passwords can be supported for
                             any realm which store plain passwords (not hashed
                             ones). Currently this is supported for JDBC realm in
-                            Glassfish. Or optionally, a user can write his own
+                            GlassFish. Or optionally, a user can write his own
                             custom realm.</para>
                         </note></para>
                 </listitem>
@@ -8482,18 +8483,18 @@ public class SampleWsitDigestPasswordValidator extends
                         <note>
                             <para>At the service, we can obtain the delegated
                             credentials from the <link
-                            xlink:href="http://download.oracle.com/javase/6/docs/api/javax/security/auth/Subject.html">Subject</link>
+                            xlink:href="https://docs.oracle.com/javase/8/docs/api/javax/security/auth/Subject.html">Subject</link>
                             of the authenticated user. The PrivateCredential set
                             of the will have the delegated client credentials
                             (as <link
-                            xlink:href="http://download.oracle.com/javase/6/docs/api/org/ietf/jgss/GSSCredential.html">GSSCredential</link>).
+                            xlink:href="https://docs.oracle.com/javase/8/docs/api/org/ietf/jgss/GSSCredential.html">GSSCredential</link>).
                             We can pass this GSSCredential to <link
-                            xlink:href="http://download.oracle.com/javase/6/docs/api/org/ietf/jgss/GSSManager.html">GSSManager</link>.createContext()
+                            xlink:href="https://docs.oracle.com/javase/8/docs/api/org/ietf/jgss/GSSManager.html">GSSManager</link>.createContext()
                             pretending to be the client.</para>
 
                             <para>Also, the PublicCredential set of the
                             authenticated Subject will always have <link
-                            xlink:href="http://download.oracle.com/javase/6/docs/api/javax/security/auth/kerberos/KerberosPrincipal.html">KerberosPrincipal</link>
+                            xlink:href="https://docs.oracle.com/javase/8/docs/api/javax/security/auth/kerberos/KerberosPrincipal.html">KerberosPrincipal</link>
                             corresponding to the client.</para>
                         </note>
 
