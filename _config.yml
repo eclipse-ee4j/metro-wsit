@@ -1,11 +1,19 @@
 remote_theme: jakartaee/jekyll-theme-jakarta-ee
 
-title: [Metro]
-description: [Metro webservices]
+title: [Jakarta XML Web Services]
+description: [Eclipse Metro]
 
 links:
   source: https://github.com/eclipse-ee4j/metro-wsit
-  javadocs: javadocs/index.html
-  download: https://github.com/eclipse-ee4j/metro-wsit/releases/tag/2.4.3
+  api: https://javadoc.io/doc/org.glassfish.metro/webservices-api/2.4.4/index.html
+  sbinding: https://jakarta.ee/specifications/xml-binding/
+  sws: https://jakarta.ee/specifications/xml-web-services/
+  smetadata: https://jakarta.ee/specifications/web-services-metadata/
+  ssoap: https://jakarta.ee/specifications/soap-attachments/
+  sews: https://jakarta.ee/specifications/enterprise-ws/
+  gstarted: /2.4.4/getting-started/
+  guide: /2.4.4/guide/
+  javadocsrt:  https://javadoc.io/doc/org.glassfish.metro/webservices-rt/2.4.4/index.html
+  javadocstools:  https://javadoc.io/doc/org.glassfish.metro/webservices-tools/2.4.4/index.html
+  download: https://repo1.maven.org/maven2/org/glassfish/metro/metro-standalone/2.4.4/metro-standalone-2.4.4.zip
   mailinglist: https://accounts.eclipse.org/mailing-list/metro-dev
-  faq: FAQ

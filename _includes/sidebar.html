@@ -1,0 +1,93 @@
+<!-- nav -->
+<aside id="main-sidebar">
+    <ul id="leftnav" class="ul-left-nav fa-ul hidden-print">
+
+        <li class="separator">
+            <a class="separator" href="{{ site.links.download }}">Download</a>
+        </li>
+
+        <li class="separator">
+            <a class="separator" href="/">Documentation</a>
+        </li>
+
+        <li>
+            <i class="fa fa-caret-right fa-fw"></i>
+            <a target="_self" href="{{ site.links.api }}">APIs</a>
+        </li>
+        <li>
+            <i class="fa fa-caret-right fa-fw"></i>
+            <a target="_self" href="{{ site.links.gstarted }}">Getting Started</a>
+        </li>
+        <li>
+            <i class="fa fa-caret-right fa-fw"></i>
+            <a target="_self" href="{{ site.links.guide }}">User Guide</a>
+        </li>
+
+        <li class="separator">
+            <a class="separator" href="/">Specifications</a>
+        </li>
+
+        <li>
+            <i class="fa fa-caret-right fa-fw"></i>
+            <a target="_self" href="{{ site.links.sbinding }}">XML Binding</a>
+        </li>
+        <li>
+            <i class="fa fa-caret-right fa-fw"></i>
+            <a target="_self" href="{{ site.links.sws }}">XML Web Services</a>
+        </li>
+        <li>
+            <i class="fa fa-caret-right fa-fw"></i>
+            <a target="_self" href="{{ site.links.smetadata }}">Web Services Metadata</a>
+        </li>
+        <li>
+            <i class="fa fa-caret-right fa-fw"></i>
+            <a target="_self" href="{{ site.links.ssoap }}">SOAP with Attachments</a>
+        </li>
+        <li>
+            <i class="fa fa-caret-right fa-fw"></i>
+            <a target="_self" href="{{ site.links.sews }}">Enterprise Web Services</a>
+        </li>
+
+        <li class="separator">
+            <a class="separator" href="/">Project Resources</a>
+        </li>
+
+        {% if site.links.source %}
+        <li>
+            <i class="fa fa-caret-right fa-fw"></i>
+            <a target="_self" href="{{ site.links.source }}">Sources</a>
+        </li>
+        {% endif %}
+
+        <li>
+            <i class="fa fa-caret-right fa-fw"></i>
+            <a target="_self" href="{{ site.links.javadocsrt }}">Javadocs (runtime)</a>
+        </li>
+
+        <li>
+            <i class="fa fa-caret-right fa-fw"></i>
+            <a target="_self" href="{{ site.links.javadocstools }}">Javadocs (tools)</a>
+        </li>
+
+        {% if site.links.faq %}
+        <li>
+            <i class="fa fa-caret-right fa-fw"></i>
+            <a target="_self" href="{{ site.links.faq }}">FAQ</a>
+        </li>
+        {% endif %}
+
+        {% if site.links.hide_issuetracker != true %}
+        <li>
+            <i class="fa fa-caret-right fa-fw"></i>
+            <a target="_self" href="{{ site.github.issues_url }}">Issue Tracker</a>
+        </li>
+        {% endif %}
+
+        {% if site.links.mailinglist %}
+        <li>
+            <i class="fa fa-caret-right fa-fw"></i>
+            <a target="_self" href="{{ site.links.mailinglist }}">Mailing list</a>
+        </li>
+        {% endif %}
+    </ul>
+</aside>
