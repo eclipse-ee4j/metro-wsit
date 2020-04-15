@@ -174,6 +174,7 @@
                 <configuration>
                     <excludeDependencies>jaxws-eclipselink-plugin,sdo-eclipselink-plugin</excludeDependencies>
                     <instructions>
+                        <_noee>true</_noee>
                         <Export-Package>
                             com.oracle.webservices.*;version=${jaxws.osgiVersion},
                             com.oracle.xmlns.webservices.jaxws_databinding;version=${jaxws.osgiVersion},
@@ -245,10 +246,7 @@
                             com.sun.org.apache.xml.internal.*;resolution:=optional,
                             com.sun.org.apache.xerces.internal.*;resolution:=optional,
                             com.sun.xml.bind.api.impl;resolution:=optional,
-                            com.sun.xml.bind.serializer;resolution:=optional,
-                            com.sun.xml.bind.validator;resolution:=optional,
                             com.sun.xml.rpc.*;resolution:=optional,
-                            com.sun.xml.ws.spi.runtime;resolution:=optional,
                             javax.ejb;resolution:=optional;version=3.0,
                             javax.jws;version=2.0,
                             javax.jws.soap;version=2.0,
@@ -257,7 +255,6 @@
                             javax.xml.bind.*;version=${jaxb-api.osgiVersion},
                             org.apache.coyote;resolution:=optional,
                             org.apache.tomcat.util.buf;resolution:=optional,
-                            org.iso_relax.verifier.impl;resolution:=optional,
                             org.jvnet.mimepull;resolution:=optional,
                             org.relaxng.datatype;resolution:=optional,
                             org.relaxng.datatype.helpers;resolution:=optional,
@@ -272,6 +269,8 @@
                             org.apache.log;resolution:=optional,
                             org.apache.log4j;resolution:=optional,
                             org.apache.avalon.framework.logger;resolution:=optional,
+                            jdk.internal.misc;resolution:=optional,
+                            com.sun.enterprise.webservice;resolution:=optional,
                             *
                         </Import-Package>
                         <Private-Package>
