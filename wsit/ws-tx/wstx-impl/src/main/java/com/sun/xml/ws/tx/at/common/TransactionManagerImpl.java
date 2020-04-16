@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -17,7 +17,7 @@ import java.util.logging.Level;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
-import javax.transaction.*;
+import jakarta.transaction.*;
 
 /**
  * Access hosting JTA 1.1 TransactionManager and TransactionSynchronizationRegistry.
@@ -88,7 +88,7 @@ public class TransactionManagerImpl implements TransactionManager, TransactionSy
         return javaeeTM.getStatus();
     }
 
-    public javax.transaction.Transaction getTransaction() throws SystemException {
+    public jakarta.transaction.Transaction getTransaction() throws SystemException {
         return javaeeTM.getTransaction();
     }
 

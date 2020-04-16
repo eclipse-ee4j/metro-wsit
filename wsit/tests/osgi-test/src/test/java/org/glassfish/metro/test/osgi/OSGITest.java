@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -73,7 +73,7 @@ public class OSGITest {
                 mavenBundle().groupId("javax.mail").artifactId("javax.mail-api").version("1.5.0"),
                 mavenBundle().groupId("javax.resource").artifactId("javax.resource-api").version("1.7"),
                 mavenBundle().groupId("javax.servlet").artifactId("javax.servlet-api").version("3.1.0"),
-                mavenBundle().groupId("javax.transaction").artifactId("javax.transaction-api").version("1.2"),
+                mavenBundle().groupId("jakarta.transaction").artifactId("jakarta.transaction-api").version("1.2"),
                 mavenBundle().groupId("javax.xml.rpc").artifactId("javax.xml.rpc-api").version("1.1.1"),
                 mavenBundle().groupId("javax.xml.registry").artifactId("javax.xml.registry-api").version("1.0.5"),
 

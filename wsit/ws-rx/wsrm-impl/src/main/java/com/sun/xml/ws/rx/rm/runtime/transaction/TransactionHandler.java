@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -78,14 +78,14 @@ public interface TransactionHandler {
     boolean transactionExists() throws TransactionException;
     
     /**
-     * javax.transaction.Status of the UserTransaction 
+     * jakarta.transaction.Status of the UserTransaction
      * @return status integer of the UserTransaction
      * @throws TransactionException
      */
     int getStatus() throws TransactionException;
     
     /**
-     * javax.transaction.Status as a String. Useful for logging.
+     * jakarta.transaction.Status as a String. Useful for logging.
      * @return status as a String
      * @throws TransactionException
      */

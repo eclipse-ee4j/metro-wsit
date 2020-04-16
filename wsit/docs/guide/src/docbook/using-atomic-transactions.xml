@@ -576,7 +576,7 @@
                         <programlisting language="java"
                                         linenumbering="unnumbered">package examples.webservices.jaxws.wsat.simple.service;
 . . .
-import javax.transaction.UserTransaction;
+import jakarta.transaction.UserTransaction;
 . . .
 import javax.jws.WebService;
 import com.sun.xml.ws.api.tx.at.Transactional;
@@ -667,7 +667,7 @@ public class WsatBankTransferService {
                         <programlisting language="java"
                                         linenumbering="unnumbered">package examples.webservices.jaxws.wsat.simple.service;
 . . .
-import javax.transaction.UserTransaction;
+import jakarta.transaction.UserTransaction;
 . . .
 import javax.jws.WebService;
 import com.sun.xml.ws.api.tx.at.Transactional;
@@ -695,7 +695,7 @@ public class WsatBankTransferService {
         UserTransaction tx = null;
         try {
             ctx = new InitialContext();
-            tx = (UserTransaction) ctx.lookup("javax.transaction" + "" +
+            tx = (UserTransaction) ctx.lookup("jakarta.transaction" + "" +
                     ".UserTransaction");
             try {
                 DataSource dataSource = (DataSource) ctx.lookup
@@ -762,7 +762,7 @@ public class WsatBankTransferService {
                         <programlisting language="java"
                                         linenumbering="unnumbered">package examples.webservices.jaxws.wsat.simple.service;
 . . .
-import javax.transaction.UserTransaction;
+import jakarta.transaction.UserTransaction;
 . . .
 import javax.jws.WebService;
 import javax.ejb.TransactionAttribute;
@@ -967,8 +967,8 @@ import javax.servlet.http.*;
 import java.net.URL;
 import javax.xml.namespace.QName;
 
-import javax.transaction.UserTransaction;
-import javax.transaction.SystemException;
+import jakarta.transaction.UserTransaction;
+import jakarta.transaction.SystemException;
 
 import javax.xml.ws.WebServiceRef;
 import com.sun.xml.ws.api.tx.at.Transactional;
@@ -991,7 +991,7 @@ public class WsatBankTransferServlet extends HttpServlet {
 
     try {
         ctx = new InitialContext();
-        utx = (UserTransaction) ctx.lookup("javax.transaction" +
+        utx = (UserTransaction) ctx.lookup("jakarta.transaction" +
                 ".UserTransaction");
         utx.setTransactionTimeout(900);
     } catch (java.lang.Exception e) {
@@ -1044,7 +1044,7 @@ public class WsatBankTransferServlet extends HttpServlet {
         UserTransaction tx = null;
         try {
             ctx = new InitialContext();
-            tx = (UserTransaction) ctx.lookup("javax.transaction" +
+            tx = (UserTransaction) ctx.lookup("jakarta.transaction" +
                     ".UserTransaction");
             try {
                 DataSource dataSource = (DataSource) ctx.lookup
@@ -1115,8 +1115,8 @@ import javax.servlet.http.*;
 import java.net.URL;
 import javax.xml.namespace.QName;
 
-import javax.transaction.UserTransaction;
-import javax.transaction.SystemException;
+import jakarta.transaction.UserTransaction;
+import jakarta.transaction.SystemException;
 
 import com.sun.xml.ws.api.tx.at.TransactionalFeature;
 import com.sun.xml.ws.api.tx.at.Transactional.Version;
@@ -1140,7 +1140,7 @@ public class WsatBankTransferServlet extends HttpServlet {
 
     try {
         ctx = new InitialContext();
-        utx = (UserTransaction) ctx.lookup("javax.transaction" +
+        utx = (UserTransaction) ctx.lookup("jakarta.transaction" +
                 ".UserTransaction");
         utx.setTransactionTimeout(900);
     } catch (java.lang.Exception e) {
@@ -1200,7 +1200,7 @@ public class WsatBankTransferServlet extends HttpServlet {
         UserTransaction tx = null;
         try {
             ctx = new InitialContext();
-            tx = (UserTransaction) ctx.lookup("javax.transaction" +
+            tx = (UserTransaction) ctx.lookup("jakarta.transaction" +
                     ".UserTransaction");
             try {
                 DataSource dataSource = (DataSource) ctx.lookup
