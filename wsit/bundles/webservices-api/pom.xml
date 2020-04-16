@@ -168,7 +168,7 @@
                         <dependency>
                             <groupId>com.sun.activation</groupId>
                             <artifactId>jakarta.activation</artifactId>
-                            <version>${javax.activation.version}</version>
+                            <version>${jakarta.activation.version}</version>
                         </dependency>
                     </additionalDependencies>
                     <sourceFileExcludes>

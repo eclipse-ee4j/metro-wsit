@@ -52,8 +52,8 @@ import java.io.InputStream;
 import java.security.Key;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.xml.soap.SOAPElement;
-import javax.xml.soap.SOAPFactory;
+import jakarta.xml.soap.SOAPElement;
+import jakarta.xml.soap.SOAPFactory;
 import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -62,11 +62,11 @@ import java.util.List;
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
-import javax.mail.Header;
-import javax.mail.internet.MimeBodyPart;
+import jakarta.mail.Header;
+import jakarta.mail.internet.MimeBodyPart;
 import javax.xml.namespace.QName;
-import javax.xml.soap.AttachmentPart;
-import javax.xml.soap.MimeHeader;
+import jakarta.xml.soap.AttachmentPart;
+import jakarta.xml.soap.MimeHeader;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -522,10 +522,10 @@ public class DecryptionProcessor {
             } catch (java.io.IOException ioe) {
                 log.log(Level.SEVERE, "WSS1232.failedto.decrypt.attachment", ioe);
                 throw new XWSSecurityException(ioe);
-            } catch (javax.xml.soap.SOAPException se) {
+            } catch (jakarta.xml.soap.SOAPException se) {
                 log.log(Level.SEVERE, "WSS1232.failedto.decrypt.attachment", se);
                 throw new XWSSecurityException(se);
-            } catch (javax.mail.MessagingException me) {
+            } catch (jakarta.mail.MessagingException me) {
                 log.log(Level.SEVERE, "WSS1232.failedto.decrypt.attachment", me);
                 throw new XWSSecurityException(me);
             }
@@ -676,8 +676,8 @@ public class DecryptionProcessor {
     
     private static AttachmentPart decryptAttachment(SecurableSoapMessage ssm,
             EncryptedDataHeaderBlock edhb, SecretKey symmetricKey)
-            throws java.io.IOException,javax.xml.soap.SOAPException,
-            javax.mail.MessagingException, XWSSecurityException {
+            throws java.io.IOException,jakarta.xml.soap.SOAPException,
+            jakarta.mail.MessagingException, XWSSecurityException {
         
         String uri = edhb.getCipherReference(false, null).getAttribute("URI");
         boolean contentOnly = edhb.getType().equals(
@@ -731,7 +731,7 @@ public class DecryptionProcessor {
         if (contentOnly) {
             // update headers and content
             part.setContentType(mimeType);
-            //javax.mail.internet.ContentType contentType = new javax.mail.internet.ContentType(mimeType);
+            //jakarta.mail.internet.ContentType contentType = new jakarta.mail.internet.ContentType(mimeType);
             
             String[] cLength = part.getMimeHeader(MimeConstants.CONTENT_LENGTH);
             if (cLength != null && !cLength[0].equals(""))
@@ -739,7 +739,7 @@ public class DecryptionProcessor {
             
             
             part.clearContent();
-            part.setDataHandler(new javax.activation.DataHandler(new _DS(cipherOutput, mimeType)));
+            part.setDataHandler(new jakarta.activation.DataHandler(new _DS(cipherOutput, mimeType)));
             
         } else {
             MimeBodyPart decryptedAttachment = new MimeBodyPart(is);
@@ -1031,7 +1031,7 @@ public class DecryptionProcessor {
         }
     }
     
-    private static class _DS implements javax.activation.DataSource {
+    private static class _DS implements jakarta.activation.DataSource {
         byte[] _b = null;
         String _mt = null;
         

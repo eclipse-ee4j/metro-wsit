@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -14,8 +14,8 @@
 
 package com.sun.xml.ws.security.trust.impl.wssx.elements;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBElement;
+import jakarta.xml.bind.JAXBContext;
+import jakarta.xml.bind.JAXBElement;
 
 import com.sun.xml.ws.api.security.trust.WSTrustException;
 
@@ -136,7 +136,7 @@ public class RequestedProofTokenImpl extends RequestedProofTokenType implements 
         try {
             JAXBContext jc =
                 JAXBContext.newInstance("com.sun.xml.ws.security.trust.impl.wssx.elements");
-            javax.xml.bind.Unmarshaller u = jc.createUnmarshaller();
+            jakarta.xml.bind.Unmarshaller u = jc.createUnmarshaller();
             return (RequestedProofTokenType)u.unmarshal(element);
         } catch ( Exception ex) {
             throw new WSTrustException(ex.getMessage(), ex);

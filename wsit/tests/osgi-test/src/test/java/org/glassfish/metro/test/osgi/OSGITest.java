@@ -67,10 +67,10 @@ public class OSGITest {
                 systemPackage("sun.corba"), // pfl
 
                 // APIs
-                mavenBundle().groupId("javax.annotation").artifactId("javax.annotation-api").version("1.2"),
+                mavenBundle().groupId("jakarta.annotation").artifactId("jakarta.annotation-api").version("1.2"),
                 mavenBundle().groupId("javax.enterprise.deploy").artifactId("javax.enterprise.deploy-api").version("1.6"),
                 mavenBundle().groupId("javax.interceptor").artifactId("javax.interceptor-api").version("1.2"),
-                mavenBundle().groupId("javax.mail").artifactId("javax.mail-api").version("1.5.0"),
+                mavenBundle().groupId("jakarta.mail").artifactId("jakarta.mail-api").version("1.5.0"),
                 mavenBundle().groupId("javax.resource").artifactId("javax.resource-api").version("1.7"),
                 mavenBundle().groupId("javax.servlet").artifactId("javax.servlet-api").version("3.1.0"),
                 mavenBundle().groupId("jakarta.transaction").artifactId("jakarta.transaction-api").version("1.2"),
@@ -115,10 +115,10 @@ public class OSGITest {
                 mavenBundle().groupId("org.eclipse.persistence").artifactId("javax.persistence").version("2.1.0"),
                 mavenBundle().groupId("org.jboss.weld").artifactId("weld-osgi-bundle").version("2.0.3.Final"),
 
-                mavenBundle().groupId("com.sun.mail").artifactId("javax.mail").version("1.5.0"),
+                mavenBundle().groupId("com.sun.mail").artifactId("jakarta.mail").version("1.5.0"),
 
                 //Metro APIs
-                mavenBundle("javax.xml.bind", "jaxb-api", JAXB_SPEC_VERSION).startLevel(1),
+                mavenBundle("jakarta.xml.bind", "jaxb-api", JAXB_SPEC_VERSION).startLevel(1),
                 mavenBundle("org.glassfish.metro", "webservices-api-osgi", METRO_VERSION).startLevel(1),
 
                 //Metro OSGi bundles
@@ -132,13 +132,13 @@ public class OSGITest {
 
     @Test
     public void testJaxbAPI() {
-        Class<?> c = loadClass("javax.xml.bind.JAXBContext");
+        Class<?> c = loadClass("jakarta.xml.bind.JAXBContext");
         assertClassLoadedByBundle(c, "jaxb-api");
     }
 
     @Test
     public void testWsApiOSGi() {
-        Class<?> c = loadClass("javax.xml.ws.Service");
+        Class<?> c = loadClass("jakarta.xml.ws.Service");
         assertClassLoadedByBundle(c, "org.glassfish.metro.webservices-api-osgi");
     }
 

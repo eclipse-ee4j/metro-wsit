@@ -323,7 +323,7 @@ public class AddNumbersImpl {
 
                 <para>The starting point for developing a web service that
                 uses the WSIT technologies is a Java class file annotated with
-                the <code>javax.jws.WebService</code> annotation. The
+                the <code>jakarta.jws.WebService</code> annotation. The
                 <code>@WebService</code> annotation defines the class as a web
                 service endpoint.</para>
 
@@ -333,8 +333,8 @@ public class AddNumbersImpl {
                 fromjava.server;</code></para>
 
                 <example>
-                    <programlisting language="java" linenumbering="unnumbered">import javax.jws.WebService;
-import javax.jws.WebMethod;
+                    <programlisting language="java" linenumbering="unnumbered">import jakarta.jws.WebService;
+import jakarta.jws.WebMethod;
 
 @WebService
 public class AddNumbersImpl {
@@ -518,8 +518,8 @@ public class AddNumbersImpl {
                 fromwsdl.server;</code></para>
 
                 <example>
-                    <programlisting language="java" linenumbering="unnumbered">import javax.jws.WebService;
-import javax.jws.WebMethod;
+                    <programlisting language="java" linenumbering="unnumbered">import jakarta.jws.WebService;
+import jakarta.jws.WebMethod;
 
 @WebService (endpointInterface=
         "fromwsdl.server.AddNumbersPortType")
@@ -610,10 +610,10 @@ public class AddNumbersImpl{
             <example>
                 <programlisting language="java" linenumbering="unnumbered">build-server-java:
    [apt] warning: Annotation types without processors:
-        [javax.xml.bind.annotation.XmlRootElement,
-        javax.xml.bind.annotation.XmlAccessorType,
-        javax.xml.bind.annotation.XmlType,
-         javax.xml.bind.annotation.XmlElement]
+        [jakarta.xml.bind.annotation.XmlRootElement,
+        jakarta.xml.bind.annotation.XmlAccessorType,
+        jakarta.xml.bind.annotation.XmlType,
+         jakarta.xml.bind.annotation.XmlElement]
    [apt] 1 warning</programlisting>
             </example>
         </section>

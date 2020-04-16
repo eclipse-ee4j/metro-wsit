@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -11,7 +11,7 @@
 package com.sun.xml.wss.impl;
 
 import javax.xml.namespace.QName;
-import javax.xml.soap.Detail;
+import jakarta.xml.soap.Detail;
 import com.sun.xml.wss.*;
 
 /** The <code>WssSoapFaultException</code> exception represents a 
@@ -21,8 +21,8 @@ import com.sun.xml.wss.*;
  *  <code>faultdetail</code> element accessible through the 
  *  <code>getDetail</code> method on the <code>WssSoapFaultException</code>.
  *  The method <code>createDetail</code> on the 
- *  <code>javax.xml.soap.SOAPFactory</code> creates an instance 
- *  of the <code>javax.xml.soap.Detail</code>. 
+ *  <code>jakarta.xml.soap.SOAPFactory</code> creates an instance
+ *  of the <code>jakarta.xml.soap.Detail</code>.
  *
  *  <p>The <code>faultstring</code> provides a human-readable 
  *  description of the SOAP fault. The <code>faultcode</code> 
@@ -31,8 +31,8 @@ import com.sun.xml.wss.*;
  *  <p>Refer to SOAP 1.1 and WSDL 1.1 specifications for more
  *  details of the SOAP faults. 
  *
- *  @see javax.xml.soap.Detail
- *  @see javax.xml.soap.SOAPFactory#createDetail
+ *  @see jakarta.xml.soap.Detail
+ *  @see jakarta.xml.soap.SOAPFactory#createDetail
 **/
 
 public class WssSoapFaultException extends java.lang.RuntimeException  {
@@ -48,12 +48,12 @@ public class WssSoapFaultException extends java.lang.RuntimeException  {
    *  @param faultactor  <code>faultactor</code> element of SOAP fault
    *  @param faultdetail <code>faultdetail</code> element of SOAP fault 
    *
-   *  @see javax.xml.soap.SOAPFactory#createDetail
+   *  @see jakarta.xml.soap.SOAPFactory#createDetail
    */
   public WssSoapFaultException(QName faultcode,
 		   String faultstring,
 		   String faultactor,
-		   javax.xml.soap.Detail faultdetail) { 
+		   jakarta.xml.soap.Detail faultdetail) {
     super(faultstring);
     this.faultcode = faultcode;
     this.faultstring = faultstring;
@@ -98,7 +98,7 @@ public class WssSoapFaultException extends java.lang.RuntimeException  {
    *  the SOAP Body.
    *
    *  @return <code>detail</code> element of the SOAP fault
-   *  @see javax.xml.soap.Detail
+   *  @see jakarta.xml.soap.Detail
    */
   public Detail getDetail() {
     return this.detail;

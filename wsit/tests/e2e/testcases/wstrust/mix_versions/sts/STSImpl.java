@@ -18,21 +18,21 @@
 package wstrust.mix_versions.sts;
 
 import com.sun.xml.ws.security.trust.sts.BaseSTSImpl;
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
-import javax.xml.ws.Provider;
-import javax.xml.ws.Service;
-import javax.xml.ws.Service.Mode;
-import javax.xml.ws.ServiceMode;
-import javax.xml.ws.WebServiceContext;
-import javax.xml.ws.WebServiceProvider;
+import jakarta.xml.ws.Provider;
+import jakarta.xml.ws.Service;
+import jakarta.xml.ws.Service.Mode;
+import jakarta.xml.ws.ServiceMode;
+import jakarta.xml.ws.WebServiceContext;
+import jakarta.xml.ws.WebServiceProvider;
 
 import javax.xml.transform.Source;
-import javax.xml.ws.handler.MessageContext;
+import jakarta.xml.ws.handler.MessageContext;
 
 @ServiceMode(value=Service.Mode.PAYLOAD)
 @WebServiceProvider(wsdlLocation="WEB-INF/wsdl/sts.wsdl")
-//@javax.xml.ws.BindingType(javax.xml.ws.soap.SOAPBinding.SOAP12HTTP_BINDING)
+//@jakarta.xml.ws.BindingType(jakarta.xml.ws.soap.SOAPBinding.SOAP12HTTP_BINDING)
 public class STSImpl extends BaseSTSImpl implements Provider<Source>{
     @Resource
     protected WebServiceContext context;

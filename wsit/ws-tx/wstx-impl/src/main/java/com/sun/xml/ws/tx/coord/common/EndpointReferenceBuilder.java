@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -15,8 +15,8 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import com.sun.xml.ws.api.tx.at.Transactional;
 
-import javax.xml.ws.EndpointReference;
-import javax.xml.ws.wsaddressing.W3CEndpointReference;
+import jakarta.xml.ws.EndpointReference;
+import jakarta.xml.ws.wsaddressing.W3CEndpointReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -72,7 +72,7 @@ public abstract class EndpointReferenceBuilder<T extends EndpointReference> {
     static class W3CEndpointReferenceBuilder extends EndpointReferenceBuilder<W3CEndpointReference>{
 
         public W3CEndpointReference build() {
-            javax.xml.ws.wsaddressing.W3CEndpointReferenceBuilder builder = new javax.xml.ws.wsaddressing.W3CEndpointReferenceBuilder();
+            jakarta.xml.ws.wsaddressing.W3CEndpointReferenceBuilder builder = new jakarta.xml.ws.wsaddressing.W3CEndpointReferenceBuilder();
             for (int i = 0; i < referenceParameters.size(); i++) {
                 Element element =  referenceParameters.get(i);
                 builder.referenceParameter(element);

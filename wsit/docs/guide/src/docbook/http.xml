@@ -40,8 +40,8 @@
                 <title>Sending HTTP headers</title>
 
                 <programlisting language="java" linenumbering="unnumbered">import java.util.Collections;
-import javax.xml.ws.BindingProvider;
-import javax.xml.ws.handler.MessageContext; 
+import jakarta.xml.ws.BindingProvider;
+import jakarta.xml.ws.handler.MessageContext;
 
 HelloPort port =...;
 ((BindingProvider) port).getRequestContext().put(MessageContext

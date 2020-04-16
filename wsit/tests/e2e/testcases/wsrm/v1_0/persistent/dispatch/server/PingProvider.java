@@ -10,11 +10,11 @@
 
 package wsrm.v1_0.persistent.dispatch.server;
 
-import javax.xml.soap.MessageFactory;
-import javax.xml.soap.SOAPMessage;
+import jakarta.xml.soap.MessageFactory;
+import jakarta.xml.soap.SOAPMessage;
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
-import javax.xml.ws.*;
+import jakarta.xml.ws.*;
 import java.io.ByteArrayOutputStream;
 import java.io.StringReader;
 
@@ -25,8 +25,8 @@ import java.io.StringReader;
     wsdlLocation="WEB-INF/wsdl/EchoService.wsdl"
 )
 @BindingType(value="http://schemas.xmlsoap.org/wsdl/soap/http")
-@javax.xml.ws.RespectBinding
-@ServiceMode(value=javax.xml.ws.Service.Mode.MESSAGE)
+@jakarta.xml.ws.RespectBinding
+@ServiceMode(value=jakarta.xml.ws.Service.Mode.MESSAGE)
 public class PingProvider implements Provider<SOAPMessage> {
 
     private static final String helloResponse = "<S:Envelope xmlns:S=\"http://schemas.xmlsoap.org/soap/envelope/\">" +

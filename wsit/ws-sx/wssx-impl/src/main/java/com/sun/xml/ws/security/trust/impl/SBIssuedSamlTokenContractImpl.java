@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -106,7 +106,7 @@ import com.sun.xml.wss.saml.SubjectConfirmationData;
 import javax.security.auth.callback.UnsupportedCallbackException;
 
 
-import javax.xml.bind.JAXBElement;
+import jakarta.xml.bind.JAXBElement;
 import javax.xml.namespace.QName;
 
 
@@ -194,7 +194,7 @@ public class SBIssuedSamlTokenContractImpl extends IssueSamlTokenContract{
             //Element signedAssertion = assertion.sign(request.getX509Certificate(), stsPrivKey);
             final SecurityHeaderElement signedAssertion = createSignature(request.getX509Certificate().getPublicKey(),stsPrivKey,samlToken,nsContext);
             
-            //javax.xml.bind.Unmarshaller u = eleFac.getContext().createUnmarshaller();
+            //jakarta.xml.bind.Unmarshaller u = eleFac.getContext().createUnmarshaller();
             //JAXBElement<AssertionType> aType = u.unmarshal(signedAssertion, AssertionType.class);
             //assertion =  new com.sun.xml.wss.saml.assertion.saml11.jaxb20.Assertion(aType.getValue());
             token = new GenericToken(signedAssertion);

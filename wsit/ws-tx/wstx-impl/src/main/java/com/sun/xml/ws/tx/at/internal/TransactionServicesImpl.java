@@ -24,7 +24,7 @@ import jakarta.transaction.*;
 import javax.transaction.xa.XAException;
 import javax.transaction.xa.XAResource;
 import javax.transaction.xa.Xid;
-import javax.xml.ws.EndpointReference;
+import jakarta.xml.ws.EndpointReference;
 
 public class TransactionServicesImpl implements TransactionServices {
 

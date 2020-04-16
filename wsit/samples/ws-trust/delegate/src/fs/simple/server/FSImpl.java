@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -15,7 +15,7 @@ import com.sun.xml.ws.security.Token;
 import com.sun.xml.ws.security.trust.GenericToken;
 import org.xmlsoap.dab.Department;
 
-import javax.xml.ws.Holder;
+import jakarta.xml.ws.Holder;
 import simple.schema.client.Ping;
 import simple.schema.client.PingResponseBody;
 
@@ -30,16 +30,16 @@ import com.sun.xml.wss.XWSSecurityException;
 import com.sun.xml.wss.impl.XWSSecurityRuntimeException;
 import com.sun.xml.wss.saml.util.SAMLUtil;
 import java.util.Set;
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import javax.security.auth.Subject;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
-import javax.xml.ws.WebServiceContext;
+import jakarta.xml.ws.WebServiceContext;
 import org.w3c.dom.Element;
 
-import javax.xml.ws.WebServiceFeature;
+import jakarta.xml.ws.WebServiceFeature;
 
-@javax.jws.WebService (endpointInterface="simple.server.IFinancialService")
+@jakarta.jws.WebService (endpointInterface="simple.server.IFinancialService")
 public class FSImpl implements IFinancialService {
     @Resource
     private WebServiceContext context;

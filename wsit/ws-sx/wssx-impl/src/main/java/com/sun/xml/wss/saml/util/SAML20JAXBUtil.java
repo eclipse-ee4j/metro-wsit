@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -20,9 +20,9 @@ package com.sun.xml.wss.saml.util;
 
 import java.security.AccessController;
 import java.security.PrivilegedExceptionAction;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.ws.WebServiceException;
+import jakarta.xml.bind.JAXBContext;
+import jakarta.xml.bind.JAXBException;
+import jakarta.xml.ws.WebServiceException;
 
 /**
  *
@@ -57,7 +57,7 @@ public class SAML20JAXBUtil {
      * 
      * @param namespace list of ":" separated namespaces to be used to create the JAXBContext
      * @return JAXBContext initialized with the namespaces
-     * @throws javax.xml.bind.JAXBException
+     * @throws jakarta.xml.bind.JAXBException
      */
     public static JAXBContext getJAXBContext(String namespaces) throws JAXBException{
         jaxbContext = JAXBContext.newInstance("com.sun.xml.wss.saml.internal.saml20.jaxb20"

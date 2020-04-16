@@ -18,7 +18,7 @@ import com.sun.xml.ws.tx.at.runtime.TransactionServices;
 import jakarta.transaction.Synchronization;
 import javax.transaction.xa.XAResource;
 import javax.transaction.xa.Xid;
-import javax.xml.ws.EndpointReference;
+import jakarta.xml.ws.EndpointReference;
 
 /**
  *

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2019 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -144,7 +144,7 @@ public  class IssueSamlTokenContractImpl extends IssueSamlTokenContract {
                     LogStringsMessages.WST_0032_ERROR_CREATING_SAML_ASSERTION(), ex);
         }
             
-        //javax.xml.bind.Unmarshaller u = eleFac.getContext().createUnmarshaller();
+        //jakarta.xml.bind.Unmarshaller u = eleFac.getContext().createUnmarshaller();
         //JAXBElement<AssertionType> aType = u.unmarshal(signedAssertion, AssertionType.class);
         //assertion =  new com.sun.xml.wss.saml.assertion.saml11.jaxb20.Assertion(aType.getValue());
         //token = new GenericToken(signedAssertion);

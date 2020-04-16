@@ -29,10 +29,10 @@ import java.util.logging.Level;
 
 import javax.transaction.xa.XAException;
 import javax.transaction.xa.Xid;
-import javax.xml.soap.SOAPException;
-import javax.xml.ws.EndpointReference;
-import javax.xml.ws.WebServiceContext;
-import javax.xml.ws.WebServiceException;
+import jakarta.xml.soap.SOAPException;
+import jakarta.xml.ws.EndpointReference;
+import jakarta.xml.ws.WebServiceContext;
+import jakarta.xml.ws.WebServiceException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -465,7 +465,7 @@ public class WSATHelper<T> {
      * @return WS-AT Txid String
      */
     public String getWSATTidFromWebServiceContextHeaderList(WebServiceContext context) {
-        javax.xml.ws.handler.MessageContext messageContext = context.getMessageContext();
+        jakarta.xml.ws.handler.MessageContext messageContext = context.getMessageContext();
         MessageHeaders headerList =
                 (MessageHeaders) messageContext.get(com.sun.xml.ws.developer.JAXWSProperties.INBOUND_HEADER_LIST_PROPERTY);
         Iterator<Header> headers = headerList.getHeaders(WSATConstants.TXID_QNAME, false);
@@ -482,7 +482,7 @@ public class WSATHelper<T> {
      * @return String bqual
      */
     public String getBQualFromWebServiceContextHeaderList(WebServiceContext context) {
-        javax.xml.ws.handler.MessageContext messageContext = context.getMessageContext();
+        jakarta.xml.ws.handler.MessageContext messageContext = context.getMessageContext();
         MessageHeaders headerList =
                 (MessageHeaders) messageContext.get(com.sun.xml.ws.developer.JAXWSProperties.INBOUND_HEADER_LIST_PROPERTY);
         Iterator<Header> headers = headerList.getHeaders(WSATConstants.BRANCHQUAL_QNAME, false);

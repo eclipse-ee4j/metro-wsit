@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -29,12 +29,12 @@ import com.sun.xml.wss.impl.MessageConstants;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.Vector;
-import javax.xml.bind.Unmarshaller;
+import jakarta.xml.bind.Unmarshaller;
 
-import javax.xml.soap.SOAPConstants;
-import javax.xml.soap.SOAPException;
-import javax.xml.soap.SOAPHeader;
-import javax.xml.soap.SOAPMessage;
+import jakarta.xml.soap.SOAPConstants;
+import jakarta.xml.soap.SOAPException;
+import jakarta.xml.soap.SOAPHeader;
+import jakarta.xml.soap.SOAPMessage;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 import javax.xml.stream.XMLStreamWriter;
@@ -47,7 +47,7 @@ import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 import javax.xml.stream.StreamFilter;
 import javax.xml.stream.XMLInputFactory;
-import javax.xml.bind.JAXBException;
+import jakarta.xml.bind.JAXBException;
 
 /**
  *
@@ -327,7 +327,7 @@ public class GenericSecuredHeader extends AbstractHeaderImpl implements SecuredH
 
     @SuppressWarnings("unchecked")
     @Override
-    public <T> T readAsJAXB(Unmarshaller um) throws javax.xml.bind.JAXBException {
+    public <T> T readAsJAXB(Unmarshaller um) throws jakarta.xml.bind.JAXBException {
         try {
             return (T) um.unmarshal(completeHeader.readAsXMLStreamReader());
         } catch (XMLStreamException e) {
@@ -338,7 +338,7 @@ public class GenericSecuredHeader extends AbstractHeaderImpl implements SecuredH
     }
 
     @Override
-    public <T> T readAsJAXB(com.sun.xml.bind.api.Bridge<T> bridge) throws javax.xml.bind.JAXBException {
+    public <T> T readAsJAXB(com.sun.xml.bind.api.Bridge<T> bridge) throws jakarta.xml.bind.JAXBException {
         try {
             return bridge.unmarshal(completeHeader.readAsXMLStreamReader());
         } catch (XMLStreamException e) {

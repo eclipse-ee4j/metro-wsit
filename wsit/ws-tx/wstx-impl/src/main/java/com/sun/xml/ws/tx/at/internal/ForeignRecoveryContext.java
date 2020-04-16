@@ -17,7 +17,7 @@ import jakarta.transaction.Transaction;
 import javax.transaction.xa.Xid;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
-import javax.xml.ws.EndpointReference;
+import jakarta.xml.ws.EndpointReference;
 import java.io.*;
 
 /**

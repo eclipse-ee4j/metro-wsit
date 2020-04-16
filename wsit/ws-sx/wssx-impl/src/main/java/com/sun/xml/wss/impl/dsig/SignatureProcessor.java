@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -102,8 +102,8 @@ import javax.xml.crypto.dsig.spec.TransformParameterSpec;
 import javax.xml.crypto.dsig.keyinfo.KeyInfo;
 import javax.crypto.spec.SecretKeySpec;
 
-import javax.xml.soap.SOAPElement;
-import javax.xml.soap.SOAPMessage;
+import jakarta.xml.soap.SOAPElement;
+import jakarta.xml.soap.SOAPMessage;
 import javax.xml.namespace.QName;
 
 import org.w3c.dom.Node;
@@ -115,7 +115,7 @@ import com.sun.xml.ws.security.trust.GenericToken;
 import com.sun.xml.wss.impl.XMLUtil;
 import com.sun.xml.wss.logging.impl.dsig.LogStringsMessages;
 import java.security.NoSuchAlgorithmException;
-import javax.xml.soap.SOAPException;
+import jakarta.xml.soap.SOAPException;
 
 /*
  *

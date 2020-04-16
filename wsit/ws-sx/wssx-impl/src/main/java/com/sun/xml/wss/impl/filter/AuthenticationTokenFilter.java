@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -40,8 +40,8 @@ import com.sun.xml.wss.impl.policy.mls.TimestampPolicy;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.xml.soap.SOAPElement;
-import javax.xml.soap.SOAPPart;
+import jakarta.xml.soap.SOAPElement;
+import jakarta.xml.soap.SOAPPart;
 
 import com.sun.xml.wss.impl.callback.DynamicPolicyCallback;
 import com.sun.xml.wss.impl.configuration.DynamicApplicationContext;

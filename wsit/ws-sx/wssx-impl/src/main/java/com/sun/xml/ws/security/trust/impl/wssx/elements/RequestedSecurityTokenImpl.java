@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -17,9 +17,9 @@ package com.sun.xml.ws.security.trust.impl.wssx.elements;
 import org.w3c.dom.Element;
 
 import javax.xml.namespace.QName;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBElement;
-import javax.xml.bind.JAXBException;
+import jakarta.xml.bind.JAXBContext;
+import jakarta.xml.bind.JAXBElement;
+import jakarta.xml.bind.JAXBException;
 
 //import com.sun.xml.security.core.xenc.EncryptedDataType;
 
@@ -108,7 +108,7 @@ public class RequestedSecurityTokenImpl extends RequestedSecurityTokenType imple
         try {
             final JAXBContext context =
                 WSTrustElementFactory.getContext(WSTrustVersion.WS_TRUST_13);
-            final javax.xml.bind.Unmarshaller unmarshaller = context.createUnmarshaller();
+            final jakarta.xml.bind.Unmarshaller unmarshaller = context.createUnmarshaller();
             
             return unmarshaller.unmarshal(element, RequestedSecurityTokenType.class).getValue();
         } catch ( Exception ex) {

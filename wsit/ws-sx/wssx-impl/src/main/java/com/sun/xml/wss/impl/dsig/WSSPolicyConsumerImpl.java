@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -74,9 +74,9 @@ import javax.xml.crypto.dsig.spec.TransformParameterSpec;
 import javax.xml.crypto.dsig.spec.XPathFilter2ParameterSpec;
 import javax.xml.crypto.dsig.spec.XPathFilterParameterSpec;
 import javax.xml.namespace.QName;
-import javax.xml.soap.SOAPElement;
-import javax.xml.soap.SOAPHeader;
-import javax.xml.soap.SOAPException;
+import jakarta.xml.soap.SOAPElement;
+import jakarta.xml.soap.SOAPHeader;
+import jakarta.xml.soap.SOAPException;
 import javax.xml.transform.dom.DOMSource;
 
 import org.w3c.dom.NodeList;
@@ -84,8 +84,8 @@ import org.w3c.dom.NamedNodeMap;
 
 import javax.xml.xpath.*;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.soap.AttachmentPart;
-import javax.xml.soap.SOAPMessage;
+import jakarta.xml.soap.AttachmentPart;
+import jakarta.xml.soap.SOAPMessage;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
@@ -589,7 +589,7 @@ attribute.getNamespaceURI().equals(MessageConstants.NAMESPACES_NS)) {
         
         while (children.hasNext()) {
             Node child = (Node)children.next();
-            if (!(child instanceof javax.xml.soap.Text)) {
+            if (!(child instanceof jakarta.xml.soap.Text)) {
                 traverseSubtree(child, result);
             }
         }

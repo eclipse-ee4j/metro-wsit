@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -32,7 +32,7 @@ import com.sun.xml.ws.policy.spi.PolicyAssertionValidator.Fitness;
 import java.net.URL;
 import java.util.Collection;
 import javax.xml.stream.FactoryConfigurationError;
-import javax.xml.ws.WebServiceException;
+import jakarta.xml.ws.WebServiceException;
 
 /**
  * Load and process the WSIT configuration files. If they are not present, fall

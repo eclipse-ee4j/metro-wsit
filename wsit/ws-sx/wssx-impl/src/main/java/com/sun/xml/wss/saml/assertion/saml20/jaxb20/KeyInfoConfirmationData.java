@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -31,8 +31,8 @@ import java.text.ParseException;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBElement;
+import jakarta.xml.bind.JAXBContext;
+import jakarta.xml.bind.JAXBElement;
 import org.w3c.dom.Element;
 
 /**
@@ -62,7 +62,7 @@ public class KeyInfoConfirmationData extends com.sun.xml.wss.saml.internal.saml2
         try {
             JAXBContext jc = SAML20JAXBUtil.getJAXBContext();
                     
-            javax.xml.bind.Unmarshaller u = jc.createUnmarshaller();
+            jakarta.xml.bind.Unmarshaller u = jc.createUnmarshaller();
             return (KeyInfoConfirmationData)u.unmarshal(element);
         } catch ( Exception ex) {
             throw new SAMLException(ex.getMessage());
@@ -81,7 +81,7 @@ public class KeyInfoConfirmationData extends com.sun.xml.wss.saml.internal.saml2
     public KeyInfoConfirmationData(Element keyInfo) throws SAMLException {
         
         JAXBContext jc = null;
-        javax.xml.bind.Unmarshaller u = null;
+        jakarta.xml.bind.Unmarshaller u = null;
         
         
         //Unmarshal to JAXB KeyInfo Object and set it

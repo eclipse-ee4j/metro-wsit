@@ -13,15 +13,15 @@ package wsrm.v1_1.invm.jcapsnack.server;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.annotation.Resource;
-import javax.jws.WebMethod;
-import javax.jws.WebService;
-import javax.xml.ws.BindingType;
-import javax.xml.ws.WebServiceContext;
-import javax.xml.ws.handler.MessageContext;
+import jakarta.annotation.Resource;
+import jakarta.jws.WebMethod;
+import jakarta.jws.WebService;
+import jakarta.xml.ws.BindingType;
+import jakarta.xml.ws.WebServiceContext;
+import jakarta.xml.ws.handler.MessageContext;
 
 @WebService(endpointInterface = "wsrm.v1_1.invm.jcapsnack.server.IPing")
-@BindingType(javax.xml.ws.soap.SOAPBinding.SOAP12HTTP_BINDING)
+@BindingType(jakarta.xml.ws.soap.SOAPBinding.SOAP12HTTP_BINDING)
 public class IPingImpl {
     private static final Logger LOGGER = Logger.getLogger(IPingImpl.class.getName());
     private static final AtomicBoolean FIRST_MESSAGE_ALREADY_REJECTED = new AtomicBoolean(false);

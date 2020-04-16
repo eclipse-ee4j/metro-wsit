@@ -15,7 +15,7 @@ import com.sun.xml.ws.tx.at.WSATException;
 import jakarta.transaction.Synchronization;
 import javax.transaction.xa.XAResource;
 import javax.transaction.xa.Xid;
-import javax.xml.ws.EndpointReference;
+import jakarta.xml.ws.EndpointReference;
 
 /**
  * Defines the interface between WS-AT and underlying transaction processing system

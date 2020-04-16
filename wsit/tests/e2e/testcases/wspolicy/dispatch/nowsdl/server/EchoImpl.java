@@ -10,7 +10,7 @@
 
 package wspolicy.dispatch.nowsdl.server;
 
-import javax.jws.WebService;
+import jakarta.jws.WebService;
 
 @WebService(endpointInterface="wspolicy.dispatch.nowsdl.server.Echo")
 public class EchoImpl {

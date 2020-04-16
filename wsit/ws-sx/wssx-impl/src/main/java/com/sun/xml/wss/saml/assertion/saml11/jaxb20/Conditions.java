@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.xml.bind.JAXBContext;
+import jakarta.xml.bind.JAXBContext;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 
@@ -150,7 +150,7 @@ public class Conditions extends ConditionsType
             try {
                 JAXBContext jc = SAMLJAXBUtil.getJAXBContext();
                     
-                javax.xml.bind.Unmarshaller u = jc.createUnmarshaller();
+                jakarta.xml.bind.Unmarshaller u = jc.createUnmarshaller();
             return (ConditionsType)u.unmarshal(element);
             } catch ( Exception ex) {
                 throw new SAMLException(ex.getMessage());

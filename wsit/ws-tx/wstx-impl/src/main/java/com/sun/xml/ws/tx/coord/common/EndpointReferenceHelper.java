@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -14,8 +14,8 @@ import com.sun.xml.ws.developer.MemberSubmissionEndpointReference;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-import javax.xml.ws.EndpointReference;
-import javax.xml.ws.wsaddressing.W3CEndpointReference;
+import jakarta.xml.ws.EndpointReference;
+import jakarta.xml.ws.wsaddressing.W3CEndpointReference;
 import java.lang.reflect.Field;
 import java.util.List;
 
@@ -69,8 +69,8 @@ public abstract class EndpointReferenceHelper {
                 address.setAccessible(true);
                 referenceParameters = W3CEndpointReference.class.getDeclaredField("referenceParameters");
                 referenceParameters.setAccessible(true);
-                address_class = Class.forName("javax.xml.ws.wsaddressing.W3CEndpointReference$Address");
-                referenceParameters_class = Class.forName("javax.xml.ws.wsaddressing.W3CEndpointReference$Elements");
+                address_class = Class.forName("jakarta.xml.ws.wsaddressing.W3CEndpointReference$Address");
+                referenceParameters_class = Class.forName("jakarta.xml.ws.wsaddressing.W3CEndpointReference$Elements");
                 uri = address_class.getDeclaredField("uri");
                 uri.setAccessible(true);
                 elements = referenceParameters_class.getDeclaredField("elements");

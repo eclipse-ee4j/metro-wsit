@@ -87,7 +87,7 @@ import javax.xml.transform.dom.DOMSource;
 import org.w3c.dom.Element;
 import org.w3c.dom.Document;
 
-import javax.xml.bind.JAXBElement;
+import jakarta.xml.bind.JAXBElement;
 
 import com.sun.xml.ws.security.trust.WSTrustElementFactory;
 import com.sun.xml.ws.security.trust.util.WSTrustUtil;
@@ -97,10 +97,10 @@ import com.sun.xml.ws.security.trust.impl.wssx.elements.RenewTargetImpl;
 import com.sun.xml.ws.security.trust.logging.LogDomainConstants;
 import java.util.logging.Level;
 
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.JAXBException;
+import jakarta.xml.bind.Marshaller;
+import jakarta.xml.bind.JAXBException;
 
-import javax.xml.bind.PropertyException;
+import jakarta.xml.bind.PropertyException;
 
 import com.sun.xml.ws.security.trust.logging.LogStringsMessages;
 import com.sun.xml.wss.impl.MessageConstants;
@@ -112,10 +112,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
 import javax.xml.namespace.QName;
-import javax.xml.soap.SOAPConstants;
-import javax.xml.soap.SOAPException;
-import javax.xml.soap.SOAPFactory;
-import javax.xml.soap.SOAPFault;
+import jakarta.xml.soap.SOAPConstants;
+import jakarta.xml.soap.SOAPException;
+import jakarta.xml.soap.SOAPFactory;
+import jakarta.xml.soap.SOAPFault;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -391,7 +391,7 @@ public class WSTrustElementFactoryImpl extends WSTrustElementFactory {
      */
     public RequestSecurityToken createRSTFrom(Source src) {
         try {           
-            javax.xml.bind.Unmarshaller u = getContext(WSTrustVersion.WS_TRUST_13).createUnmarshaller();
+            jakarta.xml.bind.Unmarshaller u = getContext(WSTrustVersion.WS_TRUST_13).createUnmarshaller();
             JAXBElement<RequestSecurityTokenType> rstType = u.unmarshal(src, RequestSecurityTokenType.class);
             RequestSecurityTokenType type = rstType.getValue();
             return new RequestSecurityTokenImpl(type);
@@ -405,7 +405,7 @@ public class WSTrustElementFactoryImpl extends WSTrustElementFactory {
      */
     public  RequestSecurityToken createRSTFrom(Element elem) {
         try {
-            javax.xml.bind.Unmarshaller u = getContext(WSTrustVersion.WS_TRUST_13).createUnmarshaller();
+            jakarta.xml.bind.Unmarshaller u = getContext(WSTrustVersion.WS_TRUST_13).createUnmarshaller();
             JAXBElement<RequestSecurityTokenType> rstType = u.unmarshal(elem, RequestSecurityTokenType.class);
             RequestSecurityTokenType type = rstType.getValue();
             return new RequestSecurityTokenImpl(type);
@@ -419,7 +419,7 @@ public class WSTrustElementFactoryImpl extends WSTrustElementFactory {
      */
     public  RequestSecurityTokenResponse createRSTRFrom(Source src) {
         try {
-            javax.xml.bind.Unmarshaller u = getContext(WSTrustVersion.WS_TRUST_13).createUnmarshaller();
+            jakarta.xml.bind.Unmarshaller u = getContext(WSTrustVersion.WS_TRUST_13).createUnmarshaller();
             JAXBElement<RequestSecurityTokenResponseType> rstType = u.unmarshal(src, RequestSecurityTokenResponseType.class);
             RequestSecurityTokenResponseType type = rstType.getValue();
             return new RequestSecurityTokenResponseImpl(type);
@@ -433,7 +433,7 @@ public class WSTrustElementFactoryImpl extends WSTrustElementFactory {
      */
     public  RequestSecurityTokenResponse createRSTRFrom(Element elem) {
         try {
-            javax.xml.bind.Unmarshaller u = getContext(WSTrustVersion.WS_TRUST_13).createUnmarshaller();
+            jakarta.xml.bind.Unmarshaller u = getContext(WSTrustVersion.WS_TRUST_13).createUnmarshaller();
             JAXBElement<RequestSecurityTokenResponseType> rstType = u.unmarshal(elem, RequestSecurityTokenResponseType.class);
             RequestSecurityTokenResponseType type = rstType.getValue();
             return new RequestSecurityTokenResponseImpl(type);
@@ -447,7 +447,7 @@ public class WSTrustElementFactoryImpl extends WSTrustElementFactory {
      */
     public  RequestSecurityTokenResponseCollection createRSTRCollectionFrom(Source src) {
          try {
-            javax.xml.bind.Unmarshaller u = getContext(WSTrustVersion.WS_TRUST_13).createUnmarshaller();
+            jakarta.xml.bind.Unmarshaller u = getContext(WSTrustVersion.WS_TRUST_13).createUnmarshaller();
             JAXBElement<RequestSecurityTokenResponseCollectionType> rstrcType = u.unmarshal(src, RequestSecurityTokenResponseCollectionType.class);
             RequestSecurityTokenResponseCollectionType type = rstrcType.getValue();
             return new RequestSecurityTokenResponseCollectionImpl(type);
@@ -462,7 +462,7 @@ public class WSTrustElementFactoryImpl extends WSTrustElementFactory {
     public  RequestSecurityTokenResponseCollection createRSTRCollectionFrom(Element elem) {
         checkElement(elem);
         try {
-            javax.xml.bind.Unmarshaller u = getContext(WSTrustVersion.WS_TRUST_13).createUnmarshaller();
+            jakarta.xml.bind.Unmarshaller u = getContext(WSTrustVersion.WS_TRUST_13).createUnmarshaller();
             JAXBElement<RequestSecurityTokenResponseCollectionType> rstrcType = u.unmarshal(elem, RequestSecurityTokenResponseCollectionType.class);
             RequestSecurityTokenResponseCollectionType type = rstrcType.getValue();
             return new RequestSecurityTokenResponseCollectionImpl(type);
@@ -702,7 +702,7 @@ public class WSTrustElementFactoryImpl extends WSTrustElementFactory {
         try {
             Document doc = WSTrustUtil.newDocument();
             
-            //javax.xml.bind.Marshaller marshaller = getContext(WSTrustVersion.WS_TRUST_13).createMarshaller();
+            //jakarta.xml.bind.Marshaller marshaller = getContext(WSTrustVersion.WS_TRUST_13).createMarshaller();
             JAXBElement<RequestSecurityTokenType> rstElement =  (new ObjectFactory()).createRequestSecurityToken((RequestSecurityTokenType)rst);
             getMarshaller().marshal(rstElement, doc);
             return doc.getDocumentElement();
@@ -724,7 +724,7 @@ public class WSTrustElementFactoryImpl extends WSTrustElementFactory {
         try {
             Document doc = WSTrustUtil.newDocument();
             
-            //javax.xml.bind.Marshaller marshaller = getContext(WSTrustVersion.WS_TRUST_13).createMarshaller();
+            //jakarta.xml.bind.Marshaller marshaller = getContext(WSTrustVersion.WS_TRUST_13).createMarshaller();
             JAXBElement<RequestSecurityTokenResponseType> rstrElement =  (new ObjectFactory()).createRequestSecurityTokenResponse((RequestSecurityTokenResponseType)rstr);
             getMarshaller().marshal(rstrElement, doc);
             return doc.getDocumentElement();
@@ -736,7 +736,7 @@ public class WSTrustElementFactoryImpl extends WSTrustElementFactory {
     
      public Element toElement(RequestSecurityTokenResponse rstr, Document doc) {
         try { 
-           // javax.xml.bind.Marshaller marshaller = getContext(WSTrustVersion.WS_TRUST_13).createMarshaller();
+           // jakarta.xml.bind.Marshaller marshaller = getContext(WSTrustVersion.WS_TRUST_13).createMarshaller();
            JAXBElement<RequestSecurityTokenResponseType> rstrElement =  (new ObjectFactory()).createRequestSecurityTokenResponse((RequestSecurityTokenResponseType)rstr);
            getMarshaller().marshal(rstrElement, doc);
            return doc.getDocumentElement();
@@ -755,7 +755,7 @@ public class WSTrustElementFactoryImpl extends WSTrustElementFactory {
     public  Element toElement(RequestSecurityTokenResponseCollection rstrCollection) {
         try {
             Document doc = WSTrustUtil.newDocument();
-           // javax.xml.bind.Marshaller marshaller = getContext(WSTrustVersion.WS_TRUST_13).createMarshaller();            
+           // jakarta.xml.bind.Marshaller marshaller = getContext(WSTrustVersion.WS_TRUST_13).createMarshaller();
             JAXBElement<RequestSecurityTokenResponseCollectionType> rstrElement =
                     (new ObjectFactory()).createRequestSecurityTokenResponseCollection((RequestSecurityTokenResponseCollectionType)rstrCollection);                                    
             getMarshaller().marshal(rstrElement, doc);   
@@ -770,7 +770,7 @@ public class WSTrustElementFactoryImpl extends WSTrustElementFactory {
         try {
             Document doc = WSTrustUtil.newDocument();
             
-            //javax.xml.bind.Marshaller marshaller = getContext(WSTrustVersion.WS_TRUST_13).createMarshaller();
+            //jakarta.xml.bind.Marshaller marshaller = getContext(WSTrustVersion.WS_TRUST_13).createMarshaller();
             JAXBElement<BinarySecretType> bsElement =
                     (new ObjectFactory()).createBinarySecret((BinarySecretType)bs);
             getMarshaller().marshal(bsElement, doc);
@@ -792,7 +792,7 @@ public class WSTrustElementFactoryImpl extends WSTrustElementFactory {
                 doc = WSTrustUtil.newDocument();
             }
             
-            //javax.xml.bind.Marshaller marshaller = getContext(WSTrustVersion.WS_TRUST_13).createMarshaller();
+            //jakarta.xml.bind.Marshaller marshaller = getContext(WSTrustVersion.WS_TRUST_13).createMarshaller();
             JAXBElement<SecurityTokenReferenceType> strElement =  (new com.sun.xml.ws.security.secext10.ObjectFactory()).createSecurityTokenReference((SecurityTokenReferenceType)str);
             getMarshaller().marshal(strElement, doc);
             return doc.getDocumentElement();
@@ -814,7 +814,7 @@ public class WSTrustElementFactoryImpl extends WSTrustElementFactory {
                 doc = WSTrustUtil.newDocument();
             }
             
-            //javax.xml.bind.Marshaller marshaller = getContext(WSTrustVersion.WS_TRUST_13).createMarshaller();
+            //jakarta.xml.bind.Marshaller marshaller = getContext(WSTrustVersion.WS_TRUST_13).createMarshaller();
             JAXBElement<BinarySecretType> bsElement =
                     (new ObjectFactory()).createBinarySecret((BinarySecretType)bs);
             getMarshaller().marshal(bsElement, doc);
@@ -857,7 +857,7 @@ public class WSTrustElementFactoryImpl extends WSTrustElementFactory {
                     String reasonText = (String) faultMap.get("ReasonText");
                     codeText = codeText.substring(codeText.indexOf(":") + 1);
                     qname = new QName(MessageConstants.SOAP_1_1_NS, codeText);
-                    throw new javax.xml.ws.soap.SOAPFaultException(SOAPFactory.newInstance(SOAPConstants.SOAP_1_1_PROTOCOL).createFault(reasonText, qname));
+                    throw new jakarta.xml.ws.soap.SOAPFaultException(SOAPFactory.newInstance(SOAPConstants.SOAP_1_1_PROTOCOL).createFault(reasonText, qname));
                 } else if (elem.getNamespaceURI().equals(MessageConstants.SOAP_1_2_NS)) {
 
                     faultMap = getFaultCodeAndReasonForSOAP1_2(elem, "Code", subcodeValues);
@@ -878,7 +878,7 @@ public class WSTrustElementFactoryImpl extends WSTrustElementFactory {
                             fault.appendFaultSubcode(subcodeqname);
                         }
                     }
-                    throw new javax.xml.ws.soap.SOAPFaultException(fault);
+                    throw new jakarta.xml.ws.soap.SOAPFaultException(fault);
 
                 }
             } catch (SOAPException se) {

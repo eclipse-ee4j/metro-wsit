@@ -30,7 +30,7 @@
         <title>Creating a MTOM Web Service</title>
 
         <para>The starting point for developing a web service to use WSIT is a
-        Java class file annotated with the <code>javax.jws.WebService</code>
+        Java class file annotated with the <code>jakarta.jws.WebService</code>
         annotation.</para>
 
         <para>For detailed instructions for how to use NetBeans IDE to create

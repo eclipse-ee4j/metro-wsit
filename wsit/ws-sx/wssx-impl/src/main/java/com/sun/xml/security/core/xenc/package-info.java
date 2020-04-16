@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -15,5 +15,5 @@
 // Generated on: 2006.02.03 at 04:10:33 PM IST 
 //
 
-@javax.xml.bind.annotation.XmlSchema(namespace = "http://www.w3.org/2001/04/xmlenc#")
+@jakarta.xml.bind.annotation.XmlSchema(namespace = "http://www.w3.org/2001/04/xmlenc#")
 package com.sun.xml.security.core.xenc;

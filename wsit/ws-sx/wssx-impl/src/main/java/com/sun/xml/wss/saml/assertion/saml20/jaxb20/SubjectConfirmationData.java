@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -31,8 +31,8 @@ import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.DatatypeConfigurationException;
 import java.security.PublicKey;
 
-import javax.xml.bind.JAXBElement;
-import javax.xml.bind.JAXBContext;
+import jakarta.xml.bind.JAXBElement;
+import jakarta.xml.bind.JAXBContext;
 import org.w3c.dom.Element;
 
 /**
@@ -67,7 +67,7 @@ public class SubjectConfirmationData extends SubjectConfirmationDataType
         try {
             JAXBContext jc = SAML20JAXBUtil.getJAXBContext();
                     
-            javax.xml.bind.Unmarshaller u = jc.createUnmarshaller();
+            jakarta.xml.bind.Unmarshaller u = jc.createUnmarshaller();
             return (SubjectConfirmationDataType)u.unmarshal(element);
         } catch ( Exception ex) {
             throw new SAMLException(ex.getMessage());
@@ -87,7 +87,7 @@ public class SubjectConfirmationData extends SubjectConfirmationDataType
         GregorianCalendar notOnOrAfter, String recipient, Element keyInfo) throws SAMLException {
         
         JAXBContext jc = null;
-        javax.xml.bind.Unmarshaller u = null;
+        jakarta.xml.bind.Unmarshaller u = null;
         
         //Unmarshal to JAXB KeyInfo Object and set it
         try {

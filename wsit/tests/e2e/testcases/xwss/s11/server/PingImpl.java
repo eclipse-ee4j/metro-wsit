@@ -11,7 +11,7 @@
 package xwss.s11.server;
 
                                                                                                                                                              
-@javax.jws.WebService (endpointInterface="xwss.s11.server.IPingService")
+@jakarta.jws.WebService (endpointInterface="xwss.s11.server.IPingService")
 public class PingImpl implements IPingService {
     
    public String ping(String message) {

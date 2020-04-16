@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -12,9 +12,10 @@ package com.sun.xml.ws.security.opt.impl.util;
 import com.sun.xml.ws.security.opt.impl.enc.CryptoProcessor;
 import java.io.IOException;
 import java.io.OutputStream;
-import javax.activation.DataContentHandler;
-import java.awt.datatransfer.DataFlavor;
-import javax.activation.DataSource;
+
+import jakarta.activation.ActivationDataFlavor;
+import jakarta.activation.DataContentHandler;
+import jakarta.activation.DataSource;
 /**
  *
  * @author K.Venugopal@sun.com
@@ -29,11 +30,11 @@ public class CVDataHandler implements DataContentHandler {
         throw new UnsupportedOperationException();
     }
     
-    public Object getTransferData(DataFlavor df, DataSource ds) {
+    public Object getTransferData(ActivationDataFlavor df, DataSource ds) {
         throw new UnsupportedOperationException();
     }
     
-    public DataFlavor[ ] getTransferDataFlavors() {
+    public ActivationDataFlavor[] getTransferDataFlavors() {
         throw new UnsupportedOperationException();
     }
     

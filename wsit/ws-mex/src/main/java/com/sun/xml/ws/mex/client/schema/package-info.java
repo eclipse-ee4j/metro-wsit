@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -15,5 +15,5 @@
 // Generated on: 2006.06.26 at 11:03:26 AM EDT 
 //
 
-@javax.xml.bind.annotation.XmlSchema(namespace = "http://schemas.xmlsoap.org/ws/2004/09/mex")
+@jakarta.xml.bind.annotation.XmlSchema(namespace = "http://schemas.xmlsoap.org/ws/2004/09/mex")
 package com.sun.xml.ws.mex.client.schema;

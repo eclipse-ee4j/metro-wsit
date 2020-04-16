@@ -12,11 +12,11 @@ package wsrm.v1_0.persistent.roundtrip.server;
 
 
 
-import javax.jws.WebService;
-import javax.xml.bind.JAXBElement;
+import jakarta.jws.WebService;
+import jakarta.xml.bind.JAXBElement;
 import javax.xml.namespace.QName;
-import javax.xml.ws.BindingType;
-import javax.xml.ws.soap.SOAPBinding;
+import jakarta.xml.ws.BindingType;
+import jakarta.xml.ws.soap.SOAPBinding;
 
 @WebService(endpointInterface = "wsrm.v1_0.persistent.roundtrip.server.IPing")
 @BindingType(SOAPBinding.SOAP12HTTP_BINDING)

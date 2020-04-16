@@ -190,7 +190,7 @@ Content-ID: &lt;5aeaa450-17f0-4484-b845-a8480c363444@example.org&gt;
                             <row>
                                 <entry>(others)</entry>
 
-                                <entry>javax.activation.DataHandler</entry>
+                                <entry>jakarta.activation.DataHandler</entry>
                             </row>
                         </tbody>
                     </tgroup>
@@ -274,7 +274,7 @@ req.setContentType("application/xml");</programlisting>
                             <title>Annotating SEI with @MTOM</title>
 
                             <programlisting language="java"
-                                            linenumbering="unnumbered">@javax.xml.ws.soap.MTOM
+                                            linenumbering="unnumbered">@jakarta.xml.ws.soap.MTOM
 @WebService
 public class HelloImpl implements Hello {
     ....

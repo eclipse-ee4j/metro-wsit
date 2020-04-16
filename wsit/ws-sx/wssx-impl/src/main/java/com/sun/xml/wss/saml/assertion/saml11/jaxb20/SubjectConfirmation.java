@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -23,13 +23,13 @@ import com.sun.xml.wss.saml.internal.saml11.jaxb20.SubjectConfirmationType;
 import com.sun.xml.wss.saml.util.SAMLJAXBUtil;
 import java.util.LinkedList;
 import java.util.List;
-import javax.xml.bind.JAXBElement;
+import jakarta.xml.bind.JAXBElement;
 import org.w3c.dom.Element;
 import java.util.logging.Logger;
 
 import java.security.PublicKey;
 
-import javax.xml.bind.JAXBContext;
+import jakarta.xml.bind.JAXBContext;
 
 /**
  * The <code>SubjectConfirmation</code> element specifies a subject by specifying data that
@@ -82,7 +82,7 @@ public class SubjectConfirmation extends com.sun.xml.wss.saml.internal.saml11.ja
         try {
             JAXBContext jc = SAMLJAXBUtil.getJAXBContext();
                     
-            javax.xml.bind.Unmarshaller u = jc.createUnmarshaller();
+            jakarta.xml.bind.Unmarshaller u = jc.createUnmarshaller();
             return (SubjectConfirmationType)u.unmarshal(element);
         } catch ( Exception ex) {
             throw new SAMLException(ex.getMessage());
@@ -111,7 +111,7 @@ public class SubjectConfirmation extends com.sun.xml.wss.saml.internal.saml11.ja
             Element keyInfo) throws SAMLException {
         
         JAXBContext jc = null;
-        javax.xml.bind.Unmarshaller u = null;
+        jakarta.xml.bind.Unmarshaller u = null;
         
         //Unmarshal to JAXB KeyInfo Object and set it
         try {

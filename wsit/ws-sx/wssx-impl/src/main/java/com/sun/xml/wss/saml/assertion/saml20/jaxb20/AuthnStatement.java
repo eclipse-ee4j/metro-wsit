@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -30,8 +30,8 @@ import javax.xml.datatype.DatatypeFactory;
 import org.w3c.dom.Element;
 import java.util.logging.Logger;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBElement;
+import jakarta.xml.bind.JAXBContext;
+import jakarta.xml.bind.JAXBElement;
 
 /**
  * The <code>AuthnStatement</code> element supplies a
@@ -70,7 +70,7 @@ public class AuthnStatement extends AuthnStatementType
         try {
             JAXBContext jc = SAML20JAXBUtil.getJAXBContext();
                     
-            javax.xml.bind.Unmarshaller u = jc.createUnmarshaller();
+            jakarta.xml.bind.Unmarshaller u = jc.createUnmarshaller();
             return (AuthnStatementType)u.unmarshal(element);
         } catch ( Exception ex) {
             throw new SAMLException(ex.getMessage());

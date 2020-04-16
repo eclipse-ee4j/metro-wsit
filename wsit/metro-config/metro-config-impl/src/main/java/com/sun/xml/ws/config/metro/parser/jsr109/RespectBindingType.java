@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -18,10 +18,10 @@
 
 package com.sun.xml.ws.config.metro.parser.jsr109;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlTransient;
-import javax.xml.bind.annotation.XmlType;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlTransient;
+import jakarta.xml.bind.annotation.XmlType;
 import com.sun.xml.bind.Locatable;
 import com.sun.xml.bind.annotation.XmlLocation;
 import org.xml.sax.Locator;
@@ -30,8 +30,8 @@ import org.xml.sax.Locator;
 /**
  * 
  * 
- *         Corresponds to the javax.xml.ws.RespectBinding annotation
- *         or its corresponding javax.xml.ws.RespectBindingFeature web
+ *         Corresponds to the jakarta.xml.ws.RespectBinding annotation
+ *         or its corresponding jakarta.xml.ws.RespectBindingFeature web
  *         service feature. This is used to control whether a JAX-WS
  *         implementation must respect/honor the contents of the
  *         wsdl:binding in the WSDL that is associated with the service.

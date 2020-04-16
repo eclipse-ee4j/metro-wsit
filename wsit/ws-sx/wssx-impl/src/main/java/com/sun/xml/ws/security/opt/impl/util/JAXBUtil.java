@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -23,10 +23,10 @@ import com.sun.xml.ws.api.SOAPVersion;
 import java.lang.ref.WeakReference;
 import java.security.AccessController;
 import java.security.PrivilegedExceptionAction;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-import javax.xml.ws.WebServiceException;
+import jakarta.xml.bind.JAXBContext;
+import jakarta.xml.bind.JAXBException;
+import jakarta.xml.bind.Marshaller;
+import jakarta.xml.ws.WebServiceException;
 
 /**
  *
@@ -107,7 +107,7 @@ public class JAXBUtil {
             marshaller.setProperty(Marshaller.JAXB_FRAGMENT,true);
             marshaller.setProperty("com.sun.xml.bind.xmlDeclaration", false);
             return marshaller;
-        }catch(javax.xml.bind.PropertyException pe){
+        }catch(jakarta.xml.bind.PropertyException pe){
             throw new JAXBException("Error occurred while setting security marshaller properties",pe);
         }
 

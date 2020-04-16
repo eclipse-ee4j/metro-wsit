@@ -18,7 +18,7 @@ import jakarta.transaction.Synchronization;
 import jakarta.transaction.SystemException;
 import jakarta.transaction.Transaction;
 import javax.transaction.xa.Xid;
-import javax.xml.ws.EndpointReference;
+import jakarta.xml.ws.EndpointReference;
 
 /**
  * Volatile WS-AT Participant

@@ -20,7 +20,7 @@ import jakarta.transaction.Status;
 import jakarta.transaction.SystemException;
 import jakarta.transaction.Transaction;
 import javax.transaction.xa.Xid;
-import javax.xml.ws.WebServiceException;
+import jakarta.xml.ws.WebServiceException;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;

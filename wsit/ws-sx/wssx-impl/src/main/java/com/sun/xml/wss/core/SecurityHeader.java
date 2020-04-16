@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -20,9 +20,9 @@ import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.xml.soap.Name;
-import javax.xml.soap.SOAPElement;
-import javax.xml.soap.SOAPException;
+import jakarta.xml.soap.Name;
+import jakarta.xml.soap.SOAPElement;
+import jakarta.xml.soap.SOAPException;
 
 import org.w3c.dom.Attr;
 import org.w3c.dom.DOMException;
@@ -198,16 +198,16 @@ public class SecurityHeader extends SOAPElementExtension implements SOAPElement 
     
     public SOAPElement getFirstChildElement() {
         Iterator eachChild = getChildElements();
-        javax.xml.soap.Node node;
+        jakarta.xml.soap.Node node;
 
         if (eachChild.hasNext()) {
-            node = (javax.xml.soap.Node) eachChild.next();
+            node = (jakarta.xml.soap.Node) eachChild.next();
         } else {
             return null;
         }
 
         while ((node.getNodeType() != Node.ELEMENT_NODE) && eachChild.hasNext()) {
-            node = (javax.xml.soap.Node) eachChild.next();
+            node = (jakarta.xml.soap.Node) eachChild.next();
         }
         return (SOAPElement) node;
     }
@@ -222,7 +222,7 @@ public class SecurityHeader extends SOAPElementExtension implements SOAPElement 
             }
             
             while (temp.getNodeType() != Node.ELEMENT_NODE && temp.getNextSibling() != null) {
-                temp = (javax.xml.soap.Node) temp.getNextSibling();
+                temp = (jakarta.xml.soap.Node) temp.getNextSibling();
             }
             
             while((temp != null) && (MessageConstants.SIGNATURE_CONFIRMATION_LNAME.equals(temp.getLocalName()))){
@@ -231,7 +231,7 @@ public class SecurityHeader extends SOAPElementExtension implements SOAPElement 
                     return null;
                 }
                 while(temp.getNodeType() != Node.ELEMENT_NODE && temp.getNextSibling() != null) {
-                    temp = (javax.xml.soap.Node)temp.getNextSibling();
+                    temp = (jakarta.xml.soap.Node)temp.getNextSibling();
                 }
             }
             return (SOAPElement)temp;

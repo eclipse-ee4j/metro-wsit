@@ -70,7 +70,7 @@ import javax.security.auth.callback.UnsupportedCallbackException;
 
 import com.sun.xml.wss.impl.misc.Base64;
 
-import javax.xml.bind.JAXBException;
+import jakarta.xml.bind.JAXBException;
 import javax.xml.namespace.QName;
 
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -126,7 +126,7 @@ public  class IssueSamlTokenContractImpl extends MyIssueSamlTokenContract {
             // Sign the assertion with STS's private key
             final Element signedAssertion = assertion.sign(request.getX509Certificate(), stsPrivKey);
             
-            //javax.xml.bind.Unmarshaller u = eleFac.getContext().createUnmarshaller();
+            //jakarta.xml.bind.Unmarshaller u = eleFac.getContext().createUnmarshaller();
             //JAXBElement<AssertionType> aType = u.unmarshal(signedAssertion, AssertionType.class);
             //assertion =  new com.sun.xml.wss.saml.assertion.saml11.jaxb20.Assertion(aType.getValue());
             //token = new GenericToken(signedAssertion);

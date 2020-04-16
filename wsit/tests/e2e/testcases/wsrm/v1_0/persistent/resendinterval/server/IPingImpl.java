@@ -10,10 +10,10 @@
 
 package wsrm.v1_0.persistent.resendinterval.server;
 
-import javax.jws.WebService;
+import jakarta.jws.WebService;
 
 @WebService(endpointInterface = "wsrm.v1_0.persistent.resendinterval.server.IPing")
-@javax.xml.ws.BindingType(javax.xml.ws.soap.SOAPBinding.SOAP12HTTP_BINDING)
+@jakarta.xml.ws.BindingType(jakarta.xml.ws.soap.SOAPBinding.SOAP12HTTP_BINDING)
 public class IPingImpl {
 
     /**

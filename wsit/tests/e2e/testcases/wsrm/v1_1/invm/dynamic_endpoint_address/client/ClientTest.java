@@ -13,7 +13,7 @@ package wsrm.v1_1.invm.dynamic_endpoint_address.client;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.xml.ws.BindingProvider;
+import jakarta.xml.ws.BindingProvider;
 import junit.framework.TestCase;
 import com.sun.xml.ws.rx.RxRuntimeException;
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -21,7 +21,7 @@ import com.sun.xml.wss.saml.util.SAMLUtil;
 import com.sun.xml.wss.saml.internal.saml20.jaxb20.AssertionType;
 import com.sun.xml.wss.saml.internal.saml20.jaxb20.NameIDType;
 import java.util.GregorianCalendar;
-import javax.xml.bind.JAXBElement;
+import jakarta.xml.bind.JAXBElement;
 
 import javax.xml.datatype.DatatypeFactory;
 
@@ -56,7 +56,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
-import javax.xml.bind.JAXBContext;
+import jakarta.xml.bind.JAXBContext;
 import java.util.Set;
 import java.util.Iterator;
 import java.util.logging.Logger;
@@ -68,8 +68,8 @@ import javax.xml.crypto.dsig.dom.DOMSignContext;
 import javax.xml.crypto.dsig.dom.DOMValidateContext;
 import javax.xml.crypto.dsig.keyinfo.*;
 import javax.xml.crypto.dsig.spec.*;
-import javax.xml.soap.MessageFactory;
-import javax.xml.soap.SOAPException;
+import jakarta.xml.soap.MessageFactory;
+import jakarta.xml.soap.SOAPException;
 
 //import com.sun.xml.wss.saml.Assertion20;
 import org.w3c.dom.NodeList;
@@ -502,7 +502,7 @@ public class Assertion extends AssertionType implements com.sun.xml.wss.saml.Ass
         try {
             JAXBContext jc = SAML20JAXBUtil.getJAXBContext();
             
-            javax.xml.bind.Unmarshaller u = jc.createUnmarshaller();
+            jakarta.xml.bind.Unmarshaller u = jc.createUnmarshaller();
             Object el = u.unmarshal(element);
             //return new Assertion((AssertionType)u.unmarshal(element));
             return new Assertion((AssertionType)((JAXBElement)el).getValue());

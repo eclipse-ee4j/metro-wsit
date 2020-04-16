@@ -9,12 +9,12 @@
  */
 
 package wssc.sc5.server;
-import javax.xml.ws.Holder;
+import jakarta.xml.ws.Holder;
 import com.sun.xml.wss.impl.callback.PasswordValidationCallback;
 
 
-@javax.jws.WebService (endpointInterface="wssc.sc5.server.IPingService")
-@javax.xml.ws.BindingType(value="http://java.sun.com/xml/ns/jaxws/2003/05/soap/bindings/HTTP/")
+@jakarta.jws.WebService (endpointInterface="wssc.sc5.server.IPingService")
+@jakarta.xml.ws.BindingType(value="http://java.sun.com/xml/ns/jaxws/2003/05/soap/bindings/HTTP/")
 public class PingImpl implements IPingService {
     
    public void ping( Holder<String> scenario,

@@ -13,12 +13,12 @@ package wsrm.v1_0.invm.secureroundtripsoap12.server;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.jws.WebMethod;
-import javax.jws.WebService;
-import javax.xml.ws.BindingType;
+import jakarta.jws.WebMethod;
+import jakarta.jws.WebService;
+import jakarta.xml.ws.BindingType;
 
 @WebService(endpointInterface="wsrm.v1_0.invm.secureroundtripsoap12.server.IPingService")
-@BindingType(javax.xml.ws.soap.SOAPBinding.SOAP12HTTP_BINDING)
+@BindingType(jakarta.xml.ws.soap.SOAPBinding.SOAP12HTTP_BINDING)
 public class IPingImpl {
 
     private static final Logger LOGGER = Logger.getLogger(IPingImpl.class.getName());

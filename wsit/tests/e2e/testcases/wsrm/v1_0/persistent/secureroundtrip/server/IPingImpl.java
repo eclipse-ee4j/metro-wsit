@@ -12,8 +12,8 @@ package wsrm.v1_0.persistent.secureroundtrip.server;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.jws.WebMethod;
-import javax.jws.WebService;
+import jakarta.jws.WebMethod;
+import jakarta.jws.WebService;
 
 @WebService(endpointInterface="wsrm.v1_0.persistent.secureroundtrip.server.IPingService")
 public class IPingImpl {

@@ -10,7 +10,7 @@
 
 package wspolicy.dispatch.securefail.server;
 
-import javax.jws.WebService;
+import jakarta.jws.WebService;
 
 @WebService(endpointInterface="wspolicy.dispatch.securefail.server.Echo")
 public class EchoImpl {

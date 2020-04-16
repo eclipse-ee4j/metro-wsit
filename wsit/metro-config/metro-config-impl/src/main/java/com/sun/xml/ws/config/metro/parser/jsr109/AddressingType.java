@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -18,10 +18,10 @@
 
 package com.sun.xml.ws.config.metro.parser.jsr109;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlTransient;
-import javax.xml.bind.annotation.XmlType;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlTransient;
+import jakarta.xml.bind.annotation.XmlType;
 import com.sun.xml.bind.Locatable;
 import com.sun.xml.bind.annotation.XmlLocation;
 import org.xml.sax.Locator;
@@ -31,8 +31,8 @@ import org.xml.sax.Locator;
  * 
  * 
  *         This specifies the WS-Addressing requirements for a JAX-WS web service.
- *         It corresponds to javax.xml.ws.soap.Addressing annotation or its
- *         feature javax.xml.ws.soap.AddressingFeature.
+ *         It corresponds to jakarta.xml.ws.soap.Addressing annotation or its
+ *         feature jakarta.xml.ws.soap.AddressingFeature.
  *         
  *         If the "enabled" element is "true", WS-Addressing is enabled.
  *         It means that the endpoint supports WS-Addressing but does not require

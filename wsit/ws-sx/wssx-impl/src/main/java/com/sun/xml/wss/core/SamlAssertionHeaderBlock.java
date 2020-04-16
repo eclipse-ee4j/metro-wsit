@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -16,7 +16,7 @@ package com.sun.xml.wss.core;
 
 import java.util.logging.Logger;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.soap.SOAPElement;
+import jakarta.xml.soap.SOAPElement;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -167,7 +167,7 @@ public class SamlAssertionHeaderBlock extends SecurityHeaderBlockImpl implements
         try {
             JAXBContext jc =
                 JAXBContext.newInstance("com.sun.xml.wss.saml.internal");
-            javax.xml.bind.Unmarshaller u = jc.createUnmarshaller();
+            jakarta.xml.bind.Unmarshaller u = jc.createUnmarshaller();
             delegateAssertion_.setSignature((SignatureType)u.unmarshal(elem));
             return true;
         } catch ( Exception ex) {

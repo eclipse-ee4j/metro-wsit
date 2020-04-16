@@ -578,7 +578,7 @@
 . . .
 import jakarta.transaction.UserTransaction;
 . . .
-import javax.jws.WebService;
+import jakarta.jws.WebService;
 import com.sun.xml.ws.api.tx.at.Transactional;
 import com.sun.xml.ws.api.tx.at.Transactional.Version;
 import com.sun.xml.ws.api.tx.at.Transactional.TransactionFlowType;
@@ -669,7 +669,7 @@ public class WsatBankTransferService {
 . . .
 import jakarta.transaction.UserTransaction;
 . . .
-import javax.jws.WebService;
+import jakarta.jws.WebService;
 import com.sun.xml.ws.api.tx.at.Transactional;
 import com.sun.xml.ws.api.tx.at.Transactional.Version;
 import com.sun.xml.ws.api.tx.at.Transactional.TransactionFlowType;
@@ -764,7 +764,7 @@ public class WsatBankTransferService {
 . . .
 import jakarta.transaction.UserTransaction;
 . . .
-import javax.jws.WebService;
+import jakarta.jws.WebService;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import com.sun.xml.ws.api.tx.at.Transactional;
@@ -970,7 +970,7 @@ import javax.xml.namespace.QName;
 import jakarta.transaction.UserTransaction;
 import jakarta.transaction.SystemException;
 
-import javax.xml.ws.WebServiceRef;
+import jakarta.xml.ws.WebServiceRef;
 import com.sun.xml.ws.api.tx.at.Transactional;
 */
 
@@ -1190,7 +1190,7 @@ public class WsatBankTransferServlet extends HttpServlet {
                 new QName("http://tempuri.org/", 
                         "WsatBankTransferService"));
         
-        return service.getWSHttpBindingIService(new javax.xml.ws.soap
+        return service.getWSHttpBindingIService(new jakarta.xml.ws.soap
                 .AddressingFeature(), feature);
     }
 

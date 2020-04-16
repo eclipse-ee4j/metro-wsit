@@ -41,9 +41,9 @@ import java.security.cert.X509Certificate;
 
 
 
-import javax.xml.bind.JAXBContext;
+import jakarta.xml.bind.JAXBContext;
 
-import javax.xml.bind.JAXBException;
+import jakarta.xml.bind.JAXBException;
 
 
 

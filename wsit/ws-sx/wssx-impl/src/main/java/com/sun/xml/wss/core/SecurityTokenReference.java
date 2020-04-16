@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -26,8 +26,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.xml.soap.SOAPElement;
-import javax.xml.soap.SOAPException;
+import jakarta.xml.soap.SOAPElement;
+import jakarta.xml.soap.SOAPException;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -122,7 +122,7 @@ public class SecurityTokenReference extends SecurityHeaderBlockImpl implements c
             throw new XWSSecurityException("Error: A SECURITY_TOKEN_REFERENCE with No child elements encountered");
         }
 
-        javax.xml.soap.Node node = null;
+        jakarta.xml.soap.Node node = null;
         
         // reference mechanisms found in the STR
         int refMechanismFound = 0;
@@ -134,7 +134,7 @@ public class SecurityTokenReference extends SecurityHeaderBlockImpl implements c
                         + " A SECURITY_TOKEN_REFERENCE MUST have exactly one child element");
             }
             
-            node = (javax.xml.soap.Node) eachChild.next();
+            node = (jakarta.xml.soap.Node) eachChild.next();
             
             if (node == null) {
                 log.log(Level.SEVERE, "WSS0379.error.creating.str");
