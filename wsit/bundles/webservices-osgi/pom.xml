@@ -174,7 +174,6 @@
                 <configuration>
                     <excludeDependencies>jaxws-eclipselink-plugin,sdo-eclipselink-plugin</excludeDependencies>
                     <instructions>
-                        <_noee>true</_noee>
                         <Export-Package>
                             com.oracle.webservices.*;version=${jaxws.osgiVersion},
                             com.oracle.xmlns.webservices.jaxws_databinding;version=${jaxws.osgiVersion},
