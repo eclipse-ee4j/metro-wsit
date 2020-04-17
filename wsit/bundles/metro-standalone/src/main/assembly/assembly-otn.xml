@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-    Copyright (c) 2011, 2018 Oracle and/or its affiliates. All rights reserved.
+    Copyright (c) 2011, 2020 Oracle and/or its affiliates. All rights reserved.
 
     This program and the accompanying materials are made available under the
     terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -50,7 +50,6 @@
 
             <includes>
                 <include>${project.groupId}:webservices-api</include>
-                <include>${project.groupId}:webservices-extra-api</include>
                 <include>${project.groupId}:webservices-extra</include>
                 <include>${project.groupId}:webservices-rt</include>
                 <include>${project.groupId}:webservices-tools</include>
@@ -83,17 +82,6 @@
                 <include>${project.groupId}:webservices-osgi</include>
                 <include>com.fasterxml.woodstox:woodstox-core</include>
                 <include>org.codehaus.woodstox:stax2-api</include>
-            </includes>
-        </dependencySet>
-        <dependencySet>
-            <outputFileNameMapping>webservices-osgi.jar</outputFileNameMapping>
-            <useProjectArtifact>false</useProjectArtifact>
-            <useTransitiveDependencies>false</useTransitiveDependencies>
-            <outputDirectory>metro/aix</outputDirectory>
-            <directoryMode>0755</directoryMode>
-
-            <includes>
-                <include>${project.groupId}:webservices-osgi-aix</include>
             </includes>
         </dependencySet>
     </dependencySets>

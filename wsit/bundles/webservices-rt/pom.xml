@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-    Copyright (c) 1997, 2019 Oracle and/or its affiliates. All rights reserved.
+    Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
 
     This program and the accompanying materials are made available under the
     terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -97,21 +97,6 @@
                                 <artifactItem>
                                     <groupId>com.sun.xml.messaging.saaj</groupId>
                                     <artifactId>saaj-impl</artifactId>
-                                    <classifier>sources</classifier>
-                                    <overWrite>false</overWrite>
-                                    <outputDirectory>${generated.sources.dir}</outputDirectory>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>com.sun.xml.rpc</groupId>
-                                    <artifactId>jaxrpc-impl</artifactId>
-                                    <classifier>sources</classifier>
-                                    <overWrite>false</overWrite>
-                                    <outputDirectory>${generated.sources.dir}</outputDirectory>
-                                    <excludes>module-info*,META-INF/jaxrpc/ToolPlugin.xml</excludes>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>com.sun.xml.rpc</groupId>
-                                    <artifactId>jaxrpc-spi</artifactId>
                                     <classifier>sources</classifier>
                                     <overWrite>false</overWrite>
                                     <outputDirectory>${generated.sources.dir}</outputDirectory>
@@ -228,25 +213,6 @@
                             </artifactItems>
                         </configuration>
                     </execution>
-                    <execution>
-                        <id>unpack-sources-jaxr</id>
-                        <phase>prepare-package</phase>
-                        <goals>
-                            <goal>unpack</goal>
-                        </goals>
-                        <configuration>
-                            <artifactItems>
-                                <artifactItem>
-                                    <groupId>com.sun.xml.registry</groupId>
-                                    <artifactId>jaxr-impl</artifactId>
-                                    <classifier>sources</classifier>
-                                    <overWrite>false</overWrite>
-                                    <outputDirectory>${generated.sources.dir.jaxr}</outputDirectory>
-                                    <includes>java/**</includes>
-                                </artifactItem>
-                            </artifactItems>
-                        </configuration>
-                    </execution>
                 </executions>
             </plugin>
             <plugin>
@@ -261,7 +227,6 @@
                         <configuration>
                             <sources>
                                 <source>${generated.sources.dir}</source>
-                                <source>${generated.sources.dir.jaxr}/java</source>
                             </sources>
                         </configuration>
                     </execution>
@@ -284,9 +249,6 @@
                                     <include>com.sun.xml.bind:jaxb-impl</include>
                                     <include>com.sun.xml.fastinfoset:FastInfoset</include>
                                     <include>com.sun.xml.messaging.saaj:saaj-impl</include>
-                                    <include>com.sun.xml.registry:jaxr-impl</include>
-                                    <include>com.sun.xml.rpc:jaxrpc-impl</include>
-                                    <include>com.sun.xml.rpc:jaxrpc-spi</include>
                                     <include>org.apache.santuario:xmlsec</include>
                                     <include>commons-logging:commons-logging</include>
                                     <include>com.sun.xml.stream.buffer:streambuffer</include>
@@ -310,12 +272,6 @@
                                     <artifact>*:*</artifact>
                                     <excludes>
                                         <exclude>module-info.*</exclude>
-                                    </excludes>
-                                </filter>
-                                <filter>
-                                    <artifact>com.sun.xml.rpc:jaxrpc-impl</artifact>
-                                    <excludes>
-                                        <exclude>META-INF/jaxrpc/ToolPlugin.xml</exclude>
                                     </excludes>
                                 </filter>
                                 <filter>
@@ -401,16 +357,6 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>jakarta.xml.rpc</groupId>
-            <artifactId>jakarta.xml.rpc-api</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>jakarta.xml.registry</groupId>
-            <artifactId>jakarta.xml.registry-api</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
             <groupId>jakarta.ejb</groupId>
             <artifactId>jakarta.ejb-api</artifactId>
             <scope>provided</scope>
@@ -470,18 +416,6 @@
         <dependency>
             <groupId>org.glassfish.metro</groupId>
             <artifactId>keyidspi-ibm-impl</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.sun.xml.registry</groupId>
-            <artifactId>jaxr-impl</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.sun.xml.rpc</groupId>
-            <artifactId>jaxrpc-impl</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.sun.xml.rpc</groupId>
-            <artifactId>jaxrpc-spi</artifactId>
         </dependency>
         <dependency>
             <groupId>com.sun.xml.ws</groupId>
@@ -544,7 +478,6 @@
         <build.id>${scmBranch}-${buildNumber}; ${timestamp}</build.id>
         <build.version>Metro/${project.version} (${build.id}) JAXWS-RI/${jaxws.ri.version} JAXWS-API/${jaxws-api.version} JAXB-RI/${jaxb.version} JAXB-API/${jaxb-api.version}</build.version>
         <generated.sources.dir>${project.build.directory}/generated-sources</generated.sources.dir>
-        <generated.sources.dir.jaxr>${project.build.directory}/generated-sources-jaxr</generated.sources.dir.jaxr>
     </properties>
 
 </project>
