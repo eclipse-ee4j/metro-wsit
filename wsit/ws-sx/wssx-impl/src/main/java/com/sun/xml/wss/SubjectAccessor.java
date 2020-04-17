@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -18,8 +18,6 @@ import com.sun.xml.wss.impl.MessageConstants;
 import com.sun.xml.wss.logging.LogDomainConstants;
 
 import javax.security.auth.Subject;
-import javax.xml.rpc.handler.MessageContext;
-import javax.xml.rpc.server.ServletEndpointContext;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -78,17 +76,6 @@ public class SubjectAccessor {
                         "WSS0761.context.not.instanceof.servletendpointcontext", ex);
                 throw new XWSSecurityException(ex);
             }
-        } else if (context instanceof ServletEndpointContext) {
-            
-            MessageContext msgContext = ((ServletEndpointContext)context).getMessageContext();
-            if (msgContext != null) {
-                Subject subject =(Subject)msgContext.getProperty(MessageConstants.AUTH_SUBJECT);
-                return subject;
-                
-            } else {
-                return null;
-            }
-            
         }
         return null;
     }

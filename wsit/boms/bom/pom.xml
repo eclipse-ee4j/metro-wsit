@@ -237,11 +237,6 @@
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>webservices-osgi-aix</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
                 <artifactId>webservices-extra-jdk-packages</artifactId>
                 <version>${project.version}</version>
             </dependency>

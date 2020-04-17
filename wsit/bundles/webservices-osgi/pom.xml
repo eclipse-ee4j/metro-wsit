@@ -40,7 +40,7 @@
                         </goals>
                         <configuration>
                             <excludeTransitive>true</excludeTransitive>
-                            <includes>META-INF/services/*, META-INF/metro-default.xml, META-INF/jaxrpc/*</includes>
+                            <includes>META-INF/services/*, META-INF/metro-default.xml</includes>
                             <excludes>META-INF/services/com.sun.xml.ws.spi.db.*, META-INF/services/com.sun.tools.*, META-INF/services/javax.xml.bind.*, META-INF/services/javax.xml.stream.*, META-INF/services/javax.mail.*, META-INF/services/org.*</excludes>
                             <outputDirectory>${project.build.directory}/generated-sources/resources</outputDirectory>
                         </configuration>
@@ -53,13 +53,6 @@
                         </goals>
                         <configuration>
                             <artifactItems>
-                                <artifactItem>
-                                    <groupId>jakarta.xml.registry</groupId>
-                                    <artifactId>jakarta.xml.registry-api</artifactId>
-                                    <classifier>sources</classifier>
-                                    <overWrite>false</overWrite>
-                                    <outputDirectory>${generated.sources.dir}</outputDirectory>
-                                </artifactItem>
                                 <artifactItem>
                                     <groupId>${project.groupId}</groupId>
                                     <artifactId>webservices-rt</artifactId>
@@ -146,10 +139,6 @@
                                     <message>Property saaj-impl.osgiVersion not imported or set!</message>
                                 </requireProperty>
                                 <requireProperty>
-                                    <property>jaxrpc-impl.osgiVersion</property>
-                                    <message>Property jaxrpc-impl.osgiVersion not imported or set!</message>
-                                </requireProperty>
-                                <requireProperty>
                                     <property>jaxws.osgiVersion</property>
                                     <message>Property jaxws.osgiVersion not imported or set!</message>
                                 </requireProperty>
@@ -182,10 +171,6 @@
                             com.sun.tools.ws.*;version=${jaxws.osgiVersion},
                             com.sun.wsit.security.*;version=${metro.osgiVersion},
                             com.sun.xml.messaging.saaj.*;version=${saaj-impl.osgiVersion},
-                            com.sun.xml.registry.*;version=1.0,
-                            com.sun.xml.rpc.plugins;version=${metro.osgiVersion},
-                            com.sun.xml.rpc.security;version=${metro.osgiVersion},
-                            com.sun.xml.rpc.*;version=${jaxrpc-impl.osgiVersion},
                             com.sun.xml.security.*;version=${metro.osgiVersion},
                             com.sun.xml.ws.api.config.management;version=${jaxws.osgiVersion},
                             com.sun.xml.ws.api.config.management.policy;version=${jaxws.osgiVersion},
@@ -245,7 +230,6 @@
                             com.sun.org.apache.xml.internal.*;resolution:=optional,
                             com.sun.org.apache.xerces.internal.*;resolution:=optional,
                             com.sun.xml.bind.api.impl;resolution:=optional,
-                            com.sun.xml.rpc.*;resolution:=optional,
                             javax.ejb;resolution:=optional;version=3.0,
                             javax.jws;version=2.0,
                             javax.jws.soap;version=2.0,
@@ -333,11 +317,6 @@
 
     <dependencies>
         <dependency>
-            <groupId>jakarta.xml.registry</groupId>
-            <artifactId>jakarta.xml.registry-api</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>webservices-rt</artifactId>
             <version>${project.version}</version>
@@ -399,10 +378,6 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>webservices-api-osgi</artifactId>
             <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>jakarta.xml.rpc</groupId>
-            <artifactId>jakarta.xml.rpc-api</artifactId>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>

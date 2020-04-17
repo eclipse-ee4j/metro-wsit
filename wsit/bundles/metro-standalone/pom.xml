@@ -376,11 +376,6 @@
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>webservices-extra-api</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
             <artifactId>webservices-extra</artifactId>
             <version>${project.version}</version>
         </dependency>
@@ -421,11 +416,6 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>webservices-osgi</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>webservices-osgi-aix</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>

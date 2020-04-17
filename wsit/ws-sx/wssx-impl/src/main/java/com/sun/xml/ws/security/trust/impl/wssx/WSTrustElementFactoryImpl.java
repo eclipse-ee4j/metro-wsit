@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -10,7 +10,6 @@
 
 package com.sun.xml.ws.security.trust.impl.wssx;
 
-import com.sun.xml.ws.api.message.Messages;
 import com.sun.xml.ws.security.secext10.SecurityTokenReferenceType;
 
 import com.sun.xml.ws.security.trust.elements.AllowPostdating;
@@ -113,7 +112,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
 import javax.xml.namespace.QName;
-import javax.xml.rpc.soap.SOAPFaultException;
 import javax.xml.soap.SOAPConstants;
 import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPFactory;
