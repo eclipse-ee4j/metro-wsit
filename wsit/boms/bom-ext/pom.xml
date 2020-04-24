@@ -28,7 +28,7 @@
     <description>Metro Web Services Stack Dependency POM for Metro-CS</description>
 
     <properties>
-        <connector-api.version>2.0.0</connector-api.version>
+        <connector-api.version>2.0.0-RC1</connector-api.version>
         <transaction-api.version>2.0.0-RC1</transaction-api.version>
         <jaxws.home.uri>http://eclipse-ee4j.github.io/metro-jax-ws</jaxws.home.uri>
         <santuario.version>1.5.8</santuario.version>
