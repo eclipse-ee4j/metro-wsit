@@ -26,11 +26,13 @@ import com.sun.xml.ws.security.opt.api.SecuredHeader;
 import com.sun.xml.wss.WSITXMLFactory;
 import com.sun.xml.wss.impl.MessageConstants;
 
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.Vector;
 import jakarta.xml.bind.Unmarshaller;
 
+import jakarta.xml.bind.attachment.AttachmentUnmarshaller;
 import jakarta.xml.soap.SOAPConstants;
 import jakarta.xml.soap.SOAPException;
 import jakarta.xml.soap.SOAPHeader;
@@ -338,9 +340,20 @@ public class GenericSecuredHeader extends AbstractHeaderImpl implements SecuredH
     }
 
     @Override
-    public <T> T readAsJAXB(com.sun.xml.bind.api.Bridge<T> bridge) throws jakarta.xml.bind.JAXBException {
+    public <T> T readAsJAXB(org.glassfish.jaxb.runtime.api.Bridge<T> bridge) throws jakarta.xml.bind.JAXBException {
         try {
             return bridge.unmarshal(completeHeader.readAsXMLStreamReader());
+        } catch (XMLStreamException e) {
+            throw new JAXBException(e);
+        } catch (Exception e) {
+            throw new JAXBException(e);
+        }
+    }
+
+    @Override
+    public <T> T readAsJAXB(com.sun.xml.ws.spi.db.XMLBridge<T> bridge) throws jakarta.xml.bind.JAXBException {
+        try {
+            return bridge.unmarshal(completeHeader.readAsXMLStreamReader(), null);
         } catch (XMLStreamException e) {
             throw new JAXBException(e);
         } catch (Exception e) {

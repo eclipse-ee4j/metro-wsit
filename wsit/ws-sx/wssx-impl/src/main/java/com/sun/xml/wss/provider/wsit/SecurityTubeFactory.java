@@ -70,7 +70,7 @@ public final class SecurityTubeFactory implements TubeFactory, TubelineAssemblyC
         LogDomainConstants.WSIT_PVD_DOMAIN,
         LogDomainConstants.WSIT_PVD_DOMAIN_BUNDLE);
 
-    private static final String SERVLET_CONTEXT_CLASSNAME = "javax.servlet.ServletContext";
+    private static final String SERVLET_CONTEXT_CLASSNAME = "jakarta.servlet.ServletContext";
     //Added for Security Pipe Unification with JSR 196 on GlassFish
     private static final String ENDPOINT = "ENDPOINT";
     private static final String NEXT_PIPE = "NEXT_PIPE";

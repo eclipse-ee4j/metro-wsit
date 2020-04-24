@@ -23,7 +23,7 @@ import jakarta.annotation.Resource;
 import jakarta.xml.ws.WebServiceContext;
 import jakarta.xml.ws.WebServiceException;
 import jakarta.xml.ws.handler.MessageContext;
-import javax.servlet.ServletContext;
+import jakarta.servlet.ServletContext;
 import javax.imageio.ImageIO;
 
 /**

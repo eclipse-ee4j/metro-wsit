@@ -81,7 +81,7 @@ import javax.security.auth.message.AuthException;
 import javax.security.auth.message.AuthStatus;
 import javax.security.auth.message.MessageInfo;
 import javax.security.auth.message.config.ServerAuthContext;
-//import javax.servlet.ServletContext;
+//import jakarta.servlet.ServletContext;
 import javax.xml.namespace.QName;
 import jakarta.xml.soap.SOAPException;
 import jakarta.xml.soap.SOAPMessage;
@@ -894,7 +894,7 @@ public class WSITServerAuthContext extends WSITAuthContextBase implements Server
     
     @SuppressWarnings("unchecked")
     private RealmAuthenticationAdapter getRealmAuthenticationAdapter(WSEndpoint wSEndpoint) {
-        String className = "javax.servlet.ServletContext";
+        String className = "jakarta.servlet.ServletContext";
         Class ret = null;
         ClassLoader loader = Thread.currentThread().getContextClassLoader();
         if (loader != null) {

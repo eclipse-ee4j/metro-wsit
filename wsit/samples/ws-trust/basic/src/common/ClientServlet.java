@@ -16,8 +16,8 @@ import java.io.*;
 import java.net.*;
 import jakarta.annotation.Resource;
 
-import javax.servlet.*;
-import javax.servlet.http.*;
+import jakarta.servlet.*;
+import jakarta.servlet.http.*;
 import jakarta.xml.ws.WebServiceContext;
 import jakarta.xml.ws.WebServiceFeature;
 import jakarta.xml.ws.WebServiceRef;

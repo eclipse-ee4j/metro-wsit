@@ -270,7 +270,12 @@ public class LazyStreamBasedMessage extends Message{
         }
         throw new UnsupportedOperationException();
     }
-    
+
+    @Override
+    public <T> T readPayloadAsJAXB(org.glassfish.jaxb.runtime.api.Bridge<T> bridge) throws JAXBException {
+        return null;
+    }
+
     /**
      * Reads the payload as a JAXB object according to the given {@link Bridge}.
      *
@@ -283,7 +288,7 @@ public class LazyStreamBasedMessage extends Message{
         if(!readMessage){
             cacheMessage();
         }
-        return message.readPayloadAsJAXB(bridge);
+        return message.readPayloadAsJAXB((Unmarshaller) bridge);
     }
     
     

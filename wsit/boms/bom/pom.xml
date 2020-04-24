@@ -68,6 +68,24 @@
                 <scope>import</scope>
             </dependency>
 
+            <dependency>
+                <groupId>com.sun.xml.ws</groupId>
+                <artifactId>jaxws-rt</artifactId>
+                <version>${jaxws.ri.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.sun.xml.ws</groupId>
+                <artifactId>policy</artifactId>
+                <version>${jaxws.ri.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.sun.xml.bind</groupId>
+                <artifactId>jaxb-impl</artifactId>
+                <version>${jaxws.ri.version}</version>
+            </dependency>
+
             <!-- Distribution Artifacts -->
             <dependency>
                 <groupId>${project.groupId}</groupId>

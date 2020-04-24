@@ -19,7 +19,7 @@ import java.util.logging.Logger;
 
 import jakarta.annotation.Resource;
 import jakarta.jws.WebService;
-import javax.servlet.ServletContext;
+import jakarta.servlet.ServletContext;
 import javax.xml.namespace.QName;
 import jakarta.xml.ws.WebServiceContext;
 import jakarta.xml.ws.handler.MessageContext;

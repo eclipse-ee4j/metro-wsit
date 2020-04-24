@@ -53,6 +53,11 @@
             <artifactId>jaxws-rt</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>org.glassfish.jaxb</groupId>
+            <artifactId>jaxb-runtime</artifactId>
+        </dependency>
+
         <!-- Provided scope -->
         <dependency>
             <groupId>jakarta.ejb</groupId>

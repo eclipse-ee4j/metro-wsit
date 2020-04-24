@@ -32,7 +32,7 @@ public class MetroParser {
 
     private static final Logger LOGGER = Logger.getLogger(MetroParser.class);
     
-    private static final String SERVLET_CONTEXT_CLASSNAME = "javax.servlet.ServletContext";
+    private static final String SERVLET_CONTEXT_CLASSNAME = "jakarta.servlet.ServletContext";
     // Prefixing with META-INF/ instead of /META-INF/. /META-INF/ is working fine
     // when loading from a JAR file but not when loading from a plain directory.
     private static final String JAR_PREFIX = "META-INF/";

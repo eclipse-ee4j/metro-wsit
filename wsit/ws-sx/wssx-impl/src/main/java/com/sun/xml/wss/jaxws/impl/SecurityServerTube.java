@@ -857,7 +857,7 @@ public class SecurityServerTube extends SecurityTubeBase {
 
     @SuppressWarnings("unchecked")
     private RealmAuthenticationAdapter getRealmAuthenticationAdapter(WSEndpoint wSEndpoint) {
-        String className = "javax.servlet.ServletContext";
+        String className = "jakarta.servlet.ServletContext";
         Class ret = null;
         ClassLoader loader = Thread.currentThread().getContextClassLoader();
         if (loader != null) {

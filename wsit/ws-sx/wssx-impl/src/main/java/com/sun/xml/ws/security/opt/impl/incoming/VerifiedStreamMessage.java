@@ -259,10 +259,22 @@ public final class VerifiedStreamMessage extends AbstractMessageImpl {
             throw new XWSSecurityRuntimeException(ex);
         }
     }
-    
+
+    public <T> T readPayloadAsJAXB(Bridge<T> bridge) throws JAXBException {
+        cacheMessage();
+        if (!hasPayload()) {
+            return null;
+        }
+        assert unconsumed();
+        T r = bridge.unmarshal(reader,
+                hasAttachments() ? new AttachmentUnmarshallerImpl(getAttachments()) : null);
+        XMLStreamReaderUtil.close(reader);
+        XMLStreamReaderFactory.recycle(reader);
+        return r;
+    }
 
     @Override
-    public <T> T readPayloadAsJAXB(Bridge<T> bridge) throws JAXBException {
+    public <T> T readPayloadAsJAXB(com.sun.xml.ws.spi.db.XMLBridge<T> bridge) throws JAXBException {
         cacheMessage();
         if (!hasPayload()) {
             return null;

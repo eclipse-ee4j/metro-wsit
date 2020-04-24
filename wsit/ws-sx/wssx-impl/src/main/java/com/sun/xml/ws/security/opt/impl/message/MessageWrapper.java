@@ -260,7 +260,12 @@ public class MessageWrapper extends com.sun.xml.ws.api.message.Message{
     public <T> T readPayloadAsJAXB(Unmarshaller unmarshaller) throws JAXBException{
         throw new UnsupportedOperationException();
     }
-    
+
+    @Override
+    public <T> T readPayloadAsJAXB(org.glassfish.jaxb.runtime.api.Bridge<T> bridge) throws JAXBException {
+        return null;
+    }
+
     /**
      * Reads the payload as a JAXB object according to the given {@link Bridge}.
      *

@@ -42,7 +42,7 @@ import com.sun.xml.wss.impl.XWSSecurityRuntimeException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.jar.Attributes.Name;
-import javax.servlet.ServletContext;
+import jakarta.servlet.ServletContext;
 import javax.xml.namespace.QName;
 import jakarta.xml.soap.MessageFactory;
 import org.w3c.dom.Node;
@@ -80,7 +80,7 @@ public class XWSSServerTube extends AbstractFilterTubeImpl {
     protected static final String FALSE = "false";
     protected static final String CONTEXT_WSDL_OPERATION =
             "com.sun.xml.ws.wsdl.operation";
-    private static final String SERVLET_CONTEXT_CLASSNAME = "javax.servlet.ServletContext";
+    private static final String SERVLET_CONTEXT_CLASSNAME = "jakarta.servlet.ServletContext";
     
     /** Creates a new instance of XWSSServerPipe */
     public XWSSServerTube(WSEndpoint epoint, WSDLPort prt, Tube nextTube) {

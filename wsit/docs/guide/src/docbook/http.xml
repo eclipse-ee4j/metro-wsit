@@ -155,7 +155,7 @@ port.getRequestContext().put(BindingProvider.SESSION_MAINTAIN_PROPERTY,true);</p
             mechanism, you can use <link
             xlink:href="http://www.google.com/search?q=servlet+cookie">servlet's
             native support for cookies</link>. See the following code to how
-            to access <code>javax.servlet.http.HttpServletRequest</code> from
+            to access <code>jakarta.servlet.http.HttpServletRequest</code> from
             your service.</para>
 
             <example>

@@ -260,7 +260,12 @@ public class Header implements com.sun.xml.ws.api.message.Header {
     public <T> T readAsJAXB(Unmarshaller unmarshaller) throws JAXBException{
         throw new UnsupportedOperationException();
     }
-    
+
+    @Override
+    public <T> T readAsJAXB(org.glassfish.jaxb.runtime.api.Bridge<T> bridge) throws JAXBException {
+        return null;
+    }
+
     /**
      * @deprecated
      *      Use {@link #readAsJAXB(Bridge)}. To be removed after JavaOne.

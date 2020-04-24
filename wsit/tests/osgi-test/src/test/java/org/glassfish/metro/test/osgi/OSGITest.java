@@ -72,7 +72,7 @@ public class OSGITest {
                 mavenBundle().groupId("javax.interceptor").artifactId("javax.interceptor-api").version("1.2"),
                 mavenBundle().groupId("jakarta.mail").artifactId("jakarta.mail-api").version("1.5.0"),
                 mavenBundle().groupId("javax.resource").artifactId("javax.resource-api").version("1.7"),
-                mavenBundle().groupId("javax.servlet").artifactId("javax.servlet-api").version("3.1.0"),
+                mavenBundle().groupId("jakarta.servlet").artifactId("jakarta.servlet-api").version("3.1.0"),
                 mavenBundle().groupId("jakarta.transaction").artifactId("jakarta.transaction-api").version("1.2"),
                 mavenBundle().groupId("javax.xml.rpc").artifactId("javax.xml.rpc-api").version("1.1.1"),
                 mavenBundle().groupId("javax.xml.registry").artifactId("javax.xml.registry-api").version("1.0.5"),

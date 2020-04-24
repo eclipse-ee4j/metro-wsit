@@ -31,7 +31,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import jakarta.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import javax.xml.namespace.QName;
 import jakarta.xml.soap.Detail;
 import jakarta.xml.soap.SOAPConstants;

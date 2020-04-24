@@ -961,8 +961,8 @@ public class WsatBankTransferService {
 
                     <programlisting language="java" linenumbering="unnumbered">package examples.webservices.jaxws.wsat.simple.client;
 . . .
-import javax.servlet.*;
-import javax.servlet.http.*;
+import jakarta.servlet.*;
+import jakarta.servlet.http.*;
 . . .
 import java.net.URL;
 import javax.xml.namespace.QName;
@@ -1109,8 +1109,8 @@ public class WsatBankTransferServlet extends HttpServlet {
 
                     <programlisting language="java" linenumbering="unnumbered">package examples.webservices.jaxws.wsat.simple.client;
 . . .
-import javax.servlet.*;
-import javax.servlet.http.*;
+import jakarta.servlet.*;
+import jakarta.servlet.http.*;
 . . .
 import java.net.URL;
 import javax.xml.namespace.QName;

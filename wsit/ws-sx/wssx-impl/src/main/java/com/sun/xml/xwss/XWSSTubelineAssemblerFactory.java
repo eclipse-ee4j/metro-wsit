@@ -35,7 +35,7 @@ import jakarta.xml.ws.WebServiceException;
  */
 public class XWSSTubelineAssemblerFactory extends TubelineAssemblerFactory {
 
-    private static final String SERVLET_CONTEXT_CLASSNAME = "javax.servlet.ServletContext";   
+    private static final String SERVLET_CONTEXT_CLASSNAME = "jakarta.servlet.ServletContext";
     private static final String addrVersionClass = "com.sun.xml.ws.api.addressing.AddressingVersion";
     private static final boolean disable;
 

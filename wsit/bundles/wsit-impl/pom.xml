@@ -233,6 +233,10 @@
             <artifactId>grizzly-framework</artifactId>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-impl</artifactId>
+        </dependency>
 
         <!-- Shaded dependencies -->
         <dependency>

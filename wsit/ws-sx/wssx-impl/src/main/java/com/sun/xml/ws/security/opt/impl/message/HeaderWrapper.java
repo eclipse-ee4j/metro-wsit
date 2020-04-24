@@ -254,15 +254,19 @@ public class HeaderWrapper implements com.sun.xml.ws.api.message.Header  {
         }
         throw new UnsupportedOperationException();
     }
-    
-   
-    
+
+    @Override
+    public <T> T readAsJAXB(org.glassfish.jaxb.runtime.api.Bridge<T> bridge) throws JAXBException {
+        return null;
+    }
+
+
     /**
      * Reads the header as a JAXB object by using the given unmarshaller.
      */
     public <T> T readAsJAXB(Bridge<T> bridge) throws JAXBException{
         if(header != null){
-            return header.readAsJAXB(bridge);
+            return header.readAsJAXB((Unmarshaller) bridge);
         }
         throw new UnsupportedOperationException();
     }
