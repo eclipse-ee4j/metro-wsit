@@ -109,11 +109,11 @@ public class JAXBEncryptedKey implements EncryptedKey,
         throw new UnsupportedOperationException();
     }
     
-    public <T> T readAsJAXB(com.sun.xml.bind.api.Bridge<T> bridge, com.sun.xml.bind.api.BridgeContext context) throws jakarta.xml.bind.JAXBException {
+    public <T> T readAsJAXB(org.glassfish.jaxb.runtime.api.Bridge<T> bridge, org.glassfish.jaxb.runtime.api.BridgeContext context) throws jakarta.xml.bind.JAXBException {
         throw new UnsupportedOperationException();
     }
     
-    public <T> T readAsJAXB(com.sun.xml.bind.api.Bridge<T> bridge) throws jakarta.xml.bind.JAXBException {
+    public <T> T readAsJAXB(org.glassfish.jaxb.runtime.api.Bridge<T> bridge) throws jakarta.xml.bind.JAXBException {
         throw new UnsupportedOperationException();
     }
 

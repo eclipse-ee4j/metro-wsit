@@ -16,8 +16,8 @@ import com.sun.xml.ws.security.opt.api.SecurityElement;
 import com.sun.xml.ws.security.opt.api.SecurityElementWriter;
 import com.sun.xml.ws.security.opt.impl.outgoing.SecurityHeader;
 import com.sun.istack.NotNull;
-import com.sun.xml.bind.api.Bridge;
-import com.sun.xml.bind.api.BridgeContext;
+import org.glassfish.jaxb.runtime.api.Bridge;
+import org.glassfish.jaxb.runtime.api.BridgeContext;
 import com.sun.xml.ws.api.SOAPVersion;
 import com.sun.xml.ws.security.opt.impl.dsig.SignedMessageHeader;
 import com.sun.xml.ws.spi.db.XMLBridge;
@@ -253,11 +253,6 @@ public class HeaderWrapper implements com.sun.xml.ws.api.message.Header  {
             return (T)header.readAsJAXB(unmarshaller);
         }
         throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public <T> T readAsJAXB(org.glassfish.jaxb.runtime.api.Bridge<T> bridge) throws JAXBException {
-        return null;
     }
 
 

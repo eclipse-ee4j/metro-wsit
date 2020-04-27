@@ -126,7 +126,7 @@
                             <manifestLocation>${manifest.folder}/META-INF</manifestLocation>
                             <instructions>
                                 <Export-Package>
-                                    jakarta.jws.*;version=2.0,
+                                    jakarta.jws.*;version=3.0,
                                     jakarta.xml.ws.*;version=${jaxws-api.osgiVersion},
                                     jakarta.xml.soap.*;version=${saaj-api.osgiVersion}
                                 </Export-Package>

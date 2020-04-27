@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -47,7 +47,7 @@ import com.sun.xml.wss.saml.util.SAMLUtil;
 import org.apache.xml.security.encryption.EncryptedKey;
 import org.apache.xml.security.keys.content.X509Data;
 import org.apache.xml.security.keys.KeyInfo;
-import com.sun.xml.bind.v2.runtime.JAXBContextImpl;
+import org.glassfish.jaxb.runtime.v2.runtime.JAXBContextImpl;
 import com.sun.xml.bind.v2.util.XmlFactory;
 import com.sun.xml.wss.WSITXMLFactory;
 

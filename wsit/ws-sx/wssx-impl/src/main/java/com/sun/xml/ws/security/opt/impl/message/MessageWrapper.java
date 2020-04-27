@@ -13,7 +13,7 @@ package com.sun.xml.ws.security.opt.impl.message;
 import com.sun.xml.ws.security.opt.api.SecurityElement;
 import com.sun.xml.ws.spi.db.XMLBridge;
 import com.sun.istack.NotNull;
-import com.sun.xml.bind.api.Bridge;
+import org.glassfish.jaxb.runtime.api.Bridge;
 import com.sun.xml.ws.api.model.wsdl.WSDLPort;
 import com.sun.xml.ws.api.message.AddressingUtils;
 import com.sun.xml.ws.api.message.AttachmentSet;
@@ -261,10 +261,6 @@ public class MessageWrapper extends com.sun.xml.ws.api.message.Message{
         throw new UnsupportedOperationException();
     }
 
-    @Override
-    public <T> T readPayloadAsJAXB(org.glassfish.jaxb.runtime.api.Bridge<T> bridge) throws JAXBException {
-        return null;
-    }
 
     /**
      * Reads the payload as a JAXB object according to the given {@link Bridge}.
@@ -274,6 +270,7 @@ public class MessageWrapper extends com.sun.xml.ws.api.message.Message{
      * @throws JAXBException
      *      If JAXB reports an error during the processing.
      */
+    @Override
     public <T> T readPayloadAsJAXB(Bridge<T> bridge) throws JAXBException{
         throw new UnsupportedOperationException();
     }

@@ -10,7 +10,7 @@
 
 package com.sun.xml.ws.tx.coord.v11;
 
-import com.sun.xml.bind.api.JAXBRIContext;
+import org.glassfish.jaxb.runtime.api.JAXBRIContext;
 import com.sun.xml.ws.tx.coord.common.types.*;
 import com.sun.xml.ws.tx.coord.v11.types.*;
 import com.sun.xml.ws.tx.coord.v11.types.RegisterResponseType;

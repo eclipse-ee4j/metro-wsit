@@ -72,9 +72,9 @@ public class SAMLToken implements SecurityHeaderElement, SecurityElementWriter {
         try{
             Marshaller marshaller = jxbContext.createMarshaller();
             if(SOAPVersion.SOAP_11 == soapVersion){
-                marshaller.setProperty("com.sun.xml.bind.namespacePrefixMapper", JAXBUtil.prefixMapper11);
+                marshaller.setProperty("org.glassfish.jaxb.runtime.marshaller.namespacePrefixMapper", JAXBUtil.prefixMapper11);
             }else{
-                marshaller.setProperty("com.sun.xml.bind.namespacePrefixMapper", JAXBUtil.prefixMapper12);
+                marshaller.setProperty("org.glassfish.jaxb.runtime.marshaller.namespacePrefixMapper", JAXBUtil.prefixMapper12);
             }
             marshaller.setProperty(Marshaller.JAXB_FRAGMENT,true);
             marshaller.setProperty("com.sun.xml.bind.xmlDeclaration", false);

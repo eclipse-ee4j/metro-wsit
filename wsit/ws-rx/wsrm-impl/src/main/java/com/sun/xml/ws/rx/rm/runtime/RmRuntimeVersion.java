@@ -12,7 +12,7 @@ package com.sun.xml.ws.rx.rm.runtime;
 
 import com.sun.xml.ws.rx.RxRuntimeException;
 import com.sun.xml.ws.rx.util.JaxbContextRepository;
-import com.sun.xml.bind.api.JAXBRIContext;
+import org.glassfish.jaxb.runtime.api.JAXBRIContext;
 
 import com.sun.xml.ws.api.addressing.AddressingVersion;
 import com.sun.xml.ws.rx.rm.api.RmProtocolVersion;

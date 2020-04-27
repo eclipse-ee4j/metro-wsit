@@ -859,7 +859,7 @@ public class WSTrustElementFactoryImpl extends WSTrustElementFactory {
     public Marshaller getMarshaller(){
          try {
             Marshaller marshaller = getContext().createMarshaller();
-            marshaller.setProperty("com.sun.xml.bind.namespacePrefixMapper", new com.sun.xml.ws.security.trust.util.TrustNamespacePrefixMapper());
+            marshaller.setProperty("org.glassfish.jaxb.runtime.marshaller.namespacePrefixMapper", new com.sun.xml.ws.security.trust.util.TrustNamespacePrefixMapper());
         
             return marshaller;
          } catch( PropertyException e ) {

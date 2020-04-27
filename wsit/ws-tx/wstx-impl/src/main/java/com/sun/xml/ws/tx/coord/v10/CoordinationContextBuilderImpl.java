@@ -10,7 +10,7 @@
 
 package com.sun.xml.ws.tx.coord.v10;
 
-import com.sun.xml.bind.api.JAXBRIContext;
+import org.glassfish.jaxb.runtime.api.JAXBRIContext;
 import com.sun.xml.ws.api.message.Header;
 import com.sun.xml.ws.developer.MemberSubmissionEndpointReference;
 import org.w3c.dom.Element;

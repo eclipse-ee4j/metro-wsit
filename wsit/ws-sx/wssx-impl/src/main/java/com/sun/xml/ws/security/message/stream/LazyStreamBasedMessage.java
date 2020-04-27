@@ -23,7 +23,7 @@ import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamReader;
 import com.sun.istack.NotNull;
 import com.sun.istack.Nullable;
-import com.sun.xml.bind.api.Bridge;
+import org.glassfish.jaxb.runtime.api.Bridge;
 import com.sun.xml.ws.api.message.AttachmentSet;
 import com.sun.xml.ws.api.message.HeaderList;
 import com.sun.xml.wss.jaxws.impl.logging.LogDomainConstants;
@@ -271,10 +271,6 @@ public class LazyStreamBasedMessage extends Message{
         throw new UnsupportedOperationException();
     }
 
-    @Override
-    public <T> T readPayloadAsJAXB(org.glassfish.jaxb.runtime.api.Bridge<T> bridge) throws JAXBException {
-        return null;
-    }
 
     /**
      * Reads the payload as a JAXB object according to the given {@link Bridge}.

@@ -41,7 +41,7 @@
                         <configuration>
                             <excludeTransitive>true</excludeTransitive>
                             <includes>META-INF/services/*, META-INF/metro-default.xml</includes>
-                            <excludes>META-INF/services/com.sun.xml.ws.spi.db.*, META-INF/services/com.sun.tools.*, META-INF/services/jakarta.xml.bind.*, META-INF/services/javax.xml.stream.*, META-INF/services/javax.mail.*, META-INF/services/org.*</excludes>
+                            <excludes>META-INF/services/com.sun.xml.ws.spi.db.*, META-INF/services/com.sun.tools.*, META-INF/services/jakarta.xml.bind.*, META-INF/services/javax.xml.stream.*, META-INF/services/jakarta.mail.*, META-INF/services/org.*</excludes>
                             <outputDirectory>${project.build.directory}/generated-sources/resources</outputDirectory>
                         </configuration>
                     </execution>
