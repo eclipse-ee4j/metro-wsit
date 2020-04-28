@@ -16,8 +16,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.security.auth.Subject;
-import javax.security.auth.message.config.*;
-import javax.security.auth.message.AuthStatus;
+import jakarta.security.auth.message.config.*;
+import jakarta.security.auth.message.AuthStatus;
 import jakarta.xml.ws.WebServiceException;
 
 import com.sun.xml.ws.api.model.wsdl.WSDLPort;

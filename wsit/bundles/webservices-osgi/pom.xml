@@ -161,6 +161,7 @@
                 <artifactId>maven-bundle-plugin</artifactId>
                 <extensions>true</extensions>
                 <configuration>
+                    <niceManifest>true</niceManifest>
                     <excludeDependencies>jaxws-eclipselink-plugin,sdo-eclipselink-plugin</excludeDependencies>
                     <instructions>
                         <Export-Package>
@@ -203,7 +204,16 @@
                             org.apache.xml.security.*;version=${santuario.version}
                         </Export-Package>
                         <Import-Package>
-                            jakarta.activation;version=!,
+                            jakarta.annotation;resolution:=optional,
+                            jakarta.mail;resolution:=optional,
+                            jakarta.mail.internet;resolution:=optional,
+                            jakarta.resource.spi;resolution:=optional,
+                            jakarta.servlet;resolution:=optional,
+                            jakarta.servlet.annotation;resolution:=optional,
+                            jakarta.servlet.http;resolution:=optional,
+                            jakarta.transaction;resolution:=optional,
+                            jakarta.ejb;resolution:=optional,
+                            jakarta.activation,
                             javax.xml.crypto;version=!,
                             javax.xml.crypto.dom;version=!,
                             javax.xml.crypto.dsig;version=!,
@@ -230,9 +240,8 @@
                             com.sun.org.apache.xml.internal.*;resolution:=optional,
                             com.sun.org.apache.xerces.internal.*;resolution:=optional,
                             com.sun.xml.bind.api.impl;resolution:=optional,
-                            javax.ejb;resolution:=optional;version=3.0,
-                            jakarta.jws;version=2.0,
-                            jakarta.jws.soap;version=2.0,
+                            jakarta.jws;version=${jaxws-api.osgiVersion},
+                            jakarta.jws.soap;version=${jaxws-api.osgiVersion},
                             jakarta.xml.soap.*;version=${saaj-api.osgiVersion},
                             jakarta.xml.ws.*;version=${jaxws-api.osgiVersion},
                             jakarta.xml.bind.*;version=${jaxb-api.osgiVersion},

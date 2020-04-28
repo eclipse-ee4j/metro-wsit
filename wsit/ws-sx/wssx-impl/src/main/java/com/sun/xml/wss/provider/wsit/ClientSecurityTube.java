@@ -30,8 +30,8 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.security.auth.Subject;
-import javax.security.auth.message.AuthStatus;
-import javax.security.auth.message.config.ClientAuthContext;
+import jakarta.security.auth.message.AuthStatus;
+import jakarta.security.auth.message.config.ClientAuthContext;
 import jakarta.xml.bind.JAXBElement;
 import jakarta.xml.ws.WebServiceException;
 

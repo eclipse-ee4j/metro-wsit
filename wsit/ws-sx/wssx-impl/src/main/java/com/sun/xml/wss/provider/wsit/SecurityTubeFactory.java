@@ -49,7 +49,7 @@ import com.sun.xml.wss.provider.wsit.logging.LogStringsMessages;
 import com.sun.xml.xwss.XWSSClientTube;
 import com.sun.xml.xwss.XWSSServerTube;
 
-import javax.security.auth.message.config.AuthConfigFactory;
+import jakarta.security.auth.message.config.AuthConfigFactory;
 import javax.xml.namespace.QName;
 import jakarta.xml.ws.WebServiceException;
 import jakarta.xml.ws.WebServiceFeature;

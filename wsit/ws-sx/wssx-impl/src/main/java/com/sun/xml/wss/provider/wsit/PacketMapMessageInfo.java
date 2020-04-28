@@ -12,7 +12,7 @@ package com.sun.xml.wss.provider.wsit;
 
 import java.util.Map;
 
-import javax.security.auth.message.MessageInfo;
+import jakarta.security.auth.message.MessageInfo;
 
 import jakarta.xml.soap.SOAPMessage;
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -14,7 +14,7 @@
 
 package com.sun.xml.wss.provider;
 
-import javax.security.auth.message.MessagePolicy;
+import jakarta.security.auth.message.MessagePolicy;
 
 public interface ConfigurationStates {
      public static final int AUTHENTICATE_RECIPIENT_ONLY = 1;
