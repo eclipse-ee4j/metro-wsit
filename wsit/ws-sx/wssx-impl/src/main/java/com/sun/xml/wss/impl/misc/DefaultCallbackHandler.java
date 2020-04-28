@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -100,7 +100,7 @@ import java.util.Set;
 import java.util.TimeZone;
 import javax.security.auth.Subject;
 import javax.security.auth.x500.X500Principal;
-import javax.xml.ws.BindingProvider;
+import jakarta.xml.ws.BindingProvider;
 import org.w3c.dom.Element;
 
 /**

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -14,7 +14,7 @@
 
 package com.sun.xml.ws.security.trust.impl.elements;
 
-import javax.xml.ws.EndpointReference;
+import jakarta.xml.ws.EndpointReference;
 //import com.sun.xml.ws.addressing.v200408.EndpointReferenceImpl;
 
 import com.sun.xml.ws.security.trust.elements.Issuer;

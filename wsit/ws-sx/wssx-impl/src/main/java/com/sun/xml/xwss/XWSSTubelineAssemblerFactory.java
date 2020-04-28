@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -27,7 +27,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URL;
 import javax.xml.namespace.QName;
-import javax.xml.ws.WebServiceException;
+import jakarta.xml.ws.WebServiceException;
 
 /**
  *
@@ -35,7 +35,7 @@ import javax.xml.ws.WebServiceException;
  */
 public class XWSSTubelineAssemblerFactory extends TubelineAssemblerFactory {
 
-    private static final String SERVLET_CONTEXT_CLASSNAME = "javax.servlet.ServletContext";   
+    private static final String SERVLET_CONTEXT_CLASSNAME = "jakarta.servlet.ServletContext";
     private static final String addrVersionClass = "com.sun.xml.ws.api.addressing.AddressingVersion";
     private static final boolean disable;
 

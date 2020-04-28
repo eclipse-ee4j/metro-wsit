@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -38,7 +38,7 @@ import com.sun.xml.ws.policy.privateutil.PolicyUtils;
  */
 public final class PolicyConfigParser {
     private static final Logger LOGGER = Logger.getLogger(PolicyConfigParser.class);
-    private static final String SERVLET_CONTEXT_CLASSNAME = "javax.servlet.ServletContext";
+    private static final String SERVLET_CONTEXT_CLASSNAME = "jakarta.servlet.ServletContext";
     // Prefixing with META-INF/ instead of /META-INF/. /META-INF/ is working fine
     // when loading from a JAR file but not when loading from a plain directory.
     private static final String JAR_PREFIX = "META-INF/";
@@ -260,7 +260,7 @@ public final class PolicyConfigParser {
     /**
      * This ResourceLoader instance is implemented to retrieve a WSIT config file
      * resource URL from underlying parent resource loader. If that strategy does
-     * not succeed, the resource loader tries to retrieve a javax.servlet.ServletContext
+     * not succeed, the resource loader tries to retrieve a jakarta.servlet.ServletContext
      * from the container and load the WSIT config file resource URL with it. If that
      * does not succeed either, it tries to locate the WSIT config file resource URL
      * directly from a class path using a current thread's context class loader.

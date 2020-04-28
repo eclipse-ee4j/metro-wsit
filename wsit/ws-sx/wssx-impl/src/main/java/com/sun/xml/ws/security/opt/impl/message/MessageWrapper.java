@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -13,7 +13,7 @@ package com.sun.xml.ws.security.opt.impl.message;
 import com.sun.xml.ws.security.opt.api.SecurityElement;
 import com.sun.xml.ws.spi.db.XMLBridge;
 import com.sun.istack.NotNull;
-import com.sun.xml.bind.api.Bridge;
+import org.glassfish.jaxb.runtime.api.Bridge;
 import com.sun.xml.ws.api.model.wsdl.WSDLPort;
 import com.sun.xml.ws.api.message.AddressingUtils;
 import com.sun.xml.ws.api.message.AttachmentSet;
@@ -26,10 +26,10 @@ import org.xml.sax.SAXException;
 import com.sun.xml.stream.buffer.MutableXMLStreamBuffer;
 import com.sun.xml.ws.api.SOAPVersion;
 import com.sun.xml.ws.api.addressing.AddressingVersion;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
-import javax.xml.soap.SOAPException;
-import javax.xml.soap.SOAPMessage;
+import jakarta.xml.bind.JAXBException;
+import jakarta.xml.bind.Unmarshaller;
+import jakarta.xml.soap.SOAPException;
+import jakarta.xml.soap.SOAPMessage;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 import javax.xml.stream.XMLStreamWriter;
@@ -260,7 +260,8 @@ public class MessageWrapper extends com.sun.xml.ws.api.message.Message{
     public <T> T readPayloadAsJAXB(Unmarshaller unmarshaller) throws JAXBException{
         throw new UnsupportedOperationException();
     }
-    
+
+
     /**
      * Reads the payload as a JAXB object according to the given {@link Bridge}.
      *
@@ -269,6 +270,7 @@ public class MessageWrapper extends com.sun.xml.ws.api.message.Message{
      * @throws JAXBException
      *      If JAXB reports an error during the processing.
      */
+    @Override
     public <T> T readPayloadAsJAXB(Bridge<T> bridge) throws JAXBException{
         throw new UnsupportedOperationException();
     }

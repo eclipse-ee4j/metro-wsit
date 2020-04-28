@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -12,10 +12,10 @@ package com.sun.xml.ws.tx.at.runtime;
 
 import com.sun.xml.ws.tx.at.WSATException;
 
-import javax.transaction.Synchronization;
+import jakarta.transaction.Synchronization;
 import javax.transaction.xa.XAResource;
 import javax.transaction.xa.Xid;
-import javax.xml.ws.EndpointReference;
+import jakarta.xml.ws.EndpointReference;
 
 /**
  * Defines the interface between WS-AT and underlying transaction processing system
@@ -41,7 +41,7 @@ public interface TransactionServices {
 
     /**
      * Called by Registration service to register a volatile participant
-     * @param synchronization javax.transaction.Synchronization
+     * @param synchronization jakarta.transaction.Synchronization
      * @param xid Xid
      * @throws WSATException wsatXAResource
      */

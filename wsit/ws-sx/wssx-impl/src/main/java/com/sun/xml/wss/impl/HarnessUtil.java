@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -17,10 +17,10 @@ package com.sun.xml.wss.impl;
 import com.sun.xml.ws.security.opt.impl.JAXBFilterProcessingContext;
 import org.w3c.dom.Node;
 
-import javax.xml.soap.SOAPBody;
-import javax.xml.soap.SOAPMessage;
-import javax.xml.soap.SOAPElement;
-import javax.xml.soap.SOAPException;
+import jakarta.xml.soap.SOAPBody;
+import jakarta.xml.soap.SOAPMessage;
+import jakarta.xml.soap.SOAPElement;
+import jakarta.xml.soap.SOAPException;
 
 import javax.security.auth.callback.CallbackHandler;
 import javax.security.auth.callback.Callback;
@@ -275,7 +275,7 @@ public abstract class HarnessUtil {
         if (message == null && jaxWsMessage == null) {
             log.log(Level.SEVERE, LogStringsMessages.WSS_0803_SOAPMESSAGE_NOTSET());
             throw new XWSSecurityException(
-                    "javax.xml.soap.SOAPMessage parameter not set in the ProcessingContext");
+                    "jakarta.xml.soap.SOAPMessage parameter not set in the ProcessingContext");
         }
         
         if (handler == null) {

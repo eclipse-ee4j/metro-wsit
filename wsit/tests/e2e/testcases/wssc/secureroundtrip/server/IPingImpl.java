@@ -10,14 +10,14 @@
 
 package wssc.secureroundtrip.server;
 import java.util.Hashtable;
-import javax.xml.bind.JAXBElement;
+import jakarta.xml.bind.JAXBElement;
 
-import javax.xml.bind.*;
+import jakarta.xml.bind.*;
 
-import javax.annotation.Resource;
-import javax.jws.WebMethod;
-import javax.jws.WebService;
-import javax.xml.ws.WebServiceContext;
+import jakarta.annotation.Resource;
+import jakarta.jws.WebMethod;
+import jakarta.jws.WebService;
+import jakarta.xml.ws.WebServiceContext;
 import java.util.Map;
 
 @WebService(endpointInterface="wssc.secureroundtrip.server.IPingService")

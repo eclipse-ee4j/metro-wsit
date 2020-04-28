@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -32,9 +32,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.xml.bind.JAXBElement;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
+import jakarta.xml.bind.JAXBElement;
+import jakarta.xml.bind.JAXBException;
+import jakarta.xml.bind.Marshaller;
 import javax.xml.crypto.Data;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
@@ -153,7 +153,7 @@ public class EncryptedHeader
             com.sun.xml.ws.security.secext11.ObjectFactory obj = new com.sun.xml.ws.security.secext11.ObjectFactory();
             JAXBElement eh = obj.createEncryptedHeader(eht);
             writer.marshal(eh,streamWriter);
-        } catch (javax.xml.bind.JAXBException ex) {
+        } catch (jakarta.xml.bind.JAXBException ex) {
             logger.log(Level.SEVERE, LogStringsMessages.WSS_1916_ERROR_WRITING_ECRYPTEDHEADER(ex.getMessage()), ex);
         } catch (com.sun.xml.wss.XWSSecurityException ex) {
             logger.log(Level.SEVERE, LogStringsMessages.WSS_1916_ERROR_WRITING_ECRYPTEDHEADER(ex.getMessage()), ex);
@@ -197,7 +197,7 @@ public class EncryptedHeader
             writer.marshal(eh,os);
         }catch (com.sun.xml.wss.XWSSecurityException ex) {
             logger.log(Level.SEVERE, LogStringsMessages.WSS_1916_ERROR_WRITING_ECRYPTEDHEADER(ex.getMessage()), ex);
-        }catch (javax.xml.bind.JAXBException ex) {
+        }catch (jakarta.xml.bind.JAXBException ex) {
             logger.log(Level.SEVERE, LogStringsMessages.WSS_1916_ERROR_WRITING_ECRYPTEDHEADER(ex.getMessage()), ex);
         }
     }

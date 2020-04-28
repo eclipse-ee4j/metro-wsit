@@ -10,15 +10,15 @@
 
 package wsrm.v1_0.persistent.session.server;
 
-import javax.annotation.Resource;
-import javax.jws.WebMethod;
-import javax.jws.WebService;
-import javax.xml.ws.WebServiceContext;
+import jakarta.annotation.Resource;
+import jakarta.jws.WebMethod;
+import jakarta.jws.WebService;
+import jakarta.xml.ws.WebServiceContext;
 import java.util.Hashtable;
 
 
 @WebService(endpointInterface="wsrm.v1_0.persistent.session.server.RMDemo")
-@javax.xml.ws.BindingType(javax.xml.ws.soap.SOAPBinding.SOAP12HTTP_BINDING)
+@jakarta.xml.ws.BindingType(jakarta.xml.ws.soap.SOAPBinding.SOAP12HTTP_BINDING)
 public class RMDemoImpl {
 
 

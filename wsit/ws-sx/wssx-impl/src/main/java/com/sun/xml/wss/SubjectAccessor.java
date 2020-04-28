@@ -41,25 +41,25 @@ public class SubjectAccessor {
      *@return the Requester's Subject if one is available, null otherwise.
      * The subject is populated with credentials from the incoming secure message.
      * Note: the context supplied should either be a ServletEndpointContext or a
-     * com.sun.xml.wss.ProcessingContext or javax.xml.ws.handler.MessageContext or
-     * javax.xml.ws.WebServiceContext
+     * com.sun.xml.wss.ProcessingContext or jakarta.xml.ws.handler.MessageContext or
+     * jakarta.xml.ws.WebServiceContext
      */
     public static  Subject getRequesterSubject(Object context) throws XWSSecurityException {
         
         if (context instanceof ProcessingContext) {
             return (Subject)((ProcessingContext)context).getExtraneousProperty(MessageConstants.AUTH_SUBJECT);
-        }  else if (context instanceof javax.xml.ws.handler.MessageContext) {
+        }  else if (context instanceof jakarta.xml.ws.handler.MessageContext) {
             
-            javax.xml.ws.handler.MessageContext msgContext = (javax.xml.ws.handler.MessageContext)context;
+            jakarta.xml.ws.handler.MessageContext msgContext = (jakarta.xml.ws.handler.MessageContext)context;
             
             Subject subject =(Subject)msgContext.get(MessageConstants.AUTH_SUBJECT);
             return subject;
             
-        } else if ( context instanceof javax.xml.ws.WebServiceContext) {
+        } else if ( context instanceof jakarta.xml.ws.WebServiceContext) {
             try {
                  
-                    javax.xml.ws.WebServiceContext wsCtx = (javax.xml.ws.WebServiceContext) context;
-                    javax.xml.ws.handler.MessageContext msgContext = wsCtx.getMessageContext();
+                    jakarta.xml.ws.WebServiceContext wsCtx = (jakarta.xml.ws.WebServiceContext) context;
+                    jakarta.xml.ws.handler.MessageContext msgContext = wsCtx.getMessageContext();
                     if (msgContext != null) {
                         Subject subject =(Subject)msgContext.get(MessageConstants.AUTH_SUBJECT);
                         return subject;

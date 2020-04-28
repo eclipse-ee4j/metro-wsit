@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -62,10 +62,10 @@ import com.sun.xml.ws.security.IssuedTokenContext;
 
 import com.sun.xml.ws.policy.sourcemodel.PolicySourceModel;
 
-import javax.xml.soap.SOAPFault;
-import javax.xml.soap.SOAPFactory;
-import javax.xml.ws.soap.SOAPFaultException;
-import javax.xml.soap.SOAPConstants;
+import jakarta.xml.soap.SOAPFault;
+import jakarta.xml.soap.SOAPFactory;
+import jakarta.xml.ws.soap.SOAPFaultException;
+import jakarta.xml.soap.SOAPConstants;
 
 import com.sun.xml.wss.XWSSecurityException;
 import com.sun.xml.wss.SecurityEnvironment;
@@ -77,8 +77,8 @@ import com.sun.xml.ws.policy.PolicyAssertion;
 import com.sun.xml.ws.security.policy.Token;
 
 
-import javax.xml.bind.JAXBContext;
-//import javax.xml.bind.Unmarshaller;
+import jakarta.xml.bind.JAXBContext;
+//import jakarta.xml.bind.Unmarshaller;
 
 import com.sun.xml.wss.impl.MessageConstants;
 import com.sun.xml.wss.impl.misc.DefaultCallbackHandler;
@@ -119,7 +119,7 @@ import com.sun.xml.wss.jaxws.impl.RMPolicyResolver;
 import java.util.Map;
 import javax.security.auth.callback.CallbackHandler;
 import javax.security.auth.message.MessageInfo;
-import javax.xml.soap.SOAPMessage;
+import jakarta.xml.soap.SOAPMessage;
 import com.sun.xml.ws.security.secconv.WSSCVersion;
 import com.sun.xml.ws.security.trust.WSTrustVersion;
 
@@ -130,8 +130,8 @@ import java.util.logging.Logger;
 import com.sun.xml.wss.provider.wsit.logging.LogDomainConstants;
 import com.sun.xml.wss.provider.wsit.logging.LogStringsMessages;
 import java.security.cert.X509Certificate;
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
+import jakarta.xml.bind.Marshaller;
+import jakarta.xml.bind.Unmarshaller;
 
 /**
  *
@@ -302,7 +302,7 @@ public abstract class WSITAuthContextBase  {
         try {
            this.marshaller = jaxbContext.createMarshaller();
            this.unmarshaller = jaxbContext.createUnmarshaller();
-        }catch (javax.xml.bind.JAXBException ex) {
+        }catch (jakarta.xml.bind.JAXBException ex) {
             throw new RuntimeException(ex);
         }                        
         

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -18,7 +18,7 @@ import java.util.Map;
 import javax.security.auth.Subject;
 import javax.security.auth.message.config.*;
 import javax.security.auth.message.AuthStatus;
-import javax.xml.ws.WebServiceException;
+import jakarta.xml.ws.WebServiceException;
 
 import com.sun.xml.ws.api.model.wsdl.WSDLPort;
 import com.sun.xml.ws.api.pipe.Pipe;
@@ -31,7 +31,7 @@ import com.sun.xml.ws.security.secconv.SecureConversationInitiator;
 import com.sun.xml.ws.security.secconv.WSSecureConversationException;
 import com.sun.xml.wss.provider.wsit.logging.LogDomainConstants;
 import com.sun.xml.wss.provider.wsit.logging.LogStringsMessages;
-import javax.xml.bind.JAXBElement;
+import jakarta.xml.bind.JAXBElement;
 
 /**
  * This pipe is used to do client side security for app server
@@ -105,7 +105,7 @@ public class ClientSecurityPipe extends AbstractFilterPipeImpl
 
 	PacketMessageInfo info= new PacketMapMessageInfo(request,new Packet());
         
-        info.getMap().put(javax.xml.ws.Endpoint.WSDL_SERVICE,
+        info.getMap().put(jakarta.xml.ws.Endpoint.WSDL_SERVICE,
             helper.getProperty(PipeConstants.WSDL_SERVICE));
 
         AuthStatus status = AuthStatus.SEND_SUCCESS;

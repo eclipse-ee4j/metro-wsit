@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2019 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -35,7 +35,7 @@ import java.security.Key;
 import java.security.cert.X509Certificate;
 import javax.security.auth.callback.Callback;
 import javax.security.auth.callback.CallbackHandler;
-import javax.xml.bind.JAXBElement;
+import jakarta.xml.bind.JAXBElement;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -55,7 +55,7 @@ import com.sun.xml.wss.logging.LogDomainConstants;
 import com.sun.xml.wss.impl.callback.*;
 import com.sun.xml.wss.saml.util.SAMLJAXBUtil;
 import com.sun.xml.wss.saml.util.SAML20JAXBUtil;
-import javax.xml.bind.JAXBContext;
+import jakarta.xml.bind.JAXBContext;
 
 /**
  *
@@ -282,13 +282,13 @@ public class AssertionUtil {
             if (element.getAttributeNode("ID") != null){
                 JAXBContext jc = SAML20JAXBUtil.getJAXBContext();
 
-                javax.xml.bind.Unmarshaller u = jc.createUnmarshaller();
+                jakarta.xml.bind.Unmarshaller u = jc.createUnmarshaller();
                 Object el = u.unmarshal(element);
                 return new com.sun.xml.wss.saml.assertion.saml20.jaxb20.Assertion((com.sun.xml.wss.saml.internal.saml20.jaxb20.AssertionType)((JAXBElement)el).getValue());
             }else{
                 JAXBContext jc = SAMLJAXBUtil.getJAXBContext();
 
-                javax.xml.bind.Unmarshaller u = jc.createUnmarshaller();
+                jakarta.xml.bind.Unmarshaller u = jc.createUnmarshaller();
                 Object el = u.unmarshal(element);
                 return new com.sun.xml.wss.saml.assertion.saml11.jaxb20.Assertion((AssertionType)((JAXBElement)el).getValue());
             }

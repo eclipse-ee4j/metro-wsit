@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -32,8 +32,8 @@ import java.util.logging.Logger;
 import javax.security.auth.Subject;
 import javax.security.auth.message.AuthStatus;
 import javax.security.auth.message.config.ClientAuthContext;
-import javax.xml.bind.JAXBElement;
-import javax.xml.ws.WebServiceException;
+import jakarta.xml.bind.JAXBElement;
+import jakarta.xml.ws.WebServiceException;
 
 /**
  *
@@ -154,7 +154,7 @@ public class ClientSecurityTube extends AbstractFilterTubeImpl implements Secure
 	 }
         */
 	PacketMessageInfo info= new PacketMapMessageInfo(request,new Packet());
-        info.getMap().put(javax.xml.ws.Endpoint.WSDL_SERVICE,
+        info.getMap().put(jakarta.xml.ws.Endpoint.WSDL_SERVICE,
             helper.getProperty(PipeConstants.WSDL_SERVICE));
 	clientSubject = getClientSubject(request);
 	cAC = null;

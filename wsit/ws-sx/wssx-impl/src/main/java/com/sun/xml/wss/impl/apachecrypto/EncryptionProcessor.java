@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -84,11 +84,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.security.MessageDigest;
 
-import javax.xml.soap.SOAPElement;
-import javax.xml.soap.SOAPHeader;
-import javax.xml.soap.SOAPPart;
-import javax.xml.soap.AttachmentPart;
-import javax.xml.soap.MimeHeader;
+import jakarta.xml.soap.SOAPElement;
+import jakarta.xml.soap.SOAPHeader;
+import jakarta.xml.soap.SOAPPart;
+import jakarta.xml.soap.AttachmentPart;
+import jakarta.xml.soap.MimeHeader;
 import javax.xml.namespace.QName;
 
 import org.w3c.dom.Element;
@@ -1615,7 +1615,7 @@ public class EncryptionProcessor {
         return baos.toByteArray();
     }
     
-    private static class EncryptedAttachmentDataSource implements javax.activation.DataSource {
+    private static class EncryptedAttachmentDataSource implements jakarta.activation.DataSource {
         byte[] datasource;
         
         EncryptedAttachmentDataSource(byte[] ds) {
@@ -1641,9 +1641,9 @@ public class EncryptionProcessor {
         }
     }
     
-    private static class EncryptedAttachmentDataHandler extends javax.activation.DataHandler {
+    private static class EncryptedAttachmentDataHandler extends jakarta.activation.DataHandler {
         
-        EncryptedAttachmentDataHandler(javax.activation.DataSource ds) {
+        EncryptedAttachmentDataHandler(jakarta.activation.DataSource ds) {
             super(ds);
         }
         

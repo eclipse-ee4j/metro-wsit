@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -16,8 +16,8 @@ package com.sun.xml.ws.security.trust.impl.elements;
 
 import com.sun.xml.ws.security.trust.WSTrustElementFactory;
 
-import javax.xml.bind.JAXBElement;
-import javax.xml.bind.JAXBException;
+import jakarta.xml.bind.JAXBElement;
+import jakarta.xml.bind.JAXBException;
 
 
 
@@ -74,7 +74,7 @@ public class BinarySecretImpl extends BinarySecretType implements BinarySecret {
     public static BinarySecretType fromElement(@NotNull final org.w3c.dom.Element element)
         throws WSTrustException {
         try {
-            final javax.xml.bind.Unmarshaller u = WSTrustElementFactory.getContext().createUnmarshaller();
+            final jakarta.xml.bind.Unmarshaller u = WSTrustElementFactory.getContext().createUnmarshaller();
             return (BinarySecretType)((JAXBElement)u.unmarshal(element)).getValue();
         } catch (JAXBException ex) {
             log.log(Level.SEVERE,

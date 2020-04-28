@@ -11,8 +11,8 @@
 package wstrust.mix_versions_2.server;
 
 
-@javax.jws.WebService (endpointInterface="wstrust.mix_versions_2.server.IPingServiceContract")
-//@javax.xml.ws.BindingType(javax.xml.ws.soap.SOAPBinding.SOAP12HTTP_BINDING)
+@jakarta.jws.WebService (endpointInterface="wstrust.mix_versions_2.server.IPingServiceContract")
+//@jakarta.xml.ws.BindingType(jakarta.xml.ws.soap.SOAPBinding.SOAP12HTTP_BINDING)
 public class PingImpl implements IPingServiceContract {
 
    public String ping(String message) {

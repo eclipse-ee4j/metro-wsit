@@ -11,8 +11,8 @@
 package wstrust.scenario6.server;
 
 
-@javax.jws.WebService (endpointInterface="wstrust.scenario6.server.IPingService")
-@javax.xml.ws.BindingType(javax.xml.ws.soap.SOAPBinding.SOAP12HTTP_BINDING)
+@jakarta.jws.WebService (endpointInterface="wstrust.scenario6.server.IPingService")
+@jakarta.xml.ws.BindingType(jakarta.xml.ws.soap.SOAPBinding.SOAP12HTTP_BINDING)
 public class PingImpl implements IPingService {
     
     public PingResponseBody ping(Ping ping){

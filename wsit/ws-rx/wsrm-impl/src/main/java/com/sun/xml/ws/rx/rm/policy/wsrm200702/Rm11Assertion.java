@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -27,7 +27,7 @@ import com.sun.xml.ws.rx.rm.localization.LocalizationMessages;
 import com.sun.xml.ws.rx.rm.api.ReliableMessagingFeature.DeliveryAssurance;
 import com.sun.xml.ws.rx.rm.api.ReliableMessagingFeature.SecurityBinding;
 import com.sun.xml.ws.rx.rm.api.RmProtocolVersion;
-import javax.xml.ws.WebServiceException;
+import jakarta.xml.ws.WebServiceException;
 
 /**
  * <wsrmp:RMAssertion [wsp:Optional="true"]? ... >

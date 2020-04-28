@@ -9,11 +9,11 @@
  */
 
 package wssc.sc_wssx_scenario6.server;
-import javax.xml.ws.Holder;
+import jakarta.xml.ws.Holder;
 
 
-@javax.jws.WebService (endpointInterface="wssc.sc_wssx_scenario6.server.IPingServiceContract")
-//@javax.xml.ws.BindingType(value="http://java.sun.com/xml/ns/jaxws/2003/05/soap/bindings/HTTP/")
+@jakarta.jws.WebService (endpointInterface="wssc.sc_wssx_scenario6.server.IPingServiceContract")
+//@jakarta.xml.ws.BindingType(value="http://java.sun.com/xml/ns/jaxws/2003/05/soap/bindings/HTTP/")
 public class PingImpl implements IPingServiceContract {
     
   public String ping(String message) {

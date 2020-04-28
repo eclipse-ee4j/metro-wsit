@@ -41,7 +41,7 @@
                         <configuration>
                             <excludeTransitive>true</excludeTransitive>
                             <includes>META-INF/services/*, META-INF/metro-default.xml</includes>
-                            <excludes>META-INF/services/com.sun.xml.ws.spi.db.*, META-INF/services/com.sun.tools.*, META-INF/services/javax.xml.bind.*, META-INF/services/javax.xml.stream.*, META-INF/services/javax.mail.*, META-INF/services/org.*</excludes>
+                            <excludes>META-INF/services/com.sun.xml.ws.spi.db.*, META-INF/services/com.sun.tools.*, META-INF/services/jakarta.xml.bind.*, META-INF/services/javax.xml.stream.*, META-INF/services/jakarta.mail.*, META-INF/services/org.*</excludes>
                             <outputDirectory>${project.build.directory}/generated-sources/resources</outputDirectory>
                         </configuration>
                     </execution>
@@ -203,7 +203,7 @@
                             org.apache.xml.security.*;version=${santuario.version}
                         </Export-Package>
                         <Import-Package>
-                            javax.activation;version=!,
+                            jakarta.activation;version=!,
                             javax.xml.crypto;version=!,
                             javax.xml.crypto.dom;version=!,
                             javax.xml.crypto.dsig;version=!,
@@ -231,11 +231,11 @@
                             com.sun.org.apache.xerces.internal.*;resolution:=optional,
                             com.sun.xml.bind.api.impl;resolution:=optional,
                             javax.ejb;resolution:=optional;version=3.0,
-                            javax.jws;version=2.0,
-                            javax.jws.soap;version=2.0,
-                            javax.xml.soap.*;version=${saaj-api.osgiVersion},
-                            javax.xml.ws.*;version=${jaxws-api.osgiVersion},
-                            javax.xml.bind.*;version=${jaxb-api.osgiVersion},
+                            jakarta.jws;version=2.0,
+                            jakarta.jws.soap;version=2.0,
+                            jakarta.xml.soap.*;version=${saaj-api.osgiVersion},
+                            jakarta.xml.ws.*;version=${jaxws-api.osgiVersion},
+                            jakarta.xml.bind.*;version=${jaxb-api.osgiVersion},
                             org.apache.coyote;resolution:=optional,
                             org.apache.tomcat.util.buf;resolution:=optional,
                             org.jvnet.mimepull;resolution:=optional,
@@ -392,7 +392,7 @@
             <groupId>org.jvnet.mimepull</groupId>
             <artifactId>mimepull</artifactId>
         </dependency>
-        <dependency>
+        <!--dependency>
             <groupId>com.sun.xml.ws</groupId>
             <artifactId>jaxws-eclipselink-plugin</artifactId>
             <optional>true</optional>
@@ -401,7 +401,7 @@
             <groupId>com.sun.xml.ws</groupId>
             <artifactId>sdo-eclipselink-plugin</artifactId>
             <optional>true</optional>
-        </dependency>
+        </dependency-->
         <dependency>
             <groupId>org.apache.santuario</groupId>
             <artifactId>xmlsec</artifactId>

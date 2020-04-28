@@ -126,14 +126,14 @@
                             <manifestLocation>${manifest.folder}/META-INF</manifestLocation>
                             <instructions>
                                 <Export-Package>
-                                    javax.jws.*;version=2.0,
-                                    javax.xml.ws.*;version=${jaxws-api.osgiVersion},
-                                    javax.xml.soap.*;version=${saaj-api.osgiVersion}
+                                    jakarta.jws.*;version=3.0,
+                                    jakarta.xml.ws.*;version=${jaxws-api.osgiVersion},
+                                    jakarta.xml.soap.*;version=${saaj-api.osgiVersion}
                                 </Export-Package>
                                 <Import-Package>
-                                    javax.activation;version=!;resolution:=optional,
-                                    javax.xml.bind;version=${jaxb-api.osgiVersion},
-                                    javax.xml.bind.*;version=${jaxb-api.osgiVersion},
+                                    jakarta.activation;version=!;resolution:=optional,
+                                    jakarta.xml.bind;version=${jaxb-api.osgiVersion},
+                                    jakarta.xml.bind.*;version=${jaxb-api.osgiVersion},
                                     *
                                 </Import-Package>
                                 <DynamicImport-Package>org.glassfish.hk2.osgiresourcelocator</DynamicImport-Package>

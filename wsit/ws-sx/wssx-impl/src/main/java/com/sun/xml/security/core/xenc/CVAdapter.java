@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -17,11 +17,11 @@
 package com.sun.xml.security.core.xenc;
 import com.sun.xml.ws.security.opt.impl.enc.CryptoProcessor;
 
-import javax.activation.CommandInfo;
-import javax.activation.CommandMap;
-import javax.activation.MailcapCommandMap;
-import javax.xml.bind.annotation.adapters.XmlAdapter;
-import javax.activation.DataHandler;
+import jakarta.activation.CommandInfo;
+import jakarta.activation.CommandMap;
+import jakarta.activation.MailcapCommandMap;
+import jakarta.xml.bind.annotation.adapters.XmlAdapter;
+import jakarta.activation.DataHandler;
 
 /**
  *

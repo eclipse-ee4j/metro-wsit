@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -27,9 +27,9 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import javax.xml.bind.JAXBElement;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
+import jakarta.xml.bind.JAXBElement;
+import jakarta.xml.bind.JAXBException;
+import jakarta.xml.bind.Marshaller;
 import javax.xml.namespace.QName;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -139,7 +139,7 @@ public class SecurityContextToken extends SecurityContextTokenType implements Se
             DocumentBuilder db = dbf.newDocumentBuilder();
             Document doc = db.newDocument();
             
-            javax.xml.bind.Marshaller marshaller = WSTrustElementFactory.getContext().createMarshaller();
+            jakarta.xml.bind.Marshaller marshaller = WSTrustElementFactory.getContext().createMarshaller();
             JAXBElement<SecurityContextTokenType> tElement =  (new ObjectFactory()).createSecurityContextToken((SecurityContextTokenType)this);
             marshaller.marshal(tElement, doc);
             return doc.getDocumentElement();
@@ -179,7 +179,7 @@ public class SecurityContextToken extends SecurityContextTokenType implements Se
                       new com.sun.xml.ws.security.secconv.impl.bindings.ObjectFactory().createSecurityContextToken(this);
             Marshaller writer = getMarshaller();
             writer.marshal(sct, os);
-        } catch (javax.xml.bind.JAXBException ex) {
+        } catch (jakarta.xml.bind.JAXBException ex) {
             throw new XWSSecurityRuntimeException(ex);
         }
     }

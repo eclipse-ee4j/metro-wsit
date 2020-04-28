@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -27,9 +27,9 @@ import java.util.Arrays;
 import java.util.List; 
 import java.util.logging.Logger;
 import java.util.logging.Level;
-import javax.xml.bind.JAXBContext; 
-import javax.xml.bind.annotation.XmlRootElement; 
-import javax.xml.bind.annotation.XmlTransient; 
+import jakarta.xml.bind.JAXBContext;
+import jakarta.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.XmlTransient;
 import javax.xml.crypto.KeySelector; 
 import javax.xml.crypto.KeySelectorException; 
 import javax.xml.crypto.KeySelectorResult; 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -15,7 +15,7 @@ import com.sun.xml.ws.tx.at.v10.types.CoordinatorPortType;
 import com.sun.xml.ws.tx.at.v10.types.ParticipantPortType;
 
 import javax.xml.namespace.QName;
-import javax.xml.ws.*;
+import jakarta.xml.ws.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -50,7 +50,7 @@ public class WSAT10Service
     /**
      * 
      * @param features
-     *     A list of {@link javax.xml.ws.WebServiceFeature} to configure on the proxy.  Supported features not in the <code>features</code> parameter will have their default values.
+     *     A list of {@link jakarta.xml.ws.WebServiceFeature} to configure on the proxy.  Supported features not in the <code>features</code> parameter will have their default values.
      * @return
      *     returns CoordinatorPortType
      */
@@ -63,7 +63,7 @@ public class WSAT10Service
     /**
      * 
      * @param features
-     *     A list of {@link javax.xml.ws.WebServiceFeature} to configure on the proxy.  Supported features not in the <code>features</code> parameter will have their default values.
+     *     A list of {@link jakarta.xml.ws.WebServiceFeature} to configure on the proxy.  Supported features not in the <code>features</code> parameter will have their default values.
      * @return
      *     returns ParticipantPortType
      */

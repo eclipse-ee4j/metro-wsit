@@ -1651,7 +1651,7 @@
                 client fails with the following exception:</para>
 
                 <example>
-                    <programlisting linenumbering="unnumbered">javax.xml.ws.WebServiceException: java.io.IOException:
+                    <programlisting linenumbering="unnumbered">jakarta.xml.ws.WebServiceException: java.io.IOException:
 HTTPS hostname wrong: should be &lt;hostname as in the certificate&gt;</programlisting>
                 </example>
 

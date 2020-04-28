@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -22,8 +22,8 @@ import com.sun.xml.wss.impl.XWSSecurityRuntimeException;
 import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.List;
-import javax.xml.bind.JAXBElement;
-import javax.xml.bind.Marshaller;
+import jakarta.xml.bind.JAXBElement;
+import jakarta.xml.bind.Marshaller;
 import javax.xml.namespace.QName;
 import org.w3c.dom.Element;
 
@@ -131,12 +131,12 @@ public class GSHeaderElement implements SecurityHeaderElement, SecurityElementWr
             }else{
                 writer.marshal(obj,streamWriter);
             }
-        } catch (javax.xml.bind.JAXBException ex) {
+        } catch (jakarta.xml.bind.JAXBException ex) {
             throw new XWSSecurityRuntimeException(ex);
         }
     }
     
-    public void writeTo(javax.xml.soap.SOAPMessage saaj) throws javax.xml.soap.SOAPException {
+    public void writeTo(jakarta.xml.soap.SOAPMessage saaj) throws jakarta.xml.soap.SOAPException {
         throw new UnsupportedOperationException();
     }
     
@@ -157,7 +157,7 @@ public class GSHeaderElement implements SecurityHeaderElement, SecurityElementWr
             }else{
                 writer.marshal(obj,os);
             }
-        } catch (javax.xml.bind.JAXBException ex) {
+        } catch (jakarta.xml.bind.JAXBException ex) {
             throw new XWSSecurityRuntimeException(ex);
         }
     }
@@ -205,7 +205,7 @@ public class GSHeaderElement implements SecurityHeaderElement, SecurityElementWr
         writeTo(streamWriter);
     }
     
-    private Marshaller getMarshaller() throws javax.xml.bind.JAXBException {      
+    private Marshaller getMarshaller() throws jakarta.xml.bind.JAXBException {
         return JAXBUtil.createMarshaller(soapVersion);
     }
 }

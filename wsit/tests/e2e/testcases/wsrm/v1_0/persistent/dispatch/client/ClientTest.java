@@ -14,14 +14,14 @@ package wsrm.v1_0.persistent.dispatch.client;
 
 import java.io.IOException;
 import java.util.logging.Level;
-import javax.xml.bind.*;
+import jakarta.xml.bind.*;
 import javax.xml.namespace.QName;
-import javax.xml.soap.SOAPMessage;
-import javax.xml.soap.MessageFactory;
+import jakarta.xml.soap.SOAPMessage;
+import jakarta.xml.soap.MessageFactory;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.transform.Source;
-import javax.xml.ws.WebServiceFeature;
-import javax.xml.ws.Dispatch;
+import jakarta.xml.ws.WebServiceFeature;
+import jakarta.xml.ws.Dispatch;
 
 import java.io.ByteArrayOutputStream;
 import java.io.Closeable;
@@ -63,8 +63,8 @@ public class ClientTest extends TestCase {
             dispatchMsg = service.createDispatch(
                     PORT_QNAME,
                     SOAPMessage.class,
-                    javax.xml.ws.Service.Mode.MESSAGE,
-                    new WebServiceFeature[] {new javax.xml.ws.RespectBindingFeature()});
+                    jakarta.xml.ws.Service.Mode.MESSAGE,
+                    new WebServiceFeature[] {new jakarta.xml.ws.RespectBindingFeature()});
 
             SOAPMessage reqMsg = makeSOAPMessage(helloRequest);
 

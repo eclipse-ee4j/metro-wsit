@@ -57,7 +57,7 @@
 
             <listitem>
                 <para>Jakarta XML Binding annotations are defined in
-                <code>javax.xml.bind.annotation</code> package but, for
+                <code>jakarta.xml.bind.annotation</code> package but, for
                 brevity, the package name has been omitted.</para>
             </listitem>
         </itemizedlist>
@@ -444,7 +444,7 @@ tmpR.period = System.Xml.XmlConvert.ToString(new System.TimeSpan(23, 0,0));</pro
                 <para><emphasis>Guideline:</emphasis>
                 <code>java.awt.Image</code>,
                 <code>javax.xml.transform.Source</code>, and
-                <code>javax.activation.DataHandler</code> map to
+                <code>jakarta.activation.DataHandler</code> map to
                 <code>xs:base64Binary</code>. .NET maps
                 <code>xs:base64Binary</code> to <code>byte[]</code>.</para>
 
@@ -989,7 +989,7 @@ public partial class familyTree
 public class PurchaseOrder {
 
     // Map a field to a nillable XML element
-    @javax.xml.bind.annotation.XmlElement(nillable=true)
+    @jakarta.xml.bind.annotation.XmlElement(nillable=true)
     public java.math.BigDecimal price;
 }
 
@@ -1534,7 +1534,7 @@ public enum usState { NH, MA }</programlisting>
                 <itemizedlist>
                     <listitem>
                         <para>The
-                        <code>javax.xml.bind.annotation.XmlElementDecl</code>
+                        <code>jakarta.xml.bind.annotation.XmlElementDecl</code>
                         annotation is used to provide complete XML schema
                         support.</para>
                     </listitem>
@@ -1972,7 +1972,7 @@ public class UnsignedShort { ... }</programlisting>
                     <example>
                         <programlisting language="java"
                                         linenumbering="unnumbered">public class POType {
-    @javax.xml.bind.annotation.XmlAttribute
+    @jakarta.xml.bind.annotation.XmlAttribute
     public java.math.BigDecimal price;
 }
 

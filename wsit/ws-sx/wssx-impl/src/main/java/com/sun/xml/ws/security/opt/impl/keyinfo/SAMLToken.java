@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -16,9 +16,9 @@ import com.sun.xml.ws.security.opt.impl.util.JAXBUtil;
 import com.sun.xml.wss.saml.Assertion;
 import java.io.OutputStream;
 import java.util.HashMap;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
+import jakarta.xml.bind.JAXBContext;
+import jakarta.xml.bind.JAXBException;
+import jakarta.xml.bind.Marshaller;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 import javax.xml.stream.XMLStreamWriter;
@@ -72,15 +72,15 @@ public class SAMLToken implements SecurityHeaderElement, SecurityElementWriter {
         try{
             Marshaller marshaller = jxbContext.createMarshaller();
             if(SOAPVersion.SOAP_11 == soapVersion){
-                marshaller.setProperty("com.sun.xml.bind.namespacePrefixMapper", JAXBUtil.prefixMapper11);
+                marshaller.setProperty("org.glassfish.jaxb.runtime.marshaller.namespacePrefixMapper", JAXBUtil.prefixMapper11);
             }else{
-                marshaller.setProperty("com.sun.xml.bind.namespacePrefixMapper", JAXBUtil.prefixMapper12);
+                marshaller.setProperty("org.glassfish.jaxb.runtime.marshaller.namespacePrefixMapper", JAXBUtil.prefixMapper12);
             }
             marshaller.setProperty(Marshaller.JAXB_FRAGMENT,true);
             marshaller.setProperty("com.sun.xml.bind.xmlDeclaration", false);
             marshaller.marshal(samlToken,streamWriter);
             
-        }catch(javax.xml.bind.PropertyException pe){
+        }catch(jakarta.xml.bind.PropertyException pe){
             //log here
             throw new XMLStreamException("Error occurred while setting security marshaller properties",pe);
         }catch(JAXBException je){

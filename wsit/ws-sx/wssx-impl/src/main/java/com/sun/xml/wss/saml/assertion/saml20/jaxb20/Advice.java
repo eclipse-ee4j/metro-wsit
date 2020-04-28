@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -14,7 +14,7 @@ import com.sun.xml.wss.saml.SAMLException;
 import com.sun.xml.wss.logging.LogDomainConstants;
 import com.sun.xml.wss.saml.internal.saml20.jaxb20.AdviceType;
 import com.sun.xml.wss.saml.util.SAML20JAXBUtil;
-import javax.xml.bind.JAXBContext;
+import jakarta.xml.bind.JAXBContext;
 import org.w3c.dom.Element;
 
 import java.util.List;
@@ -35,7 +35,7 @@ public class Advice  extends AdviceType implements com.sun.xml.wss.saml.Advice {
     public static AdviceType fromElement(Element element) throws SAMLException {
         try {
             JAXBContext jc = SAML20JAXBUtil.getJAXBContext();
-            javax.xml.bind.Unmarshaller u = jc.createUnmarshaller();
+            jakarta.xml.bind.Unmarshaller u = jc.createUnmarshaller();
             return (AdviceType)u.unmarshal(element);
         } catch ( Exception ex) {
             throw new SAMLException(ex.getMessage());

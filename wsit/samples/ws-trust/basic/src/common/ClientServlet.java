@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -14,13 +14,13 @@ import com.sun.xml.ws.security.trust.STSIssuedTokenFeature;
 import com.sun.xml.ws.security.trust.impl.client.DefaultSTSIssuedTokenConfiguration;
 import java.io.*;
 import java.net.*;
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
-import javax.servlet.*;
-import javax.servlet.http.*;
-import javax.xml.ws.WebServiceContext;
-import javax.xml.ws.WebServiceFeature;
-import javax.xml.ws.WebServiceRef;
+import jakarta.servlet.*;
+import jakarta.servlet.http.*;
+import jakarta.xml.ws.WebServiceContext;
+import jakarta.xml.ws.WebServiceFeature;
+import jakarta.xml.ws.WebServiceRef;
 
 /**
  *

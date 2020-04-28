@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -15,8 +15,8 @@ import com.sun.xml.ws.api.addressing.WSEndpointReference;
 import com.sun.xml.ws.tx.coord.common.WSCUtil;
 import com.sun.xml.ws.tx.at.common.WSATVersion;
 
-import javax.xml.ws.EndpointReference;
-import javax.xml.ws.WebServiceFeature;
+import jakarta.xml.ws.EndpointReference;
+import jakarta.xml.ws.WebServiceFeature;
 import java.util.ArrayList;
 import java.util.List;
 

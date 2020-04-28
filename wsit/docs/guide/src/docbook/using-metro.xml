@@ -274,7 +274,7 @@
 
             <para>The starting point for developing a web service with Metro
             is a Java class file annotated with the
-            <code>javax.jws.WebService</code> annotation. The
+            <code>jakarta.jws.WebService</code> annotation. The
             <code>WebService</code> annotation defines the class as a web
             service endpoint. The following Java code shows a web service. The
             IDE will create most of this Java code for you.</para>
@@ -282,9 +282,9 @@
             <example>
                 <programlisting language="java" linenumbering="unnumbered">package org.me.calculator;
 
-import javax.jws.WebService;
-import javax.jws.WebMethod;
-import javax.jws.WebParam;
+import jakarta.jws.WebService;
+import jakarta.jws.WebMethod;
+import jakarta.jws.WebParam;
 
 @WebService()
 public class Calculator {
@@ -1066,7 +1066,7 @@ public int add(@WebParam(name = "i") int i, @WebParam(name = "j") int j) {
                                 <programlisting language="java"
                                                 linenumbering="unnumbered">package sample;
 
-import javax.jws.WebService;
+import jakarta.jws.WebService;
 
 @WebService
 public class HelloWorld {
@@ -2519,8 +2519,8 @@ WEB-INF/wsdl/schema.xsd WSDL imports this Schema</programlisting>
      &lt;wls:package-name&gt;com.sun.xml.messaging.saaj.soap.ver1_1&lt;/wls:package-name&gt;
      &lt;wls:package-name&gt;com.sun.xml.messaging.saaj.soap.dynamic&lt;/wls:package-name&gt;
      &lt;wls:package-name&gt;com.sun.xml.messaging.saaj.soap.impl&lt;/wls:package-name&gt;
-     &lt;wls:package-name&gt;javax.jws&lt;/wls:package-name&gt;
-     &lt;wls:package-name&gt;javax.jws.soap&lt;/wls:package-name&gt;
+     &lt;wls:package-name&gt;jakarta.jws&lt;/wls:package-name&gt;
+     &lt;wls:package-name&gt;jakarta.jws.soap&lt;/wls:package-name&gt;
      &lt;wls:package-name&gt;com.sun.org.apache.xml.internal.resolver&lt;/wls:package-name&gt;
      &lt;wls:package-name&gt;com.sun.org.apache.xml.internal.resolver.helpers&lt;/wls:package-name&gt;
      &lt;wls:package-name&gt;com.sun.org.apache.xml.internal.resolver.readers&lt;/wls:package-name&gt;
@@ -2535,18 +2535,18 @@ WEB-INF/wsdl/schema.xsd WSDL imports this Schema</programlisting>
      &lt;wls:package-name&gt;org.glassfish.ha.store.annotations&lt;/wls:package-name&gt;
      &lt;wls:package-name&gt;org.glassfish.ha.store.impl&lt;/wls:package-name&gt;
      &lt;wls:package-name&gt;org.glassfish.ha.store.spi&lt;/wls:package-name&gt;
-     &lt;wls:package-name&gt;javax.annotation&lt;/wls:package-name&gt;
-     &lt;wls:package-name&gt;javax.annotation.security&lt;/wls:package-name&gt;
-     &lt;wls:package-name&gt;javax.annotation.sql&lt;/wls:package-name&gt;
+     &lt;wls:package-name&gt;jakarta.annotation&lt;/wls:package-name&gt;
+     &lt;wls:package-name&gt;jakarta.annotation.security&lt;/wls:package-name&gt;
+     &lt;wls:package-name&gt;jakarta.annotation.sql&lt;/wls:package-name&gt;
      &lt;wls:package-name&gt;org.jvnet.mimepull&lt;/wls:package-name&gt;
-     &lt;wls:package-name&gt;javax.xml.ws&lt;/wls:package-name&gt;
-     &lt;wls:package-name&gt;javax.xml.ws.handler&lt;/wls:package-name&gt;
-     &lt;wls:package-name&gt;javax.xml.ws.handler.soap&lt;/wls:package-name&gt;
-     &lt;wls:package-name&gt;javax.xml.ws.http&lt;/wls:package-name&gt;
-     &lt;wls:package-name&gt;javax.xml.ws.soap&lt;/wls:package-name&gt;
-     &lt;wls:package-name&gt;javax.xml.ws.spi&lt;/wls:package-name&gt;
-     &lt;wls:package-name&gt;javax.xml.ws.spi.http&lt;/wls:package-name&gt;
-     &lt;wls:package-name&gt;javax.xml.ws.wsaddressing&lt;/wls:package-name&gt;
+     &lt;wls:package-name&gt;jakarta.xml.ws&lt;/wls:package-name&gt;
+     &lt;wls:package-name&gt;jakarta.xml.ws.handler&lt;/wls:package-name&gt;
+     &lt;wls:package-name&gt;jakarta.xml.ws.handler.soap&lt;/wls:package-name&gt;
+     &lt;wls:package-name&gt;jakarta.xml.ws.http&lt;/wls:package-name&gt;
+     &lt;wls:package-name&gt;jakarta.xml.ws.soap&lt;/wls:package-name&gt;
+     &lt;wls:package-name&gt;jakarta.xml.ws.spi&lt;/wls:package-name&gt;
+     &lt;wls:package-name&gt;jakarta.xml.ws.spi.http&lt;/wls:package-name&gt;
+     &lt;wls:package-name&gt;jakarta.xml.ws.wsaddressing&lt;/wls:package-name&gt;
      &lt;wls:package-name&gt;com.sun.tools.ws.spi&lt;/wls:package-name&gt;
      &lt;wls:package-name&gt;com.sun.tools.ws.ant&lt;/wls:package-name&gt;
      &lt;wls:package-name&gt;com.sun.tools.ws.api&lt;/wls:package-name&gt;
@@ -2685,12 +2685,12 @@ WEB-INF/wsdl/schema.xsd WSDL imports this Schema</programlisting>
      &lt;wls:package-name&gt;org.glassfish.external.statistics&lt;/wls:package-name&gt;
      &lt;wls:package-name&gt;org.glassfish.external.statistics.impl&lt;/wls:package-name&gt;
      &lt;wls:package-name&gt;org.glassfish.external.statistics.annotations&lt;/wls:package-name&gt;
-     &lt;wls:package-name&gt;javax.xml.bind.annotation.adapters&lt;/wls:package-name&gt;
-     &lt;wls:package-name&gt;javax.xml.bind.annotation&lt;/wls:package-name&gt;
-     &lt;wls:package-name&gt;javax.xml.bind.attachment&lt;/wls:package-name&gt;
-     &lt;wls:package-name&gt;javax.xml.bind&lt;/wls:package-name&gt;
-     &lt;wls:package-name&gt;javax.xml.bind.helpers&lt;/wls:package-name&gt;
-     &lt;wls:package-name&gt;javax.xml.bind.util&lt;/wls:package-name&gt;
+     &lt;wls:package-name&gt;jakarta.xml.bind.annotation.adapters&lt;/wls:package-name&gt;
+     &lt;wls:package-name&gt;jakarta.xml.bind.annotation&lt;/wls:package-name&gt;
+     &lt;wls:package-name&gt;jakarta.xml.bind.attachment&lt;/wls:package-name&gt;
+     &lt;wls:package-name&gt;jakarta.xml.bind&lt;/wls:package-name&gt;
+     &lt;wls:package-name&gt;jakarta.xml.bind.helpers&lt;/wls:package-name&gt;
+     &lt;wls:package-name&gt;jakarta.xml.bind.util&lt;/wls:package-name&gt;
      &lt;wls:package-name&gt;com.sun.xml.bind.api&lt;/wls:package-name&gt;
      &lt;wls:package-name&gt;com.sun.xml.bind&lt;/wls:package-name&gt;
      &lt;wls:package-name&gt;com.sun.xml.bind.util&lt;/wls:package-name&gt;
@@ -2713,7 +2713,7 @@ WEB-INF/wsdl/schema.xsd WSDL imports this Schema</programlisting>
      &lt;wls:package-name&gt;com.sun.xml.stream.buffer&lt;/wls:package-name&gt;
      &lt;wls:package-name&gt;com.sun.xml.stream.buffer.sax&lt;/wls:package-name&gt;
      &lt;wls:package-name&gt;com.sun.xml.stream.buffer.stax&lt;/wls:package-name&gt;
-     &lt;wls:package-name&gt;javax.xml.soap&lt;/wls:package-name&gt;
+     &lt;wls:package-name&gt;jakarta.xml.soap&lt;/wls:package-name&gt;
      &lt;wls:package-name&gt;com.sun.xml.ws.spi&lt;/wls:package-name&gt;
      &lt;wls:package-name&gt;com.sun.xml.ws.spi.db&lt;/wls:package-name&gt;
      &lt;wls:package-name&gt;com.sun.xml.ws.addressing&lt;/wls:package-name&gt;
@@ -2828,9 +2828,9 @@ WEB-INF/wsdl/schema.xsd WSDL imports this Schema</programlisting>
     &lt;/prefer-application-packages&gt;
      &lt;wls:prefer-application-resources&gt;
       &lt;wls:resource-name&gt;META-INF/services/javax.xml.stream.*&lt;/wls:resource-name&gt;
-      &lt;wls:resource-name&gt;META-INF/services/javax.xml.ws.*&lt;/wls:resource-name&gt;
-      &lt;wls:resource-name&gt;META-INF/services/javax.xml.bind.*&lt;/wls:resource-name&gt;
-      &lt;wls:resource-name&gt;META-INF/services/javax.xml.soap.*&lt;/wls:resource-name&gt;
+      &lt;wls:resource-name&gt;META-INF/services/jakarta.xml.ws.*&lt;/wls:resource-name&gt;
+      &lt;wls:resource-name&gt;META-INF/services/jakarta.xml.bind.*&lt;/wls:resource-name&gt;
+      &lt;wls:resource-name&gt;META-INF/services/jakarta.xml.soap.*&lt;/wls:resource-name&gt;
       &lt;wls:resource-name&gt;META-INF/services/com.sun.xml.ws.*&lt;/wls:resource-name&gt;
       &lt;wls:resource-name&gt;META-INF/services/com.sun.tools.ws.*&lt;/wls:resource-name&gt;
       &lt;wls:resource-name&gt;META-INF/services/com.sun.tools.xjc.*&lt;/wls:resource-name&gt;
@@ -2846,7 +2846,7 @@ WEB-INF/wsdl/schema.xsd WSDL imports this Schema</programlisting>
       &lt;wls:resource-name&gt;com.sun.xml.xsom.impl.parser.*&lt;/wls:resource-name&gt;
       &lt;wls:resource-name&gt;com.sun.tools.jxc.*&lt;/wls:resource-name&gt;
       &lt;wls:resource-name&gt;com.sun.xml.ws.policy.privateutil.*&lt;/wls:resource-name&gt;
-      &lt;wls:resource-name&gt;javax.xml.bind.*&lt;/wls:resource-name&gt;
+      &lt;wls:resource-name&gt;jakarta.xml.bind.*&lt;/wls:resource-name&gt;
       &lt;wls:resource-name&gt;com.sun.xml.bind.api.*&lt;/wls:resource-name&gt;
       &lt;wls:resource-name&gt;com.sun.xml.bind.v2.runtime.*&lt;/wls:resource-name&gt;
       &lt;wls:resource-name&gt;com.sun.xml.bind.v2.model.impl.*&lt;/wls:resource-name&gt;
@@ -3041,8 +3041,8 @@ java.lang.ExceptionInInitializerError
         at com.sun.xml.ws.transport.http.servlet.WSServletDelegate.doGet(WSServletDelegate.java:159)
         at com.sun.xml.ws.transport.http.servlet.WSServletDelegate.doPost(WSServletDelegate.java:194)
         at com.sun.xml.ws.transport.http.servlet.WSServlet.doPost(WSServlet.java:80)
-        at javax.servlet.http.HttpServlet.service(HttpServlet.java:751)
-        at javax.servlet.http.HttpServlet.service(HttpServlet.java:844)
+        at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:751)
+        at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:844)
         at weblogic.servlet.internal.StubSecurityHelper$ServletServiceAction.run(StubSecurityHelper.java:242)
         at weblogic.servlet.internal.StubSecurityHelper$ServletServiceAction.run(StubSecurityHelper.java:216)
         at weblogic.servlet.internal.StubSecurityHelper.invokeServlet(StubSecurityHelper.java:132)
@@ -3060,7 +3060,7 @@ java.lang.ExceptionInInitializerError
         at weblogic.servlet.provider.ContainerSupportProviderImpl$WlsRequestExecutor.run(ContainerSupportProviderImpl.java:254)
         at weblogic.work.ExecuteThread.execute(ExecuteThread.java:256)
         at weblogic.work.ExecuteThread.run(ExecuteThread.java:221)
-Caused by: javax.xml.ws.WebServiceException: Error creating JAXBContext for W3CEndpointReference.
+Caused by: jakarta.xml.ws.WebServiceException: Error creating JAXBContext for W3CEndpointReference.
         at com.sun.xml.ws.spi.ProviderImpl$2.run(ProviderImpl.java:266)
         at com.sun.xml.ws.spi.ProviderImpl$2.run(ProviderImpl.java:262)
         at java.security.AccessController.doPrivileged(Native Method)
@@ -3074,18 +3074,18 @@ Two classes have the same XML type name "address". Use @XmlType.name and @XmlTyp
                 at public com.sun.xml.ws.developer.MemberSubmissionEndpointReference$Address com.sun.xml.ws.developer.MemberSubmissionEndpointReference.address
                 at com.sun.xml.ws.developer.MemberSubmissionEndpointReference
         this problem is related to the following location:
-                at javax.xml.ws.wsaddressing.W3CEndpointReference$Address
-                at private javax.xml.ws.wsaddressing.W3CEndpointReference$Address javax.xml.ws.wsaddressing.W3CEndpointReference.address
-                at javax.xml.ws.wsaddressing.W3CEndpointReference
+                at jakarta.xml.ws.wsaddressing.W3CEndpointReference$Address
+                at private jakarta.xml.ws.wsaddressing.W3CEndpointReference$Address jakarta.xml.ws.wsaddressing.W3CEndpointReference.address
+                at jakarta.xml.ws.wsaddressing.W3CEndpointReference
 Two classes have the same XML type name "elements". Use @XmlType.name and @XmlType.namespace to assign different names to them.
         this problem is related to the following location:
                 at com.sun.xml.ws.developer.MemberSubmissionEndpointReference$Elements
                 at public com.sun.xml.ws.developer.MemberSubmissionEndpointReference$Elements com.sun.xml.ws.developer.MemberSubmissionEndpointReference.referenceProperties
                 at com.sun.xml.ws.developer.MemberSubmissionEndpointReference
         this problem is related to the following location:
-                at javax.xml.ws.wsaddressing.W3CEndpointReference$Elements
-                at private javax.xml.ws.wsaddressing.W3CEndpointReference$Elements javax.xml.ws.wsaddressing.W3CEndpointReference.referenceParameters
-                at javax.xml.ws.wsaddressing.W3CEndpointReference
+                at jakarta.xml.ws.wsaddressing.W3CEndpointReference$Elements
+                at private jakarta.xml.ws.wsaddressing.W3CEndpointReference$Elements jakarta.xml.ws.wsaddressing.W3CEndpointReference.referenceParameters
+                at jakarta.xml.ws.wsaddressing.W3CEndpointReference
 
         at com.sun.xml.bind.v2.runtime.IllegalAnnotationsException$Builder.check(IllegalAnnotationsException.java:106)
         at com.sun.xml.bind.v2.runtime.JAXBContextImpl.getTypeInfoSet(JAXBContextImpl.java:466)
@@ -3097,11 +3097,11 @@ Two classes have the same XML type name "elements". Use @XmlType.name and @XmlTy
         at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
         at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
         at java.lang.reflect.Method.invoke(Method.java:601)
-        at javax.xml.bind.ContextFinder.newInstance(ContextFinder.java:263)
-        at javax.xml.bind.ContextFinder.newInstance(ContextFinder.java:250)
-        at javax.xml.bind.ContextFinder.find(ContextFinder.java:447)
-        at javax.xml.bind.JAXBContext.newInstance(JAXBContext.java:652)
-        at javax.xml.bind.JAXBContext.newInstance(JAXBContext.java:599)
+        at jakarta.xml.bind.ContextFinder.newInstance(ContextFinder.java:263)
+        at jakarta.xml.bind.ContextFinder.newInstance(ContextFinder.java:250)
+        at jakarta.xml.bind.ContextFinder.find(ContextFinder.java:447)
+        at jakarta.xml.bind.JAXBContext.newInstance(JAXBContext.java:652)
+        at jakarta.xml.bind.JAXBContext.newInstance(JAXBContext.java:599)
         at com.sun.xml.ws.spi.ProviderImpl$2.run(ProviderImpl.java:264)
         ... 38 more</programlisting>
                     </listitem>
@@ -3118,7 +3118,7 @@ Two classes have the same XML type name "elements". Use @XmlType.name and @XmlTy
         client you compile the deployed WSDL using wsimport and then at
         runtime the same WSDL is used to determine binding information. The
         default WSDL used can be determined by looking in the
-        javax.xml.ws.Service subclass generated by wsimport. You can choose
+        jakarta.xml.ws.Service subclass generated by wsimport. You can choose
         another location (network or local file directory) for the WSDL other
         than the one you used wsimport with, for example if you do not want
         runtime accesses of the WSDL to go over the network or if you want to

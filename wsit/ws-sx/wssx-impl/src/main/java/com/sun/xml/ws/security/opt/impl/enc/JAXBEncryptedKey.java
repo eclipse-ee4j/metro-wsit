@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -28,15 +28,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.xml.bind.JAXBElement;
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
+import jakarta.xml.bind.JAXBElement;
+import jakarta.xml.bind.Marshaller;
+import jakarta.xml.bind.Unmarshaller;
 import javax.xml.namespace.QName;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 import javax.crypto.Cipher;
-import javax.xml.bind.JAXBException;
+import jakarta.xml.bind.JAXBException;
 import com.sun.xml.wss.XWSSecurityException;
 import com.sun.xml.security.core.xenc.ReferenceType;
 import javax.xml.stream.XMLStreamException;
@@ -105,15 +105,15 @@ public class JAXBEncryptedKey implements EncryptedKey,
         throw new UnsupportedOperationException();
     }
     
-    public <T> T readAsJAXB(Unmarshaller unmarshaller) throws javax.xml.bind.JAXBException {
+    public <T> T readAsJAXB(Unmarshaller unmarshaller) throws jakarta.xml.bind.JAXBException {
         throw new UnsupportedOperationException();
     }
     
-    public <T> T readAsJAXB(com.sun.xml.bind.api.Bridge<T> bridge, com.sun.xml.bind.api.BridgeContext context) throws javax.xml.bind.JAXBException {
+    public <T> T readAsJAXB(org.glassfish.jaxb.runtime.api.Bridge<T> bridge, org.glassfish.jaxb.runtime.api.BridgeContext context) throws jakarta.xml.bind.JAXBException {
         throw new UnsupportedOperationException();
     }
     
-    public <T> T readAsJAXB(com.sun.xml.bind.api.Bridge<T> bridge) throws javax.xml.bind.JAXBException {
+    public <T> T readAsJAXB(org.glassfish.jaxb.runtime.api.Bridge<T> bridge) throws jakarta.xml.bind.JAXBException {
         throw new UnsupportedOperationException();
     }
 
@@ -136,7 +136,7 @@ public class JAXBEncryptedKey implements EncryptedKey,
             writer = getMarshaller();
             JAXBElement ed = getEK(writer);
             writer.marshal(ed,streamWriter);
-        } catch (javax.xml.bind.JAXBException ex) {
+        } catch (jakarta.xml.bind.JAXBException ex) {
             logger.log(Level.SEVERE,LogStringsMessages.WSS_1921_ERROR_WRITING_ENCRYPTEDKEY(ex.getMessage()), ex);
         } catch (com.sun.xml.wss.XWSSecurityException ex) {
             logger.log(Level.SEVERE,LogStringsMessages.WSS_1921_ERROR_WRITING_ENCRYPTEDKEY(ex.getMessage()), ex);
@@ -154,7 +154,7 @@ public class JAXBEncryptedKey implements EncryptedKey,
             
             JAXBElement ed = getEK(writer);
             writer.marshal(ed,os);
-        } catch (javax.xml.bind.JAXBException ex) {
+        } catch (jakarta.xml.bind.JAXBException ex) {
             logger.log(Level.SEVERE,LogStringsMessages.WSS_1921_ERROR_WRITING_ENCRYPTEDKEY(ex.getMessage()), ex);
         } catch (com.sun.xml.wss.XWSSecurityException ex) {
             logger.log(Level.SEVERE,LogStringsMessages.WSS_1921_ERROR_WRITING_ENCRYPTEDKEY(ex.getMessage()), ex);
@@ -169,7 +169,7 @@ public class JAXBEncryptedKey implements EncryptedKey,
         return obj.createEncryptedKey(ekt);
     }
     
-    public void writeTo(javax.xml.soap.SOAPMessage saaj) throws javax.xml.soap.SOAPException {
+    public void writeTo(jakarta.xml.soap.SOAPMessage saaj) throws jakarta.xml.soap.SOAPException {
         throw new UnsupportedOperationException();
     }
     

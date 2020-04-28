@@ -61,10 +61,10 @@
             <outputDirectory>metro/lib/databinding</outputDirectory>
             <directoryMode>0755</directoryMode>
 
-            <includes>
+            <!--includes>
                 <include>com.sun.xml.ws:jaxws-eclipselink-plugin</include>
                 <include>com.sun.xml.ws:sdo-eclipselink-plugin</include>
-            </includes>
+            </includes-->
         </dependencySet>
         <dependencySet>
             <outputFileNameMapping>${artifact.artifactId}.${artifact.extension}</outputFileNameMapping>

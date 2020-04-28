@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -42,18 +42,18 @@ import com.sun.xml.wss.impl.XWSSecurityRuntimeException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.jar.Attributes.Name;
-import javax.servlet.ServletContext;
+import jakarta.servlet.ServletContext;
 import javax.xml.namespace.QName;
-import javax.xml.soap.MessageFactory;
+import jakarta.xml.soap.MessageFactory;
 import org.w3c.dom.Node;
-import javax.xml.soap.SOAPBody;
-import javax.xml.soap.SOAPConstants;
-import javax.xml.soap.SOAPException;
-import javax.xml.soap.SOAPFactory;
-import javax.xml.soap.SOAPFault;
-import javax.xml.soap.SOAPMessage;
-import javax.xml.ws.WebServiceException;
-import javax.xml.ws.soap.SOAPFaultException;
+import jakarta.xml.soap.SOAPBody;
+import jakarta.xml.soap.SOAPConstants;
+import jakarta.xml.soap.SOAPException;
+import jakarta.xml.soap.SOAPFactory;
+import jakarta.xml.soap.SOAPFault;
+import jakarta.xml.soap.SOAPMessage;
+import jakarta.xml.ws.WebServiceException;
+import jakarta.xml.ws.soap.SOAPFaultException;
 import org.w3c.dom.NodeList;
 
 
@@ -80,7 +80,7 @@ public class XWSSServerTube extends AbstractFilterTubeImpl {
     protected static final String FALSE = "false";
     protected static final String CONTEXT_WSDL_OPERATION =
             "com.sun.xml.ws.wsdl.operation";
-    private static final String SERVLET_CONTEXT_CLASSNAME = "javax.servlet.ServletContext";
+    private static final String SERVLET_CONTEXT_CLASSNAME = "jakarta.servlet.ServletContext";
     
     /** Creates a new instance of XWSSServerPipe */
     public XWSSServerTube(WSEndpoint epoint, WSDLPort prt, Tube nextTube) {

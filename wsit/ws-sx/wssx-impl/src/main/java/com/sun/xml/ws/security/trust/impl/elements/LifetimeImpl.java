@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -14,7 +14,7 @@
 
 package com.sun.xml.ws.security.trust.impl.elements;
 
-import javax.xml.bind.JAXBException;
+import jakarta.xml.bind.JAXBException;
 
 import com.sun.xml.ws.security.wsu10.AttributedDateTime;
 import com.sun.xml.ws.api.security.trust.WSTrustException;
@@ -73,7 +73,7 @@ public class LifetimeImpl extends LifetimeType implements Lifetime {
     public static LifetimeType fromElement(@NotNull final org.w3c.dom.Element element)
     throws WSTrustException {
         try {
-            final javax.xml.bind.Unmarshaller unmarshaller = WSTrustElementFactory.getContext().createUnmarshaller();
+            final jakarta.xml.bind.Unmarshaller unmarshaller = WSTrustElementFactory.getContext().createUnmarshaller();
             return (LifetimeType)unmarshaller.unmarshal(element);
         } catch ( JAXBException ex) {
             log.log(Level.SEVERE,

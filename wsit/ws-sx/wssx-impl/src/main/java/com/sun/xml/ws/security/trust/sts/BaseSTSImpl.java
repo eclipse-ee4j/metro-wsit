@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -38,11 +38,11 @@ import javax.xml.namespace.QName;
 
 import javax.xml.transform.TransformerException;
 
-import javax.xml.ws.WebServiceException;
+import jakarta.xml.ws.WebServiceException;
 import javax.xml.transform.Source;
-import javax.xml.ws.handler.MessageContext;
-//import javax.xml.ws.BindingType;
-//import javax.xml.ws.RespectBinding;
+import jakarta.xml.ws.handler.MessageContext;
+//import jakarta.xml.ws.BindingType;
+//import jakarta.xml.ws.RespectBinding;
 
 import com.sun.xml.ws.policy.impl.bindings.AppliesTo;
 import com.sun.xml.wss.WSITXMLFactory;

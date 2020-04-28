@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -10,11 +10,11 @@
 
 package simple.client;
 
-import javax.xml.ws.BindingProvider;
-import javax.xml.ws.soap.SOAPBinding;
+import jakarta.xml.ws.BindingProvider;
+import jakarta.xml.ws.soap.SOAPBinding;
 import javax.xml.namespace.QName;
 import java.io.FileInputStream;
-import javax.xml.ws.Holder;
+import jakarta.xml.ws.Holder;
 
 import simple.client.PingService;
 import simple.client.IPingService;
@@ -39,7 +39,7 @@ public class PingServiceClient {
             System.out.println("Service URL=" + serviceURL);
             
             ((BindingProvider)stub).getRequestContext().
-                put(javax.xml.ws.BindingProvider.ENDPOINT_ADDRESS_PROPERTY, serviceURL);  
+                put(jakarta.xml.ws.BindingProvider.ENDPOINT_ADDRESS_PROPERTY, serviceURL);
             
              ((BindingProvider)stub).getRequestContext().
                 put(com.sun.xml.wss.XWSSConstants.USERNAME_PROPERTY, "alice"); 

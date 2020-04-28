@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -14,7 +14,7 @@ import com.sun.xml.ws.tx.coord.common.types.BaseRegisterResponseType;
 import com.sun.istack.logging.Logger;
 import com.sun.xml.ws.tx.at.localization.LocalizationMessages; 
 
-import javax.xml.ws.WebServiceException;
+import jakarta.xml.ws.WebServiceException;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 

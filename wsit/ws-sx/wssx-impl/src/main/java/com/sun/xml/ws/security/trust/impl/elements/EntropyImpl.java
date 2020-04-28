@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -15,7 +15,7 @@
 package com.sun.xml.ws.security.trust.impl.elements;
 
 
-import javax.xml.bind.JAXBElement;
+import jakarta.xml.bind.JAXBElement;
 
 import javax.xml.namespace.QName;
 
@@ -37,7 +37,7 @@ import java.util.logging.Logger;
 import com.sun.xml.ws.security.trust.logging.LogDomainConstants;
 
 import com.sun.xml.ws.security.trust.logging.LogStringsMessages;
-import javax.xml.bind.JAXBException;
+import jakarta.xml.bind.JAXBException;
 /**
  * Implementation of Entropy Interface.
  *
@@ -98,7 +98,7 @@ public class EntropyImpl extends EntropyType implements Entropy {
     public static EntropyType fromElement(final org.w3c.dom.Element element)
     throws WSTrustException {
         try {
-            final javax.xml.bind.Unmarshaller unmarshaller = WSTrustElementFactory.getContext().createUnmarshaller();
+            final jakarta.xml.bind.Unmarshaller unmarshaller = WSTrustElementFactory.getContext().createUnmarshaller();
             return (EntropyType)unmarshaller.unmarshal(element);
         } catch (JAXBException ex) {
             log.log(Level.SEVERE,
