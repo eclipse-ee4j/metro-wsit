@@ -81,8 +81,8 @@ public class WssProviderAuthModule implements ModuleOptions, ConfigurationStates
        *        indicates if the current instance is client or server module
        * @throws RuntimeException
        */
-       public void initialize (javax.security.auth.message.MessagePolicy requestPolicy,
-                               javax.security.auth.message.MessagePolicy responsePolicy,
+       public void initialize (jakarta.security.auth.message.MessagePolicy requestPolicy,
+                               jakarta.security.auth.message.MessagePolicy responsePolicy,
                                CallbackHandler handler,
                                Map options,
                                boolean isClientAuthModule) {
@@ -144,7 +144,7 @@ public class WssProviderAuthModule implements ModuleOptions, ConfigurationStates
        * @throws RuntimeException
        */
        @Override
-       public int resolveConfigurationState(javax.security.auth.message.MessagePolicy messagePolicy,
+       public int resolveConfigurationState(jakarta.security.auth.message.MessagePolicy messagePolicy,
                boolean isRequestPolicy, boolean isClientAuthModule) {
            boolean orderForValidation = isClientAuthModule ? !isRequestPolicy : isRequestPolicy;
            boolean recipientBeforeContent = false;
@@ -153,24 +153,24 @@ public class WssProviderAuthModule implements ModuleOptions, ConfigurationStates
            boolean senderAuthRequired = false;
            boolean contentAuthRequired = false;
            if (messagePolicy != null) {
-               javax.security.auth.message.MessagePolicy.TargetPolicy[] targetPolicies = messagePolicy.getTargetPolicies();
+               jakarta.security.auth.message.MessagePolicy.TargetPolicy[] targetPolicies = messagePolicy.getTargetPolicies();
                if (targetPolicies != null && targetPolicies.length > 0) {
                    int contentInd = -1;
                    int recipientInd = -1;
                    for (int i = 0; i < targetPolicies.length; i++) {
-                       javax.security.auth.message.MessagePolicy.ProtectionPolicy pp
+                       jakarta.security.auth.message.MessagePolicy.ProtectionPolicy pp
                                = targetPolicies[i].getProtectionPolicy();
 
-                       if (javax.security.auth.message.MessagePolicy.ProtectionPolicy.AUTHENTICATE_RECIPIENT.equals(
+                       if (jakarta.security.auth.message.MessagePolicy.ProtectionPolicy.AUTHENTICATE_RECIPIENT.equals(
                                pp.getID())) {
                            recipientInd = i;
                            recipientAuthRequired = true;
-                       } else if (javax.security.auth.message.MessagePolicy.ProtectionPolicy.AUTHENTICATE_SENDER.equals(
+                       } else if (jakarta.security.auth.message.MessagePolicy.ProtectionPolicy.AUTHENTICATE_SENDER.equals(
                                pp.getID())) {
                            contentInd = i;
                            sourceAuthRequired = true;
                            senderAuthRequired = true;
-                       } else if (javax.security.auth.message.MessagePolicy.ProtectionPolicy.AUTHENTICATE_CONTENT.equals(
+                       } else if (jakarta.security.auth.message.MessagePolicy.ProtectionPolicy.AUTHENTICATE_CONTENT.equals(
                                pp.getID())) {
                            contentInd = i;
                            sourceAuthRequired = true;

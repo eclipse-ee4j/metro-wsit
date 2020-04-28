@@ -118,7 +118,7 @@ import static com.sun.xml.wss.jaxws.impl.Constants.SC_ASSERTION;
 import com.sun.xml.wss.jaxws.impl.RMPolicyResolver;
 import java.util.Map;
 import javax.security.auth.callback.CallbackHandler;
-import javax.security.auth.message.MessageInfo;
+import jakarta.security.auth.message.MessageInfo;
 import jakarta.xml.soap.SOAPMessage;
 import com.sun.xml.ws.security.secconv.WSSCVersion;
 import com.sun.xml.ws.security.trust.WSTrustVersion;

@@ -30,9 +30,9 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.security.auth.message.config.AuthConfigFactory;
-import javax.security.auth.message.config.AuthConfigProvider;
-import javax.security.auth.message.config.RegistrationListener;
+import jakarta.security.auth.message.config.AuthConfigFactory;
+import jakarta.security.auth.message.config.AuthConfigProvider;
+import jakarta.security.auth.message.config.RegistrationListener;
 import jakarta.xml.ws.WebServiceException;
     
 /**
@@ -48,7 +48,7 @@ public class JMACAuthConfigFactory extends AuthConfigFactory {
 
     // locks are used to protect existence of maps 
     // not concurrent access within maps
-    private static final  String AUTH_CONFIG_PROVIDER_PROP="META-INF/services/javax.security.auth.message.config.AuthConfigProvider";
+    private static final  String AUTH_CONFIG_PROVIDER_PROP="META-INF/services/jakarta.security.auth.message.config.AuthConfigProvider";
     private static ReadWriteLock rwLock;
     private static Lock rLock;
     private static Lock wLock;

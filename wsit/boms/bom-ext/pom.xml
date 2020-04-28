@@ -33,8 +33,6 @@
         <jaxws.home.uri>http://eclipse-ee4j.github.io/metro-jax-ws</jaxws.home.uri>
         <santuario.version>1.5.8</santuario.version>
         <commons-logging.version>1.1.2</commons-logging.version>
-        <xmlrpc-api.version>1.1.4</xmlrpc-api.version>
-        <xmlrpc-impl.version>1.1.6</xmlrpc-impl.version>
         <grizzly.version>2.4.4</grizzly.version>
         <asm.version>7.2</asm.version>
     </properties>

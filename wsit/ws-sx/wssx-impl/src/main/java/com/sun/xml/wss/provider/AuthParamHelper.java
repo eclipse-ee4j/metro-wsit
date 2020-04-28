@@ -10,7 +10,7 @@
 
 package com.sun.xml.wss.provider;
 
-import javax.security.auth.message.MessageInfo;
+import jakarta.security.auth.message.MessageInfo;
 import jakarta.xml.soap.SOAPMessage;
 
 /**

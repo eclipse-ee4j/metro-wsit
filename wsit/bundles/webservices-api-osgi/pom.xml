@@ -40,7 +40,7 @@
                         <configuration>
                             <excludeTransitive>true</excludeTransitive>
                             <outputDirectory>${project.build.directory}/classes</outputDirectory>
-                            <includes>javax\/jws\/**,javax\/xml\/ws\/**,javax\/xml\/soap\/**</includes>
+                            <includes>jakarta\/jws\/**,jakarta\/xml\/ws\/**,jakarta\/xml\/soap\/**</includes>
                         </configuration>
                     </execution>
                     <execution>
@@ -58,7 +58,7 @@
                                     <classifier>sources</classifier>
                                     <overWrite>false</overWrite>
                                     <outputDirectory>${generated.sources.dir}</outputDirectory>
-                                    <includes>javax\/jws\/**,javax\/xml\/ws\/**,javax\/xml\/soap\/**</includes>
+                                    <includes>jakarta\/jws\/**,jakarta\/xml\/ws\/**,jakarta\/xml\/soap\/**</includes>
                                 </artifactItem>
                             </artifactItems>
                         </configuration>
@@ -126,12 +126,12 @@
                             <manifestLocation>${manifest.folder}/META-INF</manifestLocation>
                             <instructions>
                                 <Export-Package>
-                                    jakarta.jws.*;version=3.0,
+                                    jakarta.jws.*;version=${jaxws-api.osgiVersion},
                                     jakarta.xml.ws.*;version=${jaxws-api.osgiVersion},
                                     jakarta.xml.soap.*;version=${saaj-api.osgiVersion}
                                 </Export-Package>
                                 <Import-Package>
-                                    jakarta.activation;version=!;resolution:=optional,
+                                    jakarta.activation;resolution:=optional,
                                     jakarta.xml.bind;version=${jaxb-api.osgiVersion},
                                     jakarta.xml.bind.*;version=${jaxb-api.osgiVersion},
                                     *

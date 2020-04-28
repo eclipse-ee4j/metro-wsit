@@ -91,10 +91,10 @@ import java.util.Properties;
 import java.util.Set;
 import javax.security.auth.Subject;
 import javax.security.auth.callback.CallbackHandler;
-import javax.security.auth.message.AuthException;
-import javax.security.auth.message.AuthStatus;
-import javax.security.auth.message.MessageInfo;
-import javax.security.auth.message.config.ClientAuthContext;
+import jakarta.security.auth.message.AuthException;
+import jakarta.security.auth.message.AuthStatus;
+import jakarta.security.auth.message.MessageInfo;
+import jakarta.security.auth.message.config.ClientAuthContext;
 import jakarta.xml.bind.JAXBElement;
 
 import static com.sun.xml.wss.jaxws.impl.Constants.SC_ASSERTION;
