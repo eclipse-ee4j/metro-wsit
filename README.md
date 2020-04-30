@@ -61,5 +61,5 @@ as well as for consumption through maven.
 
 ## Documentation
 The release includes the following documentation:
-* [Getting Starter](/2.4.4/getting-started/index.html)
+* [Getting Started](/2.4.4/getting-started/index.html)
 * [Users Guide](/2.4.4/guide/index.html)
