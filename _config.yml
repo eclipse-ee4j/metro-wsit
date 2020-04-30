@@ -14,8 +14,8 @@ links:
   smetadata: https://jakarta.ee/specifications/web-services-metadata/
   ssoap: https://jakarta.ee/specifications/soap-attachments/
   sews: https://jakarta.ee/specifications/enterprise-ws/
-  gstarted: /2.4.4/getting-started/
-  guide: /2.4.4/guide/
+  gstarted: https://eclipse-ee4j.github.io/metro-wsit/2.4.4/getting-started/
+  guide: https://eclipse-ee4j.github.io/metro-wsit/2.4.4/guide/
   javadocsrt:  https://javadoc.io/doc/org.glassfish.metro/webservices-rt/2.4.4/index.html
   javadocstools:  https://javadoc.io/doc/org.glassfish.metro/webservices-tools/2.4.4/index.html
   download: https://repo1.maven.org/maven2/org/glassfish/metro/metro-standalone/2.4.4/metro-standalone-2.4.4.zip
