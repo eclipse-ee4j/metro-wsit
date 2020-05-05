@@ -431,14 +431,14 @@
             <artifactId>jaxws-ri</artifactId>
             <type>zip</type>
         </dependency>
-        <!--dependency>
+        <dependency>
             <groupId>com.sun.xml.ws</groupId>
             <artifactId>jaxws-eclipselink-plugin</artifactId>
         </dependency>
         <dependency>
             <groupId>com.sun.xml.ws</groupId>
             <artifactId>sdo-eclipselink-plugin</artifactId>
-        </dependency-->
+        </dependency>
         <dependency>
             <groupId>org.eclipse.persistence</groupId>
             <artifactId>commonj.sdo</artifactId>
