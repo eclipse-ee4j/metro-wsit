@@ -438,9 +438,9 @@ public class SignatureProcessor {
         Marshaller marshaller =  _jaxbContext.createMarshaller();
         marshaller.setProperty("com.sun.xml.bind.xmlDeclaration", false);
         if(wssContext != null)
-            marshaller.setProperty("org.glassfish.jaxb.runtime.marshaller.namespacePrefixMapper", new WSSNamespacePrefixMapper(wssContext.isSOAP12()));
+            marshaller.setProperty("com.sun.xml.bind.namespacePrefixMapper", new WSSNamespacePrefixMapper(wssContext.isSOAP12()));
         else
-            marshaller.setProperty("org.glassfish.jaxb.runtime.marshaller.namespacePrefixMapper", new WSSNamespacePrefixMapper());
+            marshaller.setProperty("com.sun.xml.bind.namespacePrefixMapper", new WSSNamespacePrefixMapper());
         marshaller.setProperty(Marshaller.JAXB_FRAGMENT,true);
         return marshaller;
     }
