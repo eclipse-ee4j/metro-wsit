@@ -154,8 +154,8 @@ public class SAMLUtil {
                 }
             }
             
-            m.setProperty("com.sun.xml.bind.namespacePrefixMapper", new WSSNamespacePrefixMapper());
-            m.marshal(element, result);            
+            m.setProperty("org.glassfish.jaxb.namespacePrefixMapper", new WSSNamespacePrefixMapper());
+            m.marshal(element, result);
             
         } catch (Exception ex) {
             logger.log(Level.SEVERE,LogStringsMessages.WSS_003_FAILEDTO_MARSHAL(), ex);

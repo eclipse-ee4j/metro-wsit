@@ -27,7 +27,7 @@
     <name>Metro Web Services Stack Tests</name>
 
     <properties>
-        <test.harness.version>2.3.3</test.harness.version>
+        <test.harness.version>3.0.0-M1</test.harness.version>
         <metro.dep.classifier></metro.dep.classifier>
         <!-- DEFAULT = JAXB, TOPLINK = MOXy -->
         <ws.databinding>DEFAULT</ws.databinding>

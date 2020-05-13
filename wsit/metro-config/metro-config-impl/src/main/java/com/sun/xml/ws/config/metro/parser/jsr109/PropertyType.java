@@ -28,8 +28,8 @@ import jakarta.xml.bind.annotation.XmlTransient;
 import jakarta.xml.bind.annotation.XmlType;
 import jakarta.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-import com.sun.xml.bind.Locatable;
-import com.sun.xml.bind.annotation.XmlLocation;
+import org.glassfish.jaxb.core.Locatable;
+import org.glassfish.jaxb.core.annotation.XmlLocation;
 import org.xml.sax.Locator;
 
 

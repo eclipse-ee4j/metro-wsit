@@ -69,9 +69,9 @@ public class ETHandler {
     public ETHandler(SOAPVersion soapVersion) {
         wsf = new WSSElementFactory(soapVersion);
         if(soapVersion == SOAPVersion.SOAP_11){
-            props.put("com.sun.xml.bind.namespacePrefixMapper", new WSSNSPrefixWrapper(JAXBUtil.prefixMapper11));
+            props.put("org.glassfish.jaxb.namespacePrefixMapper", new WSSNSPrefixWrapper(JAXBUtil.prefixMapper11));
         } else{
-            props.put("com.sun.xml.bind.namespacePrefixMapper", new WSSNSPrefixWrapper(JAXBUtil.prefixMapper12));
+            props.put("org.glassfish.jaxb.namespacePrefixMapper", new WSSNSPrefixWrapper(JAXBUtil.prefixMapper12));
         }
     }
     

@@ -153,7 +153,7 @@ public class IdentityEPRExtnContributor extends EndpointReferenceExtensionContri
         try {
             JAXBContext context = JAXBUtil.getCustomIdentityJAXBContext(); 
             Marshaller m = context.createMarshaller();
-            m.setProperty("com.sun.xml.bind.xmlDeclaration", false);
+            m.setProperty("org.glassfish.jaxb.xmlDeclaration", false);
             m.marshal(idElem, xbr);
         } catch (JAXBException je) {
             log.log(Level.SEVERE, com.sun.xml.wss.logging.LogStringsMessages.WSS_0818_ERROR_PUTTING_CERTIFICATE_EPRIDENTITY(), je);

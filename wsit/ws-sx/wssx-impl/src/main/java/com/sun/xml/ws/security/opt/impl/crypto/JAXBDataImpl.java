@@ -126,12 +126,12 @@ public class JAXBDataImpl implements JAXBData {
                 final JAXBHeader hdr = ((JAXBHeader) header);             
                 Object obj = header.readAsJAXB(jc.createUnmarshaller());
                 mh = jc.createMarshaller();
-                //mh.setProperty("com.sun.xml.bind.c14n", true);
+                //mh.setProperty("org.glassfish.jaxb.c14n", true);
                 mh.setProperty(Marshaller.JAXB_FRAGMENT, Boolean.TRUE);
                 mh.marshal(obj, os);
             } else {
                 mh = jc.createMarshaller();
-                mh.setProperty("com.sun.xml.bind.c14n", true);
+                mh.setProperty("org.glassfish.jaxb.c14n", true);
                 mh.marshal(jb, os);
             }
 
