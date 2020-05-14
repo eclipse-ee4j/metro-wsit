@@ -648,7 +648,6 @@
         <spotbugs.skip>false</spotbugs.skip>
         <spotbugs.threshold>High</spotbugs.threshold>
         <spotbugs.version>4.0.0</spotbugs.version>
-        <tomcat.coyote.version>9.0.8</tomcat.coyote.version>
 
         <release.repository.url>https://jakarta.oss.sonatype.org/content/repositories/releases/</release.repository.url>
 
@@ -671,71 +670,5 @@
             -Djava.awt.headless=true -Xmx256m
         </argLine>
     </properties>
-
-    <dependencyManagement>
-        <dependencies>
-            <!-- required dependencies -->
-            <dependency>
-                <groupId>jakarta.ejb</groupId>
-                <artifactId>jakarta.ejb-api</artifactId>
-                <version>4.0.0-RC1</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>xmlfilter</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>jakarta.security.auth.message</groupId>
-                <artifactId>jakarta.security.auth.message-api</artifactId>
-                <version>2.0.0-RC1</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.santuario</groupId>
-                <artifactId>xmlsec</artifactId>
-                <version>${santuario.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>commons-logging</groupId>
-                <artifactId>commons-logging</artifactId>
-                <version>${commons-logging.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.glassfish.metro</groupId>
-                <artifactId>keyidspi-ibm-impl</artifactId>
-                <version>1.1</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>*</groupId>
-                        <artifactId>*</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-            <dependency>
-                <groupId>net.java.dev.stax-utils</groupId>
-                <artifactId>stax-utils</artifactId>
-                <version>20060502</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>com.bea.xml</groupId>
-                        <artifactId>jsr173-ri</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.tomcat</groupId>
-                <artifactId>tomcat-coyote</artifactId>
-                <version>${tomcat.coyote.version}</version>
-            </dependency>
-
-            <!-- Testing -->
-            <dependency>
-                <groupId>junit</groupId>
-                <artifactId>junit</artifactId>
-                <version>4.12</version>
-            </dependency>
-
-        </dependencies>
-    </dependencyManagement>
 
 </project>

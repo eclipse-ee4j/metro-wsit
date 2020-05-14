@@ -28,25 +28,29 @@
     <description>Metro Web Services Stack Dependency POM for Metro-CS</description>
 
     <properties>
+        <auth.message-api.version>2.0.0-RC1</auth.message-api.version>
         <connector-api.version>2.0.0-RC1</connector-api.version>
+        <ejb-api.version>4.0.0-RC1</ejb-api.version>
         <transaction-api.version>2.0.0-RC1</transaction-api.version>
-        <jaxws.home.uri>http://eclipse-ee4j.github.io/metro-jax-ws</jaxws.home.uri>
-        <santuario.version>1.5.8</santuario.version>
-        <commons-logging.version>1.1.2</commons-logging.version>
+
+        <!-- CQ: #22139 -->
+        <santuario.version>2.1.5</santuario.version>
+        <!-- CQ: #22187 -->
+        <slf4j-api.version>1.7.30</slf4j-api.version>
+        <!-- CQ: #22186 -->
+        <commons-codec.version>1.13</commons-codec.version>
+
+        <!-- CQ: #18393 -->
+        <stax-utils.version>20060502</stax-utils.version>
+
         <grizzly.version>2.4.4</grizzly.version>
-        <asm.version>7.2</asm.version>
+        <tomcat.coyote.version>9.0.8</tomcat.coyote.version>
+
+        <jaxws.home.uri>http://eclipse-ee4j.github.io/metro-jax-ws</jaxws.home.uri>
     </properties>
 
     <dependencyManagement>
         <dependencies>
-
-            <dependency>
-                <groupId>asm</groupId>
-                <artifactId>asm</artifactId>
-                <type>jar</type>
-                <classifier>sources</classifier>
-                <version>${asm.version}</version>
-            </dependency>
 
             <!-- Import jaxws artifacts -->
             <dependency>
@@ -59,6 +63,18 @@
 
             <!-- Should this really be reexported? -->
             <dependency>
+                <groupId>jakarta.ejb</groupId>
+                <artifactId>jakarta.ejb-api</artifactId>
+                <version>${ejb-api.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>jakarta.security.auth.message</groupId>
+                <artifactId>jakarta.security.auth.message-api</artifactId>
+                <version>${auth.message-api.version}</version>
+            </dependency>
+
+            <dependency>
                 <groupId>jakarta.resource</groupId>
                 <artifactId>jakarta.resource-api</artifactId>
                 <version>${connector-api.version}</version>
@@ -68,6 +84,23 @@
                 <groupId>jakarta.transaction</groupId>
                 <artifactId>jakarta.transaction-api</artifactId>
                 <version>${transaction-api.version}</version>
+            </dependency>
+
+            <!-- Santuario -->
+            <dependency>
+                <groupId>org.apache.santuario</groupId>
+                <artifactId>xmlsec</artifactId>
+                <version>${santuario.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-codec</groupId>
+                <artifactId>commons-codec</artifactId>
+                <version>${commons-codec.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>${slf4j-api.version}</version>
             </dependency>
 
             <dependency>
@@ -84,6 +117,41 @@
                 <groupId>org.glassfish.grizzly</groupId>
                 <artifactId>grizzly-portunif</artifactId>
                 <version>${grizzly.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.glassfish.metro</groupId>
+                <artifactId>keyidspi-ibm-impl</artifactId>
+                <version>1.1</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>*</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>net.java.dev.stax-utils</groupId>
+                <artifactId>stax-utils</artifactId>
+                <version>${stax-utils.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>com.bea.xml</groupId>
+                        <artifactId>jsr173-ri</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.tomcat</groupId>
+                <artifactId>tomcat-coyote</artifactId>
+                <version>${tomcat.coyote.version}</version>
+            </dependency>
+
+            <!-- Testing -->
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>4.12</version>
             </dependency>
 
         </dependencies>

@@ -117,8 +117,15 @@
                                     <excludes>module-info*,pom.xml,javax/xml/crypto/**</excludes>
                                 </artifactItem>
                                 <artifactItem>
-                                    <groupId>commons-logging</groupId>
-                                    <artifactId>commons-logging</artifactId>
+                                    <groupId>org.slf4j</groupId>
+                                    <artifactId>slf4j-api</artifactId>
+                                    <classifier>sources</classifier>
+                                    <overWrite>false</overWrite>
+                                    <outputDirectory>${generated.sources.dir}</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>commons-codec</groupId>
+                                    <artifactId>commons-codec</artifactId>
                                     <classifier>sources</classifier>
                                     <overWrite>false</overWrite>
                                     <outputDirectory>${generated.sources.dir}</outputDirectory>
@@ -251,7 +258,8 @@
                                     <include>com.sun.xml.fastinfoset:FastInfoset</include>
                                     <include>com.sun.xml.messaging.saaj:saaj-impl</include>
                                     <include>org.apache.santuario:xmlsec</include>
-                                    <include>commons-logging:commons-logging</include>
+                                    <include>org.slf4j:slf4j-api</include>
+                                    <include>commons-codec:commons-codec</include>
                                     <include>com.sun.xml.stream.buffer:streambuffer</include>
                                     <include>com.sun.xml.ws:jaxws-rt</include>
                                     <include>com.sun.xml.ws:policy</include>
