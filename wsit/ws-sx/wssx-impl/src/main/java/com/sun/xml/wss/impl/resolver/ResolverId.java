@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -48,6 +48,7 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathFactory;
 import javax.xml.xpath.XPathFactoryConfigurationException;
+import org.apache.xml.security.utils.resolver.ResourceResolverContext;
 
 
 /**
@@ -116,14 +117,14 @@ public class ResolverId extends ResourceResolverSpi {
             log.log(Level.SEVERE,
                     LogStringsMessages.WSS_0603_XPATHAPI_TRANSFORMER_EXCEPTION(e.getMessage()),
                     e.getMessage());
-            throw new ResourceResolverException("empty", e, uri, BaseURI);
+             throw new ResourceResolverException(e, uri.getValue(), BaseURI, "empty");
          }
       }
 
       if (selectedElem == null) {
           log.log(Level.SEVERE,
                   LogStringsMessages.WSS_0604_CANNOT_FIND_ELEMENT());
-          throw new ResourceResolverException("empty", uri, BaseURI);
+           throw new ResourceResolverException("empty", uri.getValue(), BaseURI);
       }
       Set resultSet = dereferenceSameDocumentURI(selectedElem);
       XMLSignatureInput result = new XMLSignatureInput(resultSet);
@@ -357,5 +358,16 @@ public class ResolverId extends ResourceResolverSpi {
 		nodeSet.add(node);
 	}
    }
+
+    @Override
+    public XMLSignatureInput engineResolveURI(ResourceResolverContext rrc) throws ResourceResolverException {
+        return engineResolve(rrc.attr, rrc.baseUri);
+    }
+
+    @Override
+    public boolean engineCanResolveURI(ResourceResolverContext rrc) {
+        return engineCanResolve(rrc.attr, rrc.baseUri);
+    }
+
 }
 

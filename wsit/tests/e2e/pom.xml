@@ -38,6 +38,7 @@
         <!--        <transport.hudson.url></transport.hudson.url>
         <wsit.hudson.url></wsit.hudson.url>-->
         <ws.jvmOpts></ws.jvmOpts>
+        <extensions.dir>${project.build.directory}/test-extensions</extensions.dir>
     </properties>
 
     <dependencies>

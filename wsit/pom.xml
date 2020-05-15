@@ -651,7 +651,7 @@
     </profiles>
 
     <properties>
-        <release.repository.url>https://maven.java.net/content/repositories/releases/</release.repository.url>
+        <release.repository.url>https://jakarta.oss.sonatype.org/content/repositories/releases/</release.repository.url>
 
         <istack.plugins.version>3.0.8</istack.plugins.version>
 

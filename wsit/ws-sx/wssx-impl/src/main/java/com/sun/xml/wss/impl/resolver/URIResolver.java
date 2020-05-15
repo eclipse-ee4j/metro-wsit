@@ -14,47 +14,47 @@
 
 package com.sun.xml.wss.impl.resolver;
 
+import java.io.IOException;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.Vector;
-import java.util.HashSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.w3c.dom.Attr;
-import org.w3c.dom.Node;
-import org.w3c.dom.Element;
-import org.w3c.dom.Document;
-import org.w3c.dom.NodeList;
-import org.w3c.dom.NamedNodeMap;
-
-import javax.xml.soap.SOAPMessage;
-import javax.xml.soap.SOAPException;
-import javax.xml.soap.AttachmentPart;
-
-import com.sun.xml.wss.impl.MessageConstants;
-import com.sun.xml.wss.logging.LogDomainConstants;
-import com.sun.xml.wss.impl.SecurableSoapMessage;
-import com.sun.xml.wss.XWSSecurityException;
-
-import javax.xml.transform.TransformerException;
-
-import com.sun.xml.wss.swa.MimeConstants;
-import com.sun.xml.wss.impl.misc.URI;
-import org.apache.xml.security.utils.XMLUtils;
-import org.apache.xml.security.signature.XMLSignatureInput;
-import org.apache.xml.security.utils.resolver.ResourceResolver;
-import org.apache.xml.security.utils.resolver.ResourceResolverSpi;
-import org.apache.xml.security.utils.resolver.ResourceResolverException;
-import com.sun.xml.wss.WSITXMLFactory;
-import com.sun.xml.wss.impl.XWSSecurityRuntimeException;
-import com.sun.xml.wss.impl.dsig.NamespaceContextImpl;
-import com.sun.xml.wss.logging.LogStringsMessages;
 import javax.xml.namespace.NamespaceContext;
+import javax.xml.soap.AttachmentPart;
+import javax.xml.soap.SOAPException;
+import javax.xml.soap.SOAPMessage;
+import javax.xml.transform.TransformerException;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
+
+import com.sun.xml.wss.WSITXMLFactory;
+import com.sun.xml.wss.XWSSecurityException;
+import com.sun.xml.wss.impl.MessageConstants;
+import com.sun.xml.wss.impl.SecurableSoapMessage;
+import com.sun.xml.wss.impl.XWSSecurityRuntimeException;
+import com.sun.xml.wss.impl.dsig.NamespaceContextImpl;
+import com.sun.xml.wss.impl.misc.URI;
+import com.sun.xml.wss.logging.LogDomainConstants;
+import com.sun.xml.wss.logging.LogStringsMessages;
+import com.sun.xml.wss.swa.MimeConstants;
+
+import org.apache.xml.security.signature.XMLSignatureInput;
+import org.apache.xml.security.utils.XMLUtils;
+import org.apache.xml.security.utils.resolver.ResourceResolver;
+import org.apache.xml.security.utils.resolver.ResourceResolverContext;
+import org.apache.xml.security.utils.resolver.ResourceResolverException;
+import org.apache.xml.security.utils.resolver.ResourceResolverSpi;
+import org.w3c.dom.Attr;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 /**
  * This resolver is used for resolving URIs.
@@ -134,7 +134,7 @@ public class URIResolver extends ResourceResolverSpi {
                   try { 
                      result = _resolveClocation(uri, baseURI);
                   } catch (URIResolverException ure) {
-                     result = ResourceResolver.getInstance(uri, baseURI).resolve(uri, baseURI);
+                     result = ResourceResolver.getInstance(uri, baseURI, false).resolve(uri, baseURI, true);
                   }
                   break; 
           default:
@@ -165,14 +165,14 @@ public class URIResolver extends ResourceResolverSpi {
             log.log(Level.SEVERE,
                     LogStringsMessages.WSS_0603_XPATHAPI_TRANSFORMER_EXCEPTION(e.getMessage()),
                     e.getMessage());
-            throw new ResourceResolverException("empty", e, uri, baseUri);
+             throw new ResourceResolverException(e, uri.getValue(), baseUri, "empty");
          }
       }
 
       if (selectedElem == null) {
           log.log(Level.SEVERE,
                    LogStringsMessages.WSS_0604_CANNOT_FIND_ELEMENT());
-          throw new ResourceResolverException("empty", uri, baseUri);
+           throw new ResourceResolverException("empty", uri.getValue(), baseUri);
       }
 
       Set resultSet = prepareNodeSet(selectedElem);
@@ -211,7 +211,7 @@ public class URIResolver extends ResourceResolverSpi {
               ((SecurableSoapMessage)soapMsg).getAttachmentPart(uriNodeValue);
          if (_part == null) {
              // log
-             throw new ResourceResolverException("empty", uri, baseUri);
+              throw new ResourceResolverException("empty", uri.getValue(), baseUri);
          } 
          Object[] obj = AttachmentSignatureInput._getSignatureInput(_part); 
          result = new AttachmentSignatureInput((byte[])obj[1]);
@@ -219,7 +219,7 @@ public class URIResolver extends ResourceResolverSpi {
          ((AttachmentSignatureInput)result).setContentType(_part.getContentType()); 
       } catch (Exception e) {
          // log
-         throw new ResourceResolverException("empty", e, uri, baseUri);
+          throw new ResourceResolverException(e, uri.getValue(), baseUri, "empty");
       }
 
       try {
@@ -238,8 +238,8 @@ public class URIResolver extends ResourceResolverSpi {
       try {
          uriNew = getNewURI(uri.getNodeValue(), baseUri);
       } catch (URI.MalformedURIException ex) {
-         // log          
-         throw new ResourceResolverException("empty", ex, uri, baseUri);
+         // log
+          throw new ResourceResolverException(ex, uri.getValue(), baseUri, "empty");
       }
 
       if (soapMsg == null) throw generateException(uri, baseUri, errors[1]);
@@ -254,14 +254,9 @@ public class URIResolver extends ResourceResolverSpi {
          result = new AttachmentSignatureInput((byte[])obj[1]);
          ((AttachmentSignatureInput)result).setMimeHeaders((Vector)obj[0]);
          ((AttachmentSignatureInput)result).setContentType(_part.getContentType()); 
-      } catch (XWSSecurityException e) {
-         throw new ResourceResolverException("empty", e, uri, baseUri);
-      } catch (SOAPException spe) {
+      } catch (XWSSecurityException | SOAPException | IOException e) {
          // log
-         throw new ResourceResolverException("empty", spe, uri, baseUri);
-      } catch (java.io.IOException ioe) {
-         // log
-         throw new ResourceResolverException("empty", ioe, uri, baseUri);
+         throw new ResourceResolverException(e, uri.getValue(), baseUri, "empty");
       }
 
 
@@ -459,7 +454,7 @@ public class URIResolver extends ResourceResolverSpi {
 
     private ResourceResolverException generateException(Attr uri, String baseUri, String error) {
         XWSSecurityException xwssE = new XWSSecurityException(error);
-        return new ResourceResolverException("empty", xwssE, uri, baseUri);
+         return new ResourceResolverException(xwssE, uri.getValue(), baseUri, "empty");
     }
 
    /**
@@ -538,6 +533,16 @@ public class URIResolver extends ResourceResolverSpi {
             ((NamespaceContextImpl)nsContext).add("wsu", MessageConstants.WSU_NS);
             ((NamespaceContextImpl)nsContext).add("wsse", MessageConstants.WSSE_NS);
         return nsContext;
+    }
+
+    @Override
+    public XMLSignatureInput engineResolveURI(ResourceResolverContext rrc) throws ResourceResolverException {
+        return engineResolve(rrc.attr, rrc.baseUri);
+    }
+
+    @Override
+    public boolean engineCanResolveURI(ResourceResolverContext rrc) {
+        return engineCanResolve(rrc.attr, rrc.baseUri);
     }
 
     private static final class URIResolverException extends Exception {};
