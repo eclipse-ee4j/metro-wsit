@@ -38,7 +38,7 @@
         <!--        <transport.hudson.url></transport.hudson.url>
         <wsit.hudson.url></wsit.hudson.url>-->
         <!--<ws.jvmOpts>-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=6000</ws.jvmOpts>-->
-        <ws.jvmOpts></ws.jvmOpts>
+        <ws.jvmOpts>-Dorg.apache.xml.security.ignoreLineBreaks=true</ws.jvmOpts>
         <extensions.dir>${project.build.directory}/test-extensions</extensions.dir>
     </properties>
 
