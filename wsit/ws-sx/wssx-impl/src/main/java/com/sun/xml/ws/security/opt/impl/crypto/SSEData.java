@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -40,7 +40,7 @@ public class SSEData implements StreamWriterData {
         this.data = se;
         this.nsContext = ns;
         this.contentOnly = contentOnly;
-        //props.put("com.sun.xml.bind.namespacePrefixMapper", new WSSNSPrefixWrapper(JAXBUtil.prefixMapper11));
+        //props.put("org.glassfish.jaxb.namespacePrefixMapper", new WSSNSPrefixWrapper(JAXBUtil.prefixMapper11));
     }
     
     public SSEData(SecurityElement se , boolean contentOnly,NamespaceContextEx ns, HashMap props ) {

@@ -21,7 +21,7 @@ import com.sun.xml.wss.saml.internal.saml11.jaxb20.AdviceType;
 import com.sun.xml.wss.saml.util.SAMLJAXBUtil;
 
 
-//import com.sun.xml.bind.util.ListImpl;
+//import org.glassfish.jaxb.core.util.ListImpl;
 
 import jakarta.xml.bind.JAXBContext;
 import org.w3c.dom.Element;

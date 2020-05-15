@@ -53,7 +53,7 @@
     </developers>
 
     <properties>
-        <jaxws.ri.version>3.0.0-M2</jaxws.ri.version>
+        <jaxws.ri.version>3.0.0-M3</jaxws.ri.version>
     </properties>
 
     <dependencyManagement>

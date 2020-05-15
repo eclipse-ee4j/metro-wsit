@@ -30,7 +30,7 @@
     <properties>
         <auth.message-api.version>2.0.0-RC1</auth.message-api.version>
         <connector-api.version>2.0.0-RC1</connector-api.version>
-        <ejb-api.version>4.0.0-RC1</ejb-api.version>
+        <ejb-api.version>4.0.0-RC2</ejb-api.version>
         <transaction-api.version>2.0.0-RC1</transaction-api.version>
 
         <!-- CQ: #22139 -->
@@ -44,7 +44,7 @@
         <stax-utils.version>20060502</stax-utils.version>
 
         <grizzly.version>2.4.4</grizzly.version>
-        <tomcat.coyote.version>9.0.8</tomcat.coyote.version>
+        <tomcat.coyote.version>10.0.0-M5</tomcat.coyote.version>
 
         <jaxws.home.uri>http://eclipse-ee4j.github.io/metro-jax-ws</jaxws.home.uri>
     </properties>

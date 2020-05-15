@@ -239,7 +239,6 @@
                             com.sun.org.apache.xalan.internal.*;resolution:=optional,
                             com.sun.org.apache.xml.internal.*;resolution:=optional,
                             com.sun.org.apache.xerces.internal.*;resolution:=optional,
-                            com.sun.xml.bind.api.impl;resolution:=optional,
                             jakarta.jws;version=${jaxws-api.osgiVersion},
                             jakarta.jws.soap;version=${jaxws-api.osgiVersion},
                             jakarta.xml.soap.*;version=${saaj-api.osgiVersion},

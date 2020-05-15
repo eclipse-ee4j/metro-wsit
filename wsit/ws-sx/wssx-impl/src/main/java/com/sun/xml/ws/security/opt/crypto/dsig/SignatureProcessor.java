@@ -436,11 +436,11 @@ public class SignatureProcessor {
     private Marshaller getMarshaller() throws JAXBException{
         JAXBFilterProcessingContext wssContext = (JAXBFilterProcessingContext)context.get(MessageConstants.WSS_PROCESSING_CONTEXT);
         Marshaller marshaller =  _jaxbContext.createMarshaller();
-        marshaller.setProperty("com.sun.xml.bind.xmlDeclaration", false);
+        marshaller.setProperty("org.glassfish.jaxb.xmlDeclaration", false);
         if(wssContext != null)
-            marshaller.setProperty("com.sun.xml.bind.namespacePrefixMapper", new WSSNamespacePrefixMapper(wssContext.isSOAP12()));
+            marshaller.setProperty("org.glassfish.jaxb.namespacePrefixMapper", new WSSNamespacePrefixMapper(wssContext.isSOAP12()));
         else
-            marshaller.setProperty("com.sun.xml.bind.namespacePrefixMapper", new WSSNamespacePrefixMapper());
+            marshaller.setProperty("org.glassfish.jaxb.namespacePrefixMapper", new WSSNamespacePrefixMapper());
         marshaller.setProperty(Marshaller.JAXB_FRAGMENT,true);
         return marshaller;
     }

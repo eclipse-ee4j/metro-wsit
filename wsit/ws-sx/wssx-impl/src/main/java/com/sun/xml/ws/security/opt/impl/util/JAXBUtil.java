@@ -100,12 +100,12 @@ public class JAXBUtil {
         try{
             Marshaller marshaller = jaxbContext.createMarshaller();
             if(SOAPVersion.SOAP_11 == soapVersion){
-                marshaller.setProperty("com.sun.xml.bind.namespacePrefixMapper", prefixMapper11);
+                marshaller.setProperty("org.glassfish.jaxb.namespacePrefixMapper", prefixMapper11);
             }else{
-                marshaller.setProperty("com.sun.xml.bind.namespacePrefixMapper", prefixMapper12);
+                marshaller.setProperty("org.glassfish.jaxb.namespacePrefixMapper", prefixMapper12);
             }
             marshaller.setProperty(Marshaller.JAXB_FRAGMENT,true);
-            marshaller.setProperty("com.sun.xml.bind.xmlDeclaration", false);
+            marshaller.setProperty("org.glassfish.jaxb.xmlDeclaration", false);
             return marshaller;
         }catch(jakarta.xml.bind.PropertyException pe){
             throw new JAXBException("Error occurred while setting security marshaller properties",pe);

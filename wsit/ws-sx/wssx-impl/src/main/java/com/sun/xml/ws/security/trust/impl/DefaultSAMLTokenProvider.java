@@ -48,7 +48,7 @@ import org.apache.xml.security.encryption.EncryptedKey;
 import org.apache.xml.security.keys.content.X509Data;
 import org.apache.xml.security.keys.KeyInfo;
 import org.glassfish.jaxb.runtime.v2.runtime.JAXBContextImpl;
-import com.sun.xml.bind.v2.util.XmlFactory;
+import org.glassfish.jaxb.core.v2.util.XmlFactory;
 import com.sun.xml.wss.WSITXMLFactory;
 
 import java.security.PrivateKey;
