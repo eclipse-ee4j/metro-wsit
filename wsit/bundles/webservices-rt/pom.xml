@@ -332,31 +332,7 @@
                             <artifactId>resolver</artifactId>
                             <version>${resolver.version}</version>
                         </dependency>
-<!--                        <dependency>
-                            <groupId>org.glassfish.pfl</groupId>
-                            <artifactId>pfl-asm</artifactId>
-                            <version>4.0.1</version>
-                        </dependency>
-                        <dependency>
-                            <groupId>org.glassfish.pfl</groupId>
-                            <artifactId>pfl-dynamic</artifactId>
-                            <version>4.0.1</version>
-                        </dependency>-->
                     </additionalDependencies>
-<!--                    <additionalOptions>
-                        <additionalOption>-exclude</additionalOption>
-                        <additionalOption>org.apache*:org.slf4j*:org.codehaus.*:com.ctc.*:javanet.*:org.glassfish.pfl.*:META-INF.*</additionalOption>
-                    </additionalOptions>-->
-                    <!--<sourceFileExcludes>-->
-<!--                        <sourceFileExclude>META-INF/**</sourceFileExclude>
-                        <sourceFileExclude>**/msv/**</sourceFileExclude>
-                        <sourceFileExclude>**/osgi/**</sourceFileExclude>
-                        <sourceFileExclude>**/gmbal/**</sourceFileExclude>
-                        <sourceFileExclude>**/pfl/**</sourceFileExclude>-->
-<!--                        <sourceFileExclude>org/glassfish/pfl/*</sourceFileExclude>
-                        <sourceFileExclude>org/apache/**</sourceFileExclude>
-                    </sourceFileExcludes>
-                    <excludePackageNames>org.apache*:org.slf4j*:org.codehaus.*:com.ctc.*:javanet.*:org.glassfish.pfl.*:META-INF.*</excludePackageNames>-->
                 </configuration>
             </plugin>
         </plugins>
