@@ -43,47 +43,54 @@
                         <configuration>
                             <excludes>module-info*,pom.xml</excludes>
                             <artifactItems>
+<!--                                <artifactItem>
+                                    <groupId>jakarta.annotation</groupId>
+                                    <artifactId>jakarta.annotation-api</artifactId>
+                                    <classifier>sources</classifier>
+                                    <overWrite>false</overWrite>
+                                    <outputDirectory>${dep.sources}</outputDirectory>
+                                </artifactItem>-->
                                 <artifactItem>
                                     <groupId>jakarta.jws</groupId>
                                     <artifactId>jakarta.jws-api</artifactId>
                                     <classifier>sources</classifier>
                                     <overWrite>false</overWrite>
-                                    <outputDirectory>${generated.sources.dir}</outputDirectory>
+                                    <outputDirectory>${dep.sources}</outputDirectory>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>jakarta.xml.soap</groupId>
                                     <artifactId>jakarta.xml.soap-api</artifactId>
                                     <classifier>sources</classifier>
                                     <overWrite>false</overWrite>
-                                    <outputDirectory>${generated.sources.dir}</outputDirectory>
+                                    <outputDirectory>${dep.sources}</outputDirectory>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>jakarta.xml.bind</groupId>
                                     <artifactId>jakarta.xml.bind-api</artifactId>
                                     <classifier>sources</classifier>
                                     <overWrite>false</overWrite>
-                                    <outputDirectory>${generated.sources.dir}</outputDirectory>
+                                    <outputDirectory>${dep.sources}</outputDirectory>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>jakarta.xml.ws</groupId>
                                     <artifactId>jakarta.xml.ws-api</artifactId>
                                     <classifier>sources</classifier>
                                     <overWrite>false</overWrite>
-                                    <outputDirectory>${generated.sources.dir}</outputDirectory>
+                                    <outputDirectory>${dep.sources}</outputDirectory>
                                 </artifactItem>
-                                <artifactItem>
+<!--                                <artifactItem>
                                     <groupId>jakarta.transaction</groupId>
                                     <artifactId>jakarta.transaction-api</artifactId>
                                     <classifier>sources</classifier>
                                     <overWrite>false</overWrite>
-                                    <outputDirectory>${generated.sources.dir}</outputDirectory>
-                                </artifactItem>
+                                    <outputDirectory>${dep.sources}</outputDirectory>
+                                </artifactItem>-->
                                 <artifactItem>
-                                    <groupId>jakarta.activation</groupId>
-                                    <artifactId>jakarta.activation-api</artifactId>
+                                    <groupId>com.sun.activation</groupId>
+                                    <artifactId>jakarta.activation</artifactId>
                                     <classifier>sources</classifier>
                                     <overWrite>false</overWrite>
-                                    <outputDirectory>${generated.sources.dir}</outputDirectory>
+                                    <outputDirectory>${dep.sources}</outputDirectory>
                                 </artifactItem>
                             </artifactItems>
                         </configuration>
@@ -101,7 +108,7 @@
                         </goals>
                         <configuration>
                             <sources>
-                                <source>${generated.sources.dir}</source>
+                                <source>${dep.sources}</source>
                             </sources>
                         </configuration>
                     </execution>
@@ -131,8 +138,9 @@
                                     <include>jakarta.xml.bind:jakarta.xml.bind-api</include>
                                     <include>jakarta.xml.soap:jakarta.xml.soap-api</include>
                                     <include>jakarta.jws:jakarta.jws-api</include>
-                                    <include>jakarta.transaction:jakarta.transaction-api</include>
-                                    <include>jakarta.activation:jakarta.activation-api</include>
+                                    <!--<include>jakarta.annotation:jakarta.annotation-api</include>-->
+                                    <!--<include>jakarta.transaction:jakarta.transaction-api</include>-->
+                                    <include>com.sun.activation:jakarta.activation</include>
                                 </includes>
                             </artifactSet>
                             <createSourcesJar>false</createSourcesJar>
@@ -155,7 +163,7 @@
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <configuration>
                     <additionalDependencies>
-                        <dependency>
+<!--                        <dependency>
                             <groupId>jakarta.enterprise</groupId>
                             <artifactId>jakarta.enterprise.cdi-api</artifactId>
                             <version>3.0.0-M2</version>
@@ -164,12 +172,7 @@
                             <groupId>jakarta.interceptor</groupId>
                             <artifactId>jakarta.interceptor-api</artifactId>
                             <version>2.0.0-RC2</version>
-                        </dependency>
-                        <dependency>
-                            <groupId>com.sun.activation</groupId>
-                            <artifactId>jakarta.activation</artifactId>
-                            <version>${jakarta.activation.version}</version>
-                        </dependency>
+                        </dependency>-->
                     </additionalDependencies>
                     <sourceFileExcludes>
                         <sourceFileExclude>META-INF/**</sourceFileExclude>
@@ -182,32 +185,48 @@
 
     <dependencies>
         <!-- Shaded dependencies -->
+<!--        <dependency>
+            <groupId>jakarta.annotation</groupId>
+            <artifactId>jakarta.annotation-api</artifactId>
+            <scope>provided</scope>
+        </dependency>-->
         <dependency>
             <groupId>jakarta.xml.ws</groupId>
             <artifactId>jakarta.xml.ws-api</artifactId>
+            <optional>true</optional>
+            <!--<scope>provided</scope>-->
         </dependency>
         <dependency>
             <groupId>jakarta.xml.bind</groupId>
             <artifactId>jakarta.xml.bind-api</artifactId>
+            <optional>true</optional>
+            <!--<scope>provided</scope>-->
         </dependency>
         <dependency>
             <groupId>jakarta.xml.soap</groupId>
             <artifactId>jakarta.xml.soap-api</artifactId>
+            <optional>true</optional>
+            <!--<scope>provided</scope>-->
         </dependency>
         <dependency>
             <groupId>jakarta.jws</groupId>
             <artifactId>jakarta.jws-api</artifactId>
+            <optional>true</optional>
+            <!--<scope>provided</scope>-->
         </dependency>
-        <dependency>
+<!--        <dependency>
             <groupId>jakarta.transaction</groupId>
             <artifactId>jakarta.transaction-api</artifactId>
-        </dependency>
+            <scope>provided</scope>
+        </dependency>-->
         <dependency>
-            <groupId>jakarta.activation</groupId>
-            <artifactId>jakarta.activation-api</artifactId>
+            <groupId>com.sun.activation</groupId>
+            <artifactId>jakarta.activation</artifactId>
+            <optional>true</optional>
+            <!--<scope>provided</scope>-->
         </dependency>
     </dependencies>
     <properties>
-        <generated.sources.dir>${project.build.directory}/generated-sources</generated.sources.dir>
+        <dep.sources>${project.build.directory}/generated-sources/dependencies</dep.sources>
     </properties>
 </project>

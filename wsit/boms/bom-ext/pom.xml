@@ -32,6 +32,10 @@
         <connector-api.version>2.0.0-RC1</connector-api.version>
         <ejb-api.version>4.0.0-RC2</ejb-api.version>
         <transaction-api.version>2.0.0-RC1</transaction-api.version>
+        <interceptor-api.version>2.0.0-RC2</interceptor-api.version>
+        <cdi-api.version>3.0.0-M2</cdi-api.version>
+        <inject-api.version>2.0.0-RC4</inject-api.version>
+        <el-api.version>4.0.0-RC1</el-api.version>
 
         <!-- CQ: #22139 -->
         <santuario.version>2.1.5</santuario.version>
@@ -78,6 +82,27 @@
                 <groupId>jakarta.resource</groupId>
                 <artifactId>jakarta.resource-api</artifactId>
                 <version>${connector-api.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>jakarta.inject</groupId>
+                <artifactId>jakarta.inject-api</artifactId>
+                <version>${inject-api.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>jakarta.el</groupId>
+                <artifactId>jakarta.el-api</artifactId>
+                <version>${el-api.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>jakarta.enterprise</groupId>
+                <artifactId>jakarta.enterprise.cdi-api</artifactId>
+                <version>${cdi-api.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>jakarta.interceptor</groupId>
+                <artifactId>jakarta.interceptor-api</artifactId>
+                <version>${interceptor-api.version}</version>
             </dependency>
 
             <dependency>
