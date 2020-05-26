@@ -48,21 +48,21 @@
                                     <artifactId>jaxb-xjc</artifactId>
                                     <classifier>sources</classifier>
                                     <overWrite>false</overWrite>
-                                    <outputDirectory>${generated.sources.dir}</outputDirectory>
+                                    <outputDirectory>${dep.sources}</outputDirectory>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>com.sun.xml.bind</groupId>
                                     <artifactId>jaxb-jxc</artifactId>
                                     <classifier>sources</classifier>
                                     <overWrite>false</overWrite>
-                                    <outputDirectory>${generated.sources.dir}</outputDirectory>
+                                    <outputDirectory>${dep.sources}</outputDirectory>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>com.sun.xml.ws</groupId>
                                     <artifactId>jaxws-tools</artifactId>
                                     <classifier>sources</classifier>
                                     <overWrite>false</overWrite>
-                                    <outputDirectory>${generated.sources.dir}</outputDirectory>
+                                    <outputDirectory>${dep.sources}</outputDirectory>
                                 </artifactItem>
                             </artifactItems>
                         </configuration>
@@ -80,7 +80,7 @@
                         </goals>
                         <configuration>
                             <sources>
-                                <source>${generated.sources.dir}</source>
+                                <source>${dep.sources}</source>
                             </sources>
                         </configuration>
                     </execution>
@@ -156,11 +156,11 @@
             <artifactId>jaxws-tools</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.glassfish.jaxb</groupId>
+            <groupId>com.sun.xml.bind</groupId>
             <artifactId>jaxb-xjc</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.glassfish.jaxb</groupId>
+            <groupId>com.sun.xml.bind</groupId>
             <artifactId>jaxb-jxc</artifactId>
         </dependency>
 
@@ -182,6 +182,6 @@
         </dependency>
     </dependencies>
     <properties>
-        <generated.sources.dir>${project.build.directory}/generated-sources</generated.sources.dir>
+        <dep.sources>${project.build.directory}/generated-sources/dependencies</dep.sources>
     </properties>
 </project>

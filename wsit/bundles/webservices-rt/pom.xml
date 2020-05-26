@@ -358,16 +358,6 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>jakarta.resource</groupId>
-            <artifactId>jakarta.resource-api</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>jakarta.transaction</groupId>
-            <artifactId>jakarta.transaction-api</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
             <groupId>org.glassfish.grizzly</groupId>
             <artifactId>grizzly-framework</artifactId>
             <scope>provided</scope>
@@ -467,6 +457,13 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>webservices-api</artifactId>
             <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>webservices-extra</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 

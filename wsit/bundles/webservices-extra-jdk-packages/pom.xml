@@ -22,26 +22,17 @@
 
     <artifactId>webservices-extra-jdk-packages</artifactId>
     <packaging>jar</packaging>
-    <name>Extra JDK 6 packages required by Metro Web Services OSGi bundle</name>
-    <description>Extra JDK 6 packages required by Metro Web Services OSGi bundle</description>
+    <name>Extra JDK packages required by Metro Web Services OSGi bundle</name>
+    <description>Extra JDK packages required by Metro Web Services OSGi bundle</description>
 
     <build>
         <plugins>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
                 <configuration>
                     <archive>
-                        <manifestFile>${mf.dir}/META-INF/MANIFEST.MF</manifestFile>
-                        <manifestEntries>
-                            <Export-Package>
-                                com.sun.org.apache.xml.internal.resolver.tools,
-                                com.sun.org.apache.xml.internal.resolver,
-                                com.sun.source.tree,
-                                com.sun.source.util,
-                                com.sun.tools.javac.processing,
-                                com.sun.tools.javac.util
-                            </Export-Package>
-                        </manifestEntries>
+                        <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
                     </archive>
                 </configuration>
             </plugin>
@@ -56,40 +47,21 @@
                             <goal>manifest</goal>
                         </goals>
                         <configuration>
-                            <manifestLocation>${manifest.folder}/META-INF</manifestLocation>
                             <instructions>
+                                <Export-Package>
+                                    com.sun.org.apache.xml.internal.resolver.tools,
+                                    com.sun.org.apache.xml.internal.resolver,
+                                    com.sun.source.tree,
+                                    com.sun.source.util,
+                                    com.sun.tools.javac.processing,
+                                    com.sun.tools.javac.util
+                                </Export-Package>
                                 <Fragment-Host>system.bundle;extension:=framework</Fragment-Host>
                             </instructions>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-resources-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>copy-manifest</id>
-                        <goals>
-                            <goal>copy-resources</goal>
-                        </goals>
-                        <phase>prepare-package</phase>
-                        <configuration>
-                            <resources>
-                                <resource>
-                                    <directory>${manifest.folder}</directory>
-                                    <filtering>true</filtering>
-                                </resource>
-                            </resources>
-                            <outputDirectory>${mf.dir}</outputDirectory>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
         </plugins>
     </build>
-
-    <properties>
-        <manifest.folder>${project.build.directory}/generated-manifest</manifest.folder>
-    </properties>
 </project>
