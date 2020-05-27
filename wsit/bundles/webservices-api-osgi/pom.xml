@@ -132,8 +132,6 @@
                                 <Import-Package>
                                     !org.glassfish.hk2.osgiresourcelocator,
                                     jakarta.activation;resolution:=optional,
-                                    jakarta.xml.bind;version=${jaxb-api.osgiVersion},
-                                    jakarta.xml.bind.*;version=${jaxb-api.osgiVersion},
                                     *
                                 </Import-Package>
                                 <DynamicImport-Package>org.glassfish.hk2.osgiresourcelocator</DynamicImport-Package>
