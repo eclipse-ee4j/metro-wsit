@@ -243,7 +243,7 @@
                             jakarta.jws.soap;version=${jaxws-api.osgiVersion},
                             jakarta.xml.soap.*;version=${saaj-api.osgiVersion},
                             jakarta.xml.ws.*;version=${jaxws-api.osgiVersion},
-                            jakarta.xml.bind.*;version=${jaxb-api.osgiVersion},
+                            jakarta.xml.bind.*;resolution:=optional,
                             org.apache.coyote;resolution:=optional,
                             org.apache.tomcat.util.buf;resolution:=optional,
                             org.jvnet.mimepull;resolution:=optional,
