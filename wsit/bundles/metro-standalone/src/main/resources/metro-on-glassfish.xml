@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!--
 
-    Copyright (c) 2011, 2018 Oracle and/or its affiliates. All rights reserved.
+    Copyright (c) 2011, 2020 Oracle and/or its affiliates. All rights reserved.
 
     This program and the accompanying materials are made available under the
     terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -11,9 +11,9 @@
 
 -->
 
-<project name="Metro on GlassFish" default="help" basedir=".">
+<project name="Eclipse Metro on GlassFish" default="help" basedir=".">
     <property environment="env"/>
-    <property name="as.home" value="${@as.home.env.string@}"/>
+    <property name="as.home" value="${env.AS_HOME}"/>
     <property name="as.lib.home" value="${as.home}/modules"/>
     <property name="backup.dir" value="${as.home}/.metro-${project.version}"/>
     <property name="osgi.cache.dir" value="${as.home}/domains/domain1/osgi-cache"/>
@@ -32,43 +32,10 @@
         <available file="${as.home}/modules" type="dir"/>
     </condition>
 
-    <!-- Check if we are running JAVA SE 6 --> 
-    <condition property="jdk6+">
-        <or>
-            <contains string="${@java.version.string@}" substring="1.6.0"/>
-            <contains string="${@java.version.string@}" substring="1.7.0"/>
-        </or>
-    </condition>
-
-    <target name="jdk-message" if="jdk6+">
-        <echo message="Metro is being installed using Java SE ${@java.version.string@}."/>
-        <echo/>
-        <echo message="  ${product.name} provides JAX-WS API ${jaxws-api.version} while Java SE ${@java.version.string@} includes"/>
-        <echo message="  another version. If you want to run Metro applications"/>
-        <echo message="  outside GlassFish you will need to use the endorsed"/>
-        <echo message="  standards override mechanism. For more details see"/>
-        <echo message="  http://download.oracle.com/javase/6/docs/technotes/guides/standards/index.html"/>
-        <echo/>
-        <echo message="  If you want to enable JAX-WS ${jaxws-api.version} for all applications"/>
-        <echo message="  running under Java SE ${@java.version.string@}, you may run the command"/>
-        <echo message="  'ant install-api'."/>
-        <echo message="  That command will copy the file webservices-api.jar to"/>
-        <echo message="  ${@java.home.string@}/lib/endorsed."/>
-        <echo message="  The command needs to be run by a user that has the"/>
-        <echo message="  permissions to copy files into ${@java.home.string@}/lib/endorsed."/>
-        <echo/>
-        <echo message="  NOTE that any Java application that incidentally"/>
-        <echo message="  uses one of the APIs included in Metro but does"/>
-        <echo message="  not have all Metro JARs on its classpath may"/>
-        <echo message="  experience class loading issues if you proceed with"/>
-        <echo message="  'install-api'."/>
-        <echo/>
-    </target>
-
     <target name="warning-note">
-        <echo message="NOTE: This installation script is a work in progress and works only with GlassFish v4 or later."/>
+        <echo message="NOTE: This installation script is a work in progress and works only with GlassFish v6 or later."/>
         <echo />
-        <echo message="  Metro installations via this scripts are not officially supported!"/>
+        <echo message="  Eclipse Metro installations via this scripts are not officially supported!"/>
         <echo />
         <echo message="  This script moves default domain osgi cache directory"/>
         <echo message="  ${as.home}/domains/domain1/osgi.cache directory under ${backup.dir}."/>
@@ -79,7 +46,7 @@
     </target>
 
     <target name="gf-message" unless="glassfish">
-        <echo message="NOTE: This script can only install Metro on GlassFish 4.x."/>
+        <echo message="NOTE: This script can only install Eclipse Metro on GlassFish 6.x."/>
         <echo/>
     </target>
 
@@ -101,24 +68,24 @@
         <mkdir dir="${backup.dir}"/>
         <copy todir="${backup.dir}" failonerror="false">
             <fileset dir="${as.lib.home}">
+                <include name="jakarta.xml.bind-api.jar"/>
+                <include name="webservices-api-osgi.jar"/>
                 <include name="webservices-osgi.jar"/>
                 <include name="webservices-extra-jdk-packages.jar"/>
                 <include name="woodstox-core.jar"/>
                 <include name="stax2-api.jar"/>
                 <include name="jaxb-osgi.jar"/>
+<!--
                 <include name="xmlsec.jar"/>
                 <include name="commons-logging.jar"/>
-            </fileset>
-            <fileset dir="${as.lib.home}/endorsed">
-                <include name="webservices-api-osgi.jar"/>
-                <include name="jaxb-api-osgi.jar"/>
+-->
             </fileset>
         </copy>
         <move todir="${backup.dir}" failonerror="false">
             <fileset dir="${osgi.cache.dir}"/>
         </move>
-        <echo message="...done: You can find the original Metro files stored in ${backup.dir}"/>
-        <echo message="To restore the original Metro installation, run this script with 'uninstall' target"/>
+        <echo message="...done: You can find the original Eclipse Metro files stored in ${backup.dir}"/>
+        <echo message="To restore the original Eclipse Metro installation, run this script with 'uninstall' target"/>
     </target>
 
     <target name="install" depends="init, backup, check-api" description="Install latest Metro jars">
@@ -128,76 +95,40 @@
 
         <copy todir="${as.lib.home}" overwrite="true">
             <fileset dir="osgi">
+                <include name="jakarta.xml.bind-api.jar"/>
+                <include name="webservices-api-osgi.jar"/>
                 <include name="webservices-osgi.jar"/>
                 <include name="webservices-extra-jdk-packages.jar"/>
                 <include name="woodstox-core.jar"/>
                 <include name="stax2-api.jar"/>
                 <include name="jaxb-osgi.jar"/>
+<!--
                 <include name="xmlsec.jar"/>
                 <include name="commons-logging.jar"/>
-            </fileset>  
-        </copy>
-        <copy todir="${as.lib.home}/endorsed" overwrite="true">
-            <fileset dir="osgi">
-                <include name="webservices-api-osgi.jar"/>
-                <include name="jaxb-api-osgi.jar"/>
+-->
             </fileset>
         </copy>
         <echo message="... installation complete."/>
     </target>
 
-    <target name="test-api" description="Test if 'webservices-api.jar' is already installed in $JAVA_HOME/lib/endorsed" if="jdk6+">
-        <echo message="${@java.home.string@}/lib/endorsed/webservices-api.jar"/>
-        <available property="api.installed" file="${@java.home.string@}/lib/endorsed/webservices-api.jar"/>
-    </target>
-
-    <target name="check-api" depends="test-api" if="api.installed"
-            description="Print a warning if 'webservices-api.jar' is found in $JAVA_HOME/lib/endorsed">
-        <echo message="Found the file webservices-api.jar in ${@java.home.string@}/lib/endorsed."/>
-        <echo/>
-        <echo message="  This installation does not automatically overwrite"/>
-        <echo message="  'webservices-api.jar' in ${@java.home.string@}/lib/endorsed."/>
-        <echo message="  Please execute the command 'ant install-api' to"/>
-        <echo message="  update 'webservices-api.jar'."/>
-        <echo/>
-        <echo message="  NOTE that any Java application that incidentally uses"/>
-        <echo message="  one of the APIs included in Metro but does not"/>
-        <echo message="  have all Metro JARs on its classpath may experience"/>
-        <echo message="  class loading issues if you install webservices-api.jar"/>
-        <echo message="  into ${@java.home.string@}/lib/endorsed."/>
-    </target>
-
-    <target name="install-api" if="jdk6+" depends="init"
-            description="Installs 'webservices-api.jar' into $JAVA_HOME/lib/endorsed">
-        <mkdir dir="${@java.home.string@}/lib/endorsed"/>
-        <copy toDir="${@java.home.string@}/lib/endorsed" overwrite="true">
-            <fileset dir="lib">
-                <include name="webservices-api.jar"/>
-            </fileset>
-        </copy>
-    </target>
-
     <target name="uninstall" unless="notInstalled"
             depends="init"
-            description="Restore original Metro jars and tool scripts">
+            description="Restore original Eclipse Metro jars and tool scripts">
         <echo message="Uninstalling ${product.name} from ${as.home} ..."/>
 
         <copy todir="${as.lib.home}" overwrite="true">
             <fileset dir="${backup.dir}">
+                <include name="jakarta.xml.bind-api.jar"/>
+                <include name="webservices-api-osgi.jar"/>
                 <include name="webservices-osgi.jar"/>
                 <include name="webservices-extra-jdk-packages.jar"/>
                 <include name="woodstox-core.jar"/>
                 <include name="stax2-api.jar"/>
                 <include name="jaxb-osgi.jar"/>
+<!--
                 <include name="xmlsec.jar"/>
                 <include name="commons-logging.jar"/>
-            </fileset>
-        </copy>
-
-        <copy todir="${as.lib.home}/endorsed" overwrite="true">
-            <fileset dir="${backup.dir}">
-                <include name="webservices-api-osgi.jar"/>
-                <include name="jaxb-api-osgi.jar"/>
+-->
             </fileset>
         </copy>
 
@@ -205,7 +136,7 @@
         <delete dir="${osgi.cache.dir}" includeemptydirs="true"/>
 
         <echo message="... uninstall complete."/>
-        <echo message="The original Metro installation has been restored."/>
+        <echo message="The original Eclipse Metro installation has been restored."/>
     </target>
 
     <target name="help">
@@ -213,13 +144,12 @@
         <echo message="  Installs ${product.name} on GlassFish"/>
         <echo/>
         <echo message="uninstall: "/>
-        <echo message="  Uninstalls ${product.name} from GlassFish and restores the original Metro installation"/>
+        <echo message="  Uninstalls ${product.name} from GlassFish and restores the original Eclipse Metro installation"/>
         <echo/>
         <echo message="$AS_HOME must be set to the installation directory of GlassFish. (e.g. '.../glassfish-vX/glassfish')"/>
         <echo/>
         <echo message="Usage:"/>
         <echo message="  ant -f metro-on-glassfish.xml {install | uninstall}"/>
-        <antcall target="jdk-message"/>
         <antcall target="gf-message"/>
         <antcall target="warning-note"/>
     </target>
