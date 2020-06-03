@@ -303,17 +303,17 @@
                         <dependency>
                             <groupId>org.glassfish.grizzly</groupId>
                             <artifactId>grizzly-framework</artifactId>
-                            <version>2.4.4</version>
+                            <version>${grizzly.version}</version>
                         </dependency>
                         <dependency>
                             <groupId>org.glassfish.grizzly</groupId>
                             <artifactId>grizzly-portunif</artifactId>
-                            <version>2.4.4</version>
+                            <version>${grizzly.version}</version>
                         </dependency>
                         <dependency>
                             <groupId>org.apache.tomcat</groupId>
                             <artifactId>tomcat-coyote</artifactId>
-                            <version>9.0.8</version>
+                            <version>${tomcat.coyote.version}</version>
                         </dependency>
                         <dependency>
                             <groupId>com.sun.org.apache.xml.internal</groupId>

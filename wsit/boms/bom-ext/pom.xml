@@ -33,7 +33,7 @@
         <ejb-api.version>4.0.0-RC2</ejb-api.version>
         <transaction-api.version>2.0.0-RC1</transaction-api.version>
         <interceptor-api.version>2.0.0-RC2</interceptor-api.version>
-        <cdi-api.version>3.0.0-M2</cdi-api.version>
+        <cdi-api.version>3.0.0-M4</cdi-api.version>
         <inject-api.version>2.0.0-RC4</inject-api.version>
         <el-api.version>4.0.0-RC1</el-api.version>
 
@@ -47,7 +47,7 @@
         <!-- CQ: #18393 -->
         <stax-utils.version>20060502</stax-utils.version>
 
-        <grizzly.version>2.4.4</grizzly.version>
+        <grizzly.version>3.0.0-M1</grizzly.version>
         <tomcat.coyote.version>10.0.0-M5</tomcat.coyote.version>
 
         <jaxws.home.uri>http://eclipse-ee4j.github.io/metro-jax-ws</jaxws.home.uri>

@@ -79,6 +79,13 @@
                                     <outputDirectory>${dep.sources}</outputDirectory>
                                 </artifactItem>
                                 <artifactItem>
+                                    <groupId>jakarta.ejb</groupId>
+                                    <artifactId>jakarta.ejb-api</artifactId>
+                                    <classifier>sources</classifier>
+                                    <overWrite>false</overWrite>
+                                    <outputDirectory>${dep.sources}</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
                                     <groupId>jakarta.transaction</groupId>
                                     <artifactId>jakarta.transaction-api</artifactId>
                                     <classifier>sources</classifier>
@@ -159,6 +166,8 @@
                                     <include>org.glassfish.grizzly:grizzly-websockets</include>
                                     <include>org.glassfish.grizzly:grizzly-portunif</include>
                                     <include>jakarta.security.auth.message:jakarta.security.auth.message-api</include>
+                                    <include>jakarta.annotation:jakarta.annotation-api</include>
+                                    <include>jakarta.ejb:jakarta.ejb-api</include>
                                     <include>jakarta.transaction:jakarta.transaction-api</include>
                                     <include>jakarta.enterprise:jakarta.enterprise.cdi-api</include>
                                     <include>jakarta.interceptor:jakarta.interceptor-api</include>
@@ -220,6 +229,16 @@
         <dependency>
             <groupId>jakarta.security.auth.message</groupId>
             <artifactId>jakarta.security.auth.message-api</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.annotation</groupId>
+            <artifactId>jakarta.annotation-api</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.ejb</groupId>
+            <artifactId>jakarta.ejb-api</artifactId>
             <optional>true</optional>
         </dependency>
         <dependency>
