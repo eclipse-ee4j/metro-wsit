@@ -15,12 +15,13 @@
 package pricequote.wholesaler.client;
 
 import java.io.Closeable;
-import jakarta.annotation.Resource;
-import javax.xml.namespace.QName;
-import jakarta.xml.ws.WebServiceContext;
-import jakarta.xml.ws.WebServiceException;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import jakarta.annotation.Resource;
+import jakarta.xml.ws.WebServiceContext;
+import jakarta.xml.ws.WebServiceException;
+import javax.xml.namespace.QName;
 
 /**
  * @author Arun Gupta
@@ -66,7 +67,11 @@ public class WholesalerClient {
 
     public void close() {
         if (port != null) {
-            ((Closeable) port).close();
+            try {
+                ((Closeable) port).close();
+            } catch (IOException ioe){
+                System.err.println("Caught IOException: " + ioe.getMessage());
+            }
             port = null;
         }
     }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -17,11 +17,11 @@ import java.util.*;
 import javax.xml.namespace.*;
 
 /**
- *  <wst:Claims Dialect=â€?http://schemas.xmlsoap.org/ws/2005/05/identityâ€?
+ *  <wst:Claims Dialect=?http://schemas.xmlsoap.org/ws/2005/05/identity?
  *       xmlns:wst="http://docs.oasis-open.org/ws-sx/ws-trust/200512"
  *       xmlns:ic="http://schemas.xmlsoap.org/ws/2005/05/identity">
- *      <ic:ClaimType Uri=â€?http://schemas.xmlsoap.org/ws/2005/05/identity/claims/localityâ€?/>
- *      <ic:ClaimType Uri=â€?http://schemas.xmlsoap.org/ws/2005/05/identity/claims/roleâ€?/>
+ *      <ic:ClaimType Uri=?http://schemas.xmlsoap.org/ws/2005/05/identity/claims/locality?/>
+ *      <ic:ClaimType Uri=?http://schemas.xmlsoap.org/ws/2005/05/identity/claims/role?/>
  *  </wst:Claims>
  * @author jdg
  */

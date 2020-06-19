@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -75,16 +75,29 @@ public  class SamlCallbackHandler implements CallbackHandler {
 
     public SamlCallbackHandler() {
         try {
+                //Glassfish usage
+            if (System.getProperty("glassfish.home") != null) {
+                this.keyStoreURL = home + fileSeparator + "domains" + fileSeparator + "domain1" +
+                        fileSeparator + "config" + fileSeparator + "keystore.jks";
+                this.keyStoreType = "JKS";
+                this.keyStorePassword = "changeit";
 
-            this.keyStoreURL = home + fileSeparator + "domains" + fileSeparator + "domain1" + 
-                    fileSeparator + "config" + fileSeparator + "keystore.jks";
-            this.keyStoreType = "JKS";
-            this.keyStorePassword = "changeit";
-                                                                                                                                                             
-            this.trustStoreURL = home + fileSeparator + "domains" + fileSeparator + "domain1" + 
-				fileSeparator + "config" + fileSeparator + "cacerts.jks";
-            this.trustStoreType = "JKS";
-            this.trustStorePassword = "changeit";
+                this.trustStoreURL = home + fileSeparator + "domains" + fileSeparator + "domain1" +
+                        fileSeparator + "config" + fileSeparator + "cacerts.jks";
+                this.trustStoreType = "JKS";
+                this.trustStorePassword = "changeit";
+            } else {
+                //Tomcat usage
+                this.keyStoreURL = home + fileSeparator + "xws-security" + fileSeparator + "etc" +
+                        fileSeparator + "client-keystore.jks";
+                this.keyStoreType = "JKS";
+                this.keyStorePassword = "changeit";
+
+                this.trustStoreURL = home + fileSeparator + "xws-security" + fileSeparator + "etc" +
+                        fileSeparator + "client-truststore.jks";
+                this.trustStoreType = "JKS";
+                this.trustStorePassword = "changeit";
+            }
  
             initKeyStore();
             initTrustStore();			

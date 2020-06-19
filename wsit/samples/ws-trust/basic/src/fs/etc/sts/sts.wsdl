@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
 
-    Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+    Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
 
     This program and the accompanying materials are made available under the
     terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -32,7 +32,7 @@
 							<wsp:Policy>
 								<sp:X509Token sp:IncludeToken="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy/IncludeToken/Never">
 									<wsp:Policy>
-                                                                                <sp:RequireDerivedKeys /> 
+										<sp:RequireDerivedKeys />
 										<sp:RequireThumbprintReference/>
 										<sp:WssX509V3Token10/>
 									</wsp:Policy>
@@ -50,7 +50,7 @@
 							</wsp:Policy>
 						</sp:Layout>
 						<sp:IncludeTimestamp/>
-                                                <sp:EncryptSignature /> 
+						<sp:EncryptSignature />
 						<sp:OnlySignEntireHeadersAndBody/>
 					</wsp:Policy>
 				</sp:SymmetricBinding>
