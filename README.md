@@ -92,3 +92,4 @@ as well as for consumption through maven.
 The release includes the following documentation:
 * [Getting Started](/3.0.0/getting-started/index.html)
 * [Users Guide](/3.0.0/guide/index.html)
+* [Change log](https://github.com/eclipse-ee4j/metro-wsit/releases/tag/3.0.0-M2)
