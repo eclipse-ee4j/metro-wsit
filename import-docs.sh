@@ -11,7 +11,7 @@
 
 # utility to help importing release documentation
 
-VERSION=2.4.4
+VERSION=3.0.0-M2
 ARTIFACT=https://jakarta.oss.sonatype.org/content/groups/staging/org/glassfish/metro/guide/$VERSION/guide-$VERSION-docbook.zip
 
 wget -O guide.zip $ARTIFACT
