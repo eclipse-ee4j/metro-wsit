@@ -128,7 +128,7 @@
                                     <outputDirectory>${dep.sources}</outputDirectory>
                                 </artifactItem>
                             </artifactItems>
-                            <excludes>META-INF/gfprobe-provider.xml,annotations,doc-files,doc-files/**</excludes>
+                            <excludes>META-INF/gfprobe-provider.xml,annotations,doc-files,doc-files/**,module-info.java</excludes>
                         </configuration>
                     </execution>
                 </executions>
