@@ -68,14 +68,14 @@ The release includes the following documentation:
 # <a name="Download_Metro_Milestone"></a>Download Eclipse Metro Milestone Release
 
 The latest milestone release of Eclipse Metro is available for
-[download](https://repo1.maven.org/maven2/org/glassfish/metro/metro-standalone/3.0.0-M2/metro-standalone-3.0.0-M2.zip)
+[download](https://jakarta.oss.sonatype.org/service/local/repositories/staging/content/org/glassfish/metro/metro-standalone/3.0.0-M3/metro-standalone-3.0.0-M3.zip)
 as well as for consumption through maven.
 ```
         <dependencies>
             <dependency>
                 <groupId>org.glassfish.metro</groupId>
                 <artifactId>webservices-api</artifactId>
-                <version>3.0.0-M2</version>
+                <version>3.0.0-M3</version>
             </dependency>
         </dependencies>
 
@@ -83,7 +83,7 @@ as well as for consumption through maven.
             <dependency>
                 <groupId>org.glassfish.metro</groupId>
                 <artifactId>webservices-rt</artifactId>
-                <version>3.0.0-M2</version>
+                <version>3.0.0-M3</version>
             </dependency>
         </dependencies>
 ```
@@ -92,4 +92,4 @@ as well as for consumption through maven.
 The release includes the following documentation:
 * [Getting Started](/3.0.0/getting-started/index.html)
 * [Users Guide](/3.0.0/guide/index.html)
-* [Change log](https://github.com/eclipse-ee4j/metro-wsit/releases/tag/3.0.0-M2)
+* [Change log](https://github.com/eclipse-ee4j/metro-wsit/releases/tag/3.0.0-M3)
