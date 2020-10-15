@@ -17,6 +17,7 @@ import jakarta.jws.WebService;
 import jakarta.xml.ws.WebServiceContext;
 import java.util.HashMap;
 import java.util.Hashtable;
+import java.util.Map;
 
 
 @WebService(endpointInterface="rmdemo.server.RMDemo")
@@ -28,27 +29,23 @@ public class RMDemoImpl {
     private WebServiceContext context;
 
     /* Get Sesssion using well-known key in MessageContext */
-    private Hashtable getSession() {
-        return (Hashtable)context.getMessageContext()
+    private Map<String,Object> getSession() {
+        return (Map)context.getMessageContext()
                 .get("com.sun.xml.ws.session");
-
     }
 
     /* Get String associated with SessionID for current request */
 
     private String getSessionData() {
-        Hashtable sess = getSession();
+        Map<String,Object> sess = getSession();
         String ret = (String)sess.get("request_record");
         return ret != null ? ret : "";
-
-
     }
 
     /* Store String associated with SessionID for current request */
     private void setSessionData(String data) {
-        Hashtable session = getSession();
+        Map<String,Object> session = getSession();
         session.put("request_record", data);
-     
     }
 
     /* RMDemo Methods */

@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
 #
 # This program and the accompanying materials are made available under the
 # terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -34,8 +34,8 @@ To Install WSIT and run the samples:
 6. If you are behind a firewall which requires proxy for accessing the end points, edit your <java home>/jre/lib/net.properties
    and set the proxies. Or use the setProxy task of ant in the build.xml
 
-7. For secureconversation-mutual-certificate-11 scenrio, since runtime MEX (Metadata Exchange) is not used 
-   in the microsoft wsdl, set the STS manually by uncommenting the approprite STS in etc/client-config/wsit-client.xml .
+7. For secure conversation-mutual-certificate-11 scenario, since runtime MEX (Metadata Exchange) is not used
+   in the microsoft wsdl, set the STS manually by uncommenting the appropriate STS in etc/client-config/wsit-client.xml .
    For s-m-m, set the microsoft STS, and for s-s-m, set the sun STS
 
 8. For the transport-binding , set the keystore and trust store of server to the keystores used in the samples. For eg, in domain.xml

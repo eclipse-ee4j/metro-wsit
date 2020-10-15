@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Distribution License v. 1.0, which is available at
+    http://www.eclipse.org/org/documents/edl-v10.php.
+
+    SPDX-License-Identifier: BSD-3-Clause
+
+-->
+
+<!--
+        *** GENERATED FROM jax-ws.xml - DO NOT EDIT !                             ***
+        *** TO MODIFY wsimport options USE Web Service node -> Edit WS Attributes ***
+        *** TO CHANGE TARGETS GENERATED TO jaxws-build.xml COPY THOSE             ***
+        *** TARGETS TO ../build.xml AND MODIFY THAT FILE INSTEAD                  ***
+
+        -->
+<project xmlns:xalan="http://xml.apache.org/xslt"
+         xmlns:j2seproject3="http://www.netbeans.org/ns/j2se-project/3"
+         xmlns:jaxws="http://www.netbeans.org/ns/jax-ws/1">
+    <!--
+                ===================
+                JAX-WS WSIMPORT SECTION
+                ===================
+    -->
+    <property file="project.properties"/>
+    <path id="javac.classpath">
+        <pathelement location="${java.home}/../lib/tools.jar"/>
+        <fileset dir="/home/tvallin/workspace/jaxws-dep/lib">
+            <include name="*.jar"/>
+        </fileset>
+    </path>
+    <target name="wsimport-init" depends="init">
+        <mkdir dir="${build.generated.sources.dir}/jax-ws"/>
+        <taskdef name="wsimport" classname="com.sun.tools.ws.ant.WsImport">
+            <!--classpath path="${libs.jaxws21.classpath}"/-->
+            <classpath refid="javac.classpath"/>
+        </taskdef>
+    </target>
+    <target name="wsimport-client-AudioStreamerService" depends="wsimport-init">
+        <mkdir dir="${build.generated.dir}/jax-wsCache/AudioStreamerService"/>
+        <property name="wsdl-AudioStreamerService" location="xml-resources/web-service-references/AudioStreamerService/wsdl/localhost_8080/AudioStreamProviderApp/AudioStreamerService.wsdl"/>
+        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/AudioStreamerService" destdir="${build.generated.dir}/jax-wsCache/AudioStreamerService" wsdl="${wsdl-AudioStreamerService}" catalog="catalog.xml" extension="true" verbose="true" wsdlLocation="http://localhost:8080/AudioStreamProviderApp/AudioStreamerService?wsdl" xnocompile="true">
+            <depends file="${wsdl-AudioStreamerService}"/>
+            <produces dir="${build.generated.dir}/jax-wsCache/AudioStreamerService"/>
+        </wsimport>
+        <copy todir="${build.generated.sources.dir}/jax-ws">
+            <fileset dir="${build.generated.dir}/jax-wsCache/AudioStreamerService">
+                <include name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="wsimport-client-clean-AudioStreamerService" depends="-init-project">
+        <delete dir="${build.generated.dir}/jax-wsCache/AudioStreamerService"/>
+        <delete dir="${build.generated.sources.dir}/jax-ws/provider"/>
+    </target>
+    <target name="wsimport-client-generate" depends="wsimport-client-AudioStreamerService"/>
+</project>
