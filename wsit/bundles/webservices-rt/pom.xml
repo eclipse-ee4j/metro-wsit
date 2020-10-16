@@ -469,7 +469,7 @@
 
     <properties>
         <build.id>${scmBranch}-${buildNumber}; ${timestamp}</build.id>
-        <build.version>Metro/${project.version} (${build.id}) JAXWS-RI/${jaxws.ri.version} JAXWS-API/${jaxws-api.version} JAXB-RI/${jaxb.version} JAXB-API/${jaxb-api.version}</build.version>
+        <build.version>Metro/${project.version} (${build.id}) JAXWS-RI/${jaxws.ri.version} JAXWS-API/${jaxws-api.version} JAXB-RI/${jaxb.version} JAXB-API/${xml.bind-api.version}</build.version>
         <dep.sources>${project.build.directory}/generated-sources/dependencies</dep.sources>
     </properties>
 
