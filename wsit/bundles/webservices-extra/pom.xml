@@ -65,8 +65,8 @@
                                     <outputDirectory>${dep.sources}</outputDirectory>
                                 </artifactItem>-->
                                 <artifactItem>
-                                    <groupId>jakarta.security.auth.message</groupId>
-                                    <artifactId>jakarta.security.auth.message-api</artifactId>
+                                    <groupId>jakarta.authentication</groupId>
+                                    <artifactId>jakarta.authentication-api</artifactId>
                                     <classifier>sources</classifier>
                                     <overWrite>false</overWrite>
                                     <outputDirectory>${dep.sources}</outputDirectory>
@@ -165,7 +165,7 @@
                                     <include>org.glassfish.grizzly:grizzly-framework</include>
                                     <include>org.glassfish.grizzly:grizzly-websockets</include>
                                     <include>org.glassfish.grizzly:grizzly-portunif</include>
-                                    <include>jakarta.security.auth.message:jakarta.security.auth.message-api</include>
+                                    <include>jakarta.authentication:jakarta.authentication-api</include>
                                     <include>jakarta.annotation:jakarta.annotation-api</include>
                                     <include>jakarta.ejb:jakarta.ejb-api</include>
                                     <include>jakarta.transaction:jakarta.transaction-api</include>
@@ -227,8 +227,8 @@
             <!--<scope>provided</scope>-->
         </dependency>
         <dependency>
-            <groupId>jakarta.security.auth.message</groupId>
-            <artifactId>jakarta.security.auth.message-api</artifactId>
+            <groupId>jakarta.authentication</groupId>
+            <artifactId>jakarta.authentication-api</artifactId>
             <optional>true</optional>
         </dependency>
         <dependency>

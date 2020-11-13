@@ -28,7 +28,7 @@
     <description>Metro Web Services Stack Dependency POM for Metro-CS</description>
 
     <properties>
-        <auth.message-api.version>2.0.0-RC1</auth.message-api.version>
+        <authentication-api.version>2.0.0</authentication-api.version>
         <connector-api.version>2.0.0</connector-api.version>
         <ejb-api.version>4.0.0</ejb-api.version>
         <transaction-api.version>2.0.0</transaction-api.version>
@@ -73,9 +73,9 @@
             </dependency>
 
             <dependency>
-                <groupId>jakarta.security.auth.message</groupId>
-                <artifactId>jakarta.security.auth.message-api</artifactId>
-                <version>${auth.message-api.version}</version>
+                <groupId>jakarta.authentication</groupId>
+                <artifactId>jakarta.authentication-api</artifactId>
+                <version>${authentication-api.version}</version>
             </dependency>
 
             <dependency>
