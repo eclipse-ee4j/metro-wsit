@@ -71,7 +71,7 @@ The release includes the following documentation:
 Previous versions of Eclipse Metro are available for download
 as well as for consumption [through maven](https://repo1.maven.org/maven2/org/glassfish/metro/metro-standalone/).
 
-## Documentation
+## Documentation for version 2.4.x
 The release includes the following documentation:
 * [Getting Started](/2.4.4/getting-started/index.html)
 * [Users Guide](/2.4.4/guide/index.html)
