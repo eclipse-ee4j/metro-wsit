@@ -10,7 +10,7 @@ following is a summary of the TCK results for releases of Eclipse Metro.
 - [x] Organization Name ("Organization") and, if applicable, URL:<br/>
   [Eclipse Foundation](https://www.eclipse.org/)
 - [x] Product Name, Version and download URL (if applicable):<br/>
-  [Eclipse Metro 3.0.0-M3](index.html)
+  [Eclipse Metro 3.0.0](index.html)
 - [x] Specification Name, Version and download URL:<br/>
    [Jakarta SOAP with Attachments 2.0](https://jakarta.ee/specifications/soap-attachments/2.0/)<br/>
    [Jakarta Web Services Metadata 3.0](https://jakarta.ee/specifications/web-services-metadata/3.0/)<br/>
