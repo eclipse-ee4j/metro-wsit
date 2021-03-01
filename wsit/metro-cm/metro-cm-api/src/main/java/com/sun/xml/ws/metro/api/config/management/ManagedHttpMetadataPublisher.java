@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -12,7 +12,7 @@ package com.sun.xml.ws.metro.api.config.management;
 
 import com.sun.istack.NotNull;
 import com.sun.istack.logging.Logger;
-import com.sun.xml.ws.api.server.EndpointComponent;
+import com.sun.xml.ws.api.Component;
 import com.sun.xml.ws.api.server.ServiceDefinition;
 import com.sun.xml.ws.config.management.ManagementMessages;
 import com.sun.xml.ws.transport.http.HttpAdapter;
@@ -29,10 +29,11 @@ import java.io.IOException;
  *
  * @author Fabian Ritzmann
  */
-class ManagedHttpMetadataPublisher extends HttpMetadataPublisher implements EndpointComponent {
+class ManagedHttpMetadataPublisher extends HttpMetadataPublisher implements Component {
 
     private static final Logger LOGGER = Logger.getLogger(ManagedHttpMetadataPublisher.class);
 
+    @Override
     public <T> T getSPI(Class<T> spiType) {
         if (spiType.isAssignableFrom(this.getClass())) {
             return spiType.cast(this);
