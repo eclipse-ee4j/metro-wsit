@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -41,7 +41,6 @@ import java.util.Set;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Level;
@@ -60,7 +59,7 @@ import org.w3c.dom.Element;
  * This class forwards all method invocations to the wrapped WSEndpoint instance.
  *
  * @param <T> The implementation class of the endpoint.
- * 
+ *
  * @author Fabian Ritzmann, Martin Grebac
  */
 public class ManagedEndpoint<T> extends WSEndpoint<T>{
@@ -68,7 +67,7 @@ public class ManagedEndpoint<T> extends WSEndpoint<T>{
     private static final Logger LOGGER = Logger.getLogger(ManagedEndpoint.class);
 
     private WSEndpoint<T> endpointDelegate;
-    private final Collection<ReconfigNotifier> reconfigNotifiers = new LinkedList<ReconfigNotifier>();
+    private final Collection<ReconfigNotifier> reconfigNotifiers = new LinkedList<>();
 
 //     Delay before dispose is called on a replaced endpoint delegate. Defaults to 2 minutes.
     private static final long ENDPOINT_DISPOSE_DELAY_DEFAULT = 120000l;
@@ -79,7 +78,7 @@ public class ManagedEndpoint<T> extends WSEndpoint<T>{
     private boolean useContainerSpi = true;
 
     private final AtomicBoolean isClosed;
-            
+
     /**
      * Initializes this endpoint.
      *
@@ -95,7 +94,7 @@ public class ManagedEndpoint<T> extends WSEndpoint<T>{
             for (ReconfigNotifier notifier : this.reconfigNotifiers) {
                 notifier.sendNotification();
             }
-            
+
             if (LOGGER.isLoggable(Level.CONFIG)) {
                 LOGGER.config(ManagementMessages.WSM_5066_STARTING_ENDPOINT());
             }
@@ -108,10 +107,10 @@ public class ManagedEndpoint<T> extends WSEndpoint<T>{
     public void addNotifier(final ReconfigNotifier notifier) {
         this.reconfigNotifiers.add(notifier);
     }
-    
-    /** 
+
+    /**
      * Returns attributes used for creation of this endpoint.
-     * @return 
+     * @return
      */
     public EndpointCreationAttributes getCreationAttributes() {
         return this.creationAttributes;
@@ -125,11 +124,11 @@ public class ManagedEndpoint<T> extends WSEndpoint<T>{
      */
     synchronized public void swapEndpointDelegate(final WSEndpoint<T> endpoint) {
         // Plug in code that regenerates WSDL when the endpoint was reconfigured.
-        final Set<EndpointComponent> endpointComponents = endpoint.getComponentRegistry();
+        final Set<Component> endpointComponents = endpoint.getComponents();
 
         final WSEndpoint<T> oldEndpoint = this.endpointDelegate;
         this.endpointDelegate = endpoint;
-        for (EndpointComponent component : endpointComponents) {
+        for (Component component : endpointComponents) {
             final Reconfigurable reconfigurable = component.getSPI(Reconfigurable.class);
             if (reconfigurable != null) {
                 reconfigurable.reconfigure();
@@ -223,7 +222,7 @@ public class ManagedEndpoint<T> extends WSEndpoint<T>{
     public @NotNull Set<Component> getComponents() {
             return this.endpointDelegate.getComponents();
     }
-    
+
     @Override
     public SEIModel getSEIModel() {
         return this.endpointDelegate.getSEIModel();
@@ -252,7 +251,7 @@ public class ManagedEndpoint<T> extends WSEndpoint<T>{
     /**
      * Call dispose on the endpoint delegate that was swapped out against a new
      * instance.
-     * 
+     *
      * @param endpoint The previous endpoint delegate
      */
     private void disposeDelegate(final WSEndpoint<T> endpoint) {
@@ -269,7 +268,7 @@ public class ManagedEndpoint<T> extends WSEndpoint<T>{
         };
         getExecutorService().schedule(dispose, this.endpointDisposeDelay, TimeUnit.MILLISECONDS);
     }
-    
+
     @Override
     public boolean equalsProxiedInstance(WSEndpoint endpoint) {
         if (endpointDelegate == null) {
@@ -300,13 +299,13 @@ public class ManagedEndpoint<T> extends WSEndpoint<T>{
     public Packet createServiceResponseForException(ThrowableContainerPropertySet tcps, Packet packet, SOAPVersion soapv, WSDLPort wsdlp, SEIModel seim, WSBinding wsb) {
         return endpointDelegate.createServiceResponseForException(tcps, packet, soapv, wsdlp, seim, wsb);
     }
-    
+
     /**
      * Return the appropriate ScheduledExecutorService - on initial access, check for container.getSPI
      * NOTE - THIS METHOD IS A COPY OF {@link com.sun.xml.ws.commons.AbstractTaskManager#getExecutorService() AbstractTaskManager.getExecutorService() } IN metro-commons!!!
      * IF A SUITABLE COMMON LOCATION CAN BE FOUND IT MUST BE REMOVED FROM HERE!
      * @return
-     * 
+     *
      */
     private ScheduledExecutorService getExecutorService() {
         if (executorService == null) {
