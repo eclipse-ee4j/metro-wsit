@@ -13,6 +13,7 @@ package com.sun.xml.ws.rx.mc.dev;
 import com.oracle.webservices.api.message.BasePropertySet;
 import com.sun.istack.NotNull;
 import com.sun.xml.ws.api.message.Packet;
+import java.lang.invoke.MethodHandles;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -44,7 +45,7 @@ public final class AdditionalResponses extends BasePropertySet {
     private static final PropertyMap MODEL;
 
     static {
-        MODEL = parse(AdditionalResponses.class);
+        MODEL = parse(AdditionalResponses.class, MethodHandles.lookup());
     }
 
     @Override

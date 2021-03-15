@@ -25,7 +25,6 @@ import com.sun.xml.ws.api.pipe.FiberContextSwitchInterceptor;
 import com.sun.xml.ws.api.pipe.ServerTubeAssemblerContext;
 import com.sun.xml.ws.api.pipe.ThrowableContainerPropertySet;
 import com.sun.xml.ws.api.server.Container;
-import com.sun.xml.ws.api.server.EndpointComponent;
 import com.sun.xml.ws.api.server.ServiceDefinition;
 import com.sun.xml.ws.api.server.WSEndpoint;
 import com.sun.xml.ws.api.server.WSEndpoint.CompletionCallback;
@@ -211,11 +210,6 @@ public class ManagedEndpoint<T> extends WSEndpoint<T>{
     @Override
     public ServiceDefinition getServiceDefinition() {
         return this.endpointDelegate.getServiceDefinition();
-    }
-
-    @Override
-    public Set<EndpointComponent> getComponentRegistry() {
-        return this.endpointDelegate.getComponentRegistry();
     }
 
     @Override

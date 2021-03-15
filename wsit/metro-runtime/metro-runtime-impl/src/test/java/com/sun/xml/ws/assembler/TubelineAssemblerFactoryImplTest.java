@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -10,6 +10,8 @@
 
 package com.sun.xml.ws.assembler;
 
+import com.sun.xml.ws.assembler.metro.impl.MetroClientTubelineAssemblyContextImpl;
+import com.sun.xml.ws.assembler.metro.impl.MetroTubelineAssemblerFactoryImpl;
 import com.sun.xml.ws.api.*;
 import com.sun.xml.ws.api.addressing.WSEndpointReference;
 import com.sun.xml.ws.api.client.WSPortInfo;
@@ -19,6 +21,12 @@ import com.sun.xml.ws.api.pipe.ClientTubeAssemblerContext;
 import com.sun.xml.ws.api.pipe.Tube;
 import com.sun.xml.ws.api.pipe.TubelineAssembler;
 import com.sun.xml.ws.api.server.Container;
+import com.sun.xml.ws.assembler.MetroConfigName;
+import com.sun.xml.ws.assembler.MetroTubelineAssembler;
+import com.sun.xml.ws.assembler.TubeCreator;
+import com.sun.xml.ws.assembler.TubelineAssemblyController;
+import com.sun.xml.ws.assembler.metro.impl.MetroClientTubelineAssemblyContextImpl;
+import com.sun.xml.ws.assembler.metro.impl.MetroTubelineAssemblerFactoryImpl;
 import com.sun.xml.ws.binding.BindingImpl;
 import com.sun.xml.ws.client.WSServiceDelegate;
 import com.sun.xml.ws.developer.WSBindingProvider;
