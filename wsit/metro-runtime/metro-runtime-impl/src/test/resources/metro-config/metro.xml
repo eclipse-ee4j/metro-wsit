@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-    Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+    Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
 
     This program and the accompanying materials are made available under the
     terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -39,11 +39,11 @@
                 <!--tube-factory className="com.sun.xml.ws.dump.ActionDumpTubeFactory" />
                 <tube-factory className="com.sun.xml.ws.rx.testing.PacketFilteringTubeFactory" />
                 <tube-factory className="com.sun.xml.ws.messagedump.MessageDumpingTubeFactory" /-->
-                <tube-factory className="com.sun.xml.ws.assembler.jaxws.TransportTubeFactory" />
+                <tube-factory className="com.sun.xml.ws.assembler.metro.jaxws.TransportTubeFactory" />
             </client-side>
             <endpoint-side>
                 <tube-factory className="default-server" />
-                <tube-factory className="com.sun.xml.ws.assembler.jaxws.TransportTubeFactory" />
+                <tube-factory className="com.sun.xml.ws.assembler.metro.jaxws.TransportTubeFactory" />
                 <!--tube-factory className="com.sun.xml.ws.messagedump.MessageDumpingTubeFactory" />
                 <tube-factory className="com.sun.xml.ws.rx.testing.PacketFilteringTubeFactory" />
                 <tube-factory className="com.sun.xml.ws.dump.ActionDumpTubeFactory" /-->
@@ -62,7 +62,7 @@
         <tubeline name="ss-transport-message-dump-tubeline">
             <endpoint-side>
                 <tube-factory className="server" />
-                <tube-factory className="com.sun.xml.ws.assembler.jaxws.TransportTubeFactory" />
+                <tube-factory className="com.sun.xml.ws.assembler.metro.jaxws.TransportTubeFactory" />
 
                 <tube-factory className="com.sun.xml.ws.assembler.jaxws.DumpTubeFactory" />
 
@@ -98,7 +98,7 @@
                 <!--tube-factory className="com.sun.xml.ws.dump.ActionDumpTubeFactory" />
                 <tube-factory className="com.sun.xml.ws.rm.runtime.testing.PacketFilteringTubeFactory" />
                 <tube-factory className="com.sun.xml.ws.messagedump.MessageDumpingTubeFactory" /-->
-                <tube-factory className="com.sun.xml.ws.assembler.jaxws.TransportTubeFactory" />
+                <tube-factory className="com.sun.xml.ws.assembler.metro.jaxws.TransportTubeFactory" />
             </client-side>
         </tubeline>
     </tubelines>

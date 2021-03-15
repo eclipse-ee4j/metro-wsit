@@ -28,7 +28,12 @@
     <name>WS-RX Testing Support</name>
 
     <dependencies>
-        <!-- Compile scope -->
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>wsrm-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>wsrm-impl</artifactId>
@@ -36,14 +41,35 @@
         </dependency>
 
         <dependency>
-            <groupId>jakarta.activation</groupId>
-            <artifactId>jakarta.activation-api</artifactId>
-            <scope>provided</scope>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>wsrx-commons</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>jakarta.xml.ws</groupId>
+            <artifactId>jakarta.xml.ws-api</artifactId>
         </dependency>
 
         <dependency>
             <groupId>com.sun.xml.ws</groupId>
-            <artifactId>jaxws-rt</artifactId>
+            <artifactId>rt</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.glassfish.gmbal</groupId>
+                    <artifactId>gmbal-api-only</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>org.glassfish.gmbal</groupId>
+            <artifactId>gmbal</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.sun.istack</groupId>
+            <artifactId>istack-commons-runtime</artifactId>
         </dependency>
     </dependencies>
 

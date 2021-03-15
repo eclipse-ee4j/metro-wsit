@@ -28,18 +28,20 @@
     <name>WS-TX API</name>
 
     <dependencies>
-        <!-- Compile scope -->
         <dependency>
-            <groupId>jakarta.activation</groupId>
-            <artifactId>jakarta.activation-api</artifactId>
-            <scope>provided</scope>
+            <groupId>jakarta.xml.ws</groupId>
+            <artifactId>jakarta.xml.ws-api</artifactId>
         </dependency>
 
         <dependency>
             <groupId>com.sun.xml.ws</groupId>
-            <artifactId>jaxws-rt</artifactId>
+            <artifactId>rt</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.sun.istack</groupId>
+            <artifactId>istack-commons-runtime</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

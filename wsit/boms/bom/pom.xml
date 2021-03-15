@@ -68,7 +68,37 @@
                 <scope>import</scope>
             </dependency>
 
-            <!-- Distribution Artifacts -->
+            <dependency>
+                <groupId>com.sun.xml.ws</groupId>
+                <artifactId>rt</artifactId>
+                <version>${jaxws.ri.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.sun.xml.ws</groupId>
+                <artifactId>rt-fi</artifactId>
+                <version>${jaxws.ri.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.sun.xml.ws</groupId>
+                <artifactId>servlet</artifactId>
+                <version>${jaxws.ri.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.sun.xml.ws</groupId>
+                <artifactId>policy</artifactId>
+                <version>${jaxws.ri.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.glassfish.jaxb</groupId>
+                <artifactId>txw2</artifactId>
+                <version>3.0.1-b01</version>
+            </dependency>
+
+        <!-- Distribution Artifacts -->
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>wstx-api</artifactId>
@@ -268,7 +298,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-javadoc-plugin</artifactId>
-                    <version>3.1.1</version>
+                    <version>3.2.0</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>

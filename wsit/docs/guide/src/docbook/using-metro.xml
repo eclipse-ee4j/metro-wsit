@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-    Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
+    Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
 
     This program and the accompanying materials are made available under the
     terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -119,7 +119,7 @@
         system from Ant to Maven. The main Metro build as well as the whole
         <link xlink:href="https://eclipse-ee4j.github.io/metro-wsit/">WSIT project</link> modules
         have been fully mavenized and currently Metro is built, assembled and
-        installed using Maven. Metro releases are deployed to Maven central. 
+        installed using Maven. Metro releases are deployed to Maven central.
         The Metro modules share a new common root
         <code>groupId</code> with a value of <code>org.glassfish.metro</code>
         and can be browsed at the following location: <link
@@ -857,7 +857,7 @@ public int add(@WebParam(name = "i") int i, @WebParam(name = "j") int j) {
                         <example>
                             <programlisting language="java"
                                             linenumbering="unnumbered">protected void processRequest(HttpServletRequest request,
-        HttpServletResponse response) 
+        HttpServletResponse response)
         throws ServletException, IOException {
     response.setContentType("text/html;charset=UTF-8");
     PrintWriter out = response.getWriter();
@@ -1606,11 +1606,11 @@ public class HelloWorldClient {
             &lt;tube-factory
                     className="com.sun.xml.ws.dump.MessageDumpingTubeFactory"/&gt;
             &lt;tube-factory
-                    className="com.sun.xml.ws.assembler.jaxws.TransportTubeFactory"/&gt;
+                    className="com.sun.xml.ws.assembler.metro.jaxws.TransportTubeFactory"/&gt;
          &lt;/client-side&gt;
          &lt;endpoint-side&gt;
             &lt;tube-factory
-                    className="com.sun.xml.ws.assembler.jaxws.TransportTubeFactory"/&gt;
+                    className="com.sun.xml.ws.assembler.metro.jaxws.TransportTubeFactory"/&gt;
             &lt;tube-factory
                     className="com.sun.xml.ws.dump.MessageDumpingTubeFactory"/&gt;
             &lt;tube-factory
@@ -1751,7 +1751,7 @@ com.sun.xml.wss.provider.wsit.SecurityTubeFactory.dump.level=FINE</programlistin
                     <title>Sample dump</title>
 
                     <programlisting language="xml" linenumbering="unnumbered">---[HTTP request]---
-SOAPAction: 
+SOAPAction:
 Content-Type: text/xml
 Accept: text/xml, multipart/related, text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
 &lt;?xml version="1.0" ?&gt;&lt;S:Envelope xmlns:S="http://schemas.xmlsoap.org/soap/envelope/"&gt;&lt;S:Body&gt;&lt;addNumbers xmlns="http://duke.example.org"&gt;&lt;arg0&gt;10&lt;/arg0&gt;&lt;arg1&gt;20&lt;/arg1&gt;&lt;/addNumbers&gt;&lt;/S:Body&gt;&lt;/S:Envelope&gt;--------------------
@@ -1818,12 +1818,12 @@ null: HTTP/1.1 200 OK
         <section xml:id="mustanga1">
             <title>Using Eclipse implementation of Jakarta XML Web Services with Java SE</title>
 
-            <para>Java SE ships with JAX-WS API and implementation. Unless you 
-            are taking precautions, applications that use the Jakarta XML Web Services API will run 
-            with the JAX-WS API version built into Java SE and not a newer version 
+            <para>Java SE ships with JAX-WS API and implementation. Unless you
+            are taking precautions, applications that use the Jakarta XML Web Services API will run
+            with the JAX-WS API version built into Java SE and not a newer version
             of Jakarta XML Web Services on the application classpath.
-            Applications that use new 
-            functions of the Jakarta XML Web Services API will therefore fail to run. This section 
+            Applications that use new
+            functions of the Jakarta XML Web Services API will therefore fail to run. This section
             discusses how to work around this issue by using the <link
             xlink:href="https://docs.oracle.com/javase/8/docs/technotes/guides/standards/">endorsed
             standards override mechanism</link>.</para>
@@ -1875,7 +1875,7 @@ null: HTTP/1.1 200 OK
             Java SE contain JAX-WS API.
             Unless you are taking precautions, applications that use the Jakarta
             XML Web Services
-            API will run with the JAX-WS API version built into Java SE and not 
+            API will run with the JAX-WS API version built into Java SE and not
             with the Jakarta XML Web Services API built into Metro on the application classpath.
             Applications that use new functions of the Jakarta XML Web Services API or other
             Metro functionality will therefore fail to run.</para>
@@ -1888,7 +1888,7 @@ null: HTTP/1.1 200 OK
             <section xml:id="tomcat-and-glassfish-v2.x">
                 <title>Tomcat</title>
 
-                <para>If you are running an application in Tomcat, 
+                <para>If you are running an application in Tomcat,
                     make sure you are using the
                 <code>metro-on-tomcat.xml</code> installation script. They
                 will copy all files into the Tomcat specific
@@ -1903,7 +1903,7 @@ null: HTTP/1.1 200 OK
             <section xml:id="glassfish-v3">
                 <title>GlassFish</title>
 
-                <para>If you are running an application in GlassFish, Metro is 
+                <para>If you are running an application in GlassFish, Metro is
                 already included. You may install updates with the
                     <code>metro-on-glassfish.xml</code> Ant script.</para>
             </section>
@@ -2465,7 +2465,7 @@ WEB-INF/wsdl/schema.xsd WSDL imports this Schema</programlisting>
       &lt;web-uri&gt;metro-custom-tubes.war&lt;/web-uri&gt;
       &lt;context-root&gt;metro-custom-tubes&lt;/context-root&gt;
     &lt;/web&gt;
-  &lt;/module&gt;  
+  &lt;/module&gt;
 &lt;/application&gt;</programlisting>
                 </listitem>
 
@@ -2824,7 +2824,7 @@ WEB-INF/wsdl/schema.xsd WSDL imports this Schema</programlisting>
      &lt;wls:package-name&gt;com.sun.xml.txw2&lt;/wls:package-name&gt;
      &lt;wls:package-name&gt;com.sun.xml.txw2.output&lt;/wls:package-name&gt;
      &lt;wls:package-name&gt;com.sun.xml.txw2.annotation&lt;/wls:package-name&gt;
-  
+
     &lt;/prefer-application-packages&gt;
      &lt;wls:prefer-application-resources&gt;
       &lt;wls:resource-name&gt;META-INF/services/javax.xml.stream.*&lt;/wls:resource-name&gt;
@@ -2839,9 +2839,9 @@ WEB-INF/wsdl/schema.xsd WSDL imports this Schema</programlisting>
       &lt;wls:resource-name&gt;com.sun.xml.fastinfoset.resources.*&lt;/wls:resource-name&gt;
       &lt;wls:resource-name&gt;com.sun.xml.messaging.saaj.util.*&lt;/wls:resource-name&gt;
       &lt;wls:resource-name&gt;com.sun.xml.messaging.saaj.client.p2p.*&lt;/wls:resource-name&gt;
-      &lt;wls:resource-name&gt;com.sun.xml.messaging.saaj.soap.*&lt;/wls:resource-name&gt;    
+      &lt;wls:resource-name&gt;com.sun.xml.messaging.saaj.soap.*&lt;/wls:resource-name&gt;
       &lt;wls:resource-name&gt;com.sun.tools.ws.*&lt;/wls:resource-name&gt;
-      &lt;wls:resource-name&gt;com.sun.tools.xjc.*&lt;/wls:resource-name&gt;    
+      &lt;wls:resource-name&gt;com.sun.tools.xjc.*&lt;/wls:resource-name&gt;
       &lt;wls:resource-name&gt;com.sun.xml.xsom.*&lt;/wls:resource-name&gt;
       &lt;wls:resource-name&gt;com.sun.xml.xsom.impl.parser.*&lt;/wls:resource-name&gt;
       &lt;wls:resource-name&gt;com.sun.tools.jxc.*&lt;/wls:resource-name&gt;
@@ -2862,10 +2862,10 @@ WEB-INF/wsdl/schema.xsd WSDL imports this Schema</programlisting>
       &lt;wls:resource-name&gt;simpleType.rng&lt;/wls:resource-name&gt;
       &lt;wls:resource-name&gt;modelGroup.rng&lt;/wls:resource-name&gt;
       &lt;wls:resource-name&gt;xmlschema.rng&lt;/wls:resource-name&gt;
-      &lt;wls:resource-name&gt;attribute.rng&lt;/wls:resource-name&gt;     
-      &lt;wls:resource-name&gt;include.rng&lt;/wls:resource-name&gt;            
+      &lt;wls:resource-name&gt;attribute.rng&lt;/wls:resource-name&gt;
+      &lt;wls:resource-name&gt;include.rng&lt;/wls:resource-name&gt;
     &lt;/wls:prefer-application-resources&gt;
-   
+
 
 &lt;/wls:weblogic-application&gt;</programlisting>
                 </listitem>
@@ -2977,15 +2977,15 @@ WEB-INF/wsdl/schema.xsd WSDL imports this Schema</programlisting>
                         <para>Weblogic will throw this schema validation error
                         if they are present:</para>
 
-                        <programlisting>Message icon - Error VALIDATION PROBLEMS WERE FOUND problem: 
-cvc-complex-type.2.4a: Expected elements 
-'servlet-class@http://java.sun.com/xml/ns/javaee  
-jsp-file@http://java.sun.com/xml/ns/javaee' instead of 
-'display-name@http://java.sun.com/xml/ns/javaee' here in element 
-servlet@http://java.sun.com/xml/ns/javaee:&lt;null&gt; problem: cvc-complex-type.2.4a: 
-Expected elements 'servlet-class@http://java.sun.com/xml/ns/javaee  
-jsp-file@http://java.sun.com/xml/ns/javaee' instead of 
-'description@http://java.sun.com/xml/ns/javaee' here in element 
+                        <programlisting>Message icon - Error VALIDATION PROBLEMS WERE FOUND problem:
+cvc-complex-type.2.4a: Expected elements
+'servlet-class@http://java.sun.com/xml/ns/javaee
+jsp-file@http://java.sun.com/xml/ns/javaee' instead of
+'display-name@http://java.sun.com/xml/ns/javaee' here in element
+servlet@http://java.sun.com/xml/ns/javaee:&lt;null&gt; problem: cvc-complex-type.2.4a:
+Expected elements 'servlet-class@http://java.sun.com/xml/ns/javaee
+jsp-file@http://java.sun.com/xml/ns/javaee' instead of
+'description@http://java.sun.com/xml/ns/javaee' here in element
 servlet@http://java.sun.com/xml/ns/javaee:&lt;null&gt;</programlisting>
                     </listitem>
 
@@ -2996,11 +2996,11 @@ servlet@http://java.sun.com/xml/ns/javaee:&lt;null&gt;</programlisting>
                         avoid this
                         <literal>NullPointerException</literal>:</para>
 
-                        <programlisting>com.sun.xml.ws.transport.http.servlet.WSServletContextListener contextInitialized 
-     SEVERE: WSSERVLET11: failed to parse runtime descriptor: 
-java.lang.NullPointerException 
-     java.lang.NullPointerException 
-         at com.sun.xml.ws.model.JavaMethodImpl.freeze(JavaMethodImpl.java:375) 
+                        <programlisting>com.sun.xml.ws.transport.http.servlet.WSServletContextListener contextInitialized
+     SEVERE: WSSERVLET11: failed to parse runtime descriptor:
+java.lang.NullPointerException
+     java.lang.NullPointerException
+         at com.sun.xml.ws.model.JavaMethodImpl.freeze(JavaMethodImpl.java:375)
          at com.sun.xml.ws.model.AbstractSEIModelImpl.freeze(AbstractSEIModelImpl</programlisting>
                     </listitem>
 
@@ -3443,8 +3443,8 @@ proxy.sayHello("Hello World!");</programlisting>
             Eclipse Metro, the name of the property is
             <code>com.sun.xml.ws.client.ContentNegotiation</code>. In either
             case, the accepted property values are none (the default) and
-            pessimistic, optimistic. Note that due to JDK repackaging, if you 
-            are using JAX-WS implementation directly from JDK you need to use this 
+            pessimistic, optimistic. Note that due to JDK repackaging, if you
+            are using JAX-WS implementation directly from JDK you need to use this
             property name: <code>com.sun.xml.internal.ws.client.ContentNegotiation</code>.
             </para>
 
