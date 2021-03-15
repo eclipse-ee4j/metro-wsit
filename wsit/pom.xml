@@ -328,13 +328,13 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
                 <configuration>
-                    <source>8</source>
-                    <target>8</target>
+                    <source>${base.java.level}</source>
+                    <target>${base.java.level}</target>
                     <encoding>UTF-8</encoding>
                     <compilerArgument>-Xlint:all</compilerArgument>
                 </configuration>
-<!--                <executions>
-                    <execution>
+                <executions>
+                    <!--                    <execution>
                         <id>base-compile</id>
                         <goals>
                             <goal>compile</goal>
@@ -345,8 +345,8 @@
                                 <exclude>module-info.java</exclude>
                             </excludes>
                         </configuration>
-                    </execution>
-                </executions>-->
+                    </execution>-->
+                </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -668,6 +668,8 @@
         <argLine>
             -Djava.awt.headless=true -Xmx256m
         </argLine>
+        <base.java.level>8</base.java.level>
+        <upper.java.level>9</upper.java.level>
     </properties>
 
 </project>
