@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-    Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+    Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
 
     This program and the accompanying materials are made available under the
     terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -469,7 +469,7 @@
 
     <properties>
         <build.id>${scmBranch}-${buildNumber}; ${timestamp}</build.id>
-        <build.version>Metro/${project.version} (${build.id}) JAXWS-RI/${jaxws.ri.version} JAXWS-API/${jaxws-api.version} JAXB-RI/${jaxb.version} JAXB-API/${xml.bind-api.version}</build.version>
+        <build.version>Eclipse Metro/${project.version} (${build.id}) JAXWS-RI/${jaxws.ri.version} JAXWS-API/${jaxws-api.version} JAXB-RI/${jaxb.version} JAXB-API/${xml.bind-api.version}</build.version>
         <dep.sources>${project.build.directory}/generated-sources/dependencies</dep.sources>
     </properties>
 

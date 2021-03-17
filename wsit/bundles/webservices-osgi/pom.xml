@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-    Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+    Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
 
     This program and the accompanying materials are made available under the
     terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -22,60 +22,152 @@
     </parent>
 
     <artifactId>webservices-osgi</artifactId>
-    <packaging>bundle</packaging>
+    <packaging>jar</packaging>
     <name>Metro Web Services Runtime OSGi Bundle</name>
     <description>Metro Web Services Runtime OSGi Bundle</description>
 
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
         <plugins>
-            <plugin> <!-- want to unpack sources from individual modules -->
+            <plugin>
+                <groupId>com.sun.istack</groupId>
+                <artifactId>istack-commons-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>rs-gen</goal>
+                        </goals>
+                        <configuration>
+                            <resources>
+                                <directory>${basedir}/non-existing</directory>
+                                <includes>
+                                    <include>**/*.xyz</include>
+                                </includes>
+                            </resources>
+                            <destDir>${project.build.directory}/rsrc-gen</destDir>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
                 <executions>
                     <execution>
-                        <id>unpack-meta-inf-entries</id>
-                        <phase>generate-resources</phase>
+                        <id>unpack-sources</id>
+                        <phase>generate-sources</phase>
                         <goals>
                             <goal>unpack-dependencies</goal>
                         </goals>
                         <configuration>
+                            <includeGroupIds>com.sun.xml.messaging.saaj,com.sun.xml.ws,org.glassfish.metro,com.sun.xml.stream.buffer,net.java.dev.stax-utils</includeGroupIds>
+                            <excludeArtifactIds>jaxws-eclipselink-plugin,sdo-eclipselink-plugin</excludeArtifactIds>
+                            <includeScope>provided</includeScope>
+                            <classifier>sources</classifier>
                             <excludeTransitive>true</excludeTransitive>
-                            <includes>META-INF/services/*, META-INF/metro-default.xml</includes>
-                            <excludes>META-INF/services/com.sun.xml.ws.spi.db.*, META-INF/services/com.sun.tools.*, META-INF/services/jakarta.xml.bind.*, META-INF/services/javax.xml.stream.*, META-INF/services/jakarta.mail.*, META-INF/services/org.*</excludes>
-                            <outputDirectory>${project.build.directory}/generated-sources/resources</outputDirectory>
+                            <excludes>module-info.*,META-INF/jaxws-tubes-default.xml,META-INF/versions/**,META-INF/MANIFEST.MF,META-INF/LICENSE*,META-INF/NOTICE*,
+                                META-INF/services/com.sun.tools.ws.wscompile.Plugin,META-INF/services/com.sun.xml.ws.spi.db.BindingContextFactory,
+                                com/sun/xml/ws/util/version.properties</excludes>
+                            <outputDirectory>${dep.sources}</outputDirectory>
                         </configuration>
                     </execution>
                     <execution>
-                        <id>unpack-sources</id>
-                        <phase>prepare-package</phase>
+                        <id>unpack-sources-mr</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>unpack-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <includeGroupIds>com.sun.xml.messaging.saaj,com.sun.xml.ws,org.glassfish.metro,com.sun.xml.stream.buffer</includeGroupIds>
+                            <includeScope>provided</includeScope>
+                            <classifier>sources</classifier>
+                            <excludeTransitive>true</excludeTransitive>
+                            <includes>META-INF/versions/9/**</includes>
+                            <outputDirectory>${dep.sources.mr}</outputDirectory>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>unpack-old-jaxb</id>
+                        <phase>generate-sources</phase>
                         <goals>
                             <goal>unpack</goal>
                         </goals>
                         <configuration>
-                            <excludes>META-INF/services/com.sun.xml.ws.spi.db.*, META-INF/services/com.sun.tools.*, META-INF/services/jakarta.xml.bind.*, META-INF/services/javax.xml.stream.*, META-INF/services/jakarta.mail.*, META-INF/services/org.*</excludes>
                             <artifactItems>
                                 <artifactItem>
-                                    <groupId>${project.groupId}</groupId>
-                                    <artifactId>webservices-rt</artifactId>
+                                    <groupId>jakarta.xml.bind</groupId>
+                                    <artifactId>jakarta.xml.bind-api</artifactId>
+                                    <version>2.3.3</version>
                                     <classifier>sources</classifier>
-                                    <overWrite>false</overWrite>
-                                    <outputDirectory>${dep.sources}</outputDirectory>
                                 </artifactItem>
                                 <artifactItem>
-                                    <groupId>${project.groupId}</groupId>
-                                    <artifactId>webservices-extra</artifactId>
+                                    <groupId>com.sun.activation</groupId>
+                                    <artifactId>jakarta.activation</artifactId>
+                                    <version>1.2.2</version>
                                     <classifier>sources</classifier>
-                                    <overWrite>false</overWrite>
-                                    <outputDirectory>${dep.sources}</outputDirectory>
                                 </artifactItem>
                                 <artifactItem>
-                                    <groupId>${project.groupId}</groupId>
-                                    <artifactId>webservices-tools</artifactId>
+                                    <groupId>org.jvnet.staxex</groupId>
+                                    <artifactId>stax-ex</artifactId>
+                                    <version>1.8.3</version>
                                     <classifier>sources</classifier>
-                                    <overWrite>false</overWrite>
-                                    <outputDirectory>${dep.sources}</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>com.sun.xml.bind</groupId>
+                                    <artifactId>jaxb-impl</artifactId>
+                                    <version>2.3.4</version>
+                                    <classifier>sources</classifier>
                                 </artifactItem>
                             </artifactItems>
+                            <excludes>module-info.*,META-INF/versions/**,META-INF/MANIFEST.MF,META-INF/LICENSE*,META-INF/NOTICE*,META-INF/mailcap.default,pom.xml</excludes>
+                            <outputDirectory>${dep.sources.jaxb}</outputDirectory>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>unpack-old-jaxb-mr</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>unpack</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>jakarta.xml.bind</groupId>
+                                    <artifactId>jakarta.xml.bind-api</artifactId>
+                                    <version>2.3.3</version>
+                                    <classifier>sources</classifier>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>com.sun.xml.bind</groupId>
+                                    <artifactId>jaxb-impl</artifactId>
+                                    <version>2.3.4</version>
+                                    <classifier>sources</classifier>
+                                </artifactItem>
+                            </artifactItems>
+                            <includes>META-INF/versions/9/**</includes>
+                            <!-- don't worry about versioned files from istack -->
+                            <excludes>**/istack/**</excludes>
+                            <outputDirectory>${dep.sources.mr}</outputDirectory>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>unpack-classes</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>unpack-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <includeGroupIds>org.apache.santuario,org.slf4j,commons-codec</includeGroupIds>
+                            <includeScope>provided</includeScope>
+                            <excludeTransitive>true</excludeTransitive>
+                            <excludes>module-info.*,META-INF/versions/**,META-INF/MANIFEST.MF</excludes>
+                            <outputDirectory>${project.build.outputDirectory}</outputDirectory>
                         </configuration>
                     </execution>
                 </executions>
@@ -99,7 +191,31 @@
                         </configuration>
                     </execution>
                     <execution>
-                        <phase>prepare-package</phase>
+                        <id>add-resource</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>add-resource</goal>
+                        </goals>
+                        <configuration>
+                            <resources>
+                                <resource>
+                                    <directory>${dep.sources}</directory>
+                                    <excludes>
+                                        <exclude>**/*.java</exclude>
+                                    </excludes>
+                                </resource>
+                                <resource>
+                                    <directory>${dep.sources.jaxb}</directory>
+                                    <excludes>
+                                        <exclude>**/*.java</exclude>
+                                    </excludes>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>add-sources</id>
+                        <phase>generate-sources</phase>
                         <goals>
                             <goal>add-source</goal>
                         </goals>
@@ -109,50 +225,58 @@
                             </sources>
                         </configuration>
                     </execution>
+                    <execution>
+                        <id>add-mr-resource</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>add-resource</goal>
+                        </goals>
+                        <configuration>
+                            <resources>
+                                <resource>
+                                    <directory>${dep.sources.mr}</directory>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>com.sun.wts.tools.ant</groupId>
+                <artifactId>package-rename-task</artifactId>
+                <version>1.5.2</version>
+                <executions>
+                    <execution>
+                        <id>repackage-old-jaxb</id>
+                        <goals>
+                            <goal>rename</goal>
+                        </goals>
+                        <configuration>
+                            <srcDir>${dep.sources.jaxb}</srcDir>
+                            <patterns>
+                                <com.sun.activation>internal.com.sun.activation</com.sun.activation>
+                                <com.sun.istack>internal.com.sun.istack</com.sun.istack>
+                                <org.jvnet.staxex>internal.org.jvnet.staxex</org.jvnet.staxex>
+                            </patterns>
+                        </configuration>
+                    </execution>
                 </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-enforcer-plugin</artifactId>
+                <artifactId>maven-compiler-plugin</artifactId>
                 <executions>
                     <execution>
-                        <id>enforce-property</id>
+                        <id>default-compile-mr</id>
                         <goals>
-                            <goal>enforce</goal>
+                            <goal>compile</goal>
                         </goals>
-                        <phase>initialize</phase>
                         <configuration>
-                            <rules>
-                                <requireProperty>
-                                    <property>jaxb.osgiVersion</property>
-                                    <message>Property jaxb.osgiVersion not imported or set!</message>
-                                </requireProperty>
-                                <requireProperty>
-                                    <property>jaxb-api.osgiVersion</property>
-                                    <message>Property jaxb-api.osgiVersion not imported or set!</message>
-                                </requireProperty>
-                                <requireProperty>
-                                    <property>saaj-api.osgiVersion</property>
-                                    <message>Property saaj-api.osgiVersion not imported or set!</message>
-                                </requireProperty>
-                                <requireProperty>
-                                    <property>saaj-impl.osgiVersion</property>
-                                    <message>Property saaj-impl.osgiVersion not imported or set!</message>
-                                </requireProperty>
-                                <requireProperty>
-                                    <property>jaxws.osgiVersion</property>
-                                    <message>Property jaxws.osgiVersion not imported or set!</message>
-                                </requireProperty>
-                                <requireProperty>
-                                    <property>jaxws-api.osgiVersion</property>
-                                    <message>Property jaxws-api.osgiVersion not imported or set!</message>
-                                </requireProperty>
-                                <requireProperty>
-                                    <property>metro.osgiVersion</property>
-                                    <message>Property metro.osgiVersion not imported or set!</message>
-                                </requireProperty>
-                            </rules>
-                            <fail>true</fail>
+                            <compileSourceRoots>
+                                <compileSourceRoot>${dep.sources.mr}/META-INF/versions/9</compileSourceRoot>
+                            </compileSourceRoots>
+                            <outputDirectory>${project.build.outputDirectory}/META-INF/versions/9</outputDirectory>
                         </configuration>
                     </execution>
                 </executions>
@@ -160,133 +284,70 @@
             <plugin>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>maven-bundle-plugin</artifactId>
-                <extensions>true</extensions>
+                <executions>
+                    <execution>
+                        <id>bundle-manifest</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>manifest</goal>
+                        </goals>
+                        <configuration>
+                            <niceManifest>true</niceManifest>
+                            <instructions>
+                                <Export-Package>
+                                    org.apache.xml.security.*,
+                                    org.apache.jcp.xml.dsig.internal.*,
+                                    !internal.*,
+                                    !META-INF.*,
+                                    *
+                                </Export-Package>
+                                <Import-Package>
+                                    com.ibm.security.util;resolution:=optional,
+                                    com.ibm.security.x509;resolution:=optional,
+                                    com.sun.enterprise.webservice;resolution:=optional,
+                                    com.sun.net.httpserver;resolution:=optional,
+                                    com.sun.security.auth.callback;resolution:=optional,
+                                    com.sun.security.jgss;resolution:=optional,
+                                    com.sun.tools.jxc.ap;resolution:=optional,
+                                    com.sun.tools.jxc.model.nav;resolution:=optional,
+                                    javax.xml.catalog;resolution:=optional,
+                                    jdk.internal.misc;resolution:=optional,
+                                    org.glassfish.pfl.tf.timer.spi;resolution:=optional,
+                                    org.glassfish.webservice;resolution:=optional,
+                                    org.glassfish.webservice.monitoring;resolution:=optional,
+                                    org.slf4j.impl;resolution:=optional,
+                                    sun.misc;resolution:=optional,
+                                    sun.security.util;resolution:=optional,
+                                    sun.security.x509;resolution:=optional,
+                                    !org.apache.xml.security.*,
+                                    !org.apache.jcp.xml.dsig.internal.*,
+                                    org.slf4j.*,
+                                    org.apache.commons.codec.*,
+                                    org.apache.xml.dtm*;resolution:=optional,
+                                    org.apache.xml.utils*;resolution:=optional,
+                                    org.apache.xpath*;resolution:=optional,
+                                    *
+                                </Import-Package>
+                                <DynamicImport-Package>
+                                   org.glassfish.flashlight.provider,
+                                   org.glassfish.hk2.osgiresourcelocator
+                                </DynamicImport-Package>
+                                <probe-provider-class-names>com.sun.xml.ws.transport.http.servlet.JAXWSRIDeploymentProbeProvider,com.sun.xml.ws.transport.http.servlet.JAXWSRIServletProbeProvider</probe-provider-class-names>
+                                <_contract>!JavaServlet,*</_contract>
+                            </instructions>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-jar-plugin</artifactId>
                 <configuration>
-                    <niceManifest>true</niceManifest>
-                    <excludeDependencies>jaxws-eclipselink-plugin,sdo-eclipselink-plugin</excludeDependencies>
-                    <instructions>
-                        <Export-Package>
-                            com.oracle.webservices.*;version=${jaxws.osgiVersion},
-                            com.oracle.xmlns.webservices.jaxws_databinding;version=${jaxws.osgiVersion},
-                            com.sun.istack.ws.*;version=${jaxb.osgiVersion},
-                            com.sun.istack.localization;version=${jaxb.osgiVersion};uses:="com.sun.xml.ws.resources,com.sun.tools.ws.resources",
-                            com.sun.tools.ws.*;version=${jaxws.osgiVersion},
-                            com.sun.wsit.security.*;version=${metro.osgiVersion},
-                            com.sun.xml.messaging.saaj.*;version=${saaj-impl.osgiVersion},
-                            com.sun.xml.security.*;version=${metro.osgiVersion},
-                            com.sun.xml.ws.api.config.management;version=${jaxws.osgiVersion},
-                            com.sun.xml.ws.api.config.management.policy;version=${jaxws.osgiVersion},
-                            com.sun.xml.ws.api.config.management.jmx;version=${metro.osgiVersion},
-                            com.sun.xml.ws.api.security.*;version=${metro.osgiVersion},
-                            com.sun.xml.ws.api.transport.tcp.*;version=${metro.osgiVersion},
-                            com.sun.xml.ws.api.tx.*;version=${metro.osgiVersion},
-                            com.sun.xml.ws.assembler.*;version=${metro.osgiVersion},
-                            com.sun.xml.ws.commons.*;version=${metro.osgiVersion},
-                            com.sun.xml.ws.config.management.policy.*;version=${jaxws.osgiVersion},
-                            com.sun.xml.ws.config.*;version=${metro.osgiVersion},
-                            com.sun.xml.ws.metro.api.*;version=${metro.osgiVersion},
-                            com.sun.xml.ws.policy.config.*;version=${metro.osgiVersion},
-                            com.sun.xml.ws.policy.impl.bindings.*;version=${metro.osgiVersion},
-                            com.sun.xml.ws.policy.jaxws.*;version=${jaxws.osgiVersion},
-                            com.sun.xml.ws.policy.jcaps.*;version=${metro.osgiVersion},
-                            com.sun.xml.ws.policy.localization.*;version=${metro.osgiVersion},
-                            com.sun.xml.ws.policy.parser.*;version=${metro.osgiVersion},
-                            com.sun.xml.ws.runtime.*;version=${metro.osgiVersion},
-                            com.sun.xml.ws.rx.*;version=${metro.osgiVersion},
-                            com.sun.xml.ws.security.*;version=${metro.osgiVersion},
-                            com.sun.xml.ws.transport.tcp.*;version=${metro.osgiVersion},
-                            com.sun.xml.ws.*;version=${jaxws.osgiVersion},
-                            com.sun.xml.wss.*;version=${metro.osgiVersion},
-                            org.jvnet.ws.databinding.*;version=${jaxws.osgiVersion},
-                            org.jvnet.ws.message.*;version=${jaxws.osgiVersion},
-                            org.jvnet.ws.*;version=${jaxws.osgiVersion},
-                            org.apache.jcp.xml.dsig.*;version=${santuario.version},
-                            org.apache.xml.security;version=${santuario.version},
-                            org.apache.xml.security.*;version=${santuario.version}
-                        </Export-Package>
-                        <Import-Package>
-                            jakarta.annotation;resolution:=optional,
-                            jakarta.mail;resolution:=optional,
-                            jakarta.mail.internet;resolution:=optional,
-                            jakarta.resource.spi;resolution:=optional,
-                            jakarta.servlet;resolution:=optional,
-                            jakarta.servlet.annotation;resolution:=optional,
-                            jakarta.servlet.http;resolution:=optional,
-                            jakarta.transaction;resolution:=optional,
-                            jakarta.ejb;resolution:=optional,
-                            jakarta.activation,
-                            javax.xml.crypto;version=!,
-                            javax.xml.crypto.dom;version=!,
-                            javax.xml.crypto.dsig;version=!,
-                            javax.xml.crypto.dsig.dom;version=!,
-                            javax.xml.crypto.dsig.keyinfo;version=!,
-                            javax.xml.crypto.dsig.spec;version=!,
-                            org.slf4j.impl;resolution:=optional,
-                            com.ibm.security.util;resolution:=optional,
-                            com.ibm.security.x509;resolution:=optional,
-                            com.sun.istack.*;version=${jaxb.osgiVersion},
-                            com.sun.security.auth.callback;resolution:=optional,
-                            sun.security.action;resolution:=optional,
-                            sun.security.jgss;resolution:=optional,
-                            sun.security.jgss.spi;resolution:=optional,
-                            sun.security.krb5;resolution:=optional,
-                            sun.security.krb5.internal.crypto;resolution:=optional,
-                            sun.security.util;resolution:=optional,
-                            sun.security.x509;resolution:=optional,
-                            com.sun.security.jgss;resolution:=optional,
-                            com.sun.enterprise.web.*;resolution:=optional,
-                            org.glassfish.webservice;resolution:=optional,
-                            org.glassfish.webservice.monitoring;resolution:=optional,
-                            com.sun.mail.util;resolution:=optional,
-                            com.sun.org.apache.xalan.internal.*;resolution:=optional,
-                            com.sun.org.apache.xml.internal.*;resolution:=optional,
-                            com.sun.org.apache.xerces.internal.*;resolution:=optional,
-                            jakarta.jws;version=${jaxws-api.osgiVersion},
-                            jakarta.jws.soap;version=${jaxws-api.osgiVersion},
-                            jakarta.xml.soap.*;version=${saaj-api.osgiVersion},
-                            jakarta.xml.ws.*;version=${jaxws-api.osgiVersion},
-                            jakarta.xml.bind,
-                            jakarta.xml.bind.*,
-                            org.apache.coyote;resolution:=optional,
-                            org.apache.tomcat.util.buf;resolution:=optional,
-                            org.jvnet.mimepull;resolution:=optional,
-                            org.relaxng.datatype;resolution:=optional,
-                            org.relaxng.datatype.helpers;resolution:=optional,
-                            org.apache.xml.dtm;resolution:=optional,
-                            org.apache.xml.utils;resolution:=optional,
-                            org.apache.xpath;resolution:=optional,
-                            org.apache.xpath.compiler;resolution:=optional,
-                            org.apache.xpath.functions;resolution:=optional,
-                            org.apache.xpath.objects;resolution:=optional,
-                            org.w3c.dom;resolution:=optional,
-                            org.xml.sax;resolution:=optional,
-                            org.apache.log;resolution:=optional,
-                            org.apache.log4j;resolution:=optional,
-                            org.apache.avalon.framework.logger;resolution:=optional,
-                            jdk.internal.misc;resolution:=optional,
-                            sun.misc;resolution:=optional,
-                            javax.xml.bind;version=!;resolution:=optional,
-                            javax.xml.bind.*;version=!;resolution:=optional,
-                            com.sun.enterprise.webservice;resolution:=optional,
-                            *
-                        </Import-Package>
-                        <Private-Package>
-                            com.sun.xml.stream.*,
-                            com.sun.xml.xwss.*;version=${metro.osgiVersion},
-                            com.sun.xml.util.*;version=${metro.osgiVersion};include="XMLCipherAdapter",
-                            javanet.staxutils.*,
-                            org.apache.commons.codec,
-                            org.apache.commons.codec.*,
-                            org.slf4j,
-                            org.slf4j.*
-                        </Private-Package>
-                        <DynamicImport-Package>
-                            org.glassfish.flashlight.provider,
-                            org.glassfish.hk2.osgiresourcelocator
-                        </DynamicImport-Package>
-                        <probe-provider-class-names>com.sun.xml.ws.transport.http.servlet.JAXWSRIDeploymentProbeProvider,com.sun.xml.ws.transport.http.servlet.JAXWSRIServletProbeProvider</probe-provider-class-names>
-                    </instructions>
-                    <unpackBundle>true</unpackBundle>
+                    <archive>
+                        <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
+                        <manifestEntries>
+                            <Multi-Release>true</Multi-Release>
+                        </manifestEntries>
+                    </archive>
                 </configuration>
             </plugin>
             <plugin>
@@ -333,72 +394,24 @@
 
     <dependencies>
         <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>webservices-rt</artifactId>
-            <version>${project.version}</version>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>webservices-extra</artifactId>
-            <version>${project.version}</version>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>webservices-tools</artifactId>
-            <version>${project.version}</version>
-            <optional>true</optional>
-        </dependency>
-         <dependency>
-            <groupId>org.apache.ant</groupId>
-            <artifactId>ant</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>jakarta.servlet</groupId>
-            <artifactId>jakarta.servlet-api</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>jakarta.ejb</groupId>
-            <artifactId>jakarta.ejb-api</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>jakarta.el</groupId>
-            <artifactId>jakarta.el-api</artifactId>
-            <scope>provided</scope>
-        </dependency>
-
-        <!--
-            Declaring OSGi dependecies:
-            GF application client module somehow creates it's HK2 classpath using
-            (also) the declared webservices-osgi maven module dependencies. Although
-            this project does not really need these dependencies to build itself,
-            not declaring these dependencies in webservices-osgi causes that GF
-            appclient module cannot load some classes (e.g. mimepull) which makes
-            some CTS smoke tests to fail
-        -->
-
-        <dependency>
             <groupId>com.sun.xml.bind</groupId>
             <artifactId>jaxb-osgi</artifactId>
-            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>webservices-api-osgi</artifactId>
-            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>webservices-extra-jdk-packages</artifactId>
-            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.woodstox</groupId>
             <artifactId>woodstox-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.woodstox</groupId>
+            <artifactId>stax2-api</artifactId>
         </dependency>
         <dependency>
             <groupId>org.jvnet.mimepull</groupId>
@@ -414,21 +427,172 @@
             <artifactId>sdo-eclipselink-plugin</artifactId>
             <optional>true</optional>
         </dependency>
+
+        <dependency>
+            <groupId>org.glassfish.ha</groupId>
+            <artifactId>ha-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.external</groupId>
+            <artifactId>management-api</artifactId>
+            </dependency>
+        <dependency>
+            <groupId>org.glassfish.gmbal</groupId>
+            <artifactId>gmbal</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.mail</groupId>
+            <artifactId>jakarta.mail</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <dependency>
+            <groupId>jakarta.resource</groupId>
+            <artifactId>jakarta.resource-api</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <dependency>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <dependency>
+            <groupId>jakarta.transaction</groupId>
+            <artifactId>jakarta.transaction-api</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <dependency>
+            <groupId>com.sun.activation</groupId>
+            <artifactId>jakarta.activation</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>jakarta.annotation</groupId>
+            <artifactId>jakarta.annotation-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>jakarta.authentication</groupId>
+            <artifactId>jakarta.authentication-api</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <dependency>
+            <groupId>jakarta.ejb</groupId>
+            <artifactId>jakarta.ejb-api</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <!-- To be removed after end of support for JDK 8 -->
+        <dependency>
+            <groupId>com.sun.org.apache.xml.internal</groupId>
+            <artifactId>resolver</artifactId>
+            <scope>provided</scope>
+            <optional>true</optional>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.ant</groupId>
+            <artifactId>ant</artifactId>
+            <scope>provided</scope>
+            <optional>true</optional>
+        </dependency>
+
+        <dependency>
+            <groupId>org.glassfish.grizzly</groupId>
+            <artifactId>grizzly-framework</artifactId>
+            <scope>provided</scope>
+            <optional>true</optional>
+        </dependency>
+
+        <dependency>
+            <groupId>org.glassfish.grizzly</groupId>
+            <artifactId>grizzly-portunif</artifactId>
+            <scope>provided</scope>
+            <optional>true</optional>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.tomcat</groupId>
+            <artifactId>tomcat-coyote</artifactId>
+            <scope>provided</scope>
+            <optional>true</optional>
+        </dependency>
+
+
+
+
         <dependency>
             <groupId>org.apache.santuario</groupId>
             <artifactId>xmlsec</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>commons-codec</groupId>
             <artifactId>commons-codec</artifactId>
+            <scope>provided</scope>
         </dependency>
+
+
+
+
+        <dependency>
+            <groupId>com.sun.xml.messaging.saaj</groupId>
+            <artifactId>saaj-impl</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.sun.xml.ws</groupId>
+            <artifactId>jaxws-rt</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.sun.xml.ws</groupId>
+            <artifactId>jaxws-tools</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.glassfish.metro</groupId>
+            <artifactId>wsit-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.glassfish.metro</groupId>
+            <artifactId>wsit-impl</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.sun.xml.stream.buffer</groupId>
+            <artifactId>streambuffer</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+            <dependency>
+                <groupId>net.java.dev.stax-utils</groupId>
+                <artifactId>stax-utils</artifactId>
+            <scope>provided</scope>
+            </dependency>
     </dependencies>
+
     <properties>
         <dep.sources>${project.build.directory}/generated-sources/dependencies</dep.sources>
+        <dep.sources.mr>${project.build.directory}/generated-sources/dependencies-mr</dep.sources.mr>
+        <dep.sources.jaxb>${project.build.directory}/generated-sources/dependencies-jaxb</dep.sources.jaxb>
+        <build.id>${scmBranch}-${buildNumber}; ${timestamp}</build.id>
+        <build.version>Eclipse Metro/${project.version} (${build.id}) JAXWS-RI/${jaxws.ri.version} JAXWS-API/${jaxws-api.version} JAXB-RI/${jaxb.version} JAXB-API/${xml.bind-api.version}</build.version>
         <jacoco.skip>true</jacoco.skip>
         <mf.dir>${project.build.outputDirectory}</mf.dir>
     </properties>
