@@ -334,8 +334,8 @@
                     <encoding>UTF-8</encoding>
                     <compilerArgument>-Xlint:all</compilerArgument>
                 </configuration>
-                <executions>
-                    <!--                    <execution>
+<!--                <executions>
+                    <execution>
                         <id>base-compile</id>
                         <goals>
                             <goal>compile</goal>
@@ -346,8 +346,8 @@
                                 <exclude>module-info.java</exclude>
                             </excludes>
                         </configuration>
-                    </execution>-->
-                </executions>
+                    </execution>
+                </executions>-->
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -670,7 +670,7 @@
             -Djava.awt.headless=true -Xmx256m
         </argLine>
         <base.java.level>8</base.java.level>
-        <upper.java.level>9</upper.java.level>
+        <upper.java.level>11</upper.java.level>
     </properties>
 
 </project>

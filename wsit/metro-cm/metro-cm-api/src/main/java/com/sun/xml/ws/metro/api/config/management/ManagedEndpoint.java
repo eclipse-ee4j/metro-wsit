@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -124,11 +124,11 @@ public class ManagedEndpoint<T> extends WSEndpoint<T>{
      */
     synchronized public void swapEndpointDelegate(final WSEndpoint<T> endpoint) {
         // Plug in code that regenerates WSDL when the endpoint was reconfigured.
-        final Set<EndpointComponent> endpointComponents = endpoint.getComponentRegistry();
+        final Set<Component> endpointComponents = endpoint.getComponents();
 
         final WSEndpoint<T> oldEndpoint = this.endpointDelegate;
         this.endpointDelegate = endpoint;
-        for (EndpointComponent component : endpointComponents) {
+        for (Component component : endpointComponents) {
             final Reconfigurable reconfigurable = component.getSPI(Reconfigurable.class);
             if (reconfigurable != null) {
                 reconfigurable.reconfigure();

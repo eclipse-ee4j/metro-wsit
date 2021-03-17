@@ -69,6 +69,12 @@
             </dependency>
 
             <dependency>
+                <groupId>org.glassfish.gmbal</groupId>
+                <artifactId>gmbal</artifactId>
+                <version>4.0.2</version>
+            </dependency>
+            
+            <dependency>
                 <groupId>com.sun.xml.ws</groupId>
                 <artifactId>rt</artifactId>
                 <version>${jaxws.ri.version}</version>
@@ -86,19 +92,8 @@
                 <version>${jaxws.ri.version}</version>
             </dependency>
 
-            <dependency>
-                <groupId>com.sun.xml.ws</groupId>
-                <artifactId>policy</artifactId>
-                <version>${jaxws.ri.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.glassfish.jaxb</groupId>
-                <artifactId>txw2</artifactId>
-                <version>3.0.1-b01</version>
-            </dependency>
-
-        <!-- Distribution Artifacts -->
+                        
+            <!-- Distribution Artifacts -->
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>wstx-api</artifactId>
