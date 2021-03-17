@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -22,7 +22,6 @@ import com.sun.xml.ws.policy.sourcemodel.PolicySourceModel;
 import com.sun.xml.ws.policy.sourcemodel.attach.ExternalAttachmentsUnmarshaller;
 import com.sun.xml.ws.policy.sourcemodel.wspolicy.NamespaceVersion;
 import com.sun.xml.ws.policy.sourcemodel.wspolicy.XmlToken;
-import com.sun.xml.ws.util.xml.XMLStreamReaderToXMLStreamWriter;
 import com.sun.xml.ws.wsdl.parser.WSDLConstants;
 
 import java.net.URI;
@@ -31,6 +30,8 @@ import javax.xml.namespace.QName;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 import javax.xml.ws.WebServiceException;
+
+import org.jvnet.staxex.util.XMLStreamReaderToXMLStreamWriter;
 
 /**
  * Remove all existing policies and policy references from the given XML document
@@ -56,7 +57,7 @@ public class ManagementWSDLPatcher extends XMLStreamReaderToXMLStreamWriter {
      * If we find a policy element, skip it. If we find a binding element,
      * marshal any policies onto it.
      *
-     * @throws XMLStreamException If a parsing error occured
+     * @throws XMLStreamException If a parsing error occurred
      */
     @Override
     protected void handleStartElement() throws XMLStreamException {

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -34,13 +34,11 @@ public class ReDelegate {
     private static final Logger LOGGER = Logger.getLogger(ReDelegate.class);
 
     /**
-     * Replaces underlying endpoint in managedEndpoint instance with new instance 
+     * Replaces underlying endpoint in managedEndpoint instance with new instance
      * configured from a new set of features, using creation parameters of old endpoint
      * @param <T>
-     * @param endpoint - endpoint to be reconfigured
+     * @param managedEndpoint - endpoint to be reconfigured
      * @param features - new set of features
-     * @return new endpoint instance, reconfigured with set of new features, or 
-     *         throws WebServiceException when recreation fails
      */
     public static <T> void recreate(ManagedEndpoint<T> managedEndpoint, WebServiceFeature... features) {
         try {
@@ -55,15 +53,24 @@ public class ReDelegate {
         }
     }
 
+    /**
+     * Replaces underlying endpoint in managedEndpoint instance with new instance
+     * configured from a new set of features, using creation parameters of old endpoint
+     * @param <T>
+     * @param endpoint - endpoint to be reconfigured
+     * @param features - new set of features
+     * @return new endpoint instance, reconfigured with set of new features, or
+     *         throws WebServiceException when recreation fails
+     */
     private static <T> WSEndpoint<T> recreateEndpoint(ManagedEndpoint<T> endpoint, WebServiceFeature ... features) {
-        
+
         // This allows the new endpoint to register with the same name for monitoring
         // as the old one.
         endpoint.closeManagedObjectManager();
-        
+
         EndpointCreationAttributes creationAttributes = endpoint.getCreationAttributes();
         WSBinding recreatedBinding = BindingImpl.create(endpoint.getBinding().getBindingId(), features);
-        
+
         final WSEndpoint<T> result = EndpointFactory.createEndpoint(endpoint.getImplementationClass(),
                 creationAttributes.isProcessHandlerAnnotation(),
                 creationAttributes.getInvoker(),
@@ -75,9 +82,9 @@ public class ReDelegate {
                 null,
                 creationAttributes.getEntityResolver(),
                 creationAttributes.isTransportSynchronous());
-        result.getComponentRegistry().addAll(endpoint.getComponentRegistry());
-        
+        result.getComponents().addAll(endpoint.getComponents());
+
         return result;
     }
-    
+
 }
