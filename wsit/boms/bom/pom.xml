@@ -69,12 +69,6 @@
             </dependency>
 
             <dependency>
-                <groupId>org.glassfish.gmbal</groupId>
-                <artifactId>gmbal</artifactId>
-                <version>4.0.2</version>
-            </dependency>
-            
-            <dependency>
                 <groupId>com.sun.xml.ws</groupId>
                 <artifactId>rt</artifactId>
                 <version>${jaxws.ri.version}</version>

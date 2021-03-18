@@ -86,7 +86,7 @@
                                     <outputDirectory>${generated.sources.dir}</outputDirectory>
                                 </artifactItem>
                             </artifactItems>
-                            <excludes>META-INF/gfprobe-provider.xml,com/sun/grizzly/**,com/sun/org/**,org/**</excludes>
+                            <excludes>META-INF/gfprobe-provider.xml,com/sun/grizzly/**,com/sun/org/**,org/**,pom.xml,module-info.*</excludes>
                         </configuration>
                     </execution>
                 </executions>
