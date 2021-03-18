@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -28,7 +28,6 @@ import com.sun.xml.ws.message.AttachmentUnmarshallerImpl;
 import com.sun.xml.ws.streaming.XMLStreamReaderUtil;
 import com.sun.xml.ws.util.xml.DummyLocation;
 import com.sun.xml.ws.util.xml.StAXSource;
-import com.sun.xml.ws.util.xml.XMLStreamReaderToXMLStreamWriter;
 import java.security.PrivilegedActionException;
 import java.util.Map;
 import org.xml.sax.ContentHandler;
@@ -39,8 +38,6 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.stream.Location;
 import javax.xml.stream.XMLStreamConstants;
-import static javax.xml.stream.XMLStreamConstants.START_DOCUMENT;
-import static javax.xml.stream.XMLStreamConstants.START_ELEMENT;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 import javax.xml.stream.XMLStreamWriter;
@@ -59,6 +56,7 @@ import java.security.AccessController;
 import java.security.PrivilegedExceptionAction;
 import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPMessage;
+import org.jvnet.staxex.util.XMLStreamReaderToXMLStreamWriter;
 
 /**
  * {@link Message} implementation backed by {@link XMLStreamReader}.
@@ -89,7 +87,7 @@ public final class VerifiedStreamMessage extends AbstractMessageImpl {
      * infoset about the SOAP envelope, header, and body.
      *
      * <p>
-     * If the creater of this object didn't care about those,
+     * If the creator of this object didn't care about those,
      * we use stock values.
      */
     private /*almost final*/ 
@@ -121,7 +119,7 @@ public final class VerifiedStreamMessage extends AbstractMessageImpl {
         this.reader = reader;
         this.bodyEnvNs = bodyEnvNs;
 
-        if (reader.getEventType() == START_DOCUMENT) {
+        if (reader.getEventType() == XMLStreamConstants.START_DOCUMENT) {
             XMLStreamReaderUtil.nextElementContent(reader);
         }
 
@@ -178,11 +176,13 @@ public final class VerifiedStreamMessage extends AbstractMessageImpl {
         this.bodyTag = bodyTag;
     }
 
+    @Override
     public boolean hasHeaders() {
         // FIXME: RJE -- remove cast when MessageHeaders supports hasHeaders
         return headers != null && !((HeaderList)headers).isEmpty();
     }
 
+    @Override
     public HeaderList getHeaders() {
         if (headers == null) {
             headers = new HeaderList();
@@ -198,18 +198,22 @@ public final class VerifiedStreamMessage extends AbstractMessageImpl {
         return attachmentSet;
     }
 
+    @Override
     public String getPayloadLocalPart() {
         return payloadLocalName;
     }
 
+    @Override
     public String getPayloadNamespaceURI() {
         return payloadNamespaceURI;
     }
 
+    @Override
     public boolean hasPayload() {
         return payloadLocalName != null;
     }
 
+    @Override
     public Source readPayloadAsSource() {
         cacheMessage();
         if (hasPayload()) {
@@ -231,12 +235,13 @@ public final class VerifiedStreamMessage extends AbstractMessageImpl {
             assert unconsumed();
             // TODO: How can the unmarshaller process this as a fragment?
             final Object ret = AccessController.doPrivileged(new PrivilegedExceptionAction() {
+                @Override
                 public Object run() throws Exception {
                     if (hasAttachments()) {
                         unmarshaller.setAttachmentUnmarshaller(new AttachmentUnmarshallerImpl(getAttachments()));
                     }
                     try {
-                        if (reader.END_DOCUMENT == reader.getEventType() && buffer != null) {
+                        if (XMLStreamConstants.END_DOCUMENT == reader.getEventType() && buffer != null) {
                             try {
                                 reader = buffer.readAsXMLStreamReader();
                                 reader = new VerifiedMessageXMLStreamReader(reader, bodyEnvNs);
@@ -281,6 +286,7 @@ public final class VerifiedStreamMessage extends AbstractMessageImpl {
         XMLStreamReaderFactory.recycle(reader);
     }
 
+    @Override
     public XMLStreamReader readPayload() {
         cacheMessage();
         // TODO: What about access at and beyond </soap:Body>
@@ -288,6 +294,7 @@ public final class VerifiedStreamMessage extends AbstractMessageImpl {
         return this.reader;
     }
 
+    @Override
     public void writePayloadTo(XMLStreamWriter writer) throws XMLStreamException {
         if (payloadLocalName == null) {
             return;
@@ -352,6 +359,7 @@ public final class VerifiedStreamMessage extends AbstractMessageImpl {
         writer.writeEndDocument();
     }
 
+    @Override
     public void writePayloadTo(ContentHandler contentHandler, ErrorHandler errorHandler, boolean fragment) throws SAXException {
         assert unconsumed();
         try {
@@ -399,6 +407,7 @@ public final class VerifiedStreamMessage extends AbstractMessageImpl {
         }
     }
 
+    @Override
     public Message copy() {
         try {
             // copy the payload
@@ -445,9 +454,9 @@ public final class VerifiedStreamMessage extends AbstractMessageImpl {
     }
 
     private void proceedToRootElement(XMLStreamReader xsr) throws XMLStreamException {
-        assert xsr.getEventType() == START_DOCUMENT;
+        assert xsr.getEventType() == XMLStreamConstants.START_DOCUMENT;
         xsr.nextTag();
-        assert xsr.getEventType() == START_ELEMENT;
+        assert xsr.getEventType() == XMLStreamConstants.START_ELEMENT;
     }
 
     @Override

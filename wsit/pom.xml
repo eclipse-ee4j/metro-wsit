@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-    Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+    Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
 
     This program and the accompanying materials are made available under the
     terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -20,12 +20,12 @@
         <groupId>org.glassfish.metro</groupId>
         <artifactId>metro-bom-ext</artifactId>
         <relativePath>boms/bom-ext/pom.xml</relativePath>
-        <version>2.4.4</version>
+        <version>2.4.5-SNAPSHOT</version>
     </parent>
 
     <groupId>org.glassfish.metro</groupId>
     <artifactId>metro-project</artifactId>
-    <version>2.4.4</version>
+    <version>2.4.5-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Metro Web Services Stack Project</name>
 
@@ -103,7 +103,7 @@
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>build-helper-maven-plugin</artifactId>
-                    <version>3.1.0</version>
+                    <version>3.2.0</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -128,13 +128,14 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-assembly-plugin</artifactId>
-                    <version>3.2.0</version>
+                    <version>3.3.0</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.felix</groupId>
                     <artifactId>maven-bundle-plugin</artifactId>
-                    <version>4.2.1</version>
+                    <version>5.1.1</version>
                     <configuration>
+                        <niceManifest>true</niceManifest>
                         <instructions>
                             <_noextraheaders>true</_noextraheaders>
                         </instructions>
@@ -168,12 +169,12 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-resources-plugin</artifactId>
-                    <version>3.1.0</version>
+                    <version>3.2.0</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-shade-plugin</artifactId>
-                    <version>3.2.2</version>
+                    <version>3.2.4</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -203,7 +204,7 @@
                 <plugin>
                     <groupId>org.glassfish.copyright</groupId>
                     <artifactId>glassfish-copyright-maven-plugin</artifactId>
-                    <version>2.3</version>
+                    <version>2.4</version>
                     <configuration>
                         <templateFile>${copyright.template}</templateFile>
                         <excludeFile>${copyright.exclude}</excludeFile>
@@ -213,6 +214,7 @@
                         <update>${copyright.update}</update>
                         <!-- check that year is correct -->
                         <ignoreYear>${copyright.ignoreyear}</ignoreYear>
+                        <quiet>false</quiet>
                     </configuration>
                 </plugin>
                 <plugin>
@@ -327,14 +329,12 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
                 <configuration>
-                    <source>9</source>
-                    <target>9</target>
+                    <source>${base.java.level}</source>
+                    <target>${base.java.level}</target>
                     <encoding>UTF-8</encoding>
-                    <compilerArguments>
-                        <Xlint:all/>
-                    </compilerArguments>
+                    <compilerArgument>-Xlint:all</compilerArgument>
                 </configuration>
-                <executions>
+<!--                <executions>
                     <execution>
                         <id>base-compile</id>
                         <goals>
@@ -347,7 +347,7 @@
                             </excludes>
                         </configuration>
                     </execution>
-                </executions>
+                </executions>-->
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -474,7 +474,7 @@
                 </property>
             </activation>
             <properties>
-                <jacoco.version>0.8.5</jacoco.version>
+                <jacoco.version>0.8.6</jacoco.version>
                 <jacoco.skip>false</jacoco.skip>
                 <jacoco-agent.destfile>${basedir}/target/jacoco/jacoco.exec</jacoco-agent.destfile>
                 <mf.dir>${project.build.directory}/generated-classes/jacoco</mf.dir>
@@ -597,7 +597,7 @@
                         <plugin>
                             <groupId>org.apache.maven.plugins</groupId>
                             <artifactId>maven-antrun-plugin</artifactId>
-                            <version>1.7</version>
+                            <version>3.0.0</version>
                         </plugin>
                     </plugins>
                 </pluginManagement>
@@ -647,12 +647,11 @@
         <spotbugs.exclude/>
         <spotbugs.skip>false</spotbugs.skip>
         <spotbugs.threshold>High</spotbugs.threshold>
-        <spotbugs.version>4.0.0</spotbugs.version>
-        <tomcat.coyote.version>9.0.8</tomcat.coyote.version>
+        <spotbugs.version>4.2.0</spotbugs.version>
 
         <release.repository.url>https://jakarta.oss.sonatype.org/content/repositories/releases/</release.repository.url>
 
-        <istack.plugins.version>3.0.11</istack.plugins.version>
+        <istack.plugins.version>3.0.12</istack.plugins.version>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.build.timestamp.format>yyyy-MM-dd'T'HH:mm:ssZ</maven.build.timestamp.format>
@@ -670,109 +669,8 @@
         <argLine>
             -Djava.awt.headless=true -Xmx256m
         </argLine>
+        <base.java.level>8</base.java.level>
+        <upper.java.level>11</upper.java.level>
     </properties>
-
-    <dependencyManagement>
-        <dependencies>
-            <!-- required dependencies -->
-            <dependency>
-                <groupId>jakarta.ejb</groupId>
-                <artifactId>jakarta.ejb-api</artifactId>
-                <version>3.2.6</version>
-            </dependency>
-            <dependency>
-                <groupId>jakarta.xml.registry</groupId>
-                <artifactId>jakarta.xml.registry-api</artifactId>
-                <version>1.0.10</version>
-            </dependency>
-            <dependency>
-                <groupId>com.sun.xml.registry</groupId>
-                <artifactId>jaxr-impl</artifactId>
-                <version>1.0.9</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>*</groupId>
-                        <artifactId>*</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-            <dependency>
-                <groupId>jakarta.xml.rpc</groupId>
-                <artifactId>jakarta.xml.rpc-api</artifactId>
-                <version>${xmlrpc-api.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>xmlfilter</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.sun.xml.rpc</groupId>
-                <artifactId>jaxrpc-spi</artifactId>
-                <version>${xmlrpc-impl.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.sun.xml.rpc</groupId>
-                <artifactId>jaxrpc-impl</artifactId>
-                <version>${xmlrpc-impl.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>*</groupId>
-                        <artifactId>*</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-            <dependency>
-                <groupId>jakarta.security.auth.message</groupId>
-                <artifactId>jakarta.security.auth.message-api</artifactId>
-                <version>1.1.3</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.santuario</groupId>
-                <artifactId>xmlsec</artifactId>
-                <version>${santuario.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>commons-logging</groupId>
-                <artifactId>commons-logging</artifactId>
-                <version>${commons-logging.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.glassfish.metro</groupId>
-                <artifactId>keyidspi-ibm-impl</artifactId>
-                <version>1.1</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>*</groupId>
-                        <artifactId>*</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-            <dependency>
-                <groupId>net.java.dev.stax-utils</groupId>
-                <artifactId>stax-utils</artifactId>
-                <version>20060502</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>com.bea.xml</groupId>
-                        <artifactId>jsr173-ri</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.tomcat</groupId>
-                <artifactId>tomcat-coyote</artifactId>
-                <version>${tomcat.coyote.version}</version>
-            </dependency>
-
-            <!-- Testing -->
-            <dependency>
-                <groupId>junit</groupId>
-                <artifactId>junit</artifactId>
-                <version>4.12</version>
-            </dependency>
-
-        </dependencies>
-    </dependencyManagement>
 
 </project>

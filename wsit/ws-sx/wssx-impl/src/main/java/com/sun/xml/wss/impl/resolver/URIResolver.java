@@ -167,18 +167,14 @@ public class URIResolver extends ResourceResolverSpi {
             log.log(Level.SEVERE,
                     LogStringsMessages.WSS_0603_XPATHAPI_TRANSFORMER_EXCEPTION(e.getMessage()),
                     e.getMessage());
-            throw new ResourceResolverException("empty", e, uri, baseUri);
-            // santuario 2.1.4:
-            // throw new ResourceResolverException(e, uri.getValue(), baseUri, "empty");
+             throw new ResourceResolverException(e, uri.getValue(), baseUri, "empty");
          }
       }
 
       if (selectedElem == null) {
           log.log(Level.SEVERE,
                    LogStringsMessages.WSS_0604_CANNOT_FIND_ELEMENT());
-          throw new ResourceResolverException("empty", uri, baseUri);
-          // santuario 2.1.4:
-          // throw new ResourceResolverException("empty", uri.getValue(), baseUri);
+           throw new ResourceResolverException("empty", uri.getValue(), baseUri);
       }
 
       Set resultSet = prepareNodeSet(selectedElem);
@@ -217,9 +213,7 @@ public class URIResolver extends ResourceResolverSpi {
               ((SecurableSoapMessage)soapMsg).getAttachmentPart(uriNodeValue);
          if (_part == null) {
              // log
-             throw new ResourceResolverException("empty", uri, baseUri);
-             // santuario 2.1.4:
-             // throw new ResourceResolverException("empty", uri.getValue(), baseUri);
+              throw new ResourceResolverException("empty", uri.getValue(), baseUri);
          } 
          Object[] obj = AttachmentSignatureInput._getSignatureInput(_part); 
          result = new AttachmentSignatureInput((byte[])obj[1]);
@@ -227,9 +221,7 @@ public class URIResolver extends ResourceResolverSpi {
          ((AttachmentSignatureInput)result).setContentType(_part.getContentType()); 
       } catch (Exception e) {
          // log
-         throw new ResourceResolverException("empty", e, uri, baseUri);
-         // santuario 2.1.4:
-         // throw new ResourceResolverException(e, uri.getValue(), baseUri, "empty");
+          throw new ResourceResolverException(e, uri.getValue(), baseUri, "empty");
       }
 
       try {
@@ -249,9 +241,7 @@ public class URIResolver extends ResourceResolverSpi {
          uriNew = getNewURI(uri.getNodeValue(), baseUri);
       } catch (URI.MalformedURIException ex) {
          // log
-         throw new ResourceResolverException("empty", ex, uri, baseUri);
-         // santuario 2.1.4:
-         // throw new ResourceResolverException(ex, uri.getValue(), baseUri, "empty");
+          throw new ResourceResolverException(ex, uri.getValue(), baseUri, "empty");
       }
 
       if (soapMsg == null) throw generateException(uri, baseUri, errors[1]);
@@ -268,9 +258,7 @@ public class URIResolver extends ResourceResolverSpi {
          ((AttachmentSignatureInput)result).setContentType(_part.getContentType()); 
       } catch (XWSSecurityException | SOAPException | IOException e) {
          // log
-         throw new ResourceResolverException("empty", e, uri, baseUri);
-         // santuario 2.1.4:
-         // throw new ResourceResolverException(e, uri.getValue(), baseUri, "empty");
+          throw new ResourceResolverException(e, uri.getValue(), baseUri, "empty");
       }
 
 
@@ -468,9 +456,7 @@ public class URIResolver extends ResourceResolverSpi {
 
     private ResourceResolverException generateException(Attr uri, String baseUri, String error) {
         XWSSecurityException xwssE = new XWSSecurityException(error);
-        return new ResourceResolverException("empty", xwssE, uri, baseUri);
-        // santuario 2.1.4:
-        // return new ResourceResolverException(xwssE, uri.getValue(), baseUri, "empty");
+         return new ResourceResolverException(xwssE, uri.getValue(), baseUri, "empty");
     }
 
    /**
