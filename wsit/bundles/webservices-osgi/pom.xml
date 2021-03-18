@@ -73,7 +73,7 @@
                             <excludeTransitive>true</excludeTransitive>
                             <excludes>module-info.*,META-INF/jaxws-tubes-default.xml,META-INF/versions/**,META-INF/MANIFEST.MF,META-INF/LICENSE*,META-INF/NOTICE*,
                                 META-INF/services/com.sun.tools.ws.wscompile.Plugin,META-INF/services/com.sun.xml.ws.spi.db.BindingContextFactory,
-                                com/sun/xml/ws/util/version.properties</excludes>
+                                com/sun/xml/ws/util/version.properties,com/sun/tools/ws/version.properties</excludes>
                             <outputDirectory>${dep.sources}</outputDirectory>
                         </configuration>
                     </execution>

@@ -29,7 +29,34 @@
     </description>
 
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
         <plugins>
+            <plugin>
+                <groupId>com.sun.istack</groupId>
+                <artifactId>istack-commons-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>rs-gen</goal>
+                        </goals>
+                        <configuration>
+                            <resources>
+                                <directory>${basedir}/non-existing</directory>
+                                <includes>
+                                    <include>**/*.xyz</include>
+                                </includes>
+                            </resources>
+                            <destDir>${project.build.directory}/rsrc-gen</destDir>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin> <!-- want to unpack sources from individual modules -->
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
@@ -112,6 +139,12 @@
                                         <exclude>META-INF/jing-copying.html</exclude>
                                     </excludes>
                                 </filter>
+                                <filter>
+                                    <artifact>com.sun.xml.ws:jaxws-tools</artifact>
+                                    <excludes>
+                                        <exclude>com/sun/tools/ws/version.properties</exclude>
+                                    </excludes>
+                                </filter>
                             </filters>
                             <dependencyReducedPomLocation>${project.build.directory}/dependency-reduced-pom.xml</dependencyReducedPomLocation>
                             <transformers>
@@ -182,6 +215,8 @@
         </dependency>
     </dependencies>
     <properties>
+        <build.id>${scmBranch}-${buildNumber}; ${timestamp}</build.id>
+        <build.version>Eclipse Metro/${project.version} (${build.id}) JAXWS-RI/${jaxws.ri.version} JAXWS-API/${jaxws-api.version} JAXB-RI/${jaxb.version} JAXB-API/${jaxb-api.version}</build.version>
         <dep.sources>${project.build.directory}/generated-sources/dependencies</dep.sources>
     </properties>
 </project>
