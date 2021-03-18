@@ -66,20 +66,6 @@
                             <outputDirectory>${dep.sources}</outputDirectory>
                         </configuration>
                     </execution>
-                    <execution>
-                        <id>unpack-sources-mr</id>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>unpack-dependencies</goal>
-                        </goals>
-                        <configuration>
-                            <includeScope>provided</includeScope>
-                            <classifier>sources</classifier>
-                            <excludeTransitive>true</excludeTransitive>
-                            <includes>META-INF/versions/9/**</includes>
-                            <outputDirectory>${dep.sources.mr}</outputDirectory>
-                        </configuration>
-                    </execution>
                 </executions>
             </plugin>
             <plugin>
