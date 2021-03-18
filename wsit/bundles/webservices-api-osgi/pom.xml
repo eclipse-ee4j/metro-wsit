@@ -28,39 +28,56 @@
     <build>
         <plugins>
             <plugin>
+                <groupId>com.sun.istack</groupId>
+                <artifactId>istack-commons-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>rs-gen</goal>
+                        </goals>
+                        <configuration>
+                            <resources>
+                                <directory>${basedir}/non-existing</directory>
+                                <includes>
+                                    <include>**/*.xyz</include>
+                                </includes>
+                            </resources>
+                            <destDir>${project.build.directory}/rsrc-gen</destDir>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
                 <executions>
                     <execution>
-                        <id>unpack-classes</id>
-                        <phase>compile</phase>
+                        <id>unpack-sources</id>
+                        <phase>generate-sources</phase>
                         <goals>
                             <goal>unpack-dependencies</goal>
                         </goals>
                         <configuration>
+                            <includeScope>provided</includeScope>
+                            <classifier>sources</classifier>
                             <excludeTransitive>true</excludeTransitive>
-                            <outputDirectory>${project.build.directory}/classes</outputDirectory>
-                            <includes>javax\/jws\/**,javax\/xml\/ws\/**,javax\/xml\/soap\/**</includes>
+                            <excludes>module-info.*,META-INF/MANIFEST.MF,META-INF/LICENSE*,META-INF/NOTICE*</excludes>
+                            <outputDirectory>${dep.sources}</outputDirectory>
                         </configuration>
                     </execution>
                     <execution>
-                        <id>unpack-sources</id>
-                        <phase>prepare-package</phase>
+                        <id>unpack-sources-mr</id>
+                        <phase>generate-sources</phase>
                         <goals>
-                            <goal>unpack</goal>
+                            <goal>unpack-dependencies</goal>
                         </goals>
                         <configuration>
-                            <artifactItems>
-                                <artifactItem>
-                                    <groupId>${project.groupId}</groupId>
-                                    <artifactId>webservices-api</artifactId>
-                                    <version>${project.version}</version>
-                                    <classifier>sources</classifier>
-                                    <overWrite>false</overWrite>
-                                    <outputDirectory>${generated.sources.dir}</outputDirectory>
-                                    <includes>javax\/jws\/**,javax\/xml\/ws\/**,javax\/xml\/soap\/**</includes>
-                                </artifactItem>
-                            </artifactItems>
+                            <includeScope>provided</includeScope>
+                            <classifier>sources</classifier>
+                            <excludeTransitive>true</excludeTransitive>
+                            <includes>META-INF/versions/9/**</includes>
+                            <outputDirectory>${dep.sources.mr}</outputDirectory>
                         </configuration>
                     </execution>
                 </executions>
@@ -70,44 +87,32 @@
                 <artifactId>build-helper-maven-plugin</artifactId>
                 <executions>
                     <execution>
-                        <phase>package</phase>
+                        <id>add-resource</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>add-resource</goal>
+                        </goals>
+                        <configuration>
+                            <resources>
+                                <resource>
+                                    <directory>${dep.sources}</directory>
+                                    <excludes>
+                                        <exclude>**/*.java</exclude>
+                                    </excludes>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>add-sources</id>
+                        <phase>generate-sources</phase>
                         <goals>
                             <goal>add-source</goal>
                         </goals>
                         <configuration>
                             <sources>
-                                <source>${generated.sources.dir}</source>
+                                <source>${dep.sources}</source>
                             </sources>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-enforcer-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>enforce-property</id>
-                        <goals>
-                            <goal>enforce</goal>
-                        </goals>
-                        <phase>initialize</phase>
-                        <configuration>
-                            <rules>
-                                <requireProperty>
-                                    <property>jaxb-api.osgiVersion</property>
-                                    <message>Property jaxb-api.osgiVersion not imported or set!</message>
-                                </requireProperty>
-                                <requireProperty>
-                                    <property>jaxws-api.osgiVersion</property>
-                                    <message>Property jaxws-api.osgiVersion not imported or set!</message>
-                                </requireProperty>
-                                <requireProperty>
-                                    <property>saaj-api.osgiVersion</property>
-                                    <message>Property saaj-api.osgiVersion not imported or set!</message>
-                                </requireProperty>
-                            </rules>
-                            <fail>true</fail>
                         </configuration>
                     </execution>
                 </executions>
@@ -123,17 +128,17 @@
                             <goal>manifest</goal>
                         </goals>
                         <configuration>
-                            <manifestLocation>${manifest.folder}/META-INF</manifestLocation>
+                            <niceManifest>true</niceManifest>
                             <instructions>
                                 <Export-Package>
-                                    javax.jws.*;version=2.0,
-                                    javax.xml.ws.*;version=${jaxws-api.osgiVersion},
-                                    javax.xml.soap.*;version=${saaj-api.osgiVersion}
+                                    *
                                 </Export-Package>
                                 <Import-Package>
-                                    javax.activation;version=!;resolution:=optional,
-                                    javax.xml.bind;version=${jaxb-api.osgiVersion},
-                                    javax.xml.bind.*;version=${jaxb-api.osgiVersion},
+                                    javax.activation;version=!,
+                                    !javax.jws*,
+                                    !javax.xml.soap,
+                                    !javax.xml.ws*,
+                                    org.glassfish.hk2.osgiresourcelocator;resolution:=optional,
                                     *
                                 </Import-Package>
                                 <DynamicImport-Package>org.glassfish.hk2.osgiresourcelocator</DynamicImport-Package>
@@ -144,32 +149,10 @@
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-resources-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>copy-manifest</id>
-                        <goals>
-                            <goal>copy-resources</goal>
-                        </goals>
-                        <phase>prepare-package</phase>
-                        <configuration>
-                            <resources>
-                                <resource>
-                                    <directory>${manifest.folder}</directory>
-                                    <filtering>true</filtering>
-                                </resource>
-                            </resources>
-                            <outputDirectory>${mf.dir}</outputDirectory>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
                 <configuration>
                     <archive>
-                        <manifestFile>${mf.dir}/META-INF/MANIFEST.MF</manifestFile>
+                        <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
                     </archive>
                 </configuration>
             </plugin>
@@ -178,15 +161,38 @@
 
     <dependencies>
         <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>webservices-api</artifactId>
-            <version>${project.version}</version>
-            <optional>true</optional>
+            <groupId>com.sun.activation</groupId>
+            <artifactId>jakarta.activation</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.xml.bind</groupId>
+            <artifactId>jakarta.xml.bind-api</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>jakarta.jws</groupId>
+            <artifactId>jakarta.jws-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.xml.soap</groupId>
+            <artifactId>jakarta.xml.soap-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.xml.ws</groupId>
+            <artifactId>jakarta.xml.ws-api</artifactId>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 
     <properties>
-        <generated.sources.dir>${project.build.directory}/generated-sources</generated.sources.dir>
-        <manifest.folder>${project.build.directory}/generated-manifest</manifest.folder>
+        <dep.sources>${project.build.directory}/generated-sources/dependencies</dep.sources>
     </properties>
 </project>
