@@ -19,6 +19,7 @@ module org.glassfish.metro.wsit.api {
     requires transitive com.sun.istack.runtime;
     requires transitive com.sun.xml.ws.policy;
     requires transitive gmbal;
+    requires transitive org.glassfish.ha.api;
 
     exports com.oracle.webservices.oracle_internal_api.rm;
     exports com.sun.xml.ws.api.tx.at;

@@ -53,7 +53,7 @@
     </developers>
 
     <properties>
-        <jaxws.ri.version>3.0.1-b02</jaxws.ri.version>
+        <jaxws.ri.version>3.0.1</jaxws.ri.version>
     </properties>
 
     <dependencyManagement>
@@ -90,12 +90,6 @@
                 <groupId>com.sun.xml.ws</groupId>
                 <artifactId>policy</artifactId>
                 <version>${jaxws.ri.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.glassfish.jaxb</groupId>
-                <artifactId>txw2</artifactId>
-                <version>3.0.1-b01</version>
             </dependency>
 
         <!-- Distribution Artifacts -->
