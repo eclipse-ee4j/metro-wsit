@@ -24,6 +24,7 @@ module org.glassfish.metro.wsit.impl {
     requires com.sun.xml.fastinfoset;
     requires static com.sun.xml.ws.servlet;
     requires gmbal;
+    requires transitive org.glassfish.ha.api;
 
     exports com.sun.xml.ws.assembler.metro.jaxws;
     exports com.sun.xml.ws.assembler.metro;
