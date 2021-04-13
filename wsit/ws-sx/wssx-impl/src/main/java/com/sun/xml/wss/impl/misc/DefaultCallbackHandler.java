@@ -215,6 +215,7 @@ public class DefaultCallbackHandler implements CallbackHandler {
     private Class truststoreCertSelectorClass;
     private String useXWSSCallbacksStr;
     private boolean useXWSSCallbacks;
+    private static final String SECURITY_ENV_PATH_LOCATION = "com.sun.xml.wss.security-env-properties";
 
     public DefaultCallbackHandler(String clientOrServer, Properties assertions) throws XWSSecurityException {
 
@@ -222,7 +223,7 @@ public class DefaultCallbackHandler implements CallbackHandler {
         if (assertions != null && !assertions.isEmpty()) {
             properties = assertions;
         } else {
-            //fallback option
+            //1st fallback option
             properties = new Properties();
             String resource = clientOrServer + "-security-env.properties";
             InputStream in = Thread.currentThread().getContextClassLoader().getResourceAsStream(resource);
@@ -231,9 +232,32 @@ public class DefaultCallbackHandler implements CallbackHandler {
                     properties.load(in);
                 } catch (IOException ex) {
                     throw new XWSSecurityException(ex);
+                } finally {
+                	try {
+						in.close();
+					} catch (IOException e) {}
                 }
             } else {
-                //throw new XWSSecurityException("Resource " + resource + " could not be located in classpath");
+            	//2nd and 3rd fallback check system properties
+            	String path = System.getProperty(SECURITY_ENV_PATH_LOCATION);
+	        	if(path==null) {
+            		path = java.lang.System.getenv(SECURITY_ENV_PATH_LOCATION);
+            	}
+            	if(path!=null) {
+            		try {
+            			in = new FileInputStream(path);
+            			properties.load(in);
+            		} catch (IOException ex) {
+            			throw new XWSSecurityException(ex);
+            		} finally {
+            			try {
+							if(in!=null) in.close();
+						}catch (IOException e) {}
+            		}
+            	}
+				else {
+					//throw new XWSSecurityException("Resource " + resource + " could not be located in the classpath nor in the file system.");
+				}            	
             }
         }
 
