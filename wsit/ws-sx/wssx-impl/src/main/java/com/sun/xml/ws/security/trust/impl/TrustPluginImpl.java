@@ -550,7 +550,9 @@ public class TrustPluginImpl implements TrustPlugin {
         }
         dispatch.getRequestContext().put(WSTrustConstants.IS_TRUST_MESSAGE, "true");
         dispatch.getRequestContext().put(WSTrustConstants.TRUST_ACTION, getAction(wstVer, request.getRequestType().toString()));
-        
+
+        dispatch.getRequestContext().put(STSIssuedTokenConfiguration.STS_SIGNATURE_ALGORITHM, stsConfig.getSignatureAlgorithm());
+
         // Pass the keys and/or username, password to the message context
 //        String userName = (String) stsConfig.getOtherOptions().get(com.sun.xml.wss.XWSSConstants.USERNAME_PROPERTY);
 //        String password = (String) stsConfig.getOtherOptions().get(com.sun.xml.wss.XWSSConstants.PASSWORD_PROPERTY);
