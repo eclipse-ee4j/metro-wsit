@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -119,13 +119,13 @@ public interface IssuedTokenContext {
     String getAppliesTo();
     
     /**
-     * Depending on the <sp:IncludeToken> server policy, set the Token to be
+     * Depending on the &lt;sp:IncludeToken&gt; server policy, set the Token to be
      * used in Securing requests and/or responses
      */
     void setSecurityToken(Token tok);
    
     /**
-     * Depending on the <sp:IncludeToken> policy get the Token to be
+     * Depending on the &lt;sp:IncludeToken&gt; policy get the Token to be
      * used in Securing requests and/or responses. The token returned 
      * is to be used only for inserting into the SecurityHeader, if the
      * getAssociatedProofToken is not null, and it should also be used for
@@ -153,7 +153,7 @@ public interface IssuedTokenContext {
    
    /**
     * If the token returned doesnt allow use of wsu:id attribute then a STR is returned as
-    * <wst:RequestedAttachedReference> which needs to be inserted into a <ds:KeyInfo> for example.
+    * &lt;wst:RequestedAttachedReference&gt; which needs to be inserted into a &lt;ds:KeyInfo&gt; for example.
     * @return STR if set, null otherwise
     *
     */
@@ -163,7 +163,7 @@ public interface IssuedTokenContext {
   
    /**
     * If the token returned doesnt allow use of wsu:id attribute then a STR is returned as
-    * <wst:RequestedUnAttachedReference> which needs to be inserted into a <ds:KeyInfo> for example.
+    * &lt;wst:RequestedUnAttachedReference&gt; which needs to be inserted into a &lt;ds:KeyInfo&gt; for example.
     * @return STR if set, null otherwise
     *
     */
@@ -173,14 +173,14 @@ public interface IssuedTokenContext {
   
    /**
     * If the token returned doesnt allow use of wsu:id attribute then a STR is returned as
-    * <wst:RequestedAttachedReference> which needs to be inserted into a <ds:KeyInfo> for example
+    * &lt;wst:RequestedAttachedReference&gt; which needs to be inserted into a &lt;ds:KeyInfo&gt; for example
     *
     */
     void setAttachedSecurityTokenReference(Token str);
   
     /**
     * If the token returned doesnt allow use of wsu:id attribute then a STR is returned as
-    * <wst:RequestedUnAttachedReference> which needs to be inserted into a <ds:KeyInfo> for example
+    * &lt;wst:RequestedUnAttachedReference&gt; which needs to be inserted into a &lt;ds:KeyInfo&gt; for example
     *
     */
     void setUnAttachedSecurityTokenReference(Token str);
@@ -219,7 +219,7 @@ public interface IssuedTokenContext {
    
    /**
     * Get the Entropy if any provided by the other party, null otherwise
-    * If the Entropy was specified as an <xenc:EncryptedKey> then
+    * If the Entropy was specified as an &lt;xenc:EncryptedKey&gt; then
     * this method would return the decrypted secret
     */
     Key getDecipheredOtherPartyEntropy(Key privKey) throws XWSSecurityException;
@@ -245,7 +245,7 @@ public interface IssuedTokenContext {
    
    
    /**
-    * Return the <wst:ComputedKey> URI if any inside the RSTR, null otherwise.
+    * Return the &lt;wst:ComputedKey&gt; URI if any inside the RSTR, null otherwise.
     * The Security Enforcement Layer would compute the Key as P_SHA1(Ent(req), Ent(res))
     */
     URI getComputedKeyAlgorithmFromProofToken();
