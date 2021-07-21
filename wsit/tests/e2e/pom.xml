@@ -46,12 +46,10 @@
         <dependency>
             <groupId>org.eclipse.persistence</groupId>
             <artifactId>org.eclipse.persistence.moxy</artifactId>
-            <version>3.0.0-M1</version>
         </dependency>
         <dependency>
             <groupId>org.eclipse.persistence</groupId>
             <artifactId>org.eclipse.persistence.sdo</artifactId>
-            <version>3.0.0-M1</version>
         </dependency>
         <dependency>
             <groupId>com.sun.xml.ws</groupId>
