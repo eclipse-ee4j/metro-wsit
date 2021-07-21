@@ -36,6 +36,4 @@ jobs:
         distribution: 'zulu'
         java-version: ${{ matrix.java_version }}
     - name: Verify
-      #run: cd wsit && mvn -B -V -U -C -Pstaging,oss-release clean verify org.glassfish.copyright:glassfish-copyright-maven-plugin:check -Dgpg.skip=true
-      # Verify is removed
-      run: cd wsit && mvn -B -V -U -C -Pstaging,oss-release clean org.glassfish.copyright:glassfish-copyright-maven-plugin:check -Dgpg.skip=true
+      run: cd wsit && mvn -B -V -U -C -Pstaging,oss-release clean verify org.glassfish.copyright:glassfish-copyright-maven-plugin:check -Dgpg.skip=true
