@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -15,15 +15,15 @@ import java.util.Iterator;
 /**
  * Identifies targets that if present in the message should be confidentiality protected.
  *<p>
- *  <pre>
- *   &lt;xmp&gt;
- *      &lt;sp:EncryptedParts ... &gt;
- *          &lt;sp:Body/&gt;?
- *          &lt;sp:Header Name="xs:NCName"? Namespace="xs:anyURI" ... /&gt;*
+ *  <pre>{@code
+ *   <xmp>
+ *      <sp:EncryptedParts ... >
+ *          <sp:Body/>?
+ *          <sp:Header Name="xs:NCName"? Namespace="xs:anyURI" ... />*
  *              ...
- *      &lt;/sp:EncryptedParts&gt;
- *    &lt;/xmp&gt;
- *   </pre>
+ *      </sp:EncryptedParts>
+ *    </xmp>
+ *   }</pre>
  * @author K.Venugopal@sun.com
  */
 public interface EncryptedParts extends Target {

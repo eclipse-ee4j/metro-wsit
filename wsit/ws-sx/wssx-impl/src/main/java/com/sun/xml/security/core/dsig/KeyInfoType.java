@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -40,25 +40,25 @@ import javax.xml.crypto.XMLStructure;
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
- * <pre>
- * &lt;complexType name="KeyInfoType"&gt;
- *   &lt;complexContent&gt;
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
- *       &lt;choice maxOccurs="unbounded"&gt;
- *         &lt;element ref="{http://www.w3.org/2000/09/xmldsig#}KeyName"/&gt;
- *         &lt;element ref="{http://www.w3.org/2000/09/xmldsig#}KeyValue"/&gt;
- *         &lt;element ref="{http://www.w3.org/2000/09/xmldsig#}RetrievalMethod"/&gt;
- *         &lt;element ref="{http://www.w3.org/2000/09/xmldsig#}X509Data"/&gt;
- *         &lt;element ref="{http://www.w3.org/2000/09/xmldsig#}PGPData"/&gt;
- *         &lt;element ref="{http://www.w3.org/2000/09/xmldsig#}SPKIData"/&gt;
- *         &lt;element ref="{http://www.w3.org/2000/09/xmldsig#}MgmtData"/&gt;
- *         &lt;any/&gt;
- *       &lt;/choice&gt;
- *       &lt;attribute name="Id" type="{http://www.w3.org/2001/XMLSchema}ID" /&gt;
- *     &lt;/restriction&gt;
- *   &lt;/complexContent&gt;
- * &lt;/complexType&gt;
- * </pre>
+ * <pre>{@code
+ * <complexType name="KeyInfoType">
+ *   <complexContent>
+ *     <restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
+ *       <choice maxOccurs="unbounded">
+ *         <element ref="{http://www.w3.org/2000/09/xmldsig#}KeyName"/>
+ *         <element ref="{http://www.w3.org/2000/09/xmldsig#}KeyValue"/>
+ *         <element ref="{http://www.w3.org/2000/09/xmldsig#}RetrievalMethod"/>
+ *         <element ref="{http://www.w3.org/2000/09/xmldsig#}X509Data"/>
+ *         <element ref="{http://www.w3.org/2000/09/xmldsig#}PGPData"/>
+ *         <element ref="{http://www.w3.org/2000/09/xmldsig#}SPKIData"/>
+ *         <element ref="{http://www.w3.org/2000/09/xmldsig#}MgmtData"/>
+ *         <any/>
+ *       </choice>
+ *       <attribute name="Id" type="{http://www.w3.org/2001/XMLSchema}ID" />
+ *     </restriction>
+ *   </complexContent>
+ * </complexType>
+ * }</pre>
  * 
  * 
  */

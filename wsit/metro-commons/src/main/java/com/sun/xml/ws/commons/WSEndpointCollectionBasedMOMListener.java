@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2017, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -19,7 +19,7 @@ import java.util.Map;
 /**
  * Default implementation of {@link LazyMOMProvider.DefaultScopeChangeListener} for manager factories handling {@link WSEndpoint} instances.
  *
- * @param <T>
+ * @param <T> type
  */
 public class WSEndpointCollectionBasedMOMListener<T extends MOMRegistrationAware> implements LazyMOMProvider.DefaultScopeChangeListener {
 
@@ -32,7 +32,7 @@ public class WSEndpointCollectionBasedMOMListener<T extends MOMRegistrationAware
     public WSEndpointCollectionBasedMOMListener(String registrationName, Map<WSEndpoint, T> registrationAwareMap) {
         this(new Object(), registrationName, registrationAwareMap);
     }
-    
+
     public WSEndpointCollectionBasedMOMListener(Object lock, String registrationName, Map<WSEndpoint, T> registrationAwareMap) {
         this.lock = lock;
         this.registrationName = registrationName;

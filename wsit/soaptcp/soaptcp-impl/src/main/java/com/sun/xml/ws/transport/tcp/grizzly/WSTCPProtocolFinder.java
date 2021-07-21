@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2019 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -30,16 +30,16 @@ import java.nio.BufferUnderflowException;
  * @author Alexey Stashok
  */
 public final class WSTCPProtocolFinder implements ProtocolFinder {
-    
+
     public WSTCPProtocolFinder() {
     }
-    
-    
+
+
     /**
      * Try to find the protocol from the <code>SocketChannel</code> bytes.
      *
      * @param puContext
-     * @param @ctx filter chain context
+     * @param ctx filter chain context
      *
      * @return ProtocolInfo The ProtocolInfo that contains the information about the
      *                   current protocol.
@@ -51,12 +51,12 @@ public final class WSTCPProtocolFinder implements ProtocolFinder {
 
         int loop = 0;
         int count = -1;
-        
+
         if (buffer.remaining() > 0) {
             try {
                 while ( connection.isOpen() &&
                         ((count = connection.getReadBufferSize())> -1)){
-                    
+
                     if ( count == 0 ){
                         loop++;
                         if (loop > 2){
@@ -73,14 +73,14 @@ public final class WSTCPProtocolFinder implements ProtocolFinder {
 
         final int curPosition = buffer.position();
         final int curLimit = buffer.limit();
-        
+
         // Rule a - If read length < PROTOCOL_ID.length, return to the Selector.
         if (curPosition < TCPConstants.PROTOCOL_SCHEMA.length()){
             return Result.NOT_FOUND;
         }
-        
+
         buffer.flip();
-        
+
         // Rule b - check protocol id
         try {
             final byte[] protocolBytes = new byte[TCPConstants.PROTOCOL_SCHEMA.length()];
@@ -96,5 +96,5 @@ public final class WSTCPProtocolFinder implements ProtocolFinder {
         }
         return Result.NEED_MORE_DATA;
     }
-    
+
 }

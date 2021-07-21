@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -54,24 +54,24 @@ import org.xml.sax.Locator;
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
- * <pre>
- * &lt;complexType name="webservice-descriptionType">
- *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;sequence>
- *         &lt;element name="description" type="{http://java.sun.com/xml/ns/javaee}descriptionType" minOccurs="0"/>
- *         &lt;element name="display-name" type="{http://java.sun.com/xml/ns/javaee}display-nameType" minOccurs="0"/>
- *         &lt;element name="icon" type="{http://java.sun.com/xml/ns/javaee}iconType" minOccurs="0"/>
- *         &lt;element name="webservice-description-name" type="{http://java.sun.com/xml/ns/javaee}string"/>
- *         &lt;element name="wsdl-file" type="{http://java.sun.com/xml/ns/javaee}pathType" minOccurs="0"/>
- *         &lt;element name="jaxrpc-mapping-file" type="{http://java.sun.com/xml/ns/javaee}pathType" minOccurs="0"/>
- *         &lt;element name="port-component" type="{http://java.sun.com/xml/ns/javaee}port-componentType" maxOccurs="unbounded"/>
- *       &lt;/sequence>
- *       &lt;attribute name="id" type="{http://www.w3.org/2001/XMLSchema}ID" />
- *     &lt;/restriction>
- *   &lt;/complexContent>
- * &lt;/complexType>
- * </pre>
+ * <pre>{@code
+ * <complexType name="webservice-descriptionType">
+ *   <complexContent>
+ *     <restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
+ *       <sequence>
+ *         <element name="description" type="{http://java.sun.com/xml/ns/javaee}descriptionType" minOccurs="0"/>
+ *         <element name="display-name" type="{http://java.sun.com/xml/ns/javaee}display-nameType" minOccurs="0"/>
+ *         <element name="icon" type="{http://java.sun.com/xml/ns/javaee}iconType" minOccurs="0"/>
+ *         <element name="webservice-description-name" type="{http://java.sun.com/xml/ns/javaee}string"/>
+ *         <element name="wsdl-file" type="{http://java.sun.com/xml/ns/javaee}pathType" minOccurs="0"/>
+ *         <element name="jaxrpc-mapping-file" type="{http://java.sun.com/xml/ns/javaee}pathType" minOccurs="0"/>
+ *         <element name="port-component" type="{http://java.sun.com/xml/ns/javaee}port-componentType" maxOccurs="unbounded"/>
+ *       </sequence>
+ *       <attribute name="id" type="{http://www.w3.org/2001/XMLSchema}ID" />
+ *     </restriction>
+ *   </complexContent>
+ * </complexType>
+ * }</pre>
  * 
  * 
  */

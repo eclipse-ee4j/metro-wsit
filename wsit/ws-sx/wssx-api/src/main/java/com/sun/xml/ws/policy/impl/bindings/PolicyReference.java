@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -27,7 +27,6 @@ import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.XmlType;
 import javax.xml.namespace.QName;
-import com.sun.xml.ws.policy.impl.bindings.PolicyReference;
 
 
 /**
@@ -35,19 +34,19 @@ import com.sun.xml.ws.policy.impl.bindings.PolicyReference;
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
- * <pre>
- * &lt;element name="PolicyReference"&gt;
- *   &lt;complexType&gt;
- *     &lt;complexContent&gt;
- *       &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
- *         &lt;attribute name="Digest" type="{http://www.w3.org/2001/XMLSchema}base64Binary" /&gt;
- *         &lt;attribute name="DigestAlgorithm" type="{http://www.w3.org/2001/XMLSchema}anyURI" /&gt;
- *         &lt;attribute name="URI" type="{http://www.w3.org/2001/XMLSchema}anyURI" /&gt;
- *       &lt;/restriction&gt;
- *     &lt;/complexContent&gt;
- *   &lt;/complexType&gt;
- * &lt;/element&gt;
- * </pre>
+ * <pre>{@code
+ * <element name="PolicyReference">
+ *   <complexType>
+ *     <complexContent>
+ *       <restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
+ *         <attribute name="Digest" type="{http://www.w3.org/2001/XMLSchema}base64Binary" />
+ *         <attribute name="DigestAlgorithm" type="{http://www.w3.org/2001/XMLSchema}anyURI" />
+ *         <attribute name="URI" type="{http://www.w3.org/2001/XMLSchema}anyURI" />
+ *       </restriction>
+ *     </complexContent>
+ *   </complexType>
+ * </element>
+ * }</pre>
  * 
  * 
  */

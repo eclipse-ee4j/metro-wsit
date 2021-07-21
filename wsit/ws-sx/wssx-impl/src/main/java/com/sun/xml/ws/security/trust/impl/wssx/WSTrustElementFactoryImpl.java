@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -348,7 +348,7 @@ public class WSTrustElementFactoryImpl extends WSTrustElementFactory {
      *TODO: Not clear from Spec whether the Token to be validated is ever sent ?
      *TODO: There is a mention of special case where a SOAPEnvelope may be specified as
      * a security token if the requestor desires the envelope to be validated.
-     *</p>
+     *
      */
     public  RequestSecurityToken createRSTForValidate(URI tokenType, URI requestType) {
         return new RequestSecurityTokenImpl(tokenType, requestType);
@@ -482,7 +482,7 @@ public class WSTrustElementFactoryImpl extends WSTrustElementFactory {
      * </PRE>
      * The JAXBBean for RST is the one generated from the ws-trust.xsd schema
      * The default implementation expects the packagename of the generated JAXB Beans to be fixed.
-     * </p>
+     * 
      */
     public RequestSecurityToken createRSTFrom(JAXBElement elem) {
         try {
@@ -503,7 +503,7 @@ public class WSTrustElementFactoryImpl extends WSTrustElementFactory {
      * </PRE>
      * The &lt;JAXBBean for RSTR&gt; is the one generated from the ws-trust.xsd schema
      * The default implementation expects the packagename of the generated JAXB Beans to be fixed.
-     * </p>
+     * 
      */
     public  RequestSecurityTokenResponse createRSTRFrom(JAXBElement elem) {
         try {
@@ -523,7 +523,7 @@ public class WSTrustElementFactoryImpl extends WSTrustElementFactory {
      * </PRE>
      * The &lt;JAXBBean for RSTR Collection&gt; is the one generated from the ws-trust.xsd schema
      * The default implementation expects the packagename of the generated JAXB Beans to be fixed.
-     * </p>
+     * 
      */
     public  RequestSecurityTokenResponseCollection createRSTRCollectionFrom(JAXBElement elem) {
         try {
@@ -646,7 +646,7 @@ public class WSTrustElementFactoryImpl extends WSTrustElementFactory {
      * Marshal an RST to a Source.
      * <p>
      * Note: Useful for Dispatch Client implementations
-     * </p>
+     * 
      */
     public Source toSource(RequestSecurityToken rst) {
         return new DOMSource(toElement(rst));
@@ -656,7 +656,7 @@ public class WSTrustElementFactoryImpl extends WSTrustElementFactory {
      * Marshal an RSTR to a Source
      * <p>
      * Note: Useful for STS implementations which are JAXWS Providers
-     * </p>
+     * 
      */
     public Source toSource(RequestSecurityTokenResponse rstr) {
         return new DOMSource(toElement(rstr));
@@ -666,7 +666,7 @@ public class WSTrustElementFactoryImpl extends WSTrustElementFactory {
      * Marshal an RSTR Collection to a Source
      * <p>
      * Note: Useful for STS implementations which are JAXWS Providers
-     * </p>
+     * 
      */
     public  Source toSource(RequestSecurityTokenResponseCollection rstrCollection) {
          return new DOMSource(toElement(rstrCollection));
@@ -696,7 +696,7 @@ public class WSTrustElementFactoryImpl extends WSTrustElementFactory {
      * Marshal an RST to a DOM Element.
      * <p>
      * Note: Useful for Dispatch Client implementations
-     * </p>
+     * 
      */
     public Element toElement(RequestSecurityToken rst) {
         try {
@@ -718,7 +718,7 @@ public class WSTrustElementFactoryImpl extends WSTrustElementFactory {
      * Marshal an RSTR to DOM Element
      * <p>
      * Note: Useful for STS implementations which are JAXWS Providers
-     * </p>
+     * 
      */
     public Element toElement(RequestSecurityTokenResponse rstr) {
         try {
@@ -750,7 +750,7 @@ public class WSTrustElementFactoryImpl extends WSTrustElementFactory {
      * Marshal an RSTR Collection to a DOM Element
      * <p>
      * Note: Useful for STS implementations which are JAXWS Providers
-     * </p>
+     * 
      */
     public  Element toElement(RequestSecurityTokenResponseCollection rstrCollection) {
         try {
@@ -784,7 +784,7 @@ public class WSTrustElementFactoryImpl extends WSTrustElementFactory {
      * Marshal an STR to a DOM Element.
      * <p>
      * Note: Useful for Dispatch Client implementations
-     * </p>
+     * 
      */
     public Element toElement(SecurityTokenReference str, Document doc) {
         try {
@@ -806,7 +806,7 @@ public class WSTrustElementFactoryImpl extends WSTrustElementFactory {
      * Marshal an BinarySecret to a DOM Element.
      * <p>
      * Note: Useful for Dispatch Client implementations
-     * </p>
+     * 
      */
     public Element toElement(BinarySecret bs, Document doc) {
         try {

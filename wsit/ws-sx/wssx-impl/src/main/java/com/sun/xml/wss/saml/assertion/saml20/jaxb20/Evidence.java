@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -72,7 +72,6 @@ public class Evidence extends EvidenceType
      *
      * @param assertionIDRef Set of <code>AssertionIDReference</code> objects.
      * @param assertion Set of <code>Assertion</code> objects.
-     * @exception SAMLException if either Set is empty or has invalid object.
      */
     public Evidence(List assertionIDRef, List assertion)
         {

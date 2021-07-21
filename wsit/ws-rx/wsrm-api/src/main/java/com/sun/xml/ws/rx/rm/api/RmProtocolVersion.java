@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -14,7 +14,7 @@ import javax.xml.namespace.QName;
 
 /**
  * This enumeration contains all currently supported WS-ReliableMessaging versions.
- * <p/>
+ * <p>
  * The choice of a WS-ReliableMessaging protocol version affects several attributes
  * of Metro Reliable Messaging implementation, including the following:
  * <ul>
@@ -22,8 +22,6 @@ import javax.xml.namespace.QName;
  *     <li>Namespace of Ws-ReliableMessaging protocol messages</li>
  *     <li>Metro Reliable Messaging processing logic</li>
  * </ul>
- *
- * @author Marek Potociar <marek.potociar at sun.com>
  *
  * @see #WSRM200502
  * @see #WSRM200702
@@ -45,7 +43,7 @@ public enum RmProtocolVersion {
      * clients running on Metro 1.3 or .NET 3.5 and later.
      * </p>
      *
-     * @see RmVersion
+     * @see RmProtocolVersion
      */
     WSRM200702(
     "http://docs.oasis-open.org/ws-rx/wsrm/200702",
@@ -118,7 +116,7 @@ public enum RmProtocolVersion {
      *
      * @return a default reliable messaging version value. Currently returns {@link #WSRM200702}.
      *
-     * @see RmVersion
+     * @see RmProtocolVersion
      */
     public static RmProtocolVersion getDefault() {
         return RmProtocolVersion.WSRM200702; // if changed, update also in ReliableMesaging annotation
@@ -128,7 +126,7 @@ public enum RmProtocolVersion {
      * Determines if the tested string is a valid WS-Addressing action header value
      * that belongs to a WS-ReliableMessaging protocol message
      *
-     * @param WS-Addressing action string
+     * @param wsaAction WS-Addressing action string
      *
      * @return {@code true} in case the {@code wsaAction} parameter is a valid WS-Addressing
      *         action header value that belongs to a WS-ReliableMessaging protocol message
@@ -144,7 +142,7 @@ public enum RmProtocolVersion {
      * Determines if the tested string is a valid WS-Addressing action header value
      * that belongs to a WS-ReliableMessaging protocol request message
      *
-     * @param WS-Addressing action string
+     * @param wsaAction WS-Addressing action string
      *
      * @return {@code true} in case the {@code wsaAction} parameter is a valid WS-Addressing
      *         action header value that belongs to a WS-ReliableMessaging protocol request message
@@ -161,7 +159,7 @@ public enum RmProtocolVersion {
      * Determines if the tested string is a valid WS-Addressing action header value
      * that belongs to a WS-ReliableMessaging protocol response message
      *
-     * @param WS-Addressing action string
+     * @param wsaAction WS-Addressing action string
      *
      * @return {@code true} in case the {@code wsaAction} parameter is a valid WS-Addressing
      *         action header value that belongs to a WS-ReliableMessaging protocol response message
@@ -178,7 +176,7 @@ public enum RmProtocolVersion {
      * Determines if the tested string is a valid WS-Addressing action header value
      * that belongs to a WS-ReliableMessaging protocol fault
      *
-     * @param WS-Addressing action string
+     * @param wsaAction WS-Addressing action string
      *
      * @return {@code true} in case the {@code wsaAction} parameter is a valid WS-Addressing
      *         action header value that belongs to a WS-ReliableMessaging protocol fault
@@ -189,9 +187,9 @@ public enum RmProtocolVersion {
 
     @Override
     public String toString() {
-        return "RmProtocolVersion" + 
-                "{\n\tprotocolNamespaceUri=" + protocolNamespaceUri + 
-                ",\n\tpolicyNamespaceUri=" + policyNamespaceUri + 
+        return "RmProtocolVersion" +
+                "{\n\tprotocolNamespaceUri=" + protocolNamespaceUri +
+                ",\n\tpolicyNamespaceUri=" + policyNamespaceUri +
                 "\n}";
-    }    
+    }
 }

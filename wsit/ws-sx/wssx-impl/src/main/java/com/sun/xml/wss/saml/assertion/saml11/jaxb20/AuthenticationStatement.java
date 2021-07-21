@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -95,7 +95,6 @@ public class AuthenticationStatement extends AuthenticationStatementType
      * @param subjectLocality (optional) A <code>SubjectLocality</code> object.
      * @param authorityBinding (optional) A List of <code>AuthorityBinding</code>
      *        objects.
-     * @exception SAMLException if there is an error in the sender.
      */
     public AuthenticationStatement(
             String authMethod, GregorianCalendar authInstant, Subject subject,

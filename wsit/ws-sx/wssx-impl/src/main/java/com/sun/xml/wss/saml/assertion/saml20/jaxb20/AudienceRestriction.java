@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -41,8 +41,6 @@ public class AudienceRestriction extends AudienceRestrictionType
     This constructor takes in a <code>List</code> of audience for this
     condition, each of them being a String.
     @param audience A List of audience to be included within this condition
-    @exception SAMLException if the <code>List</code> is empty or if there is
-    some error in processing the contents of the <code>List</code>
     */
     public AudienceRestriction(List audience) {
         setAudience(audience);

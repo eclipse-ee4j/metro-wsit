@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  * Copyright 1995-2005 The Apache Software Foundation
  * Copyright 1995-2005 The Apache Software Foundation
  *
@@ -40,7 +40,6 @@ public class SignerOutputStream extends ByteArrayOutputStream {
         this.sig=sig;       
     }
 
-    /** @inheritDoc */
     public void write(byte[] arg0)  {
 	super.write(arg0, 0, arg0.length);
         try {
@@ -50,7 +49,6 @@ public class SignerOutputStream extends ByteArrayOutputStream {
 	}
     }
     
-    /** @inheritDoc */
     public void write(int arg0) {
 	super.write(arg0);
         try {
@@ -60,7 +58,6 @@ public class SignerOutputStream extends ByteArrayOutputStream {
         }
     }
     
-    /** @inheritDoc */
     public void write(byte[] arg0, int arg1, int arg2) {
 	super.write(arg0, arg1, arg2);
         try {

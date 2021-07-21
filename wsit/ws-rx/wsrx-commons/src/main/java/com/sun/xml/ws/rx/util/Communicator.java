@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -39,12 +39,12 @@ import jakarta.xml.ws.BindingProvider;
 import jakarta.xml.ws.WebServiceException;
 
 /**
- * Transmits standalone protocol messages over the wire. Provides also some additional 
+ * Transmits standalone protocol messages over the wire. Provides also some additional
  * utility methods for creating and unmarshalling JAXWS {@link Message} and {@link Header}
  * objects.
  *
  * <b>
- * WARNING: This class is a private utility class used by WS-RX implementation. 
+ * WARNING: This class is a private utility class used by WS-RX implementation.
  * Any usage outside the intended scope is strongly discouraged. The API exposed
  * by this class may be changed, replaced or removed without any advance notice.
  * </b>
@@ -326,7 +326,7 @@ public final class Communicator {
      *
      * @param wsaAction WS-Addressing action header to set
      *
-     * @return the updated {@link PacketAdapter} instance
+     * @return the updated {@link Packet} instance
      */
     public final Packet setEmptyRequestMessage(Packet request, String wsaAction) {
         Message message = Messages.createEmpty(soapVersion);
@@ -348,7 +348,7 @@ public final class Communicator {
      * Unlike {@link Packet#setMessage(Message)}, this method fills in the {@link Message}'s WS-Addressing headers
      * correctly, based on the provided request packet WS-Addressing headers.
      *
-     * @param requestAdapter
+     * @param request
      * @param wsaAction
      * @return
      */
@@ -390,7 +390,7 @@ public final class Communicator {
 
     /**
      * If security is enabled, tries to initate secured conversation and obtain the security token reference.
-     * 
+     *
      * @return security token reference of the initiated secured conversation, or {@code null} if there is no SC configured
      */
     public SecurityTokenReferenceType tryStartSecureConversation(Packet request) throws WSTrustException {
@@ -460,9 +460,9 @@ public final class Communicator {
     }
 
     /**
-     * Provides the destination endpoint reference this {@link Communicator} is pointing to. 
+     * Provides the destination endpoint reference this {@link Communicator} is pointing to.
      * May return {@code null} (typically when used on the server side).
-     * 
+     *
      * @return destination endpoint reference or {@code null} in case the destination address has
      *         not been specified when constructing this {@link Communicator} instance.
      */

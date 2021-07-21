@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -103,7 +103,7 @@ public class SessionManagerImpl extends SessionManager {
      * Returns an existing session identified by the Key else null
      *
      * @param key The Session key.
-     * @returns The Session with the given key.  <code>null</code> if none exists.
+     * @return The Session with the given key.  <code>null</code> if none exists.
      */
     public Session  getSession(String key) {
         Session session = sessionMap.get(key);
@@ -119,7 +119,7 @@ public class SessionManagerImpl extends SessionManager {
     /**
      * Returns the Set of valid Session keys.
      *
-     * @returns The Set of keys.
+     * @return The Set of keys.
      */
     public Set<String> keys() {
         return sessionMap.keySet();
@@ -147,7 +147,7 @@ public class SessionManagerImpl extends SessionManager {
      * specified Class must have a default constructor.
      *
      * @param key The Session key to be used.
-     * @returns The new Session.. <code>null</code> if the given
+     * @return The new Session.. <code>null</code> if the given
      * class cannot be instantiated.
      * 
      */ 
@@ -189,7 +189,7 @@ public class SessionManagerImpl extends SessionManager {
      *
      * @param key The Session key to be used.
      * @param obj The object to use as a holder for user data in the session.
-     * @returns The new Session. 
+     * @return The new Session. 
      * 
      */ 
     public Session createSession(String key, Object obj) {
@@ -221,10 +221,10 @@ public class SessionManagerImpl extends SessionManager {
     
      /**
      * Creates a Session with the given key, using an instance of 
-     * synchronized java.util.Map<String, String> a sa holder for user-defined data.
+     * synchronized {@code java.util.Map<String, String>} a sa holder for user-defined data.
      *
      * @param key The Session key to be used.
-     * @returns The new Session.
+     * @return The new Session.
      * 
      */ 
     public Session createSession(String key) {   
@@ -244,7 +244,7 @@ public class SessionManagerImpl extends SessionManager {
      * Return the valid SecurityContext for matching key
      *
      * @param key The key of the security context to be looked
-     * @returns IssuedTokenContext for security context key
+     * @return IssuedTokenContext for security context key
      */
     
     public IssuedTokenContext getSecurityContext(String key, boolean checkExpiry){

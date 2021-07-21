@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -15,7 +15,6 @@ import com.sun.xml.ws.api.message.MessageHeaders;
 import com.sun.xml.ws.api.message.Packet;
 import com.sun.xml.ws.api.model.wsdl.WSDLPort;
 import com.sun.xml.ws.api.pipe.NextAction;
-import com.sun.xml.ws.api.pipe.ServerTubeAssemblerContext;
 import com.sun.xml.ws.api.pipe.Tube;
 import com.sun.xml.ws.api.pipe.TubeCloner;
 import com.sun.xml.ws.api.pipe.helper.AbstractFilterTubeImpl;
@@ -24,41 +23,38 @@ import com.sun.xml.ws.assembler.dev.ServerTubelineAssemblyContext;
 import com.sun.xml.ws.tx.at.WSATConstants;
 import com.sun.xml.ws.api.tx.at.TransactionalFeature;
 
-import javax.xml.namespace.QName;
-import java.util.Set;
 
 
 /**
  * Typical inbound message:
- * <p/>
+ * <p>
+ * {@code
  * <s:Envelope xmlns:s="http://www.w3.org/2003/05/soap-envelope" xmlns:a="http://www.w3.org/2005/08/addressing"><s:Header><a:Action s:mustUnderstand="1">http://tem
  * puri.org/IService/GetData</a:Action><a:MessageID>urn:uuid:353ec55b-3e04-4e13-9471-9652858f7680</a:MessageID><a:ReplyTo><a:Address>http://www.w3.org/2005/08/addr
  * essing/anonymous</a:Address></a:ReplyTo>
- * <p/>
+ * 
  * <CoordinationContext s:mustUnderstand="1" xmlns="http://schemas.xmlsoap.org/ws/2004/10/wscoor" xmlns:mstx="http://schema
  * s.microsoft.com/ws/2006/02/transactions"><wscoor:Identifier xmlns:wscoor="http://schemas.xmlsoap.org/ws/2004/10/wscoor">urn:uuid:79c06523-2392-45d7-9b66-8cc06d0
  * 07d2d</wscoor:Identifier><Expires>599552</Expires><CoordinationType>http://schemas.xmlsoap.org/ws/2004/10/wsat</CoordinationType>
- * <p/>
+ * 
  * <RegistrationService><Address x
  * mlns="http://schemas.xmlsoap.org/ws/2004/08/addressing">https://pparkins-us:453/WsatService/Registration/Coordinator/</Address>
- * <p/>
+ * 
  * <ReferenceParameters xmlns="http:
  * //schemas.xmlsoap.org/ws/2004/08/addressing"><mstx:RegisterInfo><mstx:LocalTransactionId>79c06523-2392-45d7-9b66-8cc06d007d2d</mstx:LocalTransactionId></mstx:Re
  * gisterInfo></ReferenceParameters>
- * <p/>
+ * 
  * </RegistrationService>
- * <p/>
- * <p/>
+ * 
  * <mstx:IsolationLevel>0</mstx:IsolationLevel><mstx:LocalTransactionId>79c06523-2392-45d7-9b66-8cc06d007d2d
  * </mstx:LocalTransactionId><PropagationToken xmlns="http://schemas.microsoft.com/ws/2006/02/tx/oletx">AQAAAAMAAAAjZcB5kiPXRZtmjMBtAH0tAAAQAAAAAACIAAAAAMToedzE6Hk
  * 0W6xnBOupAC/M+Xk0W6xnUOypANwmcAFYCxcAlOupAGZjYThlYTc3LTYwYjQtNGEwNS1hODI0LWUxM2NjYjQ3MzVjYQABAAALAAAAZM1kzSEAAABQUEFSS0lOUy1VUwAYAAAAUABQAEEAUgBLAEkATgBTAC0AVQB
  * TAAAAAQAAAAEAAAAeAAAAdGlwOi8vcHBhcmtpbnMtdXMubG9jYWxkb21haW4vAAA=</PropagationToken>
  * </CoordinationContext>
- * <p/>
- * <p/>
- * <p/>
+ * 
  * <a:To s:mustUnderstand="1">http://localhost:7001/Hello
  * TXWeb/DataService</a:To></s:Header><s:Body><GetData xmlns="http://tempuri.org/"><value>1</value></GetData></s:Body></s:Envelope>--------------------
+ * }
  */
 
 public class WSATServerTube extends AbstractFilterTubeImpl implements WSATConstants {

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -27,7 +27,7 @@ public interface LocalStringManager {
      *
      * <p>This simplifies access to resources, at the cost of checking for
      * the resource bundle of several classes upon each call. However, due
-     * to the caching performed by <tt>ResourceBundle</tt> this seems 
+     * to the caching performed by <code>ResourceBundle</code> this seems 
      * reasonable.
      *
      * <p>Due to that, sub-classes <strong>must</strong> make sure they don't
@@ -48,7 +48,7 @@ public interface LocalStringManager {
      * Get a local string for the caller and format the arguments accordingly.
      * @param callerClass The caller (to walk through its class hierarchy)
      * @param key The key to the local format string
-     * @param fmt The default format if not found in the resources
+     * @param defaultFormat The default format if not found in the resources
      * @param arguments The set of arguments to provide to the formatter
      * @return A formatted localized string
      */

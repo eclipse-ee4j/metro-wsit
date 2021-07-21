@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -59,9 +59,7 @@ public enum McProtocolVersion {
     /**
      * Provides a default reliable messaging version value.
      *
-     * @return a default reliable messaging version value. Currently returns {@link #WSRM200702}.
-     *
-     * @see RmVersion
+     * @return a default reliable messaging version value. Currently returns {@link #WSMC200702}.
      */
     public static McProtocolVersion getDefault() {
         return McProtocolVersion.WSMC200702; // if changed, update also MakeConnectionSupported annotation
@@ -71,7 +69,7 @@ public enum McProtocolVersion {
      * Determines if the tested string is a valid WS-Addressing action header value
      * that belongs to a WS-MakeConnection protocol message
      *
-     * @param WS-Addressing action string
+     * @param wsaAction WS-Addressing action string
      *
      * @return {@code true} in case the {@code wsaAction} parameter is a valid WS-Addressing
      *         action header value that belongs to a WS-MakeConnection protocol message
@@ -86,7 +84,7 @@ public enum McProtocolVersion {
      * Determines if the tested string is a valid WS-Addressing action header value
      * that belongs to a WS-MakeConnection protocol fault
      *
-     * @param WS-Addressing action string
+     * @param wsaAction WS-Addressing action string
      *
      * @return {@code true} in case the {@code wsaAction} parameter is a valid WS-Addressing
      *         action header value that belongs to a WS-MakeConnection protocol fault

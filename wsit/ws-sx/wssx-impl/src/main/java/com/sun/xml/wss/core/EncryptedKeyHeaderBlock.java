@@ -29,6 +29,7 @@ import com.sun.xml.wss.impl.misc.SecurityHeaderBlockImpl;
 
 /**
  * The schema definition of EncryptedKey element is as follows:
+ * <pre>{@code
  * <xmp>
  * <element name='EncryptedKey' type='xenc:EncryptedKeyType'/>
  * <complexType name='EncryptedKeyType'>
@@ -43,6 +44,7 @@ import com.sun.xml.wss.impl.misc.SecurityHeaderBlockImpl;
  *     </complexContent>
  * </complexType>
  * </xmp>
+ * }</pre>
  *
  * @author Vishal Mahajan
  */

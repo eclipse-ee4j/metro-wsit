@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -26,10 +26,9 @@ import javax.xml.namespace.QName;
  * Assertion which replaces inactivity timeout attribute of WS-RMP v1.0 RMAssertion.
  * The same assertion is used by .Net framework which could simplify the interoperability.
  * 
- * <pre>
+ * <pre>{@code 
  * <netrmp:InactivityTimeout Milliseconds="600000" xmlns:netrmp="http://schemas.microsoft.com/ws-rx/wsrmp/200702"/> 
- * </pre>
- * @author Marek Potociar <marek.potociar at sun.com>
+ * }</pre>
  */
 public class InactivityTimeoutAssertion extends SimpleAssertion implements RmConfigurator {
     public static final QName NAME = RmAssertionNamespace.MICROSOFT_200702.getQName("InactivityTimeout");

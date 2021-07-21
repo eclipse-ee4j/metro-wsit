@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -200,7 +200,7 @@ public interface Sequence {
      * @param message application message to be registered
      * @param storeMessageFlag boolean flag indicating whether message should be stored until acknowledged or not
      *
-     * @exception DuplicateMessageNumberException in case a message with such message number
+     * @throws DuplicateMessageRegistrationException in case a message with such message number
      * has already been registered with the sequence
      *
      * @exception AbstractSoapFaultException in a case the sequence is closed or terminated
@@ -211,14 +211,14 @@ public interface Sequence {
      * Retrieves a message stored within the sequence under the provided {@code correlationId}
      * if avalable. May return {@code null} if no stored message under given {@code correlationId}
      * is available.
-     * <p/>
+     * <p>
      * Availability of the message depends on the message identifier acknowledgement.
      * Message, if stored (see {@link #registerMessage(com.sun.xml.ws.rx.rm.runtime.ApplicationMessage, boolean)}
      * remains available for retrieval until it is acknowledged. Once the message identifier
      * associated with the stored message has been acknowledged, availability of the
      * stored message is no longer guaranteed and stored message becomes eligible for
      * garbage collection (if stored in memory) or removal.
-     * <p/>
+     * <p>
      * Note however, that message MAY still be available even after it has been acknowledged.
      * Thus it is NOT safe to use this method as a test of a message acknowledgement.
      *
@@ -334,7 +334,7 @@ public interface Sequence {
 
     /**
      * Determines whether a standalone acnowledgement request can be scheduled or not
-     * based on the {@link #hasPendingAcknowledgements()} value, last acknowledgement request time
+     * based on the {@link #hasUnacknowledgedMessages()} value, last acknowledgement request time
      * (see {@link #updateLastAcknowledgementRequestTime()}) and {@code delayPeriod}
      * parameter.
      * 
@@ -361,7 +361,7 @@ public interface Sequence {
     /**
      * Closes the sequence. Subsequent calls to this method have no effect.
      * <p>
-     * Once this method is called, any subsequent calls to the {@link #getNextMessageId()} method will
+     * Once this method is called, any subsequent calls to the {@code #getNextMessageId()} method will
      * result in a {@link IllegalStateException} being raised. It is however still possible to accept message identifier 
      * acknowledgements, as well as retrieve any other information on the sequence.
      */

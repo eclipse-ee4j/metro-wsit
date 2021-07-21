@@ -27,10 +27,8 @@ import jakarta.xml.bind.annotation.XmlAnyElement;
 import jakarta.xml.bind.annotation.XmlElementRef;
 import jakarta.xml.bind.annotation.XmlElementRefs;
 import jakarta.xml.bind.annotation.XmlType;
-import com.sun.xml.ws.policy.impl.bindings.OperatorContentType;
 import com.sun.xml.ws.policy.impl.bindings.Policy;
 import com.sun.xml.ws.policy.impl.bindings.PolicyReference;
-import org.w3c.dom.Element;
 
 
 /**
@@ -38,21 +36,21 @@ import org.w3c.dom.Element;
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
- * <pre>
- * &lt;complexType name="OperatorContentType"&gt;
- *   &lt;complexContent&gt;
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
- *       &lt;choice maxOccurs="unbounded" minOccurs="0"&gt;
- *         &lt;element ref="{http://schemas.xmlsoap.org/ws/2004/09/policy}Policy"/&gt;
- *         &lt;element ref="{http://schemas.xmlsoap.org/ws/2004/09/policy}All"/&gt;
- *         &lt;element ref="{http://schemas.xmlsoap.org/ws/2004/09/policy}ExactlyOne"/&gt;
- *         &lt;element ref="{http://schemas.xmlsoap.org/ws/2004/09/policy}PolicyReference"/&gt;
- *         &lt;any/&gt;
- *       &lt;/choice&gt;
- *     &lt;/restriction&gt;
- *   &lt;/complexContent&gt;
- * &lt;/complexType&gt;
- * </pre>
+ * <pre>{@code
+ * <complexType name="OperatorContentType">
+ *   <complexContent>
+ *     <restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
+ *       <choice maxOccurs="unbounded" minOccurs="0">
+ *         <element ref="{http://schemas.xmlsoap.org/ws/2004/09/policy}Policy"/>
+ *         <element ref="{http://schemas.xmlsoap.org/ws/2004/09/policy}All"/>
+ *         <element ref="{http://schemas.xmlsoap.org/ws/2004/09/policy}ExactlyOne"/>
+ *         <element ref="{http://schemas.xmlsoap.org/ws/2004/09/policy}PolicyReference"/>
+ *         <any/>
+ *       </choice>
+ *     </restriction>
+ *   </complexContent>
+ * </complexType>
+ * }</pre>
  * 
  * 
  */

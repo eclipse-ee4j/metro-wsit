@@ -38,27 +38,28 @@ import org.w3c.dom.Element;
 /**
  * 
  *         Actual content model is non-deterministic, hence wildcard. The following shows intended content model:
- *         &lt;xs:element ref='wsc:Identifier' minOccurs='1' /&gt;
- *         &lt;xs:element ref='wsc:Instance' minOccurs='0' /&gt;
- *         &lt;xs:any namespace='##any' processContents='lax' minOccurs='0' maxOccurs='unbounded' /&gt;
- *       
+ * <pre>{@code
+ *         <xs:element ref='wsc:Identifier' minOccurs='1' />
+ *         <xs:element ref='wsc:Instance' minOccurs='0' />
+ *         <xs:any namespace='##any' processContents='lax' minOccurs='0' maxOccurs='unbounded' />
+ * }</pre>
  * 
  * <p>Java class for SecurityContextTokenType complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
- * <pre>
- * &lt;complexType name="SecurityContextTokenType"&gt;
- *   &lt;complexContent&gt;
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
- *       &lt;sequence&gt;
- *         &lt;any/&gt;
- *       &lt;/sequence&gt;
- *       &lt;attribute ref="{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd}Id"/&gt;
- *     &lt;/restriction&gt;
- *   &lt;/complexContent&gt;
- * &lt;/complexType&gt;
- * </pre>
+ * <pre>{@code
+ * <complexType name="SecurityContextTokenType">
+ *   <complexContent>
+ *     <restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
+ *       <sequence>
+ *         <any/>
+ *       </sequence>
+ *       <attribute ref="{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd}Id"/>
+ *     </restriction>
+ *   </complexContent>
+ * </complexType>
+ * }</pre>
  * 
  * 
  */

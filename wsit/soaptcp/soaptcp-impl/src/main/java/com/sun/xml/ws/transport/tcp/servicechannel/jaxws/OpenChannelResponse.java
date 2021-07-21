@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -34,7 +34,7 @@ public class OpenChannelResponse {
     private List<String> negotiatedParams;
 
     /**
-     * 
+     *
      * @return
      *     returns int
      */
@@ -43,8 +43,8 @@ public class OpenChannelResponse {
     }
 
     /**
-     * 
-     * @param _return
+     *
+     * @param channelId
      *     the value for the _return property
      */
     public void setChannelId(int channelId) {
@@ -52,16 +52,16 @@ public class OpenChannelResponse {
     }
 
     /**
-     * 
+     *
      * @return
-     *     returns List<String>
+     *     returns List
      */
     public List<String> getNegotiatedMimeTypes() {
         return this.negotiatedMimeTypes;
     }
 
     /**
-     * 
+     *
      * @param negotiatedMimeTypes
      *     the value for the negotiatedMimeTypes property
      */
@@ -70,16 +70,16 @@ public class OpenChannelResponse {
     }
 
     /**
-     * 
+     *
      * @return
-     *     returns List<String>
+     *     returns List
      */
     public List<String> getNegotiatedParams() {
         return this.negotiatedParams;
     }
 
     /**
-     * 
+     *
      * @param negotiatedParams
      *     the value for the negotiatedParams property
      */

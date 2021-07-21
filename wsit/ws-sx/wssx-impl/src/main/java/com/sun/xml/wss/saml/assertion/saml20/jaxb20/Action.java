@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -36,8 +36,6 @@ public class Action  extends com.sun.xml.wss.saml.internal.saml20.jaxb20.ActionT
      * Constructs an action element from an existing XML block.
      *
      * @param element representing a DOM tree element.
-     * @exception SAMLException if there is an error in the sender or in
-     *            the element definition.
      */
     public Action(Element element) {
         setValue(element.getLocalName());
@@ -49,8 +47,6 @@ public class Action  extends com.sun.xml.wss.saml.internal.saml20.jaxb20.ActionT
      * @param namespace The attribute "namespace" of
      *        <code>Action</code> element
      * @param action A String representing an action
-     * @exception SAMLException if there is an error in the sender or in
-     *            the element definition.
      */
     public Action(String namespace, String action) {
         setValue(action);

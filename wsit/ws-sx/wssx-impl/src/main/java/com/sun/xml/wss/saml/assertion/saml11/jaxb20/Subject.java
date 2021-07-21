@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -41,7 +41,7 @@ the issuer is asserting that the surrounding statement is true for
 all of the subjects specified. For example, if both a
 <code>NameIdentifier</code> and a <code>SubjectConfirmation</code> element are
 present, the issuer is asserting that the statement is true of both subjects
-being identified. A <Subject> element SHOULD NOT identify more than one
+being identified. A {@code <Subject>} element SHOULD NOT identify more than one
 principal.
 */
 public class Subject extends SubjectType
@@ -60,9 +60,6 @@ public class Subject extends SubjectType
      *
      * @param nameIdentifier <code>NameIdentifier</code> object.
      * @param subjectConfirmation <code>SubjectConfirmation</code> object.
-     * @exception SAMLException if it could not process the
-     *            Element properly, implying that there is an error in the
-     *            sender or in the element definition.
      */
     public Subject(
         NameIdentifier nameIdentifier, SubjectConfirmation subjectConfirmation)

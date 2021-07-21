@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  * Copyright 1995-2005 The Apache Software Foundation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -41,8 +41,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
-import javax.xml.parsers.DocumentBuilderFactory;
-
 import org.apache.xml.security.c14n.helper.AttrCompare;
 import org.apache.xml.security.utils.XMLUtils;
 import com.sun.xml.wss.WSITXMLFactory;
@@ -59,18 +57,18 @@ import org.w3c.dom.ProcessingInstruction;
 /**
  * Implements &quot; <A
  * HREF="http://www.w3.org/TR/2002/REC-xml-exc-c14n-20020718/">Exclusive XML
- * Canonicalization, Version 1.0 </A>&quot; <BR />
+ * Canonicalization, Version 1.0 </A>&quot; <BR>
  * Credits: During restructuring of the Canonicalizer framework, Ren??
  * Kollmorgen from Software AG submitted an implementation of ExclC14n which
  * fitted into the old architecture and which based heavily on my old (and slow)
  * implementation of "Canonical XML". A big "thank you" to Ren?? for this.
- * <BR />
+ * <BR>
  * <i>THIS </i> implementation is a complete rewrite of the algorithm.
  *
- * @author Christian Geuer-Pollmann <geuerp@apache.org>
+ * @author Christian Geuer-Pollmann
  * @author K.Venugopal@sun.com
  * @version $Revision: 1.2 $
- * @see <a href="http://www.w3.org/TR/2002/REC-xml-exc-c14n-20020718/ Exclusive#">
+ * @see <a href="http://www.w3.org/TR/2002/REC-xml-exc-c14n-20020718/Exclusive#">
  *          XML Canonicalization, Version 1.0</a>
  */
 public class Canonicalizer20010315ExclOmitComments {
@@ -135,7 +133,6 @@ public class Canonicalizer20010315ExclOmitComments {
     
     /**
      * Method engineCanonicalizeXPathNodeSet
-     * @inheritDoc
      * @param xpathNodeSet
      * @param inclusiveNamespaces
      * @throws CanonicalizationException
@@ -180,7 +177,6 @@ public class Canonicalizer20010315ExclOmitComments {
     
     
     /**
-     * @inheritDoc
      * @param E
      * @throws CanonicalizationException
      */

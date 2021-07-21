@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -19,12 +19,11 @@ import org.glassfish.gmbal.ManagedData;
 /**
  * Reliable messaging feature is an implementation of {@link WebServiceFeature}
  * that configures Metro Reliable Messaging runtime functionality.
- * <p />
+ * <p>
  * Since there is a lot to configure in Reliable Messaging domain, to build create
  * an instance of {@code ReliableMessagingFeature}, use a convenience
  * {@link ReliableMessagingFeatureBuilder} builder class.
  *
- * @author Marek Potociar <marek.potociar at sun.com>
  */
 @ManagedData
 public class ReliableMessagingFeature extends WebServiceFeature implements StickyFeature {
@@ -63,7 +62,7 @@ public class ReliableMessagingFeature extends WebServiceFeature implements Stick
     /**
      * Specifies the duration in milliseconds after which the RM Destination will
      * transmit an acknowledgement.
-     * Currently the default value is set to -1 => unspecified.
+     * Currently the default value is set to -1 {@literal =>} unspecified.
      */
     public static final long DEFAULT_ACKNOWLEDGEMENT_TRANSMISSION_INTERVAL = -1;
     /**
@@ -89,7 +88,7 @@ public class ReliableMessagingFeature extends WebServiceFeature implements Stick
      * Currently, the default value is set to infinity (-1).
      */
     public static final long DEFAULT_MAX_CONCURRENT_SESSIONS = -1;
-    
+
     /**
      * A constant specifying the default value for disabling the generation of the {@code Offer}
      * element as part of the {@code CreateSequence} message.
@@ -108,12 +107,12 @@ public class ReliableMessagingFeature extends WebServiceFeature implements Stick
     public static final boolean DEFAULT_STATE_UPDATE_ON_RECEIVED_ACKREQUESTED_DISABLED = false;
 
     /**
-     * A constant specifying the default value for enabling XA TX at server side RMD. 
+     * A constant specifying the default value for enabling XA TX at server side RMD.
      */
     public static final boolean DEFAULT_XA_TX_FOR_SERVER_RMD = false;
-    
+
     /**
-     * A constant specifying the default value for XA TX timeout that is used at 
+     * A constant specifying the default value for XA TX timeout that is used at
      * server side RMD (in seconds).
      */
     public static final int DEFAULT_XA_TX_FOR_SERVER_RMD_TIMEOUT_SECONDS = 60;
@@ -234,7 +233,7 @@ public class ReliableMessagingFeature extends WebServiceFeature implements Stick
      * Defines the enumeration of all possible backoff algortihms that can be applied
      * for to message retransmission.
      *
-     * @see BackoffAlgorithm#LINEAR
+     * @see BackoffAlgorithm#CONSTANT
      * @see BackoffAlgorithm#EXPONENTIAL
      */
     public static enum BackoffAlgorithm {
@@ -276,7 +275,7 @@ public class ReliableMessagingFeature extends WebServiceFeature implements Stick
                     return value;
                 }
             }
-            
+
             return null;
         }
 
@@ -468,8 +467,8 @@ public class ReliableMessagingFeature extends WebServiceFeature implements Stick
      * Specifies which WS-RM version SOAP messages and SOAP message headers should
      * be used for communication between RM source and RM destination
      *
-     * @return version currently configured for the feature. If not set explicitly, 
-     *         the default value is specified by a call to {@link RmVersion#getDefault()}.
+     * @return version currently configured for the feature. If not set explicitly,
+     *         the default value is specified by a call to {@link RmProtocolVersion#getDefault()}.
      */
     @ManagedAttribute
     public RmProtocolVersion getProtocolVersion() {
@@ -479,7 +478,7 @@ public class ReliableMessagingFeature extends WebServiceFeature implements Stick
     /**
      * Specifies a period of inactivity for a Sequence in ms.
      *
-     * @return currently configured sequence inactivity timeout. If not set explicitly, 
+     * @return currently configured sequence inactivity timeout. If not set explicitly,
      *         the default value is specified by {@link #DEFAULT_SEQUENCE_INACTIVITY_TIMEOUT}
      *         constant.
      */
@@ -492,7 +491,7 @@ public class ReliableMessagingFeature extends WebServiceFeature implements Stick
      * Specifies whether each created RM sequence must be bound to a specific
      * underlying security token or secured transport.
      *
-     * @return configured security binding requirement. If not set explicitly, the 
+     * @return configured security binding requirement. If not set explicitly, the
      *         default value is specified by a call to {@link SecurityBinding#getDefault()}.
      *
      * @see SecurityBinding
@@ -513,7 +512,7 @@ public class ReliableMessagingFeature extends WebServiceFeature implements Stick
      * that receives messages from this RM Source. In either case the delivery
      * assurance does not affect the messages transmitted on the wire.
      *
-     * @return currently configured delivery assurance mode. If not set explicitly, 
+     * @return currently configured delivery assurance mode. If not set explicitly,
      *         the default value is specified by a call to {@link DeliveryAssurance#getDefault()}.
      *
      * @see DeliveryAssurance
@@ -556,7 +555,7 @@ public class ReliableMessagingFeature extends WebServiceFeature implements Stick
      * that may be stored in the unprocessed request message buffer within the RM
      * destination before the RM destination starts rejecting new request messages.
      *
-     * @return currently configured flow control buffer on the destination. If not 
+     * @return currently configured flow control buffer on the destination. If not
      *         set explicitly, the default value is specified by {@link #DEFAULT_DESTINATION_BUFFER_QUOTA}
      *         constant.
      */
@@ -569,7 +568,7 @@ public class ReliableMessagingFeature extends WebServiceFeature implements Stick
      * Specifies how long the RM Source will wait after transmitting a message
      * before retransmitting the message if no acknowledgement arrives.
      *
-     * @return currently configured base retransmission interval. If not set explicitly, 
+     * @return currently configured base retransmission interval. If not set explicitly,
      *         the default value is specified by {@link #DEFAULT_MESSAGE_RETRANSMISSION_INTERVAL}
      *         constant.
      */
@@ -599,10 +598,10 @@ public class ReliableMessagingFeature extends WebServiceFeature implements Stick
      *
      * If an acknowledgment has not been received within a certain amount of time
      * for a message that has been transmitted, the infrastructure automatically
-     * retransmits the message. By default, the number of retransmissions is not 
-     * limited. This can be checked by a call to {@link #isMessageRetransmissionLimited()}
-     * method. In case the {@link #isMessageRetransmissionLimited()} returns {@code true},
-     * the infrastructure tries to send the message for at most a {@link #getMaxMessageRetransmissionCount()}
+     * retransmits the message. By default, the number of retransmissions is not
+     * limited. This can be checked by a call to {@code #isMessageRetransmissionLimited()}
+     * method. In case the {@code isMessageRetransmissionLimited()} returns {@code true},
+     * the infrastructure tries to send the message for at most a {@code getMaxMessageRetransmissionCount()}
      * number of times. Not receiving an acknowledgment before this limit is reached
      * is considered to be a fatal communication failure, and causes the RM session to fail.
      *
@@ -655,7 +654,7 @@ public class ReliableMessagingFeature extends WebServiceFeature implements Stick
     /**
      * Specifies the duration after which the RM Destination will transmit an acknowledgement.
      * Specified in milliseconds.
-     * 
+     *
      * @return currently configured acknowledgement transmission interval. If not set explicitly,
      *         the default value is specified by the {@link #DEFAULT_ACKNOWLEDGEMENT_TRANSMISSION_INTERVAL}
      *         constant.
@@ -694,7 +693,7 @@ public class ReliableMessagingFeature extends WebServiceFeature implements Stick
 
     /**
      * Specifies whether the runtime should use persistent message storage or not.
-     * 
+     *
      * @return {@code true} if the runtime should use persistent message storage, {@code false} otherwise
      */
     @ManagedAttribute
@@ -747,23 +746,23 @@ public class ReliableMessagingFeature extends WebServiceFeature implements Stick
     @Override
     public String toString() {
         return "ReliableMessagingFeature" +
-                "{\n\tversion=" + version + 
-                ",\n\tdeliveryAssurance=" + deliveryAssurance + 
-                ",\n\torderedDelivery=" + orderedDelivery + 
-                ",\n\tsecurityBinding=" + securityBinding + 
-                ",\n\tdestinationBufferQuota=" + destinationBufferQuota + 
-                ",\n\tpersistenceEnabled=" + persistenceEnabled + 
-                ",\n\tmessageRetransmissionInterval=" + messageRetransmissionInterval + 
-                ",\n\tretransmissionBackoffAlgorithm=" + retransmissionBackoffAlgorithm + 
-                ",\n\tmaxMessageRetransmissionCount=" + maxMessageRetransmissionCount + 
-                ",\n\tmaxRmSessionControlMessageResendAttempts=" + maxRmSessionControlMessageResendAttempts + 
-                ",\n\tacknowledgementTransmissionInterval=" + acknowledgementTransmissionInterval + 
-                ",\n\tackRequestTransmissionInterval=" + ackRequestTransmissionInterval + 
-                ",\n\tsequenceInactivityTimeout=" + sequenceInactivityTimeout + 
-                ",\n\tcloseSequenceOperationTimeout=" + closeSequenceOperationTimeout + 
-                ",\n\tsequenceManagerMaintenancePeriod=" + sequenceManagerMaintenancePeriod + 
-                ",\n\tmaxConcurrentSessions=" + maxConcurrentSessions + 
-                ",\n\tofferElementGenerationDisabled=" + offerElementGenerationDisabled + 
+                "{\n\tversion=" + version +
+                ",\n\tdeliveryAssurance=" + deliveryAssurance +
+                ",\n\torderedDelivery=" + orderedDelivery +
+                ",\n\tsecurityBinding=" + securityBinding +
+                ",\n\tdestinationBufferQuota=" + destinationBufferQuota +
+                ",\n\tpersistenceEnabled=" + persistenceEnabled +
+                ",\n\tmessageRetransmissionInterval=" + messageRetransmissionInterval +
+                ",\n\tretransmissionBackoffAlgorithm=" + retransmissionBackoffAlgorithm +
+                ",\n\tmaxMessageRetransmissionCount=" + maxMessageRetransmissionCount +
+                ",\n\tmaxRmSessionControlMessageResendAttempts=" + maxRmSessionControlMessageResendAttempts +
+                ",\n\tacknowledgementTransmissionInterval=" + acknowledgementTransmissionInterval +
+                ",\n\tackRequestTransmissionInterval=" + ackRequestTransmissionInterval +
+                ",\n\tsequenceInactivityTimeout=" + sequenceInactivityTimeout +
+                ",\n\tcloseSequenceOperationTimeout=" + closeSequenceOperationTimeout +
+                ",\n\tsequenceManagerMaintenancePeriod=" + sequenceManagerMaintenancePeriod +
+                ",\n\tmaxConcurrentSessions=" + maxConcurrentSessions +
+                ",\n\tofferElementGenerationDisabled=" + offerElementGenerationDisabled +
                 ",\n\trejectOutOfOrderMessagesEnabled=" + rejectOutOfOrderMessagesEnabled +
                 "\n}";
     }

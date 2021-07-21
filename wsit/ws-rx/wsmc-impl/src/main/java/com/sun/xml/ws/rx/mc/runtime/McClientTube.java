@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -35,7 +35,6 @@ import javax.xml.stream.XMLStreamException;
 
 /**
  *
- * @author Marek Potociar <marek.potociar at sun.com>
  */
 public class McClientTube extends AbstractFilterTubeImpl implements WsmcRuntimeProvider {
     //
@@ -62,7 +61,7 @@ public class McClientTube extends AbstractFilterTubeImpl implements WsmcRuntimeP
                 .jaxbContext(configuration.getRuntimeVersion().getJaxbContext(configuration.getAddressingVersion()))
                 .container(container)
                 .build();
-        
+
         final String wsmcAnonymousAddress = configuration.getRuntimeVersion().getAnonymousAddress(UUID.randomUUID().toString());
         this.wsmcAnonymousEndpointReference = new WSEndpointReference(wsmcAnonymousAddress, configuration.getAddressingVersion());
         this.wsmcAnnonymousReplyToHeader = wsmcAnonymousEndpointReference.createHeader(configuration.getAddressingVersion().replyToTag);
@@ -165,7 +164,7 @@ public class McClientTube extends AbstractFilterTubeImpl implements WsmcRuntimeP
     }
 
     /**
-     *  @see WsmcRuntimeProvider#registerProtocolMessageHandler(com.sun.xml.ws.rx.mc.dev.ProtocolMessageHandler) 
+     *  @see WsmcRuntimeProvider#registerProtocolMessageHandler(com.sun.xml.ws.rx.mc.dev.ProtocolMessageHandler)
      */
     public final void registerProtocolMessageHandler(ProtocolMessageHandler handler) {
         mcSenderTask.register(handler);

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -34,7 +34,7 @@ import java.util.logging.Level;
 
 /**
  * From CMT EJB methods generate wsdl:binding/wsdl:operations with semantically equivalent WS-AT Policy Assertion(s).
- * <p/>
+ * <p>
  * Known limitation: not accounting for EJB deployment descriptor, only working off of TransactionAttribute annotations.
  */
 public class AtPolicyMapConfigurator implements PolicyMapConfigurator {
@@ -43,10 +43,9 @@ public class AtPolicyMapConfigurator implements PolicyMapConfigurator {
 
     /**
      * Update policy map with operation scope of correct WS-AT policy assertions.
-     * <p/>
+     * <p>
      * Only looking for this for Java to WSDL at tool time.
      *
-     * @param policyMapMutator
      * @param policyMap
      * @param model
      * @param wsBinding

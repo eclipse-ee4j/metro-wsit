@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -45,7 +45,7 @@ public abstract class RealmAuthenticationAdapter {
      * @param username the username
      * @param password the password
      * @return true if authentication succeeds
-     * @throws com.sun.xml.wss.XWSSecurityException, if there is an authentication failure
+     * @throws com.sun.xml.wss.XWSSecurityException if there is an authentication failure
      */
     public abstract boolean authenticate(Subject callerSubject, String username, String password) throws XWSSecurityException;
 
@@ -56,7 +56,7 @@ public abstract class RealmAuthenticationAdapter {
      * @param password the password
      * @param runtimeProps Map of runtime properties that can be used in authentication decision
      * @return true if authentication succeeds
-     * @throws com.sun.xml.wss.XWSSecurityException, if there is an authentication failure
+     * @throws com.sun.xml.wss.XWSSecurityException if there is an authentication failure
      */
     public  boolean authenticate(Subject callerSubject, String username, String password, Map runtimeProps) throws XWSSecurityException {
         //make a default implementation for backward compatibility

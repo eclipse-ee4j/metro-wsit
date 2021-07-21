@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -546,7 +546,7 @@ public class XMLUtil {
     /**
      * Obtains a new instance of a DOM Document object
      * @return a new instance of a DOM Document object
-     * @exception Exception if an error occurs while constructing a new
+     * @exception ParserConfigurationException if an error occurs while constructing a new
      *                      document
      */
     public static Document newDocument() throws ParserConfigurationException {

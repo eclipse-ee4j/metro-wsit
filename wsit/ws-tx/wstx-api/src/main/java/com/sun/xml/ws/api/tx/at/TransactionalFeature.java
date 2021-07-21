@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -20,15 +20,13 @@ import java.util.Map;
 /**
  * This feature represents the use of WS-AT with a
  * web service.
- * <p/>
- * <p/>
+ * <p>
  * The following describes the affects of this feature with respect
  * to being enabled or disabled:
  * <ul>
  * <li> ENABLED: In this Mode, WS-AT will be enabled.
  * <li> DISABLED: In this Mode, WS-AT will be disabled
  * </ul>
- * <p/>
  */
 public class TransactionalFeature extends WebServiceFeature {
 

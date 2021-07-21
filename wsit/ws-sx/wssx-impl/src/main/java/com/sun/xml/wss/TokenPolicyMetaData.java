@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -46,7 +46,7 @@ public class TokenPolicyMetaData {
     }
 
     /**
-     * @return &lt&sp:Issuer&gtwsa:EndpointReferenceType&lt/sp:Issuer&gt, null if not specified policy 
+     * @return &lt;sp:Issuer&gt;wsa:EndpointReferenceType&lt;/sp:Issuer&gt;, null if not specified policy 
      */
     public String getIssuer() {
         if (tokenPolicy == null) {
@@ -57,7 +57,7 @@ public class TokenPolicyMetaData {
     }
 
     /**
-     * @return &lt&wst:Claims Dialect="..."&gt ... &lt/wst:Claims&gt, null if not specified in policy
+     * @return &lt;wst:Claims Dialect="..."&gt; ... &lt;/wst:Claims&gt;, null if not specified in policy
      */
     public Element getClaims() throws XWSSecurityException{
 

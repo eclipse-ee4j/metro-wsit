@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -31,7 +31,6 @@ import jakarta.xml.ws.EndpointReference;
  * or removed without any advance notice.
  * </b>
  *
- * @author Marek Potociar <marek.potociar at sun.com>
  */
 public final class JaxbContextRepository {
 
@@ -87,12 +86,12 @@ public final class JaxbContextRepository {
 
     /**
      * Creates JAXB {@link Unmarshaller} that is able to unmarshall elements for specified classes.
-     * <p />
+     * <p>
      * As JAXB unmarshallers are not thread-safe, this method should be used to create a new {@link Unmarshaller}
      * instance whenever there is a chance that the same instance might be invoked concurrently from multiple
      * threads. On th other hand, it is prudent to cache or pool {@link Unmarshaller} instances if possible as
      * constructing a new {@link Unmarshaller} instance is rather expensive.
-     * <p />
+     * <p>
      * For additional information see this <a href="https://jaxb.dev.java.net/guide/Performance_and_thread_safety.html">blog entry</a>.
      *
      * @return created JAXB unmarshaller

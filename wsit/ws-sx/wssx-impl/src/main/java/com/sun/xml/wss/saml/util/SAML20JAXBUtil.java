@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -55,7 +55,7 @@ public class SAML20JAXBUtil {
     }
     /**
      * 
-     * @param namespace list of ":" separated namespaces to be used to create the JAXBContext
+     * @param namespaces list of ":" separated namespaces to be used to create the JAXBContext
      * @return JAXBContext initialized with the namespaces
      * @throws jakarta.xml.bind.JAXBException
      */

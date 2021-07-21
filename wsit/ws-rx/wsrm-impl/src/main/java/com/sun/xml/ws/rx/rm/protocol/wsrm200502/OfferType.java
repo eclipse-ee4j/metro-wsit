@@ -23,14 +23,16 @@ import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlType;
 
 /**
- * &lt;xs:complexType name="OfferType"&gt;
- *     &lt;xs:sequence&gt;
- *         &lt;xs:element ref="wsrm:Identifier"/&gt;
- *         &lt;xs:element ref="wsrm:Expires" minOccurs="0"/&gt;
- *         &lt;xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/&gt;
- *     &lt;/xs:sequence&gt;
- *     &lt;xs:anyAttribute namespace="##other" processContents="lax"/&gt;
- * &lt;/xs:complexType&gt;
+ * {@code
+ * <xs:complexType name="OfferType">
+ *     <xs:sequence>
+ *         <xs:element ref="wsrm:Identifier"/>
+ *         <xs:element ref="wsrm:Expires" minOccurs="0"/>
+ *         <xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+ *     </xs:sequence>
+ *     <xs:anyAttribute namespace="##other" processContents="lax"/>
+ * </xs:complexType>
+ * }
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "OfferType", propOrder = {
@@ -149,7 +151,7 @@ public class OfferType {
      * Mutator for the Id property.  Maps to the Identifier property in the underlying
      * JAXB class.
      *
-     * @param id The new value.
+     * @param idString The new value.
      */
     public void setId(String idString) {
         Identifier newId = new Identifier();

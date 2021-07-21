@@ -37,23 +37,23 @@ import org.w3c.dom.Element;
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
- * <pre>
- * &lt;element name="MetadataSection">
- *   &lt;complexType>
- *     &lt;complexContent>
- *       &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *         &lt;choice>
- *           &lt;any/>
- *           &lt;element ref="{http://schemas.xmlsoap.org/ws/2004/09/mex}MetadataReference"/>
- *           &lt;element ref="{http://schemas.xmlsoap.org/ws/2004/09/mex}Location"/>
- *         &lt;/choice>
- *         &lt;attribute name="Dialect" use="required" type="{http://www.w3.org/2001/XMLSchema}anyURI" />
- *         &lt;attribute name="Identifier" type="{http://www.w3.org/2001/XMLSchema}anyURI" />
- *       &lt;/restriction>
- *     &lt;/complexContent>
- *   &lt;/complexType>
- * &lt;/element>
- * </pre>
+ * <pre>{@code
+ * <element name="MetadataSection">
+ *   <complexType>
+ *     <complexContent>
+ *       <restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
+ *         <choice>
+ *           <any/>
+ *           <element ref="{http://schemas.xmlsoap.org/ws/2004/09/mex}MetadataReference"/>
+ *           <element ref="{http://schemas.xmlsoap.org/ws/2004/09/mex}Location"/>
+ *         </choice>
+ *         <attribute name="Dialect" use="required" type="{http://www.w3.org/2001/XMLSchema}anyURI" />
+ *         <attribute name="Identifier" type="{http://www.w3.org/2001/XMLSchema}anyURI" />
+ *       </restriction>
+ *     </complexContent>
+ *   </complexType>
+ * </element>
+ * }</pre>
  * 
  * 
  */
