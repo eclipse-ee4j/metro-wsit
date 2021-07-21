@@ -373,6 +373,8 @@
                         <sourceFileExclude>**/gmbal/**</sourceFileExclude>
                         <sourceFileExclude>**/pfl/**</sourceFileExclude>
                         <sourceFileExclude>org/apache/**</sourceFileExclude>
+                        <!-- temporarily disabled: javadoc/JDK 17 fails on following sources -->
+                        <sourceFileExclude>**/xml/registry/**</sourceFileExclude>
                     </sourceFileExcludes>
                 </configuration>
             </plugin>
