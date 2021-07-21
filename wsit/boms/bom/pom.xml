@@ -53,7 +53,7 @@
     </developers>
 
     <properties>
-        <jaxws.ri.version>2.3.4</jaxws.ri.version>
+        <jaxws.ri.version>2.3.5</jaxws.ri.version>
     </properties>
 
     <dependencyManagement>
@@ -287,7 +287,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-javadoc-plugin</artifactId>
-                    <version>3.2.0</version>
+                    <version>3.3.0</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
