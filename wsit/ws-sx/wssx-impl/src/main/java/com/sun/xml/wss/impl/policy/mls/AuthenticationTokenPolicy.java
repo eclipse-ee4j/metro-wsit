@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -210,7 +210,7 @@ public class AuthenticationTokenPolicy extends WSSFeatureBindingExtension {
         }
         /**
          * Create and set the FeatureBinding for this WSSPolicy to a TimestampPolicy     * @return a new TimestampPolicy as a FeatureBinding for this WSSPolicy
-         * @exception PolicyGenerationException, if TimestampPolicy is not a valid FeatureBinding for this WSSPolicy
+         * @exception PolicyGenerationException if TimestampPolicy is not a valid FeatureBinding for this WSSPolicy
          * @see SignaturePolicy
          * @see EncryptionPolicy
          * @see AuthenticationTokenPolicy

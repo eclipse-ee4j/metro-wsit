@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -40,6 +40,7 @@ import com.sun.xml.wss.XWSSecurityException;
 import com.sun.xml.wss.impl.misc.SecurityHeaderBlockImpl;
 
 /**
+ * <pre>{@code
     <element name="Signature" type="ds:SignatureType"/>
     <complexType name="SignatureType">
     <sequence>
@@ -50,6 +51,7 @@ import com.sun.xml.wss.impl.misc.SecurityHeaderBlockImpl;
     </sequence>
     <attribute name="Id" type="ID" use="optional"/>
     </complexType>
+    * }</pre>
  */
 public class SignatureHeaderBlock  extends SecurityHeaderBlockImpl {
 
@@ -362,11 +364,11 @@ public class SignatureHeaderBlock  extends SecurityHeaderBlockImpl {
     }
 
     /**
-     * Returns the <code>index<code>th <code>ds:Object</code> child of the 
+     * Returns the <code>index</code>th <code>ds:Object</code> child of the 
      * signature or null if no such <code>ds:Object</code> element exists.
      *
      * @param index
-     * @return the <code>index<code>th <code>ds:Object</code> child of the 
+     * @return the <code>index</code>th <code>ds:Object</code> child of the 
      * signature or null if no such <code>ds:Object</code> element exists.
      * 1 is the lowest index (not 0)
      */

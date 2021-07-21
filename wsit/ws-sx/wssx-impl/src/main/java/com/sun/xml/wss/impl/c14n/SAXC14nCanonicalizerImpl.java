@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -60,7 +60,7 @@ public class SAXC14nCanonicalizerImpl extends BaseCanonicalizer  implements Cont
      * <p>The default implementation does nothing.  Application writers
      * may override this method in a subclass to take specific actions
      * for each warning, such as inserting the message in a log file or
-     * printing it to the console.</p>
+     * printing it to the console.
      *
      * @param e The warning information encoded as an exception.
      * @exception org.xml.sax.SAXException Any SAX exception, possibly
@@ -79,7 +79,7 @@ public class SAXC14nCanonicalizerImpl extends BaseCanonicalizer  implements Cont
      * <p>The default implementation does nothing.  Application writers
      * may override this method in a subclass to take specific actions
      * for each error, such as inserting the message in a log file or
-     * printing it to the console.</p>
+     * printing it to the console.
      *
      * @param e The warning information encoded as an exception.
      * @exception org.xml.sax.SAXException Any SAX exception, possibly
@@ -101,7 +101,7 @@ public class SAXC14nCanonicalizerImpl extends BaseCanonicalizer  implements Cont
      * collecting all of the errors into a single report): in any case,
      * the application must stop all regular processing when this
      * method is invoked, since the document is no longer reliable, and
-     * the parser may no longer report parsing events.</p>
+     * the parser may no longer report parsing events.
      *
      * @param e The error information encoded as an exception.
      * @exception org.xml.sax.SAXException Any SAX exception, possibly
@@ -124,7 +124,7 @@ public class SAXC14nCanonicalizerImpl extends BaseCanonicalizer  implements Cont
      * <p>By default, do nothing.  Application writers may override this
      * method to take specific actions for each chunk of character data
      * (such as adding the data to a node or buffer, or printing it to
-     * a file).</p>
+     * a file).
      *
      * @param ch The characters.
      * @param start The start position in the character array.
@@ -148,7 +148,7 @@ public class SAXC14nCanonicalizerImpl extends BaseCanonicalizer  implements Cont
      * <p>By default, do nothing.  Application writers may override this
      * method to take specific actions for each chunk of ignorable
      * whitespace (such as adding data to a node or buffer, or printing
-     * it to a file).</p>
+     * it to a file).
      *
      * @param ch The whitespace characters.
      * @param start The start position in the character array.
@@ -175,7 +175,7 @@ public class SAXC14nCanonicalizerImpl extends BaseCanonicalizer  implements Cont
      *
      * <p>By default, do nothing.  Application writers may override this
      * method in a subclass to take specific actions at the end of
-     * each prefix mapping.</p>
+     * each prefix mapping.
      *
      * @param prefix The Namespace prefix being declared.
      * @exception org.xml.sax.SAXException Any SAX exception, possibly
@@ -191,7 +191,7 @@ public class SAXC14nCanonicalizerImpl extends BaseCanonicalizer  implements Cont
      *
      * <p>By default, do nothing.  Application writers may override this
      * method in a subclass if they wish to store the locator for use
-     * with other document events.</p>
+     * with other document events.
      *
      * @param locator A locator for all SAX document events.
      * @see org.xml.sax.ContentHandler#setDocumentLocator
@@ -207,7 +207,7 @@ public class SAXC14nCanonicalizerImpl extends BaseCanonicalizer  implements Cont
      * <p>By default, do nothing.  Application writers may override this
      * method in a subclass to take specific actions for each
      * processing instruction, such as setting status variables or
-     * invoking other methods.</p>
+     * invoking other methods.
      *
      * @param name The name of the skipped entity.
      * @exception org.xml.sax.SAXException Any SAX exception, possibly
@@ -222,7 +222,7 @@ public class SAXC14nCanonicalizerImpl extends BaseCanonicalizer  implements Cont
      *
      * <p>By default, do nothing.  Application writers may override this
      * method in a subclass to keep track of the unparsed entities
-     * declared in a document.</p>
+     * declared in a document.
      *
      * @param name The entity name.
      * @param publicId The entity public identifier, or null if not
@@ -242,7 +242,7 @@ public class SAXC14nCanonicalizerImpl extends BaseCanonicalizer  implements Cont
      *
      * <p>By default, do nothing.  Application writers may override this
      * method in a subclass to take specific actions at the start of
-     * each Namespace prefix scope (such as storing the prefix mapping).</p>
+     * each Namespace prefix scope (such as storing the prefix mapping).
      *
      * @param prefix The Namespace prefix being declared.
      * @param uri The Namespace URI mapped to the prefix.
@@ -288,7 +288,7 @@ public class SAXC14nCanonicalizerImpl extends BaseCanonicalizer  implements Cont
      * <p>By default, do nothing.  Application writers may override this
      * method in a subclass to take specific actions at the start of
      * each element (such as allocating a new tree node or writing
-     * output to a file).</p>
+     * output to a file).
      *
      * @param uri The Namespace URI, or the empty string if the
      *        element has no Namespace URI or if Namespace
@@ -340,7 +340,7 @@ public class SAXC14nCanonicalizerImpl extends BaseCanonicalizer  implements Cont
      * <p>By default, do nothing.  Application writers may override this
      * method in a subclass to take specific actions at the beginning
      * of a document (such as allocating the root node of a tree or
-     * creating an output file).</p>
+     * creating an output file).
      *
      * @exception org.xml.sax.SAXException Any SAX exception, possibly
      *            wrapping another exception.
@@ -419,7 +419,7 @@ public class SAXC14nCanonicalizerImpl extends BaseCanonicalizer  implements Cont
      * <p>By default, do nothing.  Application writers may override this
      * method in a subclass to take specific actions at the end
      * of a document (such as finalising a tree or closing an output
-     * file).</p>
+     * file).
      *
      * @exception org.xml.sax.SAXException Any SAX exception, possibly
      *            wrapping another exception.
@@ -435,7 +435,7 @@ public class SAXC14nCanonicalizerImpl extends BaseCanonicalizer  implements Cont
      * <p>By default, do nothing.  Application writers may override this
      * method in a subclass to take specific actions at the end of
      * each element (such as finalising a tree node or writing
-     * output to a file).</p>
+     * output to a file).
      *
      * @param uri The Namespace URI, or the empty string if the
      *        element has no Namespace URI or if Namespace
@@ -472,7 +472,7 @@ public class SAXC14nCanonicalizerImpl extends BaseCanonicalizer  implements Cont
      *
      * <p>By default, do nothing.  Application writers may override this
      * method in a subclass if they wish to keep track of the notations
-     * declared in a document.</p>
+     * declared in a document.
      *
      * @param name The notation name.
      * @param publicId The notation public identifier, or null if not
@@ -491,7 +491,7 @@ public class SAXC14nCanonicalizerImpl extends BaseCanonicalizer  implements Cont
      * <p>By default, do nothing.  Application writers may override this
      * method in a subclass to take specific actions for each
      * processing instruction, such as setting status variables or
-     * invoking other methods.</p>
+     * invoking other methods.
      *
      * @param target The processing instruction target.
      * @param data The processing instruction data, or null if

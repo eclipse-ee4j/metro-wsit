@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -38,7 +38,6 @@ import javax.xml.soap.Detail;
 
 /**
  *
- * @author Marek Potociar <marek.potociar at sun.com>
  */
 public abstract class WsrmProtocolHandler {
 
@@ -169,7 +168,7 @@ public abstract class WsrmProtocolHandler {
      *
      * @return message content unmarshalled JAXB bean
      *
-     * @throws com.sun.xml.ws.rm.RxException in case the message unmarshalling failed
+     * @throws RxRuntimeException in case the message unmarshalling failed
      */
     protected final <T> T unmarshallMessage(@NotNull Message message) throws RxRuntimeException {
         assert message != null;

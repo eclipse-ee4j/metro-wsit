@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -19,32 +19,32 @@ package com.sun.xml.ws.security.policy;
  * the message signature from recipient to initiator. This interface represents normalized
  * AsymmetricBinding security policy assertion as shown below.
  *
- * <pre>
- *  &lt;xmp&gt;
- *      &lt;sp:AsymmetricBinding ... &gt;
- *              &lt;wsp:Policy&gt;
- *                  &lt;sp:InitiatorToken&gt;
- *                      &lt;wsp:Policy&gt; ... &lt;/wsp:Policy&gt;
- *                  &lt;/sp:InitiatorToken&gt;
- *                  &lt;sp:RecipientToken&gt;
- *                      &lt;wsp:Policy&gt; ... &lt;/wsp:Policy&gt;
- *                  &lt;/sp:RecipientToken&gt;
- *                  &lt;sp:AlgorithmSuite ... &gt;
+ * <pre>{@code
+ *  <xmp>
+ *      <sp:AsymmetricBinding ... >
+ *              <wsp:Policy>
+ *                  <sp:InitiatorToken>
+ *                      <wsp:Policy> ... </wsp:Policy>
+ *                  </sp:InitiatorToken>
+ *                  <sp:RecipientToken>
+ *                      <wsp:Policy> ... </wsp:Policy>
+ *                  </sp:RecipientToken>
+ *                  <sp:AlgorithmSuite ... >
  *                      ...
- *                  &lt;/sp:AlgorithmSuite&gt;
- *                  &lt;sp:Layout ... &gt; ... &lt;/sp:Layout&gt; ?
- *                  &lt;sp:IncludeTimestamp ... /&gt; ?
- *                  &lt;sp:EncryptBeforeSigning ... /&gt; ?
- *                  &lt;sp:EncryptSignature ... /&gt; ?
- *                  &lt;sp:ProtectTokens ... /&gt; ?
- *                  &lt;sp:OnlySignEntireHeadersAndBody ... /&gt; ?
+ *                  </sp:AlgorithmSuite>
+ *                  <sp:Layout ... > ... </sp:Layout> ?
+ *                  <sp:IncludeTimestamp ... /> ?
+ *                  <sp:EncryptBeforeSigning ... /> ?
+ *                  <sp:EncryptSignature ... /> ?
+ *                  <sp:ProtectTokens ... /> ?
+ *                  <sp:OnlySignEntireHeadersAndBody ... /> ?
  *                      ...
- *             &lt;/wsp:Policy&gt;
+ *             </wsp:Policy>
  *          ...
- *      &lt;/sp:AsymmetricBinding&gt;
+ *      </sp:AsymmetricBinding>
  *
- *  &lt;/xmp&gt;
- * </pre>
+ *  </xmp>
+ * }</pre>
  *
  * @author K.Venugopal@sun.com
  */

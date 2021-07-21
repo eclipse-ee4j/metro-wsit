@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -15,12 +15,10 @@ import com.sun.xml.ws.rx.testing.PacketFilter;
 
 /**
  * Filter instance of this class checks if the RM is enabled on the current WS port.
- * <p />
+ * <p>
  * If RM is not enabled, invocation of this filter results in a {@link IllegalStateException}
  * being thrown.
- * 
- *  
- * @author Marek Potociar <marek.potociar at sun.com>
+ *
  */
 public final class RmEnabledCheckFilter extends PacketFilter {
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  * Copyright 1999-2005 The Apache Software Foundation.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
@@ -66,12 +66,10 @@ public class DigesterOutputStream extends OutputStream {
 	}
     }
 
-    /** @inheritDoc */
     public void write(byte[] input) {
 	write(input, 0, input.length);
     }
     
-    /** @inheritDoc */
     public void write(int input) {
 	if (buffer) {
 	    bos.write(input);
@@ -79,7 +77,6 @@ public class DigesterOutputStream extends OutputStream {
 	md.update((byte)input);
     }
     
-    /** @inheritDoc */
     public void write(byte[] input, int offset, int len) {
 	if (buffer) {
 	    bos.write(input, offset, len);

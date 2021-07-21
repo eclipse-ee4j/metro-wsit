@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -16,7 +16,7 @@ package com.oracle.webservices.oracle_internal_api.rm;
  *
  * <p>This results in the RMS causing the message to be given to
  * {@code com.oracle.webservices.api.disi.ClientRequestTransport#request}
- * again.<p/>
+ * again.
  *
  * <p>Note: a retry will not occur is max retries, timeouts, etc., are exceeded.</p>
  */

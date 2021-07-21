@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -29,28 +29,30 @@ import com.sun.xml.wss.XWSSecurityException;
 
 /**
  * The schema definition for a SAML <code>Assertion</code> is as follows:
- * &lt;xmp&gt;
- * &lt;element name="Assertion" type="saml:AssertionType"/&gt;
- * &lt;complexType name="AssertionType"&gt;
- *     &lt;sequence&gt;
- *         &lt;element ref="saml:Conditions" minOccurs="0"/&gt;
- *         &lt;element ref="saml:Advice" minOccurs="0"/&gt;
- *         &lt;choice maxOccurs="unbounded"&gt;
- *             &lt;element ref="saml:Statement"/&gt;
- *             &lt;element ref="saml:SubjectStatement"/&gt;
- *             &lt;element ref="saml:AuthenticationStatement"/&gt;
- *             &lt;element ref="saml:AuthorizationDecisionStatement"/&gt;
- *             &lt;element ref="saml:AttributeStatement"/&gt;
- *         &lt;/choice&gt;
- *         &lt;element ref="ds:Signature" minOccurs="0"/&gt;
- *     &lt;/sequence&gt;
- *     &lt;attribute name="MajorVersion" type="integer" use="required"/&gt;
- *     &lt;attribute name="MinorVersion" type="integer" use="required"/&gt;
- *     &lt;attribute name="AssertionID" type="saml:IDType" use="required"/&gt;
- *     &lt;attribute name="Issuer" type="string" use="required"/&gt;
- *     &lt;attribute name="IssueInstant" type="dateTime" use="required"/&gt;
- * &lt;/complexType&gt;
- * &lt;/xmp&gt;
+ * <pre>{@code
+ * <xmp>
+ * <element name="Assertion" type="saml:AssertionType"/>
+ * <complexType name="AssertionType">
+ *     <sequence>
+ *         <element ref="saml:Conditions" minOccurs="0"/>
+ *         <element ref="saml:Advice" minOccurs="0"/>
+ *         <choice maxOccurs="unbounded">
+ *             <element ref="saml:Statement"/>
+ *             <element ref="saml:SubjectStatement"/>
+ *             <element ref="saml:AuthenticationStatement"/>
+ *             <element ref="saml:AuthorizationDecisionStatement"/>
+ *             <element ref="saml:AttributeStatement"/>
+ *         </choice>
+ *         <element ref="ds:Signature" minOccurs="0"/>
+ *     </sequence>
+ *     <attribute name="MajorVersion" type="integer" use="required"/>
+ *     <attribute name="MinorVersion" type="integer" use="required"/>
+ *     <attribute name="AssertionID" type="saml:IDType" use="required"/>
+ *     <attribute name="Issuer" type="string" use="required"/>
+ *     <attribute name="IssueInstant" type="dateTime" use="required"/>
+ * </complexType>
+ * </xmp>
+ * }</pre>
  *
  * @author Axl Mattheus
  */

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -75,7 +75,7 @@ public interface WSTrustElementBase {
 
     /**
       * Set the value of OnBehalfOf for the requested token
-      * @param appliesTo {@link OnBehalfOf}
+      * @param onBehalfOf {@link OnBehalfOf}
       */
       void setOnBehalfOf(OnBehalfOf onBehalfOf);
 
@@ -96,12 +96,12 @@ public interface WSTrustElementBase {
     Issuer getIssuer();
 
     /**
-      * set a <wst:Renewing/&gt; element to make a renewable Issue request
+      * set a {@code<wst:Renewing/>} element to make a renewable Issue request
       */
     void setRenewable(Renewing renew);
 
    /**
-     * get the <wst:Renewing/&gt; element if present, null otherwise
+     * get the {@code<wst:Renewing/>} element if present, null otherwise
      */
     Renewing getRenewable();
 
@@ -110,38 +110,38 @@ public interface WSTrustElementBase {
      * Set a SignChallenge
      */
     void setSignChallenge(SignChallenge challenge);
-    
+
     /**
      * get SignChallenge element if any, null otherwise
      */
     SignChallenge getSignChallenge();
-    
+
     /**
      * set a BinaryExchange
      */
     void setBinaryExchange(BinaryExchange challenge);
-    
+
     /**
      * get BinaryExchange element if any, null otherwise
      */
     BinaryExchange getBinaryExchange();
-    
-    
+
+
      /**
      * set AuthenticationType
      */
     void setAuthenticationType(URI uri);
-    
+
     /**
      * get Authentication Type parameter if set, null otherwise
      */
     URI getAuthenticationType();
-    
+
     /**
      * set KeyType parameter
      */
     void setKeyType(URI keytype) throws WSTrustException;
-    
+
     /**
      * get KeyType Parameter if set, null otherwise
      */
@@ -151,37 +151,37 @@ public interface WSTrustElementBase {
      * set the KeySize parameter
      */
     void setKeySize(long size);
-    
+
     /**
      * get the KeySize parameter if specified, 0 otherwise
      */
     long getKeySize();
-    
+
     /**
      * set SignatureAlgorithm
      */
     void setSignatureAlgorithm(URI algorithm);
-    
+
     /**
      * get SignatureAlgorithm value if set, return default otherwise
      */
     URI getSignatureAlgorithm();
-    
+
     /**
      * set EncryptionAlgorithm
      */
     void setEncryptionAlgorithm(URI algorithm);
-    
+
     /**
      * get EncryptionAlgorithm value if set, return default otherwise
      */
     URI getEncryptionAlgorithm();
-    
+
     /**
      * set CanonicalizationAlgorithm
      */
     void setCanonicalizationAlgorithm(URI algorithm);
-    
+
     /**
      * get CanonicalizationAlgorithm value if set, return default otherwise
      */
@@ -211,47 +211,47 @@ public interface WSTrustElementBase {
      * set ComputedKeyAlgorithm
      */
     void setComputedKeyAlgorithm(URI algorithm);
-    
+
     /**
      * get CanonicalizationAlgorithm value if set, return default otherwise
      */
     URI getComputedKeyAlgorithm();
-    
+
     /**
      * set Encryption
      */
     void setEncryption(Encryption enc);
-    
+
     /**
      * get Encryption value if set, return null otherwise
      */
     Encryption getEncryption();
-    
+
     /**
      * Set the Signature Algorithm to be used with the issued token
      */
     void setSignWith(URI algorithm);
-    
+
     /**
      * Get the Signature Algorithm to be used with the token if set, null otherwise
      */
     URI getSignWith();
-    
+
     /**
      * Set the Encryption Algorithm to be used with the issued token
      */
     void setEncryptWith(URI algorithm);
-    
+
     /**
      * Get the Encryption Algorithm to be used with the token if set, null otherwise
      */
     URI getEncryptWith();
-    
+
     /**
      * set KeyWrapAlgorithm
      */
     void setKeyWrapAlgorithm(URI algorithm);
-    
+
     /**
      * get KeyWrapAlgorithm value if set, return default otherwise
      */

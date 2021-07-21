@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -17,7 +17,6 @@ import com.sun.xml.ws.rx.rm.localization.LocalizationMessages;
  * Exception used by sequence implementation to notify RM runtime infrastructure of
  * a detected attempt to register a duplicate message number on a given sequence.
  *
- * @author Marek Potociar <marek.potociar at sun.com>
  */
 public class DuplicateMessageRegistrationException extends RxException {
     private static final long serialVersionUID = 8605938716798458482L;

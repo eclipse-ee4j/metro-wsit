@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -22,7 +22,6 @@ import java.io.InputStream;
 /**
  * JAX-WS specific application message
  *
- * @author Marek Potociar <marek.potociar at sun.com>
  */
 public class JaxwsMessage extends RxMessageBase {
     public static class JaxwsMessageState implements RxMessage.State {
@@ -44,12 +43,12 @@ public class JaxwsMessage extends RxMessageBase {
 
         @Override
         public String toString() {
-            return "JaxwsMessageState" + 
-                    "{\n\twsaAction=" + wsaAction + 
-                    ",\n\tcorrelationId=" + correlationId + 
-                    ",\n\tmessage data=\n" + Converter.messageDataToString(data, Converter.UTF_8) + 
+            return "JaxwsMessageState" +
+                    "{\n\twsaAction=" + wsaAction +
+                    ",\n\tcorrelationId=" + correlationId +
+                    ",\n\tmessage data=\n" + Converter.messageDataToString(data, Converter.UTF_8) +
                     "\n}";
-        }               
+        }
     }
     //
     private final SerializableMessage jaxwsMessage;

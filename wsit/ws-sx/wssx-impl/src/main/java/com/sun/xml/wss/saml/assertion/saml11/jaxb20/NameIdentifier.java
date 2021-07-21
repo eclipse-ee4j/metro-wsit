@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -67,7 +67,6 @@ public class NameIdentifier extends NameIdentifierType
      *        null or "".
      * @param format The syntax used to describe the name of the
      *        <code>Subject</code>. This optional, could be null or "".
-     * @exception SAMLException if the input has an error.
      */
     public NameIdentifier(String name, String nameQualifier, String format)
         {

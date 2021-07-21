@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -24,7 +24,6 @@ import java.util.concurrent.TimeUnit;
  * Instances of this {@code DelayedReference} class work with a milliseconds precision.
  *</p>
  *
- * @author Marek Potociar <marek.potociar at sun.com>
  */
 public class DelayedReference<V> implements Delayed {
 

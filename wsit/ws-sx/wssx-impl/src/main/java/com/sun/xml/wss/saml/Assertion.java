@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -37,28 +37,28 @@ import org.w3c.dom.Node;
  * of information that supplies one or more <code>Statement</code> made by an
  * issuer. There are three kinds of assertions Authentication, Authorization
  * Decision and Attribute assertion.
- * <pre>
+ * <pre>{@code
  *
- *       &lt;Assertion  AssertionID="1124370015917" IssueInstant="2005-08-18T18:30:15.917+05:30"
+ *       <Assertion  AssertionID="1124370015917" IssueInstant="2005-08-18T18:30:15.917+05:30"
  *                      Issuer="CN=Assertion Issuer,OU=AI,O=Assertion Issuer,L=Waltham,ST=MA,C=US"
  *                      MajorVersion="1" MinorVersion="1"
- *                      xmlns="urn:oasis:names:tc:SAML:1.0:assertion"&gt;
- *         &lt;Conditions NotBefore="2005-08-16T13:21:50.503+05:30"
- *                        NotOnOrAfter="2005-08-16T15:21:50.504+05:30"/&gt;
- *         &lt;Subject xmlns="urn:oasis:names:tc:SAML:1.0:assertion"&gt;
- *             &lt;NameIdentifier Format="urn:oasis:names:tc:SAML:1.1:nameid-format:X509SubjectName"&gt;
+ *                      xmlns="urn:oasis:names:tc:SAML:1.0:assertion">
+ *         <Conditions NotBefore="2005-08-16T13:21:50.503+05:30"
+ *                        NotOnOrAfter="2005-08-16T15:21:50.504+05:30"/>
+ *         <Subject xmlns="urn:oasis:names:tc:SAML:1.0:assertion">
+ *             <NameIdentifier Format="urn:oasis:names:tc:SAML:1.1:nameid-format:X509SubjectName">
  *                 CN=SAML User,OU=SU,O=SAML User,L=Los Angeles,ST=CA,C=US
- *             &lt;/NameIdentifier&gt;
+ *             </NameIdentifier>
  *
- *             &lt;SubjectConfirmation&gt;
- *                 &lt;ConfirmationMethod&gt;urn:oasis:names:tc:SAML:1.0:cm:sender-vouches&lt;/ConfirmationMethod&gt;
- *             &lt;/SubjectConfirmation&gt;
- *         &lt;/Subject&gt;
- *         &lt;Attribute AttributeName="attribute1" AttributeNamespace="urn:com:sun:xml:wss:attribute"&gt;
- *             &lt;AttributeValue&gt;ATTRIBUTE1&lt;/AttributeValue&gt;
- *         &lt;/Attribute&gt;
- *      &lt;Assertion&gt;
- * </pre>
+ *             <SubjectConfirmation>
+ *                 <ConfirmationMethod>urn:oasis:names:tc:SAML:1.0:cm:sender-vouches</ConfirmationMethod>
+ *             </SubjectConfirmation>
+ *         </Subject>
+ *         <Attribute AttributeName="attribute1" AttributeNamespace="urn:com:sun:xml:wss:attribute">
+ *             <AttributeValue>ATTRIBUTE1</AttributeValue>
+ *         </Attribute>
+ *      <Assertion>
+ * }</pre>
  */
 public interface Assertion extends Token {
     
@@ -235,7 +235,7 @@ public interface Assertion extends Token {
     /**
      * Return all statements presents in the SAML Assertion.
      * 
-     * @return An <code>java.util.List</code> of </code>java.lang.Object</Object> 
+     * @return An <code>java.util.List</code> of <code>java.lang.Object</code> 
      * representing all statements present inside the SAML assertion.
      * 
      */

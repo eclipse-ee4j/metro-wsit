@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -269,7 +269,7 @@ public final class PersistentSequenceManager extends AbstractMOMRegistrationAwar
     /**
      * Method checks if a sequence is valid and if yes it also loads sequence into
      * an in-memory cache if necessary.
-     * <p/>
+     * <p>
      * This Method must be called from within a write data lock or outside of any data lock.
      * It must not be called from within a read data lock.
      *

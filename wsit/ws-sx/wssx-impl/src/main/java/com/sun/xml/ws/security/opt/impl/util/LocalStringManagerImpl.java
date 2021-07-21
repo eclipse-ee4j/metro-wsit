@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -49,7 +49,7 @@ public class LocalStringManagerImpl implements LocalStringManager {
      *
      * <p>This simplifies access to resources, at the cost of checking for
      * the resource bundle of several classes upon each call. However, due
-     * to the caching performed by <tt>ResourceBundle</tt> this seems 
+     * to the caching performed by <code>ResourceBundle</code> this seems 
      * reasonable.
      *
      * <p>Due to that, sub-classes <strong>must</strong> make sure they don't

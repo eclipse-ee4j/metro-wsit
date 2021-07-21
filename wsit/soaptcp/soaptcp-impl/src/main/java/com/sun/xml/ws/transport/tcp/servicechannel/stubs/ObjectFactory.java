@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -18,18 +18,18 @@ import javax.xml.namespace.QName;
 
 
 /**
- * This object contains factory methods for each 
- * Java content interface and Java element interface 
- * generated in the com.sun.xml.ws.transport.tcp.servicechannel.stubs package. 
- * <p>An ObjectFactory allows you to programatically 
- * construct new instances of the Java representation 
- * for XML content. The Java representation of XML 
- * content can consist of schema derived interfaces 
- * and classes representing the binding of schema 
- * type definitions, element declarations and model 
- * groups.  Factory methods for each of these are 
+ * This object contains factory methods for each
+ * Java content interface and Java element interface
+ * generated in the com.sun.xml.ws.transport.tcp.servicechannel.stubs package.
+ * <p>An ObjectFactory allows you to programatically
+ * construct new instances of the Java representation
+ * for XML content. The Java representation of XML
+ * content can consist of schema derived interfaces
+ * and classes representing the binding of schema
+ * type definitions, element declarations and model
+ * groups.  Factory methods for each of these are
  * provided in this class.
- * 
+ *
  */
 @XmlRegistry
 public class ObjectFactory {
@@ -46,22 +46,22 @@ public class ObjectFactory {
 
     /**
      * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: com.sun.xml.ws.transport.tcp.servicechannel.stubs
-     * 
+     *
      */
     public ObjectFactory() {
     }
 
     /**
      * Create an instance of {@link OpenChannelResponse }
-     * 
+     *
      */
     public OpenChannelResponse createOpenChannelResponse() {
         return new OpenChannelResponse();
     }
 
     /**
-     * Create an instance of {@link ServiceChannelException }
-     * 
+     * Create an instance of {@link ServiceChannelExceptionBean }
+     *
      */
     public ServiceChannelExceptionBean createServiceChannelExceptionBean() {
         return new ServiceChannelExceptionBean();
@@ -69,7 +69,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link CloseChannelResponse }
-     * 
+     *
      */
     public CloseChannelResponse createCloseChannelResponse() {
         return new CloseChannelResponse();
@@ -77,7 +77,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link InitiateSessionResponse }
-     * 
+     *
      */
     public InitiateSessionResponse createInitiateSessionResponse() {
         return new InitiateSessionResponse();
@@ -85,7 +85,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link OpenChannel }
-     * 
+     *
      */
     public OpenChannel createOpenChannel() {
         return new OpenChannel();
@@ -93,7 +93,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link InitiateSession }
-     * 
+     *
      */
     public InitiateSession createInitiateSession() {
         return new InitiateSession();
@@ -101,7 +101,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link CloseChannel }
-     * 
+     *
      */
     public CloseChannel createCloseChannel() {
         return new CloseChannel();
@@ -109,7 +109,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link InitiateSessionResponse }{@code >}}
-     * 
+     *
      */
     @XmlElementDecl(namespace = "http://servicechannel.tcp.transport.ws.xml.sun.com/", name = "initiateSessionResponse")
     public JAXBElement<InitiateSessionResponse> createInitiateSessionResponse(InitiateSessionResponse value) {
@@ -118,7 +118,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link CloseChannelResponse }{@code >}}
-     * 
+     *
      */
     @XmlElementDecl(namespace = "http://servicechannel.tcp.transport.ws.xml.sun.com/", name = "closeChannelResponse")
     public JAXBElement<CloseChannelResponse> createCloseChannelResponse(CloseChannelResponse value) {
@@ -127,7 +127,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link CloseChannel }{@code >}}
-     * 
+     *
      */
     @XmlElementDecl(namespace = "http://servicechannel.tcp.transport.ws.xml.sun.com/", name = "closeChannel")
     public JAXBElement<CloseChannel> createCloseChannel(CloseChannel value) {
@@ -136,7 +136,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link OpenChannel }{@code >}}
-     * 
+     *
      */
     @XmlElementDecl(namespace = "http://servicechannel.tcp.transport.ws.xml.sun.com/", name = "openChannel")
     public JAXBElement<OpenChannel> createOpenChannel(OpenChannel value) {
@@ -145,7 +145,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link InitiateSession }{@code >}}
-     * 
+     *
      */
     @XmlElementDecl(namespace = "http://servicechannel.tcp.transport.ws.xml.sun.com/", name = "initiateSession")
     public JAXBElement<InitiateSession> createInitiateSession(InitiateSession value) {
@@ -154,7 +154,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link OpenChannelResponse }{@code >}}
-     * 
+     *
      */
     @XmlElementDecl(namespace = "http://servicechannel.tcp.transport.ws.xml.sun.com/", name = "openChannelResponse")
     public JAXBElement<OpenChannelResponse> createOpenChannelResponse(OpenChannelResponse value) {
@@ -162,8 +162,8 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link ServiceChannelException }{@code >}}
-     * 
+     * Create an instance of {@link JAXBElement }{@code <}{@link ServiceChannelExceptionBean }{@code >}}
+     *
      */
     @XmlElementDecl(namespace = "http://servicechannel.tcp.transport.ws.xml.sun.com/", name = "ServiceChannelException")
     public JAXBElement<ServiceChannelExceptionBean> createServiceChannelExceptionBean(ServiceChannelExceptionBean value) {

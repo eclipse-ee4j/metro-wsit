@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -63,7 +63,7 @@ public class SecurityHeaderWrapper implements com.sun.xml.ws.api.message.Header 
      * specifically, this method has to perform the following tasks:
      *
      * <ul>
-     *  <li>If this header does not have <tt>mustUnderstand</tt> as "1" nor "true",
+     *  <li>If this header does not have <code>mustUnderstand</code> as "1" nor "true",
      *      then this method must return true.
      *  <li>Otherwise, check the role attribute (for SOAP 1.2) or the actor attribute (for SOAP 1.1).
      *      When those attributes are absent, the default values have to be assumed.
@@ -118,7 +118,7 @@ public class SecurityHeaderWrapper implements com.sun.xml.ws.api.message.Header 
      * IOW, this method returns true if there's @soap:relay='true'
      * is present.
      *
-     * <h3>Implementation Note</h3>
+     * <p><strong>Implementation Note</strong>
      * <p>
      * The implementation needs to check for both "true" and "1",
      * but because attribute values are normalized, it doesn't have
@@ -193,7 +193,7 @@ public class SecurityHeaderWrapper implements com.sun.xml.ws.api.message.Header 
      * (IOW, {@link XMLStreamReader#getEventType()} would return
      * {@link XMLStreamReader#START_ELEMENT}.
      *
-     * <h3>Performance Expectation</h3>
+     * <p><strong>Performance Expectation</strong>
      * <p>
      * For some {@link Header} implementations, this operation
      * is a non-trivial operation. Therefore, use of this method
@@ -277,7 +277,7 @@ public class SecurityHeaderWrapper implements com.sun.xml.ws.api.message.Header 
      *
      * <p>
      * A header is responsible for producing the SAX events for its part,
-     * including <tt>startPrefixMapping</tt> and <tt>endPrefixMapping</tt>,
+     * including <code>startPrefixMapping</code> and <code>endPrefixMapping</code>,
      * but not startDocument/endDocument.
      *
      * <p>

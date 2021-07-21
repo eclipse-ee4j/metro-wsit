@@ -31,10 +31,6 @@ import javax.xml.bind.annotation.XmlElements;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.namespace.QName;
-import com.sun.xml.ws.policy.impl.bindings.AppliesTo;
-import com.sun.xml.ws.policy.impl.bindings.Policy;
-import com.sun.xml.ws.policy.impl.bindings.PolicyAttachment;
-import com.sun.xml.ws.policy.impl.bindings.PolicyReference;
 import org.w3c.dom.Element;
 
 
@@ -43,24 +39,24 @@ import org.w3c.dom.Element;
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
- * <pre>
- * &lt;element name="PolicyAttachment"&gt;
- *   &lt;complexType&gt;
- *     &lt;complexContent&gt;
- *       &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
- *         &lt;sequence&gt;
- *           &lt;element ref="{http://schemas.xmlsoap.org/ws/2004/09/policy}AppliesTo"/&gt;
- *           &lt;choice maxOccurs="unbounded"&gt;
- *             &lt;element ref="{http://schemas.xmlsoap.org/ws/2004/09/policy}Policy"/&gt;
- *             &lt;element ref="{http://schemas.xmlsoap.org/ws/2004/09/policy}PolicyReference"/&gt;
- *           &lt;/choice&gt;
- *           &lt;any/&gt;
- *         &lt;/sequence&gt;
- *       &lt;/restriction&gt;
- *     &lt;/complexContent&gt;
- *   &lt;/complexType&gt;
- * &lt;/element&gt;
- * </pre>
+ * <pre>{@code
+ * <element name="PolicyAttachment">
+ *   <complexType>
+ *     <complexContent>
+ *       <restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
+ *         <sequence>
+ *           <element ref="{http://schemas.xmlsoap.org/ws/2004/09/policy}AppliesTo"/>
+ *           <choice maxOccurs="unbounded">
+ *             <element ref="{http://schemas.xmlsoap.org/ws/2004/09/policy}Policy"/>
+ *             <element ref="{http://schemas.xmlsoap.org/ws/2004/09/policy}PolicyReference"/>
+ *           </choice>
+ *           <any/>
+ *         </sequence>
+ *       </restriction>
+ *     </complexContent>
+ *   </complexType>
+ * </element>
+ * }</pre>
  * 
  * 
  */

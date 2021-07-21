@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -87,8 +87,8 @@ public @interface Transactional {
 
     /**
      * Specifies the version of WS-AT being supported, when used together with
-     * @WebServiceRef, the default value Version.WSAT10. When used together with
-     * @Webservice and @Provider, all versions will be supported, the real version
+     * {@literal @}WebServiceRef, the default value Version.WSAT10. When used together with
+     * {@literal @}Webservice and {@literal @}Provider, all versions will be supported, the real version
      * will be determined by the request message.
      */
     Version version() default Version.DEFAULT;

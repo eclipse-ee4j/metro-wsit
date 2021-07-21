@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -31,7 +31,7 @@ import javax.xml.ws.WebServiceException;
 /**
  * Proprietary assertion that works with WS-RM v1.0 (WSRM200502) and enables 
  * "At Least Once" message delivery:
- * <p />
+ * <p>
  * Each message is to be delivered at least once, or else an error MUST be raised 
  * by the RM Source and/or RM Destination. The requirement on an RM Source is that 
  * it SHOULD retry transmission of every message sent by the Application Source 
@@ -40,7 +40,7 @@ import javax.xml.ws.WebServiceException;
  * Destination of any message that it accepts from the RM Source, until that message 
  * has been successfully delivered. There is no requirement for the RM Destination 
  * to apply duplicate message filtering.
- * <p />
+ * <p>
  * NOTE: this assertion has currently no effect, we treat the case the same way as 
  * "Exactly Once" delivery mode.
  * 

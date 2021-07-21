@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -14,7 +14,6 @@ import com.sun.istack.logging.Logger;
 import com.sun.xml.ws.api.server.WSEndpoint;
 import com.sun.xml.ws.commons.AbstractMOMRegistrationAware;
 import com.sun.xml.ws.commons.WSEndpointCollectionBasedMOMListener;
-import com.sun.xml.ws.commons.MOMRegistrationAware;
 import com.sun.xml.ws.security.IssuedTokenContext;
 import com.sun.xml.ws.security.SecurityContextTokenInfo;
 import com.sun.xml.ws.util.ServiceFinder;
@@ -85,21 +84,21 @@ public abstract class SessionManager extends AbstractMOMRegistrationAware {
      * Returns an existing session identified by the Key else null
      *
      * @param key The Session key.
-     * @returns The Session with the given key.  <code>null</code> if none exists.
+     * @return The Session with the given key.  <code>null</code> if none exists.
      */
     public abstract Session  getSession(String key) ;
 
     /**
      * Returns the Set of valid Session keys.
      *
-     * @returns The Set of keys.
+     * @return The Set of keys.
      */
     @ManagedAttribute
     @Description("The set of valid Session keys")
     public abstract Set<String> keys();
 
     /**
-     * @returns The Collection of valid Sessions.
+     * @return The Collection of valid Sessions.
      */
     @ManagedAttribute
     @Description("The collection of valid Sessions")
@@ -118,7 +117,7 @@ public abstract class SessionManager extends AbstractMOMRegistrationAware {
      * specified Class must have a default ctor.
      *
      * @param key The Session key to be used.
-     * @returns The new Session.. <code>null</code> if the given
+     * @return The new Session.. <code>null</code> if the given
      * class cannot be instantiated.
      * 
      */ 
@@ -130,7 +129,7 @@ public abstract class SessionManager extends AbstractMOMRegistrationAware {
      *
      * @param key The Session key to be used.
      * @param obj The object to use as a holder for user data in the session.
-     * @returns The new Session. 
+     * @return The new Session. 
      * 
      */ 
     public abstract Session createSession(String key, Object obj);
@@ -139,10 +138,10 @@ public abstract class SessionManager extends AbstractMOMRegistrationAware {
     
      /**
      * Creates a Session with the given key, using an instance of 
-     * java.util.Hashtable<String, String> asa holder for user-defined data.
+     * {@code java.util.Hashtable<String, String>} asa holder for user-defined data.
      *
      * @param key The Session key to be used.
-     * @returns The new Session.
+     * @return The new Session.
      * 
      */ 
     public abstract Session createSession(String key);
@@ -159,9 +158,9 @@ public abstract class SessionManager extends AbstractMOMRegistrationAware {
      * Return the valid SecurityContext for matching key
      *
      * @param key The key of the security context to be looked
-     * @param expiryCheck indicates whether to check the token expiry or not, 
+     * @param checkExpiry indicates whether to check the token expiry or not, 
      *                    As in case of renew we don't need to check token expiry
-     * @returns IssuedTokenContext for security context key
+     * @return IssuedTokenContext for security context key
      */
     public abstract IssuedTokenContext getSecurityContext(String key, boolean checkExpiry);
     

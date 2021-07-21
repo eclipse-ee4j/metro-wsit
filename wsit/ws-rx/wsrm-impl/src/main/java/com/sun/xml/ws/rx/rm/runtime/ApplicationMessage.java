@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -16,7 +16,6 @@ import com.sun.xml.ws.rx.rm.protocol.AcknowledgementData;
 /**
  * A protocol independent abstraction of an application message that is used as part of RM processing.
  *
- * @author Marek Potociar <marek.potociar at sun.com>
  */
 public interface ApplicationMessage extends RxMessage {
 

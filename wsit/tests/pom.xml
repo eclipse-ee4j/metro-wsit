@@ -63,7 +63,7 @@
                     <extraVmArgs>${ws.jvmOpts}</extraVmArgs>
                     <!--<debug>true</debug>-->
                     <vmArgs>
-                        <vmArg>-Xms256m -Xmx512m -XX:PermSize=128m -XX:MaxPermSize=256m</vmArg>
+                        <vmArg>-Xms256m -Xmx512m</vmArg>
                     </vmArgs>
                 </configuration>
             </plugin>

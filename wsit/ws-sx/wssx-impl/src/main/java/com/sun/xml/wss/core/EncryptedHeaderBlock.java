@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -47,6 +47,7 @@ import org.w3c.dom.UserDataHandler;
  * Corresponds to Schema definition for EncryptedData. 
  * Schema definition for EncryptedData is as follows:
  * <p>
+ * <pre>{@code
  * <xmp>
  * <element name='EncryptedHeader' type='wsse11:EncryptedHeaderType'/>
  * <complexType name='EncryptedHeaderType'>
@@ -57,6 +58,7 @@ import org.w3c.dom.UserDataHandler;
  *   </element>
  * </complexType>
  * </xmp>
+ * }</pre>
  *
  * @author Mayank Mishra
  */

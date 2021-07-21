@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -12,7 +12,7 @@ package com.sun.xml.ws.transport.tcp.encoding.configurator;
 
 /**
  * SOAP/TCP code configurator
- * 
+ *
  * @author Alexey Stashok
  */
 public enum WSTCPCodecConfigurator {
@@ -21,21 +21,21 @@ public enum WSTCPCodecConfigurator {
     private static final int MIN_INDEXED_STRING_SIZE_LIMIT = 0;
     private static final int MAX_INDEXED_STRING_SIZE_LIMIT = 32;
     private static final int INDEXED_STRING_MEMORY_LIMIT = 4 * 1024 * 1024; //4M limit
-    
-    
+
+
     private DocumentParserFactory documentParserFactory = new DefaultDocumentParserFactory();
     private DocumentSerializerFactory documentSerializerFactory = new DefaultDocumentSerializerFactory();
-    
+
     private ParserVocabularyFactory parserVocabularyFactory = new DefaultParserVocabularyFactory();
     private SerializerVocabularyFactory serializerVocabularyFactory = new DefaultSerializerVocabularyFactory();
-    
+
     private int minAttributeValueSize = MIN_INDEXED_STRING_SIZE_LIMIT;
     private int maxAttributeValueSize = MAX_INDEXED_STRING_SIZE_LIMIT;
     private int minCharacterContentChunkSize = MIN_INDEXED_STRING_SIZE_LIMIT;
     private int maxCharacterContentChunkSize = MAX_INDEXED_STRING_SIZE_LIMIT;
     private int attributeValueMapMemoryLimit = INDEXED_STRING_MEMORY_LIMIT;
     private int characterContentChunkMapMemoryLimit = INDEXED_STRING_MEMORY_LIMIT;
-    
+
     /**
      * Get the {@link DocumentParserFactory}
      * @return {@link DocumentParserFactory}
@@ -46,7 +46,7 @@ public enum WSTCPCodecConfigurator {
 
     /**
      * Set the {@link DocumentParserFactory}
-     * @param {@link DocumentParserFactory}
+     * @param documentParserFactory {@link DocumentParserFactory}
      */
     public void setDocumentParserFactory(DocumentParserFactory documentParserFactory) {
         this.documentParserFactory = documentParserFactory;
@@ -62,7 +62,7 @@ public enum WSTCPCodecConfigurator {
 
     /**
      * Set the {@link DocumentSerializerFactory}
-     * @param {@link DocumentSerializerFactory}
+     * @param documentSerializerFactory {@link DocumentSerializerFactory}
      */
     public void setDocumentSerializerFactory(DocumentSerializerFactory documentSerializerFactory) {
         this.documentSerializerFactory = documentSerializerFactory;
@@ -78,7 +78,7 @@ public enum WSTCPCodecConfigurator {
 
     /**
      * Set the {@link ParserVocabularyFactory}
-     * @param {@link ParserVocabularyFactory}
+     * @param parserVocabularyFactory {@link ParserVocabularyFactory}
      */
     public void setParserVocabularyFactory(ParserVocabularyFactory parserVocabularyFactory) {
         this.parserVocabularyFactory = parserVocabularyFactory;
@@ -94,7 +94,7 @@ public enum WSTCPCodecConfigurator {
 
     /**
      * Set the {@link SerializerVocabularyFactory}
-     * @param {@link SerializerVocabularyFactory}
+     * @param serializerVocabularyFactory {@link SerializerVocabularyFactory}
      */
     public void setSerializerVocabularyFactory(SerializerVocabularyFactory serializerVocabularyFactory) {
         this.serializerVocabularyFactory = serializerVocabularyFactory;
@@ -115,7 +115,7 @@ public enum WSTCPCodecConfigurator {
      * Sets the minimum size of attribute values
      * that will be indexed.
      *
-     * @param size the minimum attribute values size.
+     * @param minAttributeValueSize the minimum attribute values size.
      */
     public void setMinAttributeValueSize(int minAttributeValueSize) {
         this.minAttributeValueSize = minAttributeValueSize;
@@ -135,7 +135,7 @@ public enum WSTCPCodecConfigurator {
      * Sets the maximum size of attribute values
      * that will be indexed.
      *
-     * @param size the maximum attribute values size.
+     * @param maxAttributeValueSize the maximum attribute values size.
      */
     public void setMaxAttributeValueSize(int maxAttributeValueSize) {
         this.maxAttributeValueSize = maxAttributeValueSize;
@@ -155,7 +155,7 @@ public enum WSTCPCodecConfigurator {
      * Sets the limit on the memory size of Map of attribute values
      * that will be indexed.
      *
-     * @param size The attribute value size limit. Any value less
+     * @param attributeValueMapMemoryLimit The attribute value size limit. Any value less
      * that a length of size limit will be indexed.
      */
     public void setAttributeValueMapMemoryLimit(int attributeValueMapMemoryLimit) {
@@ -176,7 +176,7 @@ public enum WSTCPCodecConfigurator {
      * Sets the minimum size of character content chunks
      * that will be indexed.
      *
-     * @param size the minimum character content chunk size.
+     * @param minCharacterContentChunkSize the minimum character content chunk size.
      */
     public void setMinCharacterContentChunkSize(int minCharacterContentChunkSize) {
         this.minCharacterContentChunkSize = minCharacterContentChunkSize;
@@ -196,7 +196,7 @@ public enum WSTCPCodecConfigurator {
      * Sets the maximum size of character content chunks
      * that will be indexed.
      *
-     * @param size the maximum character content chunk size.
+     * @param maxCharacterContentChunkSize the maximum character content chunk size.
      */
     public void setMaxCharacterContentChunkSize(int maxCharacterContentChunkSize) {
         this.maxCharacterContentChunkSize = maxCharacterContentChunkSize;
@@ -216,7 +216,7 @@ public enum WSTCPCodecConfigurator {
      * Sets the limit on the memory size of Map of attribute values
      * that will be indexed.
      *
-     * @param size The attribute value size limit. Any value less
+     * @param characterContentChunkMapMemoryLimit The attribute value size limit. Any value less
      * that a length of size limit will be indexed.
      */
     public void setCharacterContentChunkMapMemoryLimit(int characterContentChunkMapMemoryLimit) {

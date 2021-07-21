@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -35,23 +35,23 @@ import com.sun.xml.security.core.xenc.EncryptedDataType;
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
- * <pre>
- * &lt;complexType name="EncryptedHeaderType"&gt;
- *   &lt;complexContent&gt;
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
- *       &lt;sequence&gt;
- *         &lt;element ref="{http://www.w3.org/2001/04/xmlenc#}EncryptedData"/&gt;
- *       &lt;/sequence&gt;
- *       &lt;attribute ref="{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd}Id"/&gt;
- *       &lt;attribute ref="{http://schemas.xmlsoap.org/soap/envelope/}actor"/&gt;
- *       &lt;attribute ref="{http://schemas.xmlsoap.org/soap/envelope/}mustUnderstand"/&gt;
- *       &lt;attribute ref="{http://www.w3.org/2003/05/soap-envelope}mustUnderstand"/&gt;
- *       &lt;attribute ref="{http://www.w3.org/2003/05/soap-envelope}relay"/&gt;
- *       &lt;attribute ref="{http://www.w3.org/2003/05/soap-envelope}role"/&gt;
- *     &lt;/restriction&gt;
- *   &lt;/complexContent&gt;
- * &lt;/complexType&gt;
- * </pre>
+ * <pre>{@code
+ * <complexType name="EncryptedHeaderType">
+ *   <complexContent>
+ *     <restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
+ *       <sequence>
+ *         <element ref="{http://www.w3.org/2001/04/xmlenc#}EncryptedData"/>
+ *       </sequence>
+ *       <attribute ref="{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd}Id"/>
+ *       <attribute ref="{http://schemas.xmlsoap.org/soap/envelope/}actor"/>
+ *       <attribute ref="{http://schemas.xmlsoap.org/soap/envelope/}mustUnderstand"/>
+ *       <attribute ref="{http://www.w3.org/2003/05/soap-envelope}mustUnderstand"/>
+ *       <attribute ref="{http://www.w3.org/2003/05/soap-envelope}relay"/>
+ *       <attribute ref="{http://www.w3.org/2003/05/soap-envelope}role"/>
+ *     </restriction>
+ *   </complexContent>
+ * </complexType>
+ * }</pre>
  * 
  * 
  */

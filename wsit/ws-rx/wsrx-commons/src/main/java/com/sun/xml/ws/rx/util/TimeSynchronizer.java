@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -11,12 +11,11 @@
 package com.sun.xml.ws.rx.util;
 
 /**
- * This interface can implemented by any class that is able to provide time-related 
+ * This interface can implemented by any class that is able to provide time-related
  * information. Using implementation of this class may especially be usefull in cases
- * when we need to provide synchronized time information in a clustered or otherwise 
+ * when we need to provide synchronized time information in a clustered or otherwise
  * distributed environment.
  *
- * @author Marek Potociar <marek.potociar at sun.com>
  */
 public interface TimeSynchronizer {
     /*
@@ -26,7 +25,6 @@ public interface TimeSynchronizer {
      * synchronization system and may be larger.  For example, many
      * operating systems measure time in units of tens of
      * milliseconds.
-     * <p />
      *
      * @return  the difference, measured in milliseconds, between
      *          the current time and midnight, January 1, 1970 UTC.

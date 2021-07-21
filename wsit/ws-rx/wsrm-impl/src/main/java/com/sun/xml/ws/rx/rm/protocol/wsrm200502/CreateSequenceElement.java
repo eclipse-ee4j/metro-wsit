@@ -32,20 +32,20 @@ import javax.xml.bind.annotation.XmlType;
  *
  * <p>The following schema fragment specifies the expected content contained within this class.
  *
- * <pre>
- * &lt;complexType name="CreateSequenceType">
- *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;sequence>
- *         &lt;element ref="{http://schemas.xmlsoap.org/ws/2005/02/rm}AcksTo"/>
- *         &lt;element ref="{http://schemas.xmlsoap.org/ws/2005/02/rm}Expires" minOccurs="0"/>
- *         &lt;element name="Offer" type="{http://schemas.xmlsoap.org/ws/2005/02/rm}OfferType" minOccurs="0"/>
- *         &lt;any/>
- *       &lt;/sequence>
- *     &lt;/restriction>
- *   &lt;/complexContent>
- * &lt;/complexType>
- * </pre>
+ * <pre>{@code
+ * <complexType name="CreateSequenceType">
+ *   <complexContent>
+ *     <restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
+ *       <sequence>
+ *         <element ref="{http://schemas.xmlsoap.org/ws/2005/02/rm}AcksTo"/>
+ *         <element ref="{http://schemas.xmlsoap.org/ws/2005/02/rm}Expires" minOccurs="0"/>
+ *         <element name="Offer" type="{http://schemas.xmlsoap.org/ws/2005/02/rm}OfferType" minOccurs="0"/>
+ *         <any/>
+ *       </sequence>
+ *     </restriction>
+ *   </complexContent>
+ * </complexType>
+ * }</pre>
  *
  *
  */

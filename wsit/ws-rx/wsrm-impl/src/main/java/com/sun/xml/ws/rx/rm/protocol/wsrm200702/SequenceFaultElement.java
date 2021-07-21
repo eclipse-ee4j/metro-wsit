@@ -30,19 +30,19 @@ import javax.xml.soap.Detail;
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
- * <pre>
- * &lt;complexType name="SequenceFaultType"&gt;
- *   &lt;complexContent&gt;
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
- *       &lt;sequence&gt;
- *         &lt;element name="FaultCode" type="{http://docs.oasis-open.org/ws-rx/wsrm/200702}FaultCodes"/&gt;
- *         &lt;element name="Detail" type="{http://docs.oasis-open.org/ws-rx/wsrm/200702}DetailType" minOccurs="0"/&gt;
- *         &lt;any/&gt;
- *       &lt;/sequence&gt;
- *     &lt;/restriction&gt;
- *   &lt;/complexContent&gt;
- * &lt;/complexType&gt;
- * </pre>
+ * <pre>{@code
+ * <complexType name="SequenceFaultType">
+ *   <complexContent>
+ *     <restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
+ *       <sequence>
+ *         <element name="FaultCode" type="{http://docs.oasis-open.org/ws-rx/wsrm/200702}FaultCodes"/>
+ *         <element name="Detail" type="{http://docs.oasis-open.org/ws-rx/wsrm/200702}DetailType" minOccurs="0"/>
+ *         <any/>
+ *       </sequence>
+ *     </restriction>
+ *   </complexContent>
+ * </complexType>
+ * }</pre>
  * 
  * 
  */

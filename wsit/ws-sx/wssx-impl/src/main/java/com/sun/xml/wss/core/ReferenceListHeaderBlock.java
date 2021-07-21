@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -35,6 +35,7 @@ import com.sun.xml.wss.impl.misc.SecurityHeaderBlockImpl;
 
 /**
  * A ReferenceList element is defined as follows:
+ * <pre>{@code
  * <xmp>
  * <element name='ReferenceList'>
  *     <complexType>
@@ -45,6 +46,7 @@ import com.sun.xml.wss.impl.misc.SecurityHeaderBlockImpl;
  *     </complexType>
  * </element>
  * </xmp>
+ * }</pre>
  *
  * @author Vishal Mahajan
  */

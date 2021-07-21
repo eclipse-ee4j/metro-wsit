@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -26,8 +26,6 @@ import com.sun.xml.ws.policy.PolicyException;
 import com.sun.xml.ws.policy.PolicyMap;
 import com.sun.xml.ws.policy.PolicyMapKey;
 import com.sun.xml.ws.security.policy.SecurityPolicyVersion;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.WeakHashMap;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
@@ -130,7 +128,7 @@ public class WSITAuthConfigProvider implements AuthConfigProvider {
     /**
      * Checks to see whether WS-Security is enabled or not.
      *
-     * @param policyMap policy map for {@link this} assembler
+     * @param policyMap policy map for {@code this} assembler
      * @param wsdlPort wsdl:port
      * @return true if Security is enabled, false otherwise
      */

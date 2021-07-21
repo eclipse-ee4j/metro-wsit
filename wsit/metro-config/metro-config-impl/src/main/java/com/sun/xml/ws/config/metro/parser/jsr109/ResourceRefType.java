@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -58,14 +58,14 @@ import org.xml.sax.Locator;
  *         target.
  *         
  *         Example:
- *         
+ *         {@code
  *         <resource-ref>
  *         <res-ref-name>jdbc/EmployeeAppDB</res-ref-name>
  *         <res-type>javax.sql.DataSource</res-type>
  *         <res-auth>Container</res-auth>
  *         <res-sharing-scope>Shareable</res-sharing-scope>
  *         </resource-ref>
- *         
+ *         }
  *         
  *       
  * 
@@ -73,23 +73,23 @@ import org.xml.sax.Locator;
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
- * <pre>
- * &lt;complexType name="resource-refType">
- *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;sequence>
- *         &lt;element name="description" type="{http://java.sun.com/xml/ns/javaee}descriptionType" maxOccurs="unbounded" minOccurs="0"/>
- *         &lt;element name="res-ref-name" type="{http://java.sun.com/xml/ns/javaee}jndi-nameType"/>
- *         &lt;element name="res-type" type="{http://java.sun.com/xml/ns/javaee}fully-qualified-classType" minOccurs="0"/>
- *         &lt;element name="res-auth" type="{http://java.sun.com/xml/ns/javaee}res-authType" minOccurs="0"/>
- *         &lt;element name="res-sharing-scope" type="{http://java.sun.com/xml/ns/javaee}res-sharing-scopeType" minOccurs="0"/>
- *         &lt;group ref="{http://java.sun.com/xml/ns/javaee}resourceGroup"/>
- *       &lt;/sequence>
- *       &lt;attribute name="id" type="{http://www.w3.org/2001/XMLSchema}ID" />
- *     &lt;/restriction>
- *   &lt;/complexContent>
- * &lt;/complexType>
- * </pre>
+ * <pre>{@code
+ * <complexType name="resource-refType">
+ *   <complexContent>
+ *     <restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
+ *       <sequence>
+ *         <element name="description" type="{http://java.sun.com/xml/ns/javaee}descriptionType" maxOccurs="unbounded" minOccurs="0"/>
+ *         <element name="res-ref-name" type="{http://java.sun.com/xml/ns/javaee}jndi-nameType"/>
+ *         <element name="res-type" type="{http://java.sun.com/xml/ns/javaee}fully-qualified-classType" minOccurs="0"/>
+ *         <element name="res-auth" type="{http://java.sun.com/xml/ns/javaee}res-authType" minOccurs="0"/>
+ *         <element name="res-sharing-scope" type="{http://java.sun.com/xml/ns/javaee}res-sharing-scopeType" minOccurs="0"/>
+ *         <group ref="{http://java.sun.com/xml/ns/javaee}resourceGroup"/>
+ *       </sequence>
+ *       <attribute name="id" type="{http://www.w3.org/2001/XMLSchema}ID" />
+ *     </restriction>
+ *   </complexContent>
+ * </complexType>
+ * }</pre>
  * 
  * 
  */
