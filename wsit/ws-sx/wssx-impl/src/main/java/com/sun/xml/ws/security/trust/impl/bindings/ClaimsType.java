@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -84,7 +84,7 @@ public class ClaimsType {
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link Element }
+     * {@link org.w3c.dom.Element }
      * {@link Object }
      * 
      * 

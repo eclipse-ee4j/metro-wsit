@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -30,7 +30,7 @@ import org.glassfish.gmbal.ManagedData;
  * a higher level features for common configurations, this feature works as an catch-all escape hatch.
  *
  * <p>
- * See {@link com.sun.xml.wss.impl.misc.DefaultCallbackHandler#handle(javax.security.auth.callback.Callback[])}
+ * See com.sun.xml.wss.impl.misc.DefaultCallbackHandler#handle(javax.security.auth.callback.Callback[])
  * implementation as an example of what callback {@link CallbackHandler} receives (note that this default
  * implementation class itself is not a committed part of Metro.)
  *
