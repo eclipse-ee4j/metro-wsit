@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -48,7 +48,6 @@ public class BufferedStreamWriter extends java.io.OutputStream {
             pos=newPos;
         }
     }
-    /** @inheritDoc */
     public void write(byte[] arg0, int arg1, int arg2)throws IOException {
         int newPos=pos+arg2;
         if (newPos>=size) {
@@ -60,7 +59,6 @@ public class BufferedStreamWriter extends java.io.OutputStream {
             pos=newPos;
         }
     }
-    /** @inheritDoc */
     public void write(int arg0)throws IOException {
         if (pos>=size) {
             flush();

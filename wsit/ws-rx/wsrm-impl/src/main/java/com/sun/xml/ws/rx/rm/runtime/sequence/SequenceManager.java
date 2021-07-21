@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -63,12 +63,12 @@ public interface SequenceManager extends TimeSynchronizer, MOMRegistrationAware 
      * 
      * @param sequenceId identifier of the new sequence
      * @param strId security reference token identifier which this session is bound to
-     * @param expirationTime expiration time of the sequence in milliseconds; value of {@link com.sun.xml.ws.rm.policy.Configuration#UNSPECIFIED}
+     * @param expirationTime expiration time of the sequence in milliseconds; value of {@code com.sun.xml.ws.rm.policy.Configuration#UNSPECIFIED}
      * means that this sequence never expires.
      * 
      * @return newly created inbound sequence
      * 
-     * @exception DuplicateSequenceExcepton in case a sequence instance with this 
+     * @exception DuplicateSequenceException in case a sequence instance with this 
      * identifier is already registered with this sequence manager
      */
     public Sequence createOutboundSequence(String sequenceId, String strId, long expirationTime) throws DuplicateSequenceException;
@@ -78,12 +78,12 @@ public interface SequenceManager extends TimeSynchronizer, MOMRegistrationAware 
      * 
      * @param sequenceId identifier of the new sequence
      * @param strId security reference token identifier which this session is bound to
-     * @param expirationTime expiration time of the sequence in milliseconds; value of {@link com.sun.xml.ws.rm.policy.Configuration#UNSPECIFIED}
+     * @param expirationTime expiration time of the sequence in milliseconds; value of {@code com.sun.xml.ws.rm.policy.Configuration#UNSPECIFIED}
      * means that this sequence never expires.
      * 
      * @return newly created inbound sequence
      * 
-     * @exception DuplicateSequenceExcepton in case a sequence instance with this 
+     * @exception DuplicateSequenceException in case a sequence instance with this 
      * identifier is already registered with this sequence manager
      */
     public Sequence createInboundSequence(String sequenceId, String strId, long expirationTime) throws DuplicateSequenceException;
@@ -150,7 +150,7 @@ public interface SequenceManager extends TimeSynchronizer, MOMRegistrationAware 
      * 
      * @return terminated sequence object
      * 
-     * @exception UnknownSequenceExceptio in case no such sequence is registered within the sequence manager
+     * @exception UnknownSequenceException in case no such sequence is registered within the sequence manager
      */
     public Sequence terminateSequence(String sequenceId) throws UnknownSequenceException;
     
@@ -172,7 +172,7 @@ public interface SequenceManager extends TimeSynchronizer, MOMRegistrationAware 
      * 
      * @return bound sequence or {@code null} in case no sequence is bound to the reference sequence
      * 
-     * @exception UnknownSequenceExceptio in case no such reference sequence is registered within the sequence manager
+     * @throws UnknownSequenceException in case no such reference sequence is registered within the sequence manager
      */
     public Sequence getBoundSequence(String referenceSequenceId) throws UnknownSequenceException;
 
@@ -180,7 +180,7 @@ public interface SequenceManager extends TimeSynchronizer, MOMRegistrationAware 
      * Terminates all sequences that became expired in the meantime and removes all
      * previously terminated sequences that were terminated sooner than a pre-configured
      * period of time.
-     * <p />
+     * <p>
      *
      * This maintenance method is intended to be called externally by a {@link SequenceMaintenanceTask}
      * instance associated with this {@code SequenceManager}.

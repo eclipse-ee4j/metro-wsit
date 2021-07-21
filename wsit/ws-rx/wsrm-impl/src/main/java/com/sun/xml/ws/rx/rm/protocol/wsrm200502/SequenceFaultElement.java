@@ -28,16 +28,16 @@ import javax.xml.bind.annotation.XmlType;
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
- * <pre>
- * &lt;xs:complexType name="SequenceFaultType"&gt;
- *   &lt;xs:sequence&gt;
- *     &lt;xs:element name="FaultCode" type="xs:QName"/&gt;
- *     &lt;xs:any namespace="##any" processContents="lax" minOccurs="0" maxOccurs="unbounded"/&gt;
- *   &lt;/xs:sequence&gt;
- *   &lt;xs:anyAttribute namespace="##any" processContents="lax"/&gt;
- * &lt;/xs:complexType&gt;
- * &lt;xs:element name="SequenceFault" type="wsrm:SequenceFaultType"/&gt;
- * </pre>
+ * <pre>{@code
+ * <xs:complexType name="SequenceFaultType">
+ *   <xs:sequence>
+ *     <xs:element name="FaultCode" type="xs:QName"/>
+ *     <xs:any namespace="##any" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+ *   </xs:sequence>
+ *   <xs:anyAttribute namespace="##any" processContents="lax"/>
+ * </xs:complexType>
+ * <xs:element name="SequenceFault" type="wsrm:SequenceFaultType"/>
+ * }</pre>
  * 
  * @author Bhakti Mehta
  * @author Marek Potociar

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -14,7 +14,6 @@ import com.oracle.webservices.api.message.BasePropertySet;
 
 /**
 *
-* @author Uday Joshi <uday.joshi at oracle.com>
 */
 public class TransactionPropertySet extends BasePropertySet {
     public static final String TX_OWNED_PROPERTY = "com.sun.xml.ws.rx.rm.runtime.transaction.owned";

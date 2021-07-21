@@ -153,6 +153,8 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <configuration>
+                    <doclint>none</doclint>
+                    <quiet>true</quiet>
                     <excludePackageNames>com.sun.grizzly.*</excludePackageNames>
                 </configuration>
             </plugin>

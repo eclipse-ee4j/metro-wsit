@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -255,7 +255,7 @@ public class SecurityHeader {
      *
      * <p>
      * A header is responsible for producing the SAX events for its part,
-     * including <tt>startPrefixMapping</tt> and <tt>endPrefixMapping</tt>,
+     * including <code>startPrefixMapping</code> and <code>endPrefixMapping</code>,
      * but not startDocument/endDocument.
      *
      * <p>

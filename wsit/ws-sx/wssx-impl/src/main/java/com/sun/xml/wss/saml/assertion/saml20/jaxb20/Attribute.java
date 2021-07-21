@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -28,7 +28,7 @@ import javax.xml.bind.JAXBContext;
  */
 public class Attribute extends AttributeType
     implements com.sun.xml.wss.saml.Attribute {
-    
+
     protected static final Logger log = Logger.getLogger(
             LogDomainConstants.WSS_API_DOMAIN,
             LogDomainConstants.WSS_API_DOMAIN_BUNDLE);
@@ -54,7 +54,7 @@ public class Attribute extends AttributeType
     private void setAttributeValue(List values) {
         this.attributeValue = values;
     }
-    
+
     /**
      * Constructs an instance of <code>Attribute</code>.
      *
@@ -62,16 +62,14 @@ public class Attribute extends AttributeType
      *        of the attribute).
      * @param values A List of DOM element representing the
      *        <code>AttributeValue</code> object.
-     * @exception SAMLException if there is an error in the sender or in the
-     *            element definition.
      */
     public Attribute(String name, List values) {
-        setName(name);        
+        setName(name);
         setAttributeValue(values);
     }
-    
+
     public Attribute(String name, String nameFormat, List values) {
-        setName(name); 
+        setName(name);
         this.setNameFormat(nameFormat);
         setAttributeValue(values);
     }
@@ -80,8 +78,8 @@ public class Attribute extends AttributeType
         setName(attType.getName());
         setNameFormat(attType.getNameFormat());
         setAttributeValue(attType.getAttributeValue());
-    } 
-    
+    }
+
     public List<Object> getAttributes() {
         return super.getAttributeValue();
     }

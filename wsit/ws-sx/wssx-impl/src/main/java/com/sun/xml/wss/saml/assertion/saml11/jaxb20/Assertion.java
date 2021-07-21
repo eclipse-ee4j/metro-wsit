@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -74,7 +74,9 @@ import org.w3c.dom.NodeList;
 /**
  * This object stands for <code>Assertion</code> element. An Assertion is a package
  * of information that supplies one or more <code>Statement</code> made by an
- * issuer. There are three kinds of assertions Au     [java] &lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;
+ * issuer. There are three kinds of assertions Au
+ * {@code
+ * [java] <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
  * [java] <Conditions NotBefore="2005-08-16T13:21:50.503+05:30" NotOnOrAfter="2005-08-16T15:21:50.504+05:30" xmlns="urn:oasis:names:tc:SAML:1.0:assertion"/>
  * [java] <Subject xmlns="urn:oasis:names:tc:SAML:1.0:assertion">
  * [java]     <NameIdentifier Format="urn:oasis:names:tc:SAML:1.1:nameid-format:X509SubjectName">CN=SAML User,OU=SU,O=SAML
@@ -86,6 +88,7 @@ import org.w3c.dom.NodeList;
  * [java] <Attribute AttributeName="attribute1" AttributeNamespace="urn:com:sun:xml:wss:attribute" xmlns="urn:oasis:names:tc:SAML:1.0:assertion">
  * [java]     <AttributeValue>ATTRIBUTE1</AttributeValue>
  * [java] </Attribute>
+ * }
  * thentication, Authorization
  * Decision and Attribute assertion.
  */

@@ -33,57 +33,57 @@ import javax.xml.bind.annotation.XmlType;
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
- * <pre>
- * &lt;complexType>
- *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;sequence>
- *         &lt;element ref="{http://docs.oasis-open.org/ws-rx/wsrm/200702}Identifier"/>
- *         &lt;choice>
- *           &lt;sequence>
- *             &lt;choice>
- *               &lt;element name="AcknowledgementRange" maxOccurs="unbounded">
- *                 &lt;complexType>
- *                   &lt;complexContent>
- *                     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *                       &lt;sequence>
- *                       &lt;/sequence>
- *                       &lt;attribute name="Upper" use="required" type="{http://www.w3.org/2001/XMLSchema}unsignedLong" />
- *                       &lt;attribute name="Lower" use="required" type="{http://www.w3.org/2001/XMLSchema}unsignedLong" />
- *                     &lt;/restriction>
- *                   &lt;/complexContent>
- *                 &lt;/complexType>
- *               &lt;/element>
- *               &lt;element name="None">
- *                 &lt;complexType>
- *                   &lt;complexContent>
- *                     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *                       &lt;sequence>
- *                       &lt;/sequence>
- *                     &lt;/restriction>
- *                   &lt;/complexContent>
- *                 &lt;/complexType>
- *               &lt;/element>
- *             &lt;/choice>
- *             &lt;element name="Final" minOccurs="0">
- *               &lt;complexType>
- *                 &lt;complexContent>
- *                   &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *                     &lt;sequence>
- *                     &lt;/sequence>
- *                   &lt;/restriction>
- *                 &lt;/complexContent>
- *               &lt;/complexType>
- *             &lt;/element>
- *           &lt;/sequence>
- *           &lt;element name="Nack" type="{http://www.w3.org/2001/XMLSchema}unsignedLong" maxOccurs="unbounded"/>
- *         &lt;/choice>
- *         &lt;any/>
- *       &lt;/sequence>
- *     &lt;/restriction>
- *   &lt;/complexContent>
- * &lt;/complexType>
- * </pre>
+ * <pre>{@code
+ * <complexType>
+ *   <complexContent>
+ *     <restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
+ *       <sequence>
+ *         <element ref="{http://docs.oasis-open.org/ws-rx/wsrm/200702}Identifier"/>
+ *         <choice>
+ *           <sequence>
+ *             <choice>
+ *               <element name="AcknowledgementRange" maxOccurs="unbounded">
+ *                 <complexType>
+ *                   <complexContent>
+ *                     <restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
+ *                       <sequence>
+ *                       </sequence>
+ *                       <attribute name="Upper" use="required" type="{http://www.w3.org/2001/XMLSchema}unsignedLong" />
+ *                       <attribute name="Lower" use="required" type="{http://www.w3.org/2001/XMLSchema}unsignedLong" />
+ *                     </restriction>
+ *                   </complexContent>
+ *                 </complexType>
+ *               </element>
+ *               <element name="None">
+ *                 <complexType>
+ *                   <complexContent>
+ *                     <restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
+ *                       <sequence>
+ *                       </sequence>
+ *                     </restriction>
+ *                   </complexContent>
+ *                 </complexType>
+ *               </element>
+ *             </choice>
+ *             <element name="Final" minOccurs="0">
+ *               <complexType>
+ *                 <complexContent>
+ *                   <restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
+ *                     <sequence>
+ *                     </sequence>
+ *                   </restriction>
+ *                 </complexContent>
+ *               </complexType>
+ *             </element>
+ *           </sequence>
+ *           <element name="Nack" type="{http://www.w3.org/2001/XMLSchema}unsignedLong" maxOccurs="unbounded"/>
+ *         </choice>
+ *         <any/>
+ *       </sequence>
+ *     </restriction>
+ *   </complexContent>
+ * </complexType>
+ * }</pre>
  * 
  * 
  */
@@ -160,7 +160,7 @@ public class SequenceAcknowledgementElement {
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link SequenceAcknowledgement.AcknowledgementRange }
+     * {@link SequenceAcknowledgementElement#acknowledgementRange}
      * 
      * 
      */
@@ -200,7 +200,7 @@ public class SequenceAcknowledgementElement {
      * 
      * @return
      *     possible object is
-     *     {@link SequenceAcknowledgement.Final }
+     *     {@code SequenceAcknowledgementElement#Final }
      *     
      */
     public SequenceAcknowledgementElement.Final getFinal() {
@@ -301,18 +301,18 @@ public class SequenceAcknowledgementElement {
      * 
      * <p>The following schema fragment specifies the expected content contained within this class.
      * 
-     * <pre>
-     * &lt;complexType>
-     *   &lt;complexContent>
-     *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-     *       &lt;sequence>
-     *       &lt;/sequence>
-     *       &lt;attribute name="Upper" use="required" type="{http://www.w3.org/2001/XMLSchema}unsignedLong" />
-     *       &lt;attribute name="Lower" use="required" type="{http://www.w3.org/2001/XMLSchema}unsignedLong" />
-     *     &lt;/restriction>
-     *   &lt;/complexContent>
-     * &lt;/complexType>
-     * </pre>
+     * <pre>{@code
+     * <complexType>
+     *   <complexContent>
+     *     <restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
+     *       <sequence>
+     *       </sequence>
+     *       <attribute name="Upper" use="required" type="{http://www.w3.org/2001/XMLSchema}unsignedLong" />
+     *       <attribute name="Lower" use="required" type="{http://www.w3.org/2001/XMLSchema}unsignedLong" />
+     *     </restriction>
+     *   </complexContent>
+     * </complexType>
+     * }</pre>
      * 
      * 
      */
@@ -401,16 +401,16 @@ public class SequenceAcknowledgementElement {
      * 
      * <p>The following schema fragment specifies the expected content contained within this class.
      * 
-     * <pre>
-     * &lt;complexType>
-     *   &lt;complexContent>
-     *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-     *       &lt;sequence>
-     *       &lt;/sequence>
-     *     &lt;/restriction>
-     *   &lt;/complexContent>
-     * &lt;/complexType>
-     * </pre>
+     * <pre>{@code
+     * <complexType>
+     *   <complexContent>
+     *     <restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
+     *       <sequence>
+     *       </sequence>
+     *     </restriction>
+     *   </complexContent>
+     * </complexType>
+     * }</pre>
      * 
      * 
      */
@@ -424,16 +424,16 @@ public class SequenceAcknowledgementElement {
      * 
      * <p>The following schema fragment specifies the expected content contained within this class.
      * 
-     * <pre>
-     * &lt;complexType>
-     *   &lt;complexContent>
-     *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-     *       &lt;sequence>
-     *       &lt;/sequence>
-     *     &lt;/restriction>
-     *   &lt;/complexContent>
-     * &lt;/complexType>
-     * </pre>
+     * <pre>{@code
+     * <complexType>
+     *   <complexContent>
+     *     <restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
+     *       <sequence>
+     *       </sequence>
+     *     </restriction>
+     *   </complexContent>
+     * </complexType>
+     * }</pre>
      * 
      * 
      */

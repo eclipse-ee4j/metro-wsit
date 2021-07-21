@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -59,14 +59,14 @@ public class MessageWrapper extends com.sun.xml.ws.api.message.Message{
             }
         }
     }
-    
+
     public MessageWrapper(MutableXMLStreamBuffer msg,boolean oneWay,MessageHeaders hdrs,SecuredMessage sm){
         this.bufferedMsg = msg;
         this.sm = sm;
         this.hl = hdrs;
-        this.isOneWay = oneWay;        
+        this.isOneWay = oneWay;
     }
-    
+
     /**
      * Returns true if headers are present in the message.
      *
@@ -77,11 +77,11 @@ public class MessageWrapper extends com.sun.xml.ws.api.message.Message{
         // FIXME: RJE -- remove cast when MessageHeaders supports hasHeaders()
         return (((HeaderList)hl).size() > 0);
     }
-    
+
     /**
      * Gets all the headers of this message.
      *
-     * <h3>Implementation Note</h3>
+     * <p><strong>Implementation Note</strong>
      * <p>
      * Message implementation is allowed to defer
      * the construction of {@link MessageHeaders} object. So
@@ -91,27 +91,27 @@ public class MessageWrapper extends com.sun.xml.ws.api.message.Message{
      * @return
      *      always return the same non-null object.
      */
-    public HeaderList getHeaders(){       
+    public HeaderList getHeaders(){
         // FIXME: remove cast
         return (HeaderList) hl;
     }
-    
+
     /**
      * Gets the attachments of this message
      * (attachments live outside a message.)
      */
-    public AttachmentSet getAttachments() {        
+    public AttachmentSet getAttachments() {
         return sm.getAttachments();
     }
-    
+
     /**
      * Optimization hint for the derived class to check
      * if we may have some attachments.
      */
-    protected boolean hasAttachments() {        
+    protected boolean hasAttachments() {
         return sm.getAttachments() !=null;
     }
-    
+
     /**
      * Returns true if this message is a request message for a
      * one way operation according to the given WSDL. False otherwise.
@@ -138,10 +138,6 @@ public class MessageWrapper extends com.sun.xml.ws.api.message.Message{
     public boolean isOneWay(@NotNull WSDLPort port) {
         return isOneWay;
     }
-    
-    
-    
-    
     /**
      * Gets the local name of the payload element.
      *
@@ -183,39 +179,39 @@ public class MessageWrapper extends com.sun.xml.ws.api.message.Message{
         String nsUri = getPayloadNamespaceURI();
         return nsUri.equals(SOAPVersion.SOAP_11.nsUri) || nsUri.equals(SOAPVersion.SOAP_12.nsUri);
     }
-    
+
     /**
      * Gets the namespace URI of the payload element.
      *
      * @return
      *      null if a Message doesn't have any payload.
      */
-    public String getPayloadNamespaceURI(){        
+    public String getPayloadNamespaceURI(){
         return sm.getPayloadNamespaceURI();
     }
     // I'm not putting @Nullable on it because doing null check on getPayloadLocalPart() should be suffice
-    
+
     /**
      * Returns true if a Message has a payload.
      *
      * <p>
      * A message without a payload is a SOAP message that looks like:
-     * <pre>
-     * &lt;xmp&gt;
-     * &lt;S:Envelope&gt;
-     *   &lt;S:Header&gt;
+     * <pre>{@code
+     * <xmp>
+     * <S:Envelope>
+     *   <S:Header>
      *     ...
-     *   &lt;/S:Header&gt;
-     *   &lt;S:Body /&gt;
-     * &lt;/S:Envelope&gt;
-     * &lt;/xmp&gt;
-     *</pre>
+     *   </S:Header>
+     *   <S:Body />
+     * </S:Envelope>
+     * </xmp>
+     * }</pre>
      */
-    public boolean hasPayload(){        
+    public boolean hasPayload(){
         return true;
     }
-    
-    
+
+
     /**
      * Consumes this message including the envelope.
      * returns it as a {@link Source} object.
@@ -223,8 +219,8 @@ public class MessageWrapper extends com.sun.xml.ws.api.message.Message{
     public Source readEnvelopeAsSource(){
         throw new UnsupportedOperationException();
     }
-    
-    
+
+
     /**
      * Returns the payload as a {@link Source} object.
      *
@@ -236,7 +232,7 @@ public class MessageWrapper extends com.sun.xml.ws.api.message.Message{
     public Source readPayloadAsSource(){
         throw new UnsupportedOperationException();
     }
-    
+
     /**
      * Creates the equivalent {@link SOAPMessage} from this message.
      *
@@ -248,7 +244,7 @@ public class MessageWrapper extends com.sun.xml.ws.api.message.Message{
     public SOAPMessage readAsSOAPMessage() throws SOAPException {
         throw new UnsupportedOperationException();
     }
-    
+
     /**
      * Reads the payload as a JAXB object by using the given unmarshaller.
      *
@@ -272,10 +268,10 @@ public class MessageWrapper extends com.sun.xml.ws.api.message.Message{
     public <T> T readPayloadAsJAXB(Bridge<T> bridge) throws JAXBException{
         throw new UnsupportedOperationException();
     }
-    
-    
-    
-    
+
+
+
+
     /**
      * Reads the payload as a {@link XMLStreamReader}
      *
@@ -290,7 +286,7 @@ public class MessageWrapper extends com.sun.xml.ws.api.message.Message{
         _check();
         return sm.readPayload();
     }
-    
+
     /**
      * Writes the payload to StAX.
      *
@@ -312,7 +308,7 @@ public class MessageWrapper extends com.sun.xml.ws.api.message.Message{
         _check();
         sm.writePayloadTo(sw);
     }
-    
+
     /**
      * Writes the whole SOAP message (but not attachments)
      * to the given writer.
@@ -330,7 +326,7 @@ public class MessageWrapper extends com.sun.xml.ws.api.message.Message{
         }
         sm.writeTo(sw);
     }
-    
+
     /**
      * Writes the whole SOAP envelope as SAX events.
      *
@@ -349,13 +345,13 @@ public class MessageWrapper extends com.sun.xml.ws.api.message.Message{
     public void writeTo( ContentHandler contentHandler, ErrorHandler errorHandler ) throws SAXException{
         throw new UnsupportedOperationException();
     }
-    
+
     // TODO: do we need a method that reads payload as a fault?
     // do we want a separte streaming representation of fault?
     // or would SOAPFault in SAAJ do?
-    
-    
-    
+
+
+
     /**
      * Creates a copy of a Message.
      *
@@ -395,7 +391,7 @@ public class MessageWrapper extends com.sun.xml.ws.api.message.Message{
      *
      *
      *
-     * <h3>Design Rationale</h3>
+     * <p><strong>Design Rationale</strong>
      * <p>
      * Since a Message body is read-once, sometimes
      * (such as when you do fail-over, or WS-RM) you need to
@@ -418,7 +414,7 @@ public class MessageWrapper extends com.sun.xml.ws.api.message.Message{
 //            try{
 //                bufferedMsg = new com.sun.xml.stream.buffer.MutableXMLStreamBuffer();
 //                javax.xml.stream.XMLStreamWriter writer = bufferedMsg.createFromXMLStreamWriter();
-//                sm.writeTo(writer);                
+//                sm.writeTo(writer);
 //            } catch (XMLStreamException ex) {
 //                java.util.logging.Logger.getLogger("global").log(java.util.logging.Level.SEVERE,
 //                        ex.getMessage(),
@@ -427,7 +423,7 @@ public class MessageWrapper extends com.sun.xml.ws.api.message.Message{
 //        }
 //        return new MessageWrapper(bufferedMsg,this.isOneWay,this.hl,this.sm);
     }
-    
+
     private void _check(){
         if(bufferedMsg !=null){
             throw new UnsupportedOperationException("Message is buffered , only writeTo method is supported");

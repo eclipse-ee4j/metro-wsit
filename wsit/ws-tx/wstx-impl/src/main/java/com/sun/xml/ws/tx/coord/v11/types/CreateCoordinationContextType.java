@@ -30,32 +30,32 @@ import org.w3c.dom.Element;
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
- * <pre>
- * &lt;complexType name="CreateCoordinationContextType">
- *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;sequence>
- *         &lt;element ref="{http://docs.oasis-open.org/ws-tx/wscoor/2006/06}Expires" minOccurs="0"/>
- *         &lt;element name="CurrentContext" minOccurs="0">
- *           &lt;complexType>
- *             &lt;complexContent>
- *               &lt;extension base="{http://docs.oasis-open.org/ws-tx/wscoor/2006/06}CoordinationContextType">
- *                 &lt;sequence>
- *                   &lt;any processContents='lax' namespace='##other' maxOccurs="unbounded" minOccurs="0"/>
- *                 &lt;/sequence>
- *                 &lt;anyAttribute processContents='lax' namespace='##other'/>
- *               &lt;/extension>
- *             &lt;/complexContent>
- *           &lt;/complexType>
- *         &lt;/element>
- *         &lt;element name="CoordinationType" type="{http://www.w3.org/2001/XMLSchema}anyURI"/>
- *         &lt;any processContents='lax' maxOccurs="unbounded" minOccurs="0"/>
- *       &lt;/sequence>
- *       &lt;anyAttribute processContents='lax' namespace='##other'/>
- *     &lt;/restriction>
- *   &lt;/complexContent>
- * &lt;/complexType>
- * </pre>
+ * <pre>{@code
+ * <complexType name="CreateCoordinationContextType">
+ *   <complexContent>
+ *     <restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
+ *       <sequence>
+ *         <element ref="{http://docs.oasis-open.org/ws-tx/wscoor/2006/06}Expires" minOccurs="0"/>
+ *         <element name="CurrentContext" minOccurs="0">
+ *           <complexType>
+ *             <complexContent>
+ *               <extension base="{http://docs.oasis-open.org/ws-tx/wscoor/2006/06}CoordinationContextType">
+ *                 <sequence>
+ *                   <any processContents='lax' namespace='##other' maxOccurs="unbounded" minOccurs="0"/>
+ *                 </sequence>
+ *                 <anyAttribute processContents='lax' namespace='##other'/>
+ *               </extension>
+ *             </complexContent>
+ *           </complexType>
+ *         </element>
+ *         <element name="CoordinationType" type="{http://www.w3.org/2001/XMLSchema}anyURI"/>
+ *         <any processContents='lax' maxOccurs="unbounded" minOccurs="0"/>
+ *       </sequence>
+ *       <anyAttribute processContents='lax' namespace='##other'/>
+ *     </restriction>
+ *   </complexContent>
+ * </complexType>
+ * }</pre>
  * 
  * 
  */
@@ -163,9 +163,9 @@ public class CreateCoordinationContextType {
      * 
      * <p>
      * For example, to add a new item, do as follows:
-     * <pre>
+     * <pre>{@code
      *    getAny().add(newItem);
-     * </pre>
+     * }</pre>
      * 
      * 
      * <p>
@@ -206,18 +206,18 @@ public class CreateCoordinationContextType {
      * 
      * <p>The following schema fragment specifies the expected content contained within this class.
      * 
-     * <pre>
-     * &lt;complexType>
-     *   &lt;complexContent>
-     *     &lt;extension base="{http://docs.oasis-open.org/ws-tx/wscoor/2006/06}CoordinationContextType">
-     *       &lt;sequence>
-     *         &lt;any processContents='lax' namespace='##other' maxOccurs="unbounded" minOccurs="0"/>
-     *       &lt;/sequence>
-     *       &lt;anyAttribute processContents='lax' namespace='##other'/>
-     *     &lt;/extension>
-     *   &lt;/complexContent>
-     * &lt;/complexType>
-     * </pre>
+     * <pre>{@code
+     * <complexType>
+     *   <complexContent>
+     *     <extension base="{http://docs.oasis-open.org/ws-tx/wscoor/2006/06}CoordinationContextType">
+     *       <sequence>
+     *         <any processContents='lax' namespace='##other' maxOccurs="unbounded" minOccurs="0"/>
+     *       </sequence>
+     *       <anyAttribute processContents='lax' namespace='##other'/>
+     *     </extension>
+     *   </complexContent>
+     * </complexType>
+     * }</pre>
      * 
      * 
      */
@@ -243,9 +243,9 @@ public class CreateCoordinationContextType {
          * 
          * <p>
          * For example, to add a new item, do as follows:
-         * <pre>
+         * <pre>{@code
          *    getAny().add(newItem);
-         * </pre>
+         * }</pre>
          * 
          * 
          * <p>

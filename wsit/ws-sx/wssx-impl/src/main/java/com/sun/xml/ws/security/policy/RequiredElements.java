@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -14,14 +14,14 @@ import java.util.Iterator;
 /**
  * Used to specify the header elements that the message MUST contain.
  * <p>
- * <pre>
- *  &lt;xmp&gt;
- *      &lt;sp:RequiredElements XPathVersion="xs:anyURI"? ... &gt; 
- *          &lt;sp:XPath&gt;xs:string&lt;/sp:XPath&gt;+ 
+ * <pre>{@code
+ *  <xmp>
+ *      <sp:RequiredElements XPathVersion="xs:anyURI"? ... > 
+ *          <sp:XPath>xs:string</sp:XPath>+ 
  *              ...
- *      &lt;/sp:RequiredElements&gt;
- *  &lt;/xmp&gt;
- * </pre>
+ *      </sp:RequiredElements>
+ *  </xmp>
+ * }</pre>
  * @author mayank.mishra@sun.com
  */
 public interface RequiredElements extends Target {

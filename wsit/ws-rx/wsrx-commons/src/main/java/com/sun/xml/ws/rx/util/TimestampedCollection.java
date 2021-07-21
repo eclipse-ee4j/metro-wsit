@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -31,7 +31,6 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
  * or removed without any advance notice.
  * </b>
  *
- * @author Marek Potociar <marek.potociar at sun.com>
  */
 public class TimestampedCollection<K, V> {
 
@@ -69,7 +68,7 @@ public class TimestampedCollection<K, V> {
      */
     private final ReadWriteLock rwLock = new ReentrantReadWriteLock();
 
-    TimestampedCollection() { 
+    TimestampedCollection() {
         // package private constructor - only classes in this package can extend this class
     }
 
@@ -91,7 +90,7 @@ public class TimestampedCollection<K, V> {
         try {
             TimestampedRegistration<K, V> tr = new TimestampedRegistration<K, V>(System.currentTimeMillis(), correlationId, subject);
             rwLock.writeLock().lock();
-            
+
             timestampedPriorityQueue.offer(tr);
             TimestampedRegistration<K, V> oldTr = correlationMap.put(tr.key, tr);
             if (oldTr != null) {
@@ -128,7 +127,7 @@ public class TimestampedCollection<K, V> {
      *
      * @param timestamp a timestamp to be used for the registration
      * @param subject a primary registration subject
-     * 
+     *
      * @return {@code true} if the registration was successfull, {@code false} otherwise
      *
      * @see #removeOldest()
@@ -153,7 +152,7 @@ public class TimestampedCollection<K, V> {
      * @return a registered {@code subject} associated with a given {@code correlationId}
      *         or {@code null} if there's no such {@code subject}
      *
-     * @see #register(java.lang.Object, java.lang.Object) 
+     * @see #register(java.lang.Object, java.lang.Object)
      */
     public V remove(@NotNull K correlationId) {
         try {
@@ -180,7 +179,7 @@ public class TimestampedCollection<K, V> {
      *
      * @see #register(java.lang.Object, java.lang.Object)
      * @see #register(java.lang.Object)
-     * @see #register(long, java.lang.Object) 
+     * @see #register(long, java.lang.Object)
      */
     public V removeOldest() {
         try {
@@ -202,7 +201,7 @@ public class TimestampedCollection<K, V> {
     }
 
     /**
-     * Removes all values from the time-stamped collection and returns them as an ordered FIFO 
+     * Removes all values from the time-stamped collection and returns them as an ordered FIFO
      * list.
      *
      * @return ordered FIFO list of the removed values. Returns empty list in case there are no
@@ -234,7 +233,7 @@ public class TimestampedCollection<K, V> {
      */
     public boolean isEmpty() {
         try {
-            rwLock.readLock().lock();            
+            rwLock.readLock().lock();
             return timestampedPriorityQueue.isEmpty();
         } finally {
             rwLock.readLock().unlock();

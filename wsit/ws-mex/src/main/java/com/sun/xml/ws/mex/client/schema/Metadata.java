@@ -38,20 +38,20 @@ import org.w3c.dom.Element;
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
- * <pre>
- * &lt;element name="Metadata">
- *   &lt;complexType>
- *     &lt;complexContent>
- *       &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *         &lt;sequence>
- *           &lt;element ref="{http://schemas.xmlsoap.org/ws/2004/09/mex}MetadataSection" maxOccurs="unbounded" minOccurs="0"/>
- *           &lt;any/>
- *         &lt;/sequence>
- *       &lt;/restriction>
- *     &lt;/complexContent>
- *   &lt;/complexType>
- * &lt;/element>
- * </pre>
+ * <pre>{@code
+ * <element name="Metadata">
+ *   <complexType>
+ *     <complexContent>
+ *       <restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
+ *         <sequence>
+ *           <element ref="{http://schemas.xmlsoap.org/ws/2004/09/mex}MetadataSection" maxOccurs="unbounded" minOccurs="0"/>
+ *           <any/>
+ *         </sequence>
+ *       </restriction>
+ *     </complexContent>
+ *   </complexType>
+ * </element>
+ * }</pre>
  * 
  * 
  */

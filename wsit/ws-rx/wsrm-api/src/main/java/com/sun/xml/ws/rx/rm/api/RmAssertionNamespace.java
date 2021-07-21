@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -17,7 +17,6 @@ import javax.xml.namespace.QName;
 /**
  * Class contains constants for policy namespaces used by this RM implementation.
  *
- * @author Marek Potociar <marek.potociar at sun.com>
  */
 public enum RmAssertionNamespace {
 
@@ -28,7 +27,7 @@ public enum RmAssertionNamespace {
     METRO_200603("http://sun.com/2006/03/rm", "sunrmp"),
     METRO_CLIENT_200603("http://sun.com/2006/03/rm/client", "sunrmcp"),
     METRO_200702("http://java.sun.com/xml/ns/metro/ws-rx/wsrmp/200702", "metrormp");
-    
+
     public static List<String> namespacesList() {
         List<String> retVal = new ArrayList<String>(RmAssertionNamespace.values().length);
         for (RmAssertionNamespace pns : RmAssertionNamespace.values()) {

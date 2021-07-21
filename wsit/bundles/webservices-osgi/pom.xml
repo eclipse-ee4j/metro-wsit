@@ -250,6 +250,8 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <configuration>
+                    <doclint>none</doclint>
+                    <quiet>true</quiet>
                     <excludePackageNames>*com.sun.xml.ws*:com.sun.tools.*:com.sun.enterprise.*:java.*:isorelax.*:src.*:*javanet*:*test*:*ctc*:*glassfish*:*com.sun.istack.tools*:javax.xml.crypto.*:org.apache.xml.security.*:org.apache.jcp.xml.dsig.internal.*:org.apache.commons.*:com.sun.grizzly.*</excludePackageNames>
                     <additionalDependencies>
                         <dependency>

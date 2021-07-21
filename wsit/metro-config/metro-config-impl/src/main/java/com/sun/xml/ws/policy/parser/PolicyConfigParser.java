@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -116,9 +116,9 @@ public final class PolicyConfigParser {
     /**
      * The method uses {@code configFileIdentifier} parameter to construct a WSIT config
      * file name according to following pattern:
-     * <p />
+     * <p>
      * <code>wsit-<i>[configFileIdentifier]</i>.xml</code>
-     * <p />
+     * <p>
      * After constructing the WSIT config file name, the function tries to find the WSIT
      * config file and read it from the following locations:
      * <ul>
@@ -132,7 +132,7 @@ public final class PolicyConfigParser {
      * {@code null} is returned as a result of this function call. In case
      * of any other problems that may occur while reading the WSIT config file, a
      * {@link PolicyException} is thrown.
-     * <p/>
+     * <p>
      * Since {@link PolicyMap} object is immutable as such, this function gives you also a chance
      * to register your own {@link PolicyMapMutator} objects so that you are able to modify the
      * {@link PolicyMap} object later if needed.
@@ -213,9 +213,9 @@ public final class PolicyConfigParser {
     /**
      * Find a WSIT config file based on the {@code configFileIdentifier} parameter
      * according to following pattern:
-     * <p />
+     * <p>
      * <code>wsit-<i>[configFileIdentifier]</i>.xml</code>
-     * <p />
+     * <p>
      * After constructing the WSIT config file name, the function tries to find the WSIT
      * config file in the following locations:
      * <ul>
@@ -229,7 +229,7 @@ public final class PolicyConfigParser {
      * {@code null} is returned as a result of this method call. In case
      * of any other problems that may occur while locating the WSIT config file, a
      * {@link PolicyException} is thrown.
-     * <p/>
+     * <p>
      *
      * @param configFileIdentifier base of WSIT config file name (web service name for WSIT service
      *        config file or "client" for WSIT client configuration). Must not be {@code null}.

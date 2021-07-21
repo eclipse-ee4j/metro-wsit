@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -30,7 +30,7 @@ import javax.xml.ws.WebServiceException;
 /**
   * Proprietary assertion that works with WS-RM v1.0 (WSRM200502) and enables
  * "In Order" message delivery:
- * <p />
+ * <p>
  * Messages from each individual Sequence are to be delivered in the same order
  * they have been sent by the Application Source. The requirement on an RM Source
  * is that it MUST ensure that the ordinal position of each message in the Sequence

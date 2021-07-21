@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2017, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -19,25 +19,25 @@ import com.sun.istack.logging.Logger;
 import com.sun.xml.ws.api.Component;
 
 /**
- * Abstract parent of *TaskManager classes com.sun.xml.ws.commons created to 
- * avoid duplication of code in the individual implementations 
+ * Abstract parent of *TaskManager classes com.sun.xml.ws.commons created to
+ * avoid duplication of code in the individual implementations
  *
  */
 public abstract class AbstractTaskManager {
     private final AtomicBoolean isClosed;
     private volatile ScheduledExecutorService executorService;
     private boolean useContainerSpi = true;
-    
+
     protected abstract Component getComponent();
     protected abstract String getThreadPoolName();
     protected abstract ThreadFactory createThreadFactory();
     protected abstract int getThreadPoolSize();
     protected abstract Logger getLogger();
-    
+
     protected AbstractTaskManager() {
         this.isClosed = new AtomicBoolean(false);
     }
-    
+
     /**
      * shutdown the ScheduledExecutorService if we created it.
      * @param force - if true, wait for time given by delayMillis, then force shutdown if needed
@@ -50,7 +50,7 @@ public abstract class AbstractTaskManager {
             executorService.shutdown();
         }
         if (!force) return;
-        
+
         if (!executorService.isTerminated()) {
             try {
                 Thread.sleep(delayMillis);
@@ -62,7 +62,7 @@ public abstract class AbstractTaskManager {
             }
         }
     }
-    
+
     /**
      * shutdown the ScheduledExecutorService if we created it.
      */
@@ -74,10 +74,10 @@ public abstract class AbstractTaskManager {
         if (useContainerSpi) return false;
         return isClosed.get();
     }
-    
+
     /**
      * Return the appropriate ScheduledExecutorService - on initial access, check for container.getSPI
-     * NOTE - A COPY OF THIS METHOD CAN BE FOUND AT {@link com.sun.xml.ws.metro.api.config.management.ManagedEndpoint#getExecutorService() ManagedEndpoint.getExecutorService() } IN metro-cm-api
+     * NOTE - A COPY OF THIS METHOD CAN BE FOUND AT {@code com.sun.xml.ws.metro.api.config.management.ManagedEndpoint#getExecutorService() ManagedEndpoint.getExecutorService() } IN metro-cm-api
      * IF A SUITABLE COMMON LOCATION CAN BE FOUND BOTH COPIES MUST BE MOVED
      * @return
      */

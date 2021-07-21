@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -30,7 +30,6 @@ import javax.xml.namespace.QName;
  * Sequence maintenance task takes care of terminating inactive sequences and 
  * removing the terminated sequences from the sequence repository.
  *
- * @author Marek Potociar <marek.potociar at sun.com>
  */
 public class MaintenanceTaskPeriodAssertion extends SimpleAssertion implements RmConfigurator {
     public static final QName NAME = RmAssertionNamespace.METRO_200702.getQName("MaintenanceTaskPeriod");
