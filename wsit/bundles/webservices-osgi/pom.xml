@@ -284,6 +284,8 @@
                         <sourceFileExclude>META-INF/**</sourceFileExclude>
                         <sourceFileExclude>org/glassfish/**</sourceFileExclude>
                         <sourceFileExclude>org/jvnet/hk2/**</sourceFileExclude>
+                        <!-- temporarily disabled: javadoc/JDK 17 fails on following sources -->
+                        <sourceFileExclude>**/xml/registry/**</sourceFileExclude>
                     </sourceFileExcludes>
                 </configuration>
             </plugin>

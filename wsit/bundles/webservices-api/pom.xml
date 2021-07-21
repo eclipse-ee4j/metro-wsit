@@ -154,6 +154,8 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <configuration>
+                    <doclint>none</doclint>
+                    <quiet>true</quiet>
                     <additionalDependencies>
                         <dependency>
                             <groupId>javax.enterprise</groupId>
@@ -175,20 +177,6 @@
                         <sourceFileExclude>META-INF/**</sourceFileExclude>
                         <sourceFileExclude>com/**</sourceFileExclude>
                     </sourceFileExcludes>
-                    <tags>
-                        <tag>
-                            <name>specdefault</name>
-                            <placement>X</placement>
-                        </tag>
-                        <tag>
-                            <name>apiNote</name>
-                            <placement>X</placement>
-                        </tag>
-                        <tag>
-                            <name>implNote</name>
-                            <placement>X</placement>
-                        </tag>
-                    </tags>
                 </configuration>
             </plugin>
         </plugins>
