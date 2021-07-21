@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -65,10 +65,10 @@ public class DSigResolver implements URIDereferencer {
 
     /**
      * resolve the URI of type "cid:" , "attachmentRef:", "http:", "#xyz".
-     * @param uriRef {@inheritDoc}
-     * @param context{@inheritDoc}
-     * @throws URIReferenceException {@inheritDoc}
-     * @return {@inheritDoc}
+     * @param uriRef
+     * @param context
+     * @throws URIReferenceException
+     * @return
      */
     public Data dereference(final URIReference uriRef, final XMLCryptoContext context) throws URIReferenceException {
         String uri = null;

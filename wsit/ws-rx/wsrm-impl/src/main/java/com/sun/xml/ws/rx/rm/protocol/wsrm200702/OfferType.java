@@ -28,21 +28,21 @@ import jakarta.xml.bind.annotation.XmlType;
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
- * <pre>
- * &lt;complexType name="OfferType">
- *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;sequence>
- *         &lt;element ref="{http://docs.oasis-open.org/ws-rx/wsrm/200702}Identifier"/>
- *         &lt;element name="Endpoint" type="{http://www.w3.org/2005/08/addressing}EndpointReferenceType"/>
- *         &lt;element ref="{http://docs.oasis-open.org/ws-rx/wsrm/200702}Expires" minOccurs="0"/>
- *         &lt;element name="IncompleteSequenceBehavior" type="{http://docs.oasis-open.org/ws-rx/wsrm/200702}IncompleteSequenceBehaviorType" minOccurs="0"/>
- *         &lt;any/>
- *       &lt;/sequence>
- *     &lt;/restriction>
- *   &lt;/complexContent>
- * &lt;/complexType>
- * </pre>
+ * <pre>{@code
+ * <complexType name="OfferType">
+ *   <complexContent>
+ *     <restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
+ *       <sequence>
+ *         <element ref="{http://docs.oasis-open.org/ws-rx/wsrm/200702}Identifier"/>
+ *         <element name="Endpoint" type="{http://www.w3.org/2005/08/addressing}EndpointReferenceType"/>
+ *         <element ref="{http://docs.oasis-open.org/ws-rx/wsrm/200702}Expires" minOccurs="0"/>
+ *         <element name="IncompleteSequenceBehavior" type="{http://docs.oasis-open.org/ws-rx/wsrm/200702}IncompleteSequenceBehaviorType" minOccurs="0"/>
+ *         <any/>
+ *       </sequence>
+ *     </restriction>
+ *   </complexContent>
+ * </complexType>
+ * }</pre>
  * 
  * 
  */
@@ -98,7 +98,7 @@ public class OfferType {
      * 
      * @return
      *     possible object is
-     *     {@link EndpointReferenceType }
+     *     {@link EndpointReference }
      *     
      */
     public EndpointReference getEndpoint() {
@@ -110,7 +110,7 @@ public class OfferType {
      * 
      * @param value
      *     allowed object is
-     *     {@link EndpointReferenceType }
+     *     {@link EndpointReference}
      *     
      */
     public void setEndpoint(EndpointReference value) {
@@ -217,7 +217,7 @@ public class OfferType {
      * Mutator for the Id property.  Maps to the Identifier property in the underlying
      * JAXB class.
      *
-     * @param id The new value.
+     * @param idString The new value.
      */
     public void setId(String idString) {
         Identifier newId = new Identifier();

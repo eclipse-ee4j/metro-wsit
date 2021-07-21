@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2010, 2018 The Apache Software Foundation
  *
  * This program and the accompanying materials are made available under the
@@ -34,6 +34,7 @@ import com.sun.xml.wss.impl.misc.SecurityHeaderBlockImpl;
 
 /**
  * Schema definition for an EncryptedType is as follows:
+ * <pre>{@code
  * <xmp>
  * <complexType name='EncryptedType' abstract='true'>
  *     <sequence>
@@ -49,6 +50,7 @@ import com.sun.xml.wss.impl.misc.SecurityHeaderBlockImpl;
  *     <attribute name='Encoding' type='anyURI' use='optional'/>
  * </complexType>
  * </xmp>
+ * }</pre>
  *
  * @author Vishal Mahajan
  */

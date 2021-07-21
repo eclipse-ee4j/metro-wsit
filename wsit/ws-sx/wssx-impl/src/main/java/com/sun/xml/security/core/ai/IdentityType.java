@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -26,9 +26,6 @@ import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElementRef;
 import jakarta.xml.bind.annotation.XmlElementRefs;
 import jakarta.xml.bind.annotation.XmlType;
-import com.sun.xml.security.core.dsig.KeyInfoType;
-import com.sun.xml.ws.security.secext10.BinarySecurityTokenType;
-import com.sun.xml.ws.security.secext10.SecurityTokenReferenceType;
 
 
 /**
@@ -36,24 +33,24 @@ import com.sun.xml.ws.security.secext10.SecurityTokenReferenceType;
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
- * <pre>
- * &lt;complexType name="IdentityType"&gt;
- *   &lt;complexContent&gt;
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
- *       &lt;sequence&gt;
- *         &lt;choice maxOccurs="unbounded"&gt;
- *           &lt;element ref="{http://schemas.xmlsoap.org/ws/2006/02/addressingidentity}Dns" minOccurs="0"/&gt;
- *           &lt;element ref="{http://schemas.xmlsoap.org/ws/2006/02/addressingidentity}Spn" minOccurs="0"/&gt;
- *           &lt;element ref="{http://schemas.xmlsoap.org/ws/2006/02/addressingidentity}Upn" minOccurs="0"/&gt;
- *           &lt;element ref="{http://www.w3.org/2000/09/xmldsig#}KeyInfo" minOccurs="0"/&gt;
- *           &lt;element ref="{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd}BinarySecurityToken" minOccurs="0"/&gt;
- *           &lt;element ref="{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd}SecurityTokenReference" minOccurs="0"/&gt;
- *         &lt;/choice&gt;
- *       &lt;/sequence&gt;
- *     &lt;/restriction&gt;
- *   &lt;/complexContent&gt;
- * &lt;/complexType&gt;
- * </pre>
+ * <pre>{@code
+ * <complexType name="IdentityType">
+ *   <complexContent>
+ *     <restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
+ *       <sequence>
+ *         <choice maxOccurs="unbounded">
+ *           <element ref="{http://schemas.xmlsoap.org/ws/2006/02/addressingidentity}Dns" minOccurs="0"/>
+ *           <element ref="{http://schemas.xmlsoap.org/ws/2006/02/addressingidentity}Spn" minOccurs="0"/>
+ *           <element ref="{http://schemas.xmlsoap.org/ws/2006/02/addressingidentity}Upn" minOccurs="0"/>
+ *           <element ref="{http://www.w3.org/2000/09/xmldsig#}KeyInfo" minOccurs="0"/>
+ *           <element ref="{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd}BinarySecurityToken" minOccurs="0"/>
+ *           <element ref="{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd}SecurityTokenReference" minOccurs="0"/>
+ *         </choice>
+ *       </sequence>
+ *     </restriction>
+ *   </complexContent>
+ * </complexType>
+ * }</pre>
  * 
  * 
  */
@@ -91,11 +88,11 @@ public class IdentityType {
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link JAXBElement }{@code <}{@link BinarySecurityTokenType }{@code >}
-     * {@link JAXBElement }{@code <}{@link SecurityTokenReferenceType }{@code >}
+     * {@link JAXBElement }{@code <BinarySecurityTokenType>}
+     * {@link JAXBElement }{@code <SecurityTokenReferenceType>}
      * {@link JAXBElement }{@code <}{@link String }{@code >}
      * {@link JAXBElement }{@code <}{@link String }{@code >}
-     * {@link JAXBElement }{@code <}{@link KeyInfoType }{@code >}
+     * {@link JAXBElement }{@code <KeyInfoType>}
      * {@link JAXBElement }{@code <}{@link String }{@code >}
      * 
      * 

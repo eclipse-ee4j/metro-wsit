@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -45,7 +45,7 @@ public class SignaturePolicyVerifier implements PolicyVerifier{
      *
      * @param configPolicy Policy configured for the incoming message.
      * @param recvdPolicy policy inferred from the incoming message.
-     * @throws com.sun.xml.wss.PolicyViolationException when policy infered from incoming message does not match with what
+     * @throws PolicyViolationException when policy infered from incoming message does not match with what
      * is configured.
      *
      */

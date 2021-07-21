@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -40,7 +40,7 @@ public interface SequenceData {
      *   <li>{@link #attachMessageToUnackedMessageNumber(ApplicationMessage) }</li>
      *   <li>{@link #incrementAndGetLastMessageNumber(boolean) }</li>
      *   <li>{@link #markAsAcknowledged(long) }</li>
-     *   <li>{@link #registerUnackedMessageNumber(long, boolean) }</li>
+     *   <li>{@link #registerReceivedUnackedMessageNumber(long)}</li>
      *   <li>{@link #retrieveMessage(java.lang.String) }</li>
      *   <li>{@link #setAckRequestedFlag(boolean) }</li>
      *   <li>{@link #setLastAcknowledgementRequestTime(long) }</li>
@@ -68,7 +68,7 @@ public interface SequenceData {
 
     /**
      * Registers the message number as unacknowledged.
-     * <p/>
+     * <p>
      * If the value of {@code messageNumber} parameter is greater that the actual 
      * last mesasge number, the last message number value is increased to the value of
      * {@code messageNumber} parameter. All message numbers lying between the original
@@ -77,7 +77,6 @@ public interface SequenceData {
      *
      * @param messageNumber unacknowledged message number to register
      *
-     * @return new value of the last message number
      * @exception DuplicateMessageRegistrationException in case such registration already exists
      */
     void registerReceivedUnackedMessageNumber(long messageNumber) throws DuplicateMessageRegistrationException;
@@ -106,7 +105,7 @@ public interface SequenceData {
      * {@link List} in which first item represents a current last message number value (see also
      * {@link #getLastMessageNumber()}. The items following the first item represent
      * the collection of unacked message numbers (see also {@link #getUnackedMessageNumbers()}).
-     * <p/>
+     * <p>
      * This special method was introduced in order to allow for an atomic retrieval of both values.
      *
      * @return {@link List} where first item represents the last message number and all subsequent

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -26,8 +26,6 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.XmlType;
 import jakarta.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-import com.sun.xml.ws.policy.impl.bindings.OperatorContentType;
-import com.sun.xml.ws.policy.impl.bindings.Policy;
 
 
 /**
@@ -35,18 +33,18 @@ import com.sun.xml.ws.policy.impl.bindings.Policy;
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
- * <pre>
- * &lt;element name="Policy"&gt;
- *   &lt;complexType&gt;
- *     &lt;complexContent&gt;
- *       &lt;extension base="{http://schemas.xmlsoap.org/ws/2004/09/policy}OperatorContentType"&gt;
- *         &lt;attribute name="TargetNamespace" type="{http://www.w3.org/2001/XMLSchema}anyURI" /&gt;
- *         &lt;attribute ref="{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd}Id"/&gt;
- *       &lt;/extension&gt;
- *     &lt;/complexContent&gt;
- *   &lt;/complexType&gt;
- * &lt;/element&gt;
- * </pre>
+ * <pre>{@code
+ * <element name="Policy">
+ *   <complexType>
+ *     <complexContent>
+ *       <extension base="{http://schemas.xmlsoap.org/ws/2004/09/policy}OperatorContentType">
+ *         <attribute name="TargetNamespace" type="{http://www.w3.org/2001/XMLSchema}anyURI" />
+ *         <attribute ref="{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd}Id"/>
+ *       </extension>
+ *     </complexContent>
+ *   </complexType>
+ * </element>
+ * }</pre>
  * 
  * 
  */

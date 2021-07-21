@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -33,15 +33,15 @@ public interface BinarySecret extends XMLStructure {
 
     /**
      * Gets a map that contains attributes that aren't bound to any typed property on this class.
-     * 
+     *
      * <p>
-     * the map is keyed by the name of the attribute and 
+     * the map is keyed by the name of the attribute and
      * the value is the string value of the attribute.
-     * 
+     *
      * the map returned by this method is live, and you can add new attribute
      * by updating the map directly. Because of this design, there's no setter.
-     * 
-     * 
+     *
+     *
      * @return
      *     always non-null
      */
@@ -50,16 +50,16 @@ public interface BinarySecret extends XMLStructure {
     /**
      * Gets the value of the type property. This is a URI that indicates the
      * type of secret being encoded.
-     * 
+     *
      * @return {@link String }
-     *     
+     *
      */
     String getType();
 
     /**
        * Gets the decoded value or the raw bytes of the binary secret.
        *
-       * @return 
+       * @return
        *     possible object is
        *     byte[]
        *
@@ -71,7 +71,7 @@ public interface BinarySecret extends XMLStructure {
        * base64 encoded BinarySecret.
        *
        * @return {@link String}
-       * @see {getRawValue}
+       * @see #getRawValue()
        *
        */
       String getTextValue();
@@ -79,9 +79,9 @@ public interface BinarySecret extends XMLStructure {
     /**
      * Sets the value of the type property indicating the type of
      * secret being encoded.
-     * 
+     *
      * @param type {@link String }
-     *     
+     *
      */
     void setType(String type);
 
@@ -97,11 +97,11 @@ public interface BinarySecret extends XMLStructure {
        * Sets the value of the binary secret as raw bytes.
        * The value that appears in the element will be encoded appropriately.
        *
-       * @param rawText 
+       * @param rawText
        *     allowed object is
        *     byte[]
        *
        */
       void setRawValue(byte[] rawText);
-    
+
 }

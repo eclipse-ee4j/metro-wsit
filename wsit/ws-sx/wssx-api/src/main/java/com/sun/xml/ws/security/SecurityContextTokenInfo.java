@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -20,9 +20,9 @@ import java.util.Set;
 
 
 /**
- * The </code>SecurityContextTokenInfo</code> class represents security parameters
+ * The <code>SecurityContextTokenInfo</code> class represents security parameters
  * which will be saved in the <code>Session</code> object so that whenever the endpoint
- * crashes the security negotiations can be resumed from its original state and no new 
+ * crashes the security negotiations can be resumed from its original state and no new
  * negotiations need to be done.
  *
  */
@@ -41,12 +41,12 @@ public interface SecurityContextTokenInfo extends Serializable {
     String getExternalId();
 
     void setExternalId(String externalId);
-    
+
     String getInstance();
 
     void setInstance(String instance);
 
-    @ManagedAttribute    
+    @ManagedAttribute
     @Description("Secret")
     byte[] getSecret();
 
@@ -65,7 +65,7 @@ public interface SecurityContextTokenInfo extends Serializable {
     Date getExpirationTime();
 
     void setExpirationTime(Date expirationTime);
-    
+
     Set getInstanceKeys();
 
     @ManagedAttribute
@@ -73,5 +73,5 @@ public interface SecurityContextTokenInfo extends Serializable {
     IssuedTokenContext getIssuedTokenContext();
 
     IssuedTokenContext getIssuedTokenContext(SecurityTokenReference reference);
-        
+
 }

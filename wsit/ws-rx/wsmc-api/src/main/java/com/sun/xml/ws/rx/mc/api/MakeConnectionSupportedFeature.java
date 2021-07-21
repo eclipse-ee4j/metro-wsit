@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -18,7 +18,6 @@ import org.glassfish.gmbal.ManagedData;
 
 /**
  *
- * @author Marek Potociar <marek.potociar at sun.com>
  */
 @ManagedData
 public class MakeConnectionSupportedFeature extends WebServiceFeature implements StickyFeature {
@@ -89,7 +88,7 @@ public class MakeConnectionSupportedFeature extends WebServiceFeature implements
     /**
      * Specifies a timeout for consecutive unsuccessfull response retrievals.
      *
-     * @return currently configured timeout for consecutive unsuccessfull response 
+     * @return currently configured timeout for consecutive unsuccessfull response
      *         retrievals. If not set explicitly, the default value is specified by
      *         {@link #DEFAULT_RESPONSE_RETRIEVAL_TIMEOUT} constant.
      */

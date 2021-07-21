@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -15,7 +15,6 @@ import com.sun.xml.ws.security.trust.elements.str.DirectReference;
 import com.sun.xml.ws.security.trust.elements.str.KeyIdentifier;
 
 import com.sun.xml.ws.api.security.trust.Claims;
-import com.sun.xml.ws.api.security.trust.Status;
 import com.sun.xml.ws.api.security.trust.WSTrustException;
 import com.sun.xml.ws.security.trust.elements.ActAs;
 import com.sun.xml.ws.security.trust.elements.AllowPostdating;
@@ -70,11 +69,11 @@ import jakarta.xml.bind.Marshaller;
  * <p>
  * The default Implementation classes for all these WS-Trust schema Elements would assume
  * that JAXB Bindings were generated for ws-trust.xsd schema in a particular fixed namespace/package.
- * The default implementation classes for all these WS-Trust Element Interfaces would hence wrap 
+ * The default implementation classes for all these WS-Trust Element Interfaces would hence wrap
  * the schema generated classes.
  * </p>
  * <p>
- * An STS Service can create a RequestSecurityToken from the JAXBBean(i.e RequestSecurityTokenType) 
+ * An STS Service can create a RequestSecurityToken from the JAXBBean(i.e RequestSecurityTokenType)
  * it receives, as an SEI method parameter, in the following manner
  * </P>
  * <PRE>
@@ -90,22 +89,22 @@ import jakarta.xml.bind.Marshaller;
  * JAXBElement&lt;RequestSecurityTokenType&gt; elem = fact.toJAXBElement(requestSecurityToken);
  * RequestSecurityTokenType tok = elem.getValue();
  * </PRE>
- * </p>
+ *
  * @author Kumar Jayanti
  */
 public abstract class WSTrustElementFactory {
-    
+
     private static JAXBContext jaxbContext = null;
     private static JAXBContext jaxbContext13 = null;
     private static Map<String, WSTrustElementFactory> intMap = new HashMap<String, WSTrustElementFactory>();
-    
+
     static {
         try {
             jaxbContext = JAXBContext.newInstance("com.sun.xml.ws.security.trust.impl.bindings:com.sun.xml.ws.security.secconv.impl.bindings:com.sun.xml.ws.security.secext10:com.sun.xml.security.core.ai:com.sun.xml.security.core.dsig:com.sun.xml.ws.policy.impl.bindings");
             jaxbContext13 = JAXBContext.newInstance("com.sun.xml.ws.security.trust.impl.wssx.bindings:com.sun.xml.ws.security.secconv.impl.wssx.bindings:com.sun.xml.ws.security.secext10:com.sun.xml.security.core.ai:com.sun.xml.security.core.dsig:com.sun.xml.ws.policy.impl.bindings");
         } catch (JAXBException jbe) {
             throw new RuntimeException(jbe.getMessage(),jbe);
-        }        
+        }
     }
 
     public static JAXBContext getContext() {
@@ -147,19 +146,19 @@ public abstract class WSTrustElementFactory {
             }
         } catch (Exception ex) {
             throw new RuntimeException("unable to initialize the WSTrustElementFactory for the protocol " + nsUri, ex);
-        } 
+        }
 
         intMap.put(nsUri, fac);
 
         return fac;
     }
-    
+
     public static WSTrustElementFactory newInstance(WSTrustVersion wstVer) {
         return newInstance(wstVer.getNamespaceURI());
     }
-    
+
     public static WSTrustElementFactory newInstance(WSSCVersion wsscVer) {
-        return newInstance(wsscVer.getNamespaceURI());   
+        return newInstance(wsscVer.getNamespaceURI());
     }
 
     private static String getInstanceClassName(String nsUri) {
@@ -176,39 +175,39 @@ public abstract class WSTrustElementFactory {
 
         return "com.sun.xml.ws.security.trust.impl.WSTrustElementFactoryImpl";
     }
-    
-    /** 
+
+    /**
      * Create an RST for Issue from the given arguments
-     * Any of the arguments can be null since they are all optional, but one of tokenType and AppliesTo must be present 
+     * Any of the arguments can be null since they are all optional, but one of tokenType and AppliesTo must be present
      */
     public abstract RequestSecurityToken createRSTForIssue(URI tokenType, URI requestType, URI context, AppliesTo scopes, Claims claims, Entropy entropy, Lifetime lifetime) throws WSTrustException;
-    
-    /** 
+
+    /**
      * create an RSTR for Issue from the given arguments
-     * Any of the arguments can be null since they are all optional, but one of RequestedSecurityToken or RequestedProofToken should be returned  
+     * Any of the arguments can be null since they are all optional, but one of RequestedSecurityToken or RequestedProofToken should be returned
      */
     public abstract RequestSecurityTokenResponse createRSTRForIssue(URI tokenType, URI context, RequestedSecurityToken token, AppliesTo scopes, RequestedAttachedReference attachedRef, RequestedUnattachedReference unattachedRef, RequestedProofToken proofToken, Entropy entropy, Lifetime lifetime) throws WSTrustException;
 
-    /** 
-     *Create  a collection of RequestSecurityTokenResponse(s)  
+    /**
+     *Create  a collection of RequestSecurityTokenResponse(s)
      */
     public abstract RequestSecurityTokenResponseCollection createRSTRCollectionForIssue(URI tokenType, URI context, RequestedSecurityToken token, AppliesTo scopes, RequestedAttachedReference attachedRef, RequestedUnattachedReference unattachedRef, RequestedProofToken proofToken, Entropy entropy, Lifetime lifetime) throws WSTrustException;
 
-    /** 
+    /**
      * Create a wst:IssuedTokens object
      */
     public abstract IssuedTokens createIssuedTokens(RequestSecurityTokenResponseCollection issuedTokens);
-    
+
     /**
      * Create an Entropy with a BinarySecret
      */
     public abstract Entropy createEntropy(BinarySecret secret);
-    
+
     /**
      * Create an Entropy with an xenc:EncryptedKey
      */
     public abstract Entropy createEntropy(EncryptedKey key);
-    
+
     /**
      * Create SecondaryParameters
      */
@@ -222,38 +221,38 @@ public abstract class WSTrustElementFactory {
      * Create a BinarySecret
      */
     public abstract BinarySecret createBinarySecret(Element elem) throws WSTrustException;
-    
+
     public abstract UseKey createUseKey(Token token, String sig);
 
     public abstract OnBehalfOf createOnBehalfOf(Token oboToken);
 
     public abstract ActAs createActAs(Token token);
-    
+
     public abstract ValidateTarget createValidateTarget(Token token);
-    
+
     public abstract Status createStatus(String code, String reason);
-    
+
     /**
      * Create a Lifetime.
      */
     public abstract Lifetime createLifetime(AttributedDateTime created,  AttributedDateTime expires);
-    
+
     /**
      * Create a RequestedProofToken.
      */
     public abstract RequestedProofToken createRequestedProofToken();
-    
+
     /**
      * Create a RequestedSecurityToken.
      */
    public abstract RequestedSecurityToken createRequestedSecurityToken(Token token);
-   
+
    public abstract RequestedSecurityToken createRequestedSecurityToken();
-   
+
    public abstract DirectReference createDirectReference(String valueType, String uri);
-   
+
    public abstract KeyIdentifier createKeyIdentifier(String valueType, String encodingType);
-   
+
    public abstract SecurityTokenReference createSecurityTokenReference(Reference ref);
 
    public abstract SecurityContextToken createSecurityContextToken(final URI identifier, final String instance, final String wsuId);
@@ -272,35 +271,35 @@ public abstract class WSTrustElementFactory {
      *Create an RST for a Renewal Request
      */
     public abstract RequestSecurityToken createRSTForRenew(URI tokenType, URI requestType, URI context, RenewTarget target, AllowPostdating apd, Renewing renewingInfo);
-    
+
     /**
      *Create an RSTR for a Renewal Response
      */
     public  abstract RequestSecurityTokenResponse createRSTRForRenew(URI tokenType, URI context, RequestedSecurityToken token, RequestedAttachedReference attachedReference, RequestedUnattachedReference unattachedRef, RequestedProofToken proofToken, Entropy entropy, Lifetime lifetime) throws WSTrustException;;
-    
+
     public abstract RenewTarget createRenewTarget(SecurityTokenReference str);
-    
+
     public abstract CancelTarget createCancelTarget(SecurityTokenReference str);
     /**
      *Create an RST for Token Cancellation
      */
     public abstract RequestSecurityToken createRSTForCancel(URI requestType, CancelTarget target);
-    
+
     /**
      *Create an RSTR for a Successful Token Cancellation
      */
     public abstract RequestSecurityTokenResponse createRSTRForCancel();
-    
+
     /**
      *Create an RST for Token Validation
      *<p>
      *TODO: Not clear from Spec whether the Token to be validated is ever sent ?
-     *TODO: There is a mention of special case where a SOAPEnvelope may be specified as 
+     *TODO: There is a mention of special case where a SOAPEnvelope may be specified as
      * a security token if the requestor desires the envelope to be validated.
      *</p>
      */
     public abstract RequestSecurityToken createRSTForValidate(URI tokenType, URI requestType);
-    
+
     /**
      * create an RSTR for validate request.
      */
@@ -312,43 +311,43 @@ public abstract class WSTrustElementFactory {
      * Create an Empty RST
      */
     public abstract RequestSecurityToken createRST();
-    
+
     /**
      * Create an Empty RSTR
      */
     public abstract RequestSecurityTokenResponse createRSTR();
-    
-    
-    /** 
+
+
+    /**
      * create an RST from a Source
      */
     public abstract RequestSecurityToken createRSTFrom(Source src);
-    
+
     /**
      * create an RST from DOM Element
      */
     public abstract RequestSecurityToken createRSTFrom(Element elem);
-    
-    /** 
+
+    /**
      * create an RSTR from a Source
      */
     public abstract RequestSecurityTokenResponse createRSTRFrom(Source src);
-    
+
     /**
      * create an RSTR from DOM Element
      */
     public abstract RequestSecurityTokenResponse createRSTRFrom(Element elem);
-    
+
     /**
      * Create RSTR Collection from Source
      */
     public abstract RequestSecurityTokenResponseCollection createRSTRCollectionFrom(Source src);
-    
+
     /**
      * Create RSTR Collection from Element
      */
     public abstract RequestSecurityTokenResponseCollection createRSTRCollectionFrom(Element elem);
-    
+
     public abstract Claims createClaims(Element elem)throws WSTrustException;
 
     public abstract Claims createClaims(Claims claims) throws WSTrustException;
@@ -360,45 +359,45 @@ public abstract class WSTrustElementFactory {
      * <p>
      * NOTE: an STS Implementor can call
      * <PRE>
-     * JAXBElement&lt;RequestSecurityTokenType&gt; elem= 
+     * JAXBElement&lt;RequestSecurityTokenType&gt; elem=
      * ObjectFactory.createRequestSecurityToken(&lt;JAXBBean for RST&gt;)
      * </PRE>
      * The JAXBBean for RST is the one generated from the ws-trust.xsd schema
      * The default implementation expects the packagename of the generated JAXB Beans to be fixed.
-     * </p>
+     *
      */
     public abstract RequestSecurityToken createRSTFrom(JAXBElement elem);
-    
+
     /**
      * create an RSTR from JAXBElement
      * <p>
      * NOTE: an STS Implementor can call
      * <PRE>
-     * JAXBElement&lt;RequestSecurityTokenResponseType&gt; elem= 
+     * JAXBElement&lt;RequestSecurityTokenResponseType&gt; elem=
      * ObjectFactory.createRequestSecurityTokenResponse(&lt;JAXBBean for RSTR&gt;);
      * </PRE>
      * The &lt;JAXBBean for RSTR&gt; is the one generated from the ws-trust.xsd schema
      * The default implementation expects the packagename of the generated JAXB Beans to be fixed.
-     * </p>
+     *
      */
     public  abstract RequestSecurityTokenResponse createRSTRFrom(JAXBElement elem);
-    
+
     /**
      * create an RSTR Collection from JAXBElement
      * <p>
      * NOTE: an STS Implementor can call
      * <PRE>
-     * JAXBElement&lt;RequestSecurityTokenResponseCollectionType&gt; elem= 
+     * JAXBElement&lt;RequestSecurityTokenResponseCollectionType&gt; elem=
      * ObjectFactory.createRequestSecurityTokenResponseCollection(&lt;JAXBBean for RSTR Collection&gt;
      * </PRE>
      * The &lt;JAXBBean for RSTR Collection&gt; is the one generated from the ws-trust.xsd schema
      * The default implementation expects the packagename of the generated JAXB Beans to be fixed.
-     * </p>
+     *
      */
     public abstract RequestSecurityTokenResponseCollection createRSTRCollectionFrom(JAXBElement elem);
-    
+
     public abstract SecurityTokenReference createSecurityTokenReference(JAXBElement elem);
-    
+
     public abstract JAXBElement toJAXBElement(BaseSTSRequest request);
 
     public abstract JAXBElement toJAXBElement(BaseSTSResponse response);
@@ -406,86 +405,86 @@ public abstract class WSTrustElementFactory {
      * convert an SecurityTokenReference to a JAXBElement
      */
     public abstract JAXBElement toJAXBElement(SecurityTokenReference str);
-   
-    
+
+
     /**
      * convert an RST to a JAXBElement
      */
     public abstract JAXBElement toJAXBElement(RequestSecurityToken rst);
-    
+
     /**
      * convert an RSTR to a JAXBElement
      */
     public abstract JAXBElement toJAXBElement(RequestSecurityTokenResponse rstr);
-    
+
     /**
      * convert an RSTR Collection to a JAXBElement
      */
     public abstract JAXBElement toJAXBElement(RequestSecurityTokenResponseCollection rstrCollection);
-    
+
     public abstract Source toSource(BaseSTSRequest request);
 
     public abstract Source toSource(BaseSTSResponse response);
     /**
      * Marshal an RST to a Source.
      * <p>
-     * Note: Useful for Dispatch Client implementations  
+     * Note: Useful for Dispatch Client implementations
      * </p>
      */
     public abstract Source toSource(RequestSecurityToken rst);
-    
+
     /**
      * Marshal an RSTR  to a Source
      * <p>
-     * Note: Useful for STS implementations which are JAXWS Providers  
+     * Note: Useful for STS implementations which are JAXWS Providers
      * </p>
      */
     public abstract Source toSource(RequestSecurityTokenResponse rstr);
-    
+
     /**
      * Marshal an RSTR Collection to a Source
      * <p>
-     * Note: Useful for STS implementations which are JAXWS Providers  
+     * Note: Useful for STS implementations which are JAXWS Providers
      * </p>
      */
     public abstract Source toSource(RequestSecurityTokenResponseCollection rstrCollection);
-    
+
     public abstract Element toElement(BaseSTSRequest request);
 
     public abstract Element toElement(BaseSTSResponse response);
     /**
      * Marshal an RST to a DOM Element.
      * <p>
-     * Note: Useful for Dispatch Client implementations  
+     * Note: Useful for Dispatch Client implementations
      * </p>
      */
     public abstract Element toElement(RequestSecurityToken rst);
-    
+
     /**
      * Marshal an RSTR  to DOM Element
      * <p>
-     * Note: Useful for STS implementations which are JAXWS Providers  
+     * Note: Useful for STS implementations which are JAXWS Providers
      * </p>
      */
     public abstract Element toElement(RequestSecurityTokenResponse rstr);
-    
+
     public abstract Element toElement(RequestSecurityTokenResponse rstr, Document doc);
-    
+
     /**
      * Marshal an RSTR Collection to a DOM Element
      * <p>
-     * Note: Useful for STS implementations which are JAXWS Providers  
+     * Note: Useful for STS implementations which are JAXWS Providers
      * </p>
      */
     public abstract Element toElement(RequestSecurityTokenResponseCollection rstrCollection);
-    
+
     /**
      * Marshal an BinarySecret to a DOM Element
      * <p>
-     * Note: Useful for STS implementations which are JAXWS Providers  
+     * Note: Useful for STS implementations which are JAXWS Providers
      * </p>
      */
-    
+
      public abstract Element toElement(BinarySecret binarySecret);
 
      /**

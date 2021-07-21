@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -50,7 +50,8 @@ import com.sun.xml.ws.api.security.trust.WSTrustException;
 
 
 /**
- * Corresponds to the schema representation for a KeyInfo. 
+ * Corresponds to the schema representation for a KeyInfo.
+ * <pre>{@code
  <element name="KeyInfo" type="ds:KeyInfoType"/>
    <complexType name="KeyInfoType" mixed="true">
      <choice maxOccurs="unbounded">
@@ -67,6 +68,7 @@ import com.sun.xml.ws.api.security.trust.WSTrustException;
      </choice>
      <attribute name="Id" type="ID" use="optional"/>
    </complexType>
+   * }</pre>
 */
 public class KeyInfoHeaderBlock  extends SecurityHeaderBlockImpl {
 

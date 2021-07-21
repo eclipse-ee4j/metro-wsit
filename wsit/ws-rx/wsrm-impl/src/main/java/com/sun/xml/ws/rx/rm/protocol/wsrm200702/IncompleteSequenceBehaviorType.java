@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -17,19 +17,19 @@ import jakarta.xml.bind.annotation.XmlType;
 
 /**
  * <p>Java class for IncompleteSequenceBehaviorType.
- * 
+ *
  * <p>The following schema fragment specifies the expected content contained within this class.
- * <p>
- * <pre>
- * &lt;simpleType name="IncompleteSequenceBehaviorType">
- *   &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
- *     &lt;enumeration value="DiscardEntireSequence"/>
- *     &lt;enumeration value="DiscardFollowingFirstGap"/>
- *     &lt;enumeration value="NoDiscard"/>
- *   &lt;/restriction>
- * &lt;/simpleType>
- * </pre>
- * 
+ *
+ * <pre>{@code
+ * <simpleType name="IncompleteSequenceBehaviorType">
+ *   <restriction base="{http://www.w3.org/2001/XMLSchema}string">
+ *     <enumeration value="DiscardEntireSequence"/>
+ *     <enumeration value="DiscardFollowingFirstGap"/>
+ *     <enumeration value="NoDiscard"/>
+ *   </restriction>
+ * </simpleType>
+ * }</pre>
+ *
  */
 @XmlType(name = "IncompleteSequenceBehaviorType")
 @XmlEnum
@@ -37,10 +37,10 @@ public enum IncompleteSequenceBehaviorType {
 
     @XmlEnumValue("DiscardEntireSequence")
     DISCARD_ENTIRE_SEQUENCE("DiscardEntireSequence", Sequence.IncompleteSequenceBehavior.DISCARD_ENTIRE_SEQUENCE),
-    
+
     @XmlEnumValue("DiscardFollowingFirstGap")
     DISCARD_FOLLOWING_FIRST_GAP("DiscardFollowingFirstGap", Sequence.IncompleteSequenceBehavior.DISCARD_FOLLOWING_FIRST_GAP),
-    
+
     @XmlEnumValue("NoDiscard")
     NO_DISCARD("NoDiscard", Sequence.IncompleteSequenceBehavior.NO_DISCARD);
     //

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -16,7 +16,7 @@ import java.util.logging.Level;
 /**
  * This is a helper class that provides some convenience methods wrapped around the
  * standard {@link java.util.logging.Logger} interface.
- * <p/>
+ * <p>
  * Logging domains:
  * wstx         // general for all web service transactions
  * wstx.wscoord // for ws-coordination logging

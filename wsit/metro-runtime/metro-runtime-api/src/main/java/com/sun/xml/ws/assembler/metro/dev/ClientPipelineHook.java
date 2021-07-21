@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2019 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -40,7 +40,7 @@ public class ClientPipelineHook extends com.sun.xml.ws.api.client.ClientPipeline
      *      eventually processes messages.
      *
      * @return
-     *      The default implementation just returns <tt>tail</tt>, which means
+     *      The default implementation just returns <code>tail</code>, which means
      *      no additional pipe is inserted. If the implementation adds
      *      new pipes, return the new head pipe.
      * @deprecated Use {@link #createSecurityTube(com.sun.xml.ws.assembler.dev.ClientTubelineAssemblyContext)}.
@@ -67,7 +67,7 @@ public class ClientPipelineHook extends com.sun.xml.ws.api.client.ClientPipeline
      *      whether add a new tube to the head or not.
      *
      * @return
-     *      The default implementation just returns <tt>tail</tt>, which means
+     *      The default implementation just returns <code>tail</code>, which means
      *      no additional tube is inserted. If the implementation adds
      *      new tubes, return the new head tube.
      */

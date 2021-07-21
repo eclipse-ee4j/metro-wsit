@@ -47,20 +47,20 @@ import org.w3c.dom.Element;
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
- * <pre>
- * &lt;element name="MessagePending">
- *   &lt;complexType>
- *     &lt;complexContent>
- *       &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *         &lt;sequence>
- *           &lt;any/>
- *         &lt;/sequence>
- *         &lt;attribute name="pending" type="{http://www.w3.org/2001/XMLSchema}boolean" />
- *       &lt;/restriction>
- *     &lt;/complexContent>
- *   &lt;/complexType>
- * &lt;/element>
- * </pre>
+ * <pre>{@code
+ * <element name="MessagePending">
+ *   <complexType>
+ *     <complexContent>
+ *       <restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
+ *         <sequence>
+ *           <any/>
+ *         </sequence>
+ *         <attribute name="pending" type="{http://www.w3.org/2001/XMLSchema}boolean" />
+ *       </restriction>
+ *     </complexContent>
+ *   </complexType>
+ * </element>
+ * }</pre>
  * 
  * 
  */

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -22,8 +22,9 @@ import java.util.Locale;
 /**
  * WS-C and WS-AT Fault factory.
  * This class creates and throws WS-AT related faults
- * <p/>
+ * <p>
  * The properties bind to a SOAP 1.2 fault as follows:
+ * {@code
  * <S:Envelope>
  * <S:Header>
  * <wsa:Action>
@@ -58,6 +59,7 @@ import java.util.Locale;
  * </S11:Fault>
  * </S11:Body>
  * </S11:Envelope>
+ * }
  */
 public class WSATFaultFactory {
     static final String INVALID_STATE = "InvalidState";

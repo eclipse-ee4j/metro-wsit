@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -14,12 +14,11 @@ import static com.sun.xml.ws.rx.rm.api.ReliableMessagingFeature.*;
 
 /**
  *
- * @author Marek Potociar <marek.potociar at sun.com>
  */
 public final class ReliableMessagingFeatureBuilder {
     // General RM config values
     private final RmProtocolVersion protocolVersion;
-    
+
     private boolean enabled = true;
     private long inactivityTimeout = DEFAULT_SEQUENCE_INACTIVITY_TIMEOUT;
     private long destinationBufferQuota = DEFAULT_DESTINATION_BUFFER_QUOTA;
@@ -41,7 +40,7 @@ public final class ReliableMessagingFeatureBuilder {
     private long maxConcurrentSessions = DEFAULT_MAX_CONCURRENT_SESSIONS;
     //
     private boolean offerElementGenerationDisabled = DEFAULT_OFFER_ELEMENT_GENERATION_DISABLED;
-    
+
     private boolean rejectOutOfOrderMessagesEnabled = DEFAULT_REJECT_OUT_OF_ORDER_MESSAGES;
 
     public ReliableMessagingFeatureBuilder(RmProtocolVersion version) {
@@ -88,7 +87,7 @@ public final class ReliableMessagingFeatureBuilder {
     }
 
     /**
-     * @see ReliableMessagingFeature#getMessageRetransmissionInterval() 
+     * @see ReliableMessagingFeature#getMessageRetransmissionInterval()
      */
     public ReliableMessagingFeatureBuilder messageRetransmissionInterval(long value) {
         this.messageRetransmissionInterval = value;
@@ -104,7 +103,7 @@ public final class ReliableMessagingFeatureBuilder {
     }
 
     /**
-     * @see ReliableMessagingFeature#getMaxMessageRetransmissionCount() 
+     * @see ReliableMessagingFeature#getMaxMessageRetransmissionCount()
      */
     public ReliableMessagingFeatureBuilder maxMessageRetransmissionCount(long value) {
         this.maxMessageRetransmissionCount = value;
@@ -112,7 +111,7 @@ public final class ReliableMessagingFeatureBuilder {
     }
 
     /**
-     * @see ReliableMessagingFeature#getMaxInitRmSessionAttempts()
+     * @see ReliableMessagingFeature#getMaxRmSessionControlMessageResendAttempts()
      */
     public ReliableMessagingFeatureBuilder maxRmSessionControlMessageResendAttempts(long value) {
         this.maxRmSessionControlMessageResendAttempts = value;
@@ -160,7 +159,7 @@ public final class ReliableMessagingFeatureBuilder {
     }
 
     /**
-     * @see ReliableMessagingFeature#getVersion()
+     * @see ReliableMessagingFeature#getProtocolVersion()
      */
     public RmProtocolVersion getProtocolVersion() {
         return this.protocolVersion;
@@ -175,7 +174,7 @@ public final class ReliableMessagingFeatureBuilder {
     }
 
     /**
-     * @see ReliableMessagingFeature#isPersistenceEnabled() 
+     * @see ReliableMessagingFeature#isPersistenceEnabled()
      */
     public ReliableMessagingFeatureBuilder enablePersistence() {
         this.persistenceEnabled = true;
@@ -191,7 +190,7 @@ public final class ReliableMessagingFeatureBuilder {
     }
 
     /**
-     * @see ReliableMessagingFeature#getSequenceManagerMaintenancePeriod() 
+     * @see ReliableMessagingFeature#getSequenceManagerMaintenancePeriod()
      */
     public ReliableMessagingFeatureBuilder sequenceMaintenancePeriod(long value) {
         this.sequenceMaintenancePeriod = value;

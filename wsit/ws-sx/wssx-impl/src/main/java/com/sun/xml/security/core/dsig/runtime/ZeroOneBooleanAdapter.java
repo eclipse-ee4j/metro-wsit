@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -14,7 +14,7 @@ import jakarta.xml.bind.DatatypeConverter;
 import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 
 /**
- * Serializes <tt>boolean</tt> as 0 or 1.
+ * Serializes <code>boolean</code> as 0 or 1.
  *
  * @author Kohsuke Kawaguchi
  * @since 2.0

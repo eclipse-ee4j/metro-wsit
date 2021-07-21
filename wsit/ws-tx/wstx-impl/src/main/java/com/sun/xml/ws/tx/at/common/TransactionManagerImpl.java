@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -10,7 +10,6 @@
 
 package com.sun.xml.ws.tx.at.common;
 
-import com.sun.xml.ws.tx.at.localization.LocalizationMessages;
 import java.lang.reflect.Method;
 import java.util.logging.Level;
 
@@ -21,7 +20,7 @@ import jakarta.transaction.*;
 
 /**
  * Access hosting JTA 1.1 TransactionManager and TransactionSynchronizationRegistry.
- * <p/>
+ * <p>
  * <p> Dependencies: Sun Java System Application Server publishes TM at JNDI name:
  *
  * @author jf39279

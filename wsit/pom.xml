@@ -337,6 +337,8 @@
                     <target>${base.java.level}</target>
                     <encoding>UTF-8</encoding>
                     <compilerArgument>-Xlint:all</compilerArgument>
+                    <showDeprecation>true</showDeprecation>
+                    <showWarnings>true</showWarnings>
                 </configuration>
                 <executions>
                     <!--                    <execution>
@@ -403,13 +405,9 @@
                             <addDefaultEntries>false</addDefaultEntries>
                         </manifest>
                     </archive>
-                    <!--<source>11</source>-->
                     <release>11</release>
                     <notimestamp>true</notimestamp>
                     <detectOfflineLinks>false</detectOfflineLinks>
-                    <!-- disable checking -->
-                    <doclint>none</doclint>
-                    <quiet>true</quiet>
                     <minmemory>512m</minmemory>
                     <maxmemory>1024m</maxmemory>
                     <additionalJOptions>

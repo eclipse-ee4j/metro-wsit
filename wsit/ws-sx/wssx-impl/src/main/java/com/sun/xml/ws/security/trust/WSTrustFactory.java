@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -55,8 +55,8 @@ public class WSTrustFactory {
      * Return a concrete implementor of WSTrustContract.
      * <p>
      * Note: This contract is based on JAXB Beans generated for ws-trust.xsd schema elements
-     * </p>
-     * @Exception UnsupportedOperationException if this factory does not support this contract
+     * 
+     * @throws WSTrustException if this factory does not support this contract
      */
     public static WSTrustContract<BaseSTSRequest, BaseSTSResponse> newWSTrustContract(final STSConfiguration config, final String appliesTo) throws WSTrustException {
         //final STSConfiguration stsConfig = (STSConfiguration)config;

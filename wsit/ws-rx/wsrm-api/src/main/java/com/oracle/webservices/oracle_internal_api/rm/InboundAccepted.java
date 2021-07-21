@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -17,7 +17,7 @@ import com.oracle.webservices.api.message.BasePropertySet;
  *
  * <p>It is passed as a
  * {@link com.oracle.webservices.api.message.PropertySet} to
- * {@link com.oracle.webservices.api.disi.ProviderRequest#request}.</p>
+ * {@code com.oracle.webservices.api.disi.ProviderRequest#request}.
  *
  */
 public abstract class InboundAccepted
@@ -58,7 +58,7 @@ public abstract class InboundAccepted
      * transaction is being used to handle the message, then that
      * transaction will be rolled back.</p>
      *
-     * @throws {@link InboundAcceptedAcceptFailed}
+     * @throws InboundAcceptedAcceptFailed
      *     If the user calls {@code #accepted(true)} but the RMD is
      *     not able to internally record the message as delivered
      *     (e.g., an atomic transaction fails to commit) then this

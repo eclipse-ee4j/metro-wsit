@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -64,7 +64,7 @@ public class StAXC14nCanonicalizerImpl extends BaseCanonicalizer implements XMLS
     /**
      * This method has not effect when called.
      * 
-     * @throws javax.xml._stream.XMLStreamException {@inheritDoc}
+     * @throws XMLStreamException
      */
     public void close() throws XMLStreamException {
         //no-op
@@ -113,9 +113,9 @@ public class StAXC14nCanonicalizerImpl extends BaseCanonicalizer implements XMLS
     /**
      * Creates a DOM Atrribute @see org.w3c.dom.Node and associates it with the current DOM element @see org.w3c.dom.Node.
      * 
-     * @param localName {@inheritDoc}
-     * @param value {@inheritDoc}
-     * @throws javax.xml._stream.XMLStreamException {@inheritDoc}
+     * @param localName
+     * @param value
+     * @throws XMLStreamException
      */
     public void writeAttribute(String localName, String value) throws XMLStreamException {
         writeAttribute("","",localName,value);

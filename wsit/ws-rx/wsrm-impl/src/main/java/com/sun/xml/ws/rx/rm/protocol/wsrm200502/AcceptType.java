@@ -61,7 +61,7 @@ public class AcceptType {
      *
      * @param value
      *     allowed object is
-     *     {@link WSEndpointReference }
+     *     {@link com.sun.xml.ws.api.addressing.WSEndpointReference }
      *
      */
     public void setAcksTo(EndpointReference value) {

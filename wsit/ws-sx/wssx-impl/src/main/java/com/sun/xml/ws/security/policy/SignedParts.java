@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -17,17 +17,17 @@ import java.util.Iterator;
 /**
  * This interface identifies targets in the message that need to be integrity protected. The targets if present should be integrity protected.
  * <p>
- *  <B>Syntax:
+ *  <B>Syntax:</B>
  * <p>
- *  <pre>
- *   &lt;xmp&gt;
- *       &lt;sp:SignedParts ... &gt;
- *            &lt;sp:Body /&gt;?
- *            &lt;sp:Header Name="xs:NCName"? Namespace="xs:anyURI" ... /&gt;*
+ *  <pre>{@code
+ *   <xmp>
+ *       <sp:SignedParts ... >
+ *            <sp:Body />?
+ *            <sp:Header Name="xs:NCName"? Namespace="xs:anyURI" ... />*
  *                  ...
- *       &lt;/sp:SignedParts&gt;
- *   &lt;/xmp&gt;
- * </pre>
+ *       </sp:SignedParts>
+ *   </xmp>
+ * }</pre>
  *
  * @author K.Venugopal@sun.com
  */

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -22,8 +22,6 @@ import com.sun.xml.ws.server.WSEndpointImpl;
 import com.sun.xml.ws.server.WSEndpointMOMProxy;
 import org.glassfish.gmbal.ManagedObjectManager;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.WeakHashMap;
 
 /**
@@ -51,7 +49,6 @@ public enum SequenceManagerFactory {
      * identifier must be different for the client and for the server side.
      * @param inboundQueueBuilder delivery queue builder that will be used to create delivery queue for all newly created inbound sequences
      * @param outboundQueueBuilder delivery queue builder that will be used to create delivery queue for all newly created outbound sequences
-     * @param managedObjectManager object manager managing the newly created {@link SequenceManager} instance
      * @return newly created {@link SequenceManager} instance
      */
     public SequenceManager createSequenceManager(boolean persistent, String uniqueEndpointId, DeliveryQueueBuilder inboundQueueBuilder, DeliveryQueueBuilder outboundQueueBuilder, RmConfiguration configuration, Container container, LocalIDManager localIDManager) {

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -71,8 +71,6 @@ public class AuthorityBinding extends AuthorityBindingType
      *       protocol binding in use.
      *@param binding A String representing a URI reference identifying the SAML
      *       protocol binding to use in  communicating with the authority.
-     *@exception SAMLException if there is an error in the sender or in the
-     *           element definition.
      */
     public AuthorityBinding(QName authKind, String location, String binding)
         {

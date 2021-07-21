@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  * Copyright 1995-2005 The Apache Software Foundation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -120,7 +120,7 @@ public class Base64 {
      * wrapped line.
      *
      * @param binaryData <code>byte[]</code> data to be encoded
-     * @param length <code>int<code> length of wrapped lines; No wrapping if less than 4.
+     * @param length <code>int</code> length of wrapped lines; No wrapping if less than 4.
      * @return a <code>String</code> with encoded data
      */
     public static char[] encodeData(byte[] binaryData,int length) {

@@ -178,6 +178,20 @@
                         <sourceFileExclude>META-INF/**</sourceFileExclude>
                         <sourceFileExclude>com/**</sourceFileExclude>
                     </sourceFileExcludes>
+                    <tags>
+                        <tag>
+                            <name>specdefault</name>
+                            <placement>X</placement>
+                        </tag>
+                        <tag>
+                            <name>apiNote</name>
+                            <placement>X</placement>
+                        </tag>
+                        <tag>
+                            <name>implNote</name>
+                            <placement>X</placement>
+                        </tag>
+                    </tags>
                 </configuration>
             </plugin>
         </plugins>

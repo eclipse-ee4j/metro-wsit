@@ -32,43 +32,41 @@ import jakarta.xml.bind.annotation.XmlType;
 import jakarta.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import javax.xml.namespace.QName;
-import com.sun.xml.ws.security.secconv.impl.bindings.SecurityContextTokenType;
-import org.w3c.dom.Element;
 
 
 /**
  * 
  * 		Actual content model is non-deterministic, hence wildcard. The following shows intended content model:
  * 		
- * <pre>
- * &lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;xs:element xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:wsc="http://schemas.xmlsoap.org/ws/2005/02/sc" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" minOccurs="1" ref="wsc:Identifier"&gt;&lt;/xs:element&gt;
- * </pre>
+ * <pre>{@code
+ * <?xml version="1.0" encoding="UTF-8"?><xs:element xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:wsc="http://schemas.xmlsoap.org/ws/2005/02/sc" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" minOccurs="1" ref="wsc:Identifier"></xs:element>
+ * }</pre>
  * 
- * <pre>
- * &lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;xs:element xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:wsc="http://schemas.xmlsoap.org/ws/2005/02/sc" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" minOccurs="0" ref="wsc:Instance"&gt;&lt;/xs:element&gt;
- * </pre>
+ * <pre>{@code
+ * <?xml version="1.0" encoding="UTF-8"?><xs:element xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:wsc="http://schemas.xmlsoap.org/ws/2005/02/sc" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" minOccurs="0" ref="wsc:Instance"></xs:element>
+ * }</pre>
  * 
- * <pre>
- * &lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;xs:any xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:wsc="http://schemas.xmlsoap.org/ws/2005/02/sc" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" maxOccurs="unbounded" minOccurs="0" namespace="##any" processContents="lax"&gt;&lt;/xs:any&gt;
- * </pre>
+ * <pre>{@code
+ * <?xml version="1.0" encoding="UTF-8"?><xs:any xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:wsc="http://schemas.xmlsoap.org/ws/2005/02/sc" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" maxOccurs="unbounded" minOccurs="0" namespace="##any" processContents="lax"></xs:any>
+ * }</pre>
  * 
  * 
  * <p>Java class for SecurityContextTokenType complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
- * <pre>
- * &lt;complexType name="SecurityContextTokenType"&gt;
- *   &lt;complexContent&gt;
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
- *       &lt;sequence&gt;
- *         &lt;any/&gt;
- *       &lt;/sequence&gt;
- *       &lt;attribute ref="{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd}Id"/&gt;
- *     &lt;/restriction&gt;
- *   &lt;/complexContent&gt;
- * &lt;/complexType&gt;
- * </pre>
+ * <pre>{@code
+ * <complexType name="SecurityContextTokenType">
+ *   <complexContent>
+ *     <restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
+ *       <sequence>
+ *         <any/>
+ *       </sequence>
+ *       <attribute ref="{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd}Id"/>
+ *     </restriction>
+ *   </complexContent>
+ * </complexType>
+ * }</pre>
  * 
  * 
  */

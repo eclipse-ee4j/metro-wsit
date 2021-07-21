@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -232,9 +232,6 @@ public class JMACAuthConfigFactory extends AuthConfigFactory {
      *
      * @exception SecurityException if the caller does not have
      *		permission to register a provider at the factory.
-     *
-     * @exception AuthException if the provider 
-     *          construction or registration fails.
      */
     @SuppressWarnings("unchecked")
     public String registerConfigProvider(String className,
@@ -375,10 +372,7 @@ public class JMACAuthConfigFactory extends AuthConfigFactory {
      *
      * <p> A factory should only replace an existing registration when 
      * a change of provider implementation class or initialization 
-     * properties has occured. re
-     *
-     * @exception AuthException if an error occured during the 
-     *          reinitialization.
+     * properties has occured.
      *
      * @exception SecurityException if the caller does not have permission
      *		to refresh the factory.

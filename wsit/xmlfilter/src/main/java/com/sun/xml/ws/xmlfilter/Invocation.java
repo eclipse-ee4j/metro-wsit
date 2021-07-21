@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -23,7 +23,7 @@ import com.sun.xml.ws.xmlfilter.localization.LocalizationMessages;
 import static com.sun.xml.ws.xmlfilter.XmlStreamWriterMethodType.WRITE_CHARACTERS;
 
 /**
- * The class represents a wrapper around {@code XMLStreamWriter} invocations. 
+ * The class represents a wrapper around {@code XMLStreamWriter} invocations.
  *
  * @author Marek Potociar (marek.potociar at sun.com)
  */
@@ -37,20 +37,20 @@ public final class Invocation {
     private final boolean returnsVoid;
 
     /**
-     * Factory method that creates {@link Invocation} instance according to input 
+     * Factory method that creates {@link Invocation} instance according to input
      * arguments
      *
-     * @param method method represented by the {@link Invocation} instance returned 
+     * @param method method represented by the {@link Invocation} instance returned
      *        as a result of this factory method call
-     * @param args invocation arguments to be passed to the method when {@link #executeBatch()} 
+     * @param args invocation arguments to be passed to the method when {@link #executeBatch(javax.xml.stream.XMLStreamWriter, java.util.Queue)}
      *        method is invoked on the {@link Invocation} instance.
-     * @return the {@link Invocation} instance representing invocation of method 
+     * @return the {@link Invocation} instance representing invocation of method
      *        defined by value of {@code method} argument.
      */
     public static Invocation createInvocation(final Method method, final Object[] args) {
         final Object[] arguments;
         final XmlStreamWriterMethodType methodType = XmlStreamWriterMethodType.getMethodType(method.getName());
-        
+
         if (methodType == WRITE_CHARACTERS && args.length == 3) {
             final Integer start = (Integer) args[1];
             final Integer length = (Integer) args[2];
@@ -69,19 +69,17 @@ public final class Invocation {
     }
 
     /**
-     * Method executes queue of invocations. All invocations must represent methods 
-     * with {@code void} return type. After succesful invocation of the whole batch, 
+     * Method executes queue of invocations. All invocations must represent methods
+     * with {@code void} return type. After succesful invocation of the whole batch,
      * the batch queue is fully consumed and empty.
      *
-     * @param target {@link http://java.sun.com/javase/6/docs/api/javax/xml/stream/XMLStreamWriter.html|XmlStreamWriter}
+     * @param target  XmlStreamWriter
      *        used for invocation queue execution
-     * @param batch queue of invocations to be executed on the targeted
-     *        {@link http://java.sun.com/javase/6/docs/api/javax/xml/stream/XMLStreamWriter.html|XmlStreamWriter}.
-     *        After succesful invocation of the whole batch, the batch queue is fully
+     * @param batch queue of invocations to be executed on the targeted XmlStreamWriter.
+     *        After successful invocation of the whole batch, the batch queue is fully
      *        consumed and empty.
-     * @throws java.lang.IllegalAccessException
      * @throws java.lang.IllegalArgumentException
-     * @throws com.sun.xml.ws.policy.jaxws.xmlstreamwriter.InvocationProcessingException
+     * @throws InvocationProcessingException
      */
     public static void executeBatch(final XMLStreamWriter target, Queue<Invocation> batch) throws InvocationProcessingException {
         for (Invocation invocation : batch) {
@@ -96,12 +94,12 @@ public final class Invocation {
     }
 
     /**
-     * Private constructor of the class used in the {@link createInvocation(Method, Object[])} 
+     * Private constructor of the class used in the {@link createInvocation(Method, Object[])}
      * factory method.
      *
      * @param method method represented by the new {@link Invocation} instance
      * @param type method type represented by the new {@link Invocation} instance
-     * @param args invocation arguments to be passed to the method when {@link #executeBatch()} 
+     * @param args invocation arguments to be passed to the method when {@link #executeBatch()}
      *        method is invoked on the {@link Invocation} instance.
      *
      * @see XmlStreamWriterMethodType
@@ -133,11 +131,11 @@ public final class Invocation {
     }
 
     /**
-     * Returns single invocation argument for this {@link Invocation} instance that 
+     * Returns single invocation argument for this {@link Invocation} instance that
      * is stored in the invocation arguments array at position determined by {@code index}
      * argument.
      *
-     * @return single invocation argument for this {@link Invocation} instance at 
+     * @return single invocation argument for this {@link Invocation} instance at
      *         position determined by {@code index} argument
      *
      * @throws ArrayIndexOutOfBoundsException if there are no arguments in the array
@@ -151,7 +149,7 @@ public final class Invocation {
     }
 
     /**
-     * Returns information about the number of arguments stored in this {@link Invocation} 
+     * Returns information about the number of arguments stored in this {@link Invocation}
      * instance
      *
      * @return number of arguments stored in this {@link Invocation} instance
@@ -162,7 +160,7 @@ public final class Invocation {
 
     /**
      * Executes the method on {@code target} {@code XMLStreamWriter} instance.
-     * 
+     *
      * @return execution result.
      * @exception InvocationProcessingException wraps underlying exception - see {@link java.lang.reflect.Method#invoke(Object, Object[]) Method.invoke()}.
      */
@@ -180,7 +178,7 @@ public final class Invocation {
 
     /**
      * Method returns {@link String} representation of the {@link Invocation} instance.
-     * 
+     *
      * @return {@link String} representation of the {@link Invocation} instance.
      */
     @Override
@@ -193,10 +191,10 @@ public final class Invocation {
     }
 
     /**
-     * Method returns {@link String} representation of arguments stored in the 
+     * Method returns {@link String} representation of arguments stored in the
      * {@link Invocation} instance.
-     * 
-     * @return {@link String} representation of arguments stored in the {@link Invocation} 
+     *
+     * @return {@link String} representation of arguments stored in the {@link Invocation}
      *         instance.
      */
     public String argsToString() {

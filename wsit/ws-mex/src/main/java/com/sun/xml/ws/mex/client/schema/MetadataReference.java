@@ -33,19 +33,19 @@ import org.w3c.dom.Element;
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
- * <pre>
- * &lt;element name="MetadataReference">
- *   &lt;complexType>
- *     &lt;complexContent>
- *       &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *         &lt;sequence>
- *           &lt;any/>
- *         &lt;/sequence>
- *       &lt;/restriction>
- *     &lt;/complexContent>
- *   &lt;/complexType>
- * &lt;/element>
- * </pre>
+ * <pre>{@code
+ * <element name="MetadataReference">
+ *   <complexType>
+ *     <complexContent>
+ *       <restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
+ *         <sequence>
+ *           <any/>
+ *         </sequence>
+ *       </restriction>
+ *     </complexContent>
+ *   </complexType>
+ * </element>
+ * }</pre>
  * 
  * 
  */

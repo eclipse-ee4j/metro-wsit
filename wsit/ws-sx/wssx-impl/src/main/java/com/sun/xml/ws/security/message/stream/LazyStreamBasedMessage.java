@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -26,6 +26,7 @@ import com.sun.istack.Nullable;
 import org.glassfish.jaxb.runtime.api.Bridge;
 import com.sun.xml.ws.api.message.AttachmentSet;
 import com.sun.xml.ws.api.message.HeaderList;
+import com.sun.xml.ws.message.jaxb.JAXBMessage;
 import com.sun.xml.wss.jaxws.impl.logging.LogDomainConstants;
 import java.util.logging.Logger;
 import org.xml.sax.ContentHandler;
@@ -36,6 +37,7 @@ import jakarta.xml.bind.Unmarshaller;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 import javax.xml.transform.Source;
+import org.xml.sax.SAXParseException;
 /**
  *
  * @author K.Venugopal@sun.com
@@ -102,7 +104,7 @@ public class LazyStreamBasedMessage extends Message{
     /**
      * Gets all the headers of this message.
      *
-     * <h3>Implementation Note</h3>
+     * <p><strong>Implementation Note</strong>
      * <p>
      * {@link Message} implementation is allowed to defer
      * the construction of {@link HeaderList} object. So
@@ -198,14 +200,14 @@ public class LazyStreamBasedMessage extends Message{
      *
      * <p>
      * A message without a payload is a SOAP message that looks like:
-     * <pre><xmp>
+     * <pre>{@code<xmp>
      * <S:Envelope>
      *   <S:Header>
      *     ...
      *   </S:Header>
      *   <S:Body />
      * </S:Envelope>
-     * </xmp></pre>
+     * </xmp>}</pre>
      */
     public boolean hasPayload(){
         if(!readMessage){
@@ -415,7 +417,7 @@ public class LazyStreamBasedMessage extends Message{
      *
      *
      *
-     * <h3>Design Rationale</h3>
+     * <p><strong>Design Rationale</strong>
      * <p>
      * Since a {@link Message} body is read-once, sometimes
      * (such as when you do fail-over, or WS-RM) you need to
