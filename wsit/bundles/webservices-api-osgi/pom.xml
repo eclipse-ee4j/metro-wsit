@@ -155,7 +155,7 @@
     <dependencies>
         <dependency>
             <groupId>com.sun.activation</groupId>
-            <artifactId>jakarta.activation</artifactId>
+            <artifactId>sun-activation-registry</artifactId>
         </dependency>
         <dependency>
             <groupId>jakarta.xml.bind</groupId>

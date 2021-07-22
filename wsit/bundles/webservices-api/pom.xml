@@ -87,7 +87,7 @@
                                 </artifactItem>-->
                                 <artifactItem>
                                     <groupId>com.sun.activation</groupId>
-                                    <artifactId>jakarta.activation</artifactId>
+                                    <artifactId>sun-activation-registry</artifactId>
                                     <classifier>sources</classifier>
                                     <overWrite>false</overWrite>
                                     <outputDirectory>${dep.sources}</outputDirectory>
@@ -235,7 +235,7 @@
         </dependency>-->
         <dependency>
             <groupId>com.sun.activation</groupId>
-            <artifactId>jakarta.activation</artifactId>
+            <artifactId>sun-activation-registry</artifactId>
             <optional>true</optional>
             <!--<scope>provided</scope>-->
         </dependency>
