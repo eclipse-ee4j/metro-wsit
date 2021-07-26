@@ -154,14 +154,9 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.sun.activation</groupId>
-            <artifactId>sun-activation-registry</artifactId>
-        </dependency>
-        <dependency>
             <groupId>jakarta.xml.bind</groupId>
             <artifactId>jakarta.xml.bind-api</artifactId>
         </dependency>
-
         <dependency>
             <groupId>jakarta.jws</groupId>
             <artifactId>jakarta.jws-api</artifactId>

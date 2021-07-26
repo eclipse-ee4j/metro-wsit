@@ -467,11 +467,6 @@
         </dependency>
 
         <dependency>
-            <groupId>com.sun.activation</groupId>
-            <artifactId>sun-activation-registry</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>jakarta.annotation</groupId>
             <artifactId>jakarta.annotation-api</artifactId>
         </dependency>

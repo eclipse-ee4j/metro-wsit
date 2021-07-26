@@ -233,12 +233,6 @@
             <artifactId>jakarta.transaction-api</artifactId>
             <scope>provided</scope>
         </dependency>-->
-        <dependency>
-            <groupId>com.sun.activation</groupId>
-            <artifactId>sun-activation-registry</artifactId>
-            <optional>true</optional>
-            <!--<scope>provided</scope>-->
-        </dependency>
     </dependencies>
     <properties>
         <dep.sources>${project.build.directory}/generated-sources/dependencies</dep.sources>
