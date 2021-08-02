@@ -25,7 +25,7 @@
     <artifactId>metro-bom</artifactId>
     <packaging>pom</packaging>
     <name>Metro Web Services Stack Dependency POM</name>
-    <version>3.0.2</version>
+    <version>3.0.3-SNAPSHOT</version>
     <description>Metro Web Services Stack Dependency POM</description>
 
     <url>https://eclipse-ee4j.github.io/metro-wsit</url>
