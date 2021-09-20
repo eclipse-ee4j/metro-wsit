@@ -38,7 +38,7 @@
         <el-api.version>4.0.0</el-api.version>
 
         <!-- CQ: #22139 -->
-        <santuario.version>2.1.5</santuario.version>
+        <santuario.version>2.1.7</santuario.version>
         <!-- CQ: #22187 -->
         <slf4j-api.version>1.7.30</slf4j-api.version>
         <!-- CQ: #22186 -->
