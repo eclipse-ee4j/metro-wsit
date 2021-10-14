@@ -28,10 +28,10 @@
     <description>Metro Web Services Stack Dependency POM for Metro-CS</description>
 
     <properties>
-        <auth.message-api.version>2.0.0-RC1</auth.message-api.version>
-        <connector-api.version>2.0.0-RC1</connector-api.version>
-        <ejb-api.version>4.0.0-RC1</ejb-api.version>
-        <transaction-api.version>2.0.0-RC1</transaction-api.version>
+        <auth.message-api.version>1.1.3</auth.message-api.version>
+        <connector-api.version>1.7.4</connector-api.version>
+        <ejb-api.version>3.2.6</ejb-api.version>
+        <transaction-api.version>1.3.3</transaction-api.version>
         <xmlrpc-api.version>1.1.4</xmlrpc-api.version>
         <xmlrpc-impl.version>1.1.6</xmlrpc-impl.version>
 
