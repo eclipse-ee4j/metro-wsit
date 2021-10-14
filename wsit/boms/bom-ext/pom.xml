@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-    Copyright (c) 2013, 2019 Oracle and/or its affiliates. All rights reserved.
+    Copyright (c) 2013, 2021 Oracle and/or its affiliates. All rights reserved.
 
     This program and the accompanying materials are made available under the
     terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -21,7 +21,6 @@
         <version>2.4.3-SNAPSHOT</version>
     </parent>
 
-    <groupId>org.glassfish.metro</groupId>
     <artifactId>metro-bom-ext</artifactId>
     <packaging>pom</packaging>
     <name>Metro Web Services Stack Dependency POM for Metro-CS</name>
@@ -42,9 +41,7 @@
         <commons-codec.version>1.13</commons-codec.version>
         <!-- CQ: #18393 -->
         <stax-utils.version>20060502</stax-utils.version>
-
         <grizzly.version>2.4.4</grizzly.version>
-        <jaxws.home.uri>http://eclipse-ee4j.github.io/metro-jax-ws</jaxws.home.uri>
     </properties>
 
     <dependencyManagement>
@@ -106,16 +103,6 @@
                 <artifactId>grizzly-framework</artifactId>
                 <version>${grizzly.version}</version>
             </dependency>
-            <dependency>
-                <groupId>org.glassfish.grizzly</groupId>
-                <artifactId>grizzly-websockets</artifactId>
-                <version>${grizzly.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.glassfish.grizzly</groupId>
-                <artifactId>grizzly-portunif</artifactId>
-                <version>${grizzly.version}</version>
-            </dependency>
 
             <dependency>
                 <groupId>org.glassfish.metro</groupId>
@@ -138,11 +125,6 @@
                         <artifactId>jsr173-ri</artifactId>
                     </exclusion>
                 </exclusions>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.tomcat</groupId>
-                <artifactId>tomcat-coyote</artifactId>
-                <version>${tomcat.coyote.version}</version>
             </dependency>
 
             <!-- Testing -->

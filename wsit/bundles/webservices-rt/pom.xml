@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-    Copyright (c) 1997, 2019 Oracle and/or its affiliates. All rights reserved.
+    Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
 
     This program and the accompanying materials are made available under the
     terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -79,14 +79,28 @@
                                     <version>${jaxb.version}</version>
                                     <classifier>sources</classifier>
                                     <overWrite>false</overWrite>
-                                    <outputDirectory>${dep.sources}</outputDirectory>
+                                    <outputDirectory>${generated.sources.dir}</outputDirectory>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>com.sun.istack</groupId>
                                     <artifactId>istack-commons-runtime</artifactId>
                                     <classifier>sources</classifier>
                                     <overWrite>false</overWrite>
-                                    <outputDirectory>${dep.sources}</outputDirectory>
+                                    <outputDirectory>${generated.sources.dir}</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>com.sun.xml.fastinfoset</groupId>
+                                    <artifactId>FastInfoset</artifactId>
+                                    <classifier>sources</classifier>
+                                    <overWrite>false</overWrite>
+                                    <outputDirectory>${generated.sources.dir}</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>com.sun.xml.messaging.saaj</groupId>
+                                    <artifactId>saaj-impl</artifactId>
+                                    <classifier>sources</classifier>
+                                    <overWrite>false</overWrite>
+                                    <outputDirectory>${generated.sources.dir}</outputDirectory>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>com.sun.xml.rpc</groupId>
@@ -104,13 +118,6 @@
                                     <outputDirectory>${generated.sources.dir}</outputDirectory>
                                 </artifactItem>
                                 <artifactItem>
-                                    <groupId>org.jvnet.staxex</groupId>
-                                    <artifactId>stax-ex</artifactId>
-                                    <classifier>sources</classifier>
-                                    <overWrite>false</overWrite>
-                                    <outputDirectory>${generated.sources.dir}</outputDirectory>
-                                </artifactItem>
-                                <artifactItem>
                                     <groupId>org.apache.santuario</groupId>
                                     <artifactId>xmlsec</artifactId>
                                     <classifier>sources</classifier>
@@ -118,15 +125,8 @@
                                     <outputDirectory>${generated.sources.dir}</outputDirectory>
                                 </artifactItem>
                                 <artifactItem>
-                                    <groupId>com.sun.xml.fastinfoset</groupId>
-                                    <artifactId>FastInfoset</artifactId>
-                                    <classifier>sources</classifier>
-                                    <overWrite>false</overWrite>
-                                    <outputDirectory>${generated.sources.dir}</outputDirectory>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>com.sun.xml.messaging.saaj</groupId>
-                                    <artifactId>saaj-impl</artifactId>
+                                    <groupId>com.sun.xml.stream.buffer</groupId>
+                                    <artifactId>streambuffer</artifactId>
                                     <classifier>sources</classifier>
                                     <overWrite>false</overWrite>
                                     <outputDirectory>${generated.sources.dir}</outputDirectory>
@@ -147,13 +147,6 @@
                                     <outputDirectory>${generated.sources.dir}</outputDirectory>
                                 </artifactItem>
                                 <artifactItem>
-                                    <groupId>org.jvnet.mimepull</groupId>
-                                    <artifactId>mimepull</artifactId>
-                                    <classifier>sources</classifier>
-                                    <overWrite>false</overWrite>
-                                    <outputDirectory>${generated.sources.dir}</outputDirectory>
-                                </artifactItem>
-                                <artifactItem>
                                     <groupId>net.java.dev.stax-utils</groupId>
                                     <artifactId>stax-utils</artifactId>
                                     <classifier>sources</classifier>
@@ -161,16 +154,15 @@
                                     <outputDirectory>${generated.sources.dir}</outputDirectory>
                                 </artifactItem>
                                 <artifactItem>
-                                    <groupId>com.sun.xml.stream.buffer</groupId>
-                                    <artifactId>streambuffer</artifactId>
+                                    <groupId>com.fasterxml.woodstox</groupId>
+                                    <artifactId>woodstox-core</artifactId>
                                     <classifier>sources</classifier>
                                     <overWrite>false</overWrite>
                                     <outputDirectory>${generated.sources.dir}</outputDirectory>
                                 </artifactItem>
-
                                 <artifactItem>
-                                    <groupId>org.glassfish.ha</groupId>
-                                    <artifactId>ha-api</artifactId>
+                                    <groupId>org.codehaus.woodstox</groupId>
+                                    <artifactId>stax2-api</artifactId>
                                     <classifier>sources</classifier>
                                     <overWrite>false</overWrite>
                                     <outputDirectory>${generated.sources.dir}</outputDirectory>
@@ -182,79 +174,41 @@
                                     <overWrite>false</overWrite>
                                     <outputDirectory>${generated.sources.dir}</outputDirectory>
                                 </artifactItem>
-<!--                                <artifactItem>
-                                    <groupId>org.glassfish.gmbal</groupId>
-                                    <artifactId>gmbal-api-only</artifactId>
-                                    <classifier>sources</classifier>
-                                    <overWrite>false</overWrite>
-                                    <outputDirectory>${dep.sources}</outputDirectory>
-                                </artifactItem>-->
-<!--                                <artifactItem>
+                                <artifactItem>
                                     <groupId>org.glassfish.gmbal</groupId>
                                     <artifactId>gmbal</artifactId>
                                     <classifier>sources</classifier>
                                     <overWrite>false</overWrite>
-                                    <outputDirectory>${dep.sources}</outputDirectory>
+                                    <outputDirectory>${generated.sources.dir}</outputDirectory>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>org.glassfish.pfl</groupId>
                                     <artifactId>pfl-tf</artifactId>
-                                    <version>4.0.1</version>
                                     <classifier>sources</classifier>
                                     <overWrite>false</overWrite>
-                                    <outputDirectory>${dep.sources}</outputDirectory>
+                                    <outputDirectory>${generated.sources.dir}</outputDirectory>
                                 </artifactItem>
                                 <artifactItem>
-                                    <groupId>org.glassfish.pfl</groupId>
-                                    <artifactId>pfl-basic</artifactId>
-                                    <version>4.0.1</version>
+                                    <groupId>org.glassfish.ha</groupId>
+                                    <artifactId>ha-api</artifactId>
                                     <classifier>sources</classifier>
                                     <overWrite>false</overWrite>
-                                    <outputDirectory>${dep.sources}</outputDirectory>
-                                </artifactItem>-->
-<!--                                <artifactItem>
-                                    <groupId>org.apache.santuario</groupId>
-                                    <artifactId>xmlsec</artifactId>
-                                    <classifier>sources</classifier>
-                                    <overWrite>false</overWrite>
-                                    <outputDirectory>${dep.sources}</outputDirectory>
-                                    <excludes>module-info*,pom.xml,javax/xml/crypto/**</excludes>
+                                    <outputDirectory>${generated.sources.dir}</outputDirectory>
                                 </artifactItem>
                                 <artifactItem>
-                                    <groupId>org.slf4j</groupId>
-                                    <artifactId>slf4j-api</artifactId>
+                                    <groupId>org.jvnet.staxex</groupId>
+                                    <artifactId>stax-ex</artifactId>
                                     <classifier>sources</classifier>
                                     <overWrite>false</overWrite>
-                                    <outputDirectory>${dep.sources}</outputDirectory>
+                                    <outputDirectory>${generated.sources.dir}</outputDirectory>
                                 </artifactItem>
                                 <artifactItem>
-                                    <groupId>commons-codec</groupId>
-                                    <artifactId>commons-codec</artifactId>
+                                    <groupId>org.jvnet.mimepull</groupId>
+                                    <artifactId>mimepull</artifactId>
                                     <classifier>sources</classifier>
                                     <overWrite>false</overWrite>
-                                    <outputDirectory>${dep.sources}</outputDirectory>
-                                </artifactItem>-->
-<!--                                <artifactItem>
-                                    <groupId>net.java.dev.stax-utils</groupId>
-                                    <artifactId>stax-utils</artifactId>
-                                    <classifier>sources</classifier>
-                                    <overWrite>false</overWrite>
-                                    <outputDirectory>${dep.sources}</outputDirectory>
+                                    <outputDirectory>${generated.sources.dir}</outputDirectory>
                                 </artifactItem>
-                                <artifactItem>
-                                    <groupId>com.fasterxml.woodstox</groupId>
-                                    <artifactId>woodstox-core</artifactId>
-                                    <classifier>sources</classifier>
-                                    <overWrite>false</overWrite>
-                                    <outputDirectory>${dep.sources}</outputDirectory>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>org.codehaus.woodstox</groupId>
-                                    <artifactId>stax2-api</artifactId>
-                                    <classifier>sources</classifier>
-                                    <overWrite>false</overWrite>
-                                    <outputDirectory>${dep.sources}</outputDirectory>
-                                </artifactItem>-->
                             </artifactItems>
                         </configuration>
                     </execution>
@@ -311,33 +265,34 @@
                             <artifactSet>
                                 <includes>
                                     <include>${project.parent.groupId}:wsit*</include>
-                                    <include>com.fasterxml.woodstox:woodstox-core</include>
-                                    <include>com.sun.istack:istack-commons-runtime</include>
                                     <include>com.sun.org.apache.xml.internal:resolver</include>
                                     <include>com.sun.xml.bind:jaxb-core</include>
                                     <include>com.sun.xml.bind:jaxb-impl</include>
+                                    <include>org.glassfish.jaxb:jaxb-runtime</include>
+                                    <include>org.glassfish.jaxb:txw2</include>
+                                    <include>com.sun.istack:istack-commons-runtime</include>
                                     <include>com.sun.xml.fastinfoset:FastInfoset</include>
                                     <include>com.sun.xml.messaging.saaj:saaj-impl</include>
                                     <include>com.sun.xml.registry:jaxr-impl</include>
                                     <include>com.sun.xml.rpc:jaxrpc-impl</include>
                                     <include>com.sun.xml.rpc:jaxrpc-spi</include>
+                                    <include>org.apache.santuario:xmlsec</include>
+                                    <include>commons-codec:commons-codec</include>
+                                    <include>org.slf4j:slf4j-api</include>
                                     <include>com.sun.xml.stream.buffer:streambuffer</include>
                                     <include>com.sun.xml.ws:jaxws-rt</include>
-                                    <include>commons-codec:commons-codec</include>
+                                    <include>com.sun.xml.ws:policy</include>
+                                    <include>org.glassfish.metro:keyidspi-ibm-impl</include>
                                     <include>net.java.dev.stax-utils:stax-utils</include>
-                                    <include>org.apache.santuario:xmlsec</include>
+                                    <include>com.fasterxml.woodstox:woodstox-core</include>
                                     <include>org.codehaus.woodstox:stax2-api</include>
                                     <include>org.glassfish.external:management-api</include>
                                     <include>org.glassfish.gmbal:gmbal</include>
-                                    <include>org.glassfish.ha:ha-api</include>
-                                    <include>org.glassfish.jaxb:jaxb-runtime</include>
-                                    <include>org.glassfish.jaxb:txw2</include>
-                                    <include>org.glassfish.metro:keyidspi-ibm-impl</include>
                                     <include>org.glassfish.pfl:pfl-basic</include>
                                     <include>org.glassfish.pfl:pfl-tf</include>
-                                    <include>org.jvnet.mimepull:mimepull</include>
+                                    <include>org.glassfish.ha:ha-api</include>
                                     <include>org.jvnet.staxex:stax-ex</include>
-                                    <include>org.slf4j:slf4j-api</include>
+                                    <include>org.jvnet.mimepull:mimepull</include>
                                 </includes>
                             </artifactSet>
                             <filters>
