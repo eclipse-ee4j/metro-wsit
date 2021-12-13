@@ -245,10 +245,6 @@
                             <resources>
                                 <resource>
                                     <directory>${legal.doc.source}</directory>
-                                    <includes>
-                                        <include>NOTICE.md</include>
-                                        <include>LICENSE.md</include>
-                                    </includes>
                                     <targetPath>META-INF</targetPath>
                                 </resource>
                             </resources>
@@ -287,6 +283,50 @@
                         <goals>
                             <goal>enforce</goal>
                         </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>common-resources</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <inherited>false</inherited>
+                        <configuration>
+                            <descriptors>
+                                <descriptor>src/main/assembly/resources.xml</descriptor>
+                            </descriptors>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>unpack-resource</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>unpack</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>org.glassfish.metro</groupId>
+                                    <artifactId>metro-project</artifactId>
+                                    <version>${project.version}</version>
+                                    <classifier>resources</classifier>
+                                    <type>zip</type>
+                                    <outputDirectory>${project.build.commonResourcesDirectory}</outputDirectory>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
@@ -632,6 +672,26 @@
                                 <goals>
                                     <goal>report</goal>
                                 </goals>
+                                <!-- configuration should be removed once this bug https://github.com/jacoco/jacoco/issues/407 is fixed -->
+                                <configuration>
+                                    <excludes>
+                                        <exclude>com/oracle/webservices/api/message/AccessorFactory.class</exclude>
+                                        <exclude>com/oracle/webservices/api/message/AccessorFactory$MethodHandleAccessor.class</exclude>
+                                        <exclude>com/oracle/webservices/api/message/AccessorFactory$VarHandleAccessor.class</exclude>
+                                        <exclude>com/sun/xml/ws/api/server/SDDocumentSource.class</exclude>
+                                        <exclude>com/sun/xml/ws/api/server/SDDocumentSource$1.class</exclude>
+                                        <exclude>com/sun/xml/ws/api/server/SDDocumentSource$2.class</exclude>
+                                        <exclude>com/sun/xml/ws/api/server/SDDocumentSource$3.class</exclude>
+                                        <exclude>com/sun/xml/ws/model/InjectorHelper.class</exclude>
+                                        <exclude>com/sun/xml/ws/model/InjectorHelper$dummy.class</exclude>
+                                        <exclude>com/sun/xml/ws/util/AuthUtil.class</exclude>
+                                        <exclude>com/sun/xml/ws/util/MrJarUtil.class</exclude>
+                                        <exclude>com/sun/xml/ws/util/MrJarUtil$1.class</exclude>
+                                        <exclude>com/sun/xml/ws/util/xml/XmlCatalogUtil.class</exclude>
+                                        <exclude>com/sun/tools/ws/ant/WsGen2.class</exclude>
+                                        <exclude>com/sun/tools/ws/ant/WsImport2.class</exclude>
+                                    </excludes>
+                                </configuration>
                             </execution>
                         </executions>
                     </plugin>
@@ -641,16 +701,18 @@
     </profiles>
 
     <properties>
-        <copyright.exclude>legal/maintenance/copyright-exclude</copyright.exclude>
+        <project.build.commonResourcesDirectory>${project.build.directory}/common-resources</project.build.commonResourcesDirectory>
+        <legal.doc.source>${project.build.commonResourcesDirectory}/legal</legal.doc.source>
+        <copyright.exclude>${project.build.commonResourcesDirectory}/config/copyright-exclude</copyright.exclude>
         <copyright.ignoreyear>false</copyright.ignoreyear>
         <copyright.scmonly>true</copyright.scmonly>
-        <copyright.template>legal/maintenance/copyright.txt</copyright.template>
+        <copyright.template>${project.build.commonResourcesDirectory}/config/copyright.txt</copyright.template>
         <copyright.update>false</copyright.update>
-        <spotbugs.common>etc/exclude-common.xml</spotbugs.common>
+        <spotbugs.common>${project.build.commonResourcesDirectory}/config/exclude-common.xml</spotbugs.common>
         <spotbugs.exclude/>
         <spotbugs.skip>false</spotbugs.skip>
         <spotbugs.threshold>High</spotbugs.threshold>
-        <spotbugs.version>4.3.0</spotbugs.version>
+        <spotbugs.version>4.5.0.0</spotbugs.version>
 
         <release.repository.url>https://jakarta.oss.sonatype.org/content/repositories/releases/</release.repository.url>
 
@@ -667,7 +729,6 @@
         <www.guide.jaxws.home.uri>${jaxws.home.uri}</www.guide.jaxws.home.uri>
 
         <mf.dir>${project.build.outputDirectory}</mf.dir>
-        <legal.doc.source>${maven.multiModuleProjectDirectory}/..</legal.doc.source>
 
         <argLine>
             -Djava.awt.headless=true -Xmx256m
