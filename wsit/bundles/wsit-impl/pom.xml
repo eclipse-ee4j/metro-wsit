@@ -96,33 +96,10 @@
                             <goal>compile</goal>
                         </goals>
                         <configuration>
-                            <source>${upper.java.level}</source>
-                            <target>${upper.java.level}</target>
                             <compilerArgs>
-                                <arg>--add-exports</arg>
-                                <arg>java.base/sun.security.x509=org.glassfish.metro.wsit.impl</arg>
-                                <arg>--add-exports</arg>
-                                <arg>java.base/sun.security.util=org.glassfish.metro.wsit.impl</arg>
-                                <arg>--add-reads</arg>
-                                <arg>org.glassfish.metro.wsit.api=ALL-UNNAMED</arg>
                                 <arg>--add-reads</arg>
                                 <arg>org.glassfish.metro.wsit.impl=ALL-UNNAMED</arg>
-                                <arg>--add-reads</arg>
-                                <arg>com.sun.xml.ws.rt=ALL-UNNAMED</arg>
                             </compilerArgs>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>base-compile</id>
-                        <goals>
-                            <goal>compile</goal>
-                        </goals>
-                        <configuration>
-                            <source>${base.java.level}</source>
-                            <target>${base.java.level}</target>
-                            <excludes>
-                                <exclude>module-info.java</exclude>
-                            </excludes>
                         </configuration>
                     </execution>
                 </executions>
@@ -134,10 +111,6 @@
                     <doclint>none</doclint>
                     <quiet>true</quiet>
                     <additionalOptions>
-                        <additionalOption>--add-reads</additionalOption>
-                        <additionalOption>com.sun.xml.ws.rt=ALL-UNNAMED</additionalOption>
-                        <additionalOption>--add-reads</additionalOption>
-                        <additionalOption>org.glassfish.metro.wsit.api=ALL-UNNAMED</additionalOption>
                         <additionalOption>--add-reads</additionalOption>
                         <additionalOption>org.glassfish.metro.wsit.impl=ALL-UNNAMED</additionalOption>
                     </additionalOptions>

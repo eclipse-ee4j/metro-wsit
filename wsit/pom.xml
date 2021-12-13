@@ -197,7 +197,6 @@
                     <configuration>
                         <skip>${spotbugs.skip}</skip>
                         <threshold>${spotbugs.threshold}</threshold>
-                        <findbugsXmlWithMessages>true</findbugsXmlWithMessages>
                         <excludeFilterFile>
                             ${spotbugs.common},${spotbugs.exclude}
                         </excludeFilterFile>
@@ -333,27 +332,12 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
                 <configuration>
-                    <source>${base.java.level}</source>
-                    <target>${base.java.level}</target>
+                    <release>11</release>
                     <encoding>UTF-8</encoding>
                     <compilerArgument>-Xlint:all</compilerArgument>
                     <showDeprecation>true</showDeprecation>
                     <showWarnings>true</showWarnings>
                 </configuration>
-                <executions>
-                    <!--                    <execution>
-                        <id>base-compile</id>
-                        <goals>
-                            <goal>compile</goal>
-                        </goals>
-                        <configuration>
-                            <release>${base.java.level}</release>
-                            <excludes>
-                                <exclude>module-info.java</exclude>
-                            </excludes>
-                        </configuration>
-                    </execution>-->
-                </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -671,8 +655,6 @@
         <argLine>
             -Djava.awt.headless=true -Xmx256m
         </argLine>
-        <base.java.level>8</base.java.level>
-        <upper.java.level>9</upper.java.level>
     </properties>
 
 </project>

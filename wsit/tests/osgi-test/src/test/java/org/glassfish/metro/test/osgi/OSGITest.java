@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -151,19 +151,6 @@ public class OSGITest {
     @Test
     public void testLocalization() {
         Assert.assertEquals("Missing WSDL_URI", WscompileMessages.WSIMPORT_MISSING_FILE());
-    }
-
-    @Test
-    public void testXmlResolver() {
-        Class<?> c = loadClass("com.sun.org.apache.xml.internal.resolver.CatalogManager");
-        //class is there but loaded from the system bundle
-        Assert.assertNull("xmlresolver not loaded from JDK", FrameworkUtil.getBundle(c));
-    }
-
-    @Test
-    public void testContextFactory101() {
-        Class<?> c = loadClass("com.sun.xml.bind.ContextFactory_1_0_1");
-        assertClassLoadedByBundle(c, "com.sun.xml.bind.jaxb-osgi");
     }
 
     @Test
