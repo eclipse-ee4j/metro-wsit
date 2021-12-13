@@ -2521,10 +2521,6 @@ WEB-INF/wsdl/schema.xsd WSDL imports this Schema</programlisting>
      &lt;wls:package-name&gt;com.sun.xml.messaging.saaj.soap.impl&lt;/wls:package-name&gt;
      &lt;wls:package-name&gt;jakarta.jws&lt;/wls:package-name&gt;
      &lt;wls:package-name&gt;jakarta.jws.soap&lt;/wls:package-name&gt;
-     &lt;wls:package-name&gt;com.sun.org.apache.xml.internal.resolver&lt;/wls:package-name&gt;
-     &lt;wls:package-name&gt;com.sun.org.apache.xml.internal.resolver.helpers&lt;/wls:package-name&gt;
-     &lt;wls:package-name&gt;com.sun.org.apache.xml.internal.resolver.readers&lt;/wls:package-name&gt;
-     &lt;wls:package-name&gt;com.sun.org.apache.xml.internal.resolver.tools&lt;/wls:package-name&gt;
      &lt;wls:package-name&gt;org.jvnet.staxex&lt;/wls:package-name&gt;
      &lt;wls:package-name&gt;org.glassfish.gmbal&lt;/wls:package-name&gt;
      &lt;wls:package-name&gt;org.glassfish.gmbal.util&lt;/wls:package-name&gt;

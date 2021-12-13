@@ -64,8 +64,6 @@
                     <!--<debug>true</debug>-->
                     <vmArgs>
                         <vmArg>-Xms256m -Xmx512m</vmArg>
-                        <vmArg>--add-opens java.base/sun.security.util=ALL-UNNAMED</vmArg>
-                        <vmArg>--add-opens java.base/sun.security.x509=ALL-UNNAMED</vmArg>
                     </vmArgs>
                 </configuration>
             </plugin>
