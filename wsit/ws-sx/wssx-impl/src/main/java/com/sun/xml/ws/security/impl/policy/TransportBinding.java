@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -54,6 +54,7 @@ public class TransportBinding extends PolicyAssertion implements com.sun.xml.ws.
         transportToken = (HttpsToken) token;
     }
     
+    @Override
     public Token getTransportToken() {
         populate();
         return transportToken;
@@ -63,6 +64,7 @@ public class TransportBinding extends PolicyAssertion implements com.sun.xml.ws.
         this.algSuite = algSuite;
     }
     
+    @Override
     public AlgorithmSuite getAlgorithmSuite() {
         populate();
         return algSuite;
@@ -72,6 +74,7 @@ public class TransportBinding extends PolicyAssertion implements com.sun.xml.ws.
         includeTimeStamp = value;
     }
     
+    @Override
     public boolean isIncludeTimeStamp() {
         populate();
         return includeTimeStamp;
@@ -81,11 +84,13 @@ public class TransportBinding extends PolicyAssertion implements com.sun.xml.ws.
         this.layout = layout;
     }
     
+    @Override
     public MessageLayout getLayout() {
         populate();
         return layout;
     }
     
+    @Override
     public boolean isSignContent() {
         throw new UnsupportedOperationException("Not supported");
     }
@@ -98,6 +103,7 @@ public class TransportBinding extends PolicyAssertion implements com.sun.xml.ws.
         throw new UnsupportedOperationException("Not supported");
     }
     
+    @Override
     public String getProtectionOrder() {
         throw new UnsupportedOperationException("Not supported");
     }
@@ -110,14 +116,17 @@ public class TransportBinding extends PolicyAssertion implements com.sun.xml.ws.
         throw new UnsupportedOperationException("Not supported");
     }
     
+    @Override
     public boolean getTokenProtection() {
         throw new UnsupportedOperationException("Not supported");
     }
     
+    @Override
     public boolean getSignatureProtection() {
         throw new UnsupportedOperationException("Not supported");
     }
     
+    @Override
     public AssertionFitness validate(boolean isServer) {
         return populate(isServer);
     }
@@ -159,10 +168,12 @@ public class TransportBinding extends PolicyAssertion implements com.sun.xml.ws.
         return fitness;
     }
 
+    @Override
     public boolean isDisableTimestampSigning() {
         throw new UnsupportedOperationException();
     }
 
+    @Override
     public SecurityPolicyVersion getSecurityPolicyVersion() {
         return spVersion;
     }

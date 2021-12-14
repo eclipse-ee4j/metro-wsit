@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -31,6 +31,7 @@ public class WebServiceContextSecurityDelegate implements WebServiceContextDeleg
     public WebServiceContextSecurityDelegate(WebServiceContextDelegate delegate) {
         this.delegate = delegate;
     }
+    @Override
     public Principal getUserPrincipal(Packet packet) {
        Subject subject =  (Subject)packet.invocationProperties.get(MessageConstants.AUTH_SUBJECT);
        if (subject == null) {
@@ -45,15 +46,18 @@ public class WebServiceContextSecurityDelegate implements WebServiceContextDeleg
        return set.iterator().next();
     }
 
+    @Override
     public boolean isUserInRole(Packet arg0, String role) {
         //we have to invoke some glassfish methods.
         return false;
     }
 
+    @Override
     public String getEPRAddress(Packet arg0, WSEndpoint arg1) {
         return delegate.getEPRAddress(arg0, arg1);
     }
 
+    @Override
     public String getWSDLAddress(Packet arg0, WSEndpoint arg1) {
         return delegate.getWSDLAddress(arg0, arg1);
     }

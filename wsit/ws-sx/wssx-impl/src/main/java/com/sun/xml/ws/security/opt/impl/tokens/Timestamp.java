@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -76,6 +76,7 @@ public class Timestamp extends TimestampType
      * 
      * @param created set the creation time on timestamp
      */
+    @Override
     public void setCreated(final String created){
         AttributedDateTime timeCreated = objFac.createAttributedDateTime();
         timeCreated.setValue(created);
@@ -86,6 +87,7 @@ public class Timestamp extends TimestampType
      * 
      * @param expires set the expiry time on timestamp
      */
+    @Override
     public void setExpires(final String expires){
         AttributedDateTime timeExpires = objFac.createAttributedDateTime();
         timeExpires.setValue(expires);
@@ -96,6 +98,7 @@ public class Timestamp extends TimestampType
      * 
      * @return the creation time value
      */
+    @Override
     public String getCreatedValue(){
         String createdValue = null;
         AttributedDateTime created = getCreated();
@@ -108,6 +111,7 @@ public class Timestamp extends TimestampType
      * 
      * @return the expiry time value
      */
+    @Override
     public String getExpiresValue(){
         String expiresValue = null;
         AttributedDateTime expires = getExpires();
@@ -123,10 +127,12 @@ public class Timestamp extends TimestampType
         this.timeout = timeout;
     }
     
+    @Override
     public String getNamespaceURI() {
         return MessageConstants.WSU_NS;
     }
     
+    @Override
     public String getLocalPart() {
         return MessageConstants.TIMESTAMP_LNAME;
     }
@@ -142,6 +148,7 @@ public class Timestamp extends TimestampType
         return otherAttributes.get(name);
     }
     
+    @Override
     public javax.xml.stream.XMLStreamReader readHeader() throws javax.xml.stream.XMLStreamException {
         XMLStreamBufferResult xbr = new XMLStreamBufferResult();
         JAXBElement<TimestampType> tsElem = new ObjectFactory().createTimestamp(this);
@@ -155,9 +162,9 @@ public class Timestamp extends TimestampType
     }
     
     /**
-     * 
-     * @param os 
+     *
      */
+    @Override
     public void writeTo(OutputStream os) {
     }
     
@@ -168,6 +175,7 @@ public class Timestamp extends TimestampType
      *      if the operation fails for some reason. This leaves the
      *      writer to an undefined state.
      */
+    @Override
     public void writeTo(javax.xml.stream.XMLStreamWriter streamWriter) throws javax.xml.stream.XMLStreamException {
         JAXBElement<TimestampType> tsElem = new ObjectFactory().createTimestamp(this);
         try {
@@ -199,7 +207,7 @@ public class Timestamp extends TimestampType
      * Time reference in WSS work should be in terms of
      * dateTime type specified in XML Schema in UTC time(Recommmended)
      */
-    public void createDateTime() throws XWSSecurityException {
+    public void createDateTime() {
         if (created == null) {
             synchronized (utcCalendar) {
                 
@@ -216,20 +224,17 @@ public class Timestamp extends TimestampType
     }
     
     /**
-     * 
-     * @param id 
-     * @return 
+     *
      */
+    @Override
     public boolean refersToSecHdrWithId(String id) {
         return false;
     }
 
     /**
-     * 
-     * @param streamWriter 
-     * @param props 
-     * @throws javax.xml.stream.XMLStreamException 
+     *
      */
+    @Override
     @SuppressWarnings("unchecked")
     public void writeTo(javax.xml.stream.XMLStreamWriter streamWriter, HashMap props) throws javax.xml.stream.XMLStreamException {
         try{

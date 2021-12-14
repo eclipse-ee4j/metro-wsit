@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -137,7 +137,7 @@ public abstract class BindingProcessor {
             strIgnore = true;
         }
         if (PolicyTypeUtil.usernameTokenBinding(token)) {
-            uid = ((AuthenticationTokenPolicy.UsernameTokenBinding) token).getUUID();
+            uid = token.getUUID();
             if (uid == null) {
                 uid = pid.generateID();
                 ((AuthenticationTokenPolicy.UsernameTokenBinding) token).setSTRID(uid);
@@ -226,10 +226,9 @@ public abstract class BindingProcessor {
     protected abstract EncryptionPolicy getSecondaryEncryptionPolicy() throws PolicyException;
 
     private String generateSAMLSTRID() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("SAML");
-        sb.append(pid.generateID());
-        return sb.toString();
+        String sb = "SAML" +
+                pid.generateID();
+        return sb;
     }
 
     protected void addPrimaryTargets() throws PolicyException {
@@ -299,7 +298,7 @@ public abstract class BindingProcessor {
 
     public void processSupportingTokens(SupportingTokens st) throws PolicyException {
 
-        SupportingTokensProcessor stp = new SupportingTokensProcessor((SupportingTokens) st,
+        SupportingTokensProcessor stp = new SupportingTokensProcessor(st,
                 tokenProcessor, getBinding(), container, primarySP, getEncryptionPolicy(), pid);
         stp.process();
     }

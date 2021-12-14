@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -24,9 +24,9 @@ import javax.xml.namespace.QName;
 
 public interface SecurityTokenReference extends Token {
     
-    public static final String KEYIDENTIFIER = "KeyIdentifier";
-    public static final String REFERENCE = "Reference";
-    public static final QName TOKEN_TYPE = new QName("http://docs.oasis-open.org/wss/oasis-wss-wssecurity-secext-1.1.xsd","TokenType");
+    String KEYIDENTIFIER = "KeyIdentifier";
+    String REFERENCE = "Reference";
+    QName TOKEN_TYPE = new QName("http://docs.oasis-open.org/wss/oasis-wss-wssecurity-secext-1.1.xsd","TokenType");
     
     void setReference(Reference ref);
     

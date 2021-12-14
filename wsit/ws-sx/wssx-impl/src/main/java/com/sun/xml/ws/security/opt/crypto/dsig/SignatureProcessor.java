@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -203,16 +203,14 @@ public class SignatureProcessor {
         try {
             return convertASN1toXMLDSIG(_dsaSignature.sign());
             
-        } catch (SignatureException se) {
+        } catch (SignatureException | IOException se) {
             // should never occur!
             throw new RuntimeException(se.getMessage());
-        } catch (IOException ioex ) {
-            throw new RuntimeException(ioex.getMessage());
         }
     }
     
     
-    private static byte[] convertASN1toXMLDSIG(byte asn1Bytes[])
+    private static byte[] convertASN1toXMLDSIG(byte[] asn1Bytes)
     throws IOException {
         
         // THIS CODE IS COPIED FROM APACHE (see copyright at top of file)
@@ -232,7 +230,7 @@ public class SignatureProcessor {
         || (asn1Bytes[4 + rLength] != 2) || (j > 20)) {
             throw new IOException("Invalid ASN.1 format of DSA signature");
         } else {
-            byte xmldsigBytes[] = new byte[40];
+            byte[] xmldsigBytes = new byte[40];
             
             System.arraycopy(asn1Bytes, (4+rLength)-i, xmldsigBytes, 20-i, i);
             System.arraycopy(asn1Bytes, (6+rLength+sLength)-j, xmldsigBytes,
@@ -257,7 +255,7 @@ public class SignatureProcessor {
         _dsaSignature.initVerify((PublicKey) publicKey);
         SignerOutputStream sos = new SignerOutputStream(_dsaSignature);
         if(si.getSignedInfo() != null){
-            XMLStreamReaderEx signedInfo = (XMLStreamReaderEx) si.getSignedInfo();
+            XMLStreamReaderEx signedInfo = si.getSignedInfo();
             if(_exc14nSBCanonicalizer == null){
                 _exc14nSBCanonicalizer = new EXC14nStAXReaderBasedCanonicalizer();
             }
@@ -308,7 +306,7 @@ public class SignatureProcessor {
         
         MacOutputStream mos = new MacOutputStream(hmac);
         if(si.getSignedInfo() != null){
-            XMLStreamReaderEx signedInfo = (XMLStreamReaderEx) si.getSignedInfo();
+            XMLStreamReaderEx signedInfo = si.getSignedInfo();
             if(_exc14nSBCanonicalizer == null){
                 _exc14nSBCanonicalizer = new EXC14nStAXReaderBasedCanonicalizer();
             }
@@ -356,7 +354,7 @@ public class SignatureProcessor {
         _rsaSignature.initVerify((PublicKey) publicKey);
         SignerOutputStream sos = new SignerOutputStream(_rsaSignature);
         if(si.getSignedInfo() != null){
-            XMLStreamReaderEx signedInfo = (XMLStreamReaderEx) si.getSignedInfo();
+            XMLStreamReaderEx signedInfo = si.getSignedInfo();
             if(_exc14nSBCanonicalizer == null){
                 _exc14nSBCanonicalizer = new EXC14nStAXReaderBasedCanonicalizer();
             }
@@ -388,7 +386,7 @@ public class SignatureProcessor {
         return  _rsaSignature.verify(signatureValue);
     }
 
-    private static byte[] convertXMLDSIGtoASN1(byte xmldsigBytes[])
+    private static byte[] convertXMLDSIGtoASN1(byte[] xmldsigBytes)
     throws IOException {
         
         // THIS CODE IS COPIED FROM APACHE (see copyright at top of file)
@@ -416,7 +414,7 @@ public class SignatureProcessor {
             l += 1;
         }
         
-        byte asn1Bytes[] = new byte[6 + j + l];
+        byte[] asn1Bytes = new byte[6 + j + l];
         
         asn1Bytes[0] = 48;
         asn1Bytes[1] = (byte) (4 + j + l);
@@ -453,11 +451,7 @@ public class SignatureProcessor {
             Iterator<NamespaceContextEx.Binding> itr = nc.iterator();
             while(itr.hasNext()){
                 final NamespaceContextEx.Binding nd = itr.next();
-                try {
-                    _exc14nCanonicalizer.writeNamespace(nd.getPrefix(),nd.getNamespaceURI());
-                } catch (XMLStreamException ex) {
-                    throw new XWSSecurityRuntimeException(ex);
-                }
+                _exc14nCanonicalizer.writeNamespace(nd.getPrefix(),nd.getNamespaceURI());
             }
             List incList = nsMapper.getInlusivePrefixList();
             _exc14nCanonicalizer.setInclusivePrefixList(incList);

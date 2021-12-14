@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -36,6 +36,7 @@ public class IssuedTokenKeyBinding extends KeyBindingBase implements LazyKeyBind
         setPolicyIdentifier(PolicyTypeUtil.ISSUED_TOKEN_KEY_BINDING);
     }
     
+    @Override
     public Object clone() {
         IssuedTokenKeyBinding itb = new IssuedTokenKeyBinding();
         //itb.setPolicyToken(this.getPolicyToken());
@@ -46,6 +47,7 @@ public class IssuedTokenKeyBinding extends KeyBindingBase implements LazyKeyBind
         return itb;
     }
     
+    @Override
     public boolean equals(WSSPolicy policy) {
         if ( !PolicyTypeUtil.issuedTokenKeyBinding(policy)) {
             return false;
@@ -55,10 +57,12 @@ public class IssuedTokenKeyBinding extends KeyBindingBase implements LazyKeyBind
         return true;
     }
     
+    @Override
     public boolean equalsIgnoreTargets(WSSPolicy policy) {
         return equals(policy);
     }
     
+    @Override
     public String getType() {
         return PolicyTypeUtil.ISSUED_TOKEN_KEY_BINDING;
     }
@@ -81,14 +85,17 @@ public class IssuedTokenKeyBinding extends KeyBindingBase implements LazyKeyBind
          * be generated for this Issued Token, if specified,
          * null otherwise.
          */
+        @Override
         public String getSTRID() {
             return this.strId;
         }
 
+    @Override
     public String getRealId() {
         return realId;
     }
 
+    @Override
     public void setRealId(String realId) {
        this.realId = realId;
     }

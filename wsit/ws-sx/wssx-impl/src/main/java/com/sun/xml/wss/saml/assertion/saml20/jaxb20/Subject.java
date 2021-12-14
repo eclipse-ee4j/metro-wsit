@@ -115,14 +115,17 @@ public class Subject extends SubjectType implements com.sun.xml.wss.saml.Subject
         }
     }
     
+    @Override
     public NameIdentifier getNameIdentifier(){
         return null;
     }
     
+    @Override
     public NameID getNameId(){
         return nameId;
     }
     
+    @Override
     public SubjectConfirmation getSubjectConfirmation(){
         return subjectConfirmation;
     }

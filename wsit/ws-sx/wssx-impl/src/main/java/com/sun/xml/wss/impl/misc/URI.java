@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  * Copyright 1995-2005 The Apache Software Foundation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -173,7 +173,7 @@ public class URI implements Serializable
    */
   public URI(String p_uriSpec) throws MalformedURIException
   {
-    this((URI) null, p_uriSpec);
+    this(null, p_uriSpec);
   }
 
   /**
@@ -728,7 +728,7 @@ public class URI implements Serializable
   public String getSchemeSpecificPart()
   {
 
-    StringBuffer schemespec = new StringBuffer();
+    StringBuilder schemespec = new StringBuilder();
 
     if (m_userinfo != null || m_host != null || m_port != -1)
     {
@@ -820,7 +820,7 @@ public class URI implements Serializable
                         boolean p_includeFragment)
   {
 
-    StringBuffer pathString = new StringBuffer(m_path);
+    StringBuilder pathString = new StringBuilder(m_path);
 
     if (p_includeQueryString && m_queryString != null)
     {
@@ -1223,7 +1223,7 @@ public class URI implements Serializable
   public String toString()
   {
 
-    StringBuffer uriSpecString = new StringBuffer();
+    StringBuilder uriSpecString = new StringBuilder();
 
     if (m_scheme != null)
     {
@@ -1515,7 +1515,6 @@ public class URI implements Serializable
 
       if (isReservedCharacter(testChar) || isUnreservedCharacter(testChar))
       {
-        continue;
       }
       else
       {

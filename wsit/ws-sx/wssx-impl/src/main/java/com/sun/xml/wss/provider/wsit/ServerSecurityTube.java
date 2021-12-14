@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -136,7 +136,8 @@ public class ServerSecurityTube extends AbstractFilterTubeImpl {
                 try {
                     return (NextAction) Subject.doAsPrivileged(clientSubject, new PrivilegedExceptionAction() {
 
-                        public Object run() throws Exception {
+                        @Override
+                        public Object run() {
                             // proceed to invoke the endpoint
                             return doInvoke(nextTube, valRequest);
                         }
@@ -217,9 +218,10 @@ public class ServerSecurityTube extends AbstractFilterTubeImpl {
     /**
      * This method is called once in server side and at most one in client side.
      */
+    @Override
     public void preDestroy() {
         helper.disable();
-        /**
+        /*
         Fix for bug 3932/4052
          */
         next.preDestroy();

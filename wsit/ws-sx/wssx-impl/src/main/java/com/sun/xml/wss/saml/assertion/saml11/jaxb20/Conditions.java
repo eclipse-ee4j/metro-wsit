@@ -62,11 +62,9 @@ public class Conditions extends ConditionsType
 	 *        assertion is valid.
 	 * @param notOnOrAfter specifies the time instant at which the assertion
 	 *        has expired.
-	 * @param condition
 	 * @param arc the <code>AudienceRestrictionCondition</code> to be
 	 *        added. Can be null, if no audience restriction.
-	 * @param doNotCacheCnd
-	 */
+     */
 	public Conditions(
 		GregorianCalendar notBefore,
 		GregorianCalendar notOnOrAfter,
@@ -103,6 +101,7 @@ public class Conditions extends ConditionsType
                     cType.getAudienceRestrictionConditionOrDoNotCacheConditionOrCondition());            
 	}
         
+        @Override
         public Date getNotBeforeDate(){
         try {
             if(notBeforeField != null){
@@ -117,6 +116,7 @@ public class Conditions extends ConditionsType
             return notBeforeField;
         }
         
+        @Override
         public Date getNotOnOrAfterDate(){
         try {
             if(notOnOrAfterField != null){
@@ -130,6 +130,7 @@ public class Conditions extends ConditionsType
         }
         return notOnOrAfterField;
     }
+       @Override
        @SuppressWarnings("unchecked")
         public List<Object> getConditions(){
             return (List<Object>)(Object)super.getAudienceRestrictionConditionOrDoNotCacheConditionOrCondition();

@@ -92,6 +92,7 @@ public class EncryptedDataHeaderBlock extends EncryptedTypeHeaderBlock {
             element, EncryptedDataHeaderBlock.class);
     }
 
+    @Override
     public SOAPElement getAsSoapElement() throws XWSSecurityException {
         if (updateRequired) {
             removeContents();

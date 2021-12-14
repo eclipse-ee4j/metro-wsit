@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -61,6 +61,7 @@ public class Address extends com.sun.xml.ws.policy.PolicyAssertion implements co
         }
     }
     
+    @Override
     public URI getURI() {
         populate();
         return address;

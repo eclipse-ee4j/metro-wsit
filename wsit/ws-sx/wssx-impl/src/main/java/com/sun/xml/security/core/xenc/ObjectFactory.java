@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -159,7 +159,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://www.w3.org/2001/04/xmlenc#", name = "OAEPparams", scope = EncryptionMethodType.class)
     public JAXBElement<byte[]> createEncryptionMethodTypeOAEPparams(byte[] value) {
-        return new JAXBElement<byte[]>(_EncryptionMethodTypeOAEPparams_QNAME, byte[].class, EncryptionMethodType.class, ((byte[]) value));
+        return new JAXBElement<>(_EncryptionMethodTypeOAEPparams_QNAME, byte[].class, EncryptionMethodType.class, value);
     }
 
     /**
@@ -168,7 +168,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://www.w3.org/2001/04/xmlenc#", name = "KeySize", scope = EncryptionMethodType.class)
     public JAXBElement<BigInteger> createEncryptionMethodTypeKeySize(BigInteger value) {
-        return new JAXBElement<BigInteger>(_EncryptionMethodTypeKeySize_QNAME, BigInteger.class, EncryptionMethodType.class, value);
+        return new JAXBElement<>(_EncryptionMethodTypeKeySize_QNAME, BigInteger.class, EncryptionMethodType.class, value);
     }
 
     /**
@@ -177,7 +177,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://www.w3.org/2001/04/xmlenc#", name = "AgreementMethod")
     public JAXBElement<AgreementMethodType> createAgreementMethod(AgreementMethodType value) {
-        return new JAXBElement<AgreementMethodType>(_AgreementMethod_QNAME, AgreementMethodType.class, null, value);
+        return new JAXBElement<>(_AgreementMethod_QNAME, AgreementMethodType.class, null, value);
     }
 
     /**
@@ -186,7 +186,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://www.w3.org/2001/04/xmlenc#", name = "EncryptionProperties")
     public JAXBElement<EncryptionPropertiesType> createEncryptionProperties(EncryptionPropertiesType value) {
-        return new JAXBElement<EncryptionPropertiesType>(_EncryptionProperties_QNAME, EncryptionPropertiesType.class, null, value);
+        return new JAXBElement<>(_EncryptionProperties_QNAME, EncryptionPropertiesType.class, null, value);
     }
 
     /**
@@ -195,7 +195,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://www.w3.org/2001/04/xmlenc#", name = "CipherReference")
     public JAXBElement<CipherReferenceType> createCipherReference(CipherReferenceType value) {
-        return new JAXBElement<CipherReferenceType>(_CipherReference_QNAME, CipherReferenceType.class, null, value);
+        return new JAXBElement<>(_CipherReference_QNAME, CipherReferenceType.class, null, value);
     }
 
     /**
@@ -204,7 +204,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://www.w3.org/2001/04/xmlenc#", name = "EncryptionProperty")
     public JAXBElement<EncryptionPropertyType> createEncryptionProperty(EncryptionPropertyType value) {
-        return new JAXBElement<EncryptionPropertyType>(_EncryptionProperty_QNAME, EncryptionPropertyType.class, null, value);
+        return new JAXBElement<>(_EncryptionProperty_QNAME, EncryptionPropertyType.class, null, value);
     }
 
     /**
@@ -213,7 +213,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://www.w3.org/2001/04/xmlenc#", name = "EncryptedKey")
     public JAXBElement<EncryptedKeyType> createEncryptedKey(EncryptedKeyType value) {
-        return new JAXBElement<EncryptedKeyType>(_EncryptedKey_QNAME, EncryptedKeyType.class, null, value);
+        return new JAXBElement<>(_EncryptedKey_QNAME, EncryptedKeyType.class, null, value);
     }
 
     /**
@@ -222,7 +222,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://www.w3.org/2001/04/xmlenc#", name = "CipherData")
     public JAXBElement<CipherDataType> createCipherData(CipherDataType value) {
-        return new JAXBElement<CipherDataType>(_CipherData_QNAME, CipherDataType.class, null, value);
+        return new JAXBElement<>(_CipherData_QNAME, CipherDataType.class, null, value);
     }
 
     /**
@@ -231,7 +231,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://www.w3.org/2001/04/xmlenc#", name = "EncryptedData")
     public JAXBElement<EncryptedDataType> createEncryptedData(EncryptedDataType value) {
-        return new JAXBElement<EncryptedDataType>(_EncryptedData_QNAME, EncryptedDataType.class, null, value);
+        return new JAXBElement<>(_EncryptedData_QNAME, EncryptedDataType.class, null, value);
     }
 
     /**
@@ -240,7 +240,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://www.w3.org/2001/04/xmlenc#", name = "DataReference", scope = ReferenceList.class)
     public JAXBElement<ReferenceType> createReferenceListDataReference(ReferenceType value) {
-        return new JAXBElement<ReferenceType>(_ReferenceListDataReference_QNAME, ReferenceType.class, ReferenceList.class, value);
+        return new JAXBElement<>(_ReferenceListDataReference_QNAME, ReferenceType.class, ReferenceList.class, value);
     }
 
     /**
@@ -249,7 +249,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://www.w3.org/2001/04/xmlenc#", name = "KeyReference", scope = ReferenceList.class)
     public JAXBElement<ReferenceType> createReferenceListKeyReference(ReferenceType value) {
-        return new JAXBElement<ReferenceType>(_ReferenceListKeyReference_QNAME, ReferenceType.class, ReferenceList.class, value);
+        return new JAXBElement<>(_ReferenceListKeyReference_QNAME, ReferenceType.class, ReferenceList.class, value);
     }
 
     /**
@@ -258,7 +258,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://www.w3.org/2001/04/xmlenc#", name = "KA-Nonce", scope = AgreementMethodType.class)
     public JAXBElement<byte[]> createAgreementMethodTypeKANonce(byte[] value) {
-        return new JAXBElement<byte[]>(_AgreementMethodTypeKANonce_QNAME, byte[].class, AgreementMethodType.class, ((byte[]) value));
+        return new JAXBElement<>(_AgreementMethodTypeKANonce_QNAME, byte[].class, AgreementMethodType.class, value);
     }
 
     /**
@@ -267,7 +267,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://www.w3.org/2001/04/xmlenc#", name = "OriginatorKeyInfo", scope = AgreementMethodType.class)
     public JAXBElement<KeyInfoType> createAgreementMethodTypeOriginatorKeyInfo(KeyInfoType value) {
-        return new JAXBElement<KeyInfoType>(_AgreementMethodTypeOriginatorKeyInfo_QNAME, KeyInfoType.class, AgreementMethodType.class, value);
+        return new JAXBElement<>(_AgreementMethodTypeOriginatorKeyInfo_QNAME, KeyInfoType.class, AgreementMethodType.class, value);
     }
 
     /**
@@ -276,7 +276,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://www.w3.org/2001/04/xmlenc#", name = "RecipientKeyInfo", scope = AgreementMethodType.class)
     public JAXBElement<KeyInfoType> createAgreementMethodTypeRecipientKeyInfo(KeyInfoType value) {
-        return new JAXBElement<KeyInfoType>(_AgreementMethodTypeRecipientKeyInfo_QNAME, KeyInfoType.class, AgreementMethodType.class, value);
+        return new JAXBElement<>(_AgreementMethodTypeRecipientKeyInfo_QNAME, KeyInfoType.class, AgreementMethodType.class, value);
     }
 
 }

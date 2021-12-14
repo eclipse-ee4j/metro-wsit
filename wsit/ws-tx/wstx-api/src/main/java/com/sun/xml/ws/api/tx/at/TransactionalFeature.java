@@ -38,8 +38,8 @@ public class TransactionalFeature extends WebServiceFeature {
     private Transactional.TransactionFlowType flowType = Transactional.TransactionFlowType.SUPPORTS;
     private boolean isExplicitMode;
     private Transactional.Version version = Transactional.Version.DEFAULT;
-    private Map<String, Transactional.TransactionFlowType> flowTypeMap = new HashMap<String, Transactional.TransactionFlowType>();
-    private Map<String, Boolean> enabledMap = new HashMap<String, Boolean>();
+    private Map<String, Transactional.TransactionFlowType> flowTypeMap = new HashMap<>();
+    private Map<String, Boolean> enabledMap = new HashMap<>();
 
     @FeatureConstructor({"enabled", "value", "version"})
     public TransactionalFeature(boolean enabled, Transactional.TransactionFlowType value, Transactional.Version version) {
@@ -94,7 +94,6 @@ public class TransactionalFeature extends WebServiceFeature {
 
     /**
      * Set the default Transaction flow type for all operations.
-     * @param flowType
      */
     public void setFlowType(Transactional.TransactionFlowType flowType) {
         this.flowType = flowType;
@@ -109,6 +108,7 @@ public class TransactionalFeature extends WebServiceFeature {
         flowTypeMap.put(operationName, flowType);
     }
 
+    @Override
     public String getID() {
         return ID;
     }
@@ -116,7 +116,6 @@ public class TransactionalFeature extends WebServiceFeature {
     /**
      * Enable/disable this feature at port level
      *
-     * @param enabled
      */
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
@@ -126,7 +125,6 @@ public class TransactionalFeature extends WebServiceFeature {
      * Enable/disable this feature on a given operation
      *
      * @param operationName the local part of operation.
-     * @param enabled
      */
     public void setEnabled(String operationName, boolean enabled) {
         enabledMap.put(operationName, enabled);

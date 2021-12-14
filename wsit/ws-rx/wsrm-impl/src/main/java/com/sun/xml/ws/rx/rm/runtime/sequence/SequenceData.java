@@ -88,7 +88,6 @@ public interface SequenceData {
      *
      * This method does nothing if there's no such unacknowledged message number found
      *
-     * @param messageNumber
      */
     void markAsAcknowledged(long messageNumber);
     
@@ -98,7 +97,7 @@ public interface SequenceData {
 
     ApplicationMessage retrieveMessage(String correlationId);
 
-    public List<Long> getUnackedMessageNumbers();
+    List<Long> getUnackedMessageNumbers();
 
     /**
      * In contrast to {@link #getUnackedMessageNumbers()}, this method returns allways a non-empty
@@ -112,5 +111,5 @@ public interface SequenceData {
      * values represent unacknowledged message numbers.
      *
      */
-    public List<Long> getLastMessageNumberWithUnackedMessageNumbers();
+    List<Long> getLastMessageNumberWithUnackedMessageNumbers();
 }

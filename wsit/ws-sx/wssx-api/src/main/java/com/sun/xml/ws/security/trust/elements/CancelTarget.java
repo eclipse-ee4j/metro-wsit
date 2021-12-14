@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -27,8 +27,8 @@ public interface CancelTarget {
     /**
      *Constants denoting type of Cancel Target
      */
-    public static final String STR_TARGET_TYPE="SecurityTokenReference";
-    public static final String CUSTOM_TARGET_TYPE = "Custom";
+    String STR_TARGET_TYPE="SecurityTokenReference";
+    String CUSTOM_TARGET_TYPE = "Custom";
     
     /**
      * Get the type of the Cancel Target information item

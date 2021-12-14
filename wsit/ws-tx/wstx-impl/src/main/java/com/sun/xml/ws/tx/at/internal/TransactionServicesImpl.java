@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -32,7 +32,7 @@ public class TransactionServicesImpl implements TransactionServices {
     private static Logger LOGGER = Logger.getLogger(TransactionServicesImpl.class);
 
     //this is used to track registrations and avoid dupe registration
-    static List<Xid> importedXids = new ArrayList<Xid>();
+    static List<Xid> importedXids = new ArrayList<>();
 
 
     public static TransactionServices getInstance() {
@@ -44,6 +44,7 @@ public class TransactionServicesImpl implements TransactionServices {
      ForeignRecoveryContextManager.getInstance().start();
    }
 
+   @Override
    public byte[] getGlobalTransactionId() {
        return new byte[]{'a'};
    }
@@ -58,6 +59,7 @@ public class TransactionServicesImpl implements TransactionServices {
        importedXids.remove(xid);
    }
 
+   @Override
    public Xid enlistResource(XAResource resource, Xid xid)
           throws WSATException {
     WSATGatewayRM wsatgw = WSATGatewayRM.getInstance();
@@ -65,21 +67,19 @@ public class TransactionServicesImpl implements TransactionServices {
     Transaction transaction = WSATHelper.getInstance().getFromXidToTransactionMap(xid);
     try {
        return wsatgw.registerWSATResource(xid, resource, transaction);
-    } catch (IllegalStateException e) {
-      throw new WSATException(e);
-    } catch (RollbackException e) {
-      throw new WSATException(e);
-    } catch (SystemException e) {
+    } catch (IllegalStateException | SystemException | RollbackException e) {
       throw new WSATException(e);
     }
    }
 
-   public void registerSynchronization(Synchronization synchronization, Xid xid) throws WSATException {
+   @Override
+   public void registerSynchronization(Synchronization synchronization, Xid xid) {
         debug("regsync");
     }
 
     //returns null if not infected previously or xid if it has
-    public Xid importTransaction(int timeout, byte[] tId) throws WSATException {
+    @Override
+    public Xid importTransaction(int timeout, byte[] tId) {
         final XidImpl xidImpl = new XidImpl(tId);
         if(importedXids.contains(xidImpl)) return xidImpl;
         TransactionImportManager.getInstance().recreate(xidImpl, timeout);
@@ -87,6 +87,7 @@ public class TransactionServicesImpl implements TransactionServices {
         return null;
     }
 
+    @Override
     public String prepare(byte[] tId) throws WSATException {
         debug("prepare:" + new String(tId));
         final XidImpl xidImpl = new XidImpl(tId);
@@ -108,6 +109,7 @@ public class TransactionServicesImpl implements TransactionServices {
         return vote==XAResource.XA_OK?WSATConstants.PREPARED:WSATConstants.READONLY;
     }
 
+    @Override
     public void commit(byte[] tId) throws WSATException {
         debug("commit:" + new String(tId));
         final XidImpl xidImpl = new XidImpl(tId);
@@ -122,6 +124,7 @@ public class TransactionServicesImpl implements TransactionServices {
         }
     }
 
+    @Override
     public void rollback(byte[] tId) throws WSATException {
         debug("rollback:" + new String(tId));
         final XidImpl xidImpl = new XidImpl(tId);
@@ -139,6 +142,7 @@ public class TransactionServicesImpl implements TransactionServices {
         }
     }
 
+    @Override
     public void replayCompletion(String tId, XAResource xaResource) throws WSATException {
         debug("replayCompletion tid:" + tId + " xaResource:" + xaResource);
         final XidImpl xid = new XidImpl(tId.getBytes());
@@ -162,6 +166,7 @@ public class TransactionServicesImpl implements TransactionServices {
         // up the retry in order to respond immediately.
     }
 
+    @Override
     public EndpointReference getParentReference(Xid xid) {
       debug("getParentReference xid:"+xid);
       if (xid == null) throw new IllegalArgumentException("No subordinate transaction parent reference as xid is null");

@@ -18,6 +18,7 @@ package com.sun.xml.wss.impl.policy.verifier;
 
 import com.sun.xml.wss.impl.PolicyTypeUtil;
 import com.sun.xml.wss.impl.PolicyViolationException;
+import com.sun.xml.wss.impl.policy.mls.KeyBindingBase;
 import com.sun.xml.wss.impl.policy.spi.PolicyVerifier;
 import com.sun.xml.wss.impl.policy.SecurityPolicy;
 import com.sun.xml.wss.impl.policy.mls.AuthenticationTokenPolicy.SAMLAssertionBinding;
@@ -55,6 +56,7 @@ public class SignaturePolicyVerifier implements PolicyVerifier{
      * with a better and yet performant design as policy requirements get clear.
      *
      */
+    @Override
     public void verifyPolicy (SecurityPolicy configPolicy, SecurityPolicy recvdPolicy) throws PolicyViolationException {
         
         if(PolicyTypeUtil.signaturePolicy (configPolicy) && PolicyTypeUtil.signaturePolicy (recvdPolicy)){
@@ -108,7 +110,6 @@ public class SignaturePolicyVerifier implements PolicyVerifier{
      * verifies whether the configured and received policies are same or not
      * @param configPolicy SAMLAssertionBinding
      * @param recvdPolicy SAMLAssertionBinding
-     * @throws com.sun.xml.wss.impl.PolicyViolationException
      */
     private void checkSAMLAssertionBinding (SAMLAssertionBinding configPolicy , SAMLAssertionBinding recvdPolicy)throws PolicyViolationException {
         
@@ -127,7 +128,6 @@ public class SignaturePolicyVerifier implements PolicyVerifier{
      * verifies whether the configured and received policies are same or not
      * @param configPolicy X509CertificateBinding
      * @param recvdPolicy X509CertificateBinding
-     * @throws com.sun.xml.wss.impl.PolicyViolationException
      */
     private void checkX509CertificateBinding (X509CertificateBinding configPolicy , X509CertificateBinding recvdPolicy)throws PolicyViolationException {
         
@@ -176,9 +176,8 @@ public class SignaturePolicyVerifier implements PolicyVerifier{
      * @param configPolicy SecurityPolicy
      * @param recvdPolicy SecurityPolicy
      * @param matched boolean
-     * @throws com.sun.xml.wss.impl.PolicyViolationException
      */
-    private final void _throwError (SecurityPolicy configPolicy, SecurityPolicy recvdPolicy, boolean matched)throws PolicyViolationException {
+    private void _throwError (SecurityPolicy configPolicy, SecurityPolicy recvdPolicy, boolean matched)throws PolicyViolationException {
         if(!matched){
             throw new PolicyViolationException ("KeyType used to sign the message doesnot match with " +
                     " the receiver side requirements. Configured KeyType is "+configPolicy+
@@ -195,8 +194,8 @@ public class SignaturePolicyVerifier implements PolicyVerifier{
             //Token policyToken = configPolicy.getPolicyToken();
             //if (policyToken != null) {
               if (configPolicy.policyTokenWasSet()) {
-                if(configPolicy.INCLUDE_NEVER.equals(configPolicy.getIncludeToken()) ||
-                        configPolicy.INCLUDE_NEVER_VER2.equals(configPolicy.getIncludeToken())){
+                if(KeyBindingBase.INCLUDE_NEVER.equals(configPolicy.getIncludeToken()) ||
+                        KeyBindingBase.INCLUDE_NEVER_VER2.equals(configPolicy.getIncludeToken())){
                     WSSAssertion wssAssertion = context.getWSSAssertion();
                     if(MessageConstants.DIRECT_REFERENCE_TYPE.equals(configPolicy.getReferenceType())){
                         if(wssAssertion != null){

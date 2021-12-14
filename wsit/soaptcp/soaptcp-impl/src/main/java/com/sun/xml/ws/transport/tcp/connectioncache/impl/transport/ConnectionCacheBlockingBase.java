@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -32,18 +32,22 @@ abstract class ConnectionCacheBlockingBase<C extends Connection>
                 ConcurrentQueueFactory.<C>makeConcurrentQueue() ;
     }
     
+    @Override
     public synchronized long numberOfConnections() {
         return totalIdle + totalBusy ;
     }
     
+    @Override
     public synchronized long numberOfIdleConnections() {
         return totalIdle ;
     }
     
+    @Override
     public synchronized long numberOfBusyConnections() {
         return totalBusy ;
     }
     
+    @Override
     public synchronized long numberOfReclaimableConnections() {
         return reclaimableConnections.size() ;
     }

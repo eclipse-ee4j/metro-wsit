@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -43,7 +44,7 @@ public final class FramedMessageOutputStream extends OutputStream implements Lif
     private int channelId;
     private int messageId;
     private int contentId;
-    private Map<Integer, String> contentProps = new HashMap<Integer, String>(8);
+    private Map<Integer, String> contentProps = new HashMap<>(8);
     private int payloadlengthLength;
     
     /** is message framed or direct mode is used */
@@ -117,6 +118,7 @@ public final class FramedMessageOutputStream extends OutputStream implements Lif
         this.contentProps.putAll(properties);
     }
     
+    @Override
     public void write(final int data) throws IOException {
         if (!outputBuffer.hasRemaining()) {
             flushFrame();
@@ -170,7 +172,7 @@ public final class FramedMessageOutputStream extends OutputStream implements Lif
                 
                 for(Map.Entry<Integer, String> entry : contentProps.entrySet()) {
                     final String value = entry.getValue();
-                    byte[] valueBytes = value.getBytes(TCPConstants.UTF8);
+                    byte[] valueBytes = value.getBytes(StandardCharsets.UTF_8);
                     // Write parameter-id
                     highValue = DataInOutUtils.writeInt4(headerBuffer, entry.getKey(), highValue, false);
                     // Write parameter-value buffer length
@@ -253,9 +255,11 @@ public final class FramedMessageOutputStream extends OutputStream implements Lif
         sentMessageLength = 0;
     }
     
+    @Override
     public void activate() {
     }
     
+    @Override
     public void passivate() {
         reset();
         socketChannel = null;

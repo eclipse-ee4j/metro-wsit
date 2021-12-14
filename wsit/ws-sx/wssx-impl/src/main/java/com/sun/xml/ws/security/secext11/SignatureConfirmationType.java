@@ -48,7 +48,7 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 @XmlType(name = "SignatureConfirmationType")
 public class SignatureConfirmationType {
 
-    @XmlAttribute(name = "Value", required = false)
+    @XmlAttribute(name = "Value")
     protected byte[] value;
     @XmlAttribute(name = "Id", namespace = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
@@ -74,7 +74,7 @@ public class SignatureConfirmationType {
      *     byte[]
      */
     public void setValue(byte[] value) {
-        this.value = ((byte[]) value);
+        this.value = value;
     }
 
     /**

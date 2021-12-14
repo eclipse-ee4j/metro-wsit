@@ -24,6 +24,7 @@ class OneWayMepHandler extends McResponseHandlerBase {
         super(configuration, mcSenderTask, suspendedFiberStorage, correlationId);
     }
 
+    @Override
     public void onCompletion(Packet response) {
         Message responseMessage = response.getMessage();
 
@@ -40,6 +41,7 @@ class OneWayMepHandler extends McResponseHandlerBase {
         resumeParentFiber(response);
     }
 
+    @Override
     public void onCompletion(Throwable error) {
         if (configuration.isReliableMessagingEnabled() && isIOError(error)) {
             // FIXME: This is an temporary workaround to be interoperable with MSFT:

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -62,10 +62,12 @@ public class Reference extends com.sun.xml.security.core.dsig.ReferenceType impl
     public Reference() {
     }
     
+    @Override
     public byte[] getCalculatedDigestValue() {
         return _calcDigestValue;
     }
     
+    @Override
     public boolean validate(XMLValidateContext xMLValidateContext) throws XMLSignatureException {
         if (xMLValidateContext == null) {
             throw new NullPointerException("validateContext cannot be null");
@@ -148,10 +150,10 @@ public class Reference extends com.sun.xml.security.core.dsig.ReferenceType impl
         OutputStream os = new UnsyncBufferedOutputStream(dos);
         Data data = dereferencedData;
         if ( transforms != null ) {
-            List<Transform> transformList = ((TransformsType)transforms).getTransform();
+            List<Transform> transformList = transforms.getTransform();
             if ( transformList != null ) {
                 for (int i = 0, size = transformList.size(); i < size; i++) {
-                    Transform transform = (Transform) transformList.get(i);
+                    Transform transform = transformList.get(i);
                     try {
                         if (i < size - 1) {
                             data = transform.transform(data, context);
@@ -192,24 +194,29 @@ public class Reference extends com.sun.xml.security.core.dsig.ReferenceType impl
         return data;
     }
     
+    @Override
     public Data getDereferencedData() {
         return _appliedTransformData;
     }
     
+    @Override
     public InputStream getDigestInputStream() {
         throw new UnsupportedOperationException("Not supported");
     }
     
+    @Override
     public boolean isFeatureSupported(String string) {
         //TODO
         return false;
     }
     
+    @Override
     public DigestMethod getDigestMethod() {
         return digestMethod;
         
     }
     
+    @Override
     public List getTransforms() {
         return transforms.getTransform();
     }

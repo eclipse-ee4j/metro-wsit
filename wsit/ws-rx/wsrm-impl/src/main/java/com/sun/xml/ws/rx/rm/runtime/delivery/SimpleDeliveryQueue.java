@@ -30,6 +30,7 @@ final class SimpleDeliveryQueue implements DeliveryQueue {
         this.isClosed = new AtomicBoolean(false);
     }
 
+    @Override
     public void put(ApplicationMessage message) throws RxRuntimeException {
         if (isClosed.get()) {
             throw new RxRuntimeException(LocalizationMessages.WSRM_1160_DELIVERY_QUEUE_CLOSED());
@@ -38,14 +39,17 @@ final class SimpleDeliveryQueue implements DeliveryQueue {
         postman.deliver(message, deliveryCallback);
     }
 
+    @Override
     public long getRemainingMessageBufferSize() {
         return DeliveryQueue.UNLIMITED_BUFFER_SIZE;
     }
 
+    @Override
     public void onSequenceAcknowledgement() {
         // do nothing
     }
 
+    @Override
     public void close() {
         isClosed.set(true);
     }

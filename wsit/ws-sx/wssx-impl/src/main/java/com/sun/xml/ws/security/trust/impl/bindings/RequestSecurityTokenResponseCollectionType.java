@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -28,7 +28,7 @@ import jakarta.xml.bind.annotation.XmlAnyAttribute;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlType;
 import javax.xml.namespace.QName;
-import com.sun.xml.ws.security.trust.impl.bindings.RequestSecurityTokenResponseCollectionType;
+
 import com.sun.xml.ws.security.trust.impl.bindings.RequestSecurityTokenResponseType;
 
 
@@ -60,7 +60,7 @@ public class RequestSecurityTokenResponseCollectionType {
     @XmlElement(name = "RequestSecurityTokenResponse", namespace = "http://schemas.xmlsoap.org/ws/2005/02/trust")
     protected List<RequestSecurityTokenResponseType> requestSecurityTokenResponse;
     @XmlAnyAttribute
-    private Map<QName, String> otherAttributes = new HashMap<QName, String>();
+    private Map<QName, String> otherAttributes = new HashMap<>();
 
     /**
      * Gets the value of the requestSecurityTokenResponse property.
@@ -86,7 +86,7 @@ public class RequestSecurityTokenResponseCollectionType {
      */
     public List<RequestSecurityTokenResponseType> getRequestSecurityTokenResponse() {
         if (requestSecurityTokenResponse == null) {
-            requestSecurityTokenResponse = new ArrayList<RequestSecurityTokenResponseType>();
+            requestSecurityTokenResponse = new ArrayList<>();
         }
         return this.requestSecurityTokenResponse;
     }

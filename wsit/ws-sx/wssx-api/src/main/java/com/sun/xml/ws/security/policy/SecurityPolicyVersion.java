@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -168,9 +168,9 @@ public enum SecurityPolicyVersion {
     public abstract String getIncludeTokenAlways();
     
     /** Creates a new instance of SecurityPolicyVersion */
-    private SecurityPolicyVersion(String nsUri, String includeOnce, 
-            String includeNever, String includeAlwaysToRecipient,
-            String includeAlways) {
+    SecurityPolicyVersion(String nsUri, String includeOnce,
+                          String includeNever, String includeAlwaysToRecipient,
+                          String includeAlways) {
         this.namespaceUri = nsUri;
         this.includeTokenOnce = includeOnce;
         this.includeTokenNever = includeNever;

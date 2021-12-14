@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -24,9 +24,10 @@ import java.util.Collection;
 import javax.xml.namespace.QName;
 
 /**
+ * <pre>{@code
  * <sunc:ResendInterval Milliseconds="..." />
- */
-/**
+ * }</pre>
+ *
  * Specifies how long the RM Source will wait after transmitting a message and
  * before retransmitting the message. If omitted, value from
  * {@link ReliableMessagingFeature#DEFAULT_MESSAGE_RETRANSMISSION_INTERVAL}
@@ -39,6 +40,7 @@ public class ResendIntervalClientAssertion extends SimpleAssertion implements Rm
     private static final QName MILLISECONDS_ATTRIBUTE_QNAME = new QName("", "Milliseconds");
 
     private static AssertionInstantiator instantiator = new AssertionInstantiator() {
+        @Override
         public PolicyAssertion newInstance(AssertionData data, Collection<PolicyAssertion> assertionParameters, AssertionSet nestedAlternative){
             return new ResendIntervalClientAssertion(data, assertionParameters);
         }
@@ -60,10 +62,12 @@ public class ResendIntervalClientAssertion extends SimpleAssertion implements Rm
         return interval;
     }
 
+    @Override
     public ReliableMessagingFeatureBuilder update(ReliableMessagingFeatureBuilder builder) {
         return builder.messageRetransmissionInterval(interval);
     }
 
+    @Override
     public boolean isCompatibleWith(RmProtocolVersion version) {
         return RmProtocolVersion.WSRM200502 == version;
     }

@@ -31,14 +31,14 @@ public final class ConnectionCacheFactory {
             makeBlockingOutboundConnectionCache(String cacheType, int highWaterMark,
                     int numberToReclaim, int maxParallelConnections, Logger logger) {
 
-        return new OutboundConnectionCacheBlockingImpl<C>(cacheType, highWaterMark,
+        return new OutboundConnectionCacheBlockingImpl<>(cacheType, highWaterMark,
                 numberToReclaim, maxParallelConnections, logger);
     }
 
     public static <C extends Connection> InboundConnectionCache<C>
             makeBlockingInboundConnectionCache(String cacheType, int highWaterMark,
                     int numberToReclaim, Logger logger) {
-        return new InboundConnectionCacheBlockingImpl<C>(cacheType,
+        return new InboundConnectionCacheBlockingImpl<>(cacheType,
                 highWaterMark, numberToReclaim, logger);
     }
 }

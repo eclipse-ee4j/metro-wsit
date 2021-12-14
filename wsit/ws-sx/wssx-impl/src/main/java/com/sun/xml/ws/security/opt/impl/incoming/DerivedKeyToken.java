@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -101,7 +101,7 @@ public class DerivedKeyToken implements SecurityHeaderElement, NamespaceContextI
             }
         }
         if (pc.getAlgorithmSuite() != null) {
-            dataEncAlgo = ((JAXBFilterProcessingContext) pc).getAlgorithmSuite().getEncryptionAlgorithm();
+            dataEncAlgo = pc.getAlgorithmSuite().getEncryptionAlgorithm();
         } else {
             logger.log(Level.SEVERE, LogStringsMessages.WSS_1818_ALGORITHM_NOTSET_DERIVEDKEY());
             throw new XWSSecurityException(LogStringsMessages.WSS_1818_ALGORITHM_NOTSET_DERIVEDKEY());
@@ -121,35 +121,43 @@ public class DerivedKeyToken implements SecurityHeaderElement, NamespaceContextI
 
     }
 
+    @Override
     public boolean refersToSecHdrWithId(final String id) {
         throw new UnsupportedOperationException();
     }
 
+    @Override
     public String getId() {
         return id;
     }
 
+    @Override
     public void setId(final String id) {
         throw new UnsupportedOperationException();
     }
 
+    @Override
     public String getNamespaceURI() {
         return namespaceURI;
     }
 
+    @Override
     public String getLocalPart() {
         return localName;
     }
 
-    public XMLStreamReader readHeader() throws XMLStreamException {
+    @Override
+    public XMLStreamReader readHeader() {
         throw new UnsupportedOperationException();
     }
 
+    @Override
     public void writeTo(OutputStream os) {
         throw new UnsupportedOperationException();
     }
 
-    public void writeTo(XMLStreamWriter streamWriter) throws XMLStreamException {
+    @Override
+    public void writeTo(XMLStreamWriter streamWriter) {
         throw new UnsupportedOperationException();
     }
 
@@ -193,7 +201,7 @@ public class DerivedKeyToken implements SecurityHeaderElement, NamespaceContextI
                     case NONCE_ELEMENT: {
                         if (reader instanceof XMLStreamReaderEx) {
                             reader.next();
-                            StringBuffer sb = null;
+                            StringBuilder sb = null;
                             if (reader.getEventType() == XMLStreamReader.CHARACTERS &&
                                     reader.getEventType() != reader.END_ELEMENT) {
                                 CharSequence charSeq = ((XMLStreamReaderEx) reader).getPCDATA();
@@ -202,7 +210,7 @@ public class DerivedKeyToken implements SecurityHeaderElement, NamespaceContextI
                                     decodedNonce = bd.getExact();
                                 } else {
                                     if (sb == null) {
-                                        sb = new StringBuffer();
+                                        sb = new StringBuilder();
                                     }
                                     for (int i = 0; i < charSeq.length(); i++) {
                                         sb.append(charSeq.charAt(i));
@@ -303,11 +311,13 @@ public class DerivedKeyToken implements SecurityHeaderElement, NamespaceContextI
         return -1;
     }
 
+    @Override
     public HashMap<String, String> getInscopeNSContext() {
         return nsDecls;
     }
 
-    public void writeTo(javax.xml.stream.XMLStreamWriter streamWriter, HashMap props) throws javax.xml.stream.XMLStreamException {
+    @Override
+    public void writeTo(javax.xml.stream.XMLStreamWriter streamWriter, HashMap props) {
         throw new UnsupportedOperationException();
     }
 

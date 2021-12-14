@@ -23,9 +23,10 @@ import java.util.Collection;
 import javax.xml.namespace.QName;
 
 /**
+ * <pre>{@code
  * <metro:MaintenanceTaskPeriod Milliseconds="..." />
- */
-/**
+ * }</pre>
+ *
  * Specifies the period (in milliseconds) of a sequence maintenance task execution. 
  * Sequence maintenance task takes care of terminating inactive sequences and 
  * removing the terminated sequences from the sequence repository.
@@ -36,6 +37,7 @@ public class MaintenanceTaskPeriodAssertion extends SimpleAssertion implements R
     private static final QName MILLISECONDS_ATTRIBUTE_QNAME = new QName("", "Milliseconds");
 
     private static AssertionInstantiator instantiator = new AssertionInstantiator() {
+        @Override
         public PolicyAssertion newInstance(AssertionData data, Collection<PolicyAssertion> assertionParameters, AssertionSet nestedAlternative) {
             return new MaintenanceTaskPeriodAssertion(data, assertionParameters);
         }
@@ -57,10 +59,12 @@ public class MaintenanceTaskPeriodAssertion extends SimpleAssertion implements R
         return interval;
     }
 
+    @Override
     public ReliableMessagingFeatureBuilder update(ReliableMessagingFeatureBuilder builder) {
         return builder.sequenceMaintenancePeriod(interval);
     }
 
+    @Override
     public boolean isCompatibleWith(RmProtocolVersion version) {
         return RmProtocolVersion.WSRM200702 == version;
     }

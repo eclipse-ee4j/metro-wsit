@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -94,6 +94,7 @@ public class UsernameTokenHeader implements com.sun.xml.ws.security.opt.api.toke
         }        
     }
     
+    @Override
     public void validate(ProcessingContext context) throws XWSSecurityException {
         boolean authenticated = false;
         if (filter.getPassword() == null && filter.getPasswordDigest() == null) {
@@ -148,55 +149,68 @@ public class UsernameTokenHeader implements com.sun.xml.ws.security.opt.api.toke
                 DefaultSecurityEnvironmentImpl.getSubject((FilterProcessingContext)context),filter.getUsername(), filter.getPassword());
     }
     
+    @Override
     public WSSPolicy getPolicy() {
         return utPolicy;
     }
     
+    @Override
     public boolean refersToSecHdrWithId(String id) {
         throw new UnsupportedOperationException();
     }
     
+    @Override
     public String getId() {
         return id;
     }
     
+    @Override
     public void setId(String id) {
         throw new UnsupportedOperationException();
     }
     
+    @Override
     public String getNamespaceURI() {
         return namespaceURI;
     }
     
+    @Override
     public String getLocalPart() {
         return localPart;
     }
     
     
+    @Override
     public XMLStreamReader readHeader() throws XMLStreamException {
         return mark.readAsXMLStreamReader();
     }
     
+    @Override
     public void writeTo(OutputStream os) {
         throw new UnsupportedOperationException();
     }
     
+    @Override
     public void writeTo(XMLStreamWriter streamWriter) throws XMLStreamException {
         mark.writeToXMLStreamWriter(streamWriter);
     }
     
+    @Override
     public String getUsernameValue() {
         return filter.getUsername();
     }
     
+    @Override
     public void setUsernameValue(String username) {
         throw new UnsupportedOperationException();
     }
     
+    @Override
     public String getPasswordValue() {
         return filter.getPassword();
     }
     
+    @Override
     public void setPasswordValue(String passwd) {
         throw new UnsupportedOperationException();
     }
@@ -212,10 +226,12 @@ public class UsernameTokenHeader implements com.sun.xml.ws.security.opt.api.toke
     public String getIterations(){
         return filter.getIterations();
     }    
+    @Override
     public HashMap<String, String> getInscopeNSContext() {
         return nsDecls;
     }
-    public void writeTo(javax.xml.stream.XMLStreamWriter streamWriter, HashMap props) throws javax.xml.stream.XMLStreamException {
+    @Override
+    public void writeTo(javax.xml.stream.XMLStreamWriter streamWriter, HashMap props) {
         throw new UnsupportedOperationException();
     }  
 

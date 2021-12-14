@@ -22,13 +22,13 @@ import java.net.URI;
 public interface RequestedProofToken {
     
     /** constants indicating type of Proof Token 
-     * @see getProofTokenType 
+     * @see #getProofTokenType()
      */
-    public static final String COMPUTED_KEY_TYPE = "ComputedKey";
-    public static final String TOKEN_REF_TYPE = "SecurityTokenReference";
-    public static final String ENCRYPTED_KEY_TYPE = "EncryptedKey";
-    public static final String BINARY_SECRET_TYPE = "BinarySecret";
-    public static final String CUSTOM_TYPE = "Custom";
+    String COMPUTED_KEY_TYPE = "ComputedKey";
+    String TOKEN_REF_TYPE = "SecurityTokenReference";
+    String ENCRYPTED_KEY_TYPE = "EncryptedKey";
+    String BINARY_SECRET_TYPE = "BinarySecret";
+    String CUSTOM_TYPE = "Custom";
     
     /**
      * Get the type of ProofToken present in this RequestedProofToken Instance
@@ -37,7 +37,7 @@ public interface RequestedProofToken {
 
    /**
      * Set the type of ProofToken present in this RequestedProofToken Instance
-     * @see getProofTokenType
+     * @see #getProofTokenType()
      */
     void setProofTokenType(String proofTokenType);
 

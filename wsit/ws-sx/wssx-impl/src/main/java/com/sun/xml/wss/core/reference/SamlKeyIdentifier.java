@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -41,7 +41,7 @@ public class SamlKeyIdentifier extends KeyIdentifier {
         String vType = valueType;
         NodeList nodeList = doc.getElementsByTagName(MessageConstants.SAML_ASSERTION_LNAME);
         if(nodeList.getLength() > 0){
-              Node assertion = (Node)nodeList.item(0);
+              Node assertion = nodeList.item(0);
               if (assertion.getNamespaceURI() == MessageConstants.SAML_v2_0_NS) {
                   vType = MessageConstants.WSSE_SAML_v2_0_KEY_IDENTIFIER_VALUE_TYPE;    
               }              

@@ -188,6 +188,7 @@ public class IconType
         this.id = value;
     }
 
+    @Override
     public Locator sourceLocation() {
         return locator;
     }

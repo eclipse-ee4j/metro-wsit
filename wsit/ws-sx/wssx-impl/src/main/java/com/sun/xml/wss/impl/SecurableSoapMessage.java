@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -89,13 +89,12 @@ public final class SecurableSoapMessage extends SOAPMessage {
     public SecurableSoapMessage() {}
     
     /**
-     * @param soapMessage
      */
     public SecurableSoapMessage(SOAPMessage soapMessage)throws XWSSecurityException {
         init(soapMessage);
     }
     
-    public void init(SOAPMessage soapMessage) throws XWSSecurityException {
+    public void init(SOAPMessage soapMessage) {
         this.soapMessage = soapMessage;
         if(log.isLoggable(Level.FINEST)){
         log.log(Level.FINEST, LogStringsMessages.WSS_0100_CREATE_FOR_CREATING_IMPL(this.getClass().getName()) );
@@ -147,7 +146,6 @@ public final class SecurableSoapMessage extends SOAPMessage {
      *
      * @return wsse:Security header
      *
-     * @throws XWSSecurityException
      */
     public SecurityHeader findWsseSecurityHeaderBlock(
             boolean doCreate,
@@ -216,7 +214,6 @@ public final class SecurableSoapMessage extends SOAPMessage {
      *
      * @return returns null if wsse:Security header not found
      *
-     * @throws XWSSecurityException
      */
     public SecurityHeader findSecurityHeader() throws XWSSecurityException {
         return findWsseSecurityHeaderBlock(false, false);
@@ -227,7 +224,6 @@ public final class SecurableSoapMessage extends SOAPMessage {
      *
      * @return wsse:Security header
      *
-     * @throws XWSSecurityException
      */
     public SecurityHeader findOrCreateSecurityHeader()
     throws XWSSecurityException {
@@ -276,7 +272,7 @@ public final class SecurableSoapMessage extends SOAPMessage {
      */
      
     public void generateSecurityHeaderException(String exceptionMessage)
-    throws SecurityHeaderException, XWSSecurityException {
+    throws XWSSecurityException {
         SecurityHeaderException she =
                 new SecurityHeaderException(exceptionMessage);
         // an error was discovered processing the header
@@ -325,8 +321,6 @@ public final class SecurableSoapMessage extends SOAPMessage {
     }
     
     /**
-     * @param sfe
-     * @throws XWSSecurityException
      */
     public void generateFault(WssSoapFaultException sfe)
     throws XWSSecurityException {
@@ -500,16 +494,15 @@ public final class SecurableSoapMessage extends SOAPMessage {
     /**
      * @return an ID unique w.r.t this SOAPMessage
      */
-    public String generateId() throws XWSSecurityException {
+    public String generateId() {
         
         
         int intRandom = rnd.nextInt();
-        String id = "XWSSGID-"+String.valueOf(System.currentTimeMillis())+String.valueOf(intRandom);
+        String id = "XWSSGID-"+ System.currentTimeMillis() + intRandom;
         return id;
     }
     
     /**
-     * @param element
      */
     public void generateWsuId(Element element) throws XWSSecurityException {
         // assign the wsu:Id to the element
@@ -517,11 +510,9 @@ public final class SecurableSoapMessage extends SOAPMessage {
     }
     
     /**
-     * @param element
      * @param id ID specified should be unique in the message.
      */
-    public void generateWsuId(Element element, String id)
-    throws XWSSecurityException {
+    public void generateWsuId(Element element, String id) {
         // assign the wsu:Id to the element
         element.setAttributeNS(MessageConstants.WSU_NS, "wsu:Id", id);
     }
@@ -549,7 +540,7 @@ public final class SecurableSoapMessage extends SOAPMessage {
             XPath xPATH = xpathFactory.newXPath();
             xPATH.setNamespaceContext(getNamespaceContext());
             XPathExpression xpathExpr = xPATH.compile(xpath);
-            NodeList elements = (NodeList)xpathExpr.evaluate((Object)this.getSOAPPart(),XPathConstants.NODESET);
+            NodeList elements = (NodeList)xpathExpr.evaluate(this.getSOAPPart(),XPathConstants.NODESET);
             
             
             if (elements != null)
@@ -626,7 +617,7 @@ public final class SecurableSoapMessage extends SOAPMessage {
                 XPath xPATH = xpathFactory.newXPath();
                 xPATH.setNamespaceContext(getNamespaceContext());
                 XPathExpression xpathExpr = xPATH.compile(xpath);
-                elems = (NodeList)xpathExpr.evaluate((Object)this.getSOAPPart(),XPathConstants.NODESET);
+                elems = (NodeList)xpathExpr.evaluate(this.getSOAPPart(),XPathConstants.NODESET);
                 
                 
             } catch (Exception e) {
@@ -867,7 +858,7 @@ public final class SecurableSoapMessage extends SOAPMessage {
                 //              XPathExpression expr = xpath.compile("//*[@wsu:Id]");
                 //XPathExpression expr = xpath.compile("//*");
                 XPathExpression xpathExpr = xpath.compile(value);
-                retValue = (NodeList)xpathExpr.evaluate((Object)this.getSOAPPart(),XPathConstants.NODESET);
+                retValue = xpathExpr.evaluate(this.getSOAPPart(),XPathConstants.NODESET);
                 
                 
                 /*    retValue =

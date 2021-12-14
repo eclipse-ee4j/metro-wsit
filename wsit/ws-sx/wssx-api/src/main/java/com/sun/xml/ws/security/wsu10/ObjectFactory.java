@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -82,7 +82,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd", name = "Expires")
     public JAXBElement<AttributedDateTime> createExpires(AttributedDateTime value) {
-        return new JAXBElement<AttributedDateTime>(_Expires_QNAME, AttributedDateTime.class, null, value);
+        return new JAXBElement<>(_Expires_QNAME, AttributedDateTime.class, null, value);
     }
 
     /**
@@ -91,7 +91,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd", name = "Created")
     public JAXBElement<AttributedDateTime> createCreated(AttributedDateTime value) {
-        return new JAXBElement<AttributedDateTime>(_Created_QNAME, AttributedDateTime.class, null, value);
+        return new JAXBElement<>(_Created_QNAME, AttributedDateTime.class, null, value);
     }
 
     /**
@@ -100,7 +100,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd", name = "Timestamp")
     public JAXBElement<TimestampType> createTimestamp(TimestampType value) {
-        return new JAXBElement<TimestampType>(_Timestamp_QNAME, TimestampType.class, null, value);
+        return new JAXBElement<>(_Timestamp_QNAME, TimestampType.class, null, value);
     }
 
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -38,7 +38,7 @@ import com.sun.xml.wss.impl.misc.SecurityUtil;
 import com.sun.xml.wss.impl.policy.SecurityPolicy;
 import com.sun.xml.xwss.SecurityConfiguration;
 import com.sun.xml.ws.api.server.Container;
-import com.sun.xml.wss.impl.XWSSecurityRuntimeException;
+
 import java.io.InputStream;
 import java.net.URL;
 import java.util.jar.Attributes.Name;
@@ -112,6 +112,7 @@ public class XWSSServerTube extends AbstractFilterTubeImpl {
     }
 
 
+    @Override
     public void preDestroy() {
     }
 
@@ -214,7 +215,7 @@ public class XWSSServerTube extends AbstractFilterTubeImpl {
                 // get enclosing port level configuration
                 if (MessageConstants.debug) {
                     System.out.println("context in plugin= " +
-                            sContext.toString());
+                            sContext);
                 }
                 ApplicationSecurityConfiguration appconfig =
                         (ApplicationSecurityConfiguration)
@@ -454,11 +455,11 @@ public class XWSSServerTube extends AbstractFilterTubeImpl {
             throw new XWSSecurityException(
                     "No body element identifying an operation is found");
         
-        StringBuffer tmp = new StringBuffer("");
+        StringBuilder tmp = new StringBuilder("");
         String operation = "";
         
         for (; node != null; node = node.getNextSibling())
-            tmp.append("{" + node.getNamespaceURI() + "}" + node.getLocalName() + ":");
+            tmp.append("{").append(node.getNamespaceURI()).append("}").append(node.getLocalName()).append(":");
         operation = tmp.toString();
         if(operation.length()> 0){
             return operation.substring(0, operation.length()-1);

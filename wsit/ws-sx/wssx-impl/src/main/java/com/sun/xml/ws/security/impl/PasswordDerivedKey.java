@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -8,10 +8,6 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 /*
  *
  * @author suresh Created:22-Dec-2008.
@@ -57,8 +53,7 @@ public class PasswordDerivedKey {
         }
     }
 
-    public  byte[] generate160BitKey(String password, int iteration, byte[] reqsalt)
-            throws UnsupportedEncodingException {
+    public  byte[] generate160BitKey(String password, int iteration, byte[] reqsalt) {
 
         String saltencode = Base64.encode(reqsalt);
 
@@ -128,7 +123,7 @@ public class PasswordDerivedKey {
         } else {
             throw new RuntimeException("This Derived Key procedure doesnot support " +algorithm);
         }
-        return (SecretKey) keySpec;
+        return keySpec;
 
 
     }
@@ -151,7 +146,7 @@ public class PasswordDerivedKey {
         keySpec = new SecretKeySpec(keyof160bits, "AES");
 
         HmacSHA1 mac = new HmacSHA1();
-        mac.init((Key) keySpec, keylength);
+        mac.init(keySpec, keylength);
         mac.update(data);
 
         byte[] signature = mac.sign();

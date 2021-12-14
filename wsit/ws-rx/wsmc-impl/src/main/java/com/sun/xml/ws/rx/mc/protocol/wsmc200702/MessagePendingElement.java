@@ -30,7 +30,6 @@ import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.XmlType;
 import javax.xml.namespace.QName;
-import org.w3c.dom.Element;
 
 
 /**
@@ -76,7 +75,7 @@ public class MessagePendingElement {
     @XmlAttribute
     protected Boolean pending;
     @XmlAnyAttribute
-    private Map<QName, String> otherAttributes = new HashMap<QName, String>();
+    private Map<QName, String> otherAttributes = new HashMap<>();
 
     public MessagePendingElement() {
     }
@@ -110,7 +109,7 @@ public class MessagePendingElement {
      */
     public List<Object> getAny() {
         if (any == null) {
-            any = new ArrayList<Object>();
+            any = new ArrayList<>();
         }
         return this.any;
     }

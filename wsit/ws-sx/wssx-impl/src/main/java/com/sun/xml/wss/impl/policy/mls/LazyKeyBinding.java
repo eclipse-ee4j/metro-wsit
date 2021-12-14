@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -15,10 +15,6 @@
 package com.sun.xml.wss.impl.policy.mls;
 
 /**
- *
- * @author suresh
- */
-/**
  * Indicates that a Binding should have its uid re-read when the actual signature is created
  * because the id is not known at startup time, for example because the binding
  * refers to a token which must be generated externally.
@@ -26,9 +22,9 @@ package com.sun.xml.wss.impl.policy.mls;
  */
 public interface LazyKeyBinding {
 
-    public String getRealId();
+    String getRealId();
 
-    public void setRealId(String realId);
+    void setRealId(String realId);
 
-    public String getSTRID();
+    String getSTRID();
 }

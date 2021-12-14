@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -28,7 +28,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.logging.Level;
 import javax.xml.namespace.QName;
 import static com.sun.xml.ws.security.impl.policy.Constants.*;
 import com.sun.xml.ws.security.policy.SecurityAssertionValidator;
@@ -60,6 +59,7 @@ public class EncryptedElements extends PolicyAssertion implements  com.sun.xml.w
         spVersion = PolicyUtil.getSecurityPolicyVersion(nsUri);
     }
     
+    @Override
     public String getXPathVersion() {
         return xpathVersion;
     }
@@ -70,7 +70,7 @@ public class EncryptedElements extends PolicyAssertion implements  com.sun.xml.w
     
     public void addTarget(String target) {
         if ( targetList == null ) {
-            targetList = new ArrayList<String>();
+            targetList = new ArrayList<>();
         }
         targetList.add(target);
     }
@@ -81,6 +81,7 @@ public class EncryptedElements extends PolicyAssertion implements  com.sun.xml.w
         }
     }
     
+    @Override
     public Iterator<String> getTargets() {
         populate();
         if ( targetList != null ) {
@@ -89,6 +90,7 @@ public class EncryptedElements extends PolicyAssertion implements  com.sun.xml.w
         return emptyList.iterator();
     }
     
+    @Override
     public AssertionFitness validate(boolean isServer) {
         return populate(isServer);
     }
@@ -98,7 +100,7 @@ public class EncryptedElements extends PolicyAssertion implements  com.sun.xml.w
     
     private synchronized AssertionFitness populate(boolean isServer) {
         if(!populated){
-            this.xpathVersion = (String)this.getAttributeValue(XPathVersion);
+            this.xpathVersion = this.getAttributeValue(XPathVersion);
             if ( this.hasNestedAssertions() ) {
                 Iterator <PolicyAssertion> it = this.getNestedAssertionsIterator();
                 if ( it.hasNext() ) {

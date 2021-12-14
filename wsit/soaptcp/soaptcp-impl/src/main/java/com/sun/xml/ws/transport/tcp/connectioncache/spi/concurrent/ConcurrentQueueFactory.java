@@ -31,7 +31,7 @@ public final class ConcurrentQueueFactory {
      * to protect the data structure.
      */
     public static <V> ConcurrentQueue<V> makeBlockingConcurrentQueue() {
-        return new ConcurrentQueueBlockingImpl<V>();
+        return new ConcurrentQueueBlockingImpl<>();
     }
 
     /**
@@ -39,6 +39,6 @@ public final class ConcurrentQueueFactory {
      * structures that manage their own locking.
      */
     public static <V> ConcurrentQueue<V> makeConcurrentQueue() {
-        return new ConcurrentQueueImpl<V>();
+        return new ConcurrentQueueImpl<>();
     }
 }

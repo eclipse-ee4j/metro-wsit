@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -64,6 +64,7 @@ public class SignaturePolicy extends WSSKeyBindingExtension {
      * clone operator
      * @return a clone of this SignaturePolicy
      */
+    @Override
     public Object clone() {
         SignaturePolicy policy = new SignaturePolicy();
         
@@ -86,6 +87,7 @@ public class SignaturePolicy extends WSSKeyBindingExtension {
      * @param policy <code>WSSPolicy</code> to be compared for equality
      * @return true if the policy is equal to this policy
      */
+    @Override
     public boolean equals(WSSPolicy policy) {
         boolean _assert = false;
         
@@ -107,6 +109,7 @@ public class SignaturePolicy extends WSSKeyBindingExtension {
      * @param policy the policy to be compared for equality
      * @return true if the argument policy is equal to this
      */
+    @Override
     public boolean equalsIgnoreTargets(WSSPolicy policy) {
         boolean _assert = false;
         
@@ -125,6 +128,7 @@ public class SignaturePolicy extends WSSKeyBindingExtension {
     /**
      * @return the type of the policy
      */
+    @Override
     public String getType() {
         return PolicyTypeUtil.SIGNATURE_POLICY_TYPE;
     }
@@ -312,6 +316,7 @@ public class SignaturePolicy extends WSSKeyBindingExtension {
          * @param binding <code>WSSPolicy</code> to be compared for equality
          * @return true if the binding is equal to this policy
          */
+        @Override
         public boolean equals(WSSPolicy binding) {
             
             try {
@@ -336,6 +341,7 @@ public class SignaturePolicy extends WSSKeyBindingExtension {
          * @param binding the binding to be compared for equality
          * @return true if the argument binding is equal to this
          */
+        @Override
         public boolean equalsIgnoreTargets(WSSPolicy binding) {
             
             boolean assrt = false;
@@ -355,6 +361,7 @@ public class SignaturePolicy extends WSSKeyBindingExtension {
         /**
          * @return a clone of this SignaturePolicy.FeatureBinding
          */
+        @Override
         public Object clone() {
             FeatureBinding binding = new FeatureBinding();
             
@@ -383,6 +390,7 @@ public class SignaturePolicy extends WSSKeyBindingExtension {
         /**
          * @return the type of the policy
          */
+        @Override
         public String getType() {
             return PolicyTypeUtil.SIGNATURE_POLICY_FEATUREBINDING_TYPE;
         }

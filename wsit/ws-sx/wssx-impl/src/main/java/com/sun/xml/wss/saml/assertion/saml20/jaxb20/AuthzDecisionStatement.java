@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -101,9 +101,10 @@ public class AuthzDecisionStatement extends AuthzDecisionStatementType
         setEvidence(authDesStmt.getEvidence());
     }
 
+    @Override
     public List<Action> getActionList() {
         if(actionList == null){
-            actionList = new ArrayList<Action>();
+            actionList = new ArrayList<>();
          }else{
              return actionList;
          }
@@ -122,6 +123,7 @@ public class AuthzDecisionStatement extends AuthzDecisionStatementType
         return eve;
     }
 
+    @Override
     public String getDecisionValue() {
         return super.getDecision().value();
     }

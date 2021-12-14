@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -35,10 +35,12 @@ public class SamlTokenTest extends TestCase {
         super(testName);
     }
 
-    protected void setUp() throws Exception {
+    @Override
+    protected void setUp() {
     }
 
-    protected void tearDown() throws Exception {
+    @Override
+    protected void tearDown() {
     }
 
     public static Test suite() {
@@ -101,7 +103,7 @@ public class SamlTokenTest extends TestCase {
                 SamlToken samlt = (SamlToken)assertion;
                 Iterator itrst = samlt.getTokenRefernceType();
                 if(itrst.hasNext()) {
-                    assertTrue(((String)itrst.next()).equals(com.sun.xml.ws.security.impl.policy.SamlToken.REQUIRE_KEY_IDENTIFIER_REFERENCE));
+                    assertTrue(itrst.next().equals(com.sun.xml.ws.security.impl.policy.SamlToken.REQUIRE_KEY_IDENTIFIER_REFERENCE));
                 }
             }
         } else {

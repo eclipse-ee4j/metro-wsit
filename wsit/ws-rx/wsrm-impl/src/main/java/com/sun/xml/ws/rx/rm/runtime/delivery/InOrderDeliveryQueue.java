@@ -34,6 +34,7 @@ class InOrderDeliveryQueue implements DeliveryQueue {
 
     private static final class MessageIdComparator implements Comparator<ApplicationMessage> {
 
+        @Override
         public int compare(ApplicationMessage o1, ApplicationMessage o2) {
             return (o1.getMessageNumber() < o2.getMessageNumber()) ? -1 : (o1.getMessageNumber() > o2.getMessageNumber()) ? 1 : 0;
         }
@@ -63,13 +64,14 @@ class InOrderDeliveryQueue implements DeliveryQueue {
         this.sequence = sequence;
 
         this.maxMessageBufferSize = maxMessageBufferSize;
-        this.postponedMessageQueue = new PriorityBlockingQueue<ApplicationMessage>(32, MSG_ID_COMPARATOR);
+        this.postponedMessageQueue = new PriorityBlockingQueue<>(32, MSG_ID_COMPARATOR);
 
         this.isClosed = false;
         
         this.rejectOutOfOrderMessages = rejectOutOfOrderMessages;
     }
 
+    @Override
     public void put(ApplicationMessage message) {
 //        LOGGER.info(Thread.currentThread().getName() + " put: mesageNumber = " + message.getMessageNumber());
         assert message.getSequenceId().equals(sequence.getId());
@@ -78,7 +80,7 @@ class InOrderDeliveryQueue implements DeliveryQueue {
             JaxwsApplicationMessage jam = null;
                     
             if (message instanceof JaxwsApplicationMessage) {
-                jam = JaxwsApplicationMessage.class.cast(message);
+                jam = (JaxwsApplicationMessage) message;
             } else {
                 throw LOGGER.logSevereException(new RxRuntimeException(LocalizationMessages.WSRM_1141_UNEXPECTED_MESSAGE_CLASS(
                         message.getClass().getName(),
@@ -100,6 +102,7 @@ class InOrderDeliveryQueue implements DeliveryQueue {
         }
     }
     
+    @Override
     public void onSequenceAcknowledgement() {
 //        LOGGER.info(Thread.currentThread().getName() + " onSequenceAcknowledgement");
         if (!isClosed) {
@@ -138,10 +141,12 @@ class InOrderDeliveryQueue implements DeliveryQueue {
         }
     }
 
+    @Override
     public long getRemainingMessageBufferSize() {
         return (maxMessageBufferSize == DeliveryQueue.UNLIMITED_BUFFER_SIZE) ? maxMessageBufferSize : maxMessageBufferSize - postponedMessageQueue.size();
     }
 
+    @Override
     public void close() {
 //        LOGGER.info(Thread.currentThread().getName() + " close");
         isClosed = true;

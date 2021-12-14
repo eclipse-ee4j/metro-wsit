@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -29,7 +29,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.logging.Level;
 import javax.xml.namespace.QName;
 import static com.sun.xml.ws.security.impl.policy.Constants.*;
 
@@ -60,6 +59,7 @@ public class RequiredElements extends PolicyAssertion implements com.sun.xml.ws.
         }
     }
     
+    @Override
     public String getXPathVersion() {
         populate();
         return xpathVersion;
@@ -71,7 +71,7 @@ public class RequiredElements extends PolicyAssertion implements com.sun.xml.ws.
     
     public void addTarget(String target) {
         if ( targetList == null ) {
-            targetList = new ArrayList<String>();
+            targetList = new ArrayList<>();
         }
         targetList.add(target);
     }
@@ -82,6 +82,7 @@ public class RequiredElements extends PolicyAssertion implements com.sun.xml.ws.
         }
     }
     
+    @Override
     public Iterator getTargets() {
         populate();
         if ( targetList != null ) {
@@ -91,6 +92,7 @@ public class RequiredElements extends PolicyAssertion implements com.sun.xml.ws.
     }
     
     
+    @Override
     public AssertionFitness validate(boolean isServer) {
         return populate(isServer);
     }
@@ -100,7 +102,7 @@ public class RequiredElements extends PolicyAssertion implements com.sun.xml.ws.
     
     private synchronized AssertionFitness populate(boolean isServer) {
         if(!populated){
-            this.xpathVersion = (String)this.getAttributeValue(XPathVersion);
+            this.xpathVersion = this.getAttributeValue(XPathVersion);
             if ( this.hasNestedAssertions() ) {
                 Iterator <PolicyAssertion> it = this.getNestedAssertionsIterator();
                 if ( it.hasNext() ) {

@@ -159,6 +159,7 @@ public class McClientTube extends AbstractFilterTubeImpl implements WsmcRuntimeP
     /**
      *  @see WsmcRuntimeProvider#getWsmcAnonymousEndpointReference()
      */
+    @Override
     public final WSEndpointReference getWsmcAnonymousEndpointReference() {
         return wsmcAnonymousEndpointReference;
     }
@@ -166,6 +167,7 @@ public class McClientTube extends AbstractFilterTubeImpl implements WsmcRuntimeP
     /**
      *  @see WsmcRuntimeProvider#registerProtocolMessageHandler(com.sun.xml.ws.rx.mc.dev.ProtocolMessageHandler)
      */
+    @Override
     public final void registerProtocolMessageHandler(ProtocolMessageHandler handler) {
         mcSenderTask.register(handler);
     }
@@ -200,7 +202,7 @@ public class McClientTube extends AbstractFilterTubeImpl implements WsmcRuntimeP
     }
 
     private Boolean isBooleanFlagSet(Packet packet, String flag) {
-        Boolean value = Boolean.class.cast(packet.invocationProperties.get(flag));
+        Boolean value = (Boolean) packet.invocationProperties.get(flag);
         return value != null && value.booleanValue();
     }
 }

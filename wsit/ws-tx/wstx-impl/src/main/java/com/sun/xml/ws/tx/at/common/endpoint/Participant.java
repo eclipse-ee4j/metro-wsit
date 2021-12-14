@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -35,7 +35,6 @@ import javax.xml.stream.XMLStreamException;
 import jakarta.xml.ws.EndpointReference;
 import jakarta.xml.ws.WebServiceContext;
 import jakarta.xml.ws.WebServiceException;
-import java.util.logging.Level;
 
 /**
  * 
@@ -57,6 +56,7 @@ public class Participant<T> implements ParticipantIF<T> {
     * prepare call on this subordinate
     * @param parameters T
     */
+   @Override
    public void prepare(T parameters) {
       if(WSATHelper.isDebugEnabled()) debug("prepare enter:" + parameters);
       CoordinatorIF<T> coordinatorPort = null;
@@ -97,6 +97,7 @@ public class Participant<T> implements ParticipantIF<T> {
     * commit call on this subordinate
     * @param parameters T
     */
+   @Override
    public void commit(T parameters) {
       if(WSATHelper.isDebugEnabled()) debug("commit enter:" + parameters);
       CoordinatorIF<T> coordinatorPort = null;
@@ -151,6 +152,7 @@ public class Participant<T> implements ParticipantIF<T> {
      * rollback call on this subordinate
      * @param parameters T
      */
+   @Override
    public void rollback(T parameters) {
       if(WSATHelper.isDebugEnabled()) debug("rollback parameters:" + parameters);
       CoordinatorIF<T> coordinatorPort = null;
@@ -259,8 +261,7 @@ public class Participant<T> implements ParticipantIF<T> {
    }
 
     /**
-     * This gates actual subtx calls that may come in due to recovery where there is no prepared subordinate 
-     * @return
+     * This gates actual subtx calls that may come in due to recovery where there is no prepared subordinate
      */
     boolean isInForeignContextMap() {
         try {

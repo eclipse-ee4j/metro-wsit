@@ -95,6 +95,7 @@ public class EmptyType
         this.id = value;
     }
 
+    @Override
     public Locator sourceLocation() {
         return locator;
     }

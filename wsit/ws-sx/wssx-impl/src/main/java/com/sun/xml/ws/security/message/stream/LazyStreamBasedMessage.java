@@ -94,6 +94,7 @@ public class LazyStreamBasedMessage extends Message{
      * @return
      *      true if headers are present.
      */
+    @Override
     public boolean hasHeaders(){
         if(!readMessage){
             cacheMessage();
@@ -114,6 +115,7 @@ public class LazyStreamBasedMessage extends Message{
      * @return
      *      always return the same non-null object.
      */
+    @Override
     public HeaderList getHeaders(){
         if(!readMessage){
             cacheMessage();
@@ -126,6 +128,7 @@ public class LazyStreamBasedMessage extends Message{
      * Gets the attachments of this message
      * (attachments live outside a message.)
      */
+    @Override
     public @NotNull AttachmentSet getAttachments() {
         if(!readMessage){
             cacheMessage();
@@ -161,6 +164,7 @@ public class LazyStreamBasedMessage extends Message{
      *      value, so the behavior is undefined if multiple callers provide
      *      different {@link WSDLPort} objects, which is a bug of the caller.
      */
+    @Override
     public boolean isOneWay(@NotNull WSDLPort port) {
         if(!readMessage){
             cacheMessage();
@@ -174,6 +178,7 @@ public class LazyStreamBasedMessage extends Message{
      * @return
      *      null if a {@link Message} doesn't have any payload.
      */
+    @Override
     public  @Nullable String getPayloadLocalPart(){
         if(!readMessage){
             cacheMessage();
@@ -187,6 +192,7 @@ public class LazyStreamBasedMessage extends Message{
      * @return
      *      null if a {@link Message} doesn't have any payload.
      */
+    @Override
     public String getPayloadNamespaceURI(){
         if(!readMessage){
             cacheMessage();
@@ -200,7 +206,7 @@ public class LazyStreamBasedMessage extends Message{
      *
      * <p>
      * A message without a payload is a SOAP message that looks like:
-     * <pre>{@code<xmp>
+     * <pre>{@code <xmp>
      * <S:Envelope>
      *   <S:Header>
      *     ...
@@ -209,6 +215,7 @@ public class LazyStreamBasedMessage extends Message{
      * </S:Envelope>
      * </xmp>}</pre>
      */
+    @Override
     public boolean hasPayload(){
         if(!readMessage){
             cacheMessage();
@@ -220,6 +227,7 @@ public class LazyStreamBasedMessage extends Message{
      * Consumes this message including the envelope.
      * returns it as a {@link Source} object.
      */
+    @Override
     public Source readEnvelopeAsSource(){
         if(!readMessage){
             cacheMessage();
@@ -236,6 +244,7 @@ public class LazyStreamBasedMessage extends Message{
      * @return
      *      if there's no payload, this method returns null.
      */
+    @Override
     public Source readPayloadAsSource(){
         if(!readMessage){
             cacheMessage();
@@ -251,6 +260,7 @@ public class LazyStreamBasedMessage extends Message{
      * @throws SOAPException
      *      if there's any error while creating a {@link SOAPMessage}.
      */
+    @Override
     public SOAPMessage readAsSOAPMessage() throws SOAPException{
         if(!readMessage){
             cacheMessage();
@@ -263,10 +273,9 @@ public class LazyStreamBasedMessage extends Message{
      *
      * This consumes the message.
      *
-     * @throws JAXBException
-     *      If JAXB reports an error during the processing.
      */
-    public <T> T readPayloadAsJAXB(Unmarshaller unmarshaller) throws JAXBException{
+    @Override
+    public <T> T readPayloadAsJAXB(Unmarshaller unmarshaller) {
         if(!readMessage){
             cacheMessage();
         }
@@ -282,6 +291,7 @@ public class LazyStreamBasedMessage extends Message{
      * @throws JAXBException
      *      If JAXB reports an error during the processing.
      */
+    @Override
     public <T> T readPayloadAsJAXB(Bridge<T> bridge) throws JAXBException{
         if(!readMessage){
             cacheMessage();
@@ -302,6 +312,7 @@ public class LazyStreamBasedMessage extends Message{
      *      Otherwise always non-null valid {@link XMLStreamReader} that points to
      *      the payload tag name.
      */
+    @Override
     public  XMLStreamReader readPayload() throws XMLStreamException{
         if(!readMessage){
             cacheMessage();
@@ -326,6 +337,7 @@ public class LazyStreamBasedMessage extends Message{
      *      If the {@link XMLStreamWriter} reports an error,
      *      or some other errors happen during the processing.
      */
+    @Override
     public void writePayloadTo(XMLStreamWriter sw) throws XMLStreamException{
         if(!readMessage){
             cacheMessage();
@@ -343,6 +355,7 @@ public class LazyStreamBasedMessage extends Message{
      *      If the {@link XMLStreamWriter} reports an error,
      *      or some other errors happen during the processing.
      */
+    @Override
     public void writeTo(XMLStreamWriter sw) throws XMLStreamException{
         if(!readMessage){
             cacheMessage();
@@ -365,7 +378,8 @@ public class LazyStreamBasedMessage extends Message{
      *      thrown as {@link SAXParseException}. {@link SAXException}s thrown
      *      from {@link ErrorHandler} should propagate directly through this method.
      */
-    public void writeTo( ContentHandler contentHandler, ErrorHandler errorHandler ) throws SAXException{
+    @Override
+    public void writeTo(ContentHandler contentHandler, ErrorHandler errorHandler ) throws SAXException{
         if(!readMessage){
             cacheMessage();
         }
@@ -434,6 +448,7 @@ public class LazyStreamBasedMessage extends Message{
      */
     // TODO: update the class javadoc with 'lifescope'
     // and move the discussion about life scope there.
+    @Override
     public  Message copy(){
         if(!readMessage){
             cacheMessage();
@@ -489,7 +504,8 @@ public class LazyStreamBasedMessage extends Message{
         buffer.writeToXMLStreamWriter(xof.createXMLStreamWriter(System.out));
     }
 
-	public <T> T readPayloadAsJAXB(XMLBridge<T> bridge) throws JAXBException {
+	@Override
+    public <T> T readPayloadAsJAXB(XMLBridge<T> bridge) throws JAXBException {
         if(!readMessage){
             cacheMessage();
         }

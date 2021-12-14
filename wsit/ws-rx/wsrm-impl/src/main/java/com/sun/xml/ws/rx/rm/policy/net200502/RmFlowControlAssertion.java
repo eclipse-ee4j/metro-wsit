@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -26,11 +26,12 @@ import java.util.Collection;
 import javax.xml.namespace.QName;
 
 /**
+ * <pre>{@code
  * <ms:RmFlowControl>
  *   <ms:MaxReceiveBufferSize>value</ms:MaxReceiveBufferSize>
  * </ms:RmFlowControl>
- */
-/**
+ * }</pre>
+ *
  * Defines maximum server-side buffer size in ordered delivery scenario.
  *
  * @author Marek Potociar (marek.potociar at sun.com)
@@ -45,6 +46,7 @@ public class RmFlowControlAssertion extends ComplexAssertion implements RmConfig
     //
     private static AssertionInstantiator instantiator = new AssertionInstantiator() {
 
+        @Override
         public PolicyAssertion newInstance(AssertionData data, Collection<PolicyAssertion> assertionParameters, AssertionSet nestedAlternative) throws AssertionCreationException {
             return new RmFlowControlAssertion(data, assertionParameters, nestedAlternative);
         }
@@ -78,10 +80,12 @@ public class RmFlowControlAssertion extends ComplexAssertion implements RmConfig
         return maxBufferSize;
     }
 
+    @Override
     public ReliableMessagingFeatureBuilder update(ReliableMessagingFeatureBuilder builder) {
         return builder.destinationBufferQuota(maxBufferSize);
     }
 
+    @Override
     public boolean isCompatibleWith(RmProtocolVersion version) {
         return RmProtocolVersion.WSRM200502 == version || RmProtocolVersion.WSRM200702 == version;
     }

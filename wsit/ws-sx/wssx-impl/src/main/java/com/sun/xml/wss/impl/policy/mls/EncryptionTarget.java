@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -133,6 +133,7 @@ public class EncryptionTarget extends Target implements Cloneable {
      * clone operator
      * @return a clone of this EncryptionTarget
      */
+    @Override
     @SuppressWarnings("unchecked")
     public Object clone() {
         EncryptionTarget target = new EncryptionTarget();
@@ -235,6 +236,7 @@ public class EncryptionTarget extends Target implements Cloneable {
          * clone operator
          * @return a clone of this Transform
          */
+        @Override
         public Object clone() {
             Transform transform = new Transform(_transform);
             transform.setAlgorithmParameters(_algorithmParameters);

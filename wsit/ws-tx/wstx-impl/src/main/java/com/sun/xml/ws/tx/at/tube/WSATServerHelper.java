@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -20,7 +20,6 @@ import com.sun.xml.ws.tx.at.internal.XidImpl;
 import com.sun.xml.ws.tx.at.runtime.TransactionIdHelper;
 import com.sun.xml.ws.tx.at.internal.ForeignRecoveryContext;
 import com.sun.xml.ws.tx.at.internal.ForeignRecoveryContextManager;
-import com.sun.xml.ws.tx.at.WSATException;
 import com.sun.xml.ws.tx.at.WSATHelper;
 import com.sun.xml.ws.api.tx.at.Transactional;
 import com.sun.xml.ws.tx.at.common.TransactionManagerImpl;
@@ -33,8 +32,6 @@ import com.sun.xml.ws.tx.coord.common.types.BaseRegisterResponseType;
 import com.sun.xml.ws.tx.coord.common.types.BaseRegisterType;
 import com.sun.xml.ws.tx.coord.common.types.CoordinationContextIF;
 
-import javax.transaction.xa.XAException;
-import javax.transaction.xa.XAResource;
 import javax.transaction.xa.Xid;
 import jakarta.xml.ws.EndpointReference;
 import jakarta.xml.ws.WebServiceException;
@@ -43,6 +40,7 @@ public class WSATServerHelper implements WSATServer {
     private static final Logger LOGGER = Logger.getLogger(WSATServerHelper.class);
     Xid xidToResume; //todo should not rely on tube member vars, use context map instead
 
+    @Override
     public void doHandleRequest(MessageHeaders headers, TransactionalAttribute tx) {
         if (WSATHelper.isDebugEnabled())
             debug("processRequest MessageHeaders:" + headers + " TransactionalAttribute:" + tx + " isEnabled:" + tx.isEnabled());
@@ -58,6 +56,7 @@ public class WSATServerHelper implements WSATServer {
         }
     }
 
+    @Override
     public void doHandleResponse(TransactionalAttribute transactionalAttribute) {
         if(xidToResume!=null) {
             debug("doHandleResponse about to suspend " + xidToResume);
@@ -65,6 +64,7 @@ public class WSATServerHelper implements WSATServer {
         }
     }
 
+    @Override
     public void doHandleException(Throwable throwable) {
         if(xidToResume!=null) {
             debug("doHandleException about to suspend " + xidToResume + " Exception:" + throwable);

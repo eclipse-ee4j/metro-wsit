@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -25,7 +25,7 @@ import jakarta.xml.ws.WebServiceContext;
  */
 public class ParticipantTest extends TestCase {
 
-   public void testRollback() throws Exception {
+   public void testRollback() {
       WebServiceContext context = null;
       WSATVersion version = new WSATVersionStub();
       EmulatedCoordinator testCoordinator = EmulatedCoordinator.createDefault();
@@ -38,7 +38,7 @@ public class ParticipantTest extends TestCase {
       assertEquals("abortedOperationCount after rollback call", 1, testCoordinator.abortedOperationCount);
    }
 
-   public void testPreparedVote() throws Exception {
+   public void testPreparedVote() {
       EmulatedCoordinator testCoordinator = EmulatedCoordinator.createDefault();
       EmulatedTransactionServices testTransactionServices = new EmulatedTransactionServices();
       Participant participant = createTestParticipant(testCoordinator, testTransactionServices);
@@ -47,7 +47,7 @@ public class ParticipantTest extends TestCase {
       assertEquals("preparedOperationCount after prepare call", 1, testCoordinator.preparedOperationCount);
    }
 
-   public void testReadOnlyVote() throws Exception {
+   public void testReadOnlyVote() {
       EmulatedCoordinator testCoordinator = EmulatedCoordinator.createDefault();
       EmulatedTransactionServices testTransactionServices = new EmulatedTransactionServices();
       testTransactionServices.setPrepareVoteReturn(WSATConstants.READONLY);
@@ -66,7 +66,7 @@ public class ParticipantTest extends TestCase {
         return participant;
     }
 
-    public void testPrepareException() throws Exception {
+    public void testPrepareException() {
       WebServiceContext context = null;
       WSATVersion version = new WSATVersionStub();
       EmulatedCoordinator testCoordinator = EmulatedCoordinator.createDefault();
@@ -82,7 +82,7 @@ public class ParticipantTest extends TestCase {
       assertEquals("abortedOperationCount after prepare exceptioncall", 1, testCoordinator.abortedOperationCount);
    }
 
-   public void testCommit() throws Exception {
+   public void testCommit() {
       WebServiceContext context = null;
       WSATVersion version = new WSATVersionStub();
       EmulatedCoordinator testCoordinator = EmulatedCoordinator.createDefault();
@@ -95,7 +95,7 @@ public class ParticipantTest extends TestCase {
       assertEquals("committedOperationCount after commit call", 1, testCoordinator.committedOperationCount);
    }
 
-   public void testCommitException() throws Exception {   //failure
+   public void testCommitException() {   //failure
       WebServiceContext context = null;
       WSATVersion version = new WSATVersionStub();
       EmulatedCoordinator testCoordinator = EmulatedCoordinator.createDefault();
@@ -109,7 +109,7 @@ public class ParticipantTest extends TestCase {
       assertEquals("committedOperationCount after commit exception call", 1, testCoordinator.committedOperationCount); //todo change as we interpret exception beyond nota
    }
 
-    class TestParticipant extends Participant {
+    static class TestParticipant extends Participant {
       CoordinatorIF m_coordinatorIF;
       TransactionServices m_transactionServices;
       byte[] m_tid;
@@ -127,14 +127,17 @@ public class ParticipantTest extends TestCase {
          m_tid = tid;
       }
 
+      @Override
       TransactionServices getTransactionaService() {
          return m_transactionServices;
       }
 
+      @Override
       byte[] getWSATTid() {
          return m_tid;
       }
 
+      @Override
       CoordinatorIF getCoordinatorPortType() {
          return m_coordinatorIF;
       }

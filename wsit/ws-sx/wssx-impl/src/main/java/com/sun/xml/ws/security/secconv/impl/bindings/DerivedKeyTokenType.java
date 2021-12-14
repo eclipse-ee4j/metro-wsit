@@ -255,7 +255,7 @@ public class DerivedKeyTokenType {
      *     byte[]
      */
     public void setNonce(byte[] value) {
-        this.nonce = ((byte[]) value);
+        this.nonce = value;
     }
 
     /**

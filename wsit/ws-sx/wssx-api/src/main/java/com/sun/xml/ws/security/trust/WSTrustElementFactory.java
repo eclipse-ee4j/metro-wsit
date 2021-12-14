@@ -96,7 +96,7 @@ public abstract class WSTrustElementFactory {
 
     private static JAXBContext jaxbContext = null;
     private static JAXBContext jaxbContext13 = null;
-    private static Map<String, WSTrustElementFactory> intMap = new HashMap<String, WSTrustElementFactory>();
+    private static Map<String, WSTrustElementFactory> intMap = new HashMap<>();
 
     static {
         try {
@@ -180,18 +180,18 @@ public abstract class WSTrustElementFactory {
      * Create an RST for Issue from the given arguments
      * Any of the arguments can be null since they are all optional, but one of tokenType and AppliesTo must be present
      */
-    public abstract RequestSecurityToken createRSTForIssue(URI tokenType, URI requestType, URI context, AppliesTo scopes, Claims claims, Entropy entropy, Lifetime lifetime) throws WSTrustException;
+    public abstract RequestSecurityToken createRSTForIssue(URI tokenType, URI requestType, URI context, AppliesTo scopes, Claims claims, Entropy entropy, Lifetime lifetime);
 
     /**
      * create an RSTR for Issue from the given arguments
      * Any of the arguments can be null since they are all optional, but one of RequestedSecurityToken or RequestedProofToken should be returned
      */
-    public abstract RequestSecurityTokenResponse createRSTRForIssue(URI tokenType, URI context, RequestedSecurityToken token, AppliesTo scopes, RequestedAttachedReference attachedRef, RequestedUnattachedReference unattachedRef, RequestedProofToken proofToken, Entropy entropy, Lifetime lifetime) throws WSTrustException;
+    public abstract RequestSecurityTokenResponse createRSTRForIssue(URI tokenType, URI context, RequestedSecurityToken token, AppliesTo scopes, RequestedAttachedReference attachedRef, RequestedUnattachedReference unattachedRef, RequestedProofToken proofToken, Entropy entropy, Lifetime lifetime);
 
     /**
      *Create  a collection of RequestSecurityTokenResponse(s)
      */
-    public abstract RequestSecurityTokenResponseCollection createRSTRCollectionForIssue(URI tokenType, URI context, RequestedSecurityToken token, AppliesTo scopes, RequestedAttachedReference attachedRef, RequestedUnattachedReference unattachedRef, RequestedProofToken proofToken, Entropy entropy, Lifetime lifetime) throws WSTrustException;
+    public abstract RequestSecurityTokenResponseCollection createRSTRCollectionForIssue(URI tokenType, URI context, RequestedSecurityToken token, AppliesTo scopes, RequestedAttachedReference attachedRef, RequestedUnattachedReference unattachedRef, RequestedProofToken proofToken, Entropy entropy, Lifetime lifetime);
 
     /**
      * Create a wst:IssuedTokens object
@@ -275,7 +275,7 @@ public abstract class WSTrustElementFactory {
     /**
      *Create an RSTR for a Renewal Response
      */
-    public  abstract RequestSecurityTokenResponse createRSTRForRenew(URI tokenType, URI context, RequestedSecurityToken token, RequestedAttachedReference attachedReference, RequestedUnattachedReference unattachedRef, RequestedProofToken proofToken, Entropy entropy, Lifetime lifetime) throws WSTrustException;;
+    public  abstract RequestSecurityTokenResponse createRSTRForRenew(URI tokenType, URI context, RequestedSecurityToken token, RequestedAttachedReference attachedReference, RequestedUnattachedReference unattachedRef, RequestedProofToken proofToken, Entropy entropy, Lifetime lifetime);;
 
     public abstract RenewTarget createRenewTarget(SecurityTokenReference str);
 
@@ -350,9 +350,9 @@ public abstract class WSTrustElementFactory {
 
     public abstract Claims createClaims(Element elem)throws WSTrustException;
 
-    public abstract Claims createClaims(Claims claims) throws WSTrustException;
+    public abstract Claims createClaims(Claims claims);
 
-    public abstract Claims createClaims() throws WSTrustException;
+    public abstract Claims createClaims();
 
     /**
      * create an RST from JAXBElement
@@ -512,7 +512,7 @@ public abstract class WSTrustElementFactory {
             dbf.setNamespaceAware(true);
             DocumentBuilder db = dbf.newDocumentBuilder();
             Document doc = db.newDocument();
-            getMarshaller().marshal((JAXBElement)jaxbEle, doc);
+            getMarshaller().marshal(jaxbEle, doc);
             return doc.getDocumentElement();
         } catch (Exception ex) {
             throw new RuntimeException(ex.getMessage(), ex);

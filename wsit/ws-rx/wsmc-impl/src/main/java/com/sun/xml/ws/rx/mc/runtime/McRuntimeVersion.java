@@ -58,8 +58,6 @@ public enum McRuntimeVersion {
     /**
      * TODO javadoc
      *
-     * @param eprAddress
-     * @return
      */
     public String getClientId(String eprAddress) {
         final String mcAnnonymousAddressPrefix = protocolVersion.protocolNamespaceUri + "/anonymous?id=";
@@ -72,7 +70,6 @@ public enum McRuntimeVersion {
     /**
      * TODO javadoc
      *
-     * @return
      */
     public String getAnonymousAddress(String uuid) {
         return protocolVersion.protocolNamespaceUri + "/anonymous?id=" + uuid;

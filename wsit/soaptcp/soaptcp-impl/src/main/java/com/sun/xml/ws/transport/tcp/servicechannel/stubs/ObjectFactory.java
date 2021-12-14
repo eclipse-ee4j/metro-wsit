@@ -113,7 +113,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://servicechannel.tcp.transport.ws.xml.sun.com/", name = "initiateSessionResponse")
     public JAXBElement<InitiateSessionResponse> createInitiateSessionResponse(InitiateSessionResponse value) {
-        return new JAXBElement<InitiateSessionResponse>(_InitiateSessionResponse_QNAME, InitiateSessionResponse.class, null, value);
+        return new JAXBElement<>(_InitiateSessionResponse_QNAME, InitiateSessionResponse.class, null, value);
     }
 
     /**
@@ -122,7 +122,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://servicechannel.tcp.transport.ws.xml.sun.com/", name = "closeChannelResponse")
     public JAXBElement<CloseChannelResponse> createCloseChannelResponse(CloseChannelResponse value) {
-        return new JAXBElement<CloseChannelResponse>(_CloseChannelResponse_QNAME, CloseChannelResponse.class, null, value);
+        return new JAXBElement<>(_CloseChannelResponse_QNAME, CloseChannelResponse.class, null, value);
     }
 
     /**
@@ -131,7 +131,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://servicechannel.tcp.transport.ws.xml.sun.com/", name = "closeChannel")
     public JAXBElement<CloseChannel> createCloseChannel(CloseChannel value) {
-        return new JAXBElement<CloseChannel>(_CloseChannel_QNAME, CloseChannel.class, null, value);
+        return new JAXBElement<>(_CloseChannel_QNAME, CloseChannel.class, null, value);
     }
 
     /**
@@ -140,7 +140,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://servicechannel.tcp.transport.ws.xml.sun.com/", name = "openChannel")
     public JAXBElement<OpenChannel> createOpenChannel(OpenChannel value) {
-        return new JAXBElement<OpenChannel>(_OpenChannel_QNAME, OpenChannel.class, null, value);
+        return new JAXBElement<>(_OpenChannel_QNAME, OpenChannel.class, null, value);
     }
 
     /**
@@ -149,7 +149,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://servicechannel.tcp.transport.ws.xml.sun.com/", name = "initiateSession")
     public JAXBElement<InitiateSession> createInitiateSession(InitiateSession value) {
-        return new JAXBElement<InitiateSession>(_InitiateSession_QNAME, InitiateSession.class, null, value);
+        return new JAXBElement<>(_InitiateSession_QNAME, InitiateSession.class, null, value);
     }
 
     /**
@@ -158,7 +158,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://servicechannel.tcp.transport.ws.xml.sun.com/", name = "openChannelResponse")
     public JAXBElement<OpenChannelResponse> createOpenChannelResponse(OpenChannelResponse value) {
-        return new JAXBElement<OpenChannelResponse>(_OpenChannelResponse_QNAME, OpenChannelResponse.class, null, value);
+        return new JAXBElement<>(_OpenChannelResponse_QNAME, OpenChannelResponse.class, null, value);
     }
 
     /**
@@ -167,6 +167,6 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://servicechannel.tcp.transport.ws.xml.sun.com/", name = "ServiceChannelException")
     public JAXBElement<ServiceChannelExceptionBean> createServiceChannelExceptionBean(ServiceChannelExceptionBean value) {
-        return new JAXBElement<ServiceChannelExceptionBean>(_ServiceChannelException_QNAME, ServiceChannelExceptionBean.class, null, value);
+        return new JAXBElement<>(_ServiceChannelException_QNAME, ServiceChannelExceptionBean.class, null, value);
     }
 }

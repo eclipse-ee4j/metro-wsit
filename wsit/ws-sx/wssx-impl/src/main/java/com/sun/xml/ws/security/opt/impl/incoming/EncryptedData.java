@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -268,31 +268,38 @@ public class EncryptedData implements SecurityHeaderElement, SecurityElementWrit
         return decryptedMimeData;
     }
     
+    @Override
     public String getId() {
         return id;
     }
     
+    @Override
     public void setId(final String id) {
         throw new UnsupportedOperationException();
     }
     
+    @Override
     public String getNamespaceURI() {
         return namespaceURI;
     }
     
+    @Override
     public String getLocalPart() {
         return localName;
     }
     
-    public XMLStreamReader readHeader() throws XMLStreamException {
+    @Override
+    public XMLStreamReader readHeader() {
         throw new UnsupportedOperationException();
     }
     
+    @Override
     public void writeTo(OutputStream os) {
         throw new UnsupportedOperationException();
     }
     
-    public void writeTo(XMLStreamWriter streamWriter) throws XMLStreamException {
+    @Override
+    public void writeTo(XMLStreamWriter streamWriter) {
         throw new UnsupportedOperationException();
     }
     
@@ -313,11 +320,13 @@ public class EncryptedData implements SecurityHeaderElement, SecurityElementWrit
         return -1;
     }
     
+    @Override
     public boolean refersToSecHdrWithId(final String id) {
         throw new UnsupportedOperationException();
     }
     
-    public void writeTo(javax.xml.stream.XMLStreamWriter streamWriter, HashMap props) throws javax.xml.stream.XMLStreamException {
+    @Override
+    public void writeTo(javax.xml.stream.XMLStreamWriter streamWriter, HashMap props) {
         throw new UnsupportedOperationException();
     }
     

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -36,7 +36,7 @@ public class SignedParts extends PolicyAssertion implements com.sun.xml.ws.secur
     private boolean attachments;
     private String attachmentProtectionType = MessageConstants.SWA11_ATTACHMENT_CONTENT_SIGNATURE_TRANSFORM;
     private boolean populated = false;
-    private Set<PolicyAssertion> targets = new HashSet<PolicyAssertion>();
+    private Set<PolicyAssertion> targets = new HashSet<>();
     private SecurityPolicyVersion spVersion;
     
     /**
@@ -56,21 +56,25 @@ public class SignedParts extends PolicyAssertion implements com.sun.xml.ws.secur
         
     }
     
+    @Override
     public boolean hasBody() {
         populate();
         return body;
     }
     
+    @Override
     public boolean hasAttachments() {
         populate();
         return attachments;
     }
     
+    @Override
     public String attachmentProtectionType(){
         populate();
         return attachmentProtectionType;
     }
     
+    @Override
     public AssertionFitness validate(boolean isServer) {
         return populate(isServer);
     }
@@ -83,7 +87,7 @@ public class SignedParts extends PolicyAssertion implements com.sun.xml.ws.secur
             if(this.hasNestedAssertions()){
                 Iterator <PolicyAssertion> it = this.getNestedAssertionsIterator();
                 while( it.hasNext() ) {
-                    PolicyAssertion as = (PolicyAssertion) it.next();
+                    PolicyAssertion as = it.next();
                     if(PolicyUtil.isBody(as, spVersion)){
                         // assertions.remove(as);
                         body = true;
@@ -116,6 +120,7 @@ public class SignedParts extends PolicyAssertion implements com.sun.xml.ws.secur
         
     }
     
+    @Override
     public Iterator getHeaders() {
         populate();
         if(targets == null){

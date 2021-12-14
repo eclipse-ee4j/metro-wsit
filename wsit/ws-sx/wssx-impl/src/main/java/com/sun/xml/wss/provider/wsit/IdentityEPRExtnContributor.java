@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -71,6 +71,7 @@ public class IdentityEPRExtnContributor extends EndpointReferenceExtensionContri
         return null;
     }
 
+    @Override
     public EPRExtension getEPRExtension(WSEndpoint wse, WSEndpointReference.EPRExtension extension) {
 
         if (extension != null) {
@@ -103,14 +104,12 @@ public class IdentityEPRExtnContributor extends EndpointReferenceExtensionContri
             } catch (IOException ex) {
                 log.log(Level.SEVERE, com.sun.xml.wss.logging.LogStringsMessages.WSS_0818_ERROR_PUTTING_CERTIFICATE_EPRIDENTITY(), ex);
                 throw new RuntimeException(ex);
-            } catch (XWSSecurityException ex) {
-                log.log(Level.SEVERE, com.sun.xml.wss.logging.LogStringsMessages.WSS_0818_ERROR_PUTTING_CERTIFICATE_EPRIDENTITY(), ex);
-                throw new RuntimeException(ex);
             }
         }       
 
         return new EPRExtension() {
 
+            @Override
             public XMLStreamReader readAsXMLStreamReader() throws XMLStreamException {
                 XMLStreamReader reader = null;
                 try {
@@ -136,12 +135,14 @@ public class IdentityEPRExtnContributor extends EndpointReferenceExtensionContri
                 return reader;
             }
 
-            public QName getQName() {               
+            @Override
+            public QName getQName() {
                 return new QName("http://schemas.xmlsoap.org/ws/2006/02/addressingidentity", "Identity");
             }
         };
     }
 
+    @Override
     public QName getQName() {
         return ID_QNAME;
     }

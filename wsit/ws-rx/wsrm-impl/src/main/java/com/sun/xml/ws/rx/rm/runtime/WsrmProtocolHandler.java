@@ -144,7 +144,7 @@ public abstract class WsrmProtocolHandler {
         }
         try {
             @SuppressWarnings(value = "unchecked")
-            T result = (T) header.readAsJAXB(getJaxbUnmarshaller());
+            T result = header.readAsJAXB(getJaxbUnmarshaller());
             return result;
         } catch (JAXBException ex) {
             throw LOGGER.logSevereException(new RxRuntimeException(LocalizationMessages.WSRM_1122_ERROR_MARSHALLING_RM_HEADER(nsUri + "#" + name), ex));
@@ -174,7 +174,7 @@ public abstract class WsrmProtocolHandler {
         assert message != null;
 
         try {
-            @SuppressWarnings("unchecked") T result = (T) message.readPayloadAsJAXB(getJaxbUnmarshaller());
+            @SuppressWarnings("unchecked") T result = message.readPayloadAsJAXB(getJaxbUnmarshaller());
             return result;
         } catch (JAXBException e) {
             throw LOGGER.logSevereException(new RxRuntimeException(LocalizationMessages.WSRM_1123_ERROR_UNMARSHALLING_MESSAGE(), e));

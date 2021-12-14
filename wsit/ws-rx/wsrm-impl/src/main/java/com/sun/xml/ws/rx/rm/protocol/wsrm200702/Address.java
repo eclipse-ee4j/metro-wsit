@@ -48,7 +48,7 @@ public class Address {
     @XmlSchemaType(name = "anyURI")
     protected String value;
     @XmlAnyAttribute
-    private Map<QName, String> otherAttributes = new HashMap<QName, String>();
+    private Map<QName, String> otherAttributes = new HashMap<>();
 
     /**
      * Gets the value of the value property.

@@ -69,10 +69,10 @@ public class SAXC14nCanonicalizerImpl extends BaseCanonicalizer  implements Cont
      * @see org.xml.sax.SAXParseException
      */
     public void warning (org.xml.sax.SAXParseException e) throws SAXException {
-        
-        
+
+
     }
-    
+
     /**
      * Receive notification of a recoverable parser error.
      *
@@ -88,10 +88,10 @@ public class SAXC14nCanonicalizerImpl extends BaseCanonicalizer  implements Cont
      * @see org.xml.sax.SAXParseException
      */
     public void error (org.xml.sax.SAXParseException e) throws SAXException {
-        
-        
+
+
     }
-    
+
     /**
      * Report a fatal XML parsing error.
      *
@@ -110,14 +110,14 @@ public class SAXC14nCanonicalizerImpl extends BaseCanonicalizer  implements Cont
      * @see org.xml.sax.SAXParseException
      */
     public void fatalError (org.xml.sax.SAXParseException e) throws SAXException {
-        
-        
+
+
     }
-    
+
     public void comment (char[] ch, int start, int length) throws SAXException {
-        
+
     }
-    
+
     /**
      * Receive notification of character data inside an element.
      *
@@ -141,7 +141,7 @@ public class SAXC14nCanonicalizerImpl extends BaseCanonicalizer  implements Cont
             throw new RuntimeException(ex);
         }
     }
-    
+
     /**
      * Receive notification of ignorable whitespace in element content.
      *
@@ -159,17 +159,17 @@ public class SAXC14nCanonicalizerImpl extends BaseCanonicalizer  implements Cont
      * @see org.xml.sax.ContentHandler#ignorableWhitespace
      */
     public void ignorableWhitespace (char[] ch, int start, int length) throws SAXException {
-        
+
     }
-    
+
     public void endEntity (String name) throws SAXException {
-        
+
     }
-    
+
     public void startEntity (String name) throws SAXException {
-        
+
     }
-    
+
     /**
      * Receive notification of the end of a Namespace mapping.
      *
@@ -183,9 +183,9 @@ public class SAXC14nCanonicalizerImpl extends BaseCanonicalizer  implements Cont
      * @see org.xml.sax.ContentHandler#endPrefixMapping
      */
     public void endPrefixMapping (String prefix) throws SAXException {
-        
+
     }
-    
+
     /**
      * Receive a Locator object for document events.
      *
@@ -198,9 +198,9 @@ public class SAXC14nCanonicalizerImpl extends BaseCanonicalizer  implements Cont
      * @see org.xml.sax.Locator
      */
     public void setDocumentLocator (Locator locator) {
-        
+
     }
-    
+
     /**
      * Receive notification of a skipped entity.
      *
@@ -216,7 +216,7 @@ public class SAXC14nCanonicalizerImpl extends BaseCanonicalizer  implements Cont
      */
     public void skippedEntity (String name) throws SAXException {
     }
-    
+
     /**
      * Receive notification of an unparsed entity declaration.
      *
@@ -234,9 +234,9 @@ public class SAXC14nCanonicalizerImpl extends BaseCanonicalizer  implements Cont
      * @see org.xml.sax.DTDHandler#unparsedEntityDecl
      */
     public void unparsedEntityDecl (String name, String publicId, String systemId, String notationName) throws SAXException {
-        
+
     }
-    
+
     /**
      * Receive notification of the start of a Namespace mapping.
      *
@@ -252,16 +252,16 @@ public class SAXC14nCanonicalizerImpl extends BaseCanonicalizer  implements Cont
      */
     @SuppressWarnings("unchecked")
     public void startPrefixMapping (String prefix, String uri) throws SAXException {
-        
+
         String dURI = nsContext.getURI (prefix);
         boolean add = false;
         if(dURI == null || !uri.equals (dURI)){
             add = true;
         }
-        
+
         if(add && !_ncContextState[_depth]){
             nsContext.pushContext ();
-            
+
             _ncContextState[_depth]=true;
         }
         if(add){
@@ -276,12 +276,12 @@ public class SAXC14nCanonicalizerImpl extends BaseCanonicalizer  implements Cont
             }
         }
     }
-    
+
     public void reset (){
         super.reset ();
         nsContext.reset ();
     }
-    
+
     /**
      * Receive notification of the start of an element.
      *
@@ -307,7 +307,7 @@ public class SAXC14nCanonicalizerImpl extends BaseCanonicalizer  implements Cont
      */
     public void startElement (String uri, String localName, String qName, Attributes attributes) throws SAXException {
         try {
-            
+
             _depth ++;
             resize();
             _ncContextState[_depth]=false;
@@ -321,19 +321,19 @@ public class SAXC14nCanonicalizerImpl extends BaseCanonicalizer  implements Cont
                 handleAttributes (attributes);
             }
             _stream.write ('>');
-            
+
             _attrNSPos =0;
             _attrPos =0;
-            
+
             _defURI = null;
-            
+
             _nsResult.clear ();
             _attrResult.clear ();
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }
     }
-    
+
     /**
      * Receive notification of the beginning of the document.
      *
@@ -347,20 +347,20 @@ public class SAXC14nCanonicalizerImpl extends BaseCanonicalizer  implements Cont
      * @see org.xml.sax.ContentHandler#startDocument
      */
     public void startDocument () throws SAXException {
-        
+
         //super.startDocument ();
     }
-    
+
     public void startDTD (String name, String publicId, String systemId) throws SAXException {
-        
+
         //  super.startDTD (name, publicId, systemId);
     }
-    
+
     public void startCDATA () throws SAXException {
-        
+
         //super.startCDATA ();
     }
-    
+
     /**
      * Tells the parser to resolve the systemId against the baseURI
      * and read the entity text from that resulting absolute URI.
@@ -373,7 +373,7 @@ public class SAXC14nCanonicalizerImpl extends BaseCanonicalizer  implements Cont
     public org.xml.sax.InputSource resolveEntity (String name, String publicId, String baseURI, String systemId) throws SAXException, java.io.IOException {
         throw new UnsupportedOperationException ("Not yet implemented");
     }
-    
+
     /**
      * Invokes
      * EntityResolver2#resolveEntity EntityResolver2.resolveEntity()
@@ -383,12 +383,12 @@ public class SAXC14nCanonicalizerImpl extends BaseCanonicalizer  implements Cont
     public org.xml.sax.InputSource resolveEntity (String publicId, String systemId) throws SAXException, java.io.IOException {
         return null;
     }
-    
+
     public void internalEntityDecl (String name, String value) throws SAXException {
         throw new UnsupportedOperationException ("Not yet implemented");
-        
+
     }
-    
+
     /**
      * Tells the parser that if no external subset has been declared
      * in the document text, none should be used.
@@ -396,23 +396,23 @@ public class SAXC14nCanonicalizerImpl extends BaseCanonicalizer  implements Cont
     public org.xml.sax.InputSource getExternalSubset (String name, String baseURI) throws SAXException, java.io.IOException {
         throw new UnsupportedOperationException ("Not yet implemented");
     }
-    
+
     public void externalEntityDecl (String name, String publicId, String systemId) throws SAXException {
     }
-    
+
     public void endDTD () throws SAXException {
     }
-    
+
     public void endCDATA () throws SAXException {
     }
-    
+
     public void elementDecl (String name, String model) throws SAXException {
     }
-    
+
     public void attributeDecl (String eName, String aName, String type, String mode, String value) throws SAXException {
-        
+
     }
-    
+
     /**
      * Receive notification of the end of the document.
      *
@@ -426,9 +426,9 @@ public class SAXC14nCanonicalizerImpl extends BaseCanonicalizer  implements Cont
      * @see org.xml.sax.ContentHandler#endDocument
      */
     public void endDocument () throws SAXException {
-        
+
     }
-    
+
     /**
      * Receive notification of the end of an element.
      *
@@ -466,7 +466,7 @@ public class SAXC14nCanonicalizerImpl extends BaseCanonicalizer  implements Cont
             throw new RuntimeException(io);
         }
     }
-    
+
     /**
      * Receive notification of a notation declaration.
      *
@@ -484,7 +484,7 @@ public class SAXC14nCanonicalizerImpl extends BaseCanonicalizer  implements Cont
      */
     public void notationDecl (String name, String publicId, String systemId) throws SAXException {
     }
-    
+
     /**
      * Receive notification of a processing instruction.
      *
@@ -502,7 +502,7 @@ public class SAXC14nCanonicalizerImpl extends BaseCanonicalizer  implements Cont
      */
     public void processingInstruction (String target, String data) throws SAXException {
     }
-    
+
     //TODO:: Optimize
     @SuppressWarnings("unchecked")
     private void handleAttributes (Attributes attributes) {
@@ -510,14 +510,14 @@ public class SAXC14nCanonicalizerImpl extends BaseCanonicalizer  implements Cont
         String localName = null;
         boolean contextPushed= false;
         try{
-            
+
             for(int i=0; i<length;i++){
                 Attribute attr = getAttribute ();
                 attr.setPosition (i);
                 attr.setAttributes (attributes);
                 _attrResult.add (attr);
             }
-            
+
             if(_defURI != null){
                 outputAttrToWriter ("xmlns",_defURI,_stream);
             }
@@ -542,6 +542,6 @@ public class SAXC14nCanonicalizerImpl extends BaseCanonicalizer  implements Cont
             return (Attribute)_attrs.get (_attrPos++);
         }
     }
-    
-    
+
+
 }

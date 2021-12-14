@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -564,7 +564,7 @@ public class TokenProcessor {
         AssertionSet as = policy.getAssertionSet();
         Iterator<PolicyAssertion> itr = as.iterator();
         while(itr.hasNext()){
-            PolicyAssertion policyAssertion = (PolicyAssertion)itr.next();
+            PolicyAssertion policyAssertion = itr.next();
             if(policyAssertion.getName().getLocalPart().equals(Constants.WssX509V1Token11)||policyAssertion.getName().getLocalPart().equals(Constants.WssX509V1Token10)){
                 x509CB.setValueType(MessageConstants.X509v1_NS);
             }else if(policyAssertion.getName().getLocalPart().equals(Constants.WssX509V3Token10)||policyAssertion.getName().getLocalPart().equals(Constants.WssX509V3Token11)){
@@ -582,7 +582,7 @@ public class TokenProcessor {
         AssertionSet as = policy.getAssertionSet();
         Iterator<PolicyAssertion> itr = as.iterator();
         while(itr.hasNext()){
-            PolicyAssertion policyAssertion = (PolicyAssertion)itr.next();
+            PolicyAssertion policyAssertion = itr.next();
             if(policyAssertion.getName().getLocalPart().equals(Constants.WssKerberosV5ApReqToken11)){
                 kerberosBinding.setValueType(MessageConstants.KERBEROS_V5_APREQ);
             } else if(policyAssertion.getName().getLocalPart().equals(Constants.WssGssKerberosV5ApReqToken11)){
@@ -599,7 +599,7 @@ public class TokenProcessor {
         AssertionSet as = policy.getAssertionSet();
         Iterator<PolicyAssertion> itr = as.iterator();
         while (itr.hasNext()) {
-            PolicyAssertion policyAssertion = (PolicyAssertion) itr.next();
+            PolicyAssertion policyAssertion = itr.next();
             if (policyAssertion.getName().getLocalPart().equals(Constants.WssUsernameToken10) || policyAssertion.getName().getLocalPart().equals(Constants.WssUsernameToken11)) {
                 utb.setValueType(MessageConstants.USERNAME_TOKEN_NS);
             } else if (policyAssertion.getName().getLocalPart().equals(Constants.WssUsernameToken10) || policyAssertion.getName().getLocalPart().equals(Constants.WssUsernameToken11)) {

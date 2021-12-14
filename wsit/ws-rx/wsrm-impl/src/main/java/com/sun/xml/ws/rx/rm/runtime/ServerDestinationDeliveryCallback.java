@@ -19,10 +19,8 @@ import com.sun.xml.ws.rx.RxRuntimeException;
 import com.sun.xml.ws.rx.rm.localization.LocalizationMessages;
 import com.sun.xml.ws.rx.rm.protocol.AcknowledgementData;
 import com.sun.xml.ws.rx.rm.runtime.delivery.Postman;
-import com.sun.xml.ws.rx.rm.runtime.transaction.TransactionPropertySet;
 import com.sun.xml.ws.rx.util.AbstractResponseHandler;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
 
 /**
  *
@@ -53,16 +51,17 @@ class ServerDestinationDeliveryCallback implements Postman.Callback {
             this.rc = rc;
         }
 
+        @Override
         public void onCompletion(Packet response) {
             try {
                 HaContext.initFrom(response);
-                /**
-                 * This if clause is a part of the RM-JCaps private contract. JCaps may decide
-                 * that the request it received should be resent and thus it should not be acknowledged.
-                 *
-                 * For more information, see documentation of RM_ACK_PROPERTY_KEY constant field.
+                /*
+                  This if clause is a part of the RM-JCaps private contract. JCaps may decide
+                  that the request it received should be resent and thus it should not be acknowledged.
+
+                  For more information, see documentation of RM_ACK_PROPERTY_KEY constant field.
                  */
-                String rmAckPropertyValue = String.class.cast(response.invocationProperties.remove(RM_ACK_PROPERTY_KEY));
+                String rmAckPropertyValue = (String) response.invocationProperties.remove(RM_ACK_PROPERTY_KEY);
                 if (rmAckPropertyValue == null || Boolean.parseBoolean(rmAckPropertyValue)) {
                     //mark request as acknowledged here if InboundAcceptedImpl is not in use
                     //internalRmFeatureExists means InboundAcceptedImpl is in use
@@ -71,10 +70,10 @@ class ServerDestinationDeliveryCallback implements Postman.Callback {
                         rc.destinationMessageHandler.acknowledgeApplicationLayerDelivery(request);
                     }
                 } else {
-                    /**
-                     * Private contract between Metro RM and Sun JavaCAPS (BPM) team
-                     * to let them control the acknowledgement of the message.
-                     * Does not apply to anyone else.
+                    /*
+                      Private contract between Metro RM and Sun JavaCAPS (BPM) team
+                      to let them control the acknowledgement of the message.
+                      Does not apply to anyone else.
                      */
                     LOGGER.finer(String.format("Value of the '%s' property is '%s'. The request has not been acknowledged.", RM_ACK_PROPERTY_KEY, rmAckPropertyValue));
                     RedeliveryTaskExecutor.deliverUsingCurrentThread(
@@ -114,6 +113,7 @@ class ServerDestinationDeliveryCallback implements Postman.Callback {
             }
         }
 
+        @Override
         public void onCompletion(Throwable error) {
             //Resume original Fiber with Throwable.
             //No retry attempts to send request to application layer.
@@ -128,9 +128,10 @@ class ServerDestinationDeliveryCallback implements Postman.Callback {
         this.rc = rc;
     }
 
+    @Override
     public void deliver(ApplicationMessage message) {
         if (message instanceof JaxwsApplicationMessage) {
-            deliver(JaxwsApplicationMessage.class.cast(message));
+            deliver((JaxwsApplicationMessage) message);
         } else {
             throw LOGGER.logSevereException(new RxRuntimeException(LocalizationMessages.WSRM_1141_UNEXPECTED_MESSAGE_CLASS(
                     message.getClass().getName(),

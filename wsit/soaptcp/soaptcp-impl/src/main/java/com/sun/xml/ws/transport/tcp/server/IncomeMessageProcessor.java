@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -31,6 +31,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
+import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -56,7 +57,7 @@ public final class IncomeMessageProcessor implements SessionCloseListener {
     private volatile InboundConnectionCache<ServerConnectionSession> connectionCache;
     
     private static Map<Integer, IncomeMessageProcessor> portMessageProcessors =
-            new HashMap<Integer, IncomeMessageProcessor>(1);
+            new HashMap<>(1);
     
     public static IncomeMessageProcessor registerListener(final int port, @NotNull final TCPMessageListener listener,
             @NotNull final Properties properties) {
@@ -145,7 +146,7 @@ public final class IncomeMessageProcessor implements SessionCloseListener {
      *  nio framework
      */
     private final Map<SocketChannel, ServerConnectionSession> connectionSessionMap =
-            new WeakHashMap<SocketChannel, ServerConnectionSession>();
+            new WeakHashMap<>();
     private @Nullable ServerConnectionSession getConnectionSession(
             @NotNull final SocketChannel socketChannel) {
         
@@ -199,7 +200,7 @@ public final class IncomeMessageProcessor implements SessionCloseListener {
         
         final byte[] magicBuf = new byte[TCPConstants.PROTOCOL_SCHEMA.length()];
         DataInOutUtils.readFully(inputStream, magicBuf);
-        final String magic = new String(magicBuf, "US-ASCII");
+        final String magic = new String(magicBuf, StandardCharsets.US_ASCII);
         if (!TCPConstants.PROTOCOL_SCHEMA.equals(magic)) {
             logger.log(Level.WARNING, MessagesMessages.WSTCP_0020_WRONG_MAGIC(magic));
             return false;
@@ -253,6 +254,7 @@ public final class IncomeMessageProcessor implements SessionCloseListener {
      * Will be called by Connection.close() to let IncomeMessageProcessor
      * remove the correspondent session from Map
      */
+    @Override
     public void notifySessionClose(@NotNull final ConnectionSession connectionSession) {
         removeConnectionSessionBySocketChannel(connectionSession.getConnection().getSocketChannel());
     }

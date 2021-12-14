@@ -25,10 +25,11 @@ import javax.xml.namespace.QName;
 import jakarta.xml.ws.WebServiceException;
 
 /**
+ * <pre>{@code
  * <sunc:Ordered />
- */
-/**
-  * Proprietary assertion that works with WS-RM v1.0 (WSRM200502) and enables
+ * }</pre>
+ *
+ * Proprietary assertion that works with WS-RM v1.0 (WSRM200502) and enables
  * "In Order" message delivery:
  * <p>
  * Messages from each individual Sequence are to be delivered in the same order
@@ -51,6 +52,7 @@ public class OrderedDeliveryAssertion extends SimpleAssertion implements RmConfi
     public static final QName NAME = RmAssertionNamespace.METRO_200603.getQName("Ordered");
     
     private static AssertionInstantiator instantiator = new AssertionInstantiator() {
+        @Override
         public PolicyAssertion newInstance(AssertionData data, Collection<PolicyAssertion> assertionParameters, AssertionSet nestedAlternative){
             return new OrderedDeliveryAssertion(data, assertionParameters);
         }
@@ -64,6 +66,7 @@ public class OrderedDeliveryAssertion extends SimpleAssertion implements RmConfi
         super(data, assertionParameters);
     }
 
+    @Override
     public ReliableMessagingFeatureBuilder update(ReliableMessagingFeatureBuilder builder) {
         if (builder.getProtocolVersion() != RmProtocolVersion.WSRM200502) {
             throw new WebServiceException(LocalizationMessages.WSRM_1001_ASSERTION_NOT_COMPATIBLE_WITH_RM_VERSION(NAME, builder.getProtocolVersion()));
@@ -72,6 +75,7 @@ public class OrderedDeliveryAssertion extends SimpleAssertion implements RmConfi
         return builder.enableOrderedDelivery();
     }
 
+    @Override
     public boolean isCompatibleWith(RmProtocolVersion version) {
         return RmProtocolVersion.WSRM200502 == version;
     }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -10,20 +10,7 @@
 
 package com.sun.xml.ws.transport.tcp.client;
 
-import com.sun.istack.NotNull;
-import com.sun.istack.Nullable;
 import com.sun.xml.ws.transport.tcp.resources.MessagesMessages;
-import com.sun.xml.ws.transport.tcp.util.SessionAbortedException;
-import com.sun.xml.ws.transport.tcp.util.ConnectionSession;
-import java.util.Collections;
-
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * @author Alexey Stashok

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -51,7 +51,6 @@ public class TimestampPolicy extends WSSPolicy {
     
     /**
      * set the CreationTime for the timestamp in this TimestampPolicy
-     * @param creationTime
      */
     public void setCreationTime(String creationTime) {
         this.creationTime = creationTime;
@@ -108,11 +107,11 @@ public class TimestampPolicy extends WSSPolicy {
         if (expirationTime.equals("") && timeout != 0 && !creationTime.equals("")) {
             try {
                 synchronized(formatter) {
-                    expirationTime = Long.toString(((Date) formatter.parse(creationTime)).getTime() + timeout);                            
+                    expirationTime = Long.toString(formatter.parse(creationTime).getTime() + timeout);
                 }
             } catch (Exception e) {
                 synchronized(formatter1) {
-                    expirationTime =  Long.toString(((Date) formatter1.parse(creationTime)).getTime() + timeout);                          
+                    expirationTime =  Long.toString(formatter1.parse(creationTime).getTime() + timeout);
                             
                 }
             }
@@ -146,6 +145,7 @@ public class TimestampPolicy extends WSSPolicy {
      * @param policy the policy to be compared for equality
      * @return true if the argument policy is equal to this
      */
+    @Override
     public boolean equals(WSSPolicy policy) {
         
         boolean assrt = false;
@@ -165,6 +165,7 @@ public class TimestampPolicy extends WSSPolicy {
      * @param policy the policy to be compared for equality
      * @return true if the argument policy is equal to this
      */
+    @Override
     public boolean equalsIgnoreTargets(WSSPolicy policy) {
         return equals(policy);
     }
@@ -173,6 +174,7 @@ public class TimestampPolicy extends WSSPolicy {
      * Clone operator
      * @return clone of this policy
      */
+    @Override
     public Object clone(){
         TimestampPolicy tPolicy = new TimestampPolicy();
         
@@ -190,6 +192,7 @@ public class TimestampPolicy extends WSSPolicy {
     /**
      * @return the type of the policy
      */
+    @Override
     public String getType() {
         return PolicyTypeUtil.TIMESTAMP_POLICY_TYPE;
     }

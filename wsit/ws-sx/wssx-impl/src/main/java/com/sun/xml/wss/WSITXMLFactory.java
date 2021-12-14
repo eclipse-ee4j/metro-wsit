@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -51,10 +51,7 @@ public class WSITXMLFactory {
             SchemaFactory factory = SchemaFactory.newInstance(language);
             factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, xmlFeatureValue(disableSecureProcessing));
             return factory;
-        } catch (SAXNotRecognizedException ex) {
-            Logger.getLogger(WSITXMLFactory.class.getName()).log(Level.SEVERE, null, ex);
-            throw new IllegalStateException( ex);
-        } catch (SAXNotSupportedException ex) {
+        } catch (SAXNotRecognizedException | SAXNotSupportedException ex) {
             Logger.getLogger(WSITXMLFactory.class.getName()).log(Level.SEVERE, null, ex);
             throw new IllegalStateException( ex);
         }
@@ -71,13 +68,7 @@ public class WSITXMLFactory {
             factory.setNamespaceAware(true);
             factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, xmlFeatureValue(disableSecureProcessing));
             return factory;
-        } catch (ParserConfigurationException ex) {
-            Logger.getLogger(WSITXMLFactory.class.getName()).log(Level.SEVERE, null, ex);
-            throw new IllegalStateException( ex);
-        } catch (SAXNotRecognizedException ex) {
-            Logger.getLogger(WSITXMLFactory.class.getName()).log(Level.SEVERE, null, ex);
-            throw new IllegalStateException( ex);
-        } catch (SAXNotSupportedException ex) {
+        } catch (ParserConfigurationException | SAXNotSupportedException | SAXNotRecognizedException ex) {
             Logger.getLogger(WSITXMLFactory.class.getName()).log(Level.SEVERE, null, ex);
             throw new IllegalStateException( ex);
         }

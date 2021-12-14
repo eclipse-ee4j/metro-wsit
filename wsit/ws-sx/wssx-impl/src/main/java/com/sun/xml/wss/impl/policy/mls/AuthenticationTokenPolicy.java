@@ -40,14 +40,14 @@ import org.w3c.dom.Element;
  */
 public class AuthenticationTokenPolicy extends WSSFeatureBindingExtension {
     
-    /**
-     * Feature Bindings
-     *
-     * (1) UsernameTokenBinding
-     * (2) X509CertificateBinding
-     * (3) SAMLAssertionBinding
-     *
-     * Key Bindings
+    /*
+      Feature Bindings
+
+      (1) UsernameTokenBinding
+      (2) X509CertificateBinding
+      (3) SAMLAssertionBinding
+
+      Key Bindings
      */
     /**
      * Default Constructor
@@ -61,6 +61,7 @@ public class AuthenticationTokenPolicy extends WSSFeatureBindingExtension {
      * @param policy <code>WSSPolicy</code> to be compared for equality
      * @return true if the policy is equal to this policy
      */
+    @Override
     public boolean equals(WSSPolicy policy) {
         boolean _assert = false;
         
@@ -81,6 +82,7 @@ public class AuthenticationTokenPolicy extends WSSFeatureBindingExtension {
      * @param policy the policy to be compared for equality
      * @return true if the argument policy is equal to this
      */
+    @Override
     public boolean equalsIgnoreTargets(WSSPolicy policy) {
         return equals(policy);
     }
@@ -89,6 +91,7 @@ public class AuthenticationTokenPolicy extends WSSFeatureBindingExtension {
      * Clone operator
      * @return a clone of this AuthenticationTokenPolicy
      */
+    @Override
     public Object clone() {
         AuthenticationTokenPolicy atPolicy = new AuthenticationTokenPolicy();
         
@@ -111,6 +114,7 @@ public class AuthenticationTokenPolicy extends WSSFeatureBindingExtension {
     /**
      * @return the type of the policy
      */
+    @Override
     public String getType() {
         return PolicyTypeUtil.AUTH_POLICY_TYPE;
     }
@@ -229,7 +233,6 @@ public class AuthenticationTokenPolicy extends WSSFeatureBindingExtension {
         
         /**
          * set the username
-         * @param username
          */
         public void setUsername(String username) {
             if (isReadOnly()) {
@@ -240,7 +243,6 @@ public class AuthenticationTokenPolicy extends WSSFeatureBindingExtension {
         
         /**
          * set the password
-         * @param password
          */
         public void setPassword(String password) {
             if (isReadOnly()) {
@@ -251,7 +253,6 @@ public class AuthenticationTokenPolicy extends WSSFeatureBindingExtension {
         
         /**
          * set the nonce
-         * @param nonce
          */
         public void setNonce(String nonce) {
             if (isReadOnly()) {
@@ -264,7 +265,6 @@ public class AuthenticationTokenPolicy extends WSSFeatureBindingExtension {
         /**
          * setter for a boolean flag indicating whether a nonce should be
          * while constructing a wss:UsernameToken  from this Policy
-         * @param useNonce
          */
         public void setUseNonce(boolean useNonce) {
             if (isReadOnly()) {
@@ -285,7 +285,6 @@ public class AuthenticationTokenPolicy extends WSSFeatureBindingExtension {
         /**
          * setter for a boolean flag indicating whether the password should be
          * digested while constructing a wss:UsernameToken  from this Policy
-         * @param doDigest
          */
         public void setDigestOn(boolean doDigest) {
             if (isReadOnly()) {
@@ -300,7 +299,6 @@ public class AuthenticationTokenPolicy extends WSSFeatureBindingExtension {
          * cache the nonce associated with this policy. A receiver may
          * cache received nonces for this period (or more) to minimize nonce-replay attacks
          * This parameter is applicable when this UsernameToken is used as a Receiver requirement.
-         * @param nonceAge
          */
         public void setMaxNonceAge(long nonceAge) {
             if (isReadOnly()) {
@@ -422,6 +420,7 @@ public class AuthenticationTokenPolicy extends WSSFeatureBindingExtension {
          * Equals operator
          * @return true if the binding is equal to this UsernameToken Policy
          */
+        @Override
         public boolean equals(WSSPolicy policy) {
             boolean assrt = false;
             
@@ -443,6 +442,7 @@ public class AuthenticationTokenPolicy extends WSSFeatureBindingExtension {
          * @param policy the policy to be compared for equality
          * @return true if the argument policy is equal to this
          */
+        @Override
         public boolean equalsIgnoreTargets(WSSPolicy policy) {
             return equals(policy);
         }
@@ -450,6 +450,7 @@ public class AuthenticationTokenPolicy extends WSSFeatureBindingExtension {
         /**
          *@return a clone of this policy
          */
+        @Override
         public Object clone() {
             UsernameTokenBinding utBinding = new UsernameTokenBinding();
            try {
@@ -481,6 +482,7 @@ public class AuthenticationTokenPolicy extends WSSFeatureBindingExtension {
         /**
          * @return the type of the policy
          */
+        @Override
         public String getType() {
             return PolicyTypeUtil.USERNAMETOKEN_TYPE;
         }
@@ -683,6 +685,7 @@ public class AuthenticationTokenPolicy extends WSSFeatureBindingExtension {
          * @param policy the policy to be compared for equality
          * @return true if the argument policy is equal to this
          */
+        @Override
         public boolean equals(WSSPolicy policy) {
             
             boolean assrt = false;
@@ -726,6 +729,7 @@ public class AuthenticationTokenPolicy extends WSSFeatureBindingExtension {
          * @param policy the policy to be compared for equality
          * @return true if the argument policy is equal to this
          */
+        @Override
         public boolean equalsIgnoreTargets(WSSPolicy policy) {
             return equals(policy);
         }
@@ -734,6 +738,7 @@ public class AuthenticationTokenPolicy extends WSSFeatureBindingExtension {
          * Clone operator
          * @return clone of this policy
          */
+        @Override
         public Object clone() {
             X509CertificateBinding x509Binding = new X509CertificateBinding();
             
@@ -765,6 +770,7 @@ public class AuthenticationTokenPolicy extends WSSFeatureBindingExtension {
         /**
          * @return the type of the policy
          */
+        @Override
         public String getType() {
             return PolicyTypeUtil.X509CERTIFICATE_TYPE;
         }
@@ -919,6 +925,7 @@ public class AuthenticationTokenPolicy extends WSSFeatureBindingExtension {
          * Clone operator
          * @return clone of this policy
          */
+        @Override
         public Object clone() {
             KerberosTokenBinding ktBinding = new KerberosTokenBinding();
             
@@ -951,6 +958,7 @@ public class AuthenticationTokenPolicy extends WSSFeatureBindingExtension {
          * @param policy to be compared for equality
          * @return true if the argument policy is equal to this
          */
+        @Override
         public boolean equals(WSSPolicy policy) {
             boolean assrt = false;
             
@@ -984,6 +992,7 @@ public class AuthenticationTokenPolicy extends WSSFeatureBindingExtension {
          * @param policy the policy to be compared for equality
          * @return true if the argument policy is equal to this
          */
+        @Override
         public boolean equalsIgnoreTargets(WSSPolicy policy) {
             return equals(policy);
         }
@@ -991,6 +1000,7 @@ public class AuthenticationTokenPolicy extends WSSFeatureBindingExtension {
         /**
          * @return the type of the policy
          */
+        @Override
         public String getType() {
             return PolicyTypeUtil.KERBEROS_BST_TYPE;
         }
@@ -1000,6 +1010,7 @@ public class AuthenticationTokenPolicy extends WSSFeatureBindingExtension {
          * in Kerberos token profile
          * @param include the value of IncludeToken parameter
          */
+        @Override
         public void setIncludeToken(String include) {
             
             if(INCLUDE_ALWAYS.equals(include) || INCLUDE_ALWAYS_TO_RECIPIENT.equals(include)){
@@ -1151,7 +1162,6 @@ public class AuthenticationTokenPolicy extends WSSFeatureBindingExtension {
         
         /**
          * set the SAML AuthorityBinding element, identifying a remote assertion
-         * @param authorityBinding
          */
         public void setAuthorityBinding(Element authorityBinding) {
             if (isReadOnly()) {
@@ -1247,6 +1257,7 @@ public class AuthenticationTokenPolicy extends WSSFeatureBindingExtension {
          * @param policy the policy to be compared for equality
          * @return true if the argument policy is equal to this
          */
+        @Override
         public boolean equals(WSSPolicy policy) {
             
             try {
@@ -1292,6 +1303,7 @@ public class AuthenticationTokenPolicy extends WSSFeatureBindingExtension {
          * @param binding the policy to be compared for equality
          * @return true if the argument binding is equal to this
          */
+        @Override
         public boolean equalsIgnoreTargets(WSSPolicy binding) {
             return equals(binding);
         }
@@ -1299,6 +1311,7 @@ public class AuthenticationTokenPolicy extends WSSFeatureBindingExtension {
         /**
          *@return clone of this SAML Policy
          */
+        @Override
         public Object clone() {
             SAMLAssertionBinding samlBinding = new SAMLAssertionBinding();
             
@@ -1326,6 +1339,7 @@ public class AuthenticationTokenPolicy extends WSSFeatureBindingExtension {
         /**
          * @return the type of the policy
          */
+        @Override
         public String getType() {
             return PolicyTypeUtil.SAMLASSERTION_TYPE;
         }
@@ -1348,6 +1362,7 @@ public class AuthenticationTokenPolicy extends WSSFeatureBindingExtension {
          * be generated for this X509Certificate Token, if specified,
          * null otherwise.
          */
+        @Override
         public String getSTRID() {
             return this.strId;
         }
@@ -1385,10 +1400,12 @@ public class AuthenticationTokenPolicy extends WSSFeatureBindingExtension {
             return _assertion;
         }
 
+        @Override
         public String getRealId() {
             return assertionId;
         }
 
+        @Override
         public void setRealId(String realId) {
            // do nothing, real id is assertion id
         }
@@ -1493,6 +1510,7 @@ public class AuthenticationTokenPolicy extends WSSFeatureBindingExtension {
          * @param policy the policy to be compared for equality
          * @return true if the argument policy is equal to this
          */
+        @Override
         public boolean equals(WSSPolicy policy) {
             
             boolean assrt = false;
@@ -1525,6 +1543,7 @@ public class AuthenticationTokenPolicy extends WSSFeatureBindingExtension {
          * @param policy the policy to be compared for equality
          * @return true if the argument policy is equal to this
          */
+        @Override
         public boolean equalsIgnoreTargets(WSSPolicy policy) {
             return equals(policy);
         }
@@ -1533,6 +1552,7 @@ public class AuthenticationTokenPolicy extends WSSFeatureBindingExtension {
          * Clone operator
          * @return clone of this policy
          */
+        @Override
         public Object clone() {
             KeyValueTokenBinding rsaTokenBinding = new KeyValueTokenBinding();
             
@@ -1559,6 +1579,7 @@ public class AuthenticationTokenPolicy extends WSSFeatureBindingExtension {
         /**
          * @return the type of the policy
          */
+        @Override
         public String getType() {
             //return PolicyTypeUtil.RSATOKEN_TYPE;
             return getPolicyIdentifier();

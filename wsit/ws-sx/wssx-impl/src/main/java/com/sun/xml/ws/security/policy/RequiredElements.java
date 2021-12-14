@@ -30,12 +30,12 @@ public interface RequiredElements extends Target {
      * Returns XPath Version in use.
      * @return xpath version 
      */
-    public String getXPathVersion();
+    String getXPathVersion();
     
      /**
      * targets header elements message must contains .
      * @return {@link java.util.Iterator }
      */
-    public Iterator getTargets();
+     Iterator getTargets();
     
 }

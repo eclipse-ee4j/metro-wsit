@@ -114,8 +114,7 @@ public class KeyInfoType {
      * {@link JAXBElement }{@code <}{@link SPKIDataType }{@code >}
      * {@link JAXBElement }{@code <}{@link String }{@code >}
      * 
-     * 
-     * @return 
+     *
      */
     public List<XMLStructure> getContent() {
         if (content == null) {

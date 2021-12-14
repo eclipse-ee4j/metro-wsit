@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -81,6 +81,7 @@ public class KeyIdentifierStrategy extends KeyInfoStrategy {
         this.thumbprint = thumbprint;
     }
     
+    @Override
     public void insertKey(
             SecurityTokenReference tokenRef, SecurableSoapMessage secureMsg)
             throws XWSSecurityException {
@@ -95,6 +96,7 @@ public class KeyIdentifierStrategy extends KeyInfoStrategy {
         tokenRef.setReference(keyIdentifier);
     }
     
+    @Override
     public void insertKey(
             KeyInfoHeaderBlock keyInfo,
             SecurableSoapMessage secureMsg,
@@ -164,10 +166,12 @@ public class KeyIdentifierStrategy extends KeyInfoStrategy {
         return keyIdentifier;
     }
     
+    @Override
     public void setCertificate(X509Certificate cert) {
         this.cert = cert;
     }
     
+    @Override
     public String getAlias() {
         return alias;
     }

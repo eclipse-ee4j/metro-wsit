@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -10,14 +10,15 @@
 
 package com.sun.xml.wss.impl.dsig;
 
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+
 import javax.xml.crypto.NodeSetData;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
 
 /**
  * This is a subtype of NodeSetData that represents a dereferenced
@@ -38,6 +39,7 @@ public class DOMSubTreeData implements NodeSetData {
 	this.excludeComments = excludeComments;
     }
 
+    @Override
     public Iterator iterator() {
 	return ni;
     }
@@ -65,6 +67,7 @@ public class DOMSubTreeData implements NodeSetData {
             this.withComments = !excludeComments;
 	}
 
+        @Override
         public boolean hasNext() {
             if (nodeSet == null) {
 		nodeSet = dereferenceSameDocumentURI(root);
@@ -73,18 +76,20 @@ public class DOMSubTreeData implements NodeSetData {
 	    return li.hasNext();
         }
 
+        @Override
         public Object next() {
             if (nodeSet == null) {
 		nodeSet = dereferenceSameDocumentURI(root);
 		li = nodeSet.listIterator();
             }
             if (li.hasNext()) {
-		return (Node) li.next();
+		return li.next();
             } else {
                 throw new NoSuchElementException();
 	    }
         }
 
+        @Override
         public void remove() {
             throw new UnsupportedOperationException();
         }
@@ -104,17 +109,17 @@ public class DOMSubTreeData implements NodeSetData {
             return nodeSet;
 	}
 
-	/**
+        /**
          * Recursively traverses the subtree, and returns an XPath-equivalent
-	 * node-set of all nodes traversed, excluding any comment nodes,
-	 * if specified.
-	 *
-         * @param node the node to traverse
-	 * @param nodeSet the set of nodes traversed so far
-	 * @param the previous sibling node
-	 */
-	private void nodeSetMinusCommentNodes(Node node, List nodeSet,
-            Node prevSibling) {
+         * node-set of all nodes traversed, excluding any comment nodes,
+         * if specified.
+         *
+         * @param node        the node to traverse
+         * @param nodeSet     the set of nodes traversed so far
+         * @param prevSibling the previous sibling node
+         */
+        private void nodeSetMinusCommentNodes(Node node, List nodeSet,
+                                              Node prevSibling) {
             switch (node.getNodeType()) {
 		case Node.ELEMENT_NODE :
                     NamedNodeMap attrs = node.getAttributes();

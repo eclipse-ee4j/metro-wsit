@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -173,7 +173,7 @@ public class WSSCContract {
         return response;
     }
     
-    private void parseAssertion(final SecureConversationToken scToken, final Entropy clientEntropy)  throws WSSecureConversationException, WSSecureConversationException {
+    private void parseAssertion(final SecureConversationToken scToken, final Entropy clientEntropy)  throws WSSecureConversationException {
         Trust10 trust10 = null;
         Trust13 trust13 = null;        
         final NestedPolicy wsPolicy = scToken.getBootstrapPolicy();
@@ -210,7 +210,7 @@ public class WSSCContract {
         }
     }
 
-    private BaseSTSResponse createRSTR(final URI computeKeyAlgo, final SecureConversationToken scToken, final BaseSTSRequest request, final AppliesTo scopes, final byte[] clientEntr, final RequestedProofToken proofToken, final URI tokenType, final Entropy clientEntropy, final IssuedTokenContext context, final URI con) throws WSSecureConversationException, WSSecureConversationException {        
+    private BaseSTSResponse createRSTR(final URI computeKeyAlgo, final SecureConversationToken scToken, final BaseSTSRequest request, final AppliesTo scopes, final byte[] clientEntr, final RequestedProofToken proofToken, final URI tokenType, final Entropy clientEntropy, final IssuedTokenContext context, final URI con) throws WSSecureConversationException {
                
         parseAssertion(scToken, clientEntropy);
         
@@ -258,7 +258,7 @@ public class WSSCContract {
             proofToken.setBinarySecret(clientEntropy.getBinarySecret());
         }
         
-        Lifetime lifetime = (Lifetime)((RequestSecurityToken)request).getLifetime();
+        Lifetime lifetime = ((RequestSecurityToken)request).getLifetime();
         
         if(lifetime != null){
             long timeout = WSTrustUtil.getLifeSpan(lifetime);
@@ -288,16 +288,10 @@ public class WSSCContract {
         final Lifetime lifetime = WSTrustUtil.createLifetime(now, this.getSCTokenTimeout(), wsTrustVer);
         
         BaseSTSResponse response = null;
-        try {
-            if(wsscVer.getNamespaceURI().equals(WSSCVersion.WSSC_13.getNamespaceURI())){
-                response = wsscEleFac.createRSTRCollectionForIssue(tokenType, con, rst, scopes, rar, rur, proofToken, serverEntropy, lifetime);                
-            }else{
-                response = wsscEleFac.createRSTRForIssue(tokenType, con, rst, scopes, rar, rur, proofToken, serverEntropy, lifetime);
-            }
-        } catch (WSTrustException ex){
-            log.log(Level.SEVERE,
-                    LogStringsMessages.WSSC_0020_PROBLEM_CREATING_RSTR(), ex);
-            throw new WSSecureConversationException(LogStringsMessages.WSSC_0020_PROBLEM_CREATING_RSTR(), ex);
+        if(wsscVer.getNamespaceURI().equals(WSSCVersion.WSSC_13.getNamespaceURI())){
+            response = wsscEleFac.createRSTRCollectionForIssue(tokenType, con, rst, scopes, rar, rur, proofToken, serverEntropy, lifetime);
+        }else{
+            response = wsscEleFac.createRSTRForIssue(tokenType, con, rst, scopes, rar, rur, proofToken, serverEntropy, lifetime);
         }
 
         if (log.isLoggable(Level.FINE)) {
@@ -360,7 +354,7 @@ public class WSSCContract {
     
     /** Issue a Collection of Token(s) possibly for different scopes */
     public RequestSecurityTokenResponseCollection issueMultiple(
-            final RequestSecurityToken request, final IssuedTokenContext context)throws WSSecureConversationException {
+            final RequestSecurityToken request, final IssuedTokenContext context) {
         return null;
     }
     
@@ -462,7 +456,7 @@ public class WSSCContract {
             proofToken.setBinarySecret(clientEntropy.getBinarySecret());
         }
                 
-        Lifetime lifetime = (Lifetime)((RequestSecurityToken)request).getLifetime();
+        Lifetime lifetime = ((RequestSecurityToken)request).getLifetime();
         
         if(lifetime != null){
             //long timeout = getTimeoutFromRequest(lifetime);
@@ -503,25 +497,13 @@ public class WSSCContract {
         final Lifetime lifetime = createLifetime();
         
         final BaseSTSResponse rstr;
-        if(wsscVer.getNamespaceURI().equals(WSSCVersion.WSSC_13.getNamespaceURI())){                        
-            try{
-                RequestSecurityTokenResponse resp = wsscEleFac.createRSTRForRenew(tokenType, con, rst, rar, null, proofToken, serverEntropy, lifetime);
-                List<RequestSecurityTokenResponse> list = new ArrayList<RequestSecurityTokenResponse>();
-                list.add(resp);
-                rstr = ((WSSCElementFactory13)wsscEleFac).createRSTRCollectionForIssue(list);
-            }catch(WSTrustException ex){
-                log.log(Level.SEVERE,
-                    LogStringsMessages.WSSC_0020_PROBLEM_CREATING_RSTR(), ex);
-                throw new WSSecureConversationException(LogStringsMessages.WSSC_0020_PROBLEM_CREATING_RSTR(), ex);
-            }
-        }else{        
-            try{
-                rstr = wsscEleFac.createRSTRForRenew(tokenType, con, rst, rar, null, proofToken, serverEntropy, lifetime);
-            }catch (WSTrustException ex){
-                log.log(Level.SEVERE,
-                    LogStringsMessages.WSSC_0020_PROBLEM_CREATING_RSTR(), ex);
-                throw new WSSecureConversationException(LogStringsMessages.WSSC_0020_PROBLEM_CREATING_RSTR(), ex);
-            }
+        if(wsscVer.getNamespaceURI().equals(WSSCVersion.WSSC_13.getNamespaceURI())){
+            RequestSecurityTokenResponse resp = wsscEleFac.createRSTRForRenew(tokenType, con, rst, rar, null, proofToken, serverEntropy, lifetime);
+            List<RequestSecurityTokenResponse> list = new ArrayList<>();
+            list.add(resp);
+            rstr = ((WSSCElementFactory13)wsscEleFac).createRSTRCollectionForIssue(list);
+        }else{
+            rstr = wsscEleFac.createRSTRForRenew(tokenType, con, rst, rar, null, proofToken, serverEntropy, lifetime);
         }
         if (log.isLoggable(Level.FINE)) {
             log.log(Level.FINE,
@@ -556,14 +538,10 @@ public class WSSCContract {
         final BaseSTSResponse rstr;
         if(wsscVer.getNamespaceURI().equals(WSSCVersion.WSSC_13.getNamespaceURI())){
             RequestSecurityTokenResponse resp = wsscEleFac.createRSTRForCancel(); 
-            List<RequestSecurityTokenResponse> list = new ArrayList<RequestSecurityTokenResponse>();
+            List<RequestSecurityTokenResponse> list = new ArrayList<>();
             list.add(resp);
-            try{
-                rstr = ((WSSCElementFactory13)wsscEleFac).createRSTRCollectionForIssue(list);
-            }catch(WSTrustException ex){
-                throw new WSSecureConversationException(ex);
-            }
-        }else{        
+            rstr = ((WSSCElementFactory13)wsscEleFac).createRSTRCollectionForIssue(list);
+        }else{
             rstr = wsscEleFac.createRSTRForCancel();
         }
          if (log.isLoggable(Level.FINE)) {
@@ -575,8 +553,7 @@ public class WSSCContract {
     
     /** Validate a SecurityContextToken */
     public RequestSecurityTokenResponse validate(
-            final RequestSecurityToken request, final IssuedTokenContext context)
-            throws WSSecureConversationException {
+            final RequestSecurityToken request, final IssuedTokenContext context) {
         return null;
     }
     
@@ -585,8 +562,7 @@ public class WSSCContract {
      * Client Initiated Secure Conversation.
      */
     public void handleUnsolicited(
-            final RequestSecurityTokenResponse rstr, final IssuedTokenContext context)
-            throws WSSecureConversationException {
+            final RequestSecurityTokenResponse rstr, final IssuedTokenContext context) {
         //final AppliesTo scope = rstr.getAppliesTo();
         final RequestedSecurityToken rqSecToken = rstr.getRequestedSecurityToken();
         final Token token = rqSecToken.getToken();
@@ -718,9 +694,7 @@ public class WSSCContract {
                     set.add(samlAssertion);
                 }
             }
-       }catch (XWSSecurityException ex){
-            throw new WSSecureConversationException(ex.getMessage(), ex);
-       }catch (XMLStreamException ex){
+       }catch (XWSSecurityException | XMLStreamException ex){
             throw new WSSecureConversationException(ex.getMessage(), ex);
        }
     }

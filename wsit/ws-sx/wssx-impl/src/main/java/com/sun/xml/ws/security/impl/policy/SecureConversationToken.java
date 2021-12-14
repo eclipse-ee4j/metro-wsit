@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -66,6 +66,7 @@ public class SecureConversationToken extends PolicyAssertion implements com.sun.
     }
     
     
+    @Override
     public Set getTokenRefernceTypes() {
         populate();
         if(referenceType == null ){
@@ -74,6 +75,7 @@ public class SecureConversationToken extends PolicyAssertion implements com.sun.
         return referenceType;
     }
     
+    @Override
     public boolean isRequireDerivedKeys() {
         populate();
         if( rdKey != null){
@@ -83,6 +85,7 @@ public class SecureConversationToken extends PolicyAssertion implements com.sun.
     }
     
     
+        @Override
         public boolean isMustNotSendCancel() {
         populate();
         if( mustNotSendCancel != null){
@@ -91,6 +94,7 @@ public class SecureConversationToken extends PolicyAssertion implements com.sun.
         return false;
     }
     
+    @Override
     public boolean isMustNotSendRenew() {
         populate();
         if( mustNotSendRenew != null){
@@ -99,26 +103,31 @@ public class SecureConversationToken extends PolicyAssertion implements com.sun.
         return false;
     }
     
+    @Override
     public String getTokenType() {
         populate();
         return this.tokenType;
     }
     
+    @Override
     public Issuer getIssuer() {
         populate();
         return issuer;
     }
     
+    @Override
     public IssuerName getIssuerName() {
         populate();
         return issuerName;
     }
     
+    @Override
     public Claims getClaims(){
         populate();
         return claims;
     }
     
+    @Override
     public String getIncludeToken() {
         populate();
         return includeToken;
@@ -132,16 +141,19 @@ public class SecureConversationToken extends PolicyAssertion implements com.sun.
     
     
     
+    @Override
     public NestedPolicy getBootstrapPolicy() {
         populate();
         return bootstrapPolicy;
     }
     
+    @Override
     public String getTokenId() {
         return id;
     }
     
     
+    @Override
     public AssertionFitness validate(boolean isServer) {
         return populate(isServer);
     }
@@ -172,7 +184,7 @@ public class SecureConversationToken extends PolicyAssertion implements com.sun.
                     rdKey =  assertion;
                 }else if(PolicyUtil.isRequireExternalUriReference(assertion, spVersion)){
                     if(referenceType == null){
-                        referenceType =new HashSet<String>();
+                        referenceType = new HashSet<>();
                     }
                     referenceType.add(assertion.getName().getLocalPart().intern());
                 }else if(PolicyUtil.isSC10SecurityContextToken(assertion, spVersion)){
@@ -212,6 +224,7 @@ public class SecureConversationToken extends PolicyAssertion implements com.sun.
         return fitness;
     }
 
+    @Override
     public SecurityPolicyVersion getSecurityPolicyVersion() {
         return spVersion;
     }

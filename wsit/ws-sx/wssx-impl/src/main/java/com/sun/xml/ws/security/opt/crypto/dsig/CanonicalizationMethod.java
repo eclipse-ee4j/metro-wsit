@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -52,30 +52,29 @@ public class CanonicalizationMethod extends CanonicalizationMethodType implement
         this._algSpec = algSpec;
     }
     
+    @Override
     public AlgorithmParameterSpec getParameterSpec() {
         return _algSpec;
     }
     
     
+    @Override
     public boolean isFeatureSupported(String string) {
         //TODO:
         return false;
     }
     
+    @Override
     public Data transform(Data data, XMLCryptoContext xMLCryptoContext) throws TransformException {
         if(algorithm == CanonicalizationMethod.EXCLUSIVE){
-            try {
-                _exc14nCanonicalizer.init((TransformParameterSpec) _algSpec);
-            } catch (InvalidAlgorithmParameterException ex) {
-                logger.log(Level.SEVERE, LogStringsMessages.WSS_1758_TRANSFORM_INIT(),ex);
-                throw new TransformException(ex);
-            }
+            _exc14nCanonicalizer.init((TransformParameterSpec) _algSpec);
             _exc14nCanonicalizer.transform(data,xMLCryptoContext);
         }
         return null;
         
     }
     
+    @Override
     public Data transform(Data data, XMLCryptoContext xMLCryptoContext, OutputStream outputStream) throws TransformException {
         if(algorithm == CanonicalizationMethod.EXCLUSIVE){
             _exc14nCanonicalizer.transform(data,xMLCryptoContext,outputStream);

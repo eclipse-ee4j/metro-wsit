@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -23,7 +23,7 @@ class PendingResponseIdentifiers implements Serializable {
     private final Queue<String> messageIdentifiers;
 
     public PendingResponseIdentifiers() {
-        messageIdentifiers = new LinkedList<String>();
+        messageIdentifiers = new LinkedList<>();
     }
 
     public boolean isEmpty() {

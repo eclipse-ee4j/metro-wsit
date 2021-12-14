@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -23,6 +23,7 @@ import com.sun.xml.ws.transport.tcp.util.WSTCPException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 import java.security.Principal;
 import com.sun.istack.NotNull;
 
@@ -53,11 +54,8 @@ public class TCPConnectionImpl implements WebServiceContextDelegate {
     }
     
     public OutputStream openOutput() throws IOException, WSTCPException {
-        try {
-            setMessageHeaders();
-        } catch (IOException ex) {
-        }
-        
+        setMessageHeaders();
+
         outputStream = connection.openOutputStream();
         return outputStream;
     }
@@ -91,21 +89,25 @@ public class TCPConnectionImpl implements WebServiceContextDelegate {
     }
     
     // Not supported
+    @Override
     public Principal getUserPrincipal(final Packet request) {
         return null;
     }
     
     // Not supported
+    @Override
     public boolean isUserInRole(final Packet request, final String role) {
         return false;
     }
     
+    @Override
     public @NotNull String getEPRAddress(@NotNull final Packet request, @NotNull final WSEndpoint endpoint) {
         return channelContext.getTargetWSURI().toString();
     }
     
+    @Override
     public String getWSDLAddress(@NotNull final Packet request,
-            @NotNull final WSEndpoint endpoint) {
+                                 @NotNull final WSEndpoint endpoint) {
         return null;
     }
     
@@ -114,11 +116,11 @@ public class TCPConnectionImpl implements WebServiceContextDelegate {
         OutputStream output = openOutput();
         String description = message.getDescription();
         DataInOutUtils.writeInts4(output, message.getCode(), message.getSubCode(), description.length());
-        output.write(description.getBytes(TCPConstants.UTF8));
+        output.write(description.getBytes(StandardCharsets.UTF_8));
         flush();
     }
 
-    private void setMessageHeaders() throws IOException, WSTCPException {
+    private void setMessageHeaders() throws WSTCPException {
         if (!isHeaderSerialized) {
             isHeaderSerialized = true;
             

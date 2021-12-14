@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -32,6 +32,7 @@ public class CRLFOutputStream extends FilterOutputStream {
 	super(os);
     }
 
+    @Override
     public void write(int b) throws IOException {
 	if (b == '\r') {
 	    writeln();
@@ -45,11 +46,13 @@ public class CRLFOutputStream extends FilterOutputStream {
 	lastb = b;
     }
 
-    public void write(byte b[]) throws IOException {
+    @Override
+    public void write(byte[] b) throws IOException {
 	write(b, 0, b.length);
     }
 
-    public void write(byte b[], int off, int len) throws IOException {
+    @Override
+    public void write(byte[] b, int off, int len) throws IOException {
 	int start = off;
 	
 	len += off;

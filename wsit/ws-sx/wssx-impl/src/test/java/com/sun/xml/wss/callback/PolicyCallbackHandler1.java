@@ -15,9 +15,7 @@
 package com.sun.xml.wss.callback;
 
 import java.io.IOException;
-import java.io.FileInputStream;
 
-import org.apache.xml.security.utils.Base64;
 import java.util.Enumeration;
 import java.util.Properties;
 import java.util.Arrays;
@@ -112,6 +110,7 @@ public  class PolicyCallbackHandler1 implements CallbackHandler {
     }
 
 
+    @Override
     public void handle(Callback[] callbacks) throws IOException, UnsupportedCallbackException {
         
         for (int i=0; i < callbacks.length; i++) {
@@ -510,7 +509,7 @@ public  class PolicyCallbackHandler1 implements CallbackHandler {
 
 
     private void getDefaultCertificateFromTrustStore(
-        EncryptionKeyCallback.AliasX509CertificateRequest req) throws IOException {
+        EncryptionKeyCallback.AliasX509CertificateRequest req) {
            
             try {
                 Enumeration aliases = trustStore.aliases();
@@ -608,8 +607,8 @@ public  class PolicyCallbackHandler1 implements CallbackHandler {
 
     private static class PlainTextPasswordValidator implements PasswordValidationCallback.PasswordValidator {
 
-        public boolean validate(PasswordValidationCallback.Request request)
-            throws PasswordValidationCallback.PasswordValidationException {
+        @Override
+        public boolean validate(PasswordValidationCallback.Request request) {
             
             PasswordValidationCallback.PlainTextPasswordRequest plainTextRequest =
                 (PasswordValidationCallback.PlainTextPasswordRequest) request;
@@ -621,6 +620,7 @@ public  class PolicyCallbackHandler1 implements CallbackHandler {
 
     private class DefaultTimestampValidator implements TimestampValidationCallback.TimestampValidator {
 
+        @Override
         public void validate(TimestampValidationCallback.Request request)
             throws TimestampValidationCallback.TimestampValidationException {
 
@@ -734,6 +734,7 @@ public  class PolicyCallbackHandler1 implements CallbackHandler {
     
     private class X509CertificateValidatorImpl implements CertificateValidationCallback.CertificateValidator {
 
+        @Override
         public boolean validate(X509Certificate certificate)
             throws CertificateValidationCallback.CertificateValidationException {
 

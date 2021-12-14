@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -29,7 +29,7 @@ import com.sun.xml.wss.impl.policy.SecurityPolicy;
 import com.sun.xml.wss.impl.policy.PolicyGenerationException;
 import com.sun.xml.wss.impl.PolicyTypeUtil;
 import java.util.HashMap;
-import com.sun.xml.wss.impl.configuration.*;
+
 import com.sun.xml.wss.impl.misc.SecurityUtil;
 
 import com.sun.xml.wss.impl.AlgorithmSuite;
@@ -84,10 +84,10 @@ public class MessagePolicy implements SecurityPolicy {
             return optimizedType;
         }
         
-        StringBuffer securityOperation = new StringBuffer();
+        StringBuilder securityOperation = new StringBuilder();
         securityOperation.append("_BODY");
         
-        StringBuffer tmpBuffer = new StringBuffer("");
+        StringBuilder tmpBuffer = new StringBuilder("");
         
         SignatureTarget sigTarget = null;
         EncryptionTarget encTarget = null;
@@ -198,7 +198,7 @@ public class MessagePolicy implements SecurityPolicy {
                         return MessageConstants.NOT_OPTIMIZED;
                     }
                 }
-                securityOperation.insert(securityOperation.indexOf("_BODY"), tmpBuffer.toString());
+                securityOperation.insert(securityOperation.indexOf("_BODY"), tmpBuffer);
             } else if ( PolicyTypeUtil.encryptionPolicy(policy) ) {
                 tmpBuffer.delete(0, tmpBuffer.length());
                 EncryptionPolicy.FeatureBinding featureBinding =
@@ -244,7 +244,7 @@ public class MessagePolicy implements SecurityPolicy {
                         return MessageConstants.NOT_OPTIMIZED;
                     }
                 }
-                securityOperation.insert(securityOperation.indexOf("_BODY"), tmpBuffer.toString());
+                securityOperation.insert(securityOperation.indexOf("_BODY"), tmpBuffer);
             }
         }
         
@@ -280,12 +280,9 @@ public class MessagePolicy implements SecurityPolicy {
     /**
      * Append a SecurityPolicy
      * @param item SecurityPolicy instance to be appended
-     * @throws PolicyGenerationException if the policy being appended is
-     * not an instance of <code>WSSPolicy</code>
      */
     @SuppressWarnings("unchecked")
-    public void append(SecurityPolicy item)
-    throws PolicyGenerationException {
+    public void append(SecurityPolicy item) {
         //BooleanComposer.checkType(item);
         info.add(item);
     }
@@ -293,12 +290,9 @@ public class MessagePolicy implements SecurityPolicy {
     /**
      * Prepend a SecurityPolicy
      * @param item SecurityPolicy instance to be prepended
-     * @throws PolicyGenerationException if the policy being prepended is
-     * not an instance of <code>WSSPolicy</code>
      */
     @SuppressWarnings("unchecked")
-    public void prepend(SecurityPolicy item)
-    throws PolicyGenerationException {
+    public void prepend(SecurityPolicy item) {
         //BooleanComposer.checkType(item);
         int i = 0;
         for(i = 0; i < info.size(); i++ ){
@@ -313,11 +307,9 @@ public class MessagePolicy implements SecurityPolicy {
     /**
      * Append a policy collection
      * @param items Collection of SecurityPolicy instances to be appended
-     * @throws PolicyGenerationException
      */
     @SuppressWarnings("unchecked")
-    public void appendAll(Collection items)
-    throws PolicyGenerationException {
+    public void appendAll(Collection items) {
         Iterator i = items.iterator();
         while (i.hasNext()) {
             SecurityPolicy item = (SecurityPolicy) i.next();
@@ -344,9 +336,8 @@ public class MessagePolicy implements SecurityPolicy {
      * Get the Security policy at the specified index
      * @param index index to the policy collection
      * @return SecurityPolicy instance at the specified index
-     * @throws Exception if a policy could not be retrieved
      */
-    public SecurityPolicy get(int index) throws Exception {
+    public SecurityPolicy get(int index) {
         
         if (!optionals.isEmpty()) addOptionals();
         
@@ -386,12 +377,9 @@ public class MessagePolicy implements SecurityPolicy {
      * Insert the additional policy before the existing policy
      * @param existing SecurityPolicy instance before which the additional policy needs to be inserted
      * @param additional SecurityPolicy instance to be inserted
-     * @throws PolicyGenerationException if the policy to be inserted is not an instance of <code>WSSPolicy</code>,
-     * or there is an error in inserting the policy
      */
     @SuppressWarnings("unchecked")
-    public void insertBefore(SecurityPolicy existing, SecurityPolicy additional)
-    throws PolicyGenerationException {
+    public void insertBefore(SecurityPolicy existing, SecurityPolicy additional) {
         //BooleanComposer.checkType(existing);
         //BooleanComposer.checkType(additional);
         
@@ -649,6 +637,7 @@ public class MessagePolicy implements SecurityPolicy {
     /**
      * @return the type of the policy
      */
+    @Override
     public String getType() {
         return PolicyTypeUtil.MESSAGEPOLICY_CONFIG_TYPE;
     }

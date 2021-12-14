@@ -48,7 +48,7 @@ public final class FiberExecutor {
     }
     private Pool<Tube> tubelinePool;
     private volatile Engine engine;
-    private final List<Schedule> schedules = new LinkedList<Schedule>();
+    private final List<Schedule> schedules = new LinkedList<>();
     private Executor executor;
 
     public FiberExecutor(String id, Tube masterTubeline) {
@@ -102,11 +102,13 @@ public final class FiberExecutor {
         final Tube tube = tubelinePool.take();
         fiber.start(tube, request, new Fiber.CompletionCallback() {
 
+            @Override
             public void onCompletion(@NotNull Packet response) {
                 tubelinePool.recycle(tube);
                 callback.onCompletion(response);
             }
 
+            @Override
             public void onCompletion(@NotNull Throwable error) {
                 // let's not reuse tubes as they might be in a wrong state, so not
                 // calling tubePool.recycle()

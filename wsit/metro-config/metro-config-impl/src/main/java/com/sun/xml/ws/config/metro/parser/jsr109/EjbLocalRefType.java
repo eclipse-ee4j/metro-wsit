@@ -150,7 +150,7 @@ public class EjbLocalRefType
      */
     public List<DescriptionType> getDescription() {
         if (description == null) {
-            description = new ArrayList<DescriptionType>();
+            description = new ArrayList<>();
         }
         return this.description;
     }
@@ -323,7 +323,7 @@ public class EjbLocalRefType
      */
     public List<InjectionTargetType> getInjectionTarget() {
         if (injectionTarget == null) {
-            injectionTarget = new ArrayList<InjectionTargetType>();
+            injectionTarget = new ArrayList<>();
         }
         return this.injectionTarget;
     }
@@ -376,6 +376,7 @@ public class EjbLocalRefType
         this.id = value;
     }
 
+    @Override
     public Locator sourceLocation() {
         return locator;
     }

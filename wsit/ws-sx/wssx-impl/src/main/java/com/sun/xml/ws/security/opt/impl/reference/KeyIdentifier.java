@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -20,7 +20,7 @@ import com.sun.istack.NotNull;
 import com.sun.xml.ws.security.opt.api.SecurityElementWriter;
 import com.sun.xml.ws.security.opt.api.SecurityHeaderElement;
 import com.sun.xml.wss.XWSSecurityException;
-import java.io.IOException;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateEncodingException;
@@ -66,6 +66,7 @@ public class KeyIdentifier extends KeyIdentifierType
      * 
      * @return the valueType attribute for KeyIdentifier
      */
+    @Override
     public String getValueType() {
         return super.getValueType();
     }
@@ -74,6 +75,7 @@ public class KeyIdentifier extends KeyIdentifierType
      * 
      * @param valueType the valueType attribute for KeyIdentifier
      */
+    @Override
     public void setValueType(final String valueType) {
         super.setValueType(valueType);
     }
@@ -82,6 +84,7 @@ public class KeyIdentifier extends KeyIdentifierType
      * 
      * @return the encodingType attribute
      */
+    @Override
     public String getEncodingType() {
         return super.getEncodingType();
     }
@@ -90,6 +93,7 @@ public class KeyIdentifier extends KeyIdentifierType
      * 
      * @param value the encodingType attribute
      */
+    @Override
     public void setEncodingType(final String value) {
         super.setEncodingType(value);
     }
@@ -98,6 +102,7 @@ public class KeyIdentifier extends KeyIdentifierType
      * 
      * @return the referenced value by this key identifier
      */
+    @Override
     public String getReferenceValue() {
         return super.getValue();
     }
@@ -106,6 +111,7 @@ public class KeyIdentifier extends KeyIdentifierType
      * 
      * @param referenceValue the referenced value by this keyIdentifier
      */
+    @Override
     public void setReferenceValue(final String referenceValue) {
         super.setValue(referenceValue);
     }
@@ -114,6 +120,7 @@ public class KeyIdentifier extends KeyIdentifierType
      * 
      * @return the reference type used
      */
+    @Override
     public String getType() {
         return MessageConstants.KEY_INDETIFIER_TYPE;
     }
@@ -122,6 +129,7 @@ public class KeyIdentifier extends KeyIdentifierType
      * 
      * @return id attribute
      */
+    @Override
     public String getId() {
         QName qname = new QName(MessageConstants.WSU_NS, "Id", MessageConstants.WSU_PREFIX);
         Map<QName, String> otherAttributes = this.getOtherAttributes();
@@ -129,9 +137,9 @@ public class KeyIdentifier extends KeyIdentifierType
     }
     
     /**
-     * 
-     * @param id 
+     *
      */
+    @Override
     public void setId(String id) {
         QName qname = new QName(MessageConstants.WSU_NS, "Id", MessageConstants.WSU_PREFIX);
         Map<QName, String> otherAttributes = this.getOtherAttributes();
@@ -142,6 +150,7 @@ public class KeyIdentifier extends KeyIdentifierType
      * 
      * @return namespace uri of Keyidentifier.
      */
+    @Override
     public String getNamespaceURI() {
         return MessageConstants.WSSE_NS;
     }
@@ -152,6 +161,7 @@ public class KeyIdentifier extends KeyIdentifierType
      * @return
      *      this string must be interned.
      */
+    @Override
     public String getLocalPart() {
         return "KeyIdentifier".intern();
     }
@@ -169,6 +179,7 @@ public class KeyIdentifier extends KeyIdentifierType
         return otherAttributes.get(name);
     }
     
+    @Override
     public XMLStreamReader readHeader() throws XMLStreamException {
         XMLStreamBufferResult xbr = new XMLStreamBufferResult();
         JAXBElement<KeyIdentifierType> keyIdentifierElem = new ObjectFactory().createKeyIdentifier(this);
@@ -188,6 +199,7 @@ public class KeyIdentifier extends KeyIdentifierType
      *      if the operation fails for some reason. This leaves the
      *      writer to an undefined state.
      */
+    @Override
     public void writeTo(XMLStreamWriter streamWriter) throws XMLStreamException {
         JAXBElement<KeyIdentifierType> keyIdentifierElem = new ObjectFactory().createKeyIdentifier(this);
         try {
@@ -208,11 +220,9 @@ public class KeyIdentifier extends KeyIdentifierType
     }
     
     /**
-     * 
-     * @param streamWriter 
-     * @param props 
-     * @throws javax.xml.stream.XMLStreamException 
+     *
      */
+    @Override
     @SuppressWarnings("unchecked")
     public void writeTo(javax.xml.stream.XMLStreamWriter streamWriter, HashMap props) throws javax.xml.stream.XMLStreamException {
         try{
@@ -233,9 +243,9 @@ public class KeyIdentifier extends KeyIdentifierType
     }
     
     /**
-     * 
-     * @param os 
+     *
      */
+    @Override
     public void writeTo(OutputStream os) {
     }
     
@@ -270,10 +280,9 @@ public class KeyIdentifier extends KeyIdentifierType
     }
     
     /**
-     * 
-     * @param id 
-     * @return 
+     *
      */
+    @Override
     public boolean refersToSecHdrWithId(String id) {
         String valueType =this.getValueType();
         if(MessageConstants.WSSE_SAML_KEY_IDENTIFIER_VALUE_TYPE.equals(valueType) ||

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -55,7 +55,6 @@ public class KeyInfoConfirmationData extends com.sun.xml.wss.saml.internal.saml2
      *
      * @param element a DOM Element representing the
      *        <code>KeyInfoConfirmationData</code> object.
-     * @throws SAMLException
      */
     public static KeyInfoConfirmationData fromElement(org.w3c.dom.Element element)
     throws SAMLException {
@@ -107,6 +106,7 @@ public class KeyInfoConfirmationData extends com.sun.xml.wss.saml.internal.saml2
          this.getContent().add(value);
     }
 
+    @Override
     public Date getNotBeforeDate() {
         if(super.getNotBefore() != null){
             Date getNotBeforeDate = null;
@@ -120,6 +120,7 @@ public class KeyInfoConfirmationData extends com.sun.xml.wss.saml.internal.saml2
         return null;
     }
 
+    @Override
     public Date getNotOnOrAfterDate() {
         if(super.getNotBefore() != null){
             Date getNotBeforeDate = null;

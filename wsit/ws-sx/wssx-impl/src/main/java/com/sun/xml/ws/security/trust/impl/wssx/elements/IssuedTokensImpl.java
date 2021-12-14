@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -33,14 +33,17 @@ public class IssuedTokensImpl implements IssuedTokens {
         setIssuedTokens(rcollection);
     }
     
+    @Override
     public RequestSecurityTokenResponseCollection getIssuedTokens() {
         return collection;
     }
     
+    @Override
     public void setIssuedTokens(RequestSecurityTokenResponseCollection rcollection) {
         collection = rcollection;
     }
     
+    @Override
     public List<Object> getAny() {
         return null;
     }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -153,7 +153,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd", name = "BinarySecurityToken")
     public JAXBElement<BinarySecurityTokenType> createBinarySecurityToken(BinarySecurityTokenType value) {
-        return new JAXBElement<BinarySecurityTokenType>(_BinarySecurityToken_QNAME, BinarySecurityTokenType.class, null, value);
+        return new JAXBElement<>(_BinarySecurityToken_QNAME, BinarySecurityTokenType.class, null, value);
     }
 
     /**
@@ -162,7 +162,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd", name = "KeyIdentifier")
     public JAXBElement<KeyIdentifierType> createKeyIdentifier(KeyIdentifierType value) {
-        return new JAXBElement<KeyIdentifierType>(_KeyIdentifier_QNAME, KeyIdentifierType.class, null, value);
+        return new JAXBElement<>(_KeyIdentifier_QNAME, KeyIdentifierType.class, null, value);
     }
 
     /**
@@ -171,7 +171,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd", name = "UsernameToken")
     public JAXBElement<UsernameTokenType> createUsernameToken(UsernameTokenType value) {
-        return new JAXBElement<UsernameTokenType>(_UsernameToken_QNAME, UsernameTokenType.class, null, value);
+        return new JAXBElement<>(_UsernameToken_QNAME, UsernameTokenType.class, null, value);
     }
 
     /**
@@ -180,7 +180,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd", name = "Security")
     public JAXBElement<SecurityHeaderType> createSecurity(SecurityHeaderType value) {
-        return new JAXBElement<SecurityHeaderType>(_Security_QNAME, SecurityHeaderType.class, null, value);
+        return new JAXBElement<>(_Security_QNAME, SecurityHeaderType.class, null, value);
     }
 
     /**
@@ -189,7 +189,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd", name = "TransformationParameters")
     public JAXBElement<TransformationParametersType> createTransformationParameters(TransformationParametersType value) {
-        return new JAXBElement<TransformationParametersType>(_TransformationParameters_QNAME, TransformationParametersType.class, null, value);
+        return new JAXBElement<>(_TransformationParameters_QNAME, TransformationParametersType.class, null, value);
     }
 
     /**
@@ -198,7 +198,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd", name = "Reference")
     public JAXBElement<ReferenceType> createReference(ReferenceType value) {
-        return new JAXBElement<ReferenceType>(_Reference_QNAME, ReferenceType.class, null, value);
+        return new JAXBElement<>(_Reference_QNAME, ReferenceType.class, null, value);
     }
 
     /**
@@ -207,7 +207,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd", name = "Nonce")
     public JAXBElement<EncodedString> createNonce(EncodedString value) {
-        return new JAXBElement<EncodedString>(_Nonce_QNAME, EncodedString.class, null, value);
+        return new JAXBElement<>(_Nonce_QNAME, EncodedString.class, null, value);
     }
 
     /**
@@ -216,7 +216,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd", name = "Password")
     public JAXBElement<PasswordString> createPassword(PasswordString value) {
-        return new JAXBElement<PasswordString>(_Password_QNAME, PasswordString.class, null, value);
+        return new JAXBElement<>(_Password_QNAME, PasswordString.class, null, value);
     }
 
     /**
@@ -225,7 +225,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd", name = "Embedded")
     public JAXBElement<EmbeddedType> createEmbedded(EmbeddedType value) {
-        return new JAXBElement<EmbeddedType>(_Embedded_QNAME, EmbeddedType.class, null, value);
+        return new JAXBElement<>(_Embedded_QNAME, EmbeddedType.class, null, value);
     }
 
     /**
@@ -234,7 +234,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd", name = "SecurityTokenReference")
     public JAXBElement<SecurityTokenReferenceType> createSecurityTokenReference(SecurityTokenReferenceType value) {
-        return new JAXBElement<SecurityTokenReferenceType>(_SecurityTokenReference_QNAME, SecurityTokenReferenceType.class, null, value);
+        return new JAXBElement<>(_SecurityTokenReference_QNAME, SecurityTokenReferenceType.class, null, value);
     }
 
 }

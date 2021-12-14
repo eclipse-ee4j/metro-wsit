@@ -99,7 +99,6 @@ public interface RequestSecurityTokenResponse extends WSTrustElementBase, BaseST
     /**
      * Set the requestedProofToken on the security token response
      *
-     * @param proofToken
      */
     void setRequestedProofToken(RequestedProofToken proofToken);
 
@@ -113,7 +112,6 @@ public interface RequestSecurityTokenResponse extends WSTrustElementBase, BaseST
     /**
      * Set the requestedSecurityToken on the security token response
      *
-     * @param securityToken
      */
     void setRequestedSecurityToken(RequestedSecurityToken securityToken);
 
@@ -126,7 +124,6 @@ public interface RequestSecurityTokenResponse extends WSTrustElementBase, BaseST
 
     /**
      * Set the requestedAttachedReference on the security token response
-     * @param reference
      */
     void setRequestedAttachedReference(RequestedAttachedReference reference);
 
@@ -139,7 +136,6 @@ public interface RequestSecurityTokenResponse extends WSTrustElementBase, BaseST
 
     /**
      * Set the requestedUnattachedReference on the security token response
-     * @param reference
      */
     void setRequestedUnattachedReference(RequestedUnattachedReference reference);
 

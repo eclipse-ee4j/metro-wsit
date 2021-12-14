@@ -10,8 +10,6 @@
 
 package com.sun.xml.ws.tx.coord.common.types;
 
-import org.w3c.dom.Element;
-
 import javax.xml.namespace.QName;
 import java.util.List;
 import java.util.Map;

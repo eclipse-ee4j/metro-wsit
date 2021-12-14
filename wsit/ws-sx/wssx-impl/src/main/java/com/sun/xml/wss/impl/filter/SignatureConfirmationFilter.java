@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -65,8 +65,7 @@ public class SignatureConfirmationFilter {
     * If the message is outgoing checks for the property receivedSignValues in context's extraneous properties and
     * if it is not null, add a SignatureConfirmation Header for each of the values in the property
     * @param context FilterProcessingContext
-    * @throws com.sun.xml.wss.XWSSecurityException
-    */
+     */
     public static void process(FilterProcessingContext context) throws XWSSecurityException{
         
         if(!context.isInboundMessage()){
@@ -164,7 +163,6 @@ public class SignatureConfirmationFilter {
      * this adds signature confirmation element into the security header
      * @param context FilterProcessingContext
      * @param scList List
-     * @throws com.sun.xml.wss.XWSSecurityException
      */
     @SuppressWarnings("unchecked")
     private static void setSignConfirmValues(com.sun.xml.wss.impl.FilterProcessingContext context, List scList) 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -76,7 +76,7 @@ final class EntryInfo {
                 new RegistrationContextImpl(ctx.getMessageLayer(),
                 ctx.getAppContext(), ctx.getDescription(), ctx.isPersistent());
             List<RegistrationContext> newList =
-                new ArrayList<RegistrationContext>(1);
+                    new ArrayList<>(1);
             newList.add(ctxImpl);
             this.regContexts = newList;
         }

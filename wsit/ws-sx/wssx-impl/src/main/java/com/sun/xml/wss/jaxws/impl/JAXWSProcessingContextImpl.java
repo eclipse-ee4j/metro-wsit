@@ -32,10 +32,12 @@ public class JAXWSProcessingContextImpl extends FilterProcessingContext implemen
     public JAXWSProcessingContextImpl() {
     }
     
+    @Override
     public void setMessage(Message message) {
         this._message = message;
     }
     
+    @Override
     public Message getMessage() {
         return _message;
     }

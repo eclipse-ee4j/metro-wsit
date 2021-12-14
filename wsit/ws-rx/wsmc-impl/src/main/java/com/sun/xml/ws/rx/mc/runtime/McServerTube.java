@@ -66,6 +66,7 @@ public class McServerTube extends AbstractFilterTubeImpl {
             this.configuration = configuration;
         }
 
+        @Override
         public void onCompletion(Packet response) {
             try {
                 LOGGER.finer(LocalizationMessages.WSMC_0105_STORING_RESPONSE(clientUID));
@@ -86,6 +87,7 @@ public class McServerTube extends AbstractFilterTubeImpl {
             }
         }
 
+        @Override
         public void onCompletion(Throwable error) {
             LOGGER.severe(LocalizationMessages.WSMC_0106_EXCEPTION_IN_REQUEST_PROCESSING(clientUID), error);
         }
@@ -222,7 +224,7 @@ public class McServerTube extends AbstractFilterTubeImpl {
             if (!mcElement.getAny().isEmpty()) {
                 // WS-I RSP v1.0: R2103 If a wsmc:MakeConnection request contains a wsrm:Identifier element
                 // (in violation of R2101) the MC-RECEIVER MUST generate a wsmc:UnsupportedSelection fault.
-                List<SoapFaultDetailEntry> unsupportedSelections = new ArrayList<SoapFaultDetailEntry>(mcElement.getAny().size());
+                List<SoapFaultDetailEntry> unsupportedSelections = new ArrayList<>(mcElement.getAny().size());
                 for (Object element : mcElement.getAny()) {
                     if (element instanceof Node) {
                         Node selectionNode = ((Node) element);
@@ -371,7 +373,7 @@ public class McServerTube extends AbstractFilterTubeImpl {
                     }
                     break;
                 default:
-                    throw new RxRuntimeException("Unsupported SOAP version: '" + soapVersion.toString() + "'");
+                    throw new RxRuntimeException("Unsupported SOAP version: '" + soapVersion + "'");
             }
 
             Message soapFaultMessage = Messages.create(soapFault);

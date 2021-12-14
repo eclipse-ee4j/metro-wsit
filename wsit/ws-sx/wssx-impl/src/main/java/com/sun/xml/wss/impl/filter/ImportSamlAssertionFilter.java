@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -45,7 +45,6 @@ public class ImportSamlAssertionFilter{
      * reads the saml element from the soap message and creates a SAML assertion
      * object from this saml element
      * @param context FilterProcessingContext
-     * @throws com.sun.xml.wss.XWSSecurityException
      */
     @SuppressWarnings("unchecked")
     public static void process(FilterProcessingContext context)	throws XWSSecurityException {
@@ -155,7 +154,7 @@ public class ImportSamlAssertionFilter{
              if (context.getMode() == FilterProcessingContext.WSDL_POLICY) {
                  AuthenticationTokenPolicy.SAMLAssertionBinding bind =
                      new AuthenticationTokenPolicy.SAMLAssertionBinding();
-                 ((MessagePolicy)context.getInferredSecurityPolicy()).append(bind);
+                 context.getInferredSecurityPolicy().append(bind);
              }
                                                                                                   
             try{

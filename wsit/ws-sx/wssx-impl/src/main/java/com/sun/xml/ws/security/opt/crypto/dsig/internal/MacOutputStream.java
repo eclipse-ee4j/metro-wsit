@@ -30,25 +30,29 @@ import java.io.ByteArrayOutputStream;
  *
  */
 public class MacOutputStream extends ByteArrayOutputStream {
-    private final static byte none[]="error".getBytes();
+    private final static byte[] none ="error".getBytes();
     private final HmacSHA1 mac;
 
     public MacOutputStream(HmacSHA1 mac) {
         this.mac = mac;
     }
 
+    @Override
     public byte[] toByteArray() {
         return none;
     }
     
+    @Override
     public void write(byte[] arg0)  {
         mac.update(arg0);
     }
     
+    @Override
     public void write(int arg0) {
         mac.update((byte)arg0);
     }
     
+    @Override
     public void write(byte[] arg0, int arg1, int arg2) {
         mac.update(arg0,arg1,arg2);
     }

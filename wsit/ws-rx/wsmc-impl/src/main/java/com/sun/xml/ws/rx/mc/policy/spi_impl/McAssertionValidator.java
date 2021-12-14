@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -22,8 +22,8 @@ import java.util.List;
 
 public class McAssertionValidator implements PolicyAssertionValidator {
 
-    private static final ArrayList<QName> SERVER_SIDE_ASSERTIONS = new ArrayList<QName>(1);
-    private static final ArrayList<QName> CLIENT_SIDE_ASSERTIONS = new ArrayList<QName>(1);
+    private static final ArrayList<QName> SERVER_SIDE_ASSERTIONS = new ArrayList<>(1);
+    private static final ArrayList<QName> CLIENT_SIDE_ASSERTIONS = new ArrayList<>(1);
 
     private static final List<String> SUPPORTED_DOMAINS = Collections.unmodifiableList(McAssertionNamespace.namespacesList());
 
@@ -37,10 +37,12 @@ public class McAssertionValidator implements PolicyAssertionValidator {
     public McAssertionValidator() {
     }
 
+    @Override
     public Fitness validateClientSide(PolicyAssertion assertion) {
         return CLIENT_SIDE_ASSERTIONS.contains(assertion.getName()) ? Fitness.SUPPORTED : Fitness.UNKNOWN;
     }
 
+    @Override
     public Fitness validateServerSide(PolicyAssertion assertion) {
         QName assertionName = assertion.getName();
         if (SERVER_SIDE_ASSERTIONS.contains(assertionName)) {
@@ -52,7 +54,8 @@ public class McAssertionValidator implements PolicyAssertionValidator {
         }
     }
 
+    @Override
     public String[] declareSupportedDomains() {
-        return SUPPORTED_DOMAINS.toArray(new String[SUPPORTED_DOMAINS.size()]);
+        return SUPPORTED_DOMAINS.toArray(new String[0]);
     }
 }

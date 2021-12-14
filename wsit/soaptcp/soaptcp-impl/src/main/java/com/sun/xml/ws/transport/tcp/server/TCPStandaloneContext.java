@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -31,16 +31,18 @@ import java.util.zip.ZipFile;
 public final class TCPStandaloneContext implements TCPContext {
     
     private final ClassLoader classloader;
-    private final Map<String, Object> attributes = new HashMap<String, Object>();
+    private final Map<String, Object> attributes = new HashMap<>();
     
     public TCPStandaloneContext(final ClassLoader classloader) {
         this.classloader = classloader;
     }
     
-    public InputStream getResourceAsStream(final String resource) throws IOException {
+    @Override
+    public InputStream getResourceAsStream(final String resource) {
         return classloader.getResourceAsStream(resource);
     }
     
+    @Override
     public Set<String> getResourcePaths(final String path) {
         try {
             return populateResourcePaths(path);
@@ -51,6 +53,7 @@ public final class TCPStandaloneContext implements TCPContext {
     }
     
     
+    @Override
     public URL getResource(String resource) {
         if (resource.charAt(0) == '/') {
             resource = resource.substring(1, resource.length());
@@ -68,7 +71,7 @@ public final class TCPStandaloneContext implements TCPContext {
     }
     
     private Set<String> populateResourcePaths(final String path) throws Exception {
-        final Set<String> resources = new HashSet<String>();
+        final Set<String> resources = new HashSet<>();
         
         for(final Enumeration<URL> initResources = getResources(path); initResources.hasMoreElements(); ) {
             final URI resourceURI = initResources.nextElement().toURI();
@@ -85,6 +88,7 @@ public final class TCPStandaloneContext implements TCPContext {
     private void gatherResourcesWithFileMode(final String path, final URI resourceURI, final Set<String> resources) {
         final File file = new File(resourceURI);
         final String[] list = file.list(new FilenameFilter() {
+            @Override
             public boolean accept(File file, String name) {
                 return name.charAt(0) != '.';
             }
@@ -129,10 +133,12 @@ public final class TCPStandaloneContext implements TCPContext {
         }
     }
     
+    @Override
     public Object getAttribute(final String name) {
         return attributes.get(name);
     }
     
+    @Override
     public void setAttribute(final String name, final Object value) {
         attributes.put(name, value);
     }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -22,7 +22,7 @@ import javax.xml.namespace.QName;
  * @author K.Venugopal@sun.com
  */
 public class SecurityPolicyValidator implements PolicyAssertionValidator{
-    private static final ArrayList<QName> supportedAssertions = new ArrayList<QName>();
+    private static final ArrayList<QName> supportedAssertions = new ArrayList<>();
     static{
         supportedAssertions.add(new QName(SecurityPolicyVersion.SECURITYPOLICY200507.namespaceUri,CanonicalizationAlgorithm));
         supportedAssertions.add(new QName(SecurityPolicyVersion.SECURITYPOLICY200507.namespaceUri,Basic256));
@@ -427,6 +427,7 @@ public class SecurityPolicyValidator implements PolicyAssertionValidator{
     public SecurityPolicyValidator() {
     }
     
+    @Override
     public Fitness validateClientSide(PolicyAssertion policyAssertion) {
         String uri = policyAssertion.getName().getNamespaceURI();
         
@@ -436,7 +437,7 @@ public class SecurityPolicyValidator implements PolicyAssertionValidator{
         
         if (policyAssertion instanceof SecurityAssertionValidator) {
             SecurityAssertionValidator.AssertionFitness fitness =((SecurityAssertionValidator)policyAssertion).validate(false);
-            if(fitness == fitness.IS_VALID){
+            if(fitness == SecurityAssertionValidator.AssertionFitness.IS_VALID){
                 return Fitness.SUPPORTED;
             }else {
                 return Fitness.UNSUPPORTED;
@@ -450,6 +451,7 @@ public class SecurityPolicyValidator implements PolicyAssertionValidator{
         }
     }
     
+    @Override
     public Fitness validateServerSide(PolicyAssertion policyAssertion) {
         String uri = policyAssertion.getName().getNamespaceURI();
         
@@ -467,6 +469,7 @@ public class SecurityPolicyValidator implements PolicyAssertionValidator{
         }
     }
     
+    @Override
     public String[] declareSupportedDomains() {
         return new String[] {
             SecurityPolicyVersion.SECURITYPOLICY200507.namespaceUri,

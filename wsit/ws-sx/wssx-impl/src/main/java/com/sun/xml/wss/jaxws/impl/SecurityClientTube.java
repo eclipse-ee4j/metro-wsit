@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -110,7 +110,7 @@ public class SecurityClientTube extends SecurityTubeBase implements SecureConver
     // Plugin instances for Trust and SecureConversation invocation
     //private static TrustPlugin trustPlugin = WSTrustFactory.newTrustPlugin(null);
     private IssuedTokenManager itm = IssuedTokenManager.getInstance();
-    private Hashtable<String, String> scPolicyIDtoSctIdMap = new Hashtable<String, String>();
+    private Hashtable<String, String> scPolicyIDtoSctIdMap = new Hashtable<>();
     //private WSSCPlugin  scPlugin;
     private Set trustConfig = null;
     private Set wsscConfig = null;
@@ -168,6 +168,7 @@ public class SecurityClientTube extends SecurityTubeBase implements SecureConver
     //scPlugin = that.scPlugin;
     }
 
+    @Override
     public AbstractTubeImpl copy(TubeCloner cloner) {
         return new SecurityClientTube(this, cloner);
     }
@@ -180,7 +181,7 @@ public class SecurityClientTube extends SecurityTubeBase implements SecureConver
             //computing EPR related stuff
             //get certificate from EPR or from XWSSConstants.SERVER_CERTIFICATE_PROPERTY
             if (wsitContext != null) {
-                WSBindingProvider bpr = (WSBindingProvider) wsitContext.getWrappedContext().getBindingProvider();
+                WSBindingProvider bpr = wsitContext.getWrappedContext().getBindingProvider();
                 WSEndpointReference epr = bpr.getWSEndpointReference();
                 X509Certificate x509Cert = (X509Certificate) bpr.getRequestContext().get(XWSSConstants.SERVER_CERTIFICATE_PROPERTY);
                 if (x509Cert == null) {
@@ -272,7 +273,7 @@ public class SecurityClientTube extends SecurityTubeBase implements SecureConver
             // To append the policy for using with renew message;
             // Need to refactor to make it logical more clean
             SCTokenConfiguration config = new DefaultSCTokenConfiguration(wsscVer.getNamespaceURI());
-            config.getOtherOptions().put("MessagePolicy", (MessagePolicy) ctx.getSecurityPolicy());
+            config.getOtherOptions().put("MessagePolicy", ctx.getSecurityPolicy());
             IssuedTokenContext itc = itm.createIssuedTokenContext(config, packet.endpointAddress.toString());
             try {
                 itm.renewIssuedToken(itc);
@@ -473,7 +474,7 @@ public class SecurityClientTube extends SecurityTubeBase implements SecureConver
     // returns a list of IssuedTokenPolicy Assertions contained in the
     // service policy
     protected List<PolicyAssertion> getIssuedTokenPolicies(Packet packet, String scope) {
-        List<PolicyAssertion> ret = new ArrayList<PolicyAssertion>();
+        List<PolicyAssertion> ret = new ArrayList<>();
         for (PolicyAlternativeHolder p : this.policyAlternatives) {
 
             WSDLBoundOperation operation = null;
@@ -484,7 +485,7 @@ public class SecurityClientTube extends SecurityTubeBase implements SecureConver
                 operation = getOperation(packet.getMessage());
             }
 
-            SecurityPolicyHolder sph = (SecurityPolicyHolder) p.getOutMessagePolicyMap().get(operation);
+            SecurityPolicyHolder sph = p.getOutMessagePolicyMap().get(operation);
             if (sph != null) {
                 ret.addAll(sph.getIssuedTokens());
             }
@@ -492,8 +493,8 @@ public class SecurityClientTube extends SecurityTubeBase implements SecureConver
         return ret;
     }
 
-    public JAXBElement startSecureConversation(Packet packet)
-            throws WSSecureConversationException {
+    @Override
+    public JAXBElement startSecureConversation(Packet packet) {
 
         List toks = getOutBoundSCP(packet.getMessage());
         if (toks.isEmpty()) {
@@ -668,36 +669,43 @@ public class SecurityClientTube extends SecurityTubeBase implements SecureConver
         }
     }
 
+    @Override
     protected SecurityPolicyHolder addOutgoingMP(WSDLBoundOperation operation, Policy policy, PolicyAlternativeHolder ph) throws PolicyException {
         SecurityPolicyHolder sph = constructPolicyHolder(policy, false, false);
         ph.getOutMessagePolicyMap().put(operation, sph);
         return sph;
     }
 
+    @Override
     protected SecurityPolicyHolder addIncomingMP(WSDLBoundOperation operation, Policy policy, PolicyAlternativeHolder ph) throws PolicyException {
         SecurityPolicyHolder sph = constructPolicyHolder(policy, false, true);
         ph.getInMessagePolicyMap().put(operation, sph);
         return sph;
     }
 
+    @Override
     protected void addIncomingProtocolPolicy(Policy effectivePolicy, String protocol, PolicyAlternativeHolder ph) throws PolicyException {
         ph.getInProtocolPM().put(protocol, constructPolicyHolder(effectivePolicy, false, true, true));
     }
 
+    @Override
     protected void addOutgoingProtocolPolicy(Policy effectivePolicy, String protocol, PolicyAlternativeHolder ph) throws PolicyException {
         ph.getOutProtocolPM().put(protocol, constructPolicyHolder(effectivePolicy, false, false, false));
     }
 
+    @Override
     protected void addIncomingFaultPolicy(Policy effectivePolicy, SecurityPolicyHolder sph, WSDLFault fault) throws PolicyException {
         SecurityPolicyHolder faultPH = constructPolicyHolder(effectivePolicy, false, true);
         sph.addFaultPolicy(fault, faultPH);
     }
 
+    @Override
     protected void addOutgoingFaultPolicy(Policy effectivePolicy, SecurityPolicyHolder sph, WSDLFault fault) throws PolicyException {
         SecurityPolicyHolder faultPH = constructPolicyHolder(effectivePolicy, false, false);
         sph.addFaultPolicy(fault, faultPH);
     }
 
+    @Override
     protected String getAction(WSDLOperation operation, boolean inComming) {
         if (!inComming) {
             return operation.getInput().getAction();
@@ -733,7 +741,7 @@ public class SecurityClientTube extends SecurityTubeBase implements SecureConver
         Message message = packet.getMessage();
         for (PolicyAlternativeHolder p : this.policyAlternatives) {
             WSDLBoundOperation operation = message.getOperation(tubeConfig.getWSDLPort());
-            SecurityPolicyHolder sph = (SecurityPolicyHolder) p.getOutMessagePolicyMap().get(operation);
+            SecurityPolicyHolder sph = p.getOutMessagePolicyMap().get(operation);
             if (sph != null && sph.isIssuedTokenAsEncryptedSupportingToken()) {
                 MessagePolicy policy = sph.getMessagePolicy();
                 ArrayList list = policy.getPrimaryPolicies();
@@ -800,7 +808,7 @@ public class SecurityClientTube extends SecurityTubeBase implements SecureConver
 
     private void renewSCT(ProcessingContext ctx, Packet ret) {
         SCTokenConfiguration config = new DefaultSCTokenConfiguration(wsscVer.getNamespaceURI());
-        config.getOtherOptions().put("MessagePolicy", (MessagePolicy) ctx.getSecurityPolicy());
+        config.getOtherOptions().put("MessagePolicy", ctx.getSecurityPolicy());
         IssuedTokenContext itc = itm.createIssuedTokenContext(config, ret.endpointAddress.toString());
         try {
             itm.renewIssuedToken(itc);

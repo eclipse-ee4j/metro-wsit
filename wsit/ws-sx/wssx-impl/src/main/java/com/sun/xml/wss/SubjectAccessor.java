@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -35,7 +35,7 @@ public class SubjectAccessor {
             LogDomainConstants.WSS_API_DOMAIN_BUNDLE);
     
     
-    private static ThreadLocal<Subject> wssThreadCtx = new ThreadLocal<Subject>();
+    private static ThreadLocal<Subject> wssThreadCtx = new ThreadLocal<>();
     
     /**
      *@return the Requester's Subject if one is available, null otherwise.
@@ -67,14 +67,10 @@ public class SubjectAccessor {
                         return null;
                     }
                 
-            } catch (NoClassDefFoundError ncde) {
+            } catch (NoClassDefFoundError | Exception ncde) {
                 log.log(Level.SEVERE,
                         "WSS0761.context.not.instanceof.servletendpointcontext", ncde);
                 throw new XWSSecurityException(ncde);
-            } catch (Exception ex) {
-                log.log(Level.SEVERE,
-                        "WSS0761.context.not.instanceof.servletendpointcontext", ex);
-                throw new XWSSecurityException(ex);
             }
         }
         return null;

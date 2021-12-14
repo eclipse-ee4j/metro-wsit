@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -20,10 +20,6 @@ package com.sun.xml.wss.saml;
 import java.util.Date;
 import java.util.List;
 
-/**
- *
- * @author abhijit.das@Sun.COM
- */
 /**
  * The <code>AuthenticationStatement</code> element supplies a
  * statement by the issuer that its subject was authenticated by a
@@ -60,7 +56,7 @@ public interface AuthenticationStatement{
      * @return object is {@link java.lang.String }
      *     
      */
-    public String getSubjectLocalityIPAddress();
+     String getSubjectLocalityIPAddress();
     
     /**
      * Gets the value of the dnsAddress property.
@@ -68,7 +64,7 @@ public interface AuthenticationStatement{
      * @return object is {@link java.lang.String }
      *     
      */
-    public String getSubjectLocalityDNSAddress();
+    String getSubjectLocalityDNSAddress();
 
     /**
      * Gets the value of the authorityBinding property.
@@ -76,7 +72,7 @@ public interface AuthenticationStatement{
      * Objects of the following type(s) are in the list {@link AuthorityBinding }
      *      
      */
-    public List<AuthorityBinding> getAuthorityBindingList();
+    List<AuthorityBinding> getAuthorityBindingList();
 
      /**
      * Gets the value of the authenticationInstant property.
@@ -84,7 +80,7 @@ public interface AuthenticationStatement{
      * @return object is {@link java.util.Date }
      *     
      */
-    public Date getAuthenticationInstantDate();
+     Date getAuthenticationInstantDate();
 
     /**
      * Gets the value of the authenticationMethod property.
@@ -92,7 +88,7 @@ public interface AuthenticationStatement{
      * @return object is {@link java.lang.String }
      *     
      */
-    public String getAuthenticationMethod();
+    String getAuthenticationMethod();
     
     /**
      * Gets the value of the subject property.
@@ -100,6 +96,6 @@ public interface AuthenticationStatement{
      * @return object is {@link java.lang.String }
      *     
      */
-    public Subject getSubject(); 
+    Subject getSubject();
         
 }

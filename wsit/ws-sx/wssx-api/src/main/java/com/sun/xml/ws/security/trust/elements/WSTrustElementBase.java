@@ -96,12 +96,12 @@ public interface WSTrustElementBase {
     Issuer getIssuer();
 
     /**
-      * set a {@code<wst:Renewing/>} element to make a renewable Issue request
+      * set a {@code <wst:Renewing/>} element to make a renewable Issue request
       */
     void setRenewable(Renewing renew);
 
    /**
-     * get the {@code<wst:Renewing/>} element if present, null otherwise
+     * get the {@code <wst:Renewing/>} element if present, null otherwise
      */
     Renewing getRenewable();
 

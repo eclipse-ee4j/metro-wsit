@@ -75,6 +75,7 @@ public class WSEndpointCollectionBasedMOMListener<T extends MOMRegistrationAware
         }
     }
 
+    @Override
     public void scopeChanged(LazyMOMProvider.Scope scope) {
         synchronized (lock) {
             if (this.lazyMOMProviderScope == scope) {

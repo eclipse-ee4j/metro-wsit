@@ -125,7 +125,7 @@ public class ReliableMessagingFeature extends WebServiceFeature implements Stick
      * @see SecurityBinding#STR
      * @see SecurityBinding#TRANSPORT
      */
-    public static enum SecurityBinding {
+    public enum SecurityBinding {
 
         /**
          * An RM Sequence MUST be bound to an explicit token that is referenced
@@ -176,7 +176,7 @@ public class ReliableMessagingFeature extends WebServiceFeature implements Stick
      * @see DeliveryAssurance#AT_LEAST_ONCE
      * @see DeliveryAssurance#AT_MOST_ONCE
      */
-    public static enum DeliveryAssurance {
+    public enum DeliveryAssurance {
 
         /**
          * Each message is to be delivered exactly once; if a message cannot be
@@ -236,7 +236,7 @@ public class ReliableMessagingFeature extends WebServiceFeature implements Stick
      * @see BackoffAlgorithm#CONSTANT
      * @see BackoffAlgorithm#EXPONENTIAL
      */
-    public static enum BackoffAlgorithm {
+    public enum BackoffAlgorithm {
 
         /**
          * This algorithm ensures that a message retransmission rate remains constant
@@ -246,6 +246,7 @@ public class ReliableMessagingFeature extends WebServiceFeature implements Stick
          */
         CONSTANT("Constant") {
 
+            @Override
             public long getDelayInMillis(int resendAttemptNumber, long baseRate) {
                 return baseRate;
             }
@@ -258,6 +259,7 @@ public class ReliableMessagingFeature extends WebServiceFeature implements Stick
          */
         EXPONENTIAL("Exponential") {
 
+            @Override
             public long getDelayInMillis(int resendAttemptNumber, long baseRate) {
                 return resendAttemptNumber * baseRate;
             }
@@ -265,7 +267,7 @@ public class ReliableMessagingFeature extends WebServiceFeature implements Stick
 
         private final String name;
 
-        private BackoffAlgorithm(String name) {
+        BackoffAlgorithm(String name) {
             this.name = name;
         }
 
@@ -640,7 +642,7 @@ public class ReliableMessagingFeature extends WebServiceFeature implements Stick
     /**
      * The infrastructure tries to send each RM session protocol control message
      * such as CreateSequence, CloseSequence, TerminateSequence at most a
-     * {@link #getMaxRmSessionControlMessageResendAttempts()} number of times. Not receiving
+     * {@code #getMaxRmSessionControlMessageResendAttempts()} number of times. Not receiving
      * an acknowledgment before this limit is reached is considered a fatal communication
      * failure, and causes the RM session to fail.
      *

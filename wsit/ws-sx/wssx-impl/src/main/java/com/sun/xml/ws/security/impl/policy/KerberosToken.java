@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -25,12 +25,10 @@ import com.sun.xml.ws.policy.PolicyAssertion;
 import com.sun.xml.ws.policy.sourcemodel.AssertionData;
 import com.sun.xml.ws.security.policy.SecurityAssertionValidator;
 import com.sun.xml.ws.security.policy.SecurityPolicyVersion;
-import java.util.ArrayList;
+
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import javax.xml.namespace.QName;
@@ -61,7 +59,7 @@ public class KerberosToken extends PolicyAssertion implements com.sun.xml.ws.sec
     public KerberosToken(AssertionData name,Collection<PolicyAssertion> nestedAssertions, AssertionSet nestedAlternative) {
         super(name,nestedAssertions,nestedAlternative);
         id= PolicyUtil.randomUUID();
-        referenceType = new HashSet<String>();
+        referenceType = new HashSet<>();
         String nsUri = getName().getNamespaceURI();
         spVersion = PolicyUtil.getSecurityPolicyVersion(nsUri);
         itQname = new QName(spVersion.namespaceUri, Constants.IncludeToken);
@@ -69,6 +67,7 @@ public class KerberosToken extends PolicyAssertion implements com.sun.xml.ws.sec
     }
     
     
+    @Override
     public String getTokenType() {
         populate();
         return tokenType;
@@ -78,6 +77,7 @@ public class KerberosToken extends PolicyAssertion implements com.sun.xml.ws.sec
         this.tokenType = tokenType;
     }
     
+    @Override
     public Set getTokenRefernceType() {
         populate();
         return referenceType;
@@ -87,11 +87,13 @@ public class KerberosToken extends PolicyAssertion implements com.sun.xml.ws.sec
         referenceType.add(tokenRefType);
     }
     
+    @Override
     public boolean isRequireDerivedKeys() {
         populate();
         return reqDK;
     }
     
+    @Override
     public String getIncludeToken() {
         populate();
         return includeToken;
@@ -102,25 +104,30 @@ public class KerberosToken extends PolicyAssertion implements com.sun.xml.ws.sec
     }
     
     
+    @Override
     public String getTokenId() {
         return id;
     }
     
+    @Override
     public Issuer getIssuer() {
         populate();
         return issuer;
     }
     
+    @Override
     public IssuerName getIssuerName() {
         populate();
         return issuerName;
     }
     
+    @Override
     public Claims getClaims(){
         populate();
         return claims;
     }
     
+    @Override
     public AssertionFitness validate(boolean isServer) {
         return populate(isServer);
     }
@@ -180,6 +187,7 @@ public class KerberosToken extends PolicyAssertion implements com.sun.xml.ws.sec
         return fitness;
     }
 
+    @Override
     public SecurityPolicyVersion getSecurityPolicyVersion() {
         return spVersion;
     }

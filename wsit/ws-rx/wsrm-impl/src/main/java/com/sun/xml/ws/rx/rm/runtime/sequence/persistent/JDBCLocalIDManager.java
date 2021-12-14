@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -44,6 +44,7 @@ public class JDBCLocalIDManager implements LocalIDManager {
         this.cm = ConnectionManager.getInstance(dataSourceProvider);
     }
 
+    @Override
     public void createLocalID(String localID, String sequenceID, long messageNumber) {
         Connection con = cm.getConnection();
         PreparedStatement ps = null;
@@ -75,10 +76,11 @@ public class JDBCLocalIDManager implements LocalIDManager {
         }
     }
 
+    @Override
     public void removeLocalIDs(Iterator<String> localIDs) {
         if (localIDs != null) {
             if (localIDs.hasNext()) {
-                StringBuffer ids = new StringBuffer();
+                StringBuilder ids = new StringBuilder();
                 while (localIDs.hasNext()) {
                     ids.append('\'');
                     ids.append(localIDs.next());
@@ -110,6 +112,7 @@ public class JDBCLocalIDManager implements LocalIDManager {
         }
     }
 
+    @Override
     public BoundMessage getBoundMessage(String localID) {
         BoundMessage result = null;
         Connection con = cm.getConnection();
@@ -139,6 +142,7 @@ public class JDBCLocalIDManager implements LocalIDManager {
         return result; 
     }
 
+    @Override
     public void markSequenceTermination(String sequenceID) {
         Connection con = cm.getConnection();
         PreparedStatement ps = null;

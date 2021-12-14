@@ -49,15 +49,18 @@ class RmConfigurationImpl extends RxConfigurationBase implements RmConfiguration
         this.runtimeVersion = (rmFeature != null) ? RmRuntimeVersion.forProtocolVersion(rmFeature.getProtocolVersion()) : null;
     }
 
+    @Override
     public com.sun.xml.ws.rx.rm.api.ReliableMessagingFeature getRmFeature() {
         checkState();
         return rmFeature;
     }
     
+    @Override
     public @Nullable com.oracle.webservices.oracle_internal_api.rm.ReliableMessagingFeature getInternalRmFeature() {
         return internalRmFeature;
     }
 
+    @Override
     public RmRuntimeVersion getRuntimeVersion() {
         checkState();
         return runtimeVersion;

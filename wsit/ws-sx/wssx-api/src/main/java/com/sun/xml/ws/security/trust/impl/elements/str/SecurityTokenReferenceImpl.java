@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -48,6 +48,7 @@ public class SecurityTokenReferenceImpl extends SecurityTokenReferenceType imple
         this.getOtherAttributes().putAll(strType.getOtherAttributes());
     }
     
+    @Override
     public final void setReference(final Reference ref){
         
         JAXBElement rElement = null;
@@ -68,8 +69,9 @@ public class SecurityTokenReferenceImpl extends SecurityTokenReferenceType imple
         }
     }
     
+    @Override
     public Reference getReference (){
-        return getReference((SecurityTokenReferenceType)this);
+        return getReference(this);
     }
     
     private Reference getReference(final SecurityTokenReferenceType strType){
@@ -88,18 +90,22 @@ public class SecurityTokenReferenceImpl extends SecurityTokenReferenceType imple
         return null;       
     }
 
+    @Override
     public void setTokenType(final String tokenType){
         getOtherAttributes().put(TOKEN_TYPE, tokenType);
     }
 
+    @Override
     public String getTokenType(){
        return getOtherAttributes().get(TOKEN_TYPE);
     }
     
+    @Override
     public String getType() {
         return WSTrustConstants.STR_TYPE;
     }
     
+    @Override
     public Object getTokenValue() {
         try {
             final DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -108,7 +114,7 @@ public class SecurityTokenReferenceImpl extends SecurityTokenReferenceType imple
             final Document doc = builder.newDocument();
             
             final jakarta.xml.bind.Marshaller marshaller = WSTrustElementFactory.getContext().createMarshaller();
-            final JAXBElement<SecurityTokenReferenceType> rstElement =  (new ObjectFactory()).createSecurityTokenReference((SecurityTokenReferenceType)this);
+            final JAXBElement<SecurityTokenReferenceType> rstElement =  (new ObjectFactory()).createSecurityTokenReference(this);
             marshaller.marshal(rstElement, doc);
             return doc.getDocumentElement();
             

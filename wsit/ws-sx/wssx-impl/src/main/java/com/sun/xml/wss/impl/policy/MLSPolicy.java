@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -45,19 +45,16 @@ public abstract class MLSPolicy implements SecurityPolicy {
      * @param readonly set the readonly status of the policy.
      *
      */
-    public void isReadOnly(boolean readonly) {
+    public void isReadOnly(boolean readonly) throws PolicyGenerationException {
         this.readonly = readonly;
-        try {
-            MLSPolicy featureBinding = getFeatureBinding();
-            if ( featureBinding != null ) {
-                featureBinding.isReadOnly(readonly);
-            }
-            
-            MLSPolicy keybinding = getKeyBinding();
-            if ( keybinding != null ) {
-                keybinding.isReadOnly(readonly);
-            }
-        } catch ( PolicyGenerationException e) {
+        MLSPolicy featureBinding = getFeatureBinding();
+        if ( featureBinding != null ) {
+            featureBinding.isReadOnly(readonly);
+        }
+
+        MLSPolicy keybinding = getKeyBinding();
+        if ( keybinding != null ) {
+            keybinding.isReadOnly(readonly);
         }
     }
 

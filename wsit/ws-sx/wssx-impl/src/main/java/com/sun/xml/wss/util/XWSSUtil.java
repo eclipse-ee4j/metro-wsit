@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -65,7 +65,6 @@ public abstract class XWSSUtil {
      * @param ski byte[] representing SubjectKeyIdentifier
      * @param trustStore java.security.KeyStore 
      * @return X509Certificate from trustStore if present otherwise null.
-     * @throws java.io.IOException 
      */
     
     public static X509Certificate getCertificateFromTrustStore(byte[] ski, KeyStore trustStore)
@@ -101,8 +100,7 @@ public abstract class XWSSUtil {
      * @param issuerName Certificate Issuer Name
      * @param serialNumber Serial number of the certificate
      * @param trustStore java.security.Keystore
-     * @throws java.io.IOException 
-     * @return java.security.X509Certificate 
+     * @return java.security.X509Certificate
      */
      public static X509Certificate getCertificateFromTrustStore(
         String issuerName,
@@ -137,12 +135,7 @@ public abstract class XWSSUtil {
      }
      
     /**
-     * 
-     * @param ski 
-     * @param keyStore 
-     * @param keyStorePassword 
-     * @throws java.io.IOException 
-     * @return 
+     *
      */
      public static PrivateKey getPrivateKey(byte[] ski, KeyStore keyStore, String keyStorePassword) throws IOException {
 
@@ -175,13 +168,7 @@ public abstract class XWSSUtil {
      
      
     /**
-     * 
-     * @param issuerName 
-     * @param serialNumber 
-     * @param keyStore 
-     * @param keyStorePassword 
-     * @throws java.io.IOException 
-     * @return 
+     *
      */
      public static PrivateKey getPrivateKey(
         String issuerName,
@@ -218,12 +205,7 @@ public abstract class XWSSUtil {
      
      
     /**
-     * 
-     * @param certificate 
-     * @param keyStore 
-     * @param keyStorePassword 
-     * @throws java.io.IOException 
-     * @return 
+     *
      */
      public static PrivateKey getPrivateKey(X509Certificate certificate, KeyStore keyStore, String keyStorePassword)
         throws IOException {
@@ -245,10 +227,7 @@ public abstract class XWSSUtil {
      }
      
     /**
-     * 
-     * @param algorithm 
-     * @throws com.sun.xml.wss.XWSSecurityException 
-     * @return 
+     *
      */
      public static SecretKey generateSymmetricKey(String algorithm) throws XWSSecurityException {
          return SecurityUtil.generateSymmetricKey(algorithm);
@@ -348,26 +327,15 @@ public abstract class XWSSUtil {
         if (certSelectorClass != null) {
             Constructor ctor = null;
             try {
-                ctor = certSelectorClass.getConstructor(new Class[]{Map.class});
-            } catch (SecurityException ex) {
-                //ignore and use default CTOR
-            } catch (NoSuchMethodException ex) {
+                ctor = certSelectorClass.getConstructor(Map.class);
+            } catch (SecurityException | NoSuchMethodException ex) {
                 //ignore and use default CTOR
             }
             if (ctor != null) {
                 try {
                     selector = (CertSelector) ctor.newInstance(context);
                     return selector;
-                } catch (IllegalArgumentException ex) {
-                    log.log(Level.SEVERE, "WSS0812.exception.instantiating.certselector", ex);
-                    throw new RuntimeException(ex);
-                } catch (InstantiationException ex) {
-                    log.log(Level.SEVERE, "WSS0812.exception.instantiating.certselector", ex);
-                    throw new RuntimeException(ex);
-                } catch (InvocationTargetException ex) {
-                    log.log(Level.SEVERE, "WSS0812.exception.instantiating.certselector", ex);
-                    throw new RuntimeException(ex);
-                } catch (IllegalAccessException ex) {
+                } catch (IllegalArgumentException | IllegalAccessException | InvocationTargetException | InstantiationException ex) {
                     log.log(Level.SEVERE, "WSS0812.exception.instantiating.certselector", ex);
                     throw new RuntimeException(ex);
                 }
@@ -375,10 +343,7 @@ public abstract class XWSSUtil {
                 try {
                     selector = (CertSelector) certSelectorClass.newInstance();
                     return selector;
-                } catch (InstantiationException ex) {
-                    log.log(Level.SEVERE, "WSS0812.exception.instantiating.certselector", ex);
-                    throw new RuntimeException(ex);
-                } catch (IllegalAccessException ex) {
+                } catch (InstantiationException | IllegalAccessException ex) {
                     log.log(Level.SEVERE, "WSS0812.exception.instantiating.certselector", ex);
                     throw new RuntimeException(ex);
                 }

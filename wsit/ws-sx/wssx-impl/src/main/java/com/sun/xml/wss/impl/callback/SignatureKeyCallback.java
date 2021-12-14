@@ -28,7 +28,7 @@ import java.security.cert.X509Certificate;
  */
 public class SignatureKeyCallback extends XWSSCallback implements Callback {
 
-    public static interface Request {
+    public interface Request {
     }
 
     private Request request;

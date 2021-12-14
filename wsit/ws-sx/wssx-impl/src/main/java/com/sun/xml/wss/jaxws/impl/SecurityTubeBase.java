@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -132,7 +132,7 @@ public abstract class SecurityTubeBase extends AbstractFilterTubeImpl {
     // Per-Proxy State for SecureConversation sessions
     // as well as IssuedTokenContext returned by invoking a Trust-Plugin
     // This map stores IssuedTokenContext against the Policy-Id
-    protected Hashtable<String, IssuedTokenContext> issuedTokenContextMap = new Hashtable<String, IssuedTokenContext>();
+    protected Hashtable<String, IssuedTokenContext> issuedTokenContextMap = new Hashtable<>();
     protected TubeConfiguration tubeConfig = null;
     //static JAXBContext used across the Tube
     protected static JAXBContext jaxbContext;
@@ -187,7 +187,7 @@ public abstract class SecurityTubeBase extends AbstractFilterTubeImpl {
     protected int iterationsForPDK = 0;
     protected boolean isEPREnabled = false;
     protected boolean isCertValidityVerified = false;
-    protected List<PolicyAlternativeHolder> policyAlternatives = new ArrayList<PolicyAlternativeHolder>();
+    protected List<PolicyAlternativeHolder> policyAlternatives = new ArrayList<>();
     /**
      * Constants for RM Security Processing
      */
@@ -226,7 +226,7 @@ public abstract class SecurityTubeBase extends AbstractFilterTubeImpl {
             //ISSUE_REQUEST_URI = new URI(WSTrustConstants.REQUEST_SECURITY_TOKEN_ISSUE_ACTION);
             //CANCEL_REQUEST_URI = new URI(WSTrustConstants.CANCEL_REQUEST);
             //jaxbContext = WSTrustElementFactory.getContext();            
-            securityPolicyNamespaces = new ArrayList<String>();
+            securityPolicyNamespaces = new ArrayList<>();
             securityPolicyNamespaces.add(SecurityPolicyVersion.SECURITYPOLICY200507.namespaceUri);
 
         } catch (Exception e) {
@@ -394,7 +394,7 @@ public abstract class SecurityTubeBase extends AbstractFilterTubeImpl {
         JAXBFilterProcessingContext context = (JAXBFilterProcessingContext) ctx;
         context.setDisablePayloadBuffering(disablePayloadBuffer);
         context.setDisableIncPrefix(disableIncPrefix);
-        if (((MessagePolicy) ctx.getSecurityPolicy()) != null) {
+        if (ctx.getSecurityPolicy() != null) {
             context.setWSSAssertion(((MessagePolicy) ctx.getSecurityPolicy()).getWSSAssertion());
         }
         context.setAllowMissingTimestamp(allowMissingTimestamp);
@@ -412,7 +412,7 @@ public abstract class SecurityTubeBase extends AbstractFilterTubeImpl {
         }
         LazyStreamBasedMessage lazyStreamMessage = (LazyStreamBasedMessage) message;
         AttachmentSet attachSet = null;
-        if (!lazyStreamMessage.mtomLargeData()) {
+        if (!LazyStreamBasedMessage.mtomLargeData()) {
             attachSet = lazyStreamMessage.getAttachments();
         }
         com.sun.xml.ws.security.opt.impl.incoming.SecurityRecipient recipient;
@@ -468,7 +468,7 @@ public abstract class SecurityTubeBase extends AbstractFilterTubeImpl {
             return new MessagePolicy();
         }
         SecurityPolicyHolder sph =
-                (SecurityPolicyHolder) applicableAlternative.getOutMessagePolicyMap().get(operation);
+                applicableAlternative.getOutMessagePolicyMap().get(operation);
         if (sph == null) {
             return new MessagePolicy();
         }
@@ -743,7 +743,7 @@ public abstract class SecurityTubeBase extends AbstractFilterTubeImpl {
             }
 
             if (endpointPolicy == null) {
-                ArrayList<Policy> policyList = new ArrayList<Policy>();
+                ArrayList<Policy> policyList = new ArrayList<>();
                 PolicyAlternativeHolder ph = new PolicyAlternativeHolder(null, spVersion, bpMSP);
                 alternatives.add(ph);
                 collectOperationAndMessageLevelPolicies(wsPolicyMap, null, policyList, ph);
@@ -751,12 +751,12 @@ public abstract class SecurityTubeBase extends AbstractFilterTubeImpl {
             }
             Iterator<AssertionSet> policiesIter = endpointPolicy.iterator();
             while (policiesIter.hasNext()) {
-                ArrayList<Policy> policyList = new ArrayList<Policy>();
+                ArrayList<Policy> policyList = new ArrayList<>();
                 AssertionSet ass = policiesIter.next();
                 PolicyAlternativeHolder ph = new PolicyAlternativeHolder(ass, spVersion, bpMSP);
                 alternatives.add(ph);
 
-                Collection<AssertionSet> coll = new ArrayList<AssertionSet>();
+                Collection<AssertionSet> coll = new ArrayList<>();
                 coll.add(ass);
                 Policy singleAlternative = Policy.createPolicy(
                         endpointPolicy.getNamespaceVersion(), endpointPolicy.getName(), endpointPolicy.getId(), coll);
@@ -838,7 +838,7 @@ public abstract class SecurityTubeBase extends AbstractFilterTubeImpl {
                 }
 
                 Iterator faults = operation.getOperation().getFaults().iterator();
-                ArrayList<Policy> faultPL = new ArrayList<Policy>();
+                ArrayList<Policy> faultPL = new ArrayList<>();
                 if (singleAlternative != null) {
                     faultPL.add(singleAlternative);
                 }
@@ -991,7 +991,7 @@ public abstract class SecurityTubeBase extends AbstractFilterTubeImpl {
 
     //TODO :: Refactor
     protected ArrayList<PolicyAssertion> getTokens(Policy policy) {
-        ArrayList<PolicyAssertion> tokenList = new ArrayList<PolicyAssertion>();
+        ArrayList<PolicyAssertion> tokenList = new ArrayList<>();
         for (AssertionSet assertionSet : policy) {
             for (PolicyAssertion assertion : assertionSet) {
                 if (PolicyUtil.isAsymmetricBinding(assertion, spVersion)) {
@@ -1108,7 +1108,7 @@ public abstract class SecurityTubeBase extends AbstractFilterTubeImpl {
 
     protected Policy getEffectiveBootstrapPolicy(NestedPolicy bp) throws PolicyException {
         try {
-            ArrayList<Policy> pl = new ArrayList<Policy>();
+            ArrayList<Policy> pl = new ArrayList<>();
             pl.add(bp);
             Policy mbp = getMessageBootstrapPolicy();
             if (mbp != null) {
@@ -1309,7 +1309,7 @@ public abstract class SecurityTubeBase extends AbstractFilterTubeImpl {
             RMPolicyResolver rr = new RMPolicyResolver(spVersion, rmVer, mcVer, encRMLifecycleMsg);
             Policy msgLevelPolicy = rr.getOperationLevelPolicy();
             PolicyMerger merger = PolicyMerger.getMerger();
-            ArrayList<Policy> pList = new ArrayList<Policy>(2);
+            ArrayList<Policy> pList = new ArrayList<>(2);
             pList.add(endpointPolicy);
             pList.add(msgLevelPolicy);
             Policy effectivePolicy = merger.merge(pList);
@@ -1323,7 +1323,7 @@ public abstract class SecurityTubeBase extends AbstractFilterTubeImpl {
             Policy ep = pm.merge(pList);
             addIncomingProtocolPolicy(ep, "SC", ph);
             addOutgoingProtocolPolicy(ep, "SC", ph);
-            ArrayList<Policy> pList1 = new ArrayList<Policy>(2);
+            ArrayList<Policy> pList1 = new ArrayList<>(2);
             pList1.add(endpointPolicy);
             pList1.add(getSCCancelPolicy(encryptCancelPayload));
             PolicyMerger pm1 = PolicyMerger.getMerger();

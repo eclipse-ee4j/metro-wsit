@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -26,5 +26,5 @@ public interface InvocationProcessor {
      *
      * @return {@code XMLStreamWriter} invocation result.
      */
-    public Object process(Invocation invocation) throws InvocationProcessingException;
+    Object process(Invocation invocation) throws InvocationProcessingException;
 }

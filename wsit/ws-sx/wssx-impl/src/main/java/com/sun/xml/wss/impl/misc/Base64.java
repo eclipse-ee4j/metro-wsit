@@ -143,7 +143,7 @@ public class Base64 {
         int      numberQuartet     = fewerThan24bits != 0 ? numberTriplets+1 : numberTriplets;
         int      quartesPerLine    = length/4;
         int      numberLines       = (numberQuartet-1)/quartesPerLine;
-        char     encodedData[]     = null;
+        char[] encodedData = null;
         
         encodedData = new char[numberQuartet*4+numberLines*2];
         
@@ -274,7 +274,7 @@ public class Base64 {
         int      numberQuartet     = fewerThan24bits != 0 ? numberTriplets+1 : numberTriplets;
         int      quartesPerLine    = length/4;
         int      numberLines       = (numberQuartet-1)/quartesPerLine;
-        char     encodedData[]     = null;
+        char[] encodedData = null;
         
         encodedData = new char[numberQuartet*4+numberLines*2];
         
@@ -690,7 +690,6 @@ public class Base64 {
      *
      * @param encoded Byte array containing Base64 data
      * @return Array containind decoded data.
-     * @throws Base64DecodingException
      */
     public final static byte[] decode(String encoded) throws Base64DecodingException {
         
@@ -718,7 +717,7 @@ public class Base64 {
         if (numberQuadruple == 0)
             return new byte[0];
         
-        byte     decodedData[]      = null;
+        byte[] decodedData = null;
         byte     b1=0,b2=0,b3=0, b4=0;
         
         
@@ -791,8 +790,6 @@ public class Base64 {
      *
      * @param base64Data Byte array containing Base64 data
      * @param os the outputstream
-     * @throws IOException
-     * @throws Base64DecodingException
      */
     public final static void decode(byte[] base64Data,
             OutputStream os) throws Base64DecodingException, IOException {
@@ -867,7 +864,6 @@ public class Base64 {
             os.write( (byte)(((b2 & 0xf)<<4 ) |( (b3>>2) & 0xf) ));
             os.write((byte)( b3<<6 | b4 ));
         }
-        return ;
     }
     
     /**
@@ -875,8 +871,6 @@ public class Base64 {
      *
      * @param is containing Base64 data
      * @param os the outputstream
-     * @throws IOException
-     * @throws Base64DecodingException
      */
     public final static void decode(InputStream is,
             OutputStream os) throws Base64DecodingException, IOException {
@@ -946,8 +940,7 @@ public class Base64 {
             os.write( (byte)(((b2 & 0xf)<<4 ) |( (b3>>2) & 0xf) ));
             os.write((byte)( b3<<6 | b4 ));
         }
-        
-        return ;
+
     }
     /**
      * remove WhiteSpace from MIME containing encoded Base64 data.

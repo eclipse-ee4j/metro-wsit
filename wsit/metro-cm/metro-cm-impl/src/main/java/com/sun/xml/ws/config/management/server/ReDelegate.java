@@ -36,7 +36,6 @@ public class ReDelegate {
     /**
      * Replaces underlying endpoint in managedEndpoint instance with new instance
      * configured from a new set of features, using creation parameters of old endpoint
-     * @param <T>
      * @param managedEndpoint - endpoint to be reconfigured
      * @param features - new set of features
      */
@@ -56,8 +55,7 @@ public class ReDelegate {
     /**
      * Replaces underlying endpoint in managedEndpoint instance with new instance
      * configured from a new set of features, using creation parameters of old endpoint
-     * @param <T>
-     * @param managedEndpoint - endpoint to be reconfigured
+     * @param endpoint - endpoint to be reconfigured
      * @param features - new set of features
      * @return new endpoint instance, reconfigured with set of new features, or
      *         throws WebServiceException when recreation fails

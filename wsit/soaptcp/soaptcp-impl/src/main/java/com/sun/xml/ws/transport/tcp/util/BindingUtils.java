@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -44,31 +44,31 @@ public final class BindingUtils {
         // Fill out negotiation mime parameters
         
         // Add SOAP parameters
-        SOAP11_PARAMS = Arrays.asList(new String[] {TCPConstants.CHARSET_PROPERTY, TCPConstants.TRANSPORT_SOAP_ACTION_PROPERTY});
-        SOAP12_PARAMS = Arrays.asList(new String[] {TCPConstants.CHARSET_PROPERTY, TCPConstants.SOAP_ACTION_PROPERTY});
+        SOAP11_PARAMS = Arrays.asList(TCPConstants.CHARSET_PROPERTY, TCPConstants.TRANSPORT_SOAP_ACTION_PROPERTY);
+        SOAP12_PARAMS = Arrays.asList(TCPConstants.CHARSET_PROPERTY, TCPConstants.SOAP_ACTION_PROPERTY);
         
         // Add MTOM parameters
-        MTOM11_PARAMS = new ArrayList<String>(SOAP11_PARAMS);
+        MTOM11_PARAMS = new ArrayList<>(SOAP11_PARAMS);
         MTOM11_PARAMS.add("boundary");
         MTOM11_PARAMS.add("start-info");
         MTOM11_PARAMS.add("type");
         
-        MTOM12_PARAMS = new ArrayList<String>(SOAP12_PARAMS);
+        MTOM12_PARAMS = new ArrayList<>(SOAP12_PARAMS);
         MTOM12_PARAMS.add("boundary");
         MTOM12_PARAMS.add("start-info");
         MTOM12_PARAMS.add("type");
 
         SOAP11_BINDING_CONTENT =
-                new NegotiatedBindingContent(new ArrayList<String>(1), SOAP11_PARAMS);
+                new NegotiatedBindingContent(new ArrayList<>(1), SOAP11_PARAMS);
         
         SOAP12_BINDING_CONTENT =
-                new NegotiatedBindingContent(new ArrayList<String>(1), SOAP12_PARAMS);
+                new NegotiatedBindingContent(new ArrayList<>(1), SOAP12_PARAMS);
         
         MTOM11_BINDING_CONTENT =
-                new NegotiatedBindingContent(new ArrayList<String>(2), MTOM11_PARAMS);
+                new NegotiatedBindingContent(new ArrayList<>(2), MTOM11_PARAMS);
         
         MTOM12_BINDING_CONTENT =
-                new NegotiatedBindingContent(new ArrayList<String>(2), MTOM12_PARAMS);
+                new NegotiatedBindingContent(new ArrayList<>(2), MTOM12_PARAMS);
         
         // Fill out negotiation mime types
         

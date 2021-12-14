@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -59,11 +59,11 @@ public class SecurityPoliciesTest extends TestCase {
     }
     
     @Override
-    protected void setUp() throws Exception {
+    protected void setUp() {
     }
     
     @Override
-    protected void tearDown() throws Exception {
+    protected void tearDown() {
     }
     
     public static Test suite() {
@@ -184,7 +184,7 @@ public class SecurityPoliciesTest extends TestCase {
     public List<SignatureTarget> createSignatureTargetList(List<String> targetType, List<String> targetValue, List<Boolean> contentOnly,
             List<List<SignatureTarget.Transform>> transformList) {
         int size = targetType.size();
-        List<SignatureTarget> targetList = new ArrayList<SignatureTarget>();
+        List<SignatureTarget> targetList = new ArrayList<>();
         for ( int i = 0 ; i<size ; i++ ) {
             SignatureTarget t1 = new SignatureTarget();
             t1.setContentOnly(contentOnly.get(i));
@@ -324,7 +324,7 @@ public class SecurityPoliciesTest extends TestCase {
     
     public void modifyMessagePolicy(MessagePolicy msgPolicy ) {
         Iterator it = msgPolicy.iterator();
-        HashMap<String, String> map = new HashMap<String, String>();
+        HashMap<String, String> map = new HashMap<>();
         while ( it.hasNext() ) {
             Object obj = it.next();
             if ( obj instanceof WSSPolicy ) {
@@ -367,18 +367,18 @@ public class SecurityPoliciesTest extends TestCase {
     }
     
     public List<SignatureTarget> createSignatureTargetEndorsingSignature(boolean contentonlyflag) {
-        List<String> targetType = new ArrayList<String>();
+        List<String> targetType = new ArrayList<>();
         targetType.add("uri");
         
-        List<String> targetValue = new ArrayList<String>();
+        List<String> targetValue = new ArrayList<>();
         targetValue.add("#Sign");
         
-        List<Boolean> contentOnly = new ArrayList<Boolean>();
+        List<Boolean> contentOnly = new ArrayList<>();
         contentOnly.add(contentonlyflag);
         
-        List<SignatureTarget.Transform> tl1 = new ArrayList<SignatureTarget.Transform>();
+        List<SignatureTarget.Transform> tl1 = new ArrayList<>();
         List<List<SignatureTarget.Transform>> tl =
-                new ArrayList<List<SignatureTarget.Transform>>();
+                new ArrayList<>();
         
         tl.add(tl1);
         
@@ -390,18 +390,18 @@ public class SecurityPoliciesTest extends TestCase {
     
     
     public List<SignatureTarget> createSignatureTargetBody(boolean contentonlyflag) {
-        List<String> targetType = new ArrayList<String>();
+        List<String> targetType = new ArrayList<>();
         targetType.add("qname");
         
-        List<String> targetValue = new ArrayList<String>();
+        List<String> targetValue = new ArrayList<>();
         targetValue.add(Target.BODY);
         
-        List<Boolean> contentOnly = new ArrayList<Boolean>();
+        List<Boolean> contentOnly = new ArrayList<>();
         contentOnly.add(contentonlyflag);
         
-        List<SignatureTarget.Transform> tl1 = new ArrayList<SignatureTarget.Transform>();
+        List<SignatureTarget.Transform> tl1 = new ArrayList<>();
         List<List<SignatureTarget.Transform>> tl =
-                new ArrayList<List<SignatureTarget.Transform>>();
+                new ArrayList<>();
         
         tl.add(tl1);
         
@@ -412,7 +412,7 @@ public class SecurityPoliciesTest extends TestCase {
     }
     
     public List<SignatureTarget> createSignatureTargetBodyAllHeader(boolean contentonlyflag) {
-        List<String> targetType = new ArrayList<String>();
+        List<String> targetType = new ArrayList<>();
         targetType.add("qname");
         targetType.add("qname");
         targetType.add("qname");
@@ -424,7 +424,7 @@ public class SecurityPoliciesTest extends TestCase {
         
         
         
-        List<String> targetValue = new ArrayList<String>();
+        List<String> targetValue = new ArrayList<>();
         targetValue.add(Target.BODY);
         //targetValue.add(Target.ALL_MESSAGE_HEADERS);
         targetValue.add("{http://schemas.xmlsoap.org/ws/2004/08/addressing}ReplyTo");
@@ -436,7 +436,7 @@ public class SecurityPoliciesTest extends TestCase {
         targetValue.add("{http://schemas.xmlsoap.org/ws/2004/08/addressing}FaultTo");
         
         
-        List<Boolean> contentOnly = new ArrayList<Boolean>();
+        List<Boolean> contentOnly = new ArrayList<>();
         contentOnly.add(contentonlyflag);
         contentOnly.add(contentonlyflag);
         contentOnly.add(contentonlyflag);
@@ -449,17 +449,17 @@ public class SecurityPoliciesTest extends TestCase {
         
         
         
-        List<SignatureTarget.Transform> tl1 = new ArrayList<SignatureTarget.Transform>();
-        List<SignatureTarget.Transform> tl2 = new ArrayList<SignatureTarget.Transform>();
-        List<SignatureTarget.Transform> tl3 = new ArrayList<SignatureTarget.Transform>();
-        List<SignatureTarget.Transform> tl4 = new ArrayList<SignatureTarget.Transform>();
-        List<SignatureTarget.Transform> tl5 = new ArrayList<SignatureTarget.Transform>();
-        List<SignatureTarget.Transform> tl6 = new ArrayList<SignatureTarget.Transform>();
-        List<SignatureTarget.Transform> tl7 = new ArrayList<SignatureTarget.Transform>();
-        List<SignatureTarget.Transform> tl8 = new ArrayList<SignatureTarget.Transform>();
+        List<SignatureTarget.Transform> tl1 = new ArrayList<>();
+        List<SignatureTarget.Transform> tl2 = new ArrayList<>();
+        List<SignatureTarget.Transform> tl3 = new ArrayList<>();
+        List<SignatureTarget.Transform> tl4 = new ArrayList<>();
+        List<SignatureTarget.Transform> tl5 = new ArrayList<>();
+        List<SignatureTarget.Transform> tl6 = new ArrayList<>();
+        List<SignatureTarget.Transform> tl7 = new ArrayList<>();
+        List<SignatureTarget.Transform> tl8 = new ArrayList<>();
         
         List<List<SignatureTarget.Transform>> tl =
-                new ArrayList<List<SignatureTarget.Transform>>();
+                new ArrayList<>();
         
         tl.add(tl1);
         tl.add(tl2);
@@ -478,18 +478,18 @@ public class SecurityPoliciesTest extends TestCase {
     }
     
     public List<EncryptionTarget> createEncryptionTargetBody(boolean contentonlyflag) {
-        List<String> targetType = new ArrayList<String>();
+        List<String> targetType = new ArrayList<>();
         targetType.add("qname");
         
-        List<String> targetValue = new ArrayList<String>();
+        List<String> targetValue = new ArrayList<>();
         targetValue.add(Target.BODY);
         
-        List<Boolean> contentOnly = new ArrayList<Boolean>();
+        List<Boolean> contentOnly = new ArrayList<>();
         contentOnly.add(contentonlyflag);
         
-        List<EncryptionTarget.Transform> tl1 = new ArrayList<EncryptionTarget.Transform>();
+        List<EncryptionTarget.Transform> tl1 = new ArrayList<>();
         List<List<EncryptionTarget.Transform>> tl =
-                new ArrayList<List<EncryptionTarget.Transform>>();
+                new ArrayList<>();
         
         tl.add(tl1);
         
@@ -499,22 +499,22 @@ public class SecurityPoliciesTest extends TestCase {
     }
     
     public List<EncryptionTarget> createEncryptionTargetBodyAndUT(boolean contentonlyflag) {
-        List<String> targetType = new ArrayList<String>();
+        List<String> targetType = new ArrayList<>();
         targetType.add("qname");
         targetType.add("uri");
         
-        List<String> targetValue = new ArrayList<String>();
+        List<String> targetValue = new ArrayList<>();
         targetValue.add(Target.BODY);
         targetValue.add("UsernameTokenBinding");
         
-        List<Boolean> contentOnly = new ArrayList<Boolean>();
+        List<Boolean> contentOnly = new ArrayList<>();
         contentOnly.add(contentonlyflag);
         contentOnly.add(contentonlyflag);
         
-        List<EncryptionTarget.Transform> tl1 = new ArrayList<EncryptionTarget.Transform>();
-        List<EncryptionTarget.Transform> tl2 = new ArrayList<EncryptionTarget.Transform>();
+        List<EncryptionTarget.Transform> tl1 = new ArrayList<>();
+        List<EncryptionTarget.Transform> tl2 = new ArrayList<>();
         List<List<EncryptionTarget.Transform>> tl =
-                new ArrayList<List<EncryptionTarget.Transform>>();
+                new ArrayList<>();
         
         tl.add(tl1);
         tl.add(tl2);
@@ -527,7 +527,7 @@ public class SecurityPoliciesTest extends TestCase {
     public List<EncryptionTarget> createEncryptionTargetList(List<String> targetType, List<String> targetValue, List<Boolean> contentOnly,
             List<List<EncryptionTarget.Transform>> transformList) {
         int size = targetType.size();
-        List<EncryptionTarget> targetList = new ArrayList<EncryptionTarget>();
+        List<EncryptionTarget> targetList = new ArrayList<>();
         for ( int i = 0 ; i<size ; i++ ) {
             EncryptionTarget t1 = new EncryptionTarget();
             t1.setContentOnly(contentOnly.get(i));
@@ -545,22 +545,22 @@ public class SecurityPoliciesTest extends TestCase {
     }
     
     public List<EncryptionTarget> createEncryptionTargetBodyAllHeader(boolean contentonlyflag) {
-        List<String> targetType = new ArrayList<String>();
+        List<String> targetType = new ArrayList<>();
         targetType.add("qname");
         targetType.add("qname");
         
-        List<String> targetValue = new ArrayList<String>();
+        List<String> targetValue = new ArrayList<>();
         targetValue.add(Target.BODY);
         targetValue.add(Target.ALL_MESSAGE_HEADERS);
         
-        List<Boolean> contentOnly = new ArrayList<Boolean>();
+        List<Boolean> contentOnly = new ArrayList<>();
         contentOnly.add(contentonlyflag);
         contentOnly.add(contentonlyflag);
         
-        List<EncryptionTarget.Transform> tl1 = new ArrayList<EncryptionTarget.Transform>();
-        List<EncryptionTarget.Transform> tl2 = new ArrayList<EncryptionTarget.Transform>();
+        List<EncryptionTarget.Transform> tl1 = new ArrayList<>();
+        List<EncryptionTarget.Transform> tl2 = new ArrayList<>();
         List<List<EncryptionTarget.Transform>> tl =
-                new ArrayList<List<EncryptionTarget.Transform>>();
+                new ArrayList<>();
         
         tl.add(tl1);
         tl.add(tl2);
@@ -573,32 +573,30 @@ public class SecurityPoliciesTest extends TestCase {
     }
     
     public List<SignatureTarget> createSignatureTargetBodySelectedHeader(List<String> targetqname, boolean contentonlyflag) {
-        List<String> targetType = new ArrayList<String>();
+        List<String> targetType = new ArrayList<>();
         targetType.add("qname");
         for ( String qname : targetqname) {
             targetType.add("qname");
         }
         
-        List<String> targetValue = new ArrayList<String>();
+        List<String> targetValue = new ArrayList<>();
         targetValue.add(Target.BODY);
-        for ( String qname : targetqname) {
-            targetValue.add(qname);
-        }
+        targetValue.addAll(targetqname);
         
-        List<Boolean> contentOnly = new ArrayList<Boolean>();
+        List<Boolean> contentOnly = new ArrayList<>();
         contentOnly.add(contentonlyflag);
         for ( String qname : targetqname) {
             contentOnly.add(contentonlyflag);
         }
         
         
-        List<SignatureTarget.Transform> tl1 = new ArrayList<SignatureTarget.Transform>();
+        List<SignatureTarget.Transform> tl1 = new ArrayList<>();
         List<List<SignatureTarget.Transform>> tl =
-                new ArrayList<List<SignatureTarget.Transform>>();
+                new ArrayList<>();
         
         tl.add(tl1);
         for ( String qname : targetqname) {
-            List<SignatureTarget.Transform> tl2 = new ArrayList<SignatureTarget.Transform>();
+            List<SignatureTarget.Transform> tl2 = new ArrayList<>();
             tl.add(tl2);
         }
         
@@ -615,25 +613,23 @@ public class SecurityPoliciesTest extends TestCase {
         //    targetType.add("qname");
         //}
         
-        List<String> targetValue = new ArrayList<String>();
+        List<String> targetValue = new ArrayList<>();
         targetValue.add(Target.BODY);
-        for ( String qname : targetqname) {
-            targetValue.add(qname);
-        }
+        targetValue.addAll(targetqname);
         
-        List<Boolean> contentOnly = new ArrayList<Boolean>();
+        List<Boolean> contentOnly = new ArrayList<>();
         contentOnly.add(contentonlyflag);
         for ( String qname : targetqname) {
             contentOnly.add(contentonlyflag);
         }
         
-        List<EncryptionTarget.Transform> tl1 = new ArrayList<EncryptionTarget.Transform>();
+        List<EncryptionTarget.Transform> tl1 = new ArrayList<>();
         List<List<EncryptionTarget.Transform>> tl =
-                new ArrayList<List<EncryptionTarget.Transform>>();
+                new ArrayList<>();
         
         tl.add(tl1);
         for ( String qname : targetqname) {
-            List<EncryptionTarget.Transform> tl2 = new ArrayList<EncryptionTarget.Transform>();
+            List<EncryptionTarget.Transform> tl2 = new ArrayList<>();
             tl.add(tl2);
         }
         
@@ -644,7 +640,7 @@ public class SecurityPoliciesTest extends TestCase {
     }
     
     public List<String> createAddressingHeaderQNameList() {
-        List<String> l = new ArrayList<String>();
+        List<String> l = new ArrayList<>();
         l.add("{http://schemas.xmlsoap.org/ws/2004/08/addressing}To");
         l.add("{http://schemas.xmlsoap.org/ws/2004/08/addressing}From");
         l.add("{http://schemas.xmlsoap.org/ws/2004/08/addressing}FaultTo");
@@ -710,8 +706,8 @@ public class SecurityPoliciesTest extends TestCase {
         }
         
         for (int i=0; i<t1.size(); i++) {
-            Target s1 = (Target)t1.get(i);
-            Target s2 = (Target)t2.get(i);
+            Target s1 = t1.get(i);
+            Target s2 = t2.get(i);
             if ( !(s1.getType().equals(s2.getType()))) {
                 System.err.println("Expected Target Type"+s1.getType()+" Got "+s2.getType());
                 throw new Exception("Target type in signature policy did not match");
@@ -748,8 +744,8 @@ public class SecurityPoliciesTest extends TestCase {
         }
         
         for (int i=0; i<t1.size(); i++) {
-            Target s1 = (Target)t1.get(i);
-            Target s2 = (Target)t2.get(i);
+            Target s1 = t1.get(i);
+            Target s2 = t2.get(i);
             if ( !(s1.getType().equals(s2.getType()))) {
                 System.err.println("Expected Target Type"+s1.getType()+" Got "+s2.getType());
                 throw new Exception("Target type in encryption policy did not match");
@@ -844,11 +840,11 @@ public class SecurityPoliciesTest extends TestCase {
         Policy opEP = null;
         Policy endpointEP = null;
         
-        endpointEP = (Policy) map.getEndpointEffectivePolicy(endpointKey);
-        ipEP = (Policy) map.getInputMessageEffectivePolicy(inputKey);
-        opEP = (Policy)map.getOutputMessageEffectivePolicy(outputKey);
+        endpointEP = map.getEndpointEffectivePolicy(endpointKey);
+        ipEP = map.getInputMessageEffectivePolicy(inputKey);
+        opEP = map.getOutputMessageEffectivePolicy(outputKey);
         
-        ArrayList<Policy> pl = new ArrayList<Policy>();
+        ArrayList<Policy> pl = new ArrayList<>();
         SecurityPolicyVersion spVersion = SecurityPolicyVersion.SECURITYPOLICY200507;
         if(endpointEP !=null){
             pl.add(endpointEP);
@@ -952,7 +948,7 @@ public class SecurityPoliciesTest extends TestCase {
     
     public List<String> getList(String pattern) {
         //G:\\optimizedpath\\tango\\jaxrpc-sec\\Tango\\tests\\data\\
-        List<String> l = new ArrayList<String>();
+        List<String> l = new ArrayList<>();
         l.add(pattern + ".xml");
         l.add(pattern + "-input.xml");
         l.add(pattern + "-output.xml");
@@ -1811,14 +1807,14 @@ public class SecurityPoliciesTest extends TestCase {
         TimestampPolicy tp = new TimestampPolicy();
         msgPolicy.append(tp);
         
-        List<String> targetSignType =  new ArrayList<String>();
+        List<String> targetSignType = new ArrayList<>();
         targetSignType.add("uri");
-        List<String> targetSignValue =  new ArrayList<String>();
+        List<String> targetSignValue = new ArrayList<>();
         targetSignValue.add("TimestampPolicy");
-        List<Boolean> targetSignContent =  new ArrayList<Boolean>();
+        List<Boolean> targetSignContent = new ArrayList<>();
         targetSignContent.add(true);
-        List<SignatureTarget.Transform> transform = new ArrayList<SignatureTarget.Transform>();
-        List<List<SignatureTarget.Transform>> tl = new ArrayList<List<SignatureTarget.Transform>>();
+        List<SignatureTarget.Transform> transform = new ArrayList<>();
+        List<List<SignatureTarget.Transform>> tl = new ArrayList<>();
         tl.add(transform);
         
         
@@ -1835,7 +1831,7 @@ public class SecurityPoliciesTest extends TestCase {
         // addToSPTList(tp,sigPolicy);
         List<String> listHeaders = createAddressingHeaderQNameList();
         
-        List<String> targetType = new ArrayList<String>();
+        List<String> targetType = new ArrayList<>();
         targetType.add("qname");
         targetType.add("qname");
         targetType.add("qname");
@@ -1861,14 +1857,14 @@ public class SecurityPoliciesTest extends TestCase {
         TimestampPolicy tp = new TimestampPolicy();
         msgPolicy.append(tp);
         
-        List<String> targetSignType =  new ArrayList<String>();
+        List<String> targetSignType = new ArrayList<>();
         targetSignType.add("uri");
-        List<String> targetSignValue =  new ArrayList<String>();
+        List<String> targetSignValue = new ArrayList<>();
         targetSignValue.add("TimestampPolicy");
-        List<Boolean> targetSignContent =  new ArrayList<Boolean>();
+        List<Boolean> targetSignContent = new ArrayList<>();
         targetSignContent.add(true);
-        List<SignatureTarget.Transform> transform = new ArrayList<SignatureTarget.Transform>();
-        List<List<SignatureTarget.Transform>> tl = new ArrayList<List<SignatureTarget.Transform>>();
+        List<SignatureTarget.Transform> transform = new ArrayList<>();
+        List<List<SignatureTarget.Transform>> tl = new ArrayList<>();
         tl.add(transform);
         
         
@@ -1885,7 +1881,7 @@ public class SecurityPoliciesTest extends TestCase {
         // addToSPTList(tp,sigPolicy);
         List<String> listHeaders = createAddressingHeaderQNameList();
         
-        List<String> targetType = new ArrayList<String>();
+        List<String> targetType = new ArrayList<>();
         targetType.add("qname");
         targetType.add("qname");
         targetType.add("qname");

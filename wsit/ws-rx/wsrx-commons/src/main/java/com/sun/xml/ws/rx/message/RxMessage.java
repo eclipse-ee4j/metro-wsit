@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -18,7 +18,7 @@ import java.io.Serializable;
  * @author Marek Potociar (marek.potociar at sun.com)
  */
 public interface RxMessage {
-    public interface State extends Serializable {
+    interface State extends Serializable {
         RxMessage toMessage();
     }
 
@@ -27,19 +27,19 @@ public interface RxMessage {
      *
      * @return correlation identifier by which this message can be referenced
      */
-    public String getCorrelationId();
+    String getCorrelationId();
 
     /**
      * Returns {@code byte[]} representation of the message instance
      *
      * @return {@code byte[]} representation of the message instance
      */
-    public byte[] toBytes();
+    byte[] toBytes();
 
     /**
      * Returns serializable state of the message
      *
      * @return serializable state of the message
      */
-    public State getState();
+    State getState();
 }

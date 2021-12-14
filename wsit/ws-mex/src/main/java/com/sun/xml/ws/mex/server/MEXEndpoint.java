@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -57,7 +57,7 @@ import static com.sun.xml.ws.mex.MetadataConstants.GET_RESPONSE;
 
 @ServiceMode(value=Service.Mode.MESSAGE)
 @WebServiceProvider
-@Addressing(enabled=true,required=true)
+@Addressing(required=true)
 public class MEXEndpoint implements Provider<Message> {
 
     @Resource
@@ -66,6 +66,7 @@ public class MEXEndpoint implements Provider<Message> {
     private static final Logger logger =
         Logger.getLogger(MEXEndpoint.class.getName());
 
+    @Override
     public Message invoke(Message requestMsg) {
         if (requestMsg == null || !requestMsg.hasHeaders()) {
             // TODO: Better error message
@@ -175,7 +176,7 @@ public class MEXEndpoint implements Provider<Message> {
         // Derive the address of the owner endpoint.
         // e.g. http://localhost/foo/mex --> http://localhost/foo
         WSEndpoint ownerEndpoint = null;
-        ServletModule module = (ServletModule) wsEndpoint.getContainer().getSPI(ServletModule.class);
+        ServletModule module = wsEndpoint.getContainer().getSPI(ServletModule.class);
         String baseAddress = module.getContextPath(servletRequest);
         String ownerEndpointAddress = null;
         List<BoundEndpoint> boundEndpoints = module.getBoundEndpoints();

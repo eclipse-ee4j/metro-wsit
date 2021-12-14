@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -23,11 +23,11 @@ import javax.crypto.SecretKey;
  */
 public interface DerivedKeyToken extends Token {
 
-    public static final String DERIVED_KEY_TOKEN_TYPE="http://schemas.xmlsoap.org/ws/2005/02/sc/dk";
+    String DERIVED_KEY_TOKEN_TYPE="http://schemas.xmlsoap.org/ws/2005/02/sc/dk";
 
-    public static final String DEFAULT_DERIVED_KEY_TOKEN_ALGORITHM="http://schemas.xmlsoap.org/ws/2005/02/sc/dk/p_sha1";
+    String DEFAULT_DERIVED_KEY_TOKEN_ALGORITHM="http://schemas.xmlsoap.org/ws/2005/02/sc/dk/p_sha1";
     
-    public static final String DEFAULT_DERIVEDKEYTOKEN_LABEL = "WS-SecureConversationWS-SecureConversation"; 
+    String DEFAULT_DERIVEDKEYTOKEN_LABEL = "WS-SecureConversationWS-SecureConversation";
 
     URI getAlgorithm();
 
@@ -41,5 +41,5 @@ public interface DerivedKeyToken extends Token {
     
     String getLabel();
     
-    SecretKey generateSymmetricKey(String algorithm) throws InvalidKeyException, NoSuchAlgorithmException, UnsupportedEncodingException;
+    SecretKey generateSymmetricKey(String algorithm) throws InvalidKeyException, NoSuchAlgorithmException;
 }

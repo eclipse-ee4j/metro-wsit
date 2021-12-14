@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -17,10 +17,6 @@
 
 package com.sun.xml.wss.saml;
 
-/**
- *
- * @author abhijit.das@Sun.COM
- */
 /**
  *The NameIdentifier element specifies a <code>Subject</code> by a combination
  * of a name and a security domain governing the name of the <code>Subject</code>.
@@ -48,7 +44,7 @@ public interface NameIdentifier {
      * @return object is {@link java.lang.String }
      *     
      */
-    public String getValue();
+    String getValue();
 
     /**
      * Gets the value of the format property.
@@ -56,7 +52,7 @@ public interface NameIdentifier {
      * @return object is {@link java.lang.String }
      *     
      */
-    public String getFormat();
+    String getFormat();
 
     /**
      * Gets the value of the nameQualifier property.
@@ -64,5 +60,5 @@ public interface NameIdentifier {
      * @return object is {@link java.lang.String }
      *     
      */
-    public String getNameQualifier();
+    String getNameQualifier();
 }

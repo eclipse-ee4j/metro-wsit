@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -18,7 +18,7 @@ import java.util.Map;
  */
 public final class ContentType {
     private String mimeType;
-    private final Map<String, String> parameters = new HashMap<String, String>(4);
+    private final Map<String, String> parameters = new HashMap<>(4);
     
     public ContentType() {
     }
@@ -31,7 +31,7 @@ public final class ContentType {
         return parameters;
     }
     
-    public void parse(final String contentType) throws WSTCPException {
+    public void parse(final String contentType) {
         parameters.clear();
         
         final int mimeDelim = contentType.indexOf(';');

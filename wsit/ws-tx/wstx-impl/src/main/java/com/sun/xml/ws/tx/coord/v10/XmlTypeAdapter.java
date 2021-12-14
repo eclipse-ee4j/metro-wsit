@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -15,7 +15,6 @@ import com.sun.xml.ws.developer.MemberSubmissionEndpointReference;
 import com.sun.xml.ws.tx.at.WSATConstants;
 import com.sun.xml.ws.tx.coord.common.types.*;
 import com.sun.xml.ws.tx.coord.v10.types.*;
-import com.sun.xml.ws.tx.coord.v10.types.RegisterResponseType;
 
 import jakarta.xml.bind.JAXBException;
 import javax.xml.namespace.QName;
@@ -68,14 +67,17 @@ public class XmlTypeAdapter {
             super(delegate);
         }
 
+        @Override
         public long getValue() {
             return delegate.getValue();
         }
 
+        @Override
         public void setValue(long value) {
             delegate.setValue(value);
         }
 
+        @Override
         public Map getOtherAttributes() {
             return delegate.getOtherAttributes();
         }
@@ -87,18 +89,22 @@ public class XmlTypeAdapter {
             super(delegate);
         }
 
+        @Override
         public String getValue() {
             return delegate.getValue();
         }
 
+        @Override
         public void setValue(String value) {
             delegate.setValue(value);
         }
 
+        @Override
         public Map<QName, String> getOtherAttributes() {
             return delegate.getOtherAttributes();
         }
 
+        @Override
         public QName getQName() {
             return new QName(WSATConstants.WSCOOR10_NS_URI,WSATConstants.IDENTIFIER);
         }
@@ -114,43 +120,53 @@ public class XmlTypeAdapter {
             this.delegate = delegate;
         }
 
+        @Override
         public BaseIdentifier<CoordinationContextType.Identifier> getIdentifier() {
             return XmlTypeAdapter.adapt(delegate.getIdentifier());
         }
 
+        @Override
         public void setIdentifier(BaseIdentifier<CoordinationContextType.Identifier> value) {
             delegate.setIdentifier(value.getDelegate());
         }
 
+        @Override
         public BaseExpires<Expires> getExpires() {
             return XmlTypeAdapter.adapt(delegate.getExpires());
         }
 
+        @Override
         public void setExpires(BaseExpires<Expires> value) {
             delegate.setExpires(value.getDelegate());
         }
 
 
+        @Override
         public String getCoordinationType() {
             return delegate.getCoordinationType();
         }
 
+        @Override
         public void setCoordinationType(String value) {
             delegate.setCoordinationType(value);
         }
 
+        @Override
         public MemberSubmissionEndpointReference getRegistrationService() {
             return delegate.getRegistrationService();
         }
 
+        @Override
         public void setRegistrationService(MemberSubmissionEndpointReference value) {
             delegate.setRegistrationService(value);
         }
 
+        @Override
         public Map<QName, String> getOtherAttributes() {
             return delegate.getOtherAttributes();
         }
 
+        @Override
         public CoordinationContextType getDelegate() {
             return delegate;
         }
@@ -169,10 +185,12 @@ public class XmlTypeAdapter {
             super(delegate);
         }
 
+        @Override
         public List<Object> getAny() {
             return getDelegate().getAny();  //To change body of implemented methods use File | Settings | File Templates.
         }
 
+        @Override
         public JAXBRIContext getJAXBRIContext() {
             return jaxbContext;  //To change body of implemented methods use File | Settings | File Templates.
         }

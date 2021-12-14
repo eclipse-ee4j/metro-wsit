@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -23,6 +23,8 @@ import com.sun.xml.ws.transport.tcp.util.WSTCPException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
+
 import jakarta.xml.soap.SOAPException;
 import jakarta.xml.soap.SOAPMessage;
 
@@ -129,7 +131,7 @@ public class TCPClientTransport extends DistributedPropertySet {
         final byte[] errorDescriptionBuffer = new byte[errorDescriptionBufferLength];
         DataInOutUtils.readFully(inputStream, errorDescriptionBuffer);
         
-        String errorDescription = new String(errorDescriptionBuffer, TCPConstants.UTF8);
+        String errorDescription = new String(errorDescriptionBuffer, StandardCharsets.UTF_8);
         return WSTCPError.createError(errorCode, errorSubCode, errorDescription);
     }
 
@@ -153,6 +155,7 @@ public class TCPClientTransport extends DistributedPropertySet {
         model = parse(TCPClientTransport.class);
     }
     
+    @Override
     public DistributedPropertySet.PropertyMap getPropertyMap() {
         return model;
     }

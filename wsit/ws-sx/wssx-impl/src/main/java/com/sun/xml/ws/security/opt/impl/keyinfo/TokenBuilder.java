@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -71,7 +71,6 @@ public abstract class TokenBuilder implements com.sun.xml.ws.security.opt.api.ke
      * @param binding X509CertificateBinding
      * @param x509Cert X509Certificate
      * @return BinarySecurityToken
-     * @throws com.sun.xml.wss.XWSSecurityException
      */
     @SuppressWarnings("static-access")
     protected BinarySecurityToken createBinarySecurityToken(AuthenticationTokenPolicy.X509CertificateBinding binding, X509Certificate x509Cert) throws XWSSecurityException {
@@ -111,7 +110,6 @@ public abstract class TokenBuilder implements com.sun.xml.ws.security.opt.api.ke
      * @param binding UsernameTokenBinding
      * @param unToken UsernameToken
      * @return UsernameToken
-     * @throws com.sun.xml.wss.XWSSecurityException
      */
     protected UsernameToken createUsernameToken(AuthenticationTokenPolicy.UsernameTokenBinding binding, UsernameToken unToken)
             throws XWSSecurityException {
@@ -119,7 +117,7 @@ public abstract class TokenBuilder implements com.sun.xml.ws.security.opt.api.ke
         if (logger.isLoggable(Level.FINEST)) {
             logger.log(Level.FINEST, "Username Token id: " + id);
         }
-        SecurityHeaderElement token = (SecurityHeaderElement) securityHeader.getChildElement(id);
+        SecurityHeaderElement token = securityHeader.getChildElement(id);
         if (token != null) {
             if (token instanceof UsernameToken) {
                 return (UsernameToken) token;
@@ -128,7 +126,7 @@ public abstract class TokenBuilder implements com.sun.xml.ws.security.opt.api.ke
             throw new XWSSecurityException("Found two tokens with same Id attribute");
         }
         unToken.setId(id);
-        context.getSecurityHeader().add((SecurityHeaderElement) unToken);
+        context.getSecurityHeader().add(unToken);
         return unToken;
     }
 
@@ -139,7 +137,6 @@ public abstract class TokenBuilder implements com.sun.xml.ws.security.opt.api.ke
      * @param binding KerberosTokenBinding
      * @param kerbToken byte[]
      * @return  BinarySecurityToken
-     * @throws com.sun.xml.wss.XWSSecurityException
      */
     @SuppressWarnings("static-access")
     protected BinarySecurityToken createKerberosBST(AuthenticationTokenPolicy.KerberosTokenBinding binding,
@@ -191,7 +188,7 @@ public abstract class TokenBuilder implements com.sun.xml.ws.security.opt.api.ke
                 }
             }
         }
-        Data data = new SSEData((SecurityElement) str, false, context.getNamespaceContext());
+        Data data = new SSEData(str, false, context.getNamespaceContext());
         if (strId != null) {
             context.getElementCache().put(strId, data);
         }
@@ -283,7 +280,6 @@ public abstract class TokenBuilder implements com.sun.xml.ws.security.opt.api.ke
      * @param binding X509CertificateBinding
      * @param refType String
      * @return KeyIdentifier
-     * @throws com.sun.xml.wss.XWSSecurityException
      */
     protected KeyIdentifier buildKeyInfoWithKI(AuthenticationTokenPolicy.X509CertificateBinding binding, String refType) throws XWSSecurityException {
         KeyIdentifier keyIdentifier = elementFactory.createKeyIdentifier();
@@ -304,7 +300,6 @@ public abstract class TokenBuilder implements com.sun.xml.ws.security.opt.api.ke
      * @param binding KerberosTokenBinding
      * @param refType String
      * @return KeyIdentifier
-     * @throws com.sun.xml.wss.XWSSecurityException
      */
     protected KeyIdentifier buildKeyInfoWithKIKerberos(AuthenticationTokenPolicy.KerberosTokenBinding binding, String refType) throws XWSSecurityException {
         KeyIdentifier keyIdentifier = elementFactory.createKeyIdentifier();

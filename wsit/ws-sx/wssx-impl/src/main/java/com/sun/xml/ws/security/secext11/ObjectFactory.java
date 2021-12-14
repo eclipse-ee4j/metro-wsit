@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -75,7 +75,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://docs.oasis-open.org/wss/oasis-wss-wssecurity-secext-1.1.xsd", name = "Iteration")
     public JAXBElement<Long> createIteration(Long value) {
-        return new JAXBElement<Long>(_Iteration_QNAME, Long.class, null, value);
+        return new JAXBElement<>(_Iteration_QNAME, Long.class, null, value);
     }
 
     /**
@@ -84,7 +84,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://docs.oasis-open.org/wss/oasis-wss-wssecurity-secext-1.1.xsd", name = "EncryptedHeader")
     public JAXBElement<EncryptedHeaderType> createEncryptedHeader(EncryptedHeaderType value) {
-        return new JAXBElement<EncryptedHeaderType>(_EncryptedHeader_QNAME, EncryptedHeaderType.class, null, value);
+        return new JAXBElement<>(_EncryptedHeader_QNAME, EncryptedHeaderType.class, null, value);
     }
 
     /**
@@ -93,7 +93,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://docs.oasis-open.org/wss/oasis-wss-wssecurity-secext-1.1.xsd", name = "SignatureConfirmation")
     public JAXBElement<SignatureConfirmationType> createSignatureConfirmation(SignatureConfirmationType value) {
-        return new JAXBElement<SignatureConfirmationType>(_SignatureConfirmation_QNAME, SignatureConfirmationType.class, null, value);
+        return new JAXBElement<>(_SignatureConfirmation_QNAME, SignatureConfirmationType.class, null, value);
     }
 
     /**
@@ -102,7 +102,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://docs.oasis-open.org/wss/oasis-wss-wssecurity-secext-1.1.xsd", name = "Salt")
     public JAXBElement<byte[]> createSalt(byte[] value) {
-        return new JAXBElement<byte[]>(_Salt_QNAME, byte[].class, null, ((byte[]) value));
+        return new JAXBElement<>(_Salt_QNAME, byte[].class, null, value);
     }
 
 }

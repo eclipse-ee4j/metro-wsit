@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -30,6 +30,7 @@ public final class InboundConnectionCacheBlockingImpl<C extends Connection>
 
     private final Map<C,ConnectionState<C>> connectionMap ;
 
+    @Override
     protected String thisClassName() {
 	return "InboundConnectionCacheBlockingImpl" ;
     }
@@ -62,7 +63,7 @@ public final class InboundConnectionCacheBlockingImpl<C extends Connection>
 
 	super( cacheType, highWaterMark, numberToReclaim, logger ) ;
 
-	this.connectionMap = new HashMap<C,ConnectionState<C>>() ;
+	this.connectionMap = new HashMap<>() ;
 
 	if (debug()) {
 	    dprint(".constructor completed: " + getCacheType() );
@@ -71,7 +72,8 @@ public final class InboundConnectionCacheBlockingImpl<C extends Connection>
 
     // We do not need to define equals or hashCode for this class.
 
-    public synchronized void requestReceived( final C conn ) {
+    @Override
+    public synchronized void requestReceived(final C conn ) {
 	if (debug())
 	    dprint( "->requestReceived: connection " + conn ) ;
 
@@ -105,8 +107,9 @@ public final class InboundConnectionCacheBlockingImpl<C extends Connection>
 	}
     }
 
-    public synchronized void requestProcessed( final C conn, 
-	final int numResponsesExpected ) {
+    @Override
+    public synchronized void requestProcessed(final C conn,
+                                              final int numResponsesExpected ) {
 
 	if (debug())
 	    dprint( "->requestProcessed: connection " + conn 
@@ -119,8 +122,7 @@ public final class InboundConnectionCacheBlockingImpl<C extends Connection>
 		if (debug())
 		    dprint( ".release: connection " + conn + " was closed" ) ;
 
-		return ; 
-	    } else {
+        } else {
 		cs.expectedResponseCount += numResponsesExpected ;
 		int numResp = cs.expectedResponseCount ;
 		int numBusy = --cs.busyCount ;
@@ -159,7 +161,8 @@ public final class InboundConnectionCacheBlockingImpl<C extends Connection>
     /** Decrement the number of expected responses.  When a connection is idle 
      * and has no expected responses, it can be reclaimed.
      */
-    public synchronized void responseSent( final C conn ) {
+    @Override
+    public synchronized void responseSent(final C conn ) {
 	if (debug())
 	    dprint( "->responseSent: " + conn ) ;
 
@@ -202,7 +205,8 @@ public final class InboundConnectionCacheBlockingImpl<C extends Connection>
     /** Close a connection, regardless of whether the connection is busy
      * or not.
      */
-    public synchronized void close( final C conn ) {
+    @Override
+    public synchronized void close(final C conn ) {
 	if (debug()) 
 	    dprint( "->close: " + conn ) ;
 	
@@ -228,13 +232,8 @@ public final class InboundConnectionCacheBlockingImpl<C extends Connection>
 		rh.remove() ;
 	    }
 
-	    try {
-		conn.close() ;
-	    } catch (IOException exc) {
-		if (debug())
-		    dprint( ".close: " + conn + " close threw "  + exc ) ;
-	    }
-	} finally {
+        conn.close() ;
+    } finally {
 	    if (debug())
 		dprint( "<-close: " + conn ) ;
 	}
@@ -253,7 +252,7 @@ public final class InboundConnectionCacheBlockingImpl<C extends Connection>
 		if (debug())
 		    dprint( ".getConnectionState: " + conn + 
 			" creating new ConnectionState instance" ) ;
-		result = new ConnectionState<C>( conn ) ;
+		result = new ConnectionState<>(conn) ;
 		connectionMap.put( conn, result ) ;
 		totalIdle++ ;
 	    }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -70,6 +70,7 @@ public class DerivedKey implements  com.sun.xml.ws.security.opt.api.keyinfo.Deri
         this.spVersion = spVersion;
     } 
     
+    @Override
     public String getAlgorithm() {
         if(spVersion.equals(MessageConstants.SECURITYPOLICY_12_NS)){
             return derivedKey13.getAlgorithm();
@@ -78,6 +79,7 @@ public class DerivedKey implements  com.sun.xml.ws.security.opt.api.keyinfo.Deri
         }
     }
     
+    @Override
     public BigInteger getGeneration() {
         if(spVersion.equals(MessageConstants.SECURITYPOLICY_12_NS)){
             return derivedKey13.getGeneration();    
@@ -86,6 +88,7 @@ public class DerivedKey implements  com.sun.xml.ws.security.opt.api.keyinfo.Deri
         }
     }
     
+    @Override
     public String getId() {
         if(spVersion.equals(MessageConstants.SECURITYPOLICY_12_NS)){
             return derivedKey13.getId();    
@@ -94,6 +97,7 @@ public class DerivedKey implements  com.sun.xml.ws.security.opt.api.keyinfo.Deri
         }
     }
     
+    @Override
     public String getLabel() {
         if(spVersion.equals(MessageConstants.SECURITYPOLICY_12_NS)){
             return derivedKey13.getLabel();
@@ -102,6 +106,7 @@ public class DerivedKey implements  com.sun.xml.ws.security.opt.api.keyinfo.Deri
         }
     }
     
+    @Override
     public BigInteger getLength() {
         if(spVersion.equals(MessageConstants.SECURITYPOLICY_12_NS)){
             return derivedKey13.getLength();    
@@ -110,6 +115,7 @@ public class DerivedKey implements  com.sun.xml.ws.security.opt.api.keyinfo.Deri
         }
     }
     
+    @Override
     public byte[] getNonce() {
         if(spVersion.equals(MessageConstants.SECURITYPOLICY_12_NS)){
             return derivedKey13.getNonce();
@@ -118,6 +124,7 @@ public class DerivedKey implements  com.sun.xml.ws.security.opt.api.keyinfo.Deri
         }
     }
     
+    @Override
     public BigInteger getOffset() {
         
         if(spVersion.equals(MessageConstants.SECURITYPOLICY_12_NS)){
@@ -127,6 +134,7 @@ public class DerivedKey implements  com.sun.xml.ws.security.opt.api.keyinfo.Deri
         }
     }
     
+    @Override
     public SecurityTokenReferenceType getSecurityTokenReference() {
         if(spVersion.equals(MessageConstants.SECURITYPOLICY_12_NS)){
             return derivedKey13.getSecurityTokenReference();
@@ -135,6 +143,7 @@ public class DerivedKey implements  com.sun.xml.ws.security.opt.api.keyinfo.Deri
         }
     }
     
+    @Override
     public void setAlgorithm(String value) {
         if(spVersion.equals(MessageConstants.SECURITYPOLICY_12_NS)){
             derivedKey13.setAlgorithm(value);
@@ -143,6 +152,7 @@ public class DerivedKey implements  com.sun.xml.ws.security.opt.api.keyinfo.Deri
         }
     }
     
+    @Override
     public void setGeneration(BigInteger value) {
         if(spVersion.equals(MessageConstants.SECURITYPOLICY_12_NS)){
             derivedKey13.setGeneration(value);
@@ -151,6 +161,7 @@ public class DerivedKey implements  com.sun.xml.ws.security.opt.api.keyinfo.Deri
         }
     }
     
+    @Override
     public void setId(String value) {
         if(spVersion.equals(MessageConstants.SECURITYPOLICY_12_NS)){
             derivedKey13.setId(value);
@@ -159,6 +170,7 @@ public class DerivedKey implements  com.sun.xml.ws.security.opt.api.keyinfo.Deri
         }
     }
     
+    @Override
     public void setLabel(String value) {
         if(spVersion.equals(MessageConstants.SECURITYPOLICY_12_NS)){
             derivedKey13.setLabel(value);
@@ -167,6 +179,7 @@ public class DerivedKey implements  com.sun.xml.ws.security.opt.api.keyinfo.Deri
         }
     }
     
+    @Override
     public void setLength(BigInteger value) {
         if(spVersion.equals(MessageConstants.SECURITYPOLICY_12_NS)){
             derivedKey13.setLength(value);
@@ -175,6 +188,7 @@ public class DerivedKey implements  com.sun.xml.ws.security.opt.api.keyinfo.Deri
         }
     }
     
+    @Override
     public void setNonce(byte[] value) {
         if(spVersion.equals(MessageConstants.SECURITYPOLICY_12_NS)){
             derivedKey13.setNonce(value);
@@ -183,6 +197,7 @@ public class DerivedKey implements  com.sun.xml.ws.security.opt.api.keyinfo.Deri
         }
     }
     
+    @Override
     public void setOffset(BigInteger value) {
         if(spVersion.equals(MessageConstants.SECURITYPOLICY_12_NS)){
             derivedKey13.setOffset(value);
@@ -191,6 +206,7 @@ public class DerivedKey implements  com.sun.xml.ws.security.opt.api.keyinfo.Deri
         }
     }
     
+    @Override
     public void setSecurityTokenReference(SecurityTokenReferenceType value) {
         if(spVersion.equals(MessageConstants.SECURITYPOLICY_12_NS)){
             derivedKey13.setSecurityTokenReference(value);
@@ -199,6 +215,7 @@ public class DerivedKey implements  com.sun.xml.ws.security.opt.api.keyinfo.Deri
         }
     }
     
+    @Override
     public String getNamespaceURI() {
         if(spVersion.equals(MessageConstants.SECURITYPOLICY_12_NS)){
             return MessageConstants.WSSC_13NS;
@@ -207,17 +224,20 @@ public class DerivedKey implements  com.sun.xml.ws.security.opt.api.keyinfo.Deri
         }
     }
     
+    @Override
     public String getLocalPart() {
         return MessageConstants.DERIVEDKEY_TOKEN_LNAME;
     }    
    
-    public javax.xml.stream.XMLStreamReader readHeader() throws javax.xml.stream.XMLStreamException {
+    @Override
+    public javax.xml.stream.XMLStreamReader readHeader() {
         throw new UnsupportedOperationException();
     }
     /**
      * creates and writes the derived key token to the output stream
      * @param os OutputStream
      */
+    @Override
     public void writeTo(OutputStream os) {
         try {
             JAXBElement<DerivedKeyTokenType> dkt = null;
@@ -236,9 +256,8 @@ public class DerivedKey implements  com.sun.xml.ws.security.opt.api.keyinfo.Deri
     }
     /**
      * creates and writes the derived key token to the XMLStreamWriter
-     * @param streamWriter
-     * @throws javax.xml.stream.XMLStreamException
      */
+    @Override
     public void writeTo(javax.xml.stream.XMLStreamWriter streamWriter) throws javax.xml.stream.XMLStreamException {
         JAXBElement<DerivedKeyTokenType> dkt = null;                
         JAXBElement<com.sun.xml.ws.security.secconv.impl.wssx.bindings.DerivedKeyTokenType> dkt13 = null;         
@@ -282,6 +301,7 @@ public class DerivedKey implements  com.sun.xml.ws.security.opt.api.keyinfo.Deri
      * @param id String
      * @return boolean
      */
+    @Override
     public boolean refersToSecHdrWithId(String id) {
         if(refId != null && refId.length() >0){
             if(refId.equals(id)){
@@ -295,10 +315,9 @@ public class DerivedKey implements  com.sun.xml.ws.security.opt.api.keyinfo.Deri
                 JAXBElement je = (JAXBElement) list.get(0);
                 Object obj = je.getValue();
                 if(obj instanceof DirectReference ){
-                    StringBuffer sb = new StringBuffer();
-                    sb.append("#");
-                    sb.append(id);
-                    return ((DirectReference)obj).getURI().equals(sb.toString());
+                    String sb = "#" +
+                            id;
+                    return ((DirectReference)obj).getURI().equals(sb);
                 }else if(obj instanceof KeyIdentifierType){
                     KeyIdentifierType ki = (KeyIdentifierType)obj;
                     String valueType = ki.getValueType();
@@ -315,10 +334,8 @@ public class DerivedKey implements  com.sun.xml.ws.security.opt.api.keyinfo.Deri
     }
     /**
      * writes the derived key to the XMLStreamWriter
-     * @param streamWriter
-     * @param props
-     * @throws javax.xml.stream.XMLStreamException
      */
+    @Override
     @SuppressWarnings("unchecked")
     public void writeTo(javax.xml.stream.XMLStreamWriter streamWriter, HashMap props) throws javax.xml.stream.XMLStreamException {
         try{

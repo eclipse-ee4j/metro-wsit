@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -27,7 +27,7 @@ public abstract class WSTCPTomcatProtocolHandlerBase implements ProtocolHandler,
     private static final Logger logger = Logger.getLogger(
             com.sun.xml.ws.transport.tcp.util.TCPConstants.LoggingDomain + ".server");
 
-    private Map<String, Object> atts = new HashMap<String, Object>();
+    private Map<String, Object> atts = new HashMap<>();
     
     private Adapter adapter;
     
@@ -49,15 +49,18 @@ public abstract class WSTCPTomcatProtocolHandlerBase implements ProtocolHandler,
         return atts.keySet().iterator();
     }
 
+    @Override
     public void setAdapter(Adapter adapter) {
         this.adapter = adapter;
     }
 
+    @Override
     public Adapter getAdapter() {
         return adapter;
     }
 
-    public void init() throws Exception {
+    @Override
+    public void init() {
         if (logger.isLoggable(Level.INFO)) {
             logger.log(Level.INFO, MessagesMessages.WSTCP_1170_INIT_SOAPTCP(port));
         }
@@ -65,13 +68,15 @@ public abstract class WSTCPTomcatProtocolHandlerBase implements ProtocolHandler,
         WSTCPTomcatRegistry.setInstance(new WSTCPTomcatRegistry(port));
     }
 
-    public void start() throws Exception {
+    @Override
+    public void start() {
         if (logger.isLoggable(Level.FINE)) {
             logger.log(Level.FINE, MessagesMessages.WSTCP_1171_START_SOAPTCP_LISTENER());
         }
         new Thread(this).start();
     }
 
+    @Override
     public void resume() throws Exception {
         if (logger.isLoggable(Level.FINE)) {
             logger.log(Level.FINE, MessagesMessages.WSTCP_1173_RESUME_SOAPTCP_LISTENER());
@@ -79,6 +84,7 @@ public abstract class WSTCPTomcatProtocolHandlerBase implements ProtocolHandler,
         start();
     }
 
+    @Override
     public void pause() throws Exception {
         if (logger.isLoggable(Level.FINE)) {
             logger.log(Level.FINE, MessagesMessages.WSTCP_1172_PAUSE_SOAPTCP_LISTENER());

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -141,7 +141,6 @@ public class FilterProcessingContext extends ProcessingContextImpl {
     /**
      * @param context ProcessingContext
      *
-     * @throws XWSSecurityException
      */
     public FilterProcessingContext(ProcessingContext context)
             throws XWSSecurityException {
@@ -154,7 +153,6 @@ public class FilterProcessingContext extends ProcessingContextImpl {
      * @param securityPolicy SecurityPolicy
      * @param message SOAPMessage
      *
-     * @throws XWSSecurityException
      */
     public FilterProcessingContext(int filterMode,
             String messageIdentifier,
@@ -174,7 +172,6 @@ public class FilterProcessingContext extends ProcessingContextImpl {
      *
      * @param policy SecurityPolicy
      *
-     * @throws XWSSecurityException
      */
     @Override
     public void setSecurityPolicy(SecurityPolicy policy)
@@ -238,7 +235,6 @@ public class FilterProcessingContext extends ProcessingContextImpl {
     }
 
     /**
-     * @param assrt
      */
     public void isPrimaryPolicyViolation(boolean assrt) {
         this.primaryPolicyViolation = assrt;
@@ -252,7 +248,6 @@ public class FilterProcessingContext extends ProcessingContextImpl {
     }
 
     /**
-     * @param assrt
      */
     public void isOptionalPolicyViolation(boolean assrt) {
         this.optionalPolicyViolation = assrt;

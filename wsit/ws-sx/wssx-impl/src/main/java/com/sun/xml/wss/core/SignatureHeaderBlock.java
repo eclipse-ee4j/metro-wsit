@@ -135,7 +135,6 @@ public class SignatureHeaderBlock  extends SecurityHeaderBlockImpl {
      *
      * @param doc The OwnerDocument of signature 
      * @param signatureMethodURI signature algorithm to use.
-     * @throws XWSSecurityException
      */
     public SignatureHeaderBlock(Document doc, String signatureMethodURI) 
         throws XWSSecurityException {
@@ -171,7 +170,6 @@ public class SignatureHeaderBlock  extends SecurityHeaderBlockImpl {
      *
      * @param signingKey the {@link java.security.PrivateKey} or 
      *     {@link javax.crypto.SecretKey} that is used to sign.
-     * @throws XWSSecurityException
      */
 
      public void sign(Key signingKey) throws XWSSecurityException {
@@ -218,7 +216,6 @@ public class SignatureHeaderBlock  extends SecurityHeaderBlockImpl {
 
     /**
      * Method getSignatureValue
-     * @throws XWSSecurityException
      */
     public byte[] getSignatureValue() throws XWSSecurityException {
         try {
@@ -238,7 +235,6 @@ public class SignatureHeaderBlock  extends SecurityHeaderBlockImpl {
      *
      * @param referenceURI URI according to the XML Signature specification.
      * @param transforms List of transformations to be applied.
-     * @throws XWSSecurityException
      */
     public void addSignedInfoReference(
         String referenceURI, Transforms transforms)
@@ -261,7 +257,6 @@ public class SignatureHeaderBlock  extends SecurityHeaderBlockImpl {
      * @param referenceURI URI according to the XML Signature specification.
      * @param trans List of transformations to be applied.
      * @param digestURI URI of the digest algorithm to be used.
-     * @throws XWSSecurityException
      */
     public void addSignedInfoReference(
         String referenceURI, Transforms trans, String digestURI)
@@ -291,7 +286,6 @@ public class SignatureHeaderBlock  extends SecurityHeaderBlockImpl {
      * @param digestURI Mandatory URI of the digesting algorithm to use.
      * @param referenceId Optional id attribute for this Reference
      * @param referenceType Optional mimetype for the URI
-     * @throws XWSSecurityException 
      */
     public void addSignedInfoReference(
        String referenceURI, Transforms trans, String digestURI, 
@@ -319,7 +313,6 @@ public class SignatureHeaderBlock  extends SecurityHeaderBlockImpl {
      * @param cert Certificate that contains the public key part of the keypair      
      * that was used to sign.
      * @return true if the signature is valid, false otherwise
-     * @throws XWSSecurityException
      */
     public boolean checkSignatureValue(X509Certificate cert)
            throws XWSSecurityException {
@@ -339,7 +332,6 @@ public class SignatureHeaderBlock  extends SecurityHeaderBlockImpl {
      * @param pk {@link java.security.PublicKey} part of the keypair or              
      * {@link javax.crypto.SecretKey} that was used to sign
      * @return true if the signature is valid, false otherwise
-     * @throws XWSSecurityException
      */
     public boolean checkSignatureValue(Key pk) throws XWSSecurityException {
         try {
@@ -367,8 +359,7 @@ public class SignatureHeaderBlock  extends SecurityHeaderBlockImpl {
      * Returns the <code>index</code>th <code>ds:Object</code> child of the 
      * signature or null if no such <code>ds:Object</code> element exists.
      *
-     * @param index
-     * @return the <code>index</code>th <code>ds:Object</code> child of the 
+     * @return the <code>index</code>th <code>ds:Object</code> child of the
      * signature or null if no such <code>ds:Object</code> element exists.
      * 1 is the lowest index (not 0)
      */
@@ -397,6 +388,7 @@ public class SignatureHeaderBlock  extends SecurityHeaderBlockImpl {
      *
      * @return the id
      */
+    @Override
     public String getId() {
        return delegateSignature.getId();
     }
@@ -417,6 +409,7 @@ public class SignatureHeaderBlock  extends SecurityHeaderBlockImpl {
      *     If owner soap document is not set.
      * @see #setDocument(Document)
      */
+    @Override
     public SOAPElement getAsSoapElement() throws XWSSecurityException {
         if (document == null) {
             log.log(Level.SEVERE, "WSS0383.document.not.set");

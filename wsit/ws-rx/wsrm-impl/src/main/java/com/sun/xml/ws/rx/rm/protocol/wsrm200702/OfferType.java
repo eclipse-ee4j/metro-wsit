@@ -67,7 +67,7 @@ public class OfferType {
     @XmlAnyElement(lax = true)
     protected List<Object> any;
     @XmlAnyAttribute
-    private Map<QName, String> otherAttributes = new HashMap<QName, String>();
+    private Map<QName, String> otherAttributes = new HashMap<>();
 
     /**
      * Gets the value of the identifier property.
@@ -138,7 +138,7 @@ public class OfferType {
      *     
      */
     public void setExpires(Expires value) {
-        this.expires = (Expires) value;
+        this.expires = value;
     }
 
     /**
@@ -190,7 +190,7 @@ public class OfferType {
      */
     public List<Object> getAny() {
         if (any == null) {
-            any = new ArrayList<Object>();
+            any = new ArrayList<>();
         }
         return this.any;
     }

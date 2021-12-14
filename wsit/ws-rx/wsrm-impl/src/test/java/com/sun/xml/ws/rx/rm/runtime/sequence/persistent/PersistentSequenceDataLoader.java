@@ -30,43 +30,53 @@ public class PersistentSequenceDataLoader implements SequenceDataLoader {
 
         private final DataSource ds = new DataSource() {
 
-            public Connection getConnection() throws SQLException {
+            @Override
+            public Connection getConnection() {
                 return dbInstance.getConnection();
             }
 
-            public Connection getConnection(String username, String password) throws SQLException {
+            @Override
+            public Connection getConnection(String username, String password) {
                 return dbInstance.getConnection();
             }
 
-            public PrintWriter getLogWriter() throws SQLException {
+            @Override
+            public PrintWriter getLogWriter() {
                 throw new UnsupportedOperationException("Not supported yet.");
             }
 
-            public void setLogWriter(PrintWriter out) throws SQLException {
+            @Override
+            public void setLogWriter(PrintWriter out) {
                 throw new UnsupportedOperationException("Not supported yet.");
             }
 
-            public void setLoginTimeout(int seconds) throws SQLException {
+            @Override
+            public void setLoginTimeout(int seconds) {
                 throw new UnsupportedOperationException("Not supported yet.");
             }
 
-            public int getLoginTimeout() throws SQLException {
+            @Override
+            public int getLoginTimeout() {
                 throw new UnsupportedOperationException("Not supported yet.");
             }
 
-            public <T> T unwrap(Class<T> iface) throws SQLException {
+            @Override
+            public <T> T unwrap(Class<T> iface) {
                 throw new UnsupportedOperationException("Not supported yet.");
             }
 
-            public boolean isWrapperFor(Class<?> iface) throws SQLException {
+            @Override
+            public boolean isWrapperFor(Class<?> iface) {
                 throw new UnsupportedOperationException("Not supported yet.");
             }
 
-            public Logger getParentLogger() throws SQLFeatureNotSupportedException {
+            @Override
+            public Logger getParentLogger() {
                 throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
             }
         };
 
+        @Override
         public DataSource getDataSource() throws PersistenceException {
             return ds;
         }
@@ -78,12 +88,14 @@ public class PersistentSequenceDataLoader implements SequenceDataLoader {
     private final ConnectionManager cm = ConnectionManager.getInstance(new UnitTestDerbyDataSourceProvider());
     private final TimeSynchronizer ts = new TimeSynchronizer() {
 
+        @Override
         public long currentTimeInMillis() {
             return System.currentTimeMillis();
         }
     };
     private EmbeddedDerbyDbInstance dbInstance;
 
+    @Override
     public void setUp() {
         tearDown();
 
@@ -135,6 +147,7 @@ public class PersistentSequenceDataLoader implements SequenceDataLoader {
                 "CREATE INDEX IDX_RM_UNACKED_MESSAGES_CORRELATION_ID ON RM_UNACKED_MESSAGES (CORRELATION_ID)");
     }
 
+    @Override
     public void tearDown() {
         if (dbInstance != null) {
             dbInstance.stop();
@@ -142,6 +155,7 @@ public class PersistentSequenceDataLoader implements SequenceDataLoader {
         }
     }
 
+    @Override
     public SequenceData newInstance(boolean isInbound, String sequenceId, String securityContextTokenId, long expirationTime, State state, boolean ackRequestedFlag, long lastMessageId, long lastActivityTime, long lastAcknowledgementRequestTime) {
         return PersistentSequenceData.newInstance(
                 ts,

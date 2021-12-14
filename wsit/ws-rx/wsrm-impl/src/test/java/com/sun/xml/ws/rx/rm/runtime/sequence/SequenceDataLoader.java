@@ -16,9 +16,9 @@ import com.sun.xml.ws.rx.rm.runtime.sequence.Sequence.State;
  *
  */
 public interface SequenceDataLoader {
-    public void setUp();
+    void setUp();
 
-    public void tearDown();
+    void tearDown();
 
-    public SequenceData newInstance(boolean isInbound, String sequenceId, String securityContextTokenId, long expirationTime, State state, boolean ackRequestedFlag, long lastMessageId, long lastActivityTime, long lastAcknowledgementRequestTime);
+    SequenceData newInstance(boolean isInbound, String sequenceId, String securityContextTokenId, long expirationTime, State state, boolean ackRequestedFlag, long lastMessageId, long lastActivityTime, long lastAcknowledgementRequestTime);
 }

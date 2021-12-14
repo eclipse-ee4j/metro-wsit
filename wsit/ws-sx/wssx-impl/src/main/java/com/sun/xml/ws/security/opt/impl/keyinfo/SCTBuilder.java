@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -17,6 +17,7 @@ import com.sun.xml.ws.security.SecurityContextTokenInfo;
 import com.sun.xml.wss.XWSSecurityException;
 import com.sun.xml.wss.impl.MessageConstants;
 import com.sun.xml.wss.impl.misc.SecurityUtil;
+import com.sun.xml.wss.impl.policy.mls.KeyBindingBase;
 import com.sun.xml.wss.impl.policy.mls.SecureConversationTokenKeyBinding;
 import com.sun.xml.ws.security.opt.impl.JAXBFilterProcessingContext;
 import java.security.Key;
@@ -37,8 +38,8 @@ public class SCTBuilder extends TokenBuilder{
     /**
      * 
      * @return BuilderResult
-     * @throws com.sun.xml.wss.XWSSecurityException
      */
+    @Override
     public BuilderResult process() throws XWSSecurityException {
         BuilderResult sctResult = new BuilderResult();       
         String dataEncAlgo = SecurityUtil.getDataEncryptionAlgo(context);       
@@ -47,10 +48,10 @@ public class SCTBuilder extends TokenBuilder{
         SecurityElement sct = context.getSecurityHeader().getChildElement(sctPolicyId);
         IssuedTokenContext ictx = context.getSecureConversationContext();
         String sctVersion = sctBinding.getIncludeToken();
-        boolean includeToken = (sctBinding.INCLUDE_ALWAYS.equals( sctVersion) ||
-                                sctBinding.INCLUDE_ALWAYS_TO_RECIPIENT.equals( sctVersion) ||
-                                sctBinding.INCLUDE_ALWAYS_VER2.equals( sctVersion) ||
-                                sctBinding.INCLUDE_ALWAYS_TO_RECIPIENT_VER2.equals( sctVersion)
+        boolean includeToken = (KeyBindingBase.INCLUDE_ALWAYS.equals( sctVersion) ||
+                                KeyBindingBase.INCLUDE_ALWAYS_TO_RECIPIENT.equals( sctVersion) ||
+                                KeyBindingBase.INCLUDE_ALWAYS_VER2.equals( sctVersion) ||
+                                KeyBindingBase.INCLUDE_ALWAYS_TO_RECIPIENT_VER2.equals( sctVersion)
                                 );
         com.sun.xml.ws.security.SecurityContextToken sct1 = null;
         if (sct == null) {
@@ -90,8 +91,8 @@ public class SCTBuilder extends TokenBuilder{
         } else{
             directRef.setURI(sct1.getIdentifier().toString());  
         }       
-        if (!sctBinding.INCLUDE_ALWAYS_TO_RECIPIENT.equals(sctBinding.getIncludeToken()) ||
-                !sctBinding.INCLUDE_ALWAYS.equals(sctBinding.getIncludeToken())) {
+        if (!KeyBindingBase.INCLUDE_ALWAYS_TO_RECIPIENT.equals(sctBinding.getIncludeToken()) ||
+                !KeyBindingBase.INCLUDE_ALWAYS.equals(sctBinding.getIncludeToken())) {
             if(context.getSecurityPolicyVersion().equals(MessageConstants.SECURITYPOLICY_12_NS)){
                 directRef.setValueType(MessageConstants.SCT_13_VALUETYPE);                
             }else{

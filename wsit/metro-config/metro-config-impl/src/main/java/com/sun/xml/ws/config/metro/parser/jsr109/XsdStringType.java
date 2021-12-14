@@ -127,6 +127,7 @@ public class XsdStringType
         this.id = value;
     }
 
+    @Override
     public Locator sourceLocation() {
         return locator;
     }

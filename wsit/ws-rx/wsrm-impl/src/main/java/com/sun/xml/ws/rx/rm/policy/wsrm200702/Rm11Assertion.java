@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -30,6 +30,7 @@ import com.sun.xml.ws.rx.rm.api.RmProtocolVersion;
 import jakarta.xml.ws.WebServiceException;
 
 /**
+ * <pre>{@code
  * <wsrmp:RMAssertion [wsp:Optional="true"]? ... >
  *   <wsp:Policy>
  *     [ <wsrmp:SequenceSTR/> |
@@ -45,10 +46,7 @@ import jakarta.xml.ws.WebServiceException;
  *   </wsp:Policy>
  *   ...
  * </wsrmp:RMAssertion>
- */
-/**
- *
- * @author Marek Potociar (marek.potociar at sun.com)
+ * }</pre>
  */
 public final class Rm11Assertion extends ComplexAssertion implements RmConfigurator {
     // TODO: add new assertions for acknowledgement interval and backoff algorithm
@@ -60,6 +58,7 @@ public final class Rm11Assertion extends ComplexAssertion implements RmConfigura
     private static final QName SEQUENCE_TRANSPORT_SECURITY_QNAME = RmAssertionNamespace.WSRMP_200702.getQName("SequenceTransportSecurity");
     private static AssertionInstantiator instantiator = new AssertionInstantiator() {
 
+        @Override
         public PolicyAssertion newInstance(AssertionData data, Collection<PolicyAssertion> assertionParameters, AssertionSet nestedAlternative) throws AssertionCreationException {
             return new Rm11Assertion(data, assertionParameters, nestedAlternative);
         }
@@ -121,6 +120,7 @@ public final class Rm11Assertion extends ComplexAssertion implements RmConfigura
         }
     }
 
+    @Override
     public ReliableMessagingFeatureBuilder update(ReliableMessagingFeatureBuilder builder) {
         if (builder.getProtocolVersion() != RmProtocolVersion.WSRM200702) {
             throw new WebServiceException(LocalizationMessages.WSRM_1002_MULTIPLE_WSRM_VERSIONS_IN_POLICY());
@@ -133,6 +133,7 @@ public final class Rm11Assertion extends ComplexAssertion implements RmConfigura
         return builder.deliveryAssurance(deliveryAssurance).securityBinding(securityBinding);
     }
     
+    @Override
     public boolean isCompatibleWith(RmProtocolVersion version) {
         return RmProtocolVersion.WSRM200702 == version;
     }

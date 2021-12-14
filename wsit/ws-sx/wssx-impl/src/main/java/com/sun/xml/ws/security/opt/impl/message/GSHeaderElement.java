@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -73,15 +73,18 @@ public class GSHeaderElement implements SecurityHeaderElement, SecurityElementWr
        this.buffer = buffer;
     }
     
+    @Override
     public String getId() {
         return id;
     }
     
+    @Override
     public void setId(String id) {
         this.id = id;
     }
     
     
+    @Override
     public String getNamespaceURI() {
         if(element != null){
             return element.getName().getNamespaceURI();
@@ -94,6 +97,7 @@ public class GSHeaderElement implements SecurityHeaderElement, SecurityElementWr
     }
     
     
+    @Override
     public String getLocalPart() {
         if(element != null){
             return element.getName().getLocalPart();
@@ -113,12 +117,14 @@ public class GSHeaderElement implements SecurityHeaderElement, SecurityElementWr
     
     
     
-    public javax.xml.stream.XMLStreamReader readHeader() throws javax.xml.stream.XMLStreamException {
+    @Override
+    public javax.xml.stream.XMLStreamReader readHeader() {
         throw new UnsupportedOperationException();
     }
     
     
     
+    @Override
     public void writeTo(javax.xml.stream.XMLStreamWriter streamWriter) throws javax.xml.stream.XMLStreamException {
         try{
             Marshaller writer =  getMarshaller();
@@ -149,6 +155,7 @@ public class GSHeaderElement implements SecurityHeaderElement, SecurityElementWr
         throw new UnsupportedOperationException();
     }
     
+    @Override
     public void writeTo(OutputStream os) {
         try{
             Marshaller writer =  getMarshaller();
@@ -170,6 +177,7 @@ public class GSHeaderElement implements SecurityHeaderElement, SecurityElementWr
         throw new UnsupportedOperationException();
     }
     
+    @Override
     public boolean refersToSecHdrWithId(String id) {
         String tmpId = "#"+id;
         if(element != null){
@@ -201,6 +209,7 @@ public class GSHeaderElement implements SecurityHeaderElement, SecurityElementWr
         return false;
     }
     
+    @Override
     public void writeTo(javax.xml.stream.XMLStreamWriter streamWriter, HashMap props) throws javax.xml.stream.XMLStreamException {
         writeTo(streamWriter);
     }

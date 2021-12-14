@@ -85,7 +85,7 @@ public enum RmProtocolVersion {
     public final QName wsrmRequiredFaultCode; // since WS-RM 1.1
 
 
-    private RmProtocolVersion(String protocolNamespaceUri, String policyNamespaceUri, String rmAssertionLocalName, String closeSequenceActionSuffix) {
+    RmProtocolVersion(String protocolNamespaceUri, String policyNamespaceUri, String rmAssertionLocalName, String closeSequenceActionSuffix) {
         this.protocolNamespaceUri = protocolNamespaceUri;
         this.policyNamespaceUri = policyNamespaceUri;
 

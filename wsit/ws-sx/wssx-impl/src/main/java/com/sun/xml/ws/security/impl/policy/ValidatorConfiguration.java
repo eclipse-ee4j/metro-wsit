@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -10,7 +10,6 @@
 
 package com.sun.xml.ws.security.impl.policy;
 
-import com.sun.xml.ws.policy.PolicyAssertion;
 import com.sun.xml.ws.policy.sourcemodel.AssertionData;
 import java.util.Iterator;
 import com.sun.xml.ws.policy.AssertionSet;
@@ -47,11 +46,13 @@ public class ValidatorConfiguration extends PolicyAssertion implements com.sun.x
         super(name,nestedAssertions,nestedAlternative);
     }
     
+    @Override
     public Iterator<? extends PolicyAssertion> getValidators() {
         populate();
         return ast;
     }
     
+    @Override
     public AssertionFitness validate(boolean isServer) {
         return populate(isServer);
     }
@@ -68,7 +69,8 @@ public class ValidatorConfiguration extends PolicyAssertion implements com.sun.x
         return fitness;        
     }
     
-    public String getMaxClockSkew() {       
+    @Override
+    public String getMaxClockSkew() {
         if(this.getAttributes().containsKey(cmaxClockSkew)){
             return this.getAttributeValue(cmaxClockSkew);
         }else if(this.getAttributes().containsKey(smaxClockSkew)){
@@ -77,6 +79,7 @@ public class ValidatorConfiguration extends PolicyAssertion implements com.sun.x
         return null;
     }
     
+    @Override
     public String getTimestampFreshnessLimit() {
          if(this.getAttributes().containsKey(ctimestampFreshnessLimit)){
             return this.getAttributeValue(ctimestampFreshnessLimit);
@@ -86,6 +89,7 @@ public class ValidatorConfiguration extends PolicyAssertion implements com.sun.x
         return null;        
     }
     
+    @Override
     public String getMaxNonceAge() {
         if(this.getAttributes().containsKey(smaxNonceAge)){
             return this.getAttributeValue(smaxNonceAge);
@@ -93,6 +97,7 @@ public class ValidatorConfiguration extends PolicyAssertion implements com.sun.x
         return null;            
     }
 
+    @Override
     public String getRevocationEnabled() {
         if(this.getAttributes().containsKey(crevocationEnabled)){
             return this.getAttributeValue(crevocationEnabled);
@@ -102,6 +107,7 @@ public class ValidatorConfiguration extends PolicyAssertion implements com.sun.x
         return null;
     }
     
+    @Override
     public String getEnforceKeyUsage() {
         if(this.getAttributes().containsKey(cenforceKeyUsage)){
             return this.getAttributeValue(cenforceKeyUsage);

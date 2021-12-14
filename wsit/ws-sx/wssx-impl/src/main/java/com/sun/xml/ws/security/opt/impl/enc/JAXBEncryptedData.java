@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -96,34 +96,40 @@ public class JAXBEncryptedData implements EncryptedData,
         return "";
     }
     
-    public void encrypt() {        
+    @Override
+    public void encrypt() {
     }
     
-    public void decrypt() {        
+    @Override
+    public void decrypt() {
     }
     
+    @Override
     public String getId() {
         return edt.getId();
     }
     
+    @Override
     public void setId(String id) {
         if(edt.getId() == null || edt.getId().length() ==0){
             edt.setId(id);
         }
     }    
     
+    @Override
     public String getNamespaceURI() {
         return MessageConstants.XENC_NS;
     }    
     
+    @Override
     public String getLocalPart() {
         return MessageConstants.ENCRYPTED_DATA_LNAME;
     }
     /**
      * writes the jaxb encrypted data to an XMLStreamWriter
      * @param streamWriter javax.xml.stream.XMLStreamWriter
-     * @throws javax.xml.stream.XMLStreamException
      */
+    @Override
     public void writeTo(javax.xml.stream.XMLStreamWriter streamWriter) throws javax.xml.stream.XMLStreamException {
         try {
             
@@ -158,9 +164,7 @@ public class JAXBEncryptedData implements EncryptedData,
             com.sun.xml.security.core.xenc.ObjectFactory obj = new com.sun.xml.security.core.xenc.ObjectFactory();
             JAXBElement ed = obj.createEncryptedData(edt);
             writer.marshal(ed,streamWriter);
-        }catch (com.sun.xml.wss.XWSSecurityException ex) {
-            logger.log(Level.SEVERE, LogStringsMessages.WSS_1919_ERROR_WRITING_ENCRYPTEDDATA(ex.getMessage()), ex);
-        }catch (jakarta.xml.bind.JAXBException ex) {
+        } catch (jakarta.xml.bind.JAXBException ex) {
             logger.log(Level.SEVERE, LogStringsMessages.WSS_1919_ERROR_WRITING_ENCRYPTEDDATA(ex.getMessage()), ex);
         }
     }
@@ -168,8 +172,8 @@ public class JAXBEncryptedData implements EncryptedData,
      * writes the jaxb encrypted data to an XMLStreamWriter
      * @param streamWriter javax.xml.stream.XMLStreamWriter
      * @param props HashMap
-     * @throws XMLStreamException
      */
+    @Override
     @SuppressWarnings("unchecked")
     public void writeTo(javax.xml.stream.XMLStreamWriter streamWriter, HashMap props) throws XMLStreamException {
         try{
@@ -189,6 +193,7 @@ public class JAXBEncryptedData implements EncryptedData,
      * writes the jaxb encrypted data to an XMLStreamWriter
      * @param os java.io.OutputStream
      */
+    @Override
     public void writeTo(java.io.OutputStream os)  {
         try {
             Marshaller writer = getMarshaller();
@@ -201,9 +206,7 @@ public class JAXBEncryptedData implements EncryptedData,
             com.sun.xml.security.core.xenc.ObjectFactory obj = new com.sun.xml.security.core.xenc.ObjectFactory();
             JAXBElement ed = obj.createEncryptedData(edt);
             writer.marshal(ed,os);
-        }catch (com.sun.xml.wss.XWSSecurityException ex) {
-            logger.log(Level.SEVERE, LogStringsMessages.WSS_1919_ERROR_WRITING_ENCRYPTEDDATA(ex.getMessage()), ex);
-        }catch (jakarta.xml.bind.JAXBException ex) {
+        } catch (jakarta.xml.bind.JAXBException ex) {
             logger.log(Level.SEVERE, LogStringsMessages.WSS_1919_ERROR_WRITING_ENCRYPTEDDATA(ex.getMessage()), ex);
         }
     }
@@ -212,7 +215,7 @@ public class JAXBEncryptedData implements EncryptedData,
         throw new UnsupportedOperationException();
     }
     
-    public void writeTo(ContentHandler contentHandler, ErrorHandler errorHandler) throws SAXException {
+    public void writeTo(ContentHandler contentHandler, ErrorHandler errorHandler) {
         throw new UnsupportedOperationException();
     }
     
@@ -228,7 +231,8 @@ public class JAXBEncryptedData implements EncryptedData,
         return JAXBUtil.createMarshaller(soapVersion);
     }
     
-    public javax.xml.stream.XMLStreamReader readHeader() throws javax.xml.stream.XMLStreamException {
+    @Override
+    public javax.xml.stream.XMLStreamReader readHeader() {
         throw new UnsupportedOperationException();
     }
     /**
@@ -236,6 +240,7 @@ public class JAXBEncryptedData implements EncryptedData,
      * @param id String
      * @return boolean
      */
+    @Override
     public boolean refersToSecHdrWithId(String id) {
         KeyInfo ki = (KeyInfo) this.edt.getKeyInfo();
         if(ki != null){

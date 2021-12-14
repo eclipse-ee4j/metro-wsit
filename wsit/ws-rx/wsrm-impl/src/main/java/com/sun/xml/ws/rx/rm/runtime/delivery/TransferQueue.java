@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -68,15 +68,8 @@ public interface TransferQueue<E> extends BlockingQueue<E> {
     * dequeued by a consumer invoking {@code take} or {@code poll}.
     *
     * @param e the element to transfer
-    * @throws InterruptedException if interrupted while waiting,
-    *         in which case the element is not enqueued.
-    * @throws ClassCastException if the class of the specified element
-    *         prevents it from being added to this queue
-    * @throws NullPointerException if the specified element is null
-    * @throws IllegalArgumentException if some property of the specified
-    *         element prevents it from being added to this queue
     */
-   void transfer(E e) throws InterruptedException;
+   void transfer(E e);
 
    /**
     * Inserts the specified element into this queue, waiting up to
@@ -92,16 +85,9 @@ public interface TransferQueue<E> extends BlockingQueue<E> {
     * @return {@code true} if successful, or {@code false} if
     *         the specified waiting time elapses before completion,
     *         in which case the element is not enqueued.
-    * @throws InterruptedException if interrupted while waiting,
-    *         in which case the element is not enqueued.
-    * @throws ClassCastException if the class of the specified element
-    *         prevents it from being added to this queue
-    * @throws NullPointerException if the specified element is null
-    * @throws IllegalArgumentException if some property of the specified
-    *         element prevents it from being added to this queue
     */
    boolean tryTransfer(E e, long timeout, TimeUnit unit)
-       throws InterruptedException;
+   ;
 
    /**
     * Returns {@code true} if there is at least one consumer waiting

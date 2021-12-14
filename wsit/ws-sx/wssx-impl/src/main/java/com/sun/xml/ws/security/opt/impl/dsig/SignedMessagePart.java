@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -55,6 +55,7 @@ public class SignedMessagePart implements SecurityElement, SignedData, SecurityE
         this.contentOnly = contentOnly;
     }
     
+    @Override
     public String getId() {
         if(body != null){
             if(!contentOnly){
@@ -67,6 +68,7 @@ public class SignedMessagePart implements SecurityElement, SignedData, SecurityE
         }
     }
     
+    @Override
     public void setId(String id) {
         if(body != null){
             if(!contentOnly){
@@ -79,6 +81,7 @@ public class SignedMessagePart implements SecurityElement, SignedData, SecurityE
         }
     }
     
+    @Override
     public String getNamespaceURI() {
         if(body != null){
             if(!contentOnly){
@@ -91,6 +94,7 @@ public class SignedMessagePart implements SecurityElement, SignedData, SecurityE
         }
     }
     
+    @Override
     public String getLocalPart() {
         if(body != null){
             if(!contentOnly){
@@ -103,10 +107,12 @@ public class SignedMessagePart implements SecurityElement, SignedData, SecurityE
         }
     }
     
+    @Override
     public javax.xml.stream.XMLStreamReader readHeader() throws javax.xml.stream.XMLStreamException {
         throw new UnsupportedOperationException();
     }
     
+    @Override
     public void writeTo(OutputStream os) {
         try{
             if(isCanonicalized)
@@ -116,6 +122,7 @@ public class SignedMessagePart implements SecurityElement, SignedData, SecurityE
         }
     }
     
+    @Override
     public void writeTo(javax.xml.stream.XMLStreamWriter streamWriter) throws javax.xml.stream.XMLStreamException {
         if(body != null){
             body.cachePayLoad();//will be replaced with 2nd round of optimization.  
@@ -131,7 +138,8 @@ public class SignedMessagePart implements SecurityElement, SignedData, SecurityE
         
     }
     
-    public void writeTo(javax.xml.stream.XMLStreamWriter streamWriter, HashMap props) throws javax.xml.stream.XMLStreamException {     
+    @Override
+    public void writeTo(javax.xml.stream.XMLStreamWriter streamWriter, HashMap props) throws javax.xml.stream.XMLStreamException {
         writeTo(streamWriter);
     }
     
@@ -141,10 +149,12 @@ public class SignedMessagePart implements SecurityElement, SignedData, SecurityE
         storedStream.writeTo(os);
     }
     
+    @Override
     public void setDigestValue(byte[] digestValue) {
         this.digestValue = digestValue;
     }
     
+    @Override
     public byte[] getDigestValue() {
         return digestValue;
     }

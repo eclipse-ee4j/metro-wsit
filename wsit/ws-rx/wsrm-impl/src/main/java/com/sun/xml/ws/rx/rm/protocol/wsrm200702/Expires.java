@@ -49,7 +49,7 @@ public class Expires {
     @XmlValue
     protected Duration value;
     @XmlAnyAttribute
-    private Map<QName, String> otherAttributes = new HashMap<QName, String>();
+    private Map<QName, String> otherAttributes = new HashMap<>();
 
     public Expires() {
     }

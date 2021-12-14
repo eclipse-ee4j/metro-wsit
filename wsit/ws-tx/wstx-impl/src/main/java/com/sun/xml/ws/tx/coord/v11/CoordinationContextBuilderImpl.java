@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -37,6 +37,7 @@ public class CoordinationContextBuilderImpl extends CoordinationContextBuilder {
         return XmlTypeAdapter.adapt(cct);
     }
 
+    @Override
     protected CoordinationContextIF _fromHeader(Header header) {
         try {
             Unmarshaller unmarshaller = XmlTypeAdapter.CoordinationContextImpl.jaxbContext.createUnmarshaller();
@@ -47,6 +48,7 @@ public class CoordinationContextBuilderImpl extends CoordinationContextBuilder {
         }
     }
 
+    @Override
     public JAXBRIContext getJAXBRIContext() {
         return XmlTypeAdapter.CoordinationContextImpl.jaxbContext;
     }

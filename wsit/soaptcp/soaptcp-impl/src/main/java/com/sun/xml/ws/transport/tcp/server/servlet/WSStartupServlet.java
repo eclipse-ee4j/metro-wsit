@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -52,13 +52,14 @@ public final class WSStartupServlet extends HttpServlet
     private List<TCPAdapter> adapters;
     
     @Override
-    protected void doPost(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException {
     }
     
     @Override
-    protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException {
     }
     
+    @Override
     public void contextInitialized(final ServletContextEvent contextEvent) {
         logger.log(Level.FINE, "WSStartupServlet.contextInitialized");
         final ServletContext servletContext = contextEvent.getServletContext();
@@ -71,7 +72,7 @@ public final class WSStartupServlet extends HttpServlet
         
         try {
             registry = WSTCPModule.getInstance();
-            final DeploymentDescriptorParser<TCPAdapter> parser = new DeploymentDescriptorParser<TCPAdapter>(
+            final DeploymentDescriptorParser<TCPAdapter> parser = new DeploymentDescriptorParser<>(
                     classLoader, new TCPResourceLoader(context), container, TCPAdapter.FACTORY);
             final URL sunJaxWsXml = context.getResource(JAXWS_RI_RUNTIME);
             if(sunJaxWsXml==null)
@@ -85,6 +86,7 @@ public final class WSStartupServlet extends HttpServlet
         }
     }
     
+    @Override
     public void contextDestroyed(final ServletContextEvent contextEvent) {
         logger.log(Level.FINE, "WSStartupServlet.contextDestroyed");
         if (registry != null && adapters != null) {
@@ -93,12 +95,15 @@ public final class WSStartupServlet extends HttpServlet
         }
     }
     
+    @Override
     public void attributeAdded(final ServletContextAttributeEvent scab) {
     }
     
+    @Override
     public void attributeRemoved(final ServletContextAttributeEvent scab) {
     }
     
+    @Override
     public void attributeReplaced(final ServletContextAttributeEvent scab) {
     }
     
@@ -113,6 +118,7 @@ public final class WSStartupServlet extends HttpServlet
             this.servletContext = servletContext;
         }
         
+        @Override
         public <T> T getSPI(final Class<T> spiType) {
             if (spiType == ServletContext.class) {
                 return (T) servletContext;

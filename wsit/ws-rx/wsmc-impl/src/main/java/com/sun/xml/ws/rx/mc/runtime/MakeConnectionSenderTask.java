@@ -60,7 +60,7 @@ final class MakeConnectionSenderTask implements Runnable {
         this.wsmcAnnonymousReplyToHeader = wsmcAnnonymousReplyToHeader;
         this.wsmcAnnonymousFaultToHeader = wsmcAnnonymousFaultToHeader;
         this.configuration = configuration;
-        this.mapOfRegisteredProtocolMessageHandlers = new HashMap<String, ProtocolMessageHandler>();
+        this.mapOfRegisteredProtocolMessageHandlers = new HashMap<>();
 
         this.lastMcMessageTimestamp = System.currentTimeMillis();
         this.isMcRequestPending = new AtomicBoolean(false);
@@ -111,6 +111,7 @@ final class MakeConnectionSenderTask implements Runnable {
      * If all the above conditions are astisfied a new MakeConnection request is sent. If not,
      * method terminates without any further action.
      */
+    @Override
     public synchronized void run() {
         if (!isMcRequestPending.get() && resendMakeConnectionIntervalPassed() && (scheduledMcRequestCounter > 0 || suspendedFibersReadyForResend())) {
             sendMcRequest();

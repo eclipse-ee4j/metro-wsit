@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -90,6 +90,7 @@ public class WSATXAResource implements WSATConstants, XAResource, Serializable {
      * @return int prepare vote
      * @throws XAException xaException
      */
+    @Override
     public int prepare(Xid xid) throws XAException {
         debug("prepare xid:"+xid);
         if (WSATHelper.isDebugEnabled()) LOGGER.info(LocalizationMessages.WSAT_4539_PREPARE(m_epr.toString(), m_xid));
@@ -146,6 +147,7 @@ public class WSATXAResource implements WSATConstants, XAResource, Serializable {
      *
      * @throws Throwable he <code>Exception</code> raised by this method
      */
+    @Override
     protected void finalize() throws Throwable {
         super.finalize();
         if (!m_isRemovedFromMap) getWSATHelper().removeDurableParticipant(this);
@@ -160,6 +162,7 @@ public class WSATXAResource implements WSATConstants, XAResource, Serializable {
      * @param onePhase there is no single phase commit in WS-AT and so this is ignored
      * @throws XAException xaException
      */
+    @Override
     public void commit(Xid xid, boolean onePhase) throws XAException {
         debug("commit xid:"+xid+" onePhase:"+onePhase);
         if (WSATHelper.isDebugEnabled()) LOGGER.info(LocalizationMessages.WSAT_4546_COMMIT( m_epr.toString(), m_xid));
@@ -218,8 +221,8 @@ public class WSATXAResource implements WSATConstants, XAResource, Serializable {
     /**
      * @param xid Xid The actual Xid passed in is ignored and the member variable used instead as the value passed in
      *            will be null for bottom-up recovery and because there is a final 1-to-1 relationship between WSATXAResource and Xid.
-     * @throws XAException
      */
+    @Override
     public void rollback(Xid xid) throws XAException {
         debug("rollback xid:"+xid);
         if (WSATHelper.isDebugEnabled()) LOGGER.info(LocalizationMessages.WSAT_4553_ROLLBACK(m_epr.toString(), m_xid));
@@ -264,9 +267,9 @@ public class WSATXAResource implements WSATConstants, XAResource, Serializable {
      * Not applicable to WS-AT
      *
      * @param xid Xid
-     * @throws XAException
      */
-    public void forget(Xid xid) throws XAException {
+    @Override
+    public void forget(Xid xid) {
 
     }
 
@@ -275,9 +278,9 @@ public class WSATXAResource implements WSATConstants, XAResource, Serializable {
      *
      * @param i timeout
      * @return boolean
-     * @throws XAException
      */
-    public boolean setTransactionTimeout(int i) throws XAException {
+    @Override
+    public boolean setTransactionTimeout(int i) {
         return true;
     }
 
@@ -286,9 +289,9 @@ public class WSATXAResource implements WSATConstants, XAResource, Serializable {
      *
      * @param xid Xid
      * @param i   flag
-     * @throws XAException
      */
-    public void start(Xid xid, int i) throws XAException {
+    @Override
+    public void start(Xid xid, int i) {
 
     }
 
@@ -297,9 +300,9 @@ public class WSATXAResource implements WSATConstants, XAResource, Serializable {
      *
      * @param xid Xid
      * @param i   flag
-     * @throws XAException xaexception
      */
-    public void end(Xid xid, int i) throws XAException {
+    @Override
+    public void end(Xid xid, int i) {
 
     }
 
@@ -307,9 +310,9 @@ public class WSATXAResource implements WSATConstants, XAResource, Serializable {
      * Not applicable to WS-AT
      *
      * @return int timeout
-     * @throws XAException
      */
-    public int getTransactionTimeout() throws XAException {
+    @Override
+    public int getTransactionTimeout() {
         return Integer.MAX_VALUE;
     }
 
@@ -318,9 +321,9 @@ public class WSATXAResource implements WSATConstants, XAResource, Serializable {
      *
      * @param xaResource XAResource
      * @return boolean must be false
-     * @throws XAException xaexeception
      */
-    public boolean isSameRM(XAResource xaResource) throws XAException {
+    @Override
+    public boolean isSameRM(XAResource xaResource) {
         return false;
     }
 
@@ -329,9 +332,9 @@ public class WSATXAResource implements WSATConstants, XAResource, Serializable {
      *
      * @param i flag
      * @return empty array
-     * @throws XAException xaexception
      */
-    public Xid[] recover(int i) throws XAException {
+    @Override
+    public Xid[] recover(int i) {
         return new Xid[0];
     }
 

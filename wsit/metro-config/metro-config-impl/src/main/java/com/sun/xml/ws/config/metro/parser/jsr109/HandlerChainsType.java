@@ -105,7 +105,7 @@ public class HandlerChainsType
      */
     public List<HandlerChainType> getHandlerChain() {
         if (handlerChain == null) {
-            handlerChain = new ArrayList<HandlerChainType>();
+            handlerChain = new ArrayList<>();
         }
         return this.handlerChain;
     }
@@ -134,6 +134,7 @@ public class HandlerChainsType
         this.id = value;
     }
 
+    @Override
     public Locator sourceLocation() {
         return locator;
     }

@@ -161,7 +161,7 @@ public class ServiceRefType
      */
     public List<DescriptionType> getDescription() {
         if (description == null) {
-            description = new ArrayList<DescriptionType>();
+            description = new ArrayList<>();
         }
         return this.description;
     }
@@ -190,7 +190,7 @@ public class ServiceRefType
      */
     public List<DisplayNameType> getDisplayName() {
         if (displayName == null) {
-            displayName = new ArrayList<DisplayNameType>();
+            displayName = new ArrayList<>();
         }
         return this.displayName;
     }
@@ -219,7 +219,7 @@ public class ServiceRefType
      */
     public List<IconType> getIcon() {
         if (icon == null) {
-            icon = new ArrayList<IconType>();
+            icon = new ArrayList<>();
         }
         return this.icon;
     }
@@ -392,7 +392,7 @@ public class ServiceRefType
      */
     public List<PortComponentRefType> getPortComponentRef() {
         if (portComponentRef == null) {
-            portComponentRef = new ArrayList<PortComponentRefType>();
+            portComponentRef = new ArrayList<>();
         }
         return this.portComponentRef;
     }
@@ -421,7 +421,7 @@ public class ServiceRefType
      */
     public List<HandlerType> getHandler() {
         if (handler == null) {
-            handler = new ArrayList<HandlerType>();
+            handler = new ArrayList<>();
         }
         return this.handler;
     }
@@ -498,7 +498,7 @@ public class ServiceRefType
      */
     public List<InjectionTargetType> getInjectionTarget() {
         if (injectionTarget == null) {
-            injectionTarget = new ArrayList<InjectionTargetType>();
+            injectionTarget = new ArrayList<>();
         }
         return this.injectionTarget;
     }
@@ -551,6 +551,7 @@ public class ServiceRefType
         this.id = value;
     }
 
+    @Override
     public Locator sourceLocation() {
         return locator;
     }

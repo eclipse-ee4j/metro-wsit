@@ -35,7 +35,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 public class TimestampedCollection<K, V> {
 
     public static <K, V> TimestampedCollection<K, V> newInstance() {
-        return new TimestampedCollection<K, V>();
+        return new TimestampedCollection<>();
     }
 
     //
@@ -51,6 +51,7 @@ public class TimestampedCollection<K, V> {
             this.value = value;
         }
 
+        @Override
         public int compareTo(TimestampedRegistration<K, V> other) {
             return this.timestamp < other.timestamp ? -1 : this.timestamp == other.timestamp ? 0 : 1;
         }
@@ -58,11 +59,11 @@ public class TimestampedCollection<K, V> {
     /**
      * Primary registration collection
      */
-    private final PriorityQueue<TimestampedRegistration<K, V>> timestampedPriorityQueue = new PriorityQueue<TimestampedRegistration<K, V>>();
+    private final PriorityQueue<TimestampedRegistration<K, V>> timestampedPriorityQueue = new PriorityQueue<>();
     /**
      * Correlation key to registration mapping, may contain fewer elements than the whole collection.
      */
-    private final Map<K, TimestampedRegistration<K, V>> correlationMap = new HashMap<K, TimestampedRegistration<K, V>>();
+    private final Map<K, TimestampedRegistration<K, V>> correlationMap = new HashMap<>();
     /**
      * Data access lock
      */
@@ -88,7 +89,7 @@ public class TimestampedCollection<K, V> {
      */
     public V register(@NotNull K correlationId, @NotNull V subject) {
         try {
-            TimestampedRegistration<K, V> tr = new TimestampedRegistration<K, V>(System.currentTimeMillis(), correlationId, subject);
+            TimestampedRegistration<K, V> tr = new TimestampedRegistration<>(System.currentTimeMillis(), correlationId, subject);
             rwLock.writeLock().lock();
 
             timestampedPriorityQueue.offer(tr);
@@ -134,7 +135,7 @@ public class TimestampedCollection<K, V> {
      */
     public boolean register(long timestamp, @NotNull V subject) {
         try {
-            TimestampedRegistration<K, V> tr = new TimestampedRegistration<K, V>(timestamp, null, subject);
+            TimestampedRegistration<K, V> tr = new TimestampedRegistration<>(timestamp, null, subject);
             rwLock.writeLock().lock();
 
             return timestampedPriorityQueue.offer(tr);
@@ -214,7 +215,7 @@ public class TimestampedCollection<K, V> {
                 return Collections.emptyList();
             }
 
-            List<V> values = new ArrayList<V>(timestampedPriorityQueue.size());
+            List<V> values = new ArrayList<>(timestampedPriorityQueue.size());
 
             while (!timestampedPriorityQueue.isEmpty()) {
                 values.add(removeOldest());

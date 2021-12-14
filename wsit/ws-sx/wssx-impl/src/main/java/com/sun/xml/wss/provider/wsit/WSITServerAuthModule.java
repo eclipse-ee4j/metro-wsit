@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -60,27 +60,32 @@ public class WSITServerAuthModule implements ServerAuthModule {
         supported[1] = Message.class;
     }
 
+    @Override
     @SuppressWarnings("unchecked")
     public void initialize(MessagePolicy requestPolicy,
 	       MessagePolicy responsePolicy,
 	       CallbackHandler handler,
-	       Map options) throws AuthException {
+	       Map options) {
         String bg = (String)options.get(DEBUG);
         if (bg !=null && bg.equals("true")) debug = true;
     }
 
+    @Override
     public Class[] getSupportedMessageTypes() {
         return supported;
     }
 
-    public AuthStatus validateRequest(MessageInfo messageInfo, Subject clientSubject, Subject serviceSubject) throws AuthException {
+    @Override
+    public AuthStatus validateRequest(MessageInfo messageInfo, Subject clientSubject, Subject serviceSubject) {
         return AuthStatus.SUCCESS;
     }
 
-    public AuthStatus secureResponse(MessageInfo messageInfo, Subject serviceSubject) throws AuthException {
+    @Override
+    public AuthStatus secureResponse(MessageInfo messageInfo, Subject serviceSubject) {
         return AuthStatus.SUCCESS;
     }
 
+    @Override
     public void cleanSubject(MessageInfo messageInfo, Subject subject) throws AuthException {
         if (subject == null) {               
                 log.log(Level.SEVERE, LogStringsMessages.WSITPVD_0037_NULL_SUBJECT());

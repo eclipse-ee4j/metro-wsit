@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -17,11 +17,6 @@
 package com.sun.xml.wss.saml;
 
 import java.util.List;
-
-/**
- *
- * @author abhijit.das@Sun.COM
- */
 
 /**
  *The <code>AttributeStatement</code> element supplies a statement by the issuer that the
@@ -59,6 +54,6 @@ public interface AttributeStatement{
      * @return object is {@link Subject }
      *     
      */
-    public Subject getSubject(); 
+    Subject getSubject();
         
 }

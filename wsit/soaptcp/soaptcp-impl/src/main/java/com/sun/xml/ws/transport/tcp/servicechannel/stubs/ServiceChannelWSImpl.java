@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -36,51 +36,41 @@ public interface ServiceChannelWSImpl {
 
 
     /**
-     * 
-     * @throws ServiceChannelException
+     *
      */
     @WebMethod
     @RequestWrapper(localName = "initiateSession", targetNamespace = "http://servicechannel.tcp.transport.ws.xml.sun.com/", className = "com.sun.xml.ws.transport.tcp.servicechannel.stubs.InitiateSession")
     @ResponseWrapper(localName = "initiateSessionResponse", targetNamespace = "http://servicechannel.tcp.transport.ws.xml.sun.com/", className = "com.sun.xml.ws.transport.tcp.servicechannel.stubs.InitiateSessionResponse")
-    public void initiateSession()
-        throws ServiceChannelException
+    void initiateSession()
     ;
 
     /**
      * 
-     * @param negotiatedMimeTypes
-     * @param negotiatedParams
-     * @param targetWSURI
      * @return
      *     returns int
-     * @throws ServiceChannelException
      */
     @WebMethod
-    @WebResult(name = "channelId", targetNamespace = "")
+    @WebResult(name = "channelId")
     @RequestWrapper(localName = "openChannel", targetNamespace = "http://servicechannel.tcp.transport.ws.xml.sun.com/", className = "com.sun.xml.ws.transport.tcp.servicechannel.stubs.OpenChannel")
     @ResponseWrapper(localName = "openChannelResponse", targetNamespace = "http://servicechannel.tcp.transport.ws.xml.sun.com/", className = "com.sun.xml.ws.transport.tcp.servicechannel.stubs.OpenChannelResponse")
-    public int openChannel(
-        @WebParam(name = "targetWSURI", targetNamespace = "")
-        String targetWSURI,
-        @WebParam(name = "negotiatedMimeTypes", targetNamespace = "", mode = WebParam.Mode.INOUT)
-        Holder<List<String>> negotiatedMimeTypes,
-        @WebParam(name = "negotiatedParams", targetNamespace = "", mode = WebParam.Mode.INOUT)
-        Holder<List<String>> negotiatedParams)
-        throws ServiceChannelException
+    int openChannel(
+            @WebParam(name = "targetWSURI")
+                    String targetWSURI,
+            @WebParam(name = "negotiatedMimeTypes", mode = WebParam.Mode.INOUT)
+                    Holder<List<String>> negotiatedMimeTypes,
+            @WebParam(name = "negotiatedParams", mode = WebParam.Mode.INOUT)
+                    Holder<List<String>> negotiatedParams)
     ;
 
     /**
-     * 
-     * @param channelId
-     * @throws ServiceChannelException
+     *
      */
     @WebMethod
     @RequestWrapper(localName = "closeChannel", targetNamespace = "http://servicechannel.tcp.transport.ws.xml.sun.com/", className = "com.sun.xml.ws.transport.tcp.servicechannel.stubs.CloseChannel")
     @ResponseWrapper(localName = "closeChannelResponse", targetNamespace = "http://servicechannel.tcp.transport.ws.xml.sun.com/", className = "com.sun.xml.ws.transport.tcp.servicechannel.stubs.CloseChannelResponse")
-    public void closeChannel(
-        @WebParam(name = "channelId", targetNamespace = "")
-        int channelId)
-        throws ServiceChannelException
+    void closeChannel(
+            @WebParam(name = "channelId")
+                    int channelId)
     ;
 
 }

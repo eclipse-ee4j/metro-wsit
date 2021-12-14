@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -46,11 +46,13 @@ public class Claims extends PolicyAssertion implements com.sun.xml.ws.security.p
         super(name, nestedAssertions, nestedAlternative);
     }
 
+    @Override
     public byte[] getClaimsAsBytes() {
         populate();
         return claimsBytes;
     }
     
+    @Override
     public Element getClaimsAsElement(){
         populate();
         if(claimsElement == null){
@@ -67,6 +69,7 @@ public class Claims extends PolicyAssertion implements com.sun.xml.ws.security.p
         return claimsElement;
     }
 
+    @Override
     public AssertionFitness validate(boolean isServer) {
         return populate(isServer);
     }

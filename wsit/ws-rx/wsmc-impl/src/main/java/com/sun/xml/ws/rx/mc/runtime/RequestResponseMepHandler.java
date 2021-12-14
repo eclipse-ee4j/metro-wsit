@@ -23,6 +23,7 @@ class RequestResponseMepHandler extends McResponseHandlerBase {
         super(configuration, mcSenderTask, suspendedFiberStorage, correlationId);
     }
 
+    @Override
     public void onCompletion(Packet response) {
         Message responseMessage = response.getMessage();
         if (responseMessage != null) {
@@ -36,6 +37,7 @@ class RequestResponseMepHandler extends McResponseHandlerBase {
         // arrives as a response to WS-MakeConnection request
     }
 
+    @Override
     public void onCompletion(Throwable error) {
         resumeParentFiber(error);
     }

@@ -269,6 +269,7 @@ public class PortComponentRefType
         this.id = value;
     }
 
+    @Override
     public Locator sourceLocation() {
         return locator;
     }

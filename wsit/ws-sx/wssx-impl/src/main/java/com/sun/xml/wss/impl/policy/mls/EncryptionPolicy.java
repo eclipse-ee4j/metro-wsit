@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -61,6 +61,7 @@ public class EncryptionPolicy extends WSSKeyBindingExtension {
      * @param policy <code>WSSPolicy</code> to be compared for equality
      * @return true if the policy is equal to this policy
      */
+    @Override
     public boolean equals(WSSPolicy policy) {
         boolean _assert = false;
         
@@ -82,6 +83,7 @@ public class EncryptionPolicy extends WSSKeyBindingExtension {
      * @param policy the policy to be compared for equality
      * @return true if the argument policy is equal to this
      */
+    @Override
     public boolean equalsIgnoreTargets(WSSPolicy policy) {
         boolean _assert = false;
         
@@ -101,6 +103,7 @@ public class EncryptionPolicy extends WSSKeyBindingExtension {
      * clone operator
      * @return a clone of this EncryptionPolicy
      */
+    @Override
     public Object clone() {
         EncryptionPolicy ePolicy = new EncryptionPolicy();
         
@@ -121,6 +124,7 @@ public class EncryptionPolicy extends WSSKeyBindingExtension {
     /**
      * @return the type of the policy
      */
+    @Override
     public String getType() {
         return PolicyTypeUtil.ENCRYPTION_POLICY_TYPE;
     }
@@ -221,6 +225,7 @@ public class EncryptionPolicy extends WSSKeyBindingExtension {
          * Equals operator
          * @return true if the binding is equal to this Encryption Policy
          */
+        @Override
         public boolean equals(WSSPolicy policy) {
             
             try {
@@ -237,6 +242,7 @@ public class EncryptionPolicy extends WSSKeyBindingExtension {
         * @param policy the policy to be compared for equality
         * @return true if the argument policy is equal to this
         */
+        @Override
         public boolean equalsIgnoreTargets(WSSPolicy policy) {
             return true;
         }
@@ -245,6 +251,7 @@ public class EncryptionPolicy extends WSSKeyBindingExtension {
          * clone operator
          * @return a clone of this EncryptionPolicy.FeatureBinding
          */
+        @Override
         @SuppressWarnings("unchecked")
         public Object clone(){
             FeatureBinding fBinding = new FeatureBinding();
@@ -255,7 +262,7 @@ public class EncryptionPolicy extends WSSKeyBindingExtension {
                 Iterator i = getTargetBindings().iterator();
                 while (i.hasNext()) list.add(((EncryptionTarget)i.next()).clone());
                 
-                ((ArrayList) fBinding.getTargetBindings()).addAll(list);
+                fBinding.getTargetBindings().addAll(list);
                 
                 WSSPolicy kBinding = (WSSPolicy)getKeyBinding();
                 fBinding.setDataEncryptionAlgorithm(this.getDataEncryptionAlgorithm());
@@ -271,6 +278,7 @@ public class EncryptionPolicy extends WSSKeyBindingExtension {
         /**
          * @return the type of the policy
          */
+        @Override
         public String getType() {
             return PolicyTypeUtil.ENCRYPTION_POLICY_FEATUREBINDING_TYPE;
         }

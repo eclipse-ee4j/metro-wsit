@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -65,6 +65,7 @@ public class Transform extends com.sun.xml.security.core.dsig.TransformType impl
     }
     
     
+    @Override
     public AlgorithmParameterSpec getParameterSpec() {
         return algSpec;
     }
@@ -78,6 +79,7 @@ public class Transform extends com.sun.xml.security.core.dsig.TransformType impl
         this.content = content;
     }
     
+    @Override
     public Data transform(Data data, XMLCryptoContext xMLCryptoContext) throws TransformException {
         if(javax.xml.crypto.dsig.CanonicalizationMethod.EXCLUSIVE.equals(getAlgorithm())){
             if(_exc14nTransform == null){
@@ -92,6 +94,7 @@ public class Transform extends com.sun.xml.security.core.dsig.TransformType impl
         throw new UnsupportedOperationException("Algorithm Transform "+ getAlgorithm() +" not supported yet");
     }
     
+    @Override
     public Data transform(Data data, XMLCryptoContext xMLCryptoContext, OutputStream outputStream) throws TransformException {
         
         if(getAlgorithm().equals(MessageConstants.STR_TRANSFORM_URI)){
@@ -146,11 +149,7 @@ public class Transform extends com.sun.xml.security.core.dsig.TransformType impl
         if(getAlgorithm().intern() == javax.xml.crypto.dsig.CanonicalizationMethod.EXCLUSIVE.intern()){
             if(_exc14nTransform == null){
                 _exc14nTransform = new Exc14nCanonicalizer();
-                try{
-                    _exc14nTransform.init((javax.xml.crypto.dsig.spec.TransformParameterSpec)algSpec);
-                } catch(InvalidAlgorithmParameterException e){
-                    throw new TransformException(e);
-                }
+                _exc14nTransform.init((javax.xml.crypto.dsig.spec.TransformParameterSpec)algSpec);
             }
             if(!logger.isLoggable(Level.FINEST)){
                 //return _exc14nTransform.transform(data,xMLCryptoContext,fis);
@@ -180,6 +179,7 @@ public class Transform extends com.sun.xml.security.core.dsig.TransformType impl
         throw new UnsupportedOperationException("Algorithm Transform "+ getAlgorithm() +" not supported yet");
     }
     
+    @Override
     public boolean isFeatureSupported(String string) {
         return false;
     }

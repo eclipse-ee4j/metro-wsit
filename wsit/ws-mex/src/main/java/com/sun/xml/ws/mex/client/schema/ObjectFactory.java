@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -90,7 +90,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://schemas.xmlsoap.org/ws/2004/09/mex", name = "Location")
     public JAXBElement<String> createLocation(String value) {
-        return new JAXBElement<String>(_Location_QNAME, String.class, null, value);
+        return new JAXBElement<>(_Location_QNAME, String.class, null, value);
     }
 
     /**
@@ -99,7 +99,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://schemas.xmlsoap.org/ws/2004/09/mex", name = "Dialect")
     public JAXBElement<String> createDialect(String value) {
-        return new JAXBElement<String>(_Dialect_QNAME, String.class, null, value);
+        return new JAXBElement<>(_Dialect_QNAME, String.class, null, value);
     }
 
     /**
@@ -108,7 +108,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://schemas.xmlsoap.org/ws/2004/09/mex", name = "Identifier")
     public JAXBElement<String> createIdentifier(String value) {
-        return new JAXBElement<String>(_Identifier_QNAME, String.class, null, value);
+        return new JAXBElement<>(_Identifier_QNAME, String.class, null, value);
     }
 
 }

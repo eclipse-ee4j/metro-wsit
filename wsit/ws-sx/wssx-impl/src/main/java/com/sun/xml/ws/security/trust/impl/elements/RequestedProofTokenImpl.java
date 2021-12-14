@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -79,10 +79,12 @@ public class RequestedProofTokenImpl extends RequestedProofTokenType implements 
         }
     }
     
+    @Override
     public String getProofTokenType() {
         return tokenType;
     }
     
+    @Override
     public final void setProofTokenType(@NotNull final String proofTokenType) {
         if (! (proofTokenType.equalsIgnoreCase(RequestedProofToken.BINARY_SECRET_TYPE)
         || proofTokenType.equalsIgnoreCase(RequestedProofToken.COMPUTED_KEY_TYPE)
@@ -97,6 +99,7 @@ public class RequestedProofTokenImpl extends RequestedProofTokenType implements 
         tokenType = proofTokenType;
     }
     
+    @Override
     public void setSecurityTokenReference(final SecurityTokenReference reference) {
         if (reference != null) {
             str = reference;
@@ -107,10 +110,12 @@ public class RequestedProofTokenImpl extends RequestedProofTokenType implements 
         setProofTokenType(RequestedProofToken.TOKEN_REF_TYPE);
     }
     
+    @Override
     public SecurityTokenReference getSecurityTokenReference() {
         return str;
     }
     
+    @Override
     public final void setComputedKey(@NotNull final URI computedKey) {
         
         if (computedKey != null) {
@@ -129,10 +134,12 @@ public class RequestedProofTokenImpl extends RequestedProofTokenType implements 
         setProofTokenType(RequestedProofToken.COMPUTED_KEY_TYPE);
     }
     
+    @Override
     public URI getComputedKey() {
         return computedKey;
     }
     
+    @Override
     public final void setBinarySecret(final BinarySecret secret) {
         if (secret != null) {
             this.secret = secret;
@@ -143,6 +150,7 @@ public class RequestedProofTokenImpl extends RequestedProofTokenType implements 
         setProofTokenType(RequestedProofToken.BINARY_SECRET_TYPE);
     }
     
+    @Override
     public BinarySecret getBinarySecret() {
         return secret;
     }

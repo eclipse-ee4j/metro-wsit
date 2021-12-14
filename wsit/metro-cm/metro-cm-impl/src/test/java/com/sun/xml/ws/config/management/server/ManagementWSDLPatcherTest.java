@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -202,7 +202,7 @@ public class ManagementWSDLPatcherTest extends TestCase {
     }
 
     public void testBridgeWsdlWithoutPolicy() throws Exception {
-        final HashMap<URI, Policy> urnToPolicy = new HashMap<URI, Policy>();
+        final HashMap<URI, Policy> urnToPolicy = new HashMap<>();
         final ManagementWSDLPatcher instance = new ManagementWSDLPatcher(urnToPolicy);
         final StringReader reader = new StringReader(WSDL_NO_POLICY);
         final XMLInputFactory inputFactory = XMLInputFactory.newInstance();
@@ -227,7 +227,7 @@ public class ManagementWSDLPatcherTest extends TestCase {
     }
 
     public void testBridgeWsdlWithoutPolicyAddPolicies() throws Exception {
-        final HashMap<URI, Policy> urnToPolicy = new HashMap<URI, Policy>();
+        final HashMap<URI, Policy> urnToPolicy = new HashMap<>();
         urnToPolicy.put(ExternalAttachmentsUnmarshaller.BINDING_ID, Policy.createEmptyPolicy(null, "binding-policy"));
         urnToPolicy.put(ExternalAttachmentsUnmarshaller.BINDING_OPERATION_ID, Policy.createEmptyPolicy(null, "operation-policy"));
         urnToPolicy.put(ExternalAttachmentsUnmarshaller.BINDING_OPERATION_INPUT_ID, Policy.createEmptyPolicy(null, "input-policy"));
@@ -257,7 +257,7 @@ public class ManagementWSDLPatcherTest extends TestCase {
     }
 
     public void testBridgeWsdlRemovePolicies() throws Exception {
-        final HashMap<URI, Policy> urnToPolicy = new HashMap<URI, Policy>();
+        final HashMap<URI, Policy> urnToPolicy = new HashMap<>();
         final ManagementWSDLPatcher instance = new ManagementWSDLPatcher(urnToPolicy);
         final StringReader reader = new StringReader(WSDL);
         final XMLInputFactory inputFactory = XMLInputFactory.newInstance();
@@ -282,7 +282,7 @@ public class ManagementWSDLPatcherTest extends TestCase {
     }
 
     public void testBridgeWsdl2RemovePolicies() throws Exception {
-        final HashMap<URI, Policy> urnToPolicy = new HashMap<URI, Policy>();
+        final HashMap<URI, Policy> urnToPolicy = new HashMap<>();
         final ManagementWSDLPatcher instance = new ManagementWSDLPatcher(urnToPolicy);
         final StringReader reader = new StringReader(WSDL_WITH_IMPORT);
         final XMLInputFactory inputFactory = XMLInputFactory.newInstance();
@@ -307,7 +307,7 @@ public class ManagementWSDLPatcherTest extends TestCase {
     }
 
     public void testBridgeWsdlRemoveAndAddPolicies() throws Exception {
-        final HashMap<URI, Policy> urnToPolicy = new HashMap<URI, Policy>();
+        final HashMap<URI, Policy> urnToPolicy = new HashMap<>();
         urnToPolicy.put(ExternalAttachmentsUnmarshaller.BINDING_ID, Policy.createEmptyPolicy(null, "binding-policy"));
         urnToPolicy.put(ExternalAttachmentsUnmarshaller.BINDING_OPERATION_ID, Policy.createEmptyPolicy(null, "operation-policy"));
         urnToPolicy.put(ExternalAttachmentsUnmarshaller.BINDING_OPERATION_INPUT_ID, Policy.createEmptyPolicy(null, "input-policy"));
@@ -339,7 +339,7 @@ public class ManagementWSDLPatcherTest extends TestCase {
     }
 
     public void testTextValues() throws Exception {
-        final HashMap<URI, Policy> urnToPolicy = new HashMap<URI, Policy>();
+        final HashMap<URI, Policy> urnToPolicy = new HashMap<>();
         urnToPolicy.put(ExternalAttachmentsUnmarshaller.BINDING_ID, Policy.createEmptyPolicy(null, "binding-policy"));
         urnToPolicy.put(ExternalAttachmentsUnmarshaller.BINDING_OPERATION_ID, Policy.createEmptyPolicy(null, "operation-policy"));
         urnToPolicy.put(ExternalAttachmentsUnmarshaller.BINDING_OPERATION_INPUT_ID, Policy.createEmptyPolicy(null, "input-policy"));

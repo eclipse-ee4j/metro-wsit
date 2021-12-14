@@ -99,7 +99,7 @@ public class IdentityType {
      */
     public List<JAXBElement<?>> getDnsOrSpnOrUpn() {
         if (dnsOrSpnOrUpn == null) {
-            dnsOrSpnOrUpn = new ArrayList<JAXBElement<?>>();
+            dnsOrSpnOrUpn = new ArrayList<>();
         }
         return this.dnsOrSpnOrUpn;
     }

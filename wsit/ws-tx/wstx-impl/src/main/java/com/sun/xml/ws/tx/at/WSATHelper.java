@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -77,22 +77,22 @@ public class WSATHelper<T> {
     }.WSATVersion(WSATVersion.v11);
 
     //BranchXidImpl wrapper is used for caching mechanism as equals method considers branchqual where XidImpl equals method does/may not
-    private Map<WSATXAResource, ParticipantIF<T>> m_durableParticipantPortMap = new HashMap<WSATXAResource, ParticipantIF<T>>();
+    private Map<WSATXAResource, ParticipantIF<T>> m_durableParticipantPortMap = new HashMap<>();
     private final Object m_durableParticipantPortMapLock = new Object();
-    private Map<Xid, WSATXAResource> m_durableParticipantXAResourceMap = new HashMap<Xid, WSATXAResource>();
+    private Map<Xid, WSATXAResource> m_durableParticipantXAResourceMap = new HashMap<>();
  
     private final Object m_durableParticipantXAResourceMapLock = new Object();
 
-    private Map<Xid, ParticipantIF<T>> m_volatileParticipantPortMap = new HashMap<Xid, ParticipantIF<T>>();
+    private Map<Xid, ParticipantIF<T>> m_volatileParticipantPortMap = new HashMap<>();
     private final Object m_volatileParticipantPortMapLock = new Object();
-    private Map<Xid, WSATSynchronization> m_volatileParticipantSynchronizationMap = new HashMap<Xid, WSATSynchronization>();
+    private Map<Xid, WSATSynchronization> m_volatileParticipantSynchronizationMap = new HashMap<>();
     private final Object m_volatileParticipantSynchronizationMapLock = new Object();
     private final int m_waitForReplyTimeout =
             new Integer(System.getProperty("com.sun.xml.ws.tx.at.reply.timeout", "120"));
     private final boolean m_isUseLocalServerAddress =
             Boolean.valueOf(System.getProperty("com.sun.xml.ws.tx.at.use.local.server.address", "false"));
     protected WSATVersion<T> builderFactory;
-    private Map<Xid, Transaction> m_xidToTransactionMap = new HashMap<Xid, Transaction>();
+    private Map<Xid, Transaction> m_xidToTransactionMap = new HashMap<>();
 
     WSATHelper WSATVersion(WSATVersion builderFactory) {
         this.builderFactory = builderFactory;
@@ -522,8 +522,6 @@ public class WSATHelper<T> {
 
     /**
      * Called by client side outbound tube where suspended tx is placed
-     * @param xid
-     * @param transaction
      */
     public void putToXidToTransactionMap(Xid xid, Transaction transaction) {
         m_xidToTransactionMap.put(new XidImpl(xid), transaction);

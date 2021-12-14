@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -29,6 +29,7 @@ import com.sun.xml.ws.rx.rm.localization.LocalizationMessages;
 import jakarta.xml.ws.WebServiceException;
 
 /**
+ * <pre>{@code
  * <wsrm:RMAssertion [wsp:Optional="true"]? ... >
  *   <wsrm:InactivityTimeout Milliseconds="xs:unsignedLong" ... /> ?
  *   <wsrm:BaseRetransmissionInterval Milliseconds="xs:unsignedLong".../>?
@@ -36,8 +37,8 @@ import jakarta.xml.ws.WebServiceException;
  *   <wsrm:AcknowledgementInterval Milliseconds="xs:unsignedLong" ... /> ?
  *   ...
  * </wsrm:RMAssertion>
- */
-/** 
+ * }</pre>
+ *
  * Specifies that WS-ReliableMessaging protocol MUST be used when sending messages.
  * Defines also the version of the WS-RM protocol to be used.
  *
@@ -52,6 +53,7 @@ public final class Rm10Assertion extends SimpleAssertion implements RmConfigurat
     private static final QName MILISECONDS_ATTRIBUTE_QNAME = new QName("", "Milliseconds");
     private static AssertionInstantiator instantiator = new AssertionInstantiator() {
 
+        @Override
         public PolicyAssertion newInstance(AssertionData data, Collection<PolicyAssertion> assertionParameters, AssertionSet nestedAlternative) {
             return new Rm10Assertion(data, assertionParameters);
         }
@@ -100,6 +102,7 @@ public final class Rm10Assertion extends SimpleAssertion implements RmConfigurat
         return useExponentialBackoffAlgorithm;
     }
 
+    @Override
     public ReliableMessagingFeatureBuilder update(ReliableMessagingFeatureBuilder builder) {
         if (builder.getProtocolVersion() != RmProtocolVersion.WSRM200502) {
             throw new WebServiceException(LocalizationMessages.WSRM_1002_MULTIPLE_WSRM_VERSIONS_IN_POLICY());
@@ -119,6 +122,7 @@ public final class Rm10Assertion extends SimpleAssertion implements RmConfigurat
         return builder;
     }
 
+    @Override
     public boolean isCompatibleWith(RmProtocolVersion version) {
         return RmProtocolVersion.WSRM200502 == version;
     }

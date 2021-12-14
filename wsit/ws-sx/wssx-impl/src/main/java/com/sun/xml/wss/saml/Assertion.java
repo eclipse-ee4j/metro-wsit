@@ -28,11 +28,6 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 /**
- *
- * @author shyam.rao@sun.com
- */
-
-/**
  * This interface stands for <code>Assertion</code> element. An Assertion is a package
  * of information that supplies one or more <code>Statement</code> made by an
  * issuer. There are three kinds of assertions Authentication, Authorization
@@ -71,7 +66,7 @@ public interface Assertion extends Token {
      * By Default DigestMethod.SHA1, SignatureMethod.RSA_SHA1 and CanonicalizationMethod.EXCLUSIVE will be used.
      * @return An <code>org.w3c.dom.Element</code> representation of Signed SAML Assertion
      */
-    public Element sign(PublicKey pubKey, PrivateKey privKey) throws SAMLException;
+    Element sign(PublicKey pubKey, PrivateKey privKey) throws SAMLException;
     
     /**
      * Sign the SAML Assertion - Enveloped Signature
@@ -82,7 +77,7 @@ public interface Assertion extends Token {
      * By Default DigestMethod.SHA1, SignatureMethod.RSA_SHA1 and CanonicalizationMethod.EXCLUSIVE will be used.
      * @return An <code>org.w3c.dom.Element</code> representation of Signed SAML Assertion
      */
-    public Element sign(X509Certificate cert, PrivateKey privKey) throws SAMLException;
+    Element sign(X509Certificate cert, PrivateKey privKey) throws SAMLException;
     
     /**
      * Sign the SAML Assertion - Enveloped Signature
@@ -94,7 +89,7 @@ public interface Assertion extends Token {
      * By Default DigestMethod.SHA1, SignatureMethod.RSA_SHA1 and CanonicalizationMethod.EXCLUSIVE will be used.
      * @return An <code>org.w3c.dom.Element</code> representation of Signed SAML Assertion
      */
-    public Element sign(X509Certificate cert, PrivateKey privKey, boolean alwaysIncludeCert) throws SAMLException;
+    Element sign(X509Certificate cert, PrivateKey privKey, boolean alwaysIncludeCert) throws SAMLException;
     
     /**
      * Sign the SAML Assertion - Enveloped Signature
@@ -108,7 +103,7 @@ public interface Assertion extends Token {
      * By Default DigestMethod.SHA1, SignatureMethod.RSA_SHA1 and CanonicalizationMethod.EXCLUSIVE will be used.
      * @return An <code>org.w3c.dom.Element</code> representation of Signed SAML Assertion
      */
-    public Element sign(X509Certificate cert, PrivateKey privKey, boolean alwaysIncludeCert, String signatureMethod, String canonicalizationMethod) throws SAMLException;
+    Element sign(X509Certificate cert, PrivateKey privKey, boolean alwaysIncludeCert, String signatureMethod, String canonicalizationMethod) throws SAMLException;
            
     /**
      * Sign the SAML Assertion - Enveloped Signature
@@ -121,7 +116,7 @@ public interface Assertion extends Token {
      * By Default DigestMethod.SHA1, SignatureMethod.RSA_SHA1 and CanonicalizationMethod.EXCLUSIVE will be used.
      * @return An <code>org.w3c.dom.Element</code> representation of Signed SAML Assertion
      */
-    public Element sign(DigestMethod digestMethod, String signatureMethod,PublicKey pubKey, PrivateKey privKey) throws SAMLException ;
+    Element sign(DigestMethod digestMethod, String signatureMethod, PublicKey pubKey, PrivateKey privKey) throws SAMLException ;
     
     /**
      * Sign the SAML Assertion - Enveloped Signature
@@ -134,7 +129,7 @@ public interface Assertion extends Token {
      * By Default DigestMethod.SHA1, SignatureMethod.RSA_SHA1 and CanonicalizationMethod.EXCLUSIVE will be used.
      * @return An <code>org.w3c.dom.Element</code> representation of Signed SAML Assertion
      */
-    public Element sign(DigestMethod digestMethod, String signatureMethod, X509Certificate cert, PrivateKey privKey) throws SAMLException ;
+    Element sign(DigestMethod digestMethod, String signatureMethod, X509Certificate cert, PrivateKey privKey) throws SAMLException ;
     
     /**
      * Sign the SAML Assertion - Enveloped Signature
@@ -148,23 +143,23 @@ public interface Assertion extends Token {
      * By Default DigestMethod.SHA1, SignatureMethod.RSA_SHA1 and CanonicalizationMethod.EXCLUSIVE will be used.
      * @return An <code>org.w3c.dom.Element</code> representation of Signed SAML Assertion
      */
-    public Element sign(DigestMethod digestMethod, String signatureMethod, X509Certificate cert, PrivateKey privKey, boolean alwaysIncludeCert) throws SAMLException ;        
+    Element sign(DigestMethod digestMethod, String signatureMethod, X509Certificate cert, PrivateKey privKey, boolean alwaysIncludeCert) throws SAMLException ;
     
     /**
      * @deprecated
      * Set the saml major version for SAML1.0 and SAML1.1
      * @param value A <code>java.math.BigInteger</code> representing saml major version.
      * 
-     */    
-    public void setMajorVersion(java.math.BigInteger value);
+     */
+    void setMajorVersion(java.math.BigInteger value);
     
     /**
      * @deprecated
      * Set the saml minor version for SAML1.0 and SAML1.1
      * @param value A <code>java.math.BigInteger</code> representing saml minor version.
      * 
-     */    
-    public void setMinorVersion(java.math.BigInteger value);
+     */
+    void setMinorVersion(java.math.BigInteger value);
     
     /**
      * @deprecated
@@ -172,7 +167,7 @@ public interface Assertion extends Token {
      * @param version A <code>java.lang.String</code> representing saml version
      * 
      */
-    public void setVersion(String version);
+    void setVersion(String version);
         
     /**
      * Convert SAML Assertion to <code>org.w3c.dom.Element</code>
@@ -180,49 +175,49 @@ public interface Assertion extends Token {
      * 
      * @return org.w3c.dom.Element element representation of SAML Assertion
      */
-    public Element toElement(Node doc) throws XWSSecurityException;
+    Element toElement(Node doc) throws XWSSecurityException;
         
     /**
      * Get the issuer of SAML Assertion 
      * 
      * @return An <code>java.lang.String</code> representing saml issuer.
      */
-    public String getSamlIssuer();            
+    String getSamlIssuer();
        
     /**
      * Get the SAML Assertion ID for SAML1.0 and SAML1.1
      * 
      * @return An <code>java.lang.String</code> representing saml assertion ID.
      */
-    public String getAssertionID();
+    String getAssertionID();
     
     /**
      * Get the SAML Assertion ID for SAML2.0
      * 
      * @return An <code>java.lang.String</code> representing saml assertion ID.
      */
-    public String getID();
+    String getID();
     
     /**
      * Get the SAML Vertion SAML2.0
      * 
      * @return An <code>java.lang.String</code> representing saml version.
      */
-    public String getVersion();
+    String getVersion();
     
     /**
      * Get the SAML Major Vertion for SAML1.0 and SAML1.1
      * 
      * @return An <code>java.math.BigInteger</code> representing saml major version.
      */
-    public BigInteger getMajorVersion();   
+    BigInteger getMajorVersion();
     
     /**
      * Get the SAML Minor Vertion for SAML1.0 and SAML1.1
      * 
      * @return An <code>java.math.BigInteger</code> representing saml minor version.
      */
-    public BigInteger getMinorVersion();
+    BigInteger getMinorVersion();
     
     /**
      * Gets the value of the issueInstant property.
@@ -230,7 +225,7 @@ public interface Assertion extends Token {
      * @return A {@link java.lang.String } representing the issue timestamp of the SAML Assertion
      *     
      */
-    public String getIssueInstance();
+    String getIssueInstance();
     
     /**
      * Return all statements presents in the SAML Assertion.
@@ -239,7 +234,7 @@ public interface Assertion extends Token {
      * representing all statements present inside the SAML assertion.
      * 
      */
-    public List<Object> getStatements();
+    List<Object> getStatements();
     
     /**
      * Gets the value of the conditions property of SAML
@@ -247,7 +242,7 @@ public interface Assertion extends Token {
      * @return A {@link Conditions} representing conditions of the SAML Assertion.
      *     
      */
-    public Conditions getConditions();
+    Conditions getConditions();
     
     /**
      * Gets the value of the advice property of SAML
@@ -255,7 +250,7 @@ public interface Assertion extends Token {
      * @return An {@link Advice} representing Advice element present in the SAML Assertion.
      *     
      */
-    public Advice getAdvice();
+    Advice getAdvice();
     
     /**
      * Gets the value of the subject property of SAML 2.0
@@ -267,7 +262,7 @@ public interface Assertion extends Token {
      * @return A {@link Subject} representing Subject of SAML 2.0
      *     
      */
-    public Subject getSubject();        
+    Subject getSubject();
     
     /**
      * Verify the SAML signature with the Public Key
@@ -277,6 +272,6 @@ public interface Assertion extends Token {
      * @return An {@link Boolean} representing whether SAML signature verification is successful or not.
      *     
      */
-    public boolean verifySignature(PublicKey pubKey) throws SAMLException;
+    boolean verifySignature(PublicKey pubKey) throws SAMLException;
     
 }

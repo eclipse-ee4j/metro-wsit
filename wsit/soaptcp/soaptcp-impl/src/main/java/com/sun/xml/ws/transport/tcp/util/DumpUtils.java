@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -17,7 +17,7 @@ import java.nio.ByteBuffer;
  */
 public final class DumpUtils {
     public static String dumpBytes(final ByteBuffer[] bb) {
-        final StringBuffer stringBuffer = new StringBuffer();
+        final StringBuilder stringBuffer = new StringBuilder();
         for(int i=0; i<bb.length; i++) {
             stringBuffer.append(dumpBytes(bb[i]));
         }
@@ -39,7 +39,7 @@ public final class DumpUtils {
     }
 
     public static String dumpOctets(final ByteBuffer[] bb) {
-        final StringBuffer stringBuffer = new StringBuffer();
+        final StringBuilder stringBuffer = new StringBuilder();
         for(int i=0; i<bb.length; i++) {
             stringBuffer.append(dumpOctets(bb[i]));
         }
@@ -61,7 +61,7 @@ public final class DumpUtils {
     }
 
     public static String dump(final ByteBuffer[] bb) {
-        final StringBuffer stringBuffer = new StringBuffer();
+        final StringBuilder stringBuffer = new StringBuilder();
         for(int i=0; i<bb.length; i++) {
             stringBuffer.append(dump(bb[i]));
         }
@@ -87,7 +87,7 @@ public final class DumpUtils {
     }
     
     public static String dump(final byte[] buffer, final int offset, final int length) {
-        final StringBuffer stringBuffer = new StringBuffer();
+        final StringBuilder stringBuffer = new StringBuilder();
         for(int i=0; i<length; i++) {
             final int value = buffer[offset + i] & 0xFF;
             final String strValue = Integer.toHexString(value).toUpperCase();
@@ -107,7 +107,7 @@ public final class DumpUtils {
     }
 
     public static String dumpOctets(final byte[] buffer, final int offset, final int length) {
-        final StringBuffer stringBuffer = new StringBuffer();
+        final StringBuilder stringBuffer = new StringBuilder();
         for(int i=0; i<length; i++) {
             final int value = buffer[offset + i] & 0xFF;
             final String strValue = Integer.toHexString(value).toUpperCase();
@@ -124,7 +124,7 @@ public final class DumpUtils {
     }
 
     public static String dumpBytes(final byte[] buffer, final int offset, final int length) {
-        final StringBuffer stringBuffer = new StringBuffer();
+        final StringBuilder stringBuffer = new StringBuilder();
         for(int i=0; i<length; i++) {
             final int value = buffer[offset + i] & 0xFF;
             stringBuffer.append((char) value);

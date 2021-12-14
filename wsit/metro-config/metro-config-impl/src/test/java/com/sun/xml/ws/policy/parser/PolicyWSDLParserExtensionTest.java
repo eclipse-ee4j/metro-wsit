@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -84,7 +84,6 @@ public class PolicyWSDLParserExtensionTest extends TestCase{
     
     /**
      * invalid wsdl on input
-     * @throws Exception
      */
     public void testPortTypeElementAttachment() throws Exception {
         PolicyMap policyMap = getPolicyMap("parser/testRuntimeWSExtElemPortType-invalid.wsdl");
@@ -143,7 +142,6 @@ public class PolicyWSDLParserExtensionTest extends TestCase{
     
     /**
      * invalid wsdl on input
-     * @throws Exception
      */
     public void testPortTypeOpInElementAttachment() throws Exception {
         PolicyMap policyMap = getPolicyMap("parser/testRuntimeWSExtElemPortTypeOpIn-invalid.wsdl");
@@ -155,7 +153,6 @@ public class PolicyWSDLParserExtensionTest extends TestCase{
     
     /**
      * invalid wsdl on input
-     * @throws Exception
      */
     public void testPortTypeOpOutElementAttachment() throws Exception {
         PolicyMap policyMap = getPolicyMap("parser/testRuntimeWSExtElemPortTypeOpOut-invalid.wsdl");
@@ -167,7 +164,6 @@ public class PolicyWSDLParserExtensionTest extends TestCase{
     
     /**
      * invalid wsdl on input
-     * @throws Exception
      */
     public void testPortTypeOpFaultElementAttachment() throws Exception {
         PolicyMap policyMap = getPolicyMap("parser/testRuntimeWSExtElemPortTypeOpFault-invalid.wsdl");
@@ -205,7 +201,6 @@ public class PolicyWSDLParserExtensionTest extends TestCase{
     
     /**
      * invalid wsdl on input
-     * @throws Exception
      */
     public void testServiceAttrAttachment() throws Exception {
         PolicyMap policyMap = getPolicyMap("parser/testRuntimeWSExtAttrService-invalid.wsdl");
@@ -215,7 +210,6 @@ public class PolicyWSDLParserExtensionTest extends TestCase{
     
     /**
      * invalid wsdl on input
-     * @throws Exception
      */
     public void testPortAttrAttachment() throws Exception {
         PolicyMap policyMap = getPolicyMap("parser/testRuntimeWSExtAttrPort-invalid.wsdl");
@@ -233,7 +227,6 @@ public class PolicyWSDLParserExtensionTest extends TestCase{
     
     /**
      * invalid wsdl on input
-     * @throws Exception
      */
     public void testBindingAttrAttachment() throws Exception {
         PolicyMap policyMap = getPolicyMap("parser/testRuntimeWSExtAttrBinding-invalid.wsdl");
@@ -244,7 +237,6 @@ public class PolicyWSDLParserExtensionTest extends TestCase{
     
     /**
      * invalid wsdl on input
-     * @throws Exception
      */
     public void testPortTypeOperationAttrAttachment() throws Exception {
         PolicyMap policyMap = getPolicyMap("parser/testRuntimeWSExtAttrPortTypeOperation-invalid.wsdl");
@@ -256,7 +248,6 @@ public class PolicyWSDLParserExtensionTest extends TestCase{
     
     /**
      * invalid wsdl on input
-     * @throws Exception
      */
     public void testBindingOperationAttrAttachment() throws Exception {
         PolicyMap policyMap = getPolicyMap("parser/testRuntimeWSExtAttrBindingOperation-invalid.wsdl");
@@ -268,7 +259,6 @@ public class PolicyWSDLParserExtensionTest extends TestCase{
     
     /**
      * invalid wsdl on input
-     * @throws Exception
      */
     public void testMessageInAttrAttachment() throws Exception {
         PolicyMap policyMap = getPolicyMap("parser/testRuntimeWSExtAttrMessageIn-invalid.wsdl");
@@ -280,7 +270,6 @@ public class PolicyWSDLParserExtensionTest extends TestCase{
     
     /**
      * invalid wsdl on input
-     * @throws Exception
      */
     public void testMessageOutAttrAttachment() throws Exception {
         PolicyMap policyMap = getPolicyMap("parser/testRuntimeWSExtAttrMessageOut-invalid.wsdl");
@@ -292,7 +281,6 @@ public class PolicyWSDLParserExtensionTest extends TestCase{
     
     /**
      * invalid wsdl on input
-     * @throws Exception
      */
     public void testMessageFaultAttrAttachment() throws Exception {
         PolicyMap policyMap = getPolicyMap("parser/testRuntimeWSExtAttrMessageFault-invalid.wsdl");
@@ -330,7 +318,6 @@ public class PolicyWSDLParserExtensionTest extends TestCase{
     
     /**
      * invalid wsdl on input
-     * @throws Exception
      */
     public void testBindingOpInAttrAttachment() throws Exception {
         PolicyMap policyMap = getPolicyMap("parser/testRuntimeWSExtAttrBindingOpIn-invalid.wsdl");
@@ -342,7 +329,6 @@ public class PolicyWSDLParserExtensionTest extends TestCase{
     
     /**
      * invalid wsdl on input
-     * @throws Exception
      */
     public void testBindingOpOutAttrAttachment() throws Exception {
         PolicyMap policyMap = getPolicyMap("parser/testRuntimeWSExtAttrBindingOpOut-invalid.wsdl");
@@ -354,7 +340,6 @@ public class PolicyWSDLParserExtensionTest extends TestCase{
     
     /**
      * invalid wsdl on input
-     * @throws Exception
      */
     public void testBindingOpFaultAttrAttachment() throws Exception {
         PolicyMap policyMap = getPolicyMap("parser/testRuntimeWSExtAttrBindingOpFault-invalid.wsdl");
@@ -380,7 +365,6 @@ public class PolicyWSDLParserExtensionTest extends TestCase{
     
     /**
      * invalid wsdl on input
-     * @throws Exception
      */
     public void testPortTypeHeredocAttachment() throws Exception {
         PolicyMap policyMap = getPolicyMap("parser/testRuntimeWSExtHeredocPortType-invalid.wsdl");
@@ -439,7 +423,6 @@ public class PolicyWSDLParserExtensionTest extends TestCase{
     
     /**
      * invalid wsdl on input
-     * @throws Exception
      */
     public void testPortTypeOpInHeredocAttachment() throws Exception {
         PolicyMap policyMap = getPolicyMap("parser/testRuntimeWSExtHeredocPortTypeOpIn-invalid.wsdl");
@@ -451,7 +434,6 @@ public class PolicyWSDLParserExtensionTest extends TestCase{
     
     /**
      * invalid wsdl on input
-     * @throws Exception
      */
     public void testPortTypeOpOutHeredocAttachment() throws Exception {
         PolicyMap policyMap = getPolicyMap("parser/testRuntimeWSExtHeredocPortTypeOpOut-invalid.wsdl");
@@ -463,7 +445,6 @@ public class PolicyWSDLParserExtensionTest extends TestCase{
     
     /**
      * invalid wsdl on input
-     * @throws Exception
      */
     public void testPortTypeOpFaultHeredocAttachment() throws Exception {
         PolicyMap policyMap = getPolicyMap("parser/testRuntimeWSExtHeredocPortTypeOpFault-invalid.wsdl");

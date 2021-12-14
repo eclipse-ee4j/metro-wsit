@@ -64,7 +64,7 @@ public class AttributedString {
     @XmlID
     protected String id;
     @XmlAnyAttribute
-    private Map<QName, String> otherAttributes = new HashMap<QName, String>();
+    private Map<QName, String> otherAttributes = new HashMap<>();
     
   
     

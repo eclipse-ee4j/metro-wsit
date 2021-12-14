@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -251,7 +251,7 @@ public class AssertionType {
      */
     public List<StatementAbstractType> getStatementOrAuthnStatementOrAuthzDecisionStatement() {
         if (statementOrAuthnStatementOrAuthzDecisionStatement == null) {
-            statementOrAuthnStatementOrAuthzDecisionStatement = new ArrayList<StatementAbstractType>();
+            statementOrAuthnStatementOrAuthzDecisionStatement = new ArrayList<>();
         }
         return this.statementOrAuthnStatementOrAuthzDecisionStatement;
     }

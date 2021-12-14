@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -1848,7 +1848,7 @@ public class PolicyUtil {
     
     public static String randomUUID() {
          UUID uid = UUID.randomUUID();
-         String id= "uuid_" + uid.toString();
+         String id= "uuid_" + uid;
          return id;
     }
     
@@ -1858,8 +1858,8 @@ public class PolicyUtil {
             XMLOutputFactory xof = XMLOutputFactory.newInstance();
             XMLStreamWriter writer = xof.createXMLStreamWriter(baos);
                            
-            AssertionSet set = AssertionSet.createAssertionSet(Arrays.asList(new PolicyAssertion[] {token}));
-            Policy policy = Policy.createPolicy(Arrays.asList(new AssertionSet[] { set }));
+            AssertionSet set = AssertionSet.createAssertionSet(Arrays.asList(token));
+            Policy policy = Policy.createPolicy(Arrays.asList(set));
             PolicySourceModel sourceModel = ModelGenerator.getGenerator().translate(policy);
             PolicyModelMarshaller pm = PolicyModelMarshaller.getXmlMarshaller(true);
             pm.marshal(sourceModel, writer);

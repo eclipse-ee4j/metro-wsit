@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -15,6 +15,7 @@ import org.glassfish.jaxb.runtime.marshaller.NamespacePrefixMapper;
 public class TrustNamespacePrefixMapper extends NamespacePrefixMapper {
 
     
+    @Override
     public String getPreferredPrefix(final String namespaceUri, final String suggestion, final boolean requirePrefix) {
         // I want this namespace to be mapped to "xsi"
         if( "http://www.w3.org/2001/XMLSchema-instance".equals(namespaceUri) ) {

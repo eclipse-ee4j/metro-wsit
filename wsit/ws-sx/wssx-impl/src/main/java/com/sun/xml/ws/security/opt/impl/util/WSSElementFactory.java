@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -11,9 +11,6 @@
 package com.sun.xml.ws.security.opt.impl.util;
 
 import org.apache.xml.security.algorithms.JCEMapper;
-import org.apache.xml.security.c14n.Canonicalizer;
-import org.apache.xml.security.c14n.implementations.CanonicalizerPhysical;
-import org.apache.xml.security.exceptions.AlgorithmAlreadyRegisteredException;
 
 import com.sun.xml.security.core.dsig.KeyInfoType;
 import com.sun.xml.security.core.dsig.TransformType;
@@ -79,8 +76,8 @@ public class WSSElementFactory {
             LogDomainConstants.WSS_API_DOMAIN_BUNDLE);
     
     static {
-        /**
-         * Work-around for the JDK JCE name mapping for oaep padding. See JDK-8017173
+        /*
+          Work-around for the JDK JCE name mapping for oaep padding. See JDK-8017173
          */
         System.setProperty("org.apache.xml.security.resource.config", "resource/config.xml");
         
@@ -173,7 +170,7 @@ public class WSSElementFactory {
     
     public X509Data createX509DataWithIssuerSerial(X509IssuerSerial xis){
         X509Data x509Data = new X509Data(soapVersion);
-        List<Object> list = new ArrayList<Object>();
+        List<Object> list = new ArrayList<>();
         list.add(xis);
         x509Data.setX509IssuerSerialOrX509SKIOrX509SubjectName(list);
         return x509Data;
@@ -265,7 +262,7 @@ public class WSSElementFactory {
         CipherReferenceType crt = new CipherReferenceType();
         crt.setURI(cid);
         TransformsType tst = new TransformsType();
-        ArrayList<TransformType> ttList = new ArrayList<TransformType>();
+        ArrayList<TransformType> ttList = new ArrayList<>();
         ArrayList list = target.getCipherReferenceTransforms();
         for(Object obj : list){
             EncryptionTarget.Transform tr = (EncryptionTarget.Transform)obj;

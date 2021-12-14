@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -60,8 +60,6 @@ import com.sun.xml.wss.impl.callback.UsernameCallback;
 import com.sun.xml.wss.impl.callback.TimestampValidationCallback;
 import com.sun.xml.wss.impl.callback.SAMLAssertionValidator;
 import com.sun.xml.wss.impl.callback.DynamicPolicyCallback;
-
-import org.apache.xml.security.utils.RFC2253Parser;
 
 import java.security.NoSuchAlgorithmException;
 
@@ -328,9 +326,6 @@ public class DefaultCallbackHandler implements CallbackHandler {
 
     /**
      *
-     * @param cb
-     * @throws java.io.IOException
-     * @throws javax.security.auth.callback.UnsupportedCallbackException
      */
     private void handleUsernameCallback(UsernameCallback cb) throws IOException, UnsupportedCallbackException {
         if (myUsername != null) {
@@ -364,9 +359,6 @@ public class DefaultCallbackHandler implements CallbackHandler {
 
     /**
      *
-     * @param cb
-     * @throws java.io.IOException
-     * @throws javax.security.auth.callback.UnsupportedCallbackException
      */
     private void handlePasswordCallback(PasswordCallback cb) throws IOException, UnsupportedCallbackException {
         if (myPassword != null) {
@@ -401,11 +393,8 @@ public class DefaultCallbackHandler implements CallbackHandler {
 
     /**
      *
-     * @param cb
-     * @throws java.io.IOException
-     * @throws javax.security.auth.callback.UnsupportedCallbackException
      */
-    private void handlePasswordValidation(PasswordValidationCallback cb) throws IOException, UnsupportedCallbackException {
+    private void handlePasswordValidation(PasswordValidationCallback cb) throws UnsupportedCallbackException {
         if (cb.getRequest() instanceof PasswordValidationCallback.PlainTextPasswordRequest) {
             if (pwValidator != null) {
                 cb.setValidator(pwValidator);
@@ -436,7 +425,7 @@ public class DefaultCallbackHandler implements CallbackHandler {
         }
     }
 
-    private void handleTimestampValidation(TimestampValidationCallback cb) throws IOException, UnsupportedCallbackException {
+    private void handleTimestampValidation(TimestampValidationCallback cb) {
         if (tsValidator != null) {
             cb.setValidator(tsValidator);
         } else {
@@ -447,10 +436,8 @@ public class DefaultCallbackHandler implements CallbackHandler {
 
     /**
      *
-     * @param callbacks
-     * @throws java.io.IOException
-     * @throws javax.security.auth.callback.UnsupportedCallbackException
      */
+    @Override
     public void handle(Callback[] callbacks) throws IOException, UnsupportedCallbackException {
 
         for (int i = 0; i < callbacks.length; i++) {
@@ -662,31 +649,21 @@ public class DefaultCallbackHandler implements CallbackHandler {
 
     /**
      *
-     * @param certificate
-     * @param runtimeProps
-     * @return
      */
-    private boolean isMyCert(X509Certificate certificate, Map runtimeProps) {
-        try {
-            SignatureKeyCallback.DefaultPrivKeyCertRequest request =
-                    new SignatureKeyCallback.DefaultPrivKeyCertRequest();
-            getDefaultPrivKeyCert(request, runtimeProps);
-            X509Certificate cert = request.getX509Certificate();
-            if (cert != null && cert.equals(certificate)) {
-                return true;
-            }
-        } catch (IOException ex) {
-            //ignore
+    private boolean isMyCert(X509Certificate certificate, Map runtimeProps) throws IOException {
+        SignatureKeyCallback.DefaultPrivKeyCertRequest request =
+                new SignatureKeyCallback.DefaultPrivKeyCertRequest();
+        getDefaultPrivKeyCert(request, runtimeProps);
+        X509Certificate cert = request.getX509Certificate();
+        if (cert != null && cert.equals(certificate)) {
+            return true;
         }
+
         return false;
     }
 
     /**
      *
-     * @param samlBinding
-     * @param dp
-     * @throws java.io.IOException
-     * @throws javax.security.auth.callback.UnsupportedCallbackException
      */
     private void populateAssertion(AuthenticationTokenPolicy.SAMLAssertionBinding samlBinding, DynamicPolicyCallback dp)
             throws IOException, UnsupportedCallbackException {
@@ -744,46 +721,31 @@ public class DefaultCallbackHandler implements CallbackHandler {
 
     /**
      *
-     * @param samlBinding
-     * @param subj
-     * @param props
-     * @throws java.io.IOException
-     * @throws javax.security.auth.callback.UnsupportedCallbackException
      */
     private void validateSAMLAssertion(
-            AuthenticationTokenPolicy.SAMLAssertionBinding samlBinding, Subject subj, Map props)
-            throws IOException, UnsupportedCallbackException {
+            AuthenticationTokenPolicy.SAMLAssertionBinding samlBinding, Subject subj, Map props) {
         if (sValidator != null) {
-            try {
-                if (sValidator instanceof ValidatorExtension) {
-                    ((ValidatorExtension) sValidator).setRuntimeProperties(props);
+            if (sValidator instanceof ValidatorExtension) {
+                ((ValidatorExtension) sValidator).setRuntimeProperties(props);
+            }
+            if (samlBinding.getAssertion() != null) {
+                if (sValidator instanceof SAMLValidator) {
+                    ((SAMLValidator) sValidator).validate(samlBinding.getAssertion(), props, subj);
+                } else {
+                    sValidator.validate(samlBinding.getAssertion());
                 }
-                if (samlBinding.getAssertion() != null) {
-                    if (sValidator instanceof SAMLValidator) {
-                        ((SAMLValidator) sValidator).validate(samlBinding.getAssertion(), props, subj);
-                    } else {
-                        sValidator.validate(samlBinding.getAssertion());
-                    }
-                } else if (samlBinding.getAssertionReader() != null) {
-                    if (sValidator instanceof SAMLValidator) {
-                        ((SAMLValidator) sValidator).validate(samlBinding.getAssertionReader(), props, subj);
-                    } else {
-                        sValidator.validate(samlBinding.getAssertionReader());
-                    }
+            } else if (samlBinding.getAssertionReader() != null) {
+                if (sValidator instanceof SAMLValidator) {
+                    ((SAMLValidator) sValidator).validate(samlBinding.getAssertionReader(), props, subj);
+                } else {
+                    sValidator.validate(samlBinding.getAssertionReader());
                 }
-            } catch (SAMLAssertionValidator.SAMLValidationException e) {
-                log.log(Level.SEVERE, LogStringsMessages.WSS_1508_FAILED_VALIDATE_SAML_ASSERTION(), e);
-                throw new RuntimeException(e);
             }
         }
     }
 
     /**
      *
-     * @param samlBinding
-     * @param context
-     * @throws java.io.IOException
-     * @throws javax.security.auth.callback.UnsupportedCallbackException
      */
     private void locateSAMLAssertion(AuthenticationTokenPolicy.SAMLAssertionBinding samlBinding, Map context)
             throws IOException, UnsupportedCallbackException {
@@ -838,9 +800,8 @@ public class DefaultCallbackHandler implements CallbackHandler {
 
     /**
      *
-     * @throws com.sun.xml.wss.XWSSecurityException
      */
-    private void initTrustStore() throws XWSSecurityException {
+    private void initTrustStore() {
         try {
 
             if (trustStoreURL == null) {
@@ -894,9 +855,8 @@ public class DefaultCallbackHandler implements CallbackHandler {
 
     /**
      *
-     * @throws com.sun.xml.wss.XWSSecurityException
      */
-    private void initKeyStore() throws XWSSecurityException {
+    private void initKeyStore() {
         try {
             if (keyStoreURL == null) {
                 if (log.isLoggable(Level.FINE)) {
@@ -957,13 +917,8 @@ public class DefaultCallbackHandler implements CallbackHandler {
 
     /**
      *
-     * @param ski
-     * @param runtimeProps
-     * @return
-     * @throws java.io.IOException
      */
-    private X509Certificate getCertificateFromTrustStore(byte[] ski, Map runtimeProps)
-            throws IOException {
+    private X509Certificate getCertificateFromTrustStore(byte[] ski, Map runtimeProps) {
 
         try {
             if (runtimeProps != null) {
@@ -1027,16 +982,10 @@ public class DefaultCallbackHandler implements CallbackHandler {
 
     /**
      *
-     * @param issuerName
-     * @param serialNumber
-     * @param runtimeProps
-     * @return
-     * @throws java.io.IOException
      */
     private X509Certificate getCertificateFromTrustStore(
             String issuerName,
-            BigInteger serialNumber, Map runtimeProps)
-            throws IOException {
+            BigInteger serialNumber, Map runtimeProps) {
 
         try {
             if (runtimeProps != null) {
@@ -1105,12 +1054,8 @@ public class DefaultCallbackHandler implements CallbackHandler {
 
     /**
      *
-     * @param ski
-     * @param runtimeProps
-     * @return
-     * @throws java.io.IOException
      */
-    public PrivateKey getPrivateKey(byte[] ski, Map runtimeProps) throws IOException {
+    public PrivateKey getPrivateKey(byte[] ski, Map runtimeProps) {
 
         try {
             if (runtimeProps != null) {
@@ -1154,16 +1099,10 @@ public class DefaultCallbackHandler implements CallbackHandler {
 
     /**
      *
-     * @param issuerName
-     * @param serialNumber
-     * @param runtimeProps
-     * @return
-     * @throws java.io.IOException
      */
     public PrivateKey getPrivateKey(
             String issuerName,
-            BigInteger serialNumber, Map runtimeProps)
-            throws IOException {
+            BigInteger serialNumber, Map runtimeProps) {
 
         try {
             if (runtimeProps != null) {
@@ -1205,13 +1144,8 @@ public class DefaultCallbackHandler implements CallbackHandler {
 
     /**
      *
-     * @param certificate
-     * @param runtimeProps
-     * @return
-     * @throws java.io.IOException
      */
-    public PrivateKey getPrivateKey(X509Certificate certificate, Map runtimeProps)
-            throws IOException {
+    public PrivateKey getPrivateKey(X509Certificate certificate, Map runtimeProps) {
 
         try {
             if (runtimeProps != null) {
@@ -1244,9 +1178,6 @@ public class DefaultCallbackHandler implements CallbackHandler {
 
     /**
      *
-     * @param context
-     * @param req
-     * @throws java.io.IOException
      */
     private void getDefaultCertificateFromTrustStore(Map context,
             EncryptionKeyCallback.AliasX509CertificateRequest req) throws IOException {
@@ -1349,7 +1280,6 @@ public class DefaultCallbackHandler implements CallbackHandler {
                 throw new RuntimeException(ex);
             }
             req.setX509Certificate(thisCertificate);
-            return;
         } else {
             log.log(Level.SEVERE, LogStringsMessages.WSS_1511_FAILED_LOCATE_PEER_CERTIFICATE());
             //TODO Localize
@@ -1359,9 +1289,6 @@ public class DefaultCallbackHandler implements CallbackHandler {
 
     /**
      *
-     * @param request
-     * @param context
-     * @throws java.io.IOException
      */
     private void getDefaultPrivKeyCert(
             SignatureKeyCallback.DefaultPrivKeyCertRequest request, Map context)
@@ -1450,6 +1377,7 @@ public class DefaultCallbackHandler implements CallbackHandler {
      */
     private class DefaultTimestampValidator implements TimestampValidationCallback.TimestampValidator {
 
+        @Override
         public void validate(TimestampValidationCallback.Request request)
                 throws TimestampValidationCallback.TimestampValidationException {
 
@@ -1553,9 +1481,7 @@ public class DefaultCallbackHandler implements CallbackHandler {
 
     /**
      * Gets the current date adjusted by milliseconds.
-     * 
-     * @param adjustment
-     * @return
+     *
      */
     private Date getCurrentDateTimeAdjustedBy( long adjustment ) {
     	Calendar now = new GregorianCalendar();
@@ -1575,6 +1501,7 @@ public class DefaultCallbackHandler implements CallbackHandler {
         public X509CertificateValidatorImpl() {
         }
 
+        @Override
         public boolean validate(X509Certificate certificate)
                 throws CertificateValidationCallback.CertificateValidationException {
 
@@ -1604,7 +1531,7 @@ public class DefaultCallbackHandler implements CallbackHandler {
             PKIXBuilderParameters parameters;
             CertPathValidator certValidator = null;
             CertPath certPath = null;
-            List<Certificate> certChainList = new ArrayList<Certificate>();
+            List<Certificate> certChainList = new ArrayList<>();
             boolean caFound = false;
             Principal certChainIssuer = null;
             int noOfEntriesInTrustStore = 0;
@@ -1658,7 +1585,6 @@ public class DefaultCallbackHandler implements CallbackHandler {
                                 }
                             }
                         } else {
-                            continue;
                         }
                     }
                     if (!caFound) {
@@ -1713,6 +1639,7 @@ public class DefaultCallbackHandler implements CallbackHandler {
             }
         }
 
+        @Override
         public void setRuntimeProperties(Map props) {
             this.runtimeProps = props;
         }
@@ -1745,12 +1672,8 @@ public class DefaultCallbackHandler implements CallbackHandler {
 
     /**
      *
-     * @param ski
-     * @param runtimeProps
-     * @return
-     * @throws java.io.IOException
      */
-    private X509Certificate getCertificateFromTrustStoreForThumbprint(byte[] ski, Map runtimeProps) throws IOException {
+    private X509Certificate getCertificateFromTrustStoreForThumbprint(byte[] ski, Map runtimeProps) {
 
         try {
             if (runtimeProps != null) {
@@ -1815,12 +1738,8 @@ public class DefaultCallbackHandler implements CallbackHandler {
 
     /**
      *
-     * @param ski
-     * @param runtimeProps
-     * @return
-     * @throws java.io.IOException
      */
-    public PrivateKey getPrivateKeyForThumbprint(byte[] ski, Map runtimeProps) throws IOException {
+    public PrivateKey getPrivateKeyForThumbprint(byte[] ski, Map runtimeProps) {
 
         try {
             if (runtimeProps != null) {
@@ -1931,10 +1850,10 @@ public class DefaultCallbackHandler implements CallbackHandler {
         if (lng == null) {
             return 0;
         }
-        Long ret = 0L;
-        ret = Long.valueOf(lng);
+        long ret = 0L;
+        ret = Long.parseLong(lng);
         try {
-            ret = Long.valueOf(lng);
+            ret = Long.parseLong(lng);
         } catch (Exception e) {
             log.log(Level.SEVERE, LogStringsMessages.WSS_1522_ERROR_GETTING_LONG_VALUE(), e);
             throw new XWSSecurityException(e);
@@ -2020,13 +1939,8 @@ public class DefaultCallbackHandler implements CallbackHandler {
 
     /**
      *
-     * @param pk
-     * @param runtimeProps
-     * @return
-     * @throws java.io.IOException
      */
-    private X509Certificate getCertificateFromTrustStoreForSAML(PublicKey pk, Map runtimeProps)
-            throws IOException {
+    private X509Certificate getCertificateFromTrustStoreForSAML(PublicKey pk, Map runtimeProps) {
         try {
             if (runtimeProps != null) {
                 Object obj = runtimeProps.get(XWSSConstants.SERVER_CERTIFICATE_PROPERTY);
@@ -2084,19 +1998,13 @@ public class DefaultCallbackHandler implements CallbackHandler {
 
     /**
      *
-     * @param pk
-     * @param runtimeProps
-     * @return
-     * @throws java.io.IOException
      */
-    private PrivateKey getPrivateKeyFromKeyStore(PublicKey pk, Map runtimeProps)
-            throws IOException {
+    private PrivateKey getPrivateKeyFromKeyStore(PublicKey pk, Map runtimeProps) {
         try {
             Enumeration aliases = keyStore.aliases();
             while (aliases.hasMoreElements()) {
                 String alias = (String) aliases.nextElement();
                 if (!keyStore.isKeyEntry(alias)) {
-                    continue;
                 } else {
                     // Just returning the first one here
                     //PrivateKey key = (PrivateKey) keyStore.getKey(alias, this.keyPassword);
@@ -2165,10 +2073,8 @@ public class DefaultCallbackHandler implements CallbackHandler {
 
     /**
      *
-     * @param context
-     * @return
      */
-    private X509Certificate getDynamicCertificate(Map context) {
+    private X509Certificate getDynamicCertificate(Map context) throws IOException {
 
         X509Certificate cert = null;
         X509Certificate self = null;
@@ -2224,11 +2130,12 @@ public class DefaultCallbackHandler implements CallbackHandler {
         if (otherPartySubject != null) {
             return otherPartySubject;
         }
-        otherPartySubject = (Subject) AccessController.doPrivileged(
-                new PrivilegedAction<Object>() {
+        otherPartySubject = AccessController.doPrivileged(
+                new PrivilegedAction<>() {
 
+                    @Override
                     @SuppressWarnings("unchecked")
-                    public Object run() {
+                    public Subject run() {
                         Subject otherPartySubj = new Subject();
                         context.put(MessageConstants.AUTH_SUBJECT, otherPartySubj);
                         return otherPartySubj;
@@ -2314,8 +2221,6 @@ public class DefaultCallbackHandler implements CallbackHandler {
 
     /**
      *
-     * @param runtimeProps
-     * @return
      */
     private synchronized KeyStore getTrustStoreUsingCallback(Map runtimeProps) {
 
@@ -2343,9 +2248,6 @@ public class DefaultCallbackHandler implements CallbackHandler {
 
     /**
      *
-     * @param runtimeProps
-     * @param alias
-     * @return
      */
     private PrivateKey getPrivateKey(Map runtimeProps, String alias) {
         PrivateKey privKey = null;

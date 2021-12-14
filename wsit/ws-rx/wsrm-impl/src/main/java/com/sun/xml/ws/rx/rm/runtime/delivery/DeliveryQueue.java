@@ -17,13 +17,13 @@ import com.sun.xml.ws.rx.rm.runtime.ApplicationMessage;
  *
  */
 public interface DeliveryQueue {
-    public static long UNLIMITED_BUFFER_SIZE = -1;
+    long UNLIMITED_BUFFER_SIZE = -1;
 
-    public void put(ApplicationMessage message) throws RxRuntimeException;
+    void put(ApplicationMessage message) throws RxRuntimeException;
 
-    public long getRemainingMessageBufferSize();
+    long getRemainingMessageBufferSize();
 
-    public void onSequenceAcknowledgement();
+    void onSequenceAcknowledgement();
 
-    public void close();
+    void close();
 }

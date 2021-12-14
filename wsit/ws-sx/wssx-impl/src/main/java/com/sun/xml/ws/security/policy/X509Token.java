@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -23,35 +23,35 @@ public interface X509Token extends Token{
      * returns the type of the token.
      * @return one of WSSX509V1TOKEN10,WSSX509V3TOKEN10,WSSX509PKCS7TOKEN10,WSSX509PKIPATHV1TOKEN10,WSSX509V1TOKEN11,WSSX509V3TOKEN11,WSSX509PKCS7TOKEN11,WSSX509PKIPATHV1TOKEN11
      */
-    public String getTokenType();
+    String getTokenType();
     /**
      * returns a {@link java.util.Set } over the token reference types to be used.
      * @return either REQUIRE_KEY_IDENTIFIER_REFERENCE,REQUIRE_ISSUER_SERIAL_REFERENCE,REQUIRE_EMBEDDED_TOKEN_REFERENCE,REQUIRE_THUMBPRINT_REFERENCE
      */
-    public Set getTokenRefernceType();
+    Set getTokenRefernceType();
     
      /**
      * returns true if RequiredDerivedKey element is present under X509 Token.
      * @return true if RequireDerviedKeys element is present under X509 Token or false.
      */
-    public boolean isRequireDerivedKeys();
+     boolean isRequireDerivedKeys();
     
     /**
      * returns the issuer for the X509 token.
      * @return returns the issuer
      */
-    public Issuer getIssuer();
+    Issuer getIssuer();
     
     /**
      * 
      * @return the issuer name for X509 token
      */
-    public IssuerName getIssuerName();
+    IssuerName getIssuerName();
     
     /**
      * 
      * @return Claims
-     */ 
-    public Claims getClaims();
+     */
+    Claims getClaims();
      
 }

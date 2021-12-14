@@ -75,56 +75,69 @@ public class TransactionManagerImpl implements TransactionManager, TransactionSy
         return javaeeTM != null; 
     }
 
+    @Override
     public void begin() throws NotSupportedException, SystemException {
         javaeeTM.begin();
     }
 
+    @Override
     public void commit() throws RollbackException, HeuristicMixedException, HeuristicRollbackException, SecurityException, IllegalStateException, SystemException {
         javaeeTM.commit();
     }
 
+    @Override
     public int getStatus() throws SystemException {
         return javaeeTM.getStatus();
     }
 
+    @Override
     public jakarta.transaction.Transaction getTransaction() throws SystemException {
         return javaeeTM.getTransaction();
     }
 
+    @Override
     public void resume(final Transaction transaction) throws InvalidTransactionException, IllegalStateException, SystemException {
         javaeeTM.resume(transaction);
         servletPreInvokeTx();
     }
 
+    @Override
     public void rollback() throws IllegalStateException, SecurityException, SystemException {
         javaeeTM.rollback();
     }
 
+    @Override
     public void setRollbackOnly() throws IllegalStateException {
         javaeeSynchReg.setRollbackOnly();
     }
 
+    @Override
     public void setTransactionTimeout(final int seconds) throws SystemException {
         javaeeTM.setTransactionTimeout(seconds);
     }
 
+    @Override
     public Transaction suspend() throws SystemException {
         servletPostInvokeTx(true);
         return javaeeTM.suspend();
     }
 
+    @Override
     public Object getTransactionKey() {
         return javaeeSynchReg.getTransactionKey();
     }
 
+    @Override
     public void putResource(final Object object, final Object object0) {
         javaeeSynchReg.putResource(object, object0);
     }
 
+    @Override
     public Object getResource(final Object object) {
         return javaeeSynchReg.getResource(object);
     }
 
+    @Override
     public void registerInterposedSynchronization(final Synchronization synchronization) {
         javaeeSynchReg.registerInterposedSynchronization(synchronization);
     }
@@ -145,20 +158,18 @@ public class TransactionManagerImpl implements TransactionManager, TransactionSy
         } else {
             try {
                 txn.registerSynchronization(sync);
-            } catch (IllegalStateException ex) {
-//todoreadd                  logger.info(METHOD, LocalizationMessages.OPERATION_FAILED_2010(METHOD), ex);
-            } catch (RollbackException ex) {
-//todoreadd                  logger.info(METHOD, LocalizationMessages.OPERATION_FAILED_2010(METHOD), ex);
-            } catch (SystemException ex) {
+            } catch (IllegalStateException | SystemException | RollbackException ex) {
 //todoreadd                  logger.info(METHOD, LocalizationMessages.OPERATION_FAILED_2010(METHOD), ex);
             }
         }
     }
 
+    @Override
     public int getTransactionStatus() {
         return javaeeSynchReg.getTransactionStatus();
     }
 
+    @Override
     public boolean getRollbackOnly() {
         return javaeeSynchReg.getRollbackOnly();
     }
@@ -247,13 +258,8 @@ public class TransactionManagerImpl implements TransactionManager, TransactionSy
         final String METHOD = "getRemainingTimeout";
         try {
               return TransactionImportManager.getInstance().getTransactionRemainingTimeout();
-        } catch (SystemException se) {
-            if (logger.isLogging(Level.FINEST)) {
-                logger.finest(METHOD, "getRemainingTimeout stack trace", se);
-            } else {
-//todoreadd                  logger.info(METHOD, LocalizationMessages.TXN_MGR_OPERATION_FAILED_2008("getTransactionRemainingTimeout"), se);
-            }
-        } catch (Throwable t) {
+        } //todoreadd                  logger.info(METHOD, LocalizationMessages.TXN_MGR_OPERATION_FAILED_2008("getTransactionRemainingTimeout"), se);
+        catch (Throwable t) {
             if (logger.isLogging(Level.FINEST)) {
                 logger.finest(METHOD, "getTransactionRemainingTimeout() failed, default to no timeout", t);
             } else {

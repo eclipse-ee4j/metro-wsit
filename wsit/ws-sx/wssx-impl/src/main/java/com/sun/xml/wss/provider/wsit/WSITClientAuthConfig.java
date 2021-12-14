@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -57,7 +57,7 @@ public class WSITClientAuthConfig implements ClientAuthConfig {
     private ReentrantReadWriteLock.ReadLock rLock;
     private ReentrantReadWriteLock.WriteLock wLock;
     private volatile boolean secEnabled;
-    private Map<Integer, WSITClientAuthContext> tubetoClientAuthContextHash = Collections.synchronizedMap(new WeakHashMap<Integer, WSITClientAuthContext>());
+    private Map<Integer, WSITClientAuthContext> tubetoClientAuthContextHash = Collections.synchronizedMap(new WeakHashMap<>());
     /** Creates a new instance of WSITClientAuthConfig */
     public WSITClientAuthConfig(String layer, String appContext, CallbackHandler callbackHandler) {
         this.layer = layer;
@@ -68,7 +68,8 @@ public class WSITClientAuthConfig implements ClientAuthConfig {
         this.wLock = rwLock.writeLock();
     }
 
-    public ClientAuthContext getAuthContext(String operation, Subject subject, Map rawMap) throws AuthException {
+    @Override
+    public ClientAuthContext getAuthContext(String operation, Subject subject, Map rawMap) {
         @SuppressWarnings("unchecked") Map<Object, Object> map = rawMap;
 
         PolicyMap pMap = (PolicyMap) map.get("POLICY");
@@ -111,7 +112,7 @@ public class WSITClientAuthConfig implements ClientAuthConfig {
         this.rLock.lock();
         try {
             if (tubetoClientAuthContextHash.containsKey(hashCode)) {                
-                clientAuthContext = (WSITClientAuthContext) tubetoClientAuthContextHash.get(hashCode);
+                clientAuthContext = tubetoClientAuthContextHash.get(hashCode);
             }
         } finally {
             this.rLock.unlock();
@@ -134,10 +135,12 @@ public class WSITClientAuthConfig implements ClientAuthConfig {
         return clientAuthContext;
     }
 
+    @Override
     public String getMessageLayer() {
         return layer;
     }
 
+    @Override
     public String getAppContext() {
         return appContext;
     }
@@ -146,13 +149,16 @@ public class WSITClientAuthConfig implements ClientAuthConfig {
         return null;
     }
 
+    @Override
     public void refresh() {
     }
 
+    @Override
     public String getAuthContextID(MessageInfo messageInfo) {
         return null;
     }
 
+    @Override
     public boolean isProtected() {
         return true;
     }
@@ -171,7 +177,7 @@ public class WSITClientAuthConfig implements ClientAuthConfig {
                 Packet packet = (Packet) info.getMap().get(WSITAuthContextBase.REQ_PACKET);
                 if (packet != null) {
                     if (clientAuthContext != null) {
-                        ret = ((WSITClientAuthContext) clientAuthContext).startSecureConversation(packet);
+                        ret = clientAuthContext.startSecureConversation(packet);
                         //map.put("SECURITY_TOKEN", ret);
                         info.getMap().put("SECURITY_TOKEN", ret);
                     } else {

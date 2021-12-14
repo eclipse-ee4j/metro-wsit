@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -23,7 +23,6 @@ import jakarta.xml.bind.annotation.XmlElementDecl;
 import jakarta.xml.bind.annotation.XmlRegistry;
 import javax.xml.namespace.QName;
 import com.sun.xml.ws.policy.impl.bindings.AppliesTo;
-import com.sun.xml.ws.policy.impl.bindings.ObjectFactory;
 import com.sun.xml.ws.policy.impl.bindings.OperatorContentType;
 import com.sun.xml.ws.policy.impl.bindings.Policy;
 import com.sun.xml.ws.policy.impl.bindings.PolicyAttachment;
@@ -112,7 +111,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://schemas.xmlsoap.org/ws/2004/09/policy", name = "ExactlyOne")
     public JAXBElement<OperatorContentType> createExactlyOne(OperatorContentType value) {
-        return new JAXBElement<OperatorContentType>(_ExactlyOne_QNAME, OperatorContentType.class, null, value);
+        return new JAXBElement<>(_ExactlyOne_QNAME, OperatorContentType.class, null, value);
     }
 
     /**
@@ -121,7 +120,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://schemas.xmlsoap.org/ws/2004/09/policy", name = "All")
     public JAXBElement<OperatorContentType> createAll(OperatorContentType value) {
-        return new JAXBElement<OperatorContentType>(_All_QNAME, OperatorContentType.class, null, value);
+        return new JAXBElement<>(_All_QNAME, OperatorContentType.class, null, value);
     }
 
 }

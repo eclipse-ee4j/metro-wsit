@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -72,6 +72,7 @@ public class TCPTransportPipe extends AbstractTubeImpl {
         cloner.add(that, this);
     }
 
+    @Override
     public void preDestroy() {
         if (clientTransport != null && clientTransport.getConnectionContext() != null) {
             WSConnectionManager.getInstance().closeChannel(clientTransport.getConnectionContext());
@@ -83,14 +84,17 @@ public class TCPTransportPipe extends AbstractTubeImpl {
         return new TCPTransportPipe(this, cloner);
     }
 
+    @Override
     public NextAction processRequest(Packet request) {
         return doReturnWith(process(request));
     }
 
+    @Override
     public NextAction processResponse(Packet response) {
         throw new IllegalStateException("TCPTransportPipe's processResponse shouldn't be called.");
     }
 
+    @Override
     public NextAction processException(Throwable t) {
         throw new IllegalStateException("TCPTransportPipe's processException shouldn't be called.");
     }

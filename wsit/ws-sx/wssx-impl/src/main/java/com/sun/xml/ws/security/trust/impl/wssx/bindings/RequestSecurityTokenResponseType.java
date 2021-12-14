@@ -29,7 +29,6 @@ import jakarta.xml.bind.annotation.XmlAnyElement;
 import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlType;
 import javax.xml.namespace.QName;
-import org.w3c.dom.Element;
 
 
 /**
@@ -101,7 +100,7 @@ public class RequestSecurityTokenResponseType {
     @XmlAttribute(name = "Context")
     protected String context;
     @XmlAnyAttribute
-    private Map<QName, String> otherAttributes = new HashMap<QName, String>();
+    private Map<QName, String> otherAttributes = new HashMap<>();
 
     /**
      * Gets the value of the any property.
@@ -128,7 +127,7 @@ public class RequestSecurityTokenResponseType {
      */
     public List<Object> getAny() {
         if (any == null) {
-            any = new ArrayList<Object>();
+            any = new ArrayList<>();
         }
         return this.any;
     }

@@ -84,12 +84,10 @@ public class DSigResolver implements URIDereferencer{
     private DSigResolver () {
         try{
             _nodeSetClass = Class.forName (optNSClassName);
-            _constructor = _nodeSetClass.getConstructor (new Class [] {org.w3c.dom.Node.class,boolean.class});
-        }catch(LinkageError le){
+            _constructor = _nodeSetClass.getConstructor (Node.class,boolean.class);
+        }catch(LinkageError | ClassNotFoundException le){
             logger.log (Level.FINE,"Not able load JSR 105 RI specific NodeSetData class ",le);
-        }catch(ClassNotFoundException cne){
-            logger.log (Level.FINE,"Not able load JSR 105 RI specific NodeSetData class ",cne);
-        }catch(NoSuchMethodException ne){
+        } catch(NoSuchMethodException ne){
             
         }
     }
@@ -118,11 +116,8 @@ public class DSigResolver implements URIDereferencer{
     
     /**
      * resolve the URI of type "cid:" , "attachmentRef:", "http:", "#xyz".
-     * @param uriRef
-     * @param context
-     * @throws URIReferenceException
-     * @return 
      */
+    @Override
     public Data dereference (URIReference uriRef, XMLCryptoContext context) throws URIReferenceException {
         String uri = null;
         
@@ -162,17 +157,17 @@ public class DSigResolver implements URIDereferencer{
             SOAPMessage msg = filterContext.getSOAPMessage ();
             Document doc = msg.getSOAPPart ();
             if(_constructor == null){
-                return convertToData ((Node)doc,true);
+                return convertToData (doc,true);
             }else{
                 try{
                     return (Data)_constructor.newInstance (new Object[] {doc,_false});
                 }catch(Exception ex){
                     //throw new XWSSecurityException(ex);
                 }
-                return convertToData ((Node)doc,true);
+                return convertToData (doc,true);
             }
         }else if(uri.charAt (0) == '#'){
-            return dereferenceFragment (secureMsg.getIdFromFragmentRef (uri),context);
+            return dereferenceFragment (SecurableSoapMessage.getIdFromFragmentRef(uri),context);
         }else if(uri.startsWith ("cid:") || uri.startsWith ("attachmentRef:")){
             return dereferenceAttachments (uri,context);
         }else if(uri.startsWith ("http")){
@@ -184,7 +179,7 @@ public class DSigResolver implements URIDereferencer{
         //throw new URIReferenceException("Resource "+uri+" was not found");
     }
     
-    Data dereferenceExternalResource (final String uri,XMLCryptoContext context) throws URIReferenceException, XWSSecurityException {
+    Data dereferenceExternalResource (final String uri,XMLCryptoContext context) throws URIReferenceException {
         
         URIDereferencer resolver = WSSPolicyConsumerImpl.getInstance ().getDefaultResolver ();
         URIReference uriRef = null;
@@ -194,13 +189,16 @@ public class DSigResolver implements URIDereferencer{
         uriAttr.setNodeValue (uri);
         uriRef = new DOMURIReference (){
             
+            @Override
             public String getURI (){
                 return uri;
             }
             
+            @Override
             public String getType (){
                 return null;
             }
+            @Override
             public Node getHere (){
                 return uriAttr;
             }
@@ -297,12 +295,14 @@ public class DSigResolver implements URIDereferencer{
         if(xpathNodeSet){
             toNodeSet (node,nodeSet);
             return new NodeSetData (){
+                @Override
                 public Iterator iterator (){
                     return nodeSet.iterator ();
                 }
             };
         }else{
             return new NodeSetData (){
+                @Override
                 public Iterator iterator (){
                     return Collections.singletonList (node).iterator ();
                     
@@ -319,7 +319,7 @@ public class DSigResolver implements URIDereferencer{
                 result.add (rootNode);
                 Element el=(Element)rootNode;
                 if (el.hasAttributes ()) {
-                    NamedNodeMap nl = ((Element)rootNode).getAttributes ();
+                    NamedNodeMap nl = rootNode.getAttributes ();
                     for (int i=0;i<nl.getLength ();i++) {
                         result.add (nl.item (i));
                     }
@@ -345,19 +345,18 @@ public class DSigResolver implements URIDereferencer{
             default:
                 result.add (rootNode);
         }
-        return;
     }
     @SuppressWarnings("unchecked")
     private Data derefSecurityTokenReference (Node element, XMLCryptoContext context)
     throws XWSSecurityException,URIReferenceException {
-        /**
-         * Four Cases:
-         *    (1). Direct Reference
-         *    (2). KeyIdentifier
-         *         * X509 SubjectKeyIdentifier
-         *         * SAML Assertion ID
-         *    (3). Embedded Reference
-         *    (4). X509 Issuer Serial
+        /*
+          Four Cases:
+             (1). Direct Reference
+             (2). KeyIdentifier
+                  * X509 SubjectKeyIdentifier
+                  * SAML Assertion ID
+             (3). Embedded Reference
+             (4). X509 Issuer Serial
          */
         SecurityToken secToken = null;
         FilterProcessingContext filterContext = (FilterProcessingContext)context.get (MessageConstants.WSS_PROCESSING_CONTEXT);

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -21,12 +21,11 @@ public interface TrustAssertion{
   
     /**
      * Properties (MUST_SUPPORT_CLIENT_CHALLENGE,MUST_SUPPORT_SERVER_CHALLENGE,MUST_SUPPORT_ISSUED_TOKENS )present in the policy.
-     * @return 
      */
-    public Set getRequiredProperties();
+    Set getRequiredProperties();
     /**
      * 
      * @return 1.0
      */
-    public String getType();
+    String getType();
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -51,7 +51,7 @@ import com.sun.xml.ws.security.trust.elements.str.SecurityTokenReference;
 
 import java.net.URI;
 import java.security.SecureRandom;
-import jakarta.xml.soap.SOAPException;
+
 import jakarta.xml.ws.soap.SOAPFaultException;
 
 import jakarta.xml.bind.JAXBElement;
@@ -350,14 +350,8 @@ public class WSSCPlugin {
         }
         
         // Add addressing headers to the message
-        try{
-            reqPacket = addAddressingHeaders(reqPacket, sctConfig.getWSDLPort(), sctConfig.getWSBinding(), action, sctConfig.getAddressingVersion());
-        }catch (WSSecureConversationException ex){
-            log.log(Level.SEVERE,
-                    LogStringsMessages.WSSC_0017_PROBLEM_ADD_ADDRESS_HEADERS(), ex);
-            throw new RuntimeException(LogStringsMessages.WSSC_0017_PROBLEM_ADD_ADDRESS_HEADERS(), ex);
-        }
-        
+        reqPacket = addAddressingHeaders(reqPacket, sctConfig.getWSDLPort(), sctConfig.getWSBinding(), action, sctConfig.getAddressingVersion());
+
         // Ideally this property for enabling FI or not should be available to the pipeline.
         // As a workaround for now, we
         // copy the property for the client packet to the reqPacket mananually here.
@@ -392,7 +386,7 @@ public class WSSCPlugin {
         if (!response.isFault()){
             JAXBElement rstrEle = null;
             try {
-                rstrEle = (JAXBElement)response.readPayloadAsJAXB(unmarshaller);
+                rstrEle = response.readPayloadAsJAXB(unmarshaller);
             }catch (JAXBException ex){
                 log.log(Level.SEVERE,
                         LogStringsMessages.WSSC_0018_ERR_JAXB_RSTR(), ex);
@@ -472,14 +466,8 @@ public class WSSCPlugin {
         // Create RequestSecurityToken
         //==============================
         BaseSTSRequest rst = null;
-        try{
-            rst = createRequestSecurityTokenForCancel(sctConfig, itc);
-        } catch (WSSecureConversationException ex){
-            log.log(Level.SEVERE,
-                    LogStringsMessages.WSSC_0024_ERROR_CREATING_RST(FOR_CANCEL), ex);
-            throw new RuntimeException(LogStringsMessages.WSSC_0024_ERROR_CREATING_RST(FOR_CANCEL), ex);
-        }
-        
+        rst = createRequestSecurityTokenForCancel(sctConfig, itc);
+
         final BaseSTSResponse rstr = sendRequest(sctConfig, rst, itc.getEndpointAddress(), wsscVer.getSCTCancelRequestAction());
         
         if(log.isLoggable(Level.FINE)){            
@@ -693,7 +681,7 @@ public class WSSCPlugin {
         return rst;
     }
     
-    private RequestSecurityToken createRequestSecurityTokenForCancel(final SCTokenConfiguration sctConfig, final IssuedTokenContext ctx) throws WSSecureConversationException{
+    private RequestSecurityToken createRequestSecurityTokenForCancel(final SCTokenConfiguration sctConfig, final IssuedTokenContext ctx) {
         WSSCVersion wsscVer = WSSCVersion.getInstance(sctConfig.getProtocol());
         WSTrustVersion wsTrustVer = null;
         if(wsscVer.getNamespaceURI().equals(WSSCVersion.WSSC_13_NS_URI)){            
@@ -768,7 +756,7 @@ public class WSSCPlugin {
         }
     }
     
-    private Packet addAddressingHeaders(final Packet packet, final WSDLPort wsdlPort, final WSBinding binding, final String action, final AddressingVersion addVer)throws WSSecureConversationException {
+    private Packet addAddressingHeaders(final Packet packet, final WSDLPort wsdlPort, final WSBinding binding, final String action, final AddressingVersion addVer) {
         final MessageHeaders list = packet.getMessage().getHeaders();
         AddressingUtils.fillRequestAddressingHeaders(list, packet, addVer,binding.getSOAPVersion(),false,action);
         
@@ -807,12 +795,12 @@ public class WSSCPlugin {
                 renewSignaturePolicy.setKeyBinding(sct);
             }
         if(spVersion == SecurityPolicyVersion.SECURITYPOLICY200507){
-            sct.setIncludeToken(((Token)token).getIncludeToken());
+            sct.setIncludeToken(token.getIncludeToken());
         } else{
             // SecurityPolicy 1.2
             sct.setIncludeToken(SecurityPolicyVersion.SECURITYPOLICY200507.includeTokenAlwaysToRecipient);            
         }
-        sct.setUUID(((Token)token).getTokenId());
+        sct.setUUID(token.getTokenId());
         
         final AssertionSet assertions = getAssertions(scToken);                
         for(PolicyAssertion policyAssertion : assertions){            

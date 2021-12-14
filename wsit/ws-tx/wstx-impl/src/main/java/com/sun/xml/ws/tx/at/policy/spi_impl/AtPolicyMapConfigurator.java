@@ -46,22 +46,20 @@ public class AtPolicyMapConfigurator implements PolicyMapConfigurator {
      * <p>
      * Only looking for this for Java to WSDL at tool time.
      *
-     * @param policyMap
-     * @param model
-     * @param wsBinding
      */
+    @Override
     public Collection<PolicySubject> update(final PolicyMap policyMap, final SEIModel model, final WSBinding wsBinding) throws PolicyException {
-        final Collection<PolicySubject> subjects = new LinkedList<PolicySubject>();
+        final Collection<PolicySubject> subjects = new LinkedList<>();
 
         Class<?> seiClass = getDeclaringClass(model);
         if (seiClass == null) {
             return subjects;
         }
 
-        /**
-         * For now we are not going to consider EJB TX annotations, because we don't have access
-         * to the EJB deployment descriptor, which could lead to inconsistent WS-AT configuration
-         * behavior between EJB + annotations and EJB + DD use cases
+        /*
+          For now we are not going to consider EJB TX annotations, because we don't have access
+          to the EJB deployment descriptor, which could lead to inconsistent WS-AT configuration
+          behavior between EJB + annotations and EJB + DD use cases
          */
         // final EjbTransactionType defaultEjbTxnAttr = EjbTransactionType.getDefaultFor(seiClass);
         final EjbTransactionType defaultEjbTxnAttr = EjbTransactionType.NOT_DEFINED;

@@ -80,6 +80,7 @@ public class Attribute extends AttributeType
         setAttributeValue(attType.getAttributeValue());
     }
 
+    @Override
     public List<Object> getAttributes() {
         return super.getAttributeValue();
     }

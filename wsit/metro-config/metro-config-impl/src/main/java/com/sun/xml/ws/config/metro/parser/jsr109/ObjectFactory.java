@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -600,7 +600,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://java.sun.com/xml/ns/javaee", name = "webservices")
     public JAXBElement<WebservicesType> createWebservices(WebservicesType value) {
-        return new JAXBElement<WebservicesType>(_Webservices_QNAME, WebservicesType.class, null, value);
+        return new JAXBElement<>(_Webservices_QNAME, WebservicesType.class, null, value);
     }
 
 }

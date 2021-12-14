@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -130,7 +130,7 @@ public class WSITServerAuthContext extends WSITAuthContextBase implements Server
         //this.operation = operation;
         //this.subject = subject;
         //this.map = map;
-        endPoint = new WeakReference((WSEndpoint)map.get("ENDPOINT"));
+        endPoint = new WeakReference(map.get("ENDPOINT"));
         boolean isSC = false;
         if (!this.getInBoundSCP(null).isEmpty()|| !this.getOutBoundSCP(null).isEmpty()){
                 isSC = true;
@@ -212,17 +212,13 @@ public class WSITServerAuthContext extends WSITAuthContextBase implements Server
         
         //initialize the AuthModules and keep references to them
         authModule = new WSITServerAuthModule();
-        try {
-            authModule.initialize(null, null, null,map);
-        }catch (AuthException e) {
-            log.log(Level.SEVERE, LogStringsMessages.WSITPVD_0028_ERROR_INIT_AUTH_MODULE(), e);
-            throw new RuntimeException(LogStringsMessages.WSITPVD_0028_ERROR_INIT_AUTH_MODULE(), e);
-        }
-        
+        authModule.initialize(null, null, null,map);
+
     }
     
+    @Override
     @SuppressWarnings("unchecked")
-    public AuthStatus validateRequest(MessageInfo messageInfo, Subject clientSubject, Subject serviceSubject) throws AuthException {
+    public AuthStatus validateRequest(MessageInfo messageInfo, Subject clientSubject, Subject serviceSubject) {
         try {
             Packet packet = getRequestPacket(messageInfo);
             HaContext.initFrom(packet);
@@ -261,8 +257,9 @@ public class WSITServerAuthContext extends WSITAuthContextBase implements Server
         }
     }
     
+    @Override
     @SuppressWarnings("unchecked")
-    public AuthStatus secureResponse(MessageInfo messageInfo, Subject serviceSubject) throws AuthException {
+    public AuthStatus secureResponse(MessageInfo messageInfo, Subject serviceSubject) {
         // Add addressing headers to trust message
         
         //TODO: this is the one that came from nextPipe.process
@@ -275,12 +272,8 @@ public class WSITServerAuthContext extends WSITAuthContextBase implements Server
             //   retPacket = addAddressingHeaders(packet, retPacket.getMessage(), wsTrustVer.getFinalResponseAction((String)messageInfo.getMap().get("TRUST_REQUEST_ACTION")));
             // }
             Packet ret = null;
-            try {
-                ret = secureResponse(retPacket, serviceSubject, messageInfo.getMap());
-            } catch (XWSSecurityException ex) {
-                //TODO: acutally rewrite the message in the packet to contain a fault here
-                throw getSOAPFaultException(ex);
-            }
+            ret = secureResponse(retPacket, serviceSubject, messageInfo.getMap());
+
 
             setResponsePacket(messageInfo, ret);
 
@@ -294,7 +287,8 @@ public class WSITServerAuthContext extends WSITAuthContextBase implements Server
         }
     }
     
-    public void cleanSubject(MessageInfo messageInfo, Subject subject) throws AuthException {
+    @Override
+    public void cleanSubject(MessageInfo messageInfo, Subject subject) {
         issuedTokenContextMap.clear();
         SessionManager.removeSessionManager(endPoint.get());
         NonceManager.deleteInstance(endPoint.get());
@@ -439,7 +433,7 @@ public class WSITServerAuthContext extends WSITAuthContextBase implements Server
             if (isSCIssueMessage){
                 List<PolicyAssertion> policies = getInBoundSCP(packet.getMessage());
                 if(!policies.isEmpty()) {
-                    packet.invocationProperties.put(SC_ASSERTION, (PolicyAssertion)policies.get(0));
+                    packet.invocationProperties.put(SC_ASSERTION, policies.get(0));
                 }
             }
         }
@@ -473,7 +467,7 @@ public class WSITServerAuthContext extends WSITAuthContextBase implements Server
     }
     
     @SuppressWarnings("unchecked")
-    public Packet secureResponse(Packet retPacket, Subject serviceSubject, Map sharedState) throws XWSSecurityException {
+    public Packet secureResponse(Packet retPacket, Subject serviceSubject, Map sharedState) {
         
         boolean isSCIssueMessage = (sharedState.get("IS_SC_ISSUE") != null) ? true : false;
         boolean isSCCancelMessage =(sharedState.get("IS_SC_CANCEL") != null) ? true : false;
@@ -549,7 +543,7 @@ public class WSITServerAuthContext extends WSITAuthContextBase implements Server
         //  context.setJAXWSMessage(message, soapVersion);
         LazyStreamBasedMessage lazyStreamMessage = (LazyStreamBasedMessage)message;
         AttachmentSet attachSet = null;
-        if (!lazyStreamMessage.mtomLargeData()) {
+        if (!LazyStreamBasedMessage.mtomLargeData()) {
             attachSet = lazyStreamMessage.getAttachments();
         }
         SecurityRecipient recipient = null;
@@ -670,8 +664,7 @@ public class WSITServerAuthContext extends WSITAuthContextBase implements Server
             cacheOperation(wsdlOperation, packet);
         }
         
-        SecurityPolicyHolder sph = (SecurityPolicyHolder)
-                applicableAlternative.getOutMessagePolicyMap().get(wsdlOperation);
+        SecurityPolicyHolder sph = applicableAlternative.getOutMessagePolicyMap().get(wsdlOperation);
         if(sph == null){
             return new MessagePolicy();
         }
@@ -837,7 +830,7 @@ public class WSITServerAuthContext extends WSITAuthContextBase implements Server
             List<PolicyAssertion> policies = getOutBoundSCP(packet.getMessage());
             
             if(!policies.isEmpty()) {
-                retPacket.invocationProperties.put(SC_ASSERTION, (PolicyAssertion)policies.get(0));
+                retPacket.invocationProperties.put(SC_ASSERTION, policies.get(0));
             }
         }
         
@@ -854,37 +847,44 @@ public class WSITServerAuthContext extends WSITAuthContextBase implements Server
         return retPacket;
     }
    
-    protected SecurityPolicyHolder addOutgoingMP(WSDLBoundOperation operation,Policy policy, PolicyAlternativeHolder ph)throws PolicyException{
+    @Override
+    protected SecurityPolicyHolder addOutgoingMP(WSDLBoundOperation operation, Policy policy, PolicyAlternativeHolder ph)throws PolicyException{
         SecurityPolicyHolder sph = constructPolicyHolder(policy,true,true);
         ph.getInMessagePolicyMap().put(operation,sph);
         return sph;
     }
     
-    protected SecurityPolicyHolder addIncomingMP(WSDLBoundOperation operation,Policy policy, PolicyAlternativeHolder ph)throws PolicyException{
+    @Override
+    protected SecurityPolicyHolder addIncomingMP(WSDLBoundOperation operation, Policy policy, PolicyAlternativeHolder ph)throws PolicyException{
         SecurityPolicyHolder sph = constructPolicyHolder(policy,true,false);
         ph.getOutMessagePolicyMap().put(operation,sph);
         return sph;
     }
     
-    protected void addIncomingProtocolPolicy(Policy effectivePolicy,String protocol, PolicyAlternativeHolder ph)throws PolicyException{
+    @Override
+    protected void addIncomingProtocolPolicy(Policy effectivePolicy, String protocol, PolicyAlternativeHolder ph)throws PolicyException{
         ph.getOutProtocolPM().put(protocol,constructPolicyHolder(effectivePolicy, true, false, true));
     }
     
-    protected void addOutgoingProtocolPolicy(Policy effectivePolicy,String protocol, PolicyAlternativeHolder ph)throws PolicyException{
+    @Override
+    protected void addOutgoingProtocolPolicy(Policy effectivePolicy, String protocol, PolicyAlternativeHolder ph)throws PolicyException{
         ph.getInProtocolPM().put(protocol,constructPolicyHolder(effectivePolicy, true, true, false));
     }
     
-    protected void addIncomingFaultPolicy(Policy effectivePolicy,SecurityPolicyHolder sph,WSDLFault fault)throws PolicyException{
+    @Override
+    protected void addIncomingFaultPolicy(Policy effectivePolicy, SecurityPolicyHolder sph, WSDLFault fault)throws PolicyException{
         SecurityPolicyHolder faultPH = constructPolicyHolder(effectivePolicy,true,false);
         sph.addFaultPolicy(fault,faultPH);
     }
     
-    protected void addOutgoingFaultPolicy(Policy effectivePolicy,SecurityPolicyHolder sph,WSDLFault fault)throws PolicyException{
+    @Override
+    protected void addOutgoingFaultPolicy(Policy effectivePolicy, SecurityPolicyHolder sph, WSDLFault fault)throws PolicyException{
         SecurityPolicyHolder faultPH = constructPolicyHolder(effectivePolicy,true,true);
         sph.addFaultPolicy(fault,faultPH);
     }
     
-    protected String getAction(WSDLOperation operation,boolean inComming){
+    @Override
+    protected String getAction(WSDLOperation operation, boolean inComming){
         if(inComming){
             return operation.getInput().getAction();
         }else{

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -71,11 +71,11 @@ class SequenceDataPojo implements Serializable /*Storeable*/ {
         this.expirationTime = expirationTime;
         this.inbound = isInbound;
 
-        this.allUnackedMessageNumbers = new TreeSet<Long>();
-        this.receivedUnackedMessageNumbers = new HashSet<Long>();
-        this.failedOverUnackedMessageNumbers = new HashSet<Long>();
+        this.allUnackedMessageNumbers = new TreeSet<>();
+        this.receivedUnackedMessageNumbers = new HashSet<>();
+        this.failedOverUnackedMessageNumbers = new HashSet<>();
         //
-        this.unackedNumberToCorrelationIdMap = new HashMap<Long, String>();
+        this.unackedNumberToCorrelationIdMap = new HashMap<>();
         //
         this.backingStore = bs;
     }
@@ -272,7 +272,7 @@ class SequenceDataPojo implements Serializable /*Storeable*/ {
                 + "\n}";
     }
 
-    private static enum Parameter {
+    private enum Parameter {
 
         sequenceId("sequenceId", 0),
         boundSecurityTokenReferenceId("boundSecurityTokenReferenceId", 1),
@@ -294,7 +294,7 @@ class SequenceDataPojo implements Serializable /*Storeable*/ {
         public final String name;
         public final int index;
 
-        private Parameter(String name, int index) {
+        Parameter(String name, int index) {
             this.name = name;
             this.index = index;
         }

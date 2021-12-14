@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -242,6 +242,7 @@ public class Timestamp extends SecurityHeaderBlockImpl {
     /*
      * Get the type of timeData.
      */
+    @Override
     public String getId() {
         return this.wsuId;
     }
@@ -255,6 +256,7 @@ public class Timestamp extends SecurityHeaderBlockImpl {
     }
 
     // create the Element based on the values specified in the class.
+    @Override
     public SOAPElement getAsSoapElement() throws XWSSecurityException {
 
         createDateTime();
@@ -314,7 +316,7 @@ public class Timestamp extends SecurityHeaderBlockImpl {
      * Time reference in WSS work should be in terms of
      * dateTime type specified in XML Schema in UTC time(Recommmended)
      */
-    public void createDateTime() throws XWSSecurityException {
+    public void createDateTime() {
         if (created == null) {
             synchronized (utcCalendar) {
                 // always send UTC/GMT time

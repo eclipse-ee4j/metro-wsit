@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -44,7 +44,8 @@ public class TextPlainCanonicalizer extends Canonicalizer {
         super(charset);
     }
     
-    public InputStream canonicalize(InputStream input,OutputStream outputStream)
+    @Override
+    public InputStream canonicalize(InputStream input, OutputStream outputStream)
     throws javax.xml.crypto.dsig.TransformException   {
         
         int len=0;
@@ -89,6 +90,7 @@ public class TextPlainCanonicalizer extends Canonicalizer {
      * ending normalization to <CR><LF>.
      * Section 4.1.1. [RFC 2046]
      */
+    @Override
     public byte[] canonicalize(byte[] inputBytes) throws XWSSecurityException {
         ByteArrayOutputStream bout = new ByteArrayOutputStream();
         CRLFOutputStream crlfOutStream = new CRLFOutputStream(bout);

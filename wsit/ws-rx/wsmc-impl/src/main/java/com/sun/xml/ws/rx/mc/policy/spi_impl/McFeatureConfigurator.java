@@ -44,8 +44,9 @@ public class McFeatureConfigurator implements PolicyFeatureConfigurator {
      * @return The list of features
      * @throws PolicyException If retrieving the policy triggered an exception
      */
+    @Override
     public Collection<WebServiceFeature> getFeatures(PolicyMapKey key, PolicyMap policyMap) throws PolicyException {
-        final Collection<WebServiceFeature> features = new LinkedList<WebServiceFeature>();
+        final Collection<WebServiceFeature> features = new LinkedList<>();
         if ((key != null) && (policyMap != null)) {
             Policy policy = policyMap.getEndpointEffectivePolicy(key);
             if (policy != null) {

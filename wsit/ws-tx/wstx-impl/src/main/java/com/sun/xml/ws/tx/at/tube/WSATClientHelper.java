@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -48,6 +48,7 @@ public class WSATClientHelper implements WSATClient {
      *
      * @return a list of Header that should be added the request message
      */
+    @Override
     public List<Header> doHandleRequest(TransactionalAttribute transactionalAttribute, Map<String, Object> map) {
         try {
             if (TransactionManagerImpl.getInstance().getTransactionManager().getTransaction()==null) 
@@ -60,10 +61,12 @@ public class WSATClientHelper implements WSATClient {
         return addedHeaders;
     }
 
+    @Override
     public boolean doHandleResponse(Map<String, Object> map) {
        return resumeAndClearXidTxMap(map);
     }
 
+    @Override
     public void doHandleException(Map<String, Object> map) {
           LOGGER.info(LocalizationMessages.WSAT_4569_INBOUND_APPLICATION_MESSAGE());
        resumeAndClearXidTxMap(map);
@@ -109,10 +112,7 @@ public class WSATClientHelper implements WSATClient {
                        transaction, Thread.currentThread()), e);
            try {
                transaction.setRollbackOnly();
-           } catch (IllegalStateException ex) {
-               Logger.getLogger(WSATClientHelper.class).log(Level.SEVERE, null, ex);
-               return false;
-           } catch (SystemException ex) {
+           } catch (IllegalStateException | SystemException ex) {
                Logger.getLogger(WSATClientHelper.class).log(Level.SEVERE, null, ex);
                return false;
            }
@@ -124,10 +124,7 @@ public class WSATClientHelper implements WSATClient {
            try {
                transaction.setRollbackOnly();
                return false;
-           } catch (IllegalStateException ex) {
-               Logger.getLogger(WSATClientHelper.class).log(Level.SEVERE, null, ex);
-               return false;
-           } catch (SystemException ex) {
+           } catch (IllegalStateException | SystemException ex) {
                Logger.getLogger(WSATClientHelper.class).log(Level.SEVERE, null, ex);
                return false;
            }
@@ -142,7 +139,6 @@ public class WSATClientHelper implements WSATClient {
      * If no transaction exists do nothing.
      * If one does exist create and add the transaction CoordinationContext.
      *
-     * @param transactionalAttribute
      * @return false if there are any issues with suspend or message header creation (namely SOAPException),
      *         true otherwise
      */
@@ -152,21 +148,17 @@ public class WSATClientHelper implements WSATClient {
             LOGGER.info("WS-AT recovery is enabled but WS-AT is not ready for runtime.  Processing WS-AT recovery log files...");
             WSATGatewayRM.getInstance().recover();
         }
-        List<Header> headers = new ArrayList<Header>();
+        List<Header> headers = new ArrayList<>();
         String txId;
         byte[] activityId = WSATHelper.assignUUID().getBytes();
         LOGGER.info("WS-AT activityId:" + activityId);
         Xid xid = new XidImpl(1234, new String(System.currentTimeMillis() + "-" + counter++).getBytes(), new byte[]{});
         txId = TransactionIdHelper.getInstance().xid2wsatid(xid);
         long ttl = 0;
-        try {
-            ttl = TransactionImportManager.getInstance().getTransactionRemainingTimeout();
-            if (WSATHelper.isDebugEnabled())
-                LOGGER.info(LocalizationMessages.WSAT_4575_WSAT_INFO_IN_CLIENT_SIDE_HANDLER(
-                        txId, ttl, "suspendedTransaction", Thread.currentThread()));
-        } catch (SystemException ex) {
-            Logger.getLogger(WSATClientHelper.class).log(Level.SEVERE, null, ex);
-        }
+        ttl = TransactionImportManager.getInstance().getTransactionRemainingTimeout();
+        if (WSATHelper.isDebugEnabled())
+            LOGGER.info(LocalizationMessages.WSAT_4575_WSAT_INFO_IN_CLIENT_SIDE_HANDLER(
+                    txId, ttl, "suspendedTransaction", Thread.currentThread()));
         if (WSATHelper.isDebugEnabled())
             LOGGER.info(LocalizationMessages.WSAT_4575_WSAT_INFO_IN_CLIENT_SIDE_HANDLER(
                     txId, ttl, "suspendedTransaction", Thread.currentThread()));

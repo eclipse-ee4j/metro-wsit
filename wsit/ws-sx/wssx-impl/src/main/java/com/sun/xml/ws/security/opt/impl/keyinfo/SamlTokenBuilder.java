@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -57,7 +57,6 @@ public class SamlTokenBuilder extends TokenBuilder{
     /**
      * 
      * @return BuilderResult
-     * @throws com.sun.xml.wss.XWSSecurityException
      */
     @SuppressWarnings("unchecked")
     @Override
@@ -80,7 +79,7 @@ public class SamlTokenBuilder extends TokenBuilder{
                     //version = reader.getAttributeValue(null, "Version");
                     buffer = new MutableXMLStreamBuffer();
                     StreamWriterBufferCreator bCreator = new StreamWriterBufferCreator(buffer);
-                    XMLStreamWriter writer_tmp = (XMLStreamWriter) bCreator;
+                    XMLStreamWriter writer_tmp = bCreator;
                     while (!(XMLStreamReader.END_DOCUMENT == reader.getEventType())) {
                         com.sun.xml.ws.security.opt.impl.util.StreamUtil.writeCurrentEvent(reader, writer_tmp);
                         reader.next();
@@ -189,7 +188,7 @@ public class SamlTokenBuilder extends TokenBuilder{
             }
             //((SecurityTokenReferenceType)samlSTR).getAny().add(authorityBinding);
             ((NamespaceContextEx)context.getNamespaceContext()).addWSS11NS();
-            buildKeyInfo((SecurityTokenReference) samlSTR);
+            buildKeyInfo(samlSTR);
         } else{
             //TODO: handle authorityBinding != null
         }

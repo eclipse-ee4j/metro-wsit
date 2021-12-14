@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -14,10 +14,8 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.security.AccessControlContext;
 import java.security.AccessController;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
@@ -91,6 +89,7 @@ public abstract class IssueSamlTokenContract implements com.sun.xml.ws.api.secur
     private static final int DEFAULT_KEY_SIZE = 256;
 
     
+    @Override
     public void init(final STSConfiguration stsConfig) {
         this.stsConfig = stsConfig;
         this.wstVer = (WSTrustVersion)stsConfig.getOtherOptions().get(WSTrustConstants.WST_VERSION);
@@ -99,6 +98,7 @@ public abstract class IssueSamlTokenContract implements com.sun.xml.ws.api.secur
     }
     
     /** Issue a Token */
+    @Override
     public BaseSTSResponse issue(final BaseSTSRequest request, final IssuedTokenContext context)throws WSTrustException {
         
         RequestSecurityToken rst = (RequestSecurityToken)request;
@@ -352,7 +352,7 @@ public abstract class IssueSamlTokenContract implements com.sun.xml.ws.api.secur
         //========================================
         
         // Create RequestedSecurityToken 
-        final String assertionId = "uuid-" + UUID.randomUUID().toString();
+        final String assertionId = "uuid-" + UUID.randomUUID();
         final RequestedSecurityToken reqSecTok = eleFac.createRequestedSecurityToken();
         final Token samlToken = createSAMLAssertion(appliesTo, tokenType, keyType, assertionId, stsConfig.getIssuer(), claimedAttrs, context);
         reqSecTok.setToken(samlToken);
@@ -411,7 +411,7 @@ public abstract class IssueSamlTokenContract implements com.sun.xml.ws.api.secur
         context.setExpirationTime(new Date(currentTime + stsConfig.getIssuedTokenTimeout()));
         
         if (wstVer.getNamespaceURI().equals(WSTrustVersion.WS_TRUST_13.getNamespaceURI())){
-            List<RequestSecurityTokenResponse> list = new ArrayList<RequestSecurityTokenResponse>();
+            List<RequestSecurityTokenResponse> list = new ArrayList<>();
             list.add(rstr);
             RequestSecurityTokenResponseCollection rstrc = eleFac.createRSTRC(list);
 
@@ -422,29 +422,28 @@ public abstract class IssueSamlTokenContract implements com.sun.xml.ws.api.secur
     
     /** Issue a Collection of Token(s) possibly for different scopes */
     public BaseSTSResponse issueMultiple(
-            final BaseSTSRequest request, final IssuedTokenContext context)
-            throws WSTrustException{
+            final BaseSTSRequest request, final IssuedTokenContext context) {
         throw new UnsupportedOperationException("Unsupported operation: issueMultiple");
     }
     
     /** Renew a Token */
+    @Override
     public BaseSTSResponse renew(
-            final BaseSTSRequest request, final IssuedTokenContext context)
-            throws WSTrustException{
+            final BaseSTSRequest request, final IssuedTokenContext context) {
         throw new UnsupportedOperationException("Unsupported operation: renew");
     }
     
     /** Cancel a Token */
+    @Override
     public BaseSTSResponse cancel(
-            final BaseSTSRequest request, final IssuedTokenContext context, final Map issuedTokenCtxMap)
-            throws WSTrustException{
+            final BaseSTSRequest request, final IssuedTokenContext context, final Map issuedTokenCtxMap) {
         throw new UnsupportedOperationException("Unsupported operation: cancel");
     }
     
     /** Validate a Token */
+    @Override
     public BaseSTSResponse validate(
-            final BaseSTSRequest request, final IssuedTokenContext context)
-            throws WSTrustException{
+            final BaseSTSRequest request, final IssuedTokenContext context) {
         throw new UnsupportedOperationException("Unsupported operation: validate");
     }
     
@@ -452,11 +451,12 @@ public abstract class IssueSamlTokenContract implements com.sun.xml.ws.api.secur
      * handle an unsolicited RSTR like in the case of
      * Client Initiated Secure Conversation.
      */
+    @Override
     public void handleUnsolicited(
-            final BaseSTSResponse rstr, final IssuedTokenContext context)
-            throws WSTrustException{
+            final BaseSTSResponse rstr, final IssuedTokenContext context) {
         throw new UnsupportedOperationException("Unsupported operation: handleUnsolicited");
     }
     
+    @Override
     public abstract Token createSAMLAssertion(String appliesTo, String tokenType, String keyType, String assertionId, String issuer, Map<QName, List<String>> claimedAttrs, IssuedTokenContext context) throws WSTrustException;
 }

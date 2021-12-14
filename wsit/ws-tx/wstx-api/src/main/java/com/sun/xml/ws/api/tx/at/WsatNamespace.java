@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -25,7 +25,7 @@ public enum WsatNamespace {
     WSAT200606("wsat200410", "http://docs.oasis-open.org/ws-tx/wsat/2006/06");
     //
     public static List<String> namespacesList() {
-        List<String> retVal = new ArrayList<String>(WsatNamespace.values().length);
+        List<String> retVal = new ArrayList<>(WsatNamespace.values().length);
         for (WsatNamespace wsatNamespaceEnum : WsatNamespace.values()) {
             retVal.add(wsatNamespaceEnum.namespace);
         }
@@ -35,7 +35,7 @@ public enum WsatNamespace {
     public final String defaultPrefix;
     public final String namespace;
 
-    private WsatNamespace(String defaultPrefix, String namespace) {
+    WsatNamespace(String defaultPrefix, String namespace) {
         this.defaultPrefix = defaultPrefix;
         this.namespace = namespace;
     }

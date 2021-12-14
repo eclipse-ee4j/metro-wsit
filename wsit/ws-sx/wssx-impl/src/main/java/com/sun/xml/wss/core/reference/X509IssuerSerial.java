@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -50,8 +50,7 @@ public class X509IssuerSerial extends ReferenceElement {
     /**
     * Constructor X509IssuerSerial
     *
-    * @param element
-    */
+     */
     public X509IssuerSerial(SOAPElement element)
         throws XWSSecurityException {
 
@@ -131,10 +130,7 @@ public class X509IssuerSerial extends ReferenceElement {
     /**
     * Constructor X509IssuerSerial
     *
-    * @param doc
-    * @param X509IssuerName
-    * @param X509SerialNumber
-    */
+     */
     public X509IssuerSerial(
         Document doc,
         String X509IssuerName,
@@ -147,9 +143,6 @@ public class X509IssuerSerial extends ReferenceElement {
     /**
      * Constructor X509IssuerSerial
      *
-     * @param doc
-     * @param X509IssuerName
-     * @param X509SerialNumber
      */
     public X509IssuerSerial(
         Document doc,
@@ -163,9 +156,6 @@ public class X509IssuerSerial extends ReferenceElement {
     /**
      * Constructor X509IssuerSerial
      *
-     * @param doc
-     * @param X509IssuerName
-     * @param X509SerialNumber
      */
     public X509IssuerSerial(
         Document doc,
@@ -179,8 +169,6 @@ public class X509IssuerSerial extends ReferenceElement {
     /**
      * Constructor X509IssuerSerial
      *
-     * @param doc
-     * @param x509certificate
      */
     public X509IssuerSerial(Document doc, X509Certificate x509certificate) {
         delegate = new XMLX509IssuerSerial(doc, x509certificate);
@@ -190,7 +178,6 @@ public class X509IssuerSerial extends ReferenceElement {
     /**
      * Method getSerialNumber
      *
-     * @throws XWSSecurityException
      */
     public BigInteger getSerialNumber() throws XWSSecurityException {
         try {
@@ -203,7 +190,6 @@ public class X509IssuerSerial extends ReferenceElement {
     /**
      * Method getSerialNumberInteger
      *
-     * @throws XWSSecurityException
      */
     public int getSerialNumberInteger() throws XWSSecurityException {
         try {
@@ -216,7 +202,6 @@ public class X509IssuerSerial extends ReferenceElement {
     /**
      * Method getIssuerName
      *
-     * @throws XWSSecurityException
      */
     public String getIssuerName() throws XWSSecurityException {
         try {
@@ -229,6 +214,7 @@ public class X509IssuerSerial extends ReferenceElement {
         }
     }
 
+    @Override
     public SOAPElement getAsSoapElement() throws XWSSecurityException {
         try {
             SOAPElement issuerSerialElement = (SOAPElement) delegate.getElement();

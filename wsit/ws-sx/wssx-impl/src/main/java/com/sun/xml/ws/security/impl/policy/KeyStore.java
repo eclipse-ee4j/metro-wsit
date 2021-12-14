@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -40,14 +40,17 @@ public class KeyStore extends PolicyAssertion implements com.sun.xml.ws.security
     public KeyStore(AssertionData name,Collection<PolicyAssertion> nestedAssertions, AssertionSet nestedAlternative) {
         super(name,nestedAssertions,nestedAlternative);
     }
+    @Override
     public String getLocation() {
         return this.getAttributeValue(loc);
     }
     
+    @Override
     public String getType() {
         return this.getAttributeValue(type);
     }
     
+    @Override
     public char[] getPassword() {
         if(password == null){
             String val  = this.getAttributeValue(passwd);
@@ -58,22 +61,27 @@ public class KeyStore extends PolicyAssertion implements com.sun.xml.ws.security
         return password;
     }
     
+    @Override
     public String getAlias() {
         return this.getAttributeValue(alias);
     }    
     
+    @Override
     public String getKeyPassword() {
         return this.getAttributeValue(keypass);
     }
     
+    @Override
     public String getAliasSelectorClassName() {
         return this.getAttributeValue(aliasSelector);
     }
 
+    @Override
     public String getKeyStoreCallbackHandler() {
         return this.getAttributeValue(callbackHandler);
     }
 
+    @Override
     public String getKeyStoreLoginModuleConfigName() {
         return this.getAttributeValue(keyStoreLoginModuleConfigName);
     }

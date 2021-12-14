@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -34,17 +34,20 @@ public class TeeOutputStream extends OutputStream{
         tee = teeStream;
     }
 
+    @Override
     public void write(int b) throws IOException {
         out.write(b);
         tee.write(b);
     }
     
+    @Override
     public void close() throws IOException{
         flush();
         out.close();
         tee.close();
     }
     
+    @Override
     public void flush() throws IOException {
         out.flush();
         tee.flush();

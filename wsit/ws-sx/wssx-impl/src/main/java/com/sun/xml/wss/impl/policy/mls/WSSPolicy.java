@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -58,6 +58,7 @@ public abstract class WSSPolicy extends MLSPolicy implements Cloneable {
      * @see EncryptionPolicy
      * @see AuthenticationTokenPolicy
      */
+    @Override
     public MLSPolicy getFeatureBinding () {
         return _featureBinding;
     }
@@ -69,6 +70,7 @@ public abstract class WSSPolicy extends MLSPolicy implements Cloneable {
      * @see EncryptionPolicy
      * @see AuthenticationTokenPolicy
      */
+    @Override
     public MLSPolicy getKeyBinding () {
         return _keyBinding;
     }
@@ -124,7 +126,6 @@ public abstract class WSSPolicy extends MLSPolicy implements Cloneable {
     
     /**
      * set a unique policy identifier for this WSSPolicy
-     * @param uuid
      */
     public void setUUID (String uuid) {
         if ( isReadOnly () ) {
@@ -163,6 +164,7 @@ public abstract class WSSPolicy extends MLSPolicy implements Cloneable {
      * @see EncryptionPolicy
      * @see AuthenticationTokenPolicy
      */
+    @Override
     public abstract Object clone ();
     
     /**

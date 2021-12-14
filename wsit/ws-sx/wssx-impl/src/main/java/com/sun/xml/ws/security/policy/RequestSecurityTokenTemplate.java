@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -19,7 +19,7 @@ import com.sun.xml.ws.security.policy.Lifetime;
 public interface RequestSecurityTokenTemplate {
     
   
-    public String getTrustVersion();
+    String getTrustVersion();
     
     /**
      * Get the type of security token, specified as a String.
@@ -45,15 +45,15 @@ public interface RequestSecurityTokenTemplate {
     
    
     
-    /**
-     * Set the desired policy settings for the requested token
-     * @param appliesTo {@link AppliesTo}
+    /*
+      Set the desired policy settings for the requested token
+      @param appliesTo {@link AppliesTo}
      */
 //    void setAppliesTo(AppliesTo appliesTo);
     
-    /**
-     * Get the desired AppliesTo policy settings for the token if specified, null otherwise
-     * @return {@link AppliesTo}
+    /*
+      Get the desired AppliesTo policy settings for the token if specified, null otherwise
+      @return {@link AppliesTo}
      */
 //    AppliesTo getAppliesTo();
     

@@ -81,13 +81,13 @@ public class SignatureType {
     @XmlID
     protected String id;
 
-    /**
-     * Gets the value of the signedInfo property.
-     * 
-     * @return
+    /*
+      Gets the value of the signedInfo property.
+
+      @return
      *     possible object is
      *     {@link SignedInfoType }
-     *     
+
      */
     /*public SignedInfoType getSignedInfo() {
         return signedInfo;
@@ -105,13 +105,13 @@ public class SignatureType {
         this.signedInfo = value;
     }
 
-    /**
-     * Gets the value of the signatureValue property.
-     * 
-     * @return
+    /*
+      Gets the value of the signatureValue property.
+
+      @return
      *     possible object is
      *     {@link SignatureValueType }
-     *     
+
      */
     /*c
         return signatureValue;
@@ -129,13 +129,13 @@ public class SignatureType {
         this.signatureValue = value;
     }
 
-    /**
-     * Gets the value of the keyInfo property.
-     * 
-     * @return
+    /*
+      Gets the value of the keyInfo property.
+
+      @return
      *     possible object is
      *     {@link KeyInfoType }
-     *     
+
      */
     /*public KeyInfoType getKeyInfo() {
         return keyInfo;
@@ -177,7 +177,7 @@ public class SignatureType {
      */
     public List<ObjectType> getObject() {
         if (object == null) {
-            object = new ArrayList<ObjectType>();
+            object = new ArrayList<>();
         }
         return this.object;
     }

@@ -11,7 +11,6 @@
 package com.sun.xml.ws.rx.rm.runtime;
 
 import com.sun.istack.NotNull;
-import com.sun.xml.ws.rx.RxException;
 import com.sun.xml.ws.rx.message.RxMessageBase;
 import com.sun.xml.ws.rx.rm.protocol.AcknowledgementData;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -44,28 +43,34 @@ public abstract class ApplicationMessageBase extends RxMessageBase implements Ap
         this.acknowledgementData = acknowledgementData;
     }
 
+    @Override
     public AcknowledgementData getAcknowledgementData() {
         return acknowledgementData;
     }
 
+    @Override
     public long getMessageNumber() {
         return messageNumber;
     }
 
+    @Override
     public String getSequenceId() {
         return sequenceId;
     }
 
+    @Override
     public void setAcknowledgementData(AcknowledgementData data) {
         this.acknowledgementData = data;
     }
 
+    @Override
     public void setSequenceData(String sequenceId, long messageNumber) {
         assert sequenceId != null;
         this.sequenceId = sequenceId;
         this.messageNumber = messageNumber;
     }
 
+    @Override
     public int getNextResendCount() {
         return resendCount.getAndIncrement();
     }

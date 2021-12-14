@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -54,33 +54,39 @@ public class RequestSecurityTokenTemplate extends PolicyAssertion implements com
         super(name,nestedAssertions,nestedAlternative);
     }
     
+    @Override
     public String getTokenType() {
         populate();
         return tokenType;
     }
     
+    @Override
     public String getRequestType() {
         populate();
         return this.requestType;
     }
     
+    @Override
     public Lifetime getLifetime() {
         populate();
         return lifeTime;
     }
     
     
+    @Override
     public String getAuthenticationType() {
         populate();
         return authenticationType;
     }
     
     
+    @Override
     public String getKeyType() {
         populate();
         return keyType;
     }
     
+    @Override
     public int getKeySize() {
         populate();
         return keySize;
@@ -88,24 +94,28 @@ public class RequestSecurityTokenTemplate extends PolicyAssertion implements com
     
     
     
+    @Override
     public String getSignatureAlgorithm() {
         populate();
         return sigAlgo;
     }
     
     
+    @Override
     public String getEncryptionAlgorithm() {
         populate();
         return encAlgo;
     }
     
     
+    @Override
     public String getCanonicalizationAlgorithm() {
         populate();
         return canonAlgo;
     }
     
     
+    @Override
     public boolean getProofEncryptionRequired() {
         populate();
         return isProofEncRequired;
@@ -113,16 +123,19 @@ public class RequestSecurityTokenTemplate extends PolicyAssertion implements com
     
     
     
+    @Override
     public String getComputedKeyAlgorithm() {
         populate();
         return computedKeyAlgo;
     }
     
+    @Override
     public String getKeyWrapAlgorithm() {
         populate();
         return keyWrapAlgo;
     }    
     
+    @Override
     public boolean getEncryptionRequired() {
         populate();
         return isEncRequired;
@@ -130,28 +143,33 @@ public class RequestSecurityTokenTemplate extends PolicyAssertion implements com
     
     
     
+    @Override
     public String getSignWith() {
         populate();
         return signWith;
     }
     
     
+    @Override
     public String getEncryptWith() {
         populate();
         return encryptWith;
     }
     
+    @Override
     public Claims getClaims(){
         populate();
         return claims;
     }
     
+    @Override
     public String getTrustVersion() {
         populate();
         return wstVer;
     }
     
     
+    @Override
     public AssertionFitness validate(boolean isServer) {
         return populate(isServer);
     }
@@ -165,7 +183,7 @@ public class RequestSecurityTokenTemplate extends PolicyAssertion implements com
                 
                 Iterator <PolicyAssertion> it =this.getNestedAssertionsIterator();
                 while( it.hasNext() ) {
-                    PolicyAssertion assertion = (PolicyAssertion) it.next();
+                    PolicyAssertion assertion = it.next();
                     if (this.wstVer == null){
                         this.wstVer = assertion.getName().getNamespaceURI();
                     }

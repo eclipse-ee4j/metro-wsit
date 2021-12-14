@@ -79,6 +79,7 @@ public class WSATServerTube extends AbstractFilterTubeImpl implements WSATConsta
     }
 
 
+    @Override
     public
     @NotNull
     NextAction processRequest(Packet request) {
@@ -90,6 +91,7 @@ public class WSATServerTube extends AbstractFilterTubeImpl implements WSATConsta
       return super.processRequest(request);
     }
 
+    @Override
     public
     @NotNull
     NextAction processResponse(Packet response) {
@@ -98,6 +100,7 @@ public class WSATServerTube extends AbstractFilterTubeImpl implements WSATConsta
         return super.processResponse(response);
     }
 
+    @Override
     public
     @NotNull
     NextAction processException(Throwable t) {
@@ -105,10 +108,12 @@ public class WSATServerTube extends AbstractFilterTubeImpl implements WSATConsta
         return super.processException(t);
     }
 
+    @Override
     public void preDestroy() {
         super.preDestroy();
     }
 
+    @Override
     public AbstractTubeImpl copy(TubeCloner cloner) {
         return new WSATServerTube(this, cloner);
     }

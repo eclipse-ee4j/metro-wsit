@@ -116,10 +116,8 @@ final class ConnectionManager {
                     //roll back the TX
                     getUserTransaction().setRollbackOnly();
                 }
-            } catch (IllegalStateException ise) {
+            } catch (IllegalStateException | SystemException ise) {
                 LOGGER.warning("Was not able to mark distributed transaction for rollback", ise);
-            } catch (SystemException se) {
-                LOGGER.warning("Was not able to mark distributed transaction for rollback", se);
             }
         } else {
             try {

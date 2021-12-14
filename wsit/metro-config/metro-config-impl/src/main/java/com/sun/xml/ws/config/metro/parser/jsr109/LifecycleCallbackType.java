@@ -128,6 +128,7 @@ public class LifecycleCallbackType
         this.lifecycleCallbackMethod = value;
     }
 
+    @Override
     public Locator sourceLocation() {
         return locator;
     }

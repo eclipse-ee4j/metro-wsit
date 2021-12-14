@@ -17,7 +17,6 @@ import com.sun.xml.ws.security.opt.api.SecurityElementWriter;
 import com.sun.xml.ws.security.opt.impl.outgoing.SecurityHeader;
 import com.sun.istack.NotNull;
 import org.glassfish.jaxb.runtime.api.Bridge;
-import org.glassfish.jaxb.runtime.api.BridgeContext;
 import com.sun.xml.ws.api.SOAPVersion;
 import com.sun.xml.ws.security.opt.impl.dsig.SignedMessageHeader;
 import com.sun.xml.ws.spi.db.XMLBridge;
@@ -95,7 +94,8 @@ public class HeaderWrapper implements com.sun.xml.ws.api.message.Header  {
      *      true if no error needs to be reported. False if an error needs to be raised.
      *      See the method javadoc for more discussion.
      */
-    public boolean isIgnorable( SOAPVersion soapVersion,  Set<String> roles){
+    @Override
+    public boolean isIgnorable(SOAPVersion soapVersion, Set<String> roles){
         if(header != null){
             return header.isIgnorable(soapVersion, roles);
         }
@@ -116,6 +116,7 @@ public class HeaderWrapper implements com.sun.xml.ws.api.message.Header  {
      * @return
      *      never null. This string need not be interned.
      */
+    @Override
     public String getRole(SOAPVersion soapVersion){
         if(header != null){
             return header.getRole(soapVersion);
@@ -140,6 +141,7 @@ public class HeaderWrapper implements com.sun.xml.ws.api.message.Header  {
      * @return
      *      false.
      */
+    @Override
     public boolean isRelay(){
         if(header != null){
             return header.isRelay();
@@ -153,6 +155,7 @@ public class HeaderWrapper implements com.sun.xml.ws.api.message.Header  {
      * @return
      *      this string must be interned.
      */
+    @Override
     public  String getNamespaceURI(){
         return se.getNamespaceURI();
     }
@@ -163,6 +166,7 @@ public class HeaderWrapper implements com.sun.xml.ws.api.message.Header  {
      * @return
      *      this string must be interned.
      */
+    @Override
     public  String getLocalPart(){
         return se.getLocalPart();
     }
@@ -182,7 +186,8 @@ public class HeaderWrapper implements com.sun.xml.ws.api.message.Header  {
      *      whitespace-normalizing attributes, so {@link Header} implementation
      *      doesn't have to do anything.
      */
-    public   String getAttribute( String nsUri,  String localName){
+    @Override
+    public   String getAttribute(String nsUri, String localName){
         if(header != null){
             return header.getAttribute(nsUri, localName);
         }
@@ -200,7 +205,8 @@ public class HeaderWrapper implements com.sun.xml.ws.api.message.Header  {
      *
      * @see #getAttribute(String, String)
      */
-    public String getAttribute( QName name){
+    @Override
+    public String getAttribute(QName name){
         if(header != null){
             return header.getAttribute(name);
         }
@@ -235,6 +241,7 @@ public class HeaderWrapper implements com.sun.xml.ws.api.message.Header  {
      * @return
      *      must not null.
      */
+    @Override
     public XMLStreamReader readHeader() throws XMLStreamException{
         if(header != null){
             return header.readHeader();
@@ -247,10 +254,11 @@ public class HeaderWrapper implements com.sun.xml.ws.api.message.Header  {
     /**
      * Reads the header as a JAXB object by using the given unmarshaller.
      */
+    @Override
     @SuppressWarnings("unchecked")
     public <T> T readAsJAXB(Unmarshaller unmarshaller) throws JAXBException{
         if(header != null){
-            return (T)header.readAsJAXB(unmarshaller);
+            return header.readAsJAXB(unmarshaller);
         }
         throw new UnsupportedOperationException();
     }
@@ -259,6 +267,7 @@ public class HeaderWrapper implements com.sun.xml.ws.api.message.Header  {
     /**
      * Reads the header as a JAXB object by using the given unmarshaller.
      */
+    @Override
     public <T> T readAsJAXB(Bridge<T> bridge) throws JAXBException{
         if(header != null){
             return header.readAsJAXB((Unmarshaller) bridge);
@@ -273,6 +282,7 @@ public class HeaderWrapper implements com.sun.xml.ws.api.message.Header  {
      *      if the operation fails for some reason. This leaves the
      *      writer to an undefined state.
      */
+    @Override
     public void writeTo(XMLStreamWriter w) throws XMLStreamException{
         ((SecurityElementWriter)se).writeTo(w);
     }
@@ -289,6 +299,7 @@ public class HeaderWrapper implements com.sun.xml.ws.api.message.Header  {
      *      if the operation fails for some reason. This leaves the
      *      writer to an undefined state.
      */
+    @Override
     public void writeTo(SOAPMessage saaj) throws SOAPException{
         throw new UnsupportedOperationException("use writeTo(XMLStreamWriter w) ");
     }
@@ -318,16 +329,19 @@ public class HeaderWrapper implements com.sun.xml.ws.api.message.Header  {
      * @param errorHandler
      *      The {@link ErrorHandler} that receives parsing errors.
      */
-    public void writeTo(ContentHandler contentHandler, ErrorHandler errorHandler) throws SAXException{
+    @Override
+    public void writeTo(ContentHandler contentHandler, ErrorHandler errorHandler) {
         throw new UnsupportedOperationException("use writeTo(XMLStreamWriter w) ");
     }
     
+    @Override
     public String getStringContent(){
         if(header != null){
             return header.getStringContent();
         }
         throw new UnsupportedOperationException();
     }
+    @Override
     public @NotNull WSEndpointReference readAsEPR(AddressingVersion expected) throws XMLStreamException{
         if(header != null){
             return header.readAsEPR(expected);
@@ -335,7 +349,8 @@ public class HeaderWrapper implements com.sun.xml.ws.api.message.Header  {
         throw new UnsupportedOperationException();
     }
 
-	public <T> T readAsJAXB(XMLBridge<T> bridge) throws JAXBException {
+	@Override
+    public <T> T readAsJAXB(XMLBridge<T> bridge) throws JAXBException {
         if(header != null){
             return header.readAsJAXB(bridge);
         }

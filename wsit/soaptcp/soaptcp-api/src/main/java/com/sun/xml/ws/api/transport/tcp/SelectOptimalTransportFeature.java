@@ -28,7 +28,7 @@ public class SelectOptimalTransportFeature extends WebServiceFeature {
     /**
      * This enumeration defines an optimized transport list
      */
-    public static enum Transport {
+    public enum Transport {
 
         /**
          * SOAP/TCP transport

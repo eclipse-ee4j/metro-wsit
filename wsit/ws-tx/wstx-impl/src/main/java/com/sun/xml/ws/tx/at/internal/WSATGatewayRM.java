@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -29,11 +29,6 @@ import jakarta.xml.ws.WebServiceException;
 
 
 /**
- *
- * @author paulparkinson
- */
-
-/**
  * Gateway XAResource for managing outbound WS-AT transaction branches.
  */
 public class WSATGatewayRM implements XAResource, WSATRuntimeConfig.RecoveryEventListener {
@@ -55,20 +50,19 @@ public class WSATGatewayRM implements XAResource, WSATRuntimeConfig.RecoveryEven
   private static String txlogdirOutbound;
     static boolean isStoreInit = false;
   private volatile int counter = 0;
-  private Map<Xid,Xid> activityXidToInternalXidMap = new HashMap<Xid,Xid>();
-  private Map<Xid,Xid> internalXidToActivityXidMap = new HashMap<Xid,Xid>();
+  private Map<Xid,Xid> activityXidToInternalXidMap = new HashMap<>();
+  private Map<Xid,Xid> internalXidToActivityXidMap = new HashMap<>();
 
     // package access for test instantiation only, this is a singleton
   WSATGatewayRM(String serverName) {
     resourceRegistrationName = "RM_NAME_PREFIX" + serverName;
-    branches = Collections.synchronizedMap(new HashMap<Xid, BranchRecord>());
-    pendingXids = Collections.synchronizedList(new ArrayList<Xid>());
+    branches = Collections.synchronizedMap(new HashMap<>());
+    pendingXids = Collections.synchronizedList(new ArrayList<>());
     singleton = this;
   }
 
   /**
    * called by transaction services for enlistment and used by HA delegation
-   * @return
    */
   public static synchronized WSATGatewayRM getInstance() {
     if(singleton==null) {
@@ -79,7 +73,6 @@ public class WSATGatewayRM implements XAResource, WSATRuntimeConfig.RecoveryEven
 
   /**
    * Called during tube/web service init
-   * @return
    */
   public static synchronized WSATGatewayRM create() {
     return create("server");    
@@ -101,7 +94,7 @@ public class WSATGatewayRM implements XAResource, WSATRuntimeConfig.RecoveryEven
 
     private static boolean setupRecovery() {
         if (!WSATRuntimeConfig.getInstance().isWSATRecoveryEnabled()) return true;
-        TransactionImportManager.getInstance().registerRecoveryResourceHandler(singleton);
+        TransactionImportManager.registerRecoveryResourceHandler(singleton);
         WSATRuntimeConfig.getInstance().setWSATRecoveryEventListener(singleton);
         setTxLogDirs();
         try {
@@ -233,6 +226,7 @@ public class WSATGatewayRM implements XAResource, WSATRuntimeConfig.RecoveryEven
      * @param flags flags
      * @throws XAException xaException
      */
+  @Override
   public void start(Xid xid, int flags) throws XAException {
     currentXid = xid;
     debug("start currentXid:"+currentXid+" xid:"+xid);
@@ -260,6 +254,7 @@ public class WSATGatewayRM implements XAResource, WSATRuntimeConfig.RecoveryEven
     }
   }
 
+  @Override
   public void end(Xid xid, int flags) throws XAException {
     if (WSATHelper.isDebugEnabled())
         debug("end() xid=" + xid + ", flags=" + flags);
@@ -270,6 +265,7 @@ public class WSATGatewayRM implements XAResource, WSATRuntimeConfig.RecoveryEven
     }
   }
 
+  @Override
   public int prepare(Xid xid) throws XAException {
     if (WSATHelper.isDebugEnabled()) debug("prepare() xid=" + xid);
     purgeActivityAndInternalXidMapEntries(xid);
@@ -296,6 +292,7 @@ public class WSATGatewayRM implements XAResource, WSATRuntimeConfig.RecoveryEven
         if (activityXid!=null) activityXidToInternalXidMap.remove(activityXid);
     }
 
+    @Override
     public void commit(Xid xid, boolean onePhase) throws XAException {
     if (WSATHelper.isDebugEnabled()) debug("commit() xid=" + xid);
     BranchRecord branch = getBranch(xid);
@@ -309,6 +306,7 @@ public class WSATGatewayRM implements XAResource, WSATRuntimeConfig.RecoveryEven
     }
   }
 
+  @Override
   public void rollback(Xid xid) throws XAException {
     if (WSATHelper.isDebugEnabled()) debug("rollback() xid=" + xid);
     purgeActivityAndInternalXidMapEntries(xid);
@@ -338,10 +336,9 @@ public class WSATGatewayRM implements XAResource, WSATRuntimeConfig.RecoveryEven
     /**
      * Call for local recover/server specified by null instance value
      *
-     * @param flag 
      * @return Xid[] indoubt Xids
-     * @throws XAException
      */
+    @Override
     public Xid[] recover(int flag) throws XAException {
         return recover(flag, null);
     }
@@ -349,10 +346,7 @@ public class WSATGatewayRM implements XAResource, WSATRuntimeConfig.RecoveryEven
     /**
      * Call for delegated recovery specified by non-null instance
      *
-     * @param flag
-     * @param instance
      * @return Xid[] indoubt Xids
-     * @throws XAException
      */
     public Xid[] recover(int flag, String instance) throws XAException {
         if (WSATHelper.isDebugEnabled()) debug("recover() flag=" + flag);
@@ -370,7 +364,7 @@ public class WSATGatewayRM implements XAResource, WSATRuntimeConfig.RecoveryEven
             singleton.recoverPendingBranches(delegatedtxlogdirOutbound, delegatedtxlogdirInbound);
         } else if(!isReadyForRuntime){
             try {
-                singleton.initStore();
+                initStore();
             } catch (Exception e) {
                 XAException xaEx = new XAException("WSATGatewayRM recover call failed due to StoreException:" + e);
                 xaEx.errorCode = XAException.XAER_RMFAIL;
@@ -386,7 +380,7 @@ public class WSATGatewayRM implements XAResource, WSATRuntimeConfig.RecoveryEven
         // return all pending Xids on first call, empty array otherwise
         if ((flag & XAResource.TMSTARTRSCAN) != 0) {
             if (WSATHelper.isDebugEnabled()) debug("WSAT recover(" + flag + ") returning " + pendingXids);
-            Xid[] xids = pendingXids.toArray(new Xid[pendingXids.size()]);
+            Xid[] xids = pendingXids.toArray(new Xid[0]);
             return xids;
         }
         if (WSATHelper.isDebugEnabled()) debug("recover() returning empty array");
@@ -411,6 +405,7 @@ public class WSATGatewayRM implements XAResource, WSATRuntimeConfig.RecoveryEven
         return WSATRuntimeConfig.getInstance().getTxLogLocation();
     }
 
+    @Override
     public void forget(Xid xid) throws XAException {
     if (WSATHelper.isDebugEnabled()) debug("forget() xid=" + xid);
     BranchRecord branch = getBranch(xid);
@@ -421,9 +416,9 @@ public class WSATGatewayRM implements XAResource, WSATRuntimeConfig.RecoveryEven
     /**
      * Not applicable
      * @return int -1 as not applicable
-     * @throws XAException
      */
-  public int getTransactionTimeout() throws XAException {
+  @Override
+  public int getTransactionTimeout() {
     return -1;
   }
 
@@ -431,9 +426,9 @@ public class WSATGatewayRM implements XAResource, WSATRuntimeConfig.RecoveryEven
      * Not applicable
      * @param seconds int
      * @return boolean always false as not applicable
-     * @throws XAException xaException
      */
-  public boolean setTransactionTimeout(int seconds) throws XAException {
+  @Override
+  public boolean setTransactionTimeout(int seconds) {
     return false;
   }
 
@@ -442,9 +437,9 @@ public class WSATGatewayRM implements XAResource, WSATRuntimeConfig.RecoveryEven
      *  any migrated WSATGatewayRM instances
      * @param xares XAResource
      * @return boolean if is same RM which in this WSATGatewayRM case means means the same instance
-     * @throws XAException
      */
-  public boolean isSameRM(XAResource xares) throws XAException {
+  @Override
+  public boolean isSameRM(XAResource xares) {
     if (!(xares instanceof WSATGatewayRM)) return false;
     WSATGatewayRM oxares = (WSATGatewayRM) xares;
     return this.equals(oxares);
@@ -533,7 +528,7 @@ public class WSATGatewayRM implements XAResource, WSATRuntimeConfig.RecoveryEven
         }
       }
     } catch(IOException pse) {
-      debug("error persisting branch " + branch + ": " + pse.toString());
+      debug("error persisting branch " + branch + ": " + pse);
       LOGGER.severe(LocalizationMessages.WSAT_4500_ERROR_PERSISTING_BRANCH_RECORD(branch.toString()), pse);
       JTAHelper.throwXAException(XAException.XAER_RMERR, "Error persisting branch " + branch, pse);
     }
@@ -551,22 +546,24 @@ public class WSATGatewayRM implements XAResource, WSATRuntimeConfig.RecoveryEven
         }
       }
     } catch(Exception pse) {
-      debug("error deleting branch record " + branch + ": " + pse.toString());
+      debug("error deleting branch record " + branch + ": " + pse);
       LOGGER.severe(LocalizationMessages.WSAT_4501_ERROR_DELETING_BRANCH_RECORD(branch.toString()), pse);
       JTAHelper.throwXAException(XAException.XAER_RMERR, "Error deleting branch record " + branch, pse);
     }
   }
 
     //RecoveryListener implementation
+    @Override
     public void beforeRecovery(boolean delegated, String instance) {
         debug("afterRecovery called, delegated:" + delegated + " instance:" + instance);
         if (!delegated) {
             return;
         }
-        TransactionImportManager.getInstance().registerRecoveryResourceHandler(
+        TransactionImportManager.registerRecoveryResourceHandler(
                 new WSATGatewayRMPeerRecoveryDelegate(instance));
     }
 
+    @Override
     public void afterRecovery(boolean success, boolean delegated, String instance) {
         debug("afterRecovery called, success:" + success + " delegated:" + delegated + " instance:" + instance);
     }
@@ -578,7 +575,7 @@ public class WSATGatewayRM implements XAResource, WSATRuntimeConfig.RecoveryEven
   }
 
 
-  private final class BranchObjectHandler {
+  private static final class BranchObjectHandler {
     private static final int VERSION = 1;
 
     public Object readObject(ObjectInput in) throws ClassNotFoundException, IOException {

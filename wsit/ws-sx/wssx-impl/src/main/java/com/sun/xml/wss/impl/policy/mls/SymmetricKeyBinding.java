@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -63,7 +63,6 @@ public class SymmetricKeyBinding extends KeyBindingBase {
     
     /**
      * set the key identifier for the symmetric key
-     * @param keyIdentifier
      */
     public void setKeyIdentifier(String keyIdentifier) {
         this._keyIdentifier = keyIdentifier;
@@ -94,7 +93,6 @@ public class SymmetricKeyBinding extends KeyBindingBase {
     
     /**
      * set the Key Algorithm of the Symmetric Key
-     * @param keyAlgorithm
      */
     public void setKeyAlgorithm(String keyAlgorithm) {
         this._keyAlgorithm = keyAlgorithm;
@@ -146,6 +144,7 @@ public class SymmetricKeyBinding extends KeyBindingBase {
      * @param policy the policy to be compared for equality
      * @return true if the argument policy is equal to this
      */
+    @Override
     public boolean equals(WSSPolicy policy) {
         
         boolean assrt = false;
@@ -173,6 +172,7 @@ public class SymmetricKeyBinding extends KeyBindingBase {
      * @param policy the policy to be compared for equality
      * @return true if the argument policy is equal to this
      */
+    @Override
     public boolean equalsIgnoreTargets(WSSPolicy binding) {
         return equals(binding);
     }
@@ -181,6 +181,7 @@ public class SymmetricKeyBinding extends KeyBindingBase {
      * Clone operator
      * @return clone of this policy
      */
+    @Override
     public Object clone(){
         SymmetricKeyBinding skBinding = new SymmetricKeyBinding();
         
@@ -220,6 +221,7 @@ public class SymmetricKeyBinding extends KeyBindingBase {
     /**
      * @return the type of the policy
      */
+    @Override
     public String getType() {
         return PolicyTypeUtil.SYMMETRIC_KEY_TYPE;
     }

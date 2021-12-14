@@ -16,5 +16,5 @@ import javax.sql.DataSource;
  *
  */
 public interface DataSourceProvider {
-    public DataSource getDataSource() throws PersistenceException;
+    DataSource getDataSource() throws PersistenceException;
 }

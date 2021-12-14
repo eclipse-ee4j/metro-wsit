@@ -43,7 +43,7 @@ public final class EnhancedXmlStreamWriterProxy implements InvocationHandler {
     static {
         try {
             hashCodeMethod = Object.class.getMethod("hashCode");
-            equalsMethod = Object.class.getMethod("equals", new Class[] { Object.class });
+            equalsMethod = Object.class.getMethod("equals", Object.class);
             toStringMethod = Object.class.getMethod("toString");
         } catch (NoSuchMethodException e) {
             throw LOGGER.logSevereException(new NoSuchMethodError(e.getMessage()), e);
@@ -86,7 +86,8 @@ public final class EnhancedXmlStreamWriterProxy implements InvocationHandler {
         this.invocationProcessor = processorFactory.createInvocationProcessor(writer);
     }
     
-    public Object invoke(final Object proxy, final Method method, final Object[] args) throws Throwable {
+    @Override
+    public Object invoke(final Object proxy, final Method method, final Object[] args) {
         if (LOGGER.isMethodCallLoggable()) {
             LOGGER.entering(method, args);
         }

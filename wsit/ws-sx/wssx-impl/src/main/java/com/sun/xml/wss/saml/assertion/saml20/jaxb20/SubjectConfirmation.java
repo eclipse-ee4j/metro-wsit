@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -62,7 +62,6 @@ public class SubjectConfirmation extends SubjectConfirmationType
      *
      * @param element a DOM Element representing the
      *        <code>SubjectConfirmation</code> object.
-     * @throws SAMLException
      */
     public static SubjectConfirmationType fromElement(org.w3c.dom.Element element)
     throws SAMLException {
@@ -141,19 +140,23 @@ public class SubjectConfirmation extends SubjectConfirmationType
         setMethod(subConfType.getMethod());
     }
     
+    @Override
     public List<String> getConfirmationMethod() {
-         List<String> confirmMethods = new ArrayList<String>();
+         List<String> confirmMethods = new ArrayList<>();
          confirmMethods.add(super.getMethod());
         return confirmMethods;
     }
            
+    @Override
     public Object getSubjectConfirmationDataForSAML11() {
         throw new UnsupportedOperationException("Not supported for SAML 2.0");
     }
+    @Override
     public SubjectConfirmationData getSubjectConfirmationDataForSAML20() {
         return (SubjectConfirmationData) super.getSubjectConfirmationData();
     }
 
+    @Override
     public NameID getNameId() {
         return (NameID) super.getNameID();
     }

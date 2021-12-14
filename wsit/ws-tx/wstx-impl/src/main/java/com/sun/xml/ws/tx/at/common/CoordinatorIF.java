@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -18,30 +18,30 @@ public interface CoordinatorIF<T> {
     /**
      * @param parameters Notification
      */
-    public void preparedOperation(T parameters);
+    void preparedOperation(T parameters);
 
     /**
      * Aborted response
      * @param parameters Notification
      */
-    public void abortedOperation(T parameters);
+    void abortedOperation(T parameters);
 
     /**
      * ReadOnly response
      * @param parameters Notification
      */
-    public void readOnlyOperation(T parameters);
+    void readOnlyOperation(T parameters);
 
     /**
      * Committed response
      * @param parameters Notification
      */
-    public void committedOperation(T parameters);
+    void committedOperation(T parameters);
 
     /**
      * WS-AT 1.0 recovery operation
      * @param parameters  Notification
      */
-    public void replayOperation(T parameters);
+    void replayOperation(T parameters);
 
 }

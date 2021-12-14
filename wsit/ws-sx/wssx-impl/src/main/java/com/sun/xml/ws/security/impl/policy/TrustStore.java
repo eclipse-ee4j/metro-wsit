@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -34,22 +34,27 @@ public class TrustStore extends KeyStore implements com.sun.xml.ws.security.poli
     public TrustStore(AssertionData name,Collection<PolicyAssertion> nestedAssertions, AssertionSet nestedAlternative) {
         super(name,nestedAssertions,nestedAlternative);
     }
+    @Override
     public String getPeerAlias() {
         return this.getAttributeValue(peerAlias);
     }
     
+    @Override
     public String getSTSAlias() {
         return this.getAttributeValue(stsAlias);
     }
     
+    @Override
     public String getServiceAlias() {
         return this.getAttributeValue(serviceAlias);
     }
     
+    @Override
     public String getCertSelectorClassName() {
         return this.getAttributeValue(certSelector);
     }
 
+    @Override
     public String getTrustStoreCallbackHandler() {
         return this.getAttributeValue(callbackHandler);
     }

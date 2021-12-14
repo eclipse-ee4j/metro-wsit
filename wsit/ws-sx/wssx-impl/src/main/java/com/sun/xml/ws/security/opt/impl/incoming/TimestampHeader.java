@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -75,47 +75,58 @@ public class TimestampHeader implements Timestamp, SecurityHeaderElement, TokenV
         this.nsDecls = nsDecls;
     }
     
+    @Override
     public void validate(ProcessingContext context) throws XWSSecurityException {
         context.getSecurityEnvironment().validateTimestamp(context.getExtraneousProperties(), filter.getCreated(),
                   filter.getExpires(), tsPolicy.getMaxClockSkew(), tsPolicy.getTimestampFreshness());
     }
     
+    @Override
     public WSSPolicy getPolicy() {
         return tsPolicy;
     }
     
+    @Override
     public void setCreated(String created) {
         throw new UnsupportedOperationException();
     }
     
+    @Override
     public void setExpires(String expires) {
         throw new UnsupportedOperationException();
     }
     
+    @Override
     public String getCreatedValue() {
         return filter.getCreated();
     }
     
+    @Override
     public String getExpiresValue() {
         return filter.getExpires();
     }
     
+    @Override
     public boolean refersToSecHdrWithId(String id) {
         throw new UnsupportedOperationException();
     }
     
+    @Override
     public String getId() {
         return id;
     }
     
+    @Override
     public void setId(String id) {
         throw new UnsupportedOperationException();
     }
     
+    @Override
     public String getNamespaceURI() {
         return namespaceURI;
     }
     
+    @Override
     public String getLocalPart() {
         return localPart;
     }
@@ -128,14 +139,17 @@ public class TimestampHeader implements Timestamp, SecurityHeaderElement, TokenV
         throw new UnsupportedOperationException();
     }
     
+    @Override
     public XMLStreamReader readHeader() throws XMLStreamException {
         return mark.readAsXMLStreamReader();
     }
     
+    @Override
     public void writeTo(OutputStream os) {
         throw new UnsupportedOperationException();
     }
     
+    @Override
     public void writeTo(XMLStreamWriter streamWriter) throws XMLStreamException {
         mark.writeToXMLStreamWriter(streamWriter);
     }
@@ -148,11 +162,13 @@ public class TimestampHeader implements Timestamp, SecurityHeaderElement, TokenV
         throw new UnsupportedOperationException();
     }
     
+    @Override
     public HashMap<String, String> getInscopeNSContext() {
         return nsDecls;
     }
     
-    public void writeTo(javax.xml.stream.XMLStreamWriter streamWriter, HashMap props) throws javax.xml.stream.XMLStreamException {
+    @Override
+    public void writeTo(javax.xml.stream.XMLStreamWriter streamWriter, HashMap props) {
         throw new UnsupportedOperationException();
     }
     

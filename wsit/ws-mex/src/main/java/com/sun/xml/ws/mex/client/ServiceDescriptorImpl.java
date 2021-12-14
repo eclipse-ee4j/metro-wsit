@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -78,10 +78,10 @@ public class ServiceDescriptorImpl extends ServiceDescriptor {
      * parsing the data in the Metadata object.
      */
     public ServiceDescriptorImpl(Metadata mData) {
-        wsdls = new ArrayList<Source>();
-        schemas = new ArrayList<Source>();
-        importsToPatch = new ArrayList<Node>();
-        nsToSysIdMap = new HashMap<String, String>();
+        wsdls = new ArrayList<>();
+        schemas = new ArrayList<>();
+        importsToPatch = new ArrayList<>();
+        nsToSysIdMap = new HashMap<>();
         populateLists(mData);
         if (!importsToPatch.isEmpty()) {
             patchImports();
@@ -154,10 +154,12 @@ public class ServiceDescriptorImpl extends ServiceDescriptor {
         }
     }
     
+    @Override
     public List<Source> getWSDLs() {
         return wsdls;
     }
 
+    @Override
     public List<Source> getSchemas() {
         return schemas;
     }

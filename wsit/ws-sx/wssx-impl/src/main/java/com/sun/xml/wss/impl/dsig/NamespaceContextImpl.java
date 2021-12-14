@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -51,18 +51,17 @@ public class NamespaceContextImpl implements NamespaceContext{
     }
     /**
      *
-     * @param prefix
-     * @return
      */
+    @Override
     public String getNamespaceURI(String prefix) {
         return	(String)namespaceMap.get(prefix);
     }
     
     /**
      *
-     * @param namespaceURI
      * @return NamespaceURI associated with the prefix
      */
+    @Override
     public String getPrefix(String namespaceURI) {
         Iterator iterator = namespaceMap.keySet().iterator();
         while(iterator.hasNext()){
@@ -77,9 +76,9 @@ public class NamespaceContextImpl implements NamespaceContext{
     
     /**
      *
-     * @param namespaceURI
      * @return Iterator to list of prefixes associated with the namespaceURI
      */
+    @Override
     @SuppressWarnings("unchecked")
     public Iterator getPrefixes(String namespaceURI) {
         

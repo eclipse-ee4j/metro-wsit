@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -14,6 +14,7 @@
 
 package com.sun.xml.wss.impl.dsig;
 
+import com.sun.xml.wss.impl.policy.mls.KeyBindingBase;
 import org.apache.xml.security.encryption.EncryptedKey;
 import org.apache.xml.security.encryption.XMLCipher;
 import org.apache.xml.security.exceptions.Base64DecodingException;
@@ -130,7 +131,6 @@ public class SignatureProcessor{
     /**
      *
      * @param context FilterProcessingContext
-     * @throws XWSSecurityException
      * @return errorCode
      */
     @SuppressWarnings("unchecked")
@@ -241,10 +241,10 @@ public class SignatureProcessor{
                         context.getTokenCache().put(keyBinding.getUUID(), tokenElem);
                         IssuedTokenKeyBinding ikb = (IssuedTokenKeyBinding)originalKeyBinding;
                         String iTokenType = ikb.getIncludeToken();
-                        boolean includeToken =  (ikb.INCLUDE_ALWAYS_TO_RECIPIENT.equals(iTokenType) ||
-                                                 ikb.INCLUDE_ALWAYS.equals(iTokenType) ||
-                                                 ikb.INCLUDE_ALWAYS_VER2.equals(iTokenType) ||
-                                                 ikb.INCLUDE_ALWAYS_TO_RECIPIENT_VER2.equals(iTokenType)
+                        boolean includeToken =  (KeyBindingBase.INCLUDE_ALWAYS_TO_RECIPIENT.equals(iTokenType) ||
+                                                 KeyBindingBase.INCLUDE_ALWAYS.equals(iTokenType) ||
+                                                 KeyBindingBase.INCLUDE_ALWAYS_VER2.equals(iTokenType) ||
+                                                 KeyBindingBase.INCLUDE_ALWAYS_TO_RECIPIENT_VER2.equals(iTokenType)
                                                 );
                         Element strElem = null;
                         
@@ -332,10 +332,10 @@ public class SignatureProcessor{
                     context.getTokenCache().put(keyBinding.getUUID(), tokenElem);
                     IssuedTokenKeyBinding ikb = (IssuedTokenKeyBinding)keyBinding;
                     String iTokenType = ikb.getIncludeToken();
-                    boolean includeToken =  (ikb.INCLUDE_ALWAYS_TO_RECIPIENT.equals(iTokenType) ||
-                                                 ikb.INCLUDE_ALWAYS.equals(iTokenType) ||
-                                                 ikb.INCLUDE_ALWAYS_VER2.equals(iTokenType) ||
-                                                 ikb.INCLUDE_ALWAYS_TO_RECIPIENT_VER2.equals(iTokenType)
+                    boolean includeToken =  (KeyBindingBase.INCLUDE_ALWAYS_TO_RECIPIENT.equals(iTokenType) ||
+                                                 KeyBindingBase.INCLUDE_ALWAYS.equals(iTokenType) ||
+                                                 KeyBindingBase.INCLUDE_ALWAYS_VER2.equals(iTokenType) ||
+                                                 KeyBindingBase.INCLUDE_ALWAYS_TO_RECIPIENT_VER2.equals(iTokenType)
                                                 );
                     Element strElem = null;
                     
@@ -727,7 +727,6 @@ public class SignatureProcessor{
     /**
      *
      * @param context FilterProcessingContext
-     * @throws XWSSecurityException
      * @return errorCode.
      */
     @SuppressWarnings("unchecked")
@@ -881,7 +880,7 @@ public class SignatureProcessor{
                     throw (WssSoapFaultException)t2;
                 }else{
                     logger.log(Level.SEVERE, LogStringsMessages.WSS_1338_ERROR_VERIFY());
-                    throw new XWSSecurityException((Exception)t1);
+                    throw new XWSSecurityException(t1);
                 }
             }
             logger.log(Level.SEVERE, LogStringsMessages.WSS_1338_ERROR_VERIFY());
@@ -898,10 +897,6 @@ public class SignatureProcessor{
     
     /**
      *
-     * @param context
-     * @param signature
-     * @param validationContext
-     * @throws Exception
      */
     @SuppressWarnings("unchecked")
     public static void verifyRequirements(FilterProcessingContext context ,
@@ -1036,7 +1031,6 @@ public class SignatureProcessor{
             if(logger.isLoggable(Level.FINEST)){
                 logger.log(Level.FINEST,"All receiver requirements are met");
             }
-            return;
         }else{
             List referenceList = null;
             
@@ -1151,8 +1145,8 @@ public class SignatureProcessor{
         }else if(data1.isOctectData() && data2.isOctectData()){
             OctetStreamData osd1 = (OctetStreamData)data1.getData();
             OctetStreamData osd2 = (OctetStreamData)data2.getData();
-            InputStream stream1 = (InputStream)osd1.getOctetStream();
-            InputStream stream2 = (InputStream)osd2.getOctetStream();
+            InputStream stream1 = osd1.getOctetStream();
+            InputStream stream2 = osd2.getOctetStream();
             byte [] b1= new byte[128];
             byte [] b2= new byte[128];
             while(true){
@@ -1213,7 +1207,6 @@ public class SignatureProcessor{
                 String alg2 = tr2.getAlgorithm();
                 i++;
                 if(alg1 == alg2 || (alg1 != null && alg1.equals(alg2))){
-                    continue;
                 }else{
                     logger.log(Level.SEVERE,LogStringsMessages.WSS_1342_ILLEGAL_UNMATCHED_TRANSFORMS());
                     throw new XWSSecurityException("Receiver Requirements for the transforms are not met");
@@ -1229,10 +1222,12 @@ public class SignatureProcessor{
         
         final String uri = reference.getURI();
         URIReference uriRef = new URIReference(){
+            @Override
             public String getURI(){
                 return uri;
             }
             
+            @Override
             public String getType(){
                 return null;
             }
@@ -1269,10 +1264,6 @@ public class SignatureProcessor{
     
     /**
      *
-     * @param signElement
-     * @param context
-     * @throws XWSSecurityException
-     * @return
      */
     public static boolean verifySignature(Element signElement, FilterProcessingContext context)
     throws XWSSecurityException {
@@ -1566,10 +1557,10 @@ public class SignatureProcessor{
                     Object tok = tokCache.get(ikbPolicyId);
                     SOAPElement issuedTokenElementFromMsg = null;
                     String iTokenType = ikb.getIncludeToken();
-                    boolean includeIST =  (ikb.INCLUDE_ALWAYS_TO_RECIPIENT.equals(iTokenType) ||
-                                                 ikb.INCLUDE_ALWAYS.equals(iTokenType) ||
-                                                 ikb.INCLUDE_ALWAYS_VER2.equals(iTokenType) ||
-                                                 ikb.INCLUDE_ALWAYS_TO_RECIPIENT_VER2.equals(iTokenType)
+                    boolean includeIST =  (KeyBindingBase.INCLUDE_ALWAYS_TO_RECIPIENT.equals(iTokenType) ||
+                                                 KeyBindingBase.INCLUDE_ALWAYS.equals(iTokenType) ||
+                                                 KeyBindingBase.INCLUDE_ALWAYS_VER2.equals(iTokenType) ||
+                                                 KeyBindingBase.INCLUDE_ALWAYS_TO_RECIPIENT_VER2.equals(iTokenType)
                                                 );
                     
                     if (includeIST && (issuedToken == null)) {
@@ -1727,10 +1718,10 @@ public class SignatureProcessor{
                 HashMap tokCache = context.getTokenCache();
                 Object tok = tokCache.get(ikbPolicyId);
                 String iTokenType = ikb.getIncludeToken();
-                boolean includeIST = (ikb.INCLUDE_ALWAYS_TO_RECIPIENT.equals(iTokenType) ||
-                          ikb.INCLUDE_ALWAYS.equals(iTokenType) ||
-                          ikb.INCLUDE_ALWAYS_VER2.equals(iTokenType) ||
-                          ikb.INCLUDE_ALWAYS_TO_RECIPIENT_VER2.equals(iTokenType)
+                boolean includeIST = (KeyBindingBase.INCLUDE_ALWAYS_TO_RECIPIENT.equals(iTokenType) ||
+                          KeyBindingBase.INCLUDE_ALWAYS.equals(iTokenType) ||
+                          KeyBindingBase.INCLUDE_ALWAYS_VER2.equals(iTokenType) ||
+                          KeyBindingBase.INCLUDE_ALWAYS_TO_RECIPIENT_VER2.equals(iTokenType)
                           );
                 if (includeIST && (issuedToken == null)) {
                     logger.log(Level.SEVERE, LogStringsMessages.WSS_1343_NULL_ISSUED_TOKEN());
@@ -1813,17 +1804,11 @@ public class SignatureProcessor{
                 return keyInfo;
             }
             
-        } catch (SOAPException ex ) {
-            logger.log(Level.SEVERE, LogStringsMessages.WSS_1346_ERROR_PREPARING_SYMMETRICKEY_SIGNATURE(), ex);
-            throw new XWSSecurityException(ex);
-        } catch (Base64DecodingException ex) {
-            logger.log(Level.SEVERE, LogStringsMessages.WSS_1346_ERROR_PREPARING_SYMMETRICKEY_SIGNATURE(), ex);
-            throw new XWSSecurityException(ex);
-        } catch (NoSuchAlgorithmException ex) {
+        } catch (SOAPException | Base64DecodingException | NoSuchAlgorithmException ex ) {
             logger.log(Level.SEVERE, LogStringsMessages.WSS_1346_ERROR_PREPARING_SYMMETRICKEY_SIGNATURE(), ex);
             throw new XWSSecurityException(ex);
         }
-        
+
         return null;
     }
     @SuppressWarnings("unchecked")
@@ -1865,10 +1850,10 @@ public class SignatureProcessor{
         }
         sctWsuId = sct.getWsuId();
         String iTokenType = sctBinding.getIncludeToken();
-        if(sctBinding.INCLUDE_ALWAYS_TO_RECIPIENT.equals(iTokenType) ||
-           sctBinding.INCLUDE_ALWAYS.equals(iTokenType) ||
-           sctBinding.INCLUDE_ALWAYS_TO_RECIPIENT_VER2.equals(iTokenType) ||
-           sctBinding.INCLUDE_ALWAYS_VER2.equals(iTokenType)) {
+        if(KeyBindingBase.INCLUDE_ALWAYS_TO_RECIPIENT.equals(iTokenType) ||
+           KeyBindingBase.INCLUDE_ALWAYS.equals(iTokenType) ||
+           KeyBindingBase.INCLUDE_ALWAYS_TO_RECIPIENT_VER2.equals(iTokenType) ||
+           KeyBindingBase.INCLUDE_ALWAYS_VER2.equals(iTokenType)) {
             
             if (!tokenInserted) {
                 secureMessage.findOrCreateSecurityHeader().insertHeaderBlock(sct);
@@ -2159,7 +2144,7 @@ public class SignatureProcessor{
 
 	}
 
-	private static String SUPPORTED_CANONICALIZATION_METHOD_ALGORITHM[] = new String[] {
+	private static String[] SUPPORTED_CANONICALIZATION_METHOD_ALGORITHM = new String[] {
 	/*
 	 * The <a href="http://www.w3.org/TR/2001/REC-xml-c14n-20010315">Canonical
 	 * XML (without comments)</a> canonicalization method algorithm URI. String

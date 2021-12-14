@@ -34,7 +34,7 @@ public class DefaultDataSourceProvider implements DataSourceProvider {
             Object __ds = ic.lookup(jndiName);
             DataSource ds;
             if (__ds instanceof DataSource) {
-                ds = DataSource.class.cast(__ds);
+                ds = (DataSource) __ds;
             } else {
                 throw new PersistenceException(LocalizationMessages.WSRM_1154_UNEXPECTED_CLASS_OF_JNDI_BOUND_OBJECT(
                         __ds.getClass().getName(),
@@ -54,6 +54,7 @@ public class DefaultDataSourceProvider implements DataSourceProvider {
         this.ds = getDataSource(RM_JDBC_POOL_NAME);
     }
 
+    @Override
     public DataSource getDataSource() {
         return ds;
     }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2017, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -17,10 +17,12 @@ public abstract class AbstractMOMRegistrationAware implements MOMRegistrationAwa
 
     private boolean atMOM = false;
 
+    @Override
     public boolean isRegisteredAtMOM() {
         return this.atMOM;
     }
 
+    @Override
     public void setRegisteredAtMOM(boolean atMOM) {
         this.atMOM = atMOM;
     }

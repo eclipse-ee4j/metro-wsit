@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -45,6 +45,7 @@ public class WsitPolicyResolver implements PolicyResolver {
 
     private static final Logger LOGGER = Logger.getLogger(WsitPolicyResolver.class);
 
+    @Override
     public PolicyMap resolve(ServerContext context) throws WebServiceException {
         final Class endpointClass = context.getEndpointClass();
         final String configId = endpointClass == null ? null : endpointClass.getName();
@@ -55,7 +56,7 @@ public class WsitPolicyResolver implements PolicyResolver {
                 Collection<PolicyMapMutator> mutators = context.getMutators();
                 // No need to check if configId != null because it never is if we have WSDL
                 map = PolicyConfigParser.parse(configId, context.getContainer(),
-                                               mutators.toArray(new PolicyMapMutator[mutators.size()]));
+                                               mutators.toArray(new PolicyMapMutator[0]));
             } catch (PolicyException e) {
                 throw LOGGER.logSevereException(new WebServiceException(
                         LocalizationMessages.WSP_5006_FAILED_TO_READ_WSIT_CONFIG_FOR_ID(configId), e));
@@ -84,6 +85,7 @@ public class WsitPolicyResolver implements PolicyResolver {
         }
     }
 
+    @Override
     public PolicyMap resolve(ClientContext context) {
         PolicyMap effectivePolicyMap;
         try {
@@ -140,8 +142,6 @@ public class WsitPolicyResolver implements PolicyResolver {
     /**
      * Selects a best alternative if there are multiple policy alternatives.
      *
-     * @param policyMap
-     * @return
      */
     private static PolicyMap doAlternativeSelection(PolicyMap policyMap) {
         final EffectivePolicyModifier modifier = EffectivePolicyModifier.createEffectivePolicyModifier();

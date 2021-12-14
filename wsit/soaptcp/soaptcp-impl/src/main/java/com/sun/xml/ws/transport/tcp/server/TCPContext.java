@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -20,9 +20,9 @@ import java.util.Set;
  * @author Alexey Stashok
  */
 public interface TCPContext {
-    public abstract URL getResource(String resource) throws MalformedURLException;
-    public abstract InputStream getResourceAsStream(String resource) throws IOException;
-    public abstract Set<String> getResourcePaths(String path);
-    public abstract Object getAttribute(String name);
-    public abstract void setAttribute(String name, Object value);    
+    URL getResource(String resource) throws MalformedURLException;
+    InputStream getResourceAsStream(String resource);
+    Set<String> getResourcePaths(String path);
+    Object getAttribute(String name);
+    void setAttribute(String name, Object value);
 }

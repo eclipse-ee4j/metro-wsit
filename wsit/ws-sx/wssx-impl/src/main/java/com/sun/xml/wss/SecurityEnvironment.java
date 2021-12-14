@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -64,9 +64,8 @@ public interface SecurityEnvironment {
      * X509Certificate if one exists.
      * @param context a Map of application and integration-layer specific properties
      * @return the default certificate for the current user
-     * @throws XWSSecurityException
      */
-    public X509Certificate getDefaultCertificate(Map context)
+    X509Certificate getDefaultCertificate(Map context)
     throws XWSSecurityException;
     
     /**
@@ -77,7 +76,7 @@ public interface SecurityEnvironment {
      * @param  forSigning whether this request is for a Sign operation or Encrypt
      * @exception XWSSecurityException if there was an error while trying to locate the Cerificate
      */
-    public X509Certificate getCertificate(Map context, String alias, boolean forSigning)
+    X509Certificate getCertificate(Map context, String alias, boolean forSigning)
     throws XWSSecurityException;
     
     /**
@@ -87,7 +86,7 @@ public interface SecurityEnvironment {
      *@param encryptMode whether this request is for an Encrypt or Decrypt operation
      *@exception XWSSecurityException if there was an error while trying to locate the SecretKey
      */
-    public SecretKey getSecretKey(Map context, String alias, boolean encryptMode)
+    SecretKey getSecretKey(Map context, String alias, boolean encryptMode)
     throws XWSSecurityException;
     
     /**
@@ -96,7 +95,7 @@ public interface SecurityEnvironment {
      *@param  alias the alias for identifying the PrivateKey
      *@exception XWSSecurityException if there was an error while trying to locate the PrivateKey
      */
-    public PrivateKey getPrivateKey(Map context, String alias)
+    PrivateKey getPrivateKey(Map context, String alias)
     throws XWSSecurityException;
     
     /**
@@ -106,11 +105,11 @@ public interface SecurityEnvironment {
      *            the X509 certificate.
      * @exception XWSSecurityException  if there was an error while trying to locate the PublicKey
      */
-    public PublicKey getPublicKey(Map context, byte[] keyIdentifier)
+    PublicKey getPublicKey(Map context, byte[] keyIdentifier)
     throws XWSSecurityException;
     
     
-    public PublicKey getPublicKey(Map context, byte[] keyIdentifier, String valueType)
+    PublicKey getPublicKey(Map context, byte[] keyIdentifier, String valueType)
     throws XWSSecurityException;
     
     /**
@@ -120,7 +119,7 @@ public interface SecurityEnvironment {
      *            the X509 certificate.
      * @exception XWSSecurityException  if there was an error while trying to locate the X509Certificate
      */
-    public X509Certificate getCertificate(Map context, byte[] keyIdentifier)
+    X509Certificate getCertificate(Map context, byte[] keyIdentifier)
     throws XWSSecurityException;
     
     
@@ -128,10 +127,9 @@ public interface SecurityEnvironment {
      * @return the X509Certificate corresponding to a KeyIdentifier
      * @param context a Map of application and integration-layer specific properties
      * @param identifier an Opaque identifier indicating the X509 certificate.
-     * @param valueType
      * @exception XWSSecurityException  if there was an error while trying to locate the X509Certificate
      */
-    public X509Certificate getCertificate(Map context, byte[] identifier, String valueType)
+    X509Certificate getCertificate(Map context, byte[] identifier, String valueType)
     throws XWSSecurityException;
     
     /**
@@ -140,7 +138,7 @@ public interface SecurityEnvironment {
      * @param cert the X509Certificate
      * @throws XWSSecurityException if there was an error while trying to locate the PrivateKey
      */
-    public PrivateKey getPrivateKey(Map context, X509Certificate cert)
+    PrivateKey getPrivateKey(Map context, X509Certificate cert)
     throws XWSSecurityException;
     
     /**
@@ -151,7 +149,7 @@ public interface SecurityEnvironment {
      * @param issuerName the issuerName of the certificate
      * @throws XWSSecurityException if there was an error while trying to locate the PrivateKey
      */
-    public PrivateKey getPrivateKey(Map context, BigInteger serialNumber, String issuerName)
+    PrivateKey getPrivateKey(Map context, BigInteger serialNumber, String issuerName)
     throws XWSSecurityException;
     
     /**
@@ -162,7 +160,7 @@ public interface SecurityEnvironment {
      * @param forSign set to true if the public key is to be used for SignatureVerification
      * @throws XWSSecurityException if there was an error while trying to locate the PublicKey
      */
-    public X509Certificate getCertificate(Map context, PublicKey publicKey, boolean forSign)
+    X509Certificate getCertificate(Map context, PublicKey publicKey, boolean forSign)
     throws XWSSecurityException;
     
     /**
@@ -173,11 +171,11 @@ public interface SecurityEnvironment {
      *            the X509 certificate.
      * @throws XWSSecurityException if there was an error while trying to locate the PrivateKey
      */
-    public PrivateKey getPrivateKey(Map context, byte[] keyIdentifier)
+    PrivateKey getPrivateKey(Map context, byte[] keyIdentifier)
     throws XWSSecurityException;
     
     
-    public PrivateKey getPrivateKey(Map context, byte[] keyIdentifier, String valueType)
+    PrivateKey getPrivateKey(Map context, byte[] keyIdentifier, String valueType)
     throws XWSSecurityException;
     
     /**
@@ -188,7 +186,7 @@ public interface SecurityEnvironment {
      * @param forSign set to true if the purpose is Signature
      * @throws XWSSecurityException if there was an error while trying to locate the PrivateKey
      */
-    public PrivateKey getPrivateKey(Map context, PublicKey publicKey, boolean forSign)
+    PrivateKey getPrivateKey(Map context, PublicKey publicKey, boolean forSign)
     throws XWSSecurityException;
     
     /**
@@ -199,7 +197,7 @@ public interface SecurityEnvironment {
      * @param issuerName the issuerName of the certificate
      * @throws XWSSecurityException if there was an error while trying to locate the PublicKey
      */
-    public PublicKey getPublicKey(Map context, BigInteger serialNumber, String issuerName)
+    PublicKey getPublicKey(Map context, BigInteger serialNumber, String issuerName)
     throws XWSSecurityException;
     
     /**
@@ -210,7 +208,7 @@ public interface SecurityEnvironment {
      * @param issuerName the issuerName of the certificate
      * @throws XWSSecurityException if there was an error while trying to locate the X509Certificate
      */
-    public X509Certificate getCertificate(Map context, BigInteger serialNumber, String issuerName)
+    X509Certificate getCertificate(Map context, BigInteger serialNumber, String issuerName)
     throws XWSSecurityException;
     
     /**
@@ -223,7 +221,7 @@ public interface SecurityEnvironment {
      * @return true if the username-password pair is valid, false otherwise
      * @throws XWSSecurityException if there was an error while trying to authenticate the username
      */
-    public boolean authenticateUser(Map context, String username, String password)
+    boolean authenticateUser(Map context, String username, String password)
     throws XWSSecurityException;
     
     /**
@@ -237,7 +235,7 @@ public interface SecurityEnvironment {
      * @return true if the password digest is valid, false otherwise
      * @throws XWSSecurityException if there was an error while trying to authenticate the username
      */
-    public boolean authenticateUser(
+    boolean authenticateUser(
             Map context,
             String username,
             String passwordDigest,
@@ -253,7 +251,7 @@ public interface SecurityEnvironment {
      * @return password if the username  is valid
      * @throws XWSSecurityException if there was an error while trying to authenticate the username
      */
-    public String authenticateUser(
+    String authenticateUser(
             Map context,
             String username)
             throws XWSSecurityException;
@@ -262,7 +260,7 @@ public interface SecurityEnvironment {
      * @return the host/sender Subject,
      *  null if subject is not available/initialized
      */
-    public Subject getSubject();
+    Subject getSubject();
     
     
     /**
@@ -277,15 +275,15 @@ public interface SecurityEnvironment {
      * are considered fresh
      * @throws XWSSecurityException if there was an error while trying to validate the creationTime
      */
-    public void validateCreationTime(
+    void validateCreationTime(
             Map context, String creationTime, long maxClockSkew, long timestampFreshnessLimit)
             throws XWSSecurityException;
     
     
-    /**
-     * Validate the expiration time (wsu:Expires). It is an error if the
-     * expiration time is older than current local time minus MAX_CLOCK_SKEW
-     * @return true if this expiration time is valid
+    /*
+      Validate the expiration time (wsu:Expires). It is an error if the
+      expiration time is older than current local time minus MAX_CLOCK_SKEW
+      @return true if this expiration time is valid
      * @param expirationTime the expiration-time value
      * @param maxClockSkew (in milliseconds) the maximum clockskew
      * @param timestampFreshnessLimit (in milliseconds) the limit for which timestamps
@@ -296,7 +294,7 @@ public interface SecurityEnvironment {
         String expirationTime, long maxClockSkew, long timestampFreshnessLimit)
         throws XWSSecurityException;*/
     
-    /**
+    /*
      * Validate an X509Certificate.
      * @return true, if the cert is a valid one, false otherwise.
      * @param cert the X509Certificate to be validated
@@ -305,7 +303,7 @@ public interface SecurityEnvironment {
      
     public boolean validateCertificate(X509Certificate cert)
     throws XWSSecurityException;
-     * /
+     */
     
     /**
      * Validate an X509Certificate.
@@ -315,7 +313,7 @@ public interface SecurityEnvironment {
      * @throws XWSSecurityException
      *     if there is some problem during validation.
      */
-    public boolean validateCertificate(X509Certificate cert, Map context)
+    boolean validateCertificate(X509Certificate cert, Map context)
     throws XWSSecurityException;
     
     /**
@@ -325,7 +323,7 @@ public interface SecurityEnvironment {
      * @param username the username of the requesting party
      * @param password the password of the requesting party
      */
-    public void updateOtherPartySubject(
+    void updateOtherPartySubject(
             Subject subject,
             String username,
             String password);
@@ -336,7 +334,7 @@ public interface SecurityEnvironment {
      * @param subject the Subject of the requesting party
      * @param cert the X509Certificate of the requesting party
      */
-    public void updateOtherPartySubject(
+    void updateOtherPartySubject(
             Subject subject,
             X509Certificate cert);
     
@@ -346,8 +344,8 @@ public interface SecurityEnvironment {
      * @param subject the Subject of the requesting party
      * @param assertion the SAML Assertion of the requesting party
      */
-    
-    public void updateOtherPartySubject(
+
+    void updateOtherPartySubject(
             Subject subject,
             Assertion assertion);
     
@@ -358,8 +356,8 @@ public interface SecurityEnvironment {
      * @param subject the Subject of the requesting party
      * @param assertion the SAML Assertion of the requesting party
      */
-    
-    public void updateOtherPartySubject(
+
+    void updateOtherPartySubject(
             Subject subject,
             XMLStreamReader assertion);
     
@@ -368,7 +366,7 @@ public interface SecurityEnvironment {
      * @param subject the Subject of the requesting party
      * @param bootStrapSubject the bootstrap Credentials (during a SecureConversation Bootstrap) of the requesting party
      */
-    public void updateOtherPartySubject(
+    void updateOtherPartySubject(
             Subject subject,
             Subject bootStrapSubject);
     
@@ -388,7 +386,7 @@ public interface SecurityEnvironment {
      * @param assertion the Assertion to be validated
      * @throws XWSSecurityException  if there was an error while validating the SAML Assertion
      */
-    public void validateSAMLAssertion(Map context, Element assertion) throws XWSSecurityException;
+    void validateSAMLAssertion(Map context, Element assertion) throws XWSSecurityException;
     
     
     
@@ -404,7 +402,7 @@ public interface SecurityEnvironment {
      * @param assertion the Assertion to be validated
      * @throws XWSSecurityException  if there was an error while validating the SAML Assertion
      */
-    public void validateSAMLAssertion(Map context, XMLStreamReader assertion) throws XWSSecurityException;
+    void validateSAMLAssertion(Map context, XMLStreamReader assertion) throws XWSSecurityException;
     
     
     /**
@@ -416,7 +414,7 @@ public interface SecurityEnvironment {
      * @param ownerDoc the owner document into which the returned SAML Assertion should be imported to
      * @throws XWSSecurityException  if there was an error while trying to locate the SAML Assertion
      */
-    public Element locateSAMLAssertion(
+    Element locateSAMLAssertion(
             Map context, Element binding, String assertionId, Document ownerDoc)
             throws XWSSecurityException;
     
@@ -432,8 +430,8 @@ public interface SecurityEnvironment {
      * @return populated SAML Assertion policy
      * @throws XWSSecurityException  if there was an error while trying to populate the SAML Assertion Policy
      */
-    public AuthenticationTokenPolicy.SAMLAssertionBinding populateSAMLPolicy(Map fpcontext, AuthenticationTokenPolicy.SAMLAssertionBinding policy,
-            DynamicApplicationContext context)
+    AuthenticationTokenPolicy.SAMLAssertionBinding populateSAMLPolicy(Map fpcontext, AuthenticationTokenPolicy.SAMLAssertionBinding policy,
+                                                                      DynamicApplicationContext context)
             throws XWSSecurityException;
     
     /**
@@ -442,7 +440,7 @@ public interface SecurityEnvironment {
      * @return the username using UsernameCallback
      * @throws XWSSecurityException  if there was an error while trying obtain the username
      */
-    public String getUsername(Map context) throws XWSSecurityException;
+    String getUsername(Map context) throws XWSSecurityException;
         
     /**
      *
@@ -450,7 +448,7 @@ public interface SecurityEnvironment {
      * @return the password using PasswordCallback
      * @throws XWSSecurityException  if there was an error while trying obtain the password
      */
-    public String getPassword(Map context) throws XWSSecurityException;
+    String getPassword(Map context) throws XWSSecurityException;
     
     
     /**
@@ -465,20 +463,19 @@ public interface SecurityEnvironment {
      * are considered fresh
      * @throws XWSSecurityException  if there was an error while trying validate the Timestamp
      */
-    public void validateTimestamp(
+    void validateTimestamp(
             Map context, Timestamp timestamp, long maxClockSkew, long freshnessLimit)
             throws XWSSecurityException;
     
-    public void validateTimestamp(Map context, String created,
-            String expires, long maxClockSkew, long freshnessLimit)
+    void validateTimestamp(Map context, String created,
+                           String expires, long maxClockSkew, long freshnessLimit)
             throws XWSSecurityException;
     
     /**
      * @return any Callback Handler associated with this Environment, null otherwise
-     * @throws XWSSecurityException  if there was an error while trying retrieve the CallbackHandler
      */
-    public CallbackHandler getCallbackHandler()
-    throws XWSSecurityException;
+    CallbackHandler getCallbackHandler()
+    ;
     
     /**
      * Validate the given nonce. It is an error if the nonce matches any
@@ -492,31 +489,31 @@ public interface SecurityEnvironment {
      * will be stored on the receiver.
      * @throws XWSSecurityException  if there was an error while trying to validate the Nonce
      */
-    public boolean validateAndCacheNonce(Map context, String nonce, String created, long maxNonceAge)
+    boolean validateAndCacheNonce(Map context, String nonce, String created, long maxNonceAge)
     throws XWSSecurityException;
 
    /**
     *@return true if the certificate is a self certificate, false otherwise
     */
-    public boolean isSelfCertificate(X509Certificate cert);
+   boolean isSelfCertificate(X509Certificate cert);
     
     /**
      * Perform a Kerberos Login and return a Kerberos Context
      * KerberosContext stores the secretKey, GSSContext, kerberos BST etc
      */
-    public KerberosContext doKerberosLogin()throws XWSSecurityException;
+    KerberosContext doKerberosLogin()throws XWSSecurityException;
    
      /**
      * Perform a Kerberos Login and return a Kerberos Context
      * KerberosContext stores the secretKey, GSSContext, kerberos BST etc
      */
-    public KerberosContext doKerberosLogin(byte[] tokenValue) throws XWSSecurityException;
+     KerberosContext doKerberosLogin(byte[] tokenValue) throws XWSSecurityException;
     
     /**
      * Update the principal/credentials of the requesting party subject 
      * @param subject the Subject of the requesting party
      * @param clientCred the GSSName of the requesting party
      */
-    public void updateOtherPartySubject(Subject subject, GSSName clientCred, GSSCredential gssCred);
+    void updateOtherPartySubject(Subject subject, GSSName clientCred, GSSCredential gssCred);
      
 }

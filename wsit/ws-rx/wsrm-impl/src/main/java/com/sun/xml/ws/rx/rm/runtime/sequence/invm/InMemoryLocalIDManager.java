@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -17,14 +17,16 @@ import java.util.Map;
 import com.sun.xml.ws.rx.rm.runtime.LocalIDManager;
 
 public class InMemoryLocalIDManager implements LocalIDManager {
-    private Map<String, BoundMessage> store = new HashMap<String, BoundMessage>();
+    private Map<String, BoundMessage> store = new HashMap<>();
     private InMemoryLocalIDManager() {
     }
+    @Override
     public void createLocalID(String localID, String sequenceID, long messageNumber) {
         //System.out.println("--- creating LocalID: "+localID);
         store.put(localID, new BoundMessage(sequenceID, messageNumber, System.currentTimeMillis(), 0));
         //System.out.println("------ LocalID Manager content: "+store);
     }
+    @Override
     public void removeLocalIDs(Iterator<String> localIDs) {
         //System.out.println("--- removing LocalID: "+localIDs);
         if (localIDs != null) {
@@ -34,9 +36,11 @@ public class InMemoryLocalIDManager implements LocalIDManager {
         }
         //System.out.println("------ LocalID Manager content: "+store);
     }
+    @Override
     public BoundMessage getBoundMessage(String localID) {
         return store.get(localID);
     }
+    @Override
     public void markSequenceTermination(String sequenceID) {
         //System.out.println("--- seq termination: "+sequenceID);
         for (String localID : store.keySet()) {

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -33,13 +33,13 @@ public class StreamWriterData implements com.sun.xml.ws.security.opt.crypto.Stre
     
     /** Creates a new instance of StreamWriterData */
     public StreamWriterData(GenericSecuredHeader gsh,HashMap<String,String> nsDecls) {
-        this.gsh = (GenericSecuredHeader)gsh;
+        this.gsh = gsh;
         this.nsDecls = nsDecls;
         addNSDecls();
     }
     
     public StreamWriterData(SecurityHeaderElement she,HashMap<String,String> nsDecls) {
-        this.she = (SecurityHeaderElement)she;
+        this.she = she;
         this.nsDecls = nsDecls;
         addNSDecls();
     }
@@ -64,10 +64,12 @@ public class StreamWriterData implements com.sun.xml.ws.security.opt.crypto.Stre
         }
     }
     
+    @Override
     public NamespaceContextEx getNamespaceContext() {
         return nce;
     }
     
+    @Override
     public void write(XMLStreamWriter writer) throws XMLStreamException {
         if(xmlBuffer != null){
             xmlBuffer.writeToXMLStreamWriter(writer);
@@ -80,7 +82,7 @@ public class StreamWriterData implements com.sun.xml.ws.security.opt.crypto.Stre
     
     static class SWDNamespaceContextEx implements org.jvnet.staxex.NamespaceContextEx {
         
-        private ArrayList<org.jvnet.staxex.NamespaceContextEx.Binding> list = new ArrayList<org.jvnet.staxex.NamespaceContextEx.Binding>();
+        private ArrayList<org.jvnet.staxex.NamespaceContextEx.Binding> list = new ArrayList<>();
         /** Creates a new instance of NamespaceContextEx */
         public SWDNamespaceContextEx() {
         }
@@ -97,10 +99,12 @@ public class StreamWriterData implements com.sun.xml.ws.security.opt.crypto.Stre
             list.add(new BindingImpl(prefix,uri));
         }
         
+        @Override
         public Iterator<org.jvnet.staxex.NamespaceContextEx.Binding> iterator() {
             return list.iterator();
         }
         
+        @Override
         public String getNamespaceURI(String prefix) {
             for(org.jvnet.staxex.NamespaceContextEx.Binding binding : list){
                 if(prefix.equals(binding.getPrefix())){
@@ -110,6 +114,7 @@ public class StreamWriterData implements com.sun.xml.ws.security.opt.crypto.Stre
             return null;
         }
         
+        @Override
         public String getPrefix(String namespaceURI) {
             for(org.jvnet.staxex.NamespaceContextEx.Binding binding : list){
                 if(namespaceURI.equals(binding.getNamespaceURI())){
@@ -119,9 +124,11 @@ public class StreamWriterData implements com.sun.xml.ws.security.opt.crypto.Stre
             return null;
         }
         
+        @Override
         public Iterator getPrefixes(final String namespaceURI) {
             return new Iterator(){
                 int index = 0;
+                @Override
                 public boolean hasNext(){
                     if(index++ < list.size() && move()){
                         return true;
@@ -129,10 +136,12 @@ public class StreamWriterData implements com.sun.xml.ws.security.opt.crypto.Stre
                     return false;
                 }
                 
+                @Override
                 public Object next(){
                     return list.get(index).getPrefix();
                 }
                 
+                @Override
                 public void remove() {
                     throw new UnsupportedOperationException();
                 }
@@ -163,10 +172,12 @@ public class StreamWriterData implements com.sun.xml.ws.security.opt.crypto.Stre
                 }
             }
             
+            @Override
             public String getPrefix() {
                 return prefix;
             }
             
+            @Override
             public String getNamespaceURI() {
                 return uri;
             }

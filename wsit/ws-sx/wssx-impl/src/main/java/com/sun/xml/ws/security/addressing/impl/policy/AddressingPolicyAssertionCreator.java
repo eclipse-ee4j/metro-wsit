@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -30,7 +30,7 @@ import java.util.logging.Level;
  */
 public class AddressingPolicyAssertionCreator implements PolicyAssertionCreator {
     
-    private static HashSet<String> implementedAssertions = new HashSet<String>();
+    private static HashSet<String> implementedAssertions = new HashSet<>();
     private static final String [] NS_SUPPORTED_LIST = new String[] { AddressingVersion.MEMBER.nsUri,
                                                                       AddressingVersion.W3C.nsUri };
     
@@ -46,6 +46,7 @@ public class AddressingPolicyAssertionCreator implements PolicyAssertionCreator 
     }
     
     
+    @Override
     public String[] getSupportedDomainNamespaceURIs() {
         return NS_SUPPORTED_LIST;
     }
@@ -63,7 +64,8 @@ public class AddressingPolicyAssertionCreator implements PolicyAssertionCreator 
         }
     }
 
-    public PolicyAssertion createAssertion(AssertionData assertionData, Collection<PolicyAssertion> nestedAssertions, AssertionSet nestedAlternative,PolicyAssertionCreator policyAssertionCreator) throws AssertionCreationException {
+    @Override
+    public PolicyAssertion createAssertion(AssertionData assertionData, Collection<PolicyAssertion> nestedAssertions, AssertionSet nestedAlternative, PolicyAssertionCreator policyAssertionCreator) throws AssertionCreationException {
         String localName = assertionData.getName().getLocalPart();
         if(implementedAssertions.contains(localName)){
             Class<?> cl = this.getClass(assertionData);
@@ -88,7 +90,7 @@ public class AddressingPolicyAssertionCreator implements PolicyAssertionCreator 
             }
             if(cons != null){
                 try {
-                    return PolicyAssertion.class.cast(cons.newInstance(assertionData,nestedAssertions,nestedAlternative));
+                    return (PolicyAssertion) cons.newInstance(assertionData, nestedAssertions, nestedAlternative);
                 } catch (IllegalArgumentException ex) {
                     if(LOGGER.isLoggable(Level.SEVERE)){
                         LOGGER.log(Level.SEVERE,LocalizationMessages.WSA_0003_ERROR_INSTANTIATING(assertionData.getName()));

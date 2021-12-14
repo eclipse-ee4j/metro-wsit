@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -20,13 +20,13 @@ public interface SpnegoContextToken extends Token {
       * returns the issuer for the SpnegoContext token.
       * @return returns the issuer
       */
-     public Issuer getIssuer();
+     Issuer getIssuer();
 
      
      /**
      * returns true if RequiredDerivedKey element is present under SpnegoContextToken
      * @return true if RequireDerviedKeys element is present under SpnegoContextToken or false.
      */
-    public boolean isRequireDerivedKeys();
+     boolean isRequireDerivedKeys();
         
 }

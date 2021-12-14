@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -34,7 +34,7 @@ public class RequiredElementsProcessor {
     }    
     
     public void process() throws PolicyGenerationException{
-        Vector<String> targetValues = new Vector<String>();
+        Vector<String> targetValues = new Vector<>();
         MandatoryTargetPolicy mt = new MandatoryTargetPolicy();
         MandatoryTargetPolicy.FeatureBinding mfb = new MandatoryTargetPolicy.FeatureBinding();
         mt.setFeatureBinding(mfb);

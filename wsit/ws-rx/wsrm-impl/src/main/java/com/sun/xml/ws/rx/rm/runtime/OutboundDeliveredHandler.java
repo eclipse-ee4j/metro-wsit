@@ -72,7 +72,7 @@ class OutboundDeliveredHandler {
     }
 
     private ConcurrentHashMap<MessageInfo, OutboundDelivered> map =
-            new ConcurrentHashMap<MessageInfo, OutboundDelivered> ();
+            new ConcurrentHashMap<>();
 
     /**
      * Store OutboundDelivered in a map for later retrieval

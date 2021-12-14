@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -28,7 +28,7 @@ import com.sun.xml.ws.util.DOMUtil;
  */
 public class WSATXAResourceTest extends TestCase {
 
-    public void testEquality() throws Exception {
+    public void testEquality() {
         Node[] node0 = new Node[]{createElement("testsame")};
         Node[] node1 = new Node[]{createElement("testsame")};
         Node[] node2 = new Node[]{createElement("test2 is different from test3")};
@@ -73,10 +73,12 @@ public class WSATXAResourceTest extends TestCase {
         String address0 = "testaddress";
         MemberSubmissionEndpointReference epr0_0 = EndpointReferenceBuilder.MemberSubmission().address(address0).referenceParameter(node0).build();
         WSATXAResource testWSATXAResource = new WSATXAResource(epr0_0, xid0) {
+            @Override
             WSATHelper getWSATHelper() {
                 return new WSATHelperStub();
             }
 
+            @Override
             int getWaitForReplyTimeout() {
                 return 1;
             }
@@ -108,10 +110,12 @@ public class WSATXAResourceTest extends TestCase {
         String address0 = "testaddress";
         MemberSubmissionEndpointReference epr0_0 = EndpointReferenceBuilder.MemberSubmission().address(address0).referenceParameter(node0).build();
         WSATXAResource testWSATXAResource = new WSATXAResource(epr0_0, xid0) {
+            @Override
             WSATHelper getWSATHelper() {
                 return new WSATHelperStub();
             }
 
+            @Override
             int getWaitForReplyTimeout() {
                 return 1;
             }
@@ -149,10 +153,12 @@ public class WSATXAResourceTest extends TestCase {
         String address0 = "testaddress";
         MemberSubmissionEndpointReference epr0_0 = EndpointReferenceBuilder.MemberSubmission().address(address0).referenceParameter(node0).build();
         WSATXAResource wsatXAResourceTest = new WSATXAResource(epr0_0, xid0) {
+            @Override
             WSATHelper getWSATHelper() {
                 return new WSATHelperStub();
             }
 
+            @Override
             int getWaitForReplyTimeout() {
                 return 1;
             }
@@ -200,9 +206,7 @@ public class WSATXAResourceTest extends TestCase {
 
     /**
      *
-     * @param xid
      * @param b actual impl/true or stub/false
-     * @return
      */
     public static WSATXAResource createWSATXAResourceForXid(Xid xid, boolean b) {
         String address = "testaddress";

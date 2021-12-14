@@ -156,7 +156,7 @@ public class ResourceRefType
      */
     public List<DescriptionType> getDescription() {
         if (description == null) {
-            description = new ArrayList<DescriptionType>();
+            description = new ArrayList<>();
         }
         return this.description;
     }
@@ -305,7 +305,7 @@ public class ResourceRefType
      */
     public List<InjectionTargetType> getInjectionTarget() {
         if (injectionTarget == null) {
-            injectionTarget = new ArrayList<InjectionTargetType>();
+            injectionTarget = new ArrayList<>();
         }
         return this.injectionTarget;
     }
@@ -358,6 +358,7 @@ public class ResourceRefType
         this.id = value;
     }
 
+    @Override
     public Locator sourceLocation() {
         return locator;
     }

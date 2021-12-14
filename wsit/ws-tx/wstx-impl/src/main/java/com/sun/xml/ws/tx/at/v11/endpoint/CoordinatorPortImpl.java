@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -35,44 +35,43 @@ public class CoordinatorPortImpl
     }
 
     /**
-     * 
-     * @param parameters
+     *
      */
+    @Override
     public void preparedOperation(Notification parameters) {
         Coordinator<Notification> proxy = getProxy();
         proxy.preparedOperation(parameters);
-        return;
     }
 
     /**
-     * 
-     * @param parameters
+     *
      */
+    @Override
     public void abortedOperation(Notification parameters) {
         Coordinator<Notification> proxy = getProxy();
         proxy.abortedOperation(parameters);
     }
 
     /**
-     * 
-     * @param parameters
+     *
      */
+    @Override
     public void readOnlyOperation(Notification parameters) {
         Coordinator<Notification> proxy = getProxy();
         proxy.readOnlyOperation(parameters);
     }
 
     /**
-     * 
-     * @param parameters
+     *
      */
+    @Override
     public void committedOperation(Notification parameters) {
         Coordinator<Notification> proxy = getProxy();
         proxy.committedOperation(parameters);
     }
 
     protected Coordinator<Notification> getProxy() {
-        return new Coordinator<Notification>(m_context, WSATVersion.v11);
+        return new Coordinator<>(m_context, WSATVersion.v11);
     }
 
 }

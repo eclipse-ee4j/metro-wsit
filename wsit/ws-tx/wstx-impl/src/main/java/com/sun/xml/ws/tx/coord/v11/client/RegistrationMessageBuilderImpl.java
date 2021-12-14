@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -26,6 +26,7 @@ public class RegistrationMessageBuilderImpl extends RegistrationMessageBuilder {
     public RegistrationMessageBuilderImpl() {
     }
 
+    @Override
     public RegistrationMessageBuilder durable(boolean durable) {
         super.durable(durable);
         if (protocolIdentifier == null) {
@@ -41,6 +42,7 @@ public class RegistrationMessageBuilderImpl extends RegistrationMessageBuilder {
         return XmlTypeAdapter.newRegisterType();
     }
 
+    @Override
     protected String getDefaultParticipantAddress() {
         return WSATHelper.V11.getParticipantAddress();
     }

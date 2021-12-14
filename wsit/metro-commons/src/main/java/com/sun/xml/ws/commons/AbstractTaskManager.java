@@ -41,7 +41,6 @@ public abstract class AbstractTaskManager {
     /**
      * shutdown the ScheduledExecutorService if we created it.
      * @param force - if true, wait for time given by delayMillis, then force shutdown if needed
-     * @param delayMillis
      */
     protected void close(boolean force, long delayMillis) {
         if (useContainerSpi) return;
@@ -79,7 +78,6 @@ public abstract class AbstractTaskManager {
      * Return the appropriate ScheduledExecutorService - on initial access, check for container.getSPI
      * NOTE - A COPY OF THIS METHOD CAN BE FOUND AT {@code com.sun.xml.ws.metro.api.config.management.ManagedEndpoint#getExecutorService() ManagedEndpoint.getExecutorService() } IN metro-cm-api
      * IF A SUITABLE COMMON LOCATION CAN BE FOUND BOTH COPIES MUST BE MOVED
-     * @return
      */
     protected ScheduledExecutorService getExecutorService() {
         if (executorService == null) {

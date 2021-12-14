@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -32,12 +32,13 @@ public class BinaryExchangeImpl extends BinaryExchangeType implements BinaryExch
         setRawValue(rawText);
     }
     
-    public BinaryExchangeImpl(BinaryExchangeType bcType)throws Exception{
+    public BinaryExchangeImpl(BinaryExchangeType bcType) {
         setEncodingType(bcType.getEncodingType());
         setValueType(bcType.getValueType());
         setValue(bcType.getValue());
     }
     
+    @Override
     public byte[] getRawValue() {
         try {
             return Base64.decode(getTextValue());
@@ -47,14 +48,17 @@ public class BinaryExchangeImpl extends BinaryExchangeType implements BinaryExch
         }
     }
     
+    @Override
     public String getTextValue() {
         return super.getValue();
     }
     
+    @Override
     public void setTextValue(String encodedText) {
         super.setValue(encodedText);
     }
     
+    @Override
     public void setRawValue(byte[] rawText) {
         super.setValue(Base64.encode(rawText));
     }

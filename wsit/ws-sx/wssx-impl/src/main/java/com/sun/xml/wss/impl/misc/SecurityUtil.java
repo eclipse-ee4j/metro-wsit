@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -16,7 +16,10 @@ import com.sun.xml.ws.security.secext10.SecurityTokenReferenceType;
 import com.sun.xml.wss.core.reference.SamlKeyIdentifier;
 import com.sun.xml.wss.impl.PolicyTypeUtil;
 import com.sun.xml.wss.impl.policy.mls.EncryptionPolicy;
+import com.sun.xml.wss.impl.policy.mls.KeyBindingBase;
 import com.sun.xml.wss.impl.policy.mls.WSSPolicy;
+
+import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
@@ -140,7 +143,7 @@ public class SecurityUtil {
      * TODO: Not complete yet, need to add more algorithms
      * NOTE: This method should only be used for DerivedKeyTokenLengths
      **/
-    public static int getLengthFromAlgorithm(String algorithm) throws XWSSecurityException{
+    public static int getLengthFromAlgorithm(String algorithm) {
         if(algorithm.equals(MessageConstants.AES_BLOCK_ENCRYPTION_192)){
             return 24;
         } else if(algorithm.equals(MessageConstants.AES_BLOCK_ENCRYPTION_256)){
@@ -157,7 +160,7 @@ public class SecurityUtil {
     public static String generateUUID() {
         Random rnd = new Random();
         int intRandom = rnd.nextInt();
-        String id = "XWSSGID-"+String.valueOf(System.currentTimeMillis())+String.valueOf(intRandom);
+        String id = "XWSSGID-"+ System.currentTimeMillis() + intRandom;
         return id;
     }
     
@@ -240,8 +243,8 @@ public class SecurityUtil {
                 return;
             }
             String itVersion = untBinding.getIncludeToken();
-            if(untBinding.INCLUDE_ALWAYS_TO_RECIPIENT.equals(itVersion) ||
-               untBinding.INCLUDE_ALWAYS_TO_RECIPIENT_VER2.equals(itVersion)){
+            if(KeyBindingBase.INCLUDE_ALWAYS_TO_RECIPIENT.equals(itVersion) ||
+               KeyBindingBase.INCLUDE_ALWAYS_TO_RECIPIENT_VER2.equals(itVersion)){
                 untBinding.setReferenceType(MessageConstants.DIRECT_REFERENCE_TYPE);
             } else {
                 throw new UnsupportedOperationException(untBinding.getIncludeToken() + " not supported yet as IncludeToken policy");
@@ -270,13 +273,13 @@ public class SecurityUtil {
                     return;
                 }
                 String itVersion = certInfo.getIncludeToken();
-                if(certInfo.INCLUDE_ALWAYS_TO_RECIPIENT.equals(itVersion) ||
-                   certInfo.INCLUDE_ALWAYS.equals(itVersion) ||
-                   certInfo.INCLUDE_ALWAYS_TO_RECIPIENT_VER2.equals(itVersion) ||
-                   certInfo.INCLUDE_ALWAYS_VER2.equals(itVersion)){
+                if(KeyBindingBase.INCLUDE_ALWAYS_TO_RECIPIENT.equals(itVersion) ||
+                   KeyBindingBase.INCLUDE_ALWAYS.equals(itVersion) ||
+                   KeyBindingBase.INCLUDE_ALWAYS_TO_RECIPIENT_VER2.equals(itVersion) ||
+                   KeyBindingBase.INCLUDE_ALWAYS_VER2.equals(itVersion)){
                     insertCertificate(context, certInfo, x509id);
-                } else if(certInfo.INCLUDE_NEVER.equals(itVersion) ||
-                          certInfo.INCLUDE_NEVER_VER2.equals(itVersion)){
+                } else if(KeyBindingBase.INCLUDE_NEVER.equals(itVersion) ||
+                          KeyBindingBase.INCLUDE_NEVER_VER2.equals(itVersion)){
                     WSSAssertion wssAssertion = context.getWSSAssertion();
                     if(MessageConstants.DIRECT_REFERENCE_TYPE.equals(certInfo.getReferenceType())){
                         if(wssAssertion != null){
@@ -289,8 +292,8 @@ public class SecurityUtil {
                             certInfo.setReferenceType(MessageConstants.KEY_INDETIFIER_TYPE);
                         }
                     }
-                } else if(certInfo.INCLUDE_ONCE.equals(certInfo.getIncludeToken())){
-                    throw new UnsupportedOperationException(certInfo.INCLUDE_ONCE + " not supported yet as IncludeToken policy");
+                } else if(KeyBindingBase.INCLUDE_ONCE.equals(certInfo.getIncludeToken())){
+                    throw new UnsupportedOperationException(KeyBindingBase.INCLUDE_ONCE + " not supported yet as IncludeToken policy");
                 }
             }
         } catch(Exception e){
@@ -315,13 +318,13 @@ public class SecurityUtil {
                 return;
             }
             String itVersion = certInfo.getIncludeToken();
-            if(certInfo.INCLUDE_ALWAYS_TO_RECIPIENT.equals(itVersion) ||
-               certInfo.INCLUDE_ALWAYS.equals(itVersion) ||
-               certInfo.INCLUDE_ALWAYS_TO_RECIPIENT_VER2.equals(itVersion) ||
-               certInfo.INCLUDE_ALWAYS_VER2.equals(itVersion)){
+            if(KeyBindingBase.INCLUDE_ALWAYS_TO_RECIPIENT.equals(itVersion) ||
+               KeyBindingBase.INCLUDE_ALWAYS.equals(itVersion) ||
+               KeyBindingBase.INCLUDE_ALWAYS_TO_RECIPIENT_VER2.equals(itVersion) ||
+               KeyBindingBase.INCLUDE_ALWAYS_VER2.equals(itVersion)){
                 certInfo.setReferenceType(MessageConstants.DIRECT_REFERENCE_TYPE);
-            } else if(certInfo.INCLUDE_NEVER.equals(itVersion) ||
-                      certInfo.INCLUDE_NEVER_VER2.equals(itVersion)){
+            } else if(KeyBindingBase.INCLUDE_NEVER.equals(itVersion) ||
+                      KeyBindingBase.INCLUDE_NEVER_VER2.equals(itVersion)){
                 WSSAssertion wssAssertion = context.getWSSAssertion();
                 if(MessageConstants.DIRECT_REFERENCE_TYPE.equals(certInfo.getReferenceType())){
                     if(wssAssertion != null){
@@ -337,8 +340,8 @@ public class SecurityUtil {
                         certInfo.setReferenceType(MessageConstants.X509_ISSUER_TYPE);
                     }
                 }
-            } else if(certInfo.INCLUDE_ONCE.equals(certInfo.getIncludeToken())){
-                throw new UnsupportedOperationException(certInfo.INCLUDE_ONCE + " not supported yet as IncludeToken policy");
+            } else if(KeyBindingBase.INCLUDE_ONCE.equals(certInfo.getIncludeToken())){
+                throw new UnsupportedOperationException(KeyBindingBase.INCLUDE_ONCE + " not supported yet as IncludeToken policy");
             }
             //}
         } catch(Exception e){
@@ -469,7 +472,7 @@ public class SecurityUtil {
         }
     }
     
-    public static void initInferredIssuedTokenContext(FilterProcessingContext wssContext, Token str, Key returnKey) throws XWSSecurityException {
+    public static void initInferredIssuedTokenContext(FilterProcessingContext wssContext, Token str, Key returnKey) {
         // new code which fixes issues with Brokered Trust.
         IssuedTokenContextImpl ictx = (IssuedTokenContextImpl)wssContext.getTrustCredentialHolder();
         if (ictx == null) {
@@ -597,7 +600,7 @@ public class SecurityUtil {
         String tmp = "";
         if(PolicyTypeUtil.encryptionPolicy(policy)){
             EncryptionPolicy.FeatureBinding featureBinding = (EncryptionPolicy.FeatureBinding) policy.getFeatureBinding();
-            MLSPolicy keyBinding = ((EncryptionPolicy)policy).getKeyBinding();
+            MLSPolicy keyBinding = policy.getKeyBinding();
             tmp = featureBinding.getDataEncryptionAlgorithm();
             if (PolicyTypeUtil.issuedTokenKeyBinding(keyBinding) && context.getTrustContext() != null) {
                 tmp = context.getTrustContext().getEncryptWith();
@@ -667,14 +670,15 @@ public class SecurityUtil {
     
     public static  void copySubject(final Subject to, final Subject from) {
          AccessController.doPrivileged(
-                new PrivilegedAction<Object>() {
-            public Object run() {
-               to.getPrincipals().addAll(from.getPrincipals());
-               to.getPublicCredentials().addAll(from.getPublicCredentials());
-               to.getPrivateCredentials().addAll(from.getPrivateCredentials());
-               return null;
-            }
-        });
+                 new PrivilegedAction<>() {
+                     @Override
+                     public Object run() {
+                         to.getPrincipals().addAll(from.getPrincipals());
+                         to.getPublicCredentials().addAll(from.getPublicCredentials());
+                         to.getPrivateCredentials().addAll(from.getPrivateCredentials());
+                         return null;
+                     }
+                 });
     }
 
      @SuppressWarnings("unchecked")
@@ -685,14 +689,15 @@ public class SecurityUtil {
             return otherPartySubject;
         }
         otherPartySubject =
-                (Subject) AccessController.doPrivileged(
-                new PrivilegedAction<Object>() {
-            public Object run() {
-                Subject otherPartySubj = new Subject();
-                context.put(MessageConstants.AUTH_SUBJECT,otherPartySubj);
-                return otherPartySubj;
-            }
-        }
+                AccessController.doPrivileged(
+                        new PrivilegedAction<>() {
+                            @Override
+                            public Subject run() {
+                                Subject otherPartySubj = new Subject();
+                                context.put(MessageConstants.AUTH_SUBJECT, otherPartySubj);
+                                return otherPartySubj;
+                            }
+                        }
         );
         return otherPartySubject;
     }
@@ -742,7 +747,7 @@ public class SecurityUtil {
             if(is!=null) {
                 try {
                     BufferedReader rd =
-                            new BufferedReader(new InputStreamReader(is, "UTF-8"));
+                            new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
                     String factoryClassName = rd.readLine();
                     rd.close();
                     if (factoryClassName != null &&
@@ -764,9 +769,9 @@ public class SecurityUtil {
         if (lng == null) {
             return 0;
         }
-        Long ret = 0L;
+        long ret = 0L;
         try {
-            ret = Long.valueOf(lng);
+            ret = Long.parseLong(lng);
         }catch (Exception e) {
             log.log(Level.SEVERE, com.sun.xml.wss.logging.LogStringsMessages.WSS_0719_ERROR_GETTING_LONG_VALUE());
             throw new XWSSecurityException(e);

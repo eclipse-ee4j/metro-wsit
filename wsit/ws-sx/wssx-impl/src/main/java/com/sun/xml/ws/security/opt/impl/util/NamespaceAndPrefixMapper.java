@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -28,7 +28,7 @@ public class NamespaceAndPrefixMapper {
     /** Creates a new instance of NamespaceAndPrefixMapper */
     public NamespaceAndPrefixMapper(NamespaceContextEx ns, boolean disableIncPrefix) {
         this.ns = ns;
-        incList = new ArrayList<String>();
+        incList = new ArrayList<>();
         if(!disableIncPrefix){
             incList.add("wsse"); 
             incList.add("S");
@@ -50,7 +50,7 @@ public class NamespaceAndPrefixMapper {
     
     public void addToInclusivePrefixList(String s){
         if(incList == null)
-            incList = new ArrayList<String>();
+            incList = new ArrayList<>();
         incList.add(s);
     }
     

@@ -25,8 +25,6 @@ import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlAnyElement;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlType;
-import com.sun.xml.ws.security.trust.impl.bindings.AuthenticatorType;
-import org.w3c.dom.Element;
 
 
 /**
@@ -80,7 +78,7 @@ public class AuthenticatorType {
      *     byte[]
      */
     public void setCombinedHash(byte[] value) {
-        this.combinedHash = ((byte[]) value);
+        this.combinedHash = value;
     }
 
     /**
@@ -108,7 +106,7 @@ public class AuthenticatorType {
      */
     public List<Object> getAny() {
         if (any == null) {
-            any = new ArrayList<Object>();
+            any = new ArrayList<>();
         }
         return this.any;
     }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -58,8 +58,8 @@ public class SymmetricTokenBuilder extends TokenBuilder {
     /**
      * 
      * @return BuilderResult
-     * @throws com.sun.xml.wss.XWSSecurityException
      */
+    @Override
     @SuppressWarnings("unchecked")
     public BuilderResult process() throws XWSSecurityException {
 
@@ -114,7 +114,7 @@ public class SymmetricTokenBuilder extends TokenBuilder {
                 if (ekId == null) {
                     TokenBuilder builder = new UsernameTokenBuilder(context, untBinding);
                     result = builder.process();
-                    KeyInfo ekKI = (com.sun.xml.ws.security.opt.crypto.dsig.keyinfo.KeyInfo) result.getKeyInfo();
+                    KeyInfo ekKI = result.getKeyInfo();
                     context.setExtraneousProperty("SecretKey", dataProtectionKey);
                     //Truncating 20 byte Key to 16 byte Key;
                     byte[] secretKey = untBinding.getSecretKey().getEncoded();
@@ -214,7 +214,7 @@ public class SymmetricTokenBuilder extends TokenBuilder {
 
                     TokenBuilder builder = new X509TokenBuilder(context, certificateBinding);
                     BuilderResult bResult = builder.process();
-                    KeyInfo ekKI = (com.sun.xml.ws.security.opt.crypto.dsig.keyinfo.KeyInfo) bResult.getKeyInfo();
+                    KeyInfo ekKI = bResult.getKeyInfo();
                     context.setExtraneousProperty("SecretKey", dataProtectionKey);
                     ek = (SecurityHeaderElement) elementFactory.createEncryptedKey(context.generateID(), keyProtectionAlg, ekKI, keyProtectionKey, dataProtectionKey);
                     context.getSecurityHeader().add(ek);

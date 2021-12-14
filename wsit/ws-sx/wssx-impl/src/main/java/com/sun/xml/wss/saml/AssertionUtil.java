@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -79,7 +79,6 @@ public class AssertionUtil {
      * @param callbackHandler A <code>javax.security.auth.callback.CallbackHandler</code> object used to retrive the key
      *
      * @return java.security.Key
-     * @throws XWSSecurityException
      *
      */
     public static Key getSubjectConfirmationKey(Element assertion , CallbackHandler callbackHandler) throws XWSSecurityException {

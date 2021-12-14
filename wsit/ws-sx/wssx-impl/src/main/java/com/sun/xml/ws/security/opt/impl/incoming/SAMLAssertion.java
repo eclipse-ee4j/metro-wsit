@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -79,7 +79,7 @@ public class SAMLAssertion implements SecurityHeaderElement,PolicyBuilder,TokenV
         }
         namespaceURI = reader.getNamespaceURI();
         localName = reader.getLocalName();
-        samlHeaderNSContext = new HashMap<String,String>();
+        samlHeaderNSContext = new HashMap<>();
         samlHeaderNSContext.putAll(nsDecl);        
         if (reader.getNamespaceCount() > 0) {
             for (int i = 0; i < reader.getNamespaceCount(); i++) {                
@@ -124,7 +124,7 @@ public class SAMLAssertion implements SecurityHeaderElement,PolicyBuilder,TokenV
                     Set<String> samlNSKeySet = samlHeaderNSContext.keySet();
                     Iterator<String> it = samlNSKeySet.iterator();
                     while (it.hasNext()) {
-                        String prefix = (String) it.next();
+                        String prefix = it.next();
                         writer.writeNamespace(prefix, samlHeaderNSContext.get(prefix));
                     }
 
@@ -162,34 +162,42 @@ public class SAMLAssertion implements SecurityHeaderElement,PolicyBuilder,TokenV
     }
    
     
+    @Override
     public boolean refersToSecHdrWithId(String id) {
         return false;
     }
     
+    @Override
     public String getId() {
         return id;
     }
     
+    @Override
     public void setId(final String id) {
         throw new UnsupportedOperationException("not implemented");
     }
     
+    @Override
     public String getNamespaceURI() {
         return namespaceURI;
     }
     
+    @Override
     public String getLocalPart() {
         return localName;
     }
     
-    public XMLStreamReader readHeader() throws XMLStreamException {        
+    @Override
+    public XMLStreamReader readHeader() throws XMLStreamException {
         return buffer.readAsXMLStreamReader();
     }    
     
+    @Override
     public WSSPolicy getPolicy() {
         return samlPolicy;
     }
     
+    @Override
     public void validate(ProcessingContext context) throws XWSSecurityException {
         try{
             XMLStreamReader samlReader = getSamlReader();
@@ -200,19 +208,23 @@ public class SAMLAssertion implements SecurityHeaderElement,PolicyBuilder,TokenV
         }
     }
     
+    @Override
     public HashMap<String, String> getInscopeNSContext() {
         return samlHeaderNSContext;
     }
     
+    @Override
     public void writeTo(XMLStreamWriter streamWriter) throws XMLStreamException {
         buffer.writeToXMLStreamWriter(streamWriter);
     }
     
+    @Override
     public void writeTo(XMLStreamWriter streamWriter, HashMap props) throws XMLStreamException {
         //is this ok?
         writeTo(streamWriter);
     }
     
+    @Override
     public void writeTo(OutputStream os) {
         throw new UnsupportedOperationException();
     }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -86,7 +86,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://docs.oasis-open.org/ws-sx/ws-secureconversation/200512", name = "Nonce")
     public JAXBElement<byte[]> createNonce(byte[] value) {
-        return new JAXBElement<byte[]>(_Nonce_QNAME, byte[].class, null, ((byte[]) value));
+        return new JAXBElement<>(_Nonce_QNAME, byte[].class, null, value);
     }
 
     /**
@@ -95,7 +95,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://docs.oasis-open.org/ws-sx/ws-secureconversation/200512", name = "Identifier")
     public JAXBElement<String> createIdentifier(String value) {
-        return new JAXBElement<String>(_Identifier_QNAME, String.class, null, value);
+        return new JAXBElement<>(_Identifier_QNAME, String.class, null, value);
     }
 
     /**
@@ -104,7 +104,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://docs.oasis-open.org/ws-sx/ws-secureconversation/200512", name = "DerivedKeyToken")
     public JAXBElement<DerivedKeyTokenType> createDerivedKeyToken(DerivedKeyTokenType value) {
-        return new JAXBElement<DerivedKeyTokenType>(_DerivedKeyToken_QNAME, DerivedKeyTokenType.class, null, value);
+        return new JAXBElement<>(_DerivedKeyToken_QNAME, DerivedKeyTokenType.class, null, value);
     }
 
     /**
@@ -113,7 +113,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://docs.oasis-open.org/ws-sx/ws-secureconversation/200512", name = "Name")
     public JAXBElement<String> createName(String value) {
-        return new JAXBElement<String>(_Name_QNAME, String.class, null, value);
+        return new JAXBElement<>(_Name_QNAME, String.class, null, value);
     }
 
     /**
@@ -122,7 +122,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://docs.oasis-open.org/ws-sx/ws-secureconversation/200512", name = "SecurityContextToken")
     public JAXBElement<SecurityContextTokenType> createSecurityContextToken(SecurityContextTokenType value) {
-        return new JAXBElement<SecurityContextTokenType>(_SecurityContextToken_QNAME, SecurityContextTokenType.class, null, value);
+        return new JAXBElement<>(_SecurityContextToken_QNAME, SecurityContextTokenType.class, null, value);
     }
 
     /**
@@ -131,7 +131,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://docs.oasis-open.org/ws-sx/ws-secureconversation/200512", name = "Label")
     public JAXBElement<String> createLabel(String value) {
-        return new JAXBElement<String>(_Label_QNAME, String.class, null, value);
+        return new JAXBElement<>(_Label_QNAME, String.class, null, value);
     }
 
     /**
@@ -140,7 +140,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://docs.oasis-open.org/ws-sx/ws-secureconversation/200512", name = "Instance")
     public JAXBElement<String> createInstance(String value) {
-        return new JAXBElement<String>(_Instance_QNAME, String.class, null, value);
+        return new JAXBElement<>(_Instance_QNAME, String.class, null, value);
     }
 
 }

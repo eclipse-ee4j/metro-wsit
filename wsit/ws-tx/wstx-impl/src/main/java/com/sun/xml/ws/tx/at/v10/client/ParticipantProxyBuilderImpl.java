@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -46,16 +46,19 @@ public class ParticipantProxyBuilderImpl extends ParticipantProxyBuilder<Notific
             return getClass().getName() + " hashcode:"+hashCode()+ " to(EndpointReference):"+to + " port:"+port;
         }
 
+        @Override
         public void prepare(Notification parameters) {
             port.prepare(parameters);
             // do not close port as we will cache for commit or rollback
         }
 
+        @Override
         public void commit(Notification parameters) {
             port.commit(parameters);
             closePort();
         }
 
+        @Override
         public void rollback(Notification parameters) {
             port.rollback(parameters);
             closePort();

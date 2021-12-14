@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -82,18 +82,20 @@ public class TrustDKTTest extends TestCase{
     "urn:oasis:names:tc:SAML:1.0:cm:sender-vouches";
 
 
-    private static Hashtable<String, IssuedTokenContextImpl> map = new Hashtable<String, IssuedTokenContextImpl>();
+    private static Hashtable<String, IssuedTokenContextImpl> map = new Hashtable<>();
     private static  AlgorithmSuite alg = null;
     
-    public TrustDKTTest(String testName) throws Exception {
+    public TrustDKTTest(String testName) {
         super(testName);
     }
                                                                                                                                                              
-    protected void setUp() throws Exception {
+    @Override
+    protected void setUp() {
     	
     }
                                                                                                                                                              
-    protected void tearDown() throws Exception {
+    @Override
+    protected void tearDown() {
     }
                                                                                                                                                              
     public static Test suite() {
@@ -239,7 +241,7 @@ public class TrustDKTTest extends TestCase{
         FileOutputStream fos = new FileOutputStream(fileName);
         ObjectOutputStream oos = new ObjectOutputStream(fos);
                                                                                                                                                  
-        Hashtable<String, Object> hashTable = new Hashtable<String, Object>();
+        Hashtable<String, Object> hashTable = new Hashtable<>();
         MimeHeaders mimeHeaders = msg.getMimeHeaders();
         Iterator iterator = mimeHeaders.getAllHeaders();
                                                                                                                                                  

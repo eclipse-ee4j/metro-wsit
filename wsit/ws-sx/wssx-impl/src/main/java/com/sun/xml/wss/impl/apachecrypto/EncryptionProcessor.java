@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -16,7 +16,6 @@
 
 package com.sun.xml.wss.impl.apachecrypto;
 
-import org.apache.xml.security.c14n.Canonicalizer;
 import org.apache.xml.security.encryption.EncryptedKey;
 import org.apache.xml.security.encryption.XMLCipher;
 import org.apache.xml.security.keys.KeyInfo;
@@ -63,6 +62,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 import java.security.NoSuchAlgorithmException;
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
@@ -121,14 +121,7 @@ public class EncryptionProcessor {
     protected static final Logger log =  Logger.getLogger( LogDomainConstants.IMPL_CRYPTO_DOMAIN,
             LogDomainConstants.IMPL_CRYPTO_DOMAIN_BUNDLE);
     static{
-        try{
-            crlf =  "\r\n".getBytes("US-ASCII");
-        }catch( java.io.UnsupportedEncodingException ue){
-            //log;
-            if(log != null){
-                log.log(Level.SEVERE,"WSS1204.crlf.init.failed",ue);
-            }
-        }
+        crlf =  "\r\n".getBytes(StandardCharsets.US_ASCII);
     }
     /** Creates a new instance of EncryptionProcessor */
     public EncryptionProcessor() {
@@ -450,9 +443,9 @@ public class EncryptionProcessor {
             try {
                 if (System.getProperty("com.sun.xml.wss.saml.binding.jaxb") == null ) {
                     if (samlBinding.getAssertion().getAttributeNode("ID") != null) {
-                        assertion1 = (Assertion)com.sun.xml.wss.saml.assertion.saml20.jaxb20.Assertion.fromElement(samlBinding.getAssertion());
+                        assertion1 = com.sun.xml.wss.saml.assertion.saml20.jaxb20.Assertion.fromElement(samlBinding.getAssertion());
                     }else{
-                        assertion1 = (Assertion)com.sun.xml.wss.saml.assertion.saml11.jaxb20.Assertion.fromElement(samlBinding.getAssertion());
+                        assertion1 = com.sun.xml.wss.saml.assertion.saml11.jaxb20.Assertion.fromElement(samlBinding.getAssertion());
                     }
                 }
             } catch (SAMLException ex) {
@@ -464,7 +457,7 @@ public class EncryptionProcessor {
             if (assertion1 != null) {
                 HashMap tokenCache = context.getTokenCache();
                 //assuming unique IDs
-                assertionID = ((com.sun.xml.wss.saml.Assertion)assertion1).getAssertionID();
+                assertionID = assertion1.getAssertionID();
                 tokenCache.put(assertionID, assertion1);
             } else{
                 log.log(Level.SEVERE,"WSS1213.null.SAMLAssertion");
@@ -497,7 +490,7 @@ public class EncryptionProcessor {
             
             String assertionId = null;
             if ( assertion1 != null) {
-                assertionId = ((com.sun.xml.wss.saml.Assertion)assertion1).getAssertionID();
+                assertionId = assertion1.getAssertionID();
             }
             Element binding = samlBinding.getAuthorityBinding();
             samlTokenRef = new SecurityTokenReference(secureMsg.getSOAPPart());
@@ -1068,7 +1061,6 @@ public class EncryptionProcessor {
             //TODO :: Venu
             ArrayList transforms = target.getCipherReferenceTransforms();
             if(mgpart == null){
-                continue;
             } else if (mgpart instanceof AttachmentPart) {
                 Object[] s = new Object[2];
                 s[0] = mgpart;
@@ -1407,14 +1399,11 @@ public class EncryptionProcessor {
                 }
             }
             
-        } catch (Base64DecodingException e) {
-            log.log(Level.SEVERE, "WSS1224.error.insertion.HeaderBlock.SecurityHeader", e);
-            throw new XWSSecurityException(e);
-        } catch (NoSuchAlgorithmException e) {
+        } catch (Base64DecodingException | NoSuchAlgorithmException e) {
             log.log(Level.SEVERE, "WSS1224.error.insertion.HeaderBlock.SecurityHeader", e);
             throw new XWSSecurityException(e);
         }
-        
+
     }
     
     
@@ -1472,7 +1461,7 @@ public class EncryptionProcessor {
     }
     
     
-    private static Element encryptBodyContent(SecurableSoapMessage contextNode ,byte[] canonData,XMLCipher xmlCipher)throws XWSSecurityException{
+    private static Element encryptBodyContent(SecurableSoapMessage contextNode ,byte[] canonData,XMLCipher xmlCipher) {
         throw new UnsupportedOperationException("Old optimizations disabled in WSIT");
 //        try{
 //            EncryptedData ed = xmlCipher.encryptData((Document)contextNode.getSOAPPart(),canonData,true);
@@ -1488,7 +1477,7 @@ public class EncryptionProcessor {
     }
     
     private static void signEncrypt(FilterProcessingContext fpc ,Cipher cipher, ReferenceListHeaderBlock _ekReferenceList,
-            ReferenceListHeaderBlock _standaloneReferenceList ,KeyInfoStrategy keyInfoStrategy,String encAlgo )throws XWSSecurityException{
+            ReferenceListHeaderBlock _standaloneReferenceList ,KeyInfoStrategy keyInfoStrategy,String encAlgo ) {
         throw new UnsupportedOperationException("Not supported in WSIT");
 //        try{
 //            byte[] canonData = fpc.getCanonicalizedData();
@@ -1534,7 +1523,7 @@ public class EncryptionProcessor {
             if (contentOnly) {
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 part.getDataHandler().writeTo(baos);
-                cipherInput = ((ByteArrayOutputStream)baos).toByteArray();
+                cipherInput = baos.toByteArray();
             } else {
                 Object [] obj  = AttachmentSignatureInput._getSignatureInput(part);
                 
@@ -1602,7 +1591,7 @@ public class EncryptionProcessor {
                 
                 String line = name + ":" + vlue + "\r\n";
                 
-                byte[] b = line.getBytes("US-ASCII");
+                byte[] b = line.getBytes(StandardCharsets.US_ASCII);
                 baos.write(b, 0, b.length);
             }
             
@@ -1622,19 +1611,23 @@ public class EncryptionProcessor {
             datasource = ds;
         }
         
+        @Override
         public String getContentType() {
             return MimeConstants.APPLICATION_OCTET_STREAM_TYPE;
         }
         
-        public InputStream getInputStream() throws java.io.IOException {
+        @Override
+        public InputStream getInputStream() {
             return new ByteArrayInputStream(datasource);
         }
         
+        @Override
         public String getName() {
             return "Encrypted Attachment DataSource";
         }
         
-        public OutputStream getOutputStream() throws java.io.IOException {
+        @Override
+        public OutputStream getOutputStream() {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             baos.write(datasource, 0, datasource.length);
             return baos;

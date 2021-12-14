@@ -83,18 +83,22 @@ public class Attribute extends AttributeType
         setAttributeValue(attType.getAttributeValue());
     } 
 
+    @Override
     public String getFriendlyName() {
         return null;
     }
 
+    @Override
     public String getName() {
         return super.getAttributeName();
     }
 
+    @Override
     public String getNameFormat() {
         return super.getAttributeNamespace();
     }
 
+    @Override
     public List<Object> getAttributes() {
         return super.getAttributeValue();
     }

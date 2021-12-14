@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -18,12 +18,13 @@ import com.sun.xml.ws.api.tx.at.Transactional;
 import jakarta.xml.ws.EndpointReference;
 import jakarta.xml.ws.wsaddressing.W3CEndpointReference;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
 public abstract class EndpointReferenceBuilder<T extends EndpointReference> {
     protected String address;
-    protected List<Element> referenceParameters = new ArrayList<Element>();
+    protected List<Element> referenceParameters = new ArrayList<>();
 
     public static EndpointReferenceBuilder newInstance(Transactional.Version version) {
         if(Transactional.Version.WSAT10 == version||Transactional.Version.DEFAULT == version)
@@ -48,9 +49,7 @@ public abstract class EndpointReferenceBuilder<T extends EndpointReference> {
     }
 
     public EndpointReferenceBuilder<T> referenceParameter(Element... elements){
-        for (Element element : elements) {
-            referenceParameters.add(element);
-        }
+        referenceParameters.addAll(Arrays.asList(elements));
         return this;
     }
 
@@ -71,6 +70,7 @@ public abstract class EndpointReferenceBuilder<T extends EndpointReference> {
 
     static class W3CEndpointReferenceBuilder extends EndpointReferenceBuilder<W3CEndpointReference>{
 
+        @Override
         public W3CEndpointReference build() {
             jakarta.xml.ws.wsaddressing.W3CEndpointReferenceBuilder builder = new jakarta.xml.ws.wsaddressing.W3CEndpointReferenceBuilder();
             for (int i = 0; i < referenceParameters.size(); i++) {
@@ -84,12 +84,13 @@ public abstract class EndpointReferenceBuilder<T extends EndpointReference> {
 
     static class MemberSubmissionEndpointReferenceBuilder extends EndpointReferenceBuilder<MemberSubmissionEndpointReference>{
 
+        @Override
         public MemberSubmissionEndpointReference build() {
             MemberSubmissionEndpointReference epr = new MemberSubmissionEndpointReference();
             epr.addr = new MemberSubmissionEndpointReference.Address();
             epr.addr.uri = address;
             epr.referenceParameters = new MemberSubmissionEndpointReference.Elements();
-            epr.referenceParameters.elements = new ArrayList<Element>();
+            epr.referenceParameters.elements = new ArrayList<>();
             epr.referenceParameters.elements.addAll(referenceParameters);
             return epr;
         }

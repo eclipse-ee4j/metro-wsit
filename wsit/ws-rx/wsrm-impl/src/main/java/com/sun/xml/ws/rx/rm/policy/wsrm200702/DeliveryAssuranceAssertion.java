@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -25,6 +25,7 @@ import com.sun.xml.ws.rx.rm.localization.LocalizationMessages;
 import com.sun.xml.ws.rx.rm.api.ReliableMessagingFeature.DeliveryAssurance;
 
 /**
+ * <pre>{@code
  * <wsrmp:DeliveryAssurance>
  *   <wsp:Policy>
  *     [ <wsrmp:ExactlyOnce/> |
@@ -33,10 +34,7 @@ import com.sun.xml.ws.rx.rm.api.ReliableMessagingFeature.DeliveryAssurance;
  *     <wsrmp:InOrder/> ?
  *   </wsp:Policy>
  * </wsrmp:DeliveryAssurance>
- */
-/**
- *
- * @author Marek Potociar (marek.potociar at sun.com)
+ * }</pre>
  */
 public class DeliveryAssuranceAssertion extends ComplexAssertion {
 
@@ -48,6 +46,7 @@ public class DeliveryAssuranceAssertion extends ComplexAssertion {
     public static final QName NAME = RmAssertionNamespace.WSRMP_200702.getQName("DeliveryAssurance");
     private static AssertionInstantiator instantiator = new AssertionInstantiator() {
 
+        @Override
         public PolicyAssertion newInstance(AssertionData data, Collection<PolicyAssertion> assertionParameters, AssertionSet nestedAlternative) throws AssertionCreationException {
             return new DeliveryAssuranceAssertion(data, assertionParameters, nestedAlternative);
         }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -166,11 +166,9 @@ public class ClientSecurityAuthModule extends WssProviderAuthModule
                     Destroyable dstroyable = 
                                    (Destroyable)pi.next();
                     dstroyable.destroy(); 
-                } catch (DestroyFailedException dfe) {
+                } catch (DestroyFailedException | ClassCastException dfe) {
                    // log
-                } catch (ClassCastException cce) {
-                   // log
-                } 
+                }
              }
 
              Iterator qi = publicCredentials.iterator();
@@ -179,11 +177,9 @@ public class ClientSecurityAuthModule extends WssProviderAuthModule
                     Destroyable dstroyable = 
                                    (Destroyable)qi.next();
                     dstroyable.destroy(); 
-                } catch (DestroyFailedException dfe) {
+                } catch (DestroyFailedException | ClassCastException dfe) {
                    // log
-                } catch (ClassCastException cce) {
-                   // log
-                }   
+                }
              }       
        }        
 }

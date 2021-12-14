@@ -76,6 +76,7 @@ class RedeliveryTaskExecutor {
 
         return delayedTaskManager.register(new DelayedTaskManager.DelayedTask()   {
 
+            @Override
             public void run(DelayedTaskManager manager) {
                 if (LOGGER.isLoggable(Level.FINER)) {
                     LOGGER.finer(String.format(
@@ -91,6 +92,7 @@ class RedeliveryTaskExecutor {
                 }
             }
 
+            @Override
             public String getName() {
                 return String.format("redelivery of a message with number [ %d ] on a sequenece [ %s ]", message.getMessageNumber(), message.getSequenceId());
             }

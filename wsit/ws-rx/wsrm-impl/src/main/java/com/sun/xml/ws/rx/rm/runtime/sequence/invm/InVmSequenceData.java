@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -72,14 +72,17 @@ final class InVmSequenceData implements SequenceData {
         dataLock.writeLock().unlock();
     }
 
+    @Override
     public String getSequenceId() {
         return data.getSequenceId();
     }
 
+    @Override
     public String getBoundSecurityTokenReferenceId() {
         return data.getBoundSecurityTokenReferenceId();
     }
 
+    @Override
     public long getLastMessageNumber() {
         try {
             lockRead();
@@ -89,10 +92,12 @@ final class InVmSequenceData implements SequenceData {
         }
     }
 
+    @Override
     public State getState() {
         return data.getState();
     }
 
+    @Override
     public void setState(State newState) {
         updateLastActivityTime();
 
@@ -100,10 +105,12 @@ final class InVmSequenceData implements SequenceData {
         data.replicate();
     }
 
+    @Override
     public boolean getAckRequestedFlag() {
         return data.getAckRequestedFlag();
     }
 
+    @Override
     public void setAckRequestedFlag(boolean newValue) {
         updateLastActivityTime();
 
@@ -111,10 +118,12 @@ final class InVmSequenceData implements SequenceData {
         data.replicate();
     }
 
+    @Override
     public long getLastAcknowledgementRequestTime() {
         return data.getLastAcknowledgementRequestTime();
     }
 
+    @Override
     public void setLastAcknowledgementRequestTime(long newTime) {
         updateLastActivityTime();
 
@@ -122,6 +131,7 @@ final class InVmSequenceData implements SequenceData {
         data.replicate();
     }
 
+    @Override
     public long getLastActivityTime() {
         return data.getLastActivityTime();
     }
@@ -130,11 +140,13 @@ final class InVmSequenceData implements SequenceData {
         data.setLastActivityTime(timeSynchronizer.currentTimeInMillis());
     }
 
+    @Override
     public long getExpirationTime() {
         return data.getExpirationTime();
     }
 
-    public final void attachMessageToUnackedMessageNumber(ApplicationMessage message) {
+    @Override
+    public void attachMessageToUnackedMessageNumber(ApplicationMessage message) {
         updateLastActivityTime();
 
         try {
@@ -153,6 +165,7 @@ final class InVmSequenceData implements SequenceData {
     /**
      * {@inheritDoc}
      */
+    @Override
     public long incrementAndGetLastMessageNumber(boolean received) {
         updateLastActivityTime();
 
@@ -172,6 +185,7 @@ final class InVmSequenceData implements SequenceData {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void registerReceivedUnackedMessageNumber(long messageNumber) throws DuplicateMessageRegistrationException {
         updateLastActivityTime();
 
@@ -225,6 +239,7 @@ final class InVmSequenceData implements SequenceData {
 
     }
 
+    @Override
     public boolean isFailedOver(long messageNumber) {
         final Long value = Long.valueOf(messageNumber);
         lockRead();
@@ -235,6 +250,7 @@ final class InVmSequenceData implements SequenceData {
         }
     }
 
+    @Override
     public void markAsAcknowledged(long messageNumber) {
         updateLastActivityTime();
 
@@ -252,6 +268,7 @@ final class InVmSequenceData implements SequenceData {
         }
     }
 
+    @Override
     public ApplicationMessage retrieveMessage(String correlationId) {
         updateLastActivityTime();
 
@@ -263,21 +280,23 @@ final class InVmSequenceData implements SequenceData {
         }
     }
 
+    @Override
     public List<Long> getUnackedMessageNumbers() {
         try {
             lockRead();
-            return new ArrayList<Long>(data.getAllUnackedMessageNumbers());
+            return new ArrayList<>(data.getAllUnackedMessageNumbers());
         } finally {
             unlockRead();
         }
 
     }
 
+    @Override
     public List<Long> getLastMessageNumberWithUnackedMessageNumbers() {
         try {
             lockRead();
 
-            LinkedList<Long> result = new LinkedList<Long>(data.getAllUnackedMessageNumbers());
+            LinkedList<Long> result = new LinkedList<>(data.getAllUnackedMessageNumbers());
             result.addFirst(data.getLastMessageNumber());
 
             return result;

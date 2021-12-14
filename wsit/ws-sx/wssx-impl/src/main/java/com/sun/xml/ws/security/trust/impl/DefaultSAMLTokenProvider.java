@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -47,8 +47,6 @@ import com.sun.xml.wss.saml.util.SAMLUtil;
 import org.apache.xml.security.encryption.EncryptedKey;
 import org.apache.xml.security.keys.content.X509Data;
 import org.apache.xml.security.keys.KeyInfo;
-import org.glassfish.jaxb.runtime.v2.runtime.JAXBContextImpl;
-import org.glassfish.jaxb.core.v2.util.XmlFactory;
 import com.sun.xml.wss.WSITXMLFactory;
 
 import java.security.PrivateKey;
@@ -88,6 +86,7 @@ public class DefaultSAMLTokenProvider implements STSTokenProvider {
     protected static final String SAML_SENDER_VOUCHES_1_0 = "urn:oasis:names:tc:SAML:1.0:cm:sender-vouches";
     protected static final String SAML_SENDER_VOUCHES_2_0 = "urn:oasis:names:tc:SAML:2.0:cm:sender-vouches";
     
+    @Override
     public void generateToken(IssuedTokenContext ctx) throws WSTrustException {
            
         String issuer = ctx.getTokenIssuer();
@@ -104,7 +103,7 @@ public class DefaultSAMLTokenProvider implements STSTokenProvider {
         final KeyInfo keyInfo = createKeyInfo(ctx);
         
         // Create AssertionID
-        final String assertionId = "uuid-" + UUID.randomUUID().toString();
+        final String assertionId = "uuid-" + UUID.randomUUID();
         
         // Create SAML assertion and the reference to the SAML assertion
         Assertion assertion = null;
@@ -149,6 +148,7 @@ public class DefaultSAMLTokenProvider implements STSTokenProvider {
         ctx.setUnAttachedSecurityTokenReference(samlReference);
     }
 
+    @Override
     @SuppressWarnings("UnusedAssignment")
     public void isValideToken(IssuedTokenContext ctx) throws WSTrustException {
         WSTrustVersion wstVer = (WSTrustVersion)ctx.getOtherProperties().get(IssuedTokenContext.WS_TRUST_VERSION);
@@ -208,11 +208,13 @@ public class DefaultSAMLTokenProvider implements STSTokenProvider {
         ctx.getOtherProperties().put(IssuedTokenContext.STATUS, status);
     }
 
-    public void renewToken(IssuedTokenContext ctx) throws WSTrustException {
+    @Override
+    public void renewToken(IssuedTokenContext ctx) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    public void invalidateToken(IssuedTokenContext ctx) throws WSTrustException {
+    @Override
+    public void invalidateToken(IssuedTokenContext ctx) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
     
@@ -228,12 +230,12 @@ public class DefaultSAMLTokenProvider implements STSTokenProvider {
             
             List<AudienceRestrictionCondition> arc = null;
             if (appliesTo != null){
-                arc = new ArrayList<AudienceRestrictionCondition>();
-                List<String> au = new ArrayList<String>();
+                arc = new ArrayList<>();
+                List<String> au = new ArrayList<>();
                 au.add(appliesTo);
                 arc.add(samlFac.createAudienceRestrictionCondition(au));
             }
-            final List<String> confirmMethods = new ArrayList<String>();
+            final List<String> confirmMethods = new ArrayList<>();
             Element keyInfoEle = null;
             if (keyType.equals(wstVer.getBearerKeyTypeURI())){
                 confirMethod = SAML_BEARER_1_0;
@@ -291,7 +293,7 @@ public class DefaultSAMLTokenProvider implements STSTokenProvider {
                 claimedAttrs.remove(idName);
             }
             subj = samlFac.createSubject(nameId, subjectConfirm);
-            final List<Object> statements = new ArrayList<Object>();
+            final List<Object> statements = new ArrayList<>();
            //if (attrs.isEmpty()){
             if (claimedAttrs.isEmpty()){
                 final AuthenticationStatement statement = samlFac.createAuthenticationStatement(null, issuerInst, subj, null, null);
@@ -333,8 +335,8 @@ public class DefaultSAMLTokenProvider implements STSTokenProvider {
             
             List<AudienceRestriction> arc = null;
             if (appliesTo != null){
-                arc = new ArrayList<AudienceRestriction>();
-                List<String> au = new ArrayList<String>();
+                arc = new ArrayList<>();
+                List<String> au = new ArrayList<>();
                 au.add(appliesTo);
                 arc.add(samlFac.createAudienceRestriction(au));
             }
@@ -396,7 +398,7 @@ public class DefaultSAMLTokenProvider implements STSTokenProvider {
             }
             subj = samlFac.createSubject(nameId, subjectConfirm);
         
-            final List<Object> statements = new ArrayList<Object>();
+            final List<Object> statements = new ArrayList<>();
             //if (attrs.isEmpty()){
             if (claimedAttrs.isEmpty()){
                 AuthnContext ctx = samlFac.createAuthnContext(authnCtx, null);

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -52,20 +52,25 @@ public class Exc14nCanonicalizer extends TransformService {
     public Exc14nCanonicalizer() {
     }
     
-    public void init(TransformParameterSpec transformParameterSpec) throws InvalidAlgorithmParameterException {
+    @Override
+    public void init(TransformParameterSpec transformParameterSpec) {
         _transformParameterSpec = transformParameterSpec;
     }
     
+    @Override
     public void marshalParams(XMLStructure xMLStructure, XMLCryptoContext xMLCryptoContext) throws MarshalException {
     }
     
-    public void init(XMLStructure xMLStructure, XMLCryptoContext xMLCryptoContext) throws InvalidAlgorithmParameterException {
+    @Override
+    public void init(XMLStructure xMLStructure, XMLCryptoContext xMLCryptoContext) {
     }
     
+    @Override
     public AlgorithmParameterSpec getParameterSpec() {
         return _transformParameterSpec;
     }
     
+    @Override
     public Data transform(Data data, XMLCryptoContext xMLCryptoContext) throws TransformException {
         _canonicalizer.setStream(baos);
         _canonicalizer.reset();
@@ -77,11 +82,7 @@ public class Exc14nCanonicalizer extends TransformService {
             
             while(itr.hasNext()){
                 final NamespaceContextEx.Binding nd = itr.next();
-                try {
-                    _canonicalizer.writeNamespace(nd.getPrefix(),nd.getNamespaceURI());
-                } catch (XMLStreamException ex) {
-                    throw new TransformException(ex);
-                }
+                _canonicalizer.writeNamespace(nd.getPrefix(),nd.getNamespaceURI());
             }
             try {
                 ExcC14NParameterSpec spec = (ExcC14NParameterSpec)_transformParameterSpec;
@@ -101,6 +102,7 @@ public class Exc14nCanonicalizer extends TransformService {
         throw new UnsupportedOperationException("Data type"+data+" not yet supported");
     }
     
+    @Override
     public Data transform(Data data, XMLCryptoContext xMLCryptoContext, OutputStream outputStream) throws TransformException {
         _canonicalizer.setStream(outputStream);
         _canonicalizer.reset();
@@ -112,12 +114,7 @@ public class Exc14nCanonicalizer extends TransformService {
             
             while(itr.hasNext()){
                 final NamespaceContextEx.Binding nd = itr.next();
-                try {
-                    _canonicalizer.writeNamespace(nd.getPrefix(),nd.getNamespaceURI());
-                } catch (XMLStreamException ex) {
-                    logger.log(Level.SEVERE, LogStringsMessages.WSS_1759_TRANSFORM_ERROR(ex.getMessage()),ex);
-                    throw new TransformException(ex);
-                }
+                _canonicalizer.writeNamespace(nd.getPrefix(),nd.getNamespaceURI());
             }
             try {
                 ExcC14NParameterSpec spec = (ExcC14NParameterSpec)_transformParameterSpec;
@@ -139,12 +136,7 @@ public class Exc14nCanonicalizer extends TransformService {
             
             while(itr.hasNext()){
                 final NamespaceContextEx.Binding nd = itr.next();
-                try {
-                    _canonicalizer.writeNamespace(nd.getPrefix(),nd.getNamespaceURI());
-                } catch (XMLStreamException ex) {
-                    logger.log(Level.SEVERE, LogStringsMessages.WSS_1759_TRANSFORM_ERROR(ex.getMessage()),ex);
-                    throw new TransformException(ex);
-                }
+                _canonicalizer.writeNamespace(nd.getPrefix(),nd.getNamespaceURI());
             }
             
             try {
@@ -154,10 +146,7 @@ public class Exc14nCanonicalizer extends TransformService {
                 }
                 jd.writeTo(_canonicalizer);
                 _canonicalizer.flush();
-            } catch ( XMLStreamException ex ) {
-                logger.log(Level.SEVERE, LogStringsMessages.WSS_1759_TRANSFORM_ERROR(ex.getMessage()),ex);
-                throw new TransformException(ex);
-            }catch (XWSSecurityException ex) {
+            } catch (XWSSecurityException ex) {
                 throw new TransformException(ex);
             }
             
@@ -166,6 +155,7 @@ public class Exc14nCanonicalizer extends TransformService {
         throw new UnsupportedOperationException("Data type "+data+" not yet supported");
     }
     
+    @Override
     public boolean isFeatureSupported(String string) {
         return true;
     }

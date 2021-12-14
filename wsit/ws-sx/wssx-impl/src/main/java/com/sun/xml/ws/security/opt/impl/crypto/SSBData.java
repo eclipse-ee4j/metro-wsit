@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -32,12 +32,14 @@ public class SSBData implements StreamWriterData{
         this.nsContext = nsContext;
     }
     
+    @Override
     public NamespaceContextEx getNamespaceContext() {
         return nsContext;
     }
     
     
-    public void write(javax.xml.stream.XMLStreamWriter writer) throws javax.xml.stream.XMLStreamException {      
+    @Override
+    public void write(javax.xml.stream.XMLStreamWriter writer) throws javax.xml.stream.XMLStreamException {
         if(contentOnly){
             body.writePayload(writer);            
         }else{

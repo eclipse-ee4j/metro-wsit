@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -96,55 +96,68 @@ public class X509BinarySecurityToken implements com.sun.xml.ws.security.opt.api.
         digestBST(bstReader);
     }
     
+    @Override
     public String getValueType() {
         return valueType;
     }
     
+    @Override
     public String getEncodingType() {
         return encodingType;
     }
     
+    @Override
     public byte[] getTokenValue() {
         return bstValue;
     }
     
+    @Override
     public String getId() {
         return id;
     }
     
+    @Override
     public boolean refersToSecHdrWithId(final String id) {
         throw new UnsupportedOperationException();
     }
     
+    @Override
     public void setId(String id) {
         throw new UnsupportedOperationException();
     }
     
+    @Override
     public String getNamespaceURI() {
         return namespaceURI;
     }
     
+    @Override
     public String getLocalPart() {
         return localPart;
     }
     
+    @Override
     public javax.xml.stream.XMLStreamReader readHeader() throws javax.xml.stream.XMLStreamException {
         return mark.readAsXMLStreamReader();
     }
     
+    @Override
     public void writeTo(OutputStream os) {
         throw new UnsupportedOperationException();
     }
     
+    @Override
     public void writeTo(javax.xml.stream.XMLStreamWriter streamWriter) throws javax.xml.stream.XMLStreamException {
         mark.writeToXMLStreamWriter(streamWriter);
     }
     
+    @Override
     public WSSPolicy getPolicy() {
         return x509Policy;
         
     }
     
+    @Override
     public void validate(ProcessingContext context) throws com.sun.xml.wss.XWSSecurityException {
         X509Certificate cert = getCertificate();
 //        if (context.getSecurityEnvironment().isSelfCertificate(cert)) {
@@ -161,16 +174,19 @@ public class X509BinarySecurityToken implements com.sun.xml.ws.security.opt.api.
                 DefaultSecurityEnvironmentImpl.getSubject((FilterProcessingContext) context), cert);
     }
     
+    @Override
     public HashMap<String, String> getInscopeNSContext() {
         return nsDecls;
     }
     
     
+    @Override
     public X509Certificate getCertificate(){
         return cert;
     }
     
-    public void writeTo(javax.xml.stream.XMLStreamWriter streamWriter, HashMap props) throws javax.xml.stream.XMLStreamException {
+    @Override
+    public void writeTo(javax.xml.stream.XMLStreamWriter streamWriter, HashMap props) {
         throw new UnsupportedOperationException();
     }
     

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -176,6 +176,7 @@ public class DefaultSecurityEnvironmentImpl implements SecurityEnvironment {
      * Applicable only for the signing case
      */
 
+    @Override
     public X509Certificate getDefaultCertificate(Map context) throws XWSSecurityException {
 
         X509Certificate cert = getPublicCredentialsFromLCSubject();
@@ -295,6 +296,7 @@ public class DefaultSecurityEnvironmentImpl implements SecurityEnvironment {
         return defaultPrivKey;
     }
 
+    @Override
     public SecretKey getSecretKey(Map context, String alias, boolean encryptMode)
             throws XWSSecurityException {
 
@@ -344,6 +346,7 @@ public class DefaultSecurityEnvironmentImpl implements SecurityEnvironment {
         return symmetricKey;
     }
 
+    @Override
     public X509Certificate getCertificate(Map context, String alias, boolean forSigning)
             throws XWSSecurityException {
 
@@ -406,6 +409,7 @@ public class DefaultSecurityEnvironmentImpl implements SecurityEnvironment {
         return cert;
     }
 
+    @Override
     public X509Certificate getCertificate(Map context, PublicKey publicKey, boolean forSign)
             throws XWSSecurityException {       
         X509Certificate cert = getPublicCredentialsFromLCSubject();
@@ -453,6 +457,7 @@ public class DefaultSecurityEnvironmentImpl implements SecurityEnvironment {
         }
     }
 
+    @Override
     public PrivateKey getPrivateKey(Map context, String alias)
             throws XWSSecurityException {
 
@@ -490,6 +495,7 @@ public class DefaultSecurityEnvironmentImpl implements SecurityEnvironment {
         return privKey;
     }
 
+    @Override
     public PrivateKey getPrivateKey(Map context, byte[] identifier, String valueType)
             throws XWSSecurityException {
         if (MessageConstants.KEY_INDETIFIER_TYPE.equals(valueType)) {
@@ -533,6 +539,7 @@ public class DefaultSecurityEnvironmentImpl implements SecurityEnvironment {
         return privateKey;
     }
 
+    @Override
     public PrivateKey getPrivateKey(Map context, byte[] keyIdentifier)
             throws XWSSecurityException {
 
@@ -572,6 +579,7 @@ public class DefaultSecurityEnvironmentImpl implements SecurityEnvironment {
         return privateKey;
     }
 
+    @Override
     public PrivateKey getPrivateKey(Map context, BigInteger serialNumber, String issuerName)
             throws XWSSecurityException {
         
@@ -619,16 +627,19 @@ public class DefaultSecurityEnvironmentImpl implements SecurityEnvironment {
         return privateKey;
     }
 
+    @Override
     public PublicKey getPublicKey(Map context, byte[] identifier, String valueType)
             throws XWSSecurityException {
         return getCertificate(context, identifier, valueType).getPublicKey();
     }
 
+    @Override
     public PublicKey getPublicKey(Map context, byte[] keyIdentifier)
             throws XWSSecurityException {
         return getCertificate(context, keyIdentifier).getPublicKey();
     }
 
+    @Override
     public X509Certificate getCertificate(Map context, byte[] identifier, String valueType)
             throws XWSSecurityException {
         if (MessageConstants.KEY_INDETIFIER_TYPE.equals(valueType)) {
@@ -673,6 +684,7 @@ public class DefaultSecurityEnvironmentImpl implements SecurityEnvironment {
         return cert;
     }
 
+    @Override
     public X509Certificate getCertificate(Map context, byte[] keyIdentifier)
             throws XWSSecurityException {
 
@@ -713,12 +725,14 @@ public class DefaultSecurityEnvironmentImpl implements SecurityEnvironment {
         return cert;
     }
 
+    @Override
     public PublicKey getPublicKey(Map context, BigInteger serialNumber, String issuerName)
             throws XWSSecurityException {
 
         return getCertificate(context, serialNumber, issuerName).getPublicKey();
     }
 
+    @Override
     public X509Certificate getCertificate(Map context, BigInteger serialNumber, String issuerName)
             throws XWSSecurityException {
 
@@ -763,8 +777,8 @@ public class DefaultSecurityEnvironmentImpl implements SecurityEnvironment {
         return cert;
     }
 
-    public boolean validateCertificate(X509Certificate cert, Map context)
-            throws XWSSecurityException {
+    @Override
+    public boolean validateCertificate(X509Certificate cert, Map context) {
 
         CertificateValidationCallback certValCallback = new CertificateValidationCallback(cert, context);
         Callback[] callbacks = new Callback[]{certValCallback};
@@ -784,6 +798,7 @@ public class DefaultSecurityEnvironmentImpl implements SecurityEnvironment {
         
     }
 
+    @Override
     public void updateOtherPartySubject(
             final Subject subject, final String username, final String password) {
     //do nothing....
@@ -875,8 +890,9 @@ public class DefaultSecurityEnvironmentImpl implements SecurityEnvironment {
     private void updateUsernameInSubject(
             final Subject subject, final String username, final String password) {
 
-        AccessController.doPrivileged(new PrivilegedAction<Object>() {
+        AccessController.doPrivileged(new PrivilegedAction<>() {
 
+            @Override
             public Object run() {
                 String x500Name = "CN=" + username;
                 // we can remove this and make a CallerPrincipalCallback
@@ -884,7 +900,7 @@ public class DefaultSecurityEnvironmentImpl implements SecurityEnvironment {
                 try {
                     principal = new X500Principal(x500Name);
                     subject.getPrincipals().add(principal);
-                } catch(Throwable t) {
+                } catch (Throwable t) {
 
 
                     //not all principals can be X500Names
@@ -900,11 +916,13 @@ public class DefaultSecurityEnvironmentImpl implements SecurityEnvironment {
         });
     }
 
+    @Override
     public void updateOtherPartySubject(
             final Subject subject,
             final X509Certificate cert) {
-        AccessController.doPrivileged(new PrivilegedAction<Object>() {
+        AccessController.doPrivileged(new PrivilegedAction<>() {
 
+            @Override
             public Object run() {
                 Principal principal = cert.getSubjectX500Principal();
                 subject.getPrincipals().add(principal);
@@ -914,6 +932,7 @@ public class DefaultSecurityEnvironmentImpl implements SecurityEnvironment {
         });
     }
 
+    @Override
     public void updateOtherPartySubject(
             final Subject subject,
             final Assertion assertion) {
@@ -922,8 +941,9 @@ public class DefaultSecurityEnvironmentImpl implements SecurityEnvironment {
                         instanceof SAMLValidator)
                 return;
         }
-        AccessController.doPrivileged(new PrivilegedAction<Object>() {
+        AccessController.doPrivileged(new PrivilegedAction<>() {
 
+            @Override
             public Object run() {
                 subject.getPublicCredentials().add(assertion);
                 return null; // nothing to return
@@ -964,14 +984,15 @@ public class DefaultSecurityEnvironmentImpl implements SecurityEnvironment {
         }
         otherPartySubject =
                 AccessController.doPrivileged(
-                new PrivilegedAction<Subject>() {
-                    @SuppressWarnings("unchecked")
-                    public Subject run() {
-                        Subject otherPartySubj = new Subject();
-                        context.put(MessageConstants.AUTH_SUBJECT, otherPartySubj);
-                        return otherPartySubj;
-                    }
-                });
+                        new PrivilegedAction<>() {
+                            @Override
+                            @SuppressWarnings("unchecked")
+                            public Subject run() {
+                                Subject otherPartySubj = new Subject();
+                                context.put(MessageConstants.AUTH_SUBJECT, otherPartySubj);
+                                return otherPartySubj;
+                            }
+                        });
         return otherPartySubject;
     }
 
@@ -982,16 +1003,18 @@ public class DefaultSecurityEnvironmentImpl implements SecurityEnvironment {
         }
         otherPartySubject =
                 AccessController.doPrivileged(
-                new PrivilegedAction<Subject>() {
-                    public Subject run() {
-                        Subject otherPartySubj = new Subject();
-                        context.setExtraneousProperty(MessageConstants.AUTH_SUBJECT, otherPartySubj);
-                        return otherPartySubj;
-                    }
-                });
+                        new PrivilegedAction<>() {
+                            @Override
+                            public Subject run() {
+                                Subject otherPartySubj = new Subject();
+                                context.setExtraneousProperty(MessageConstants.AUTH_SUBJECT, otherPartySubj);
+                                return otherPartySubj;
+                            }
+                        });
         return otherPartySubject;
     }
 
+    @Override
     public PrivateKey getPrivateKey(Map context, X509Certificate cert)
             throws XWSSecurityException {
 
@@ -1028,6 +1051,7 @@ public class DefaultSecurityEnvironmentImpl implements SecurityEnvironment {
         return privateKey;
     }
 
+    @Override
     public PrivateKey getPrivateKey(Map context, PublicKey publicKey, boolean forSign)
             throws XWSSecurityException {
         X500PrivateCredential cred = getPKCredentialsFromLCSubject();
@@ -1074,12 +1098,14 @@ public class DefaultSecurityEnvironmentImpl implements SecurityEnvironment {
         }
     }
 
+    @Override
     public Subject getSubject() {
         log.log(Level.SEVERE, LogStringsMessages.WSS_0224_UNSUPPORTED_ASSOCIATED_SUBJECT());
         throw new UnsupportedOperationException(
                 "This environment does not have an associated Subject");
     }
 
+    @Override
     public boolean authenticateUser(
             Map context,
             String username,
@@ -1121,6 +1147,7 @@ public class DefaultSecurityEnvironmentImpl implements SecurityEnvironment {
         return result;
     }
 
+    @Override
     public boolean authenticateUser(Map context, String username, String password)
             throws XWSSecurityException {
 
@@ -1152,6 +1179,7 @@ public class DefaultSecurityEnvironmentImpl implements SecurityEnvironment {
         return result;
     }
 
+    @Override
     public String authenticateUser(Map context, String username )
             throws XWSSecurityException {
 
@@ -1224,9 +1252,8 @@ public class DefaultSecurityEnvironmentImpl implements SecurityEnvironment {
 
     /**
      *
-     * @param creationTime
-     * @throws XWSSecurityException
      */
+    @Override
     public void validateCreationTime(
             Map context,
             String creationTime,
@@ -1284,6 +1311,7 @@ public class DefaultSecurityEnvironmentImpl implements SecurityEnvironment {
         throw new UnsupportedOperationException("SAML User Validation not yet supported");
     }
 
+    @Override
     public String getUsername(Map context) throws XWSSecurityException {
         UsernameCallback usernameCallback = new UsernameCallback();
         /*if (!isDefaultHandler) {*/
@@ -1301,6 +1329,7 @@ public class DefaultSecurityEnvironmentImpl implements SecurityEnvironment {
         return usernameCallback.getUsername();
     }
 
+    @Override
     public String getPassword(Map context) throws XWSSecurityException {
         PasswordCallback passwordCallback = new PasswordCallback();
         /*if (!isDefaultHandler) {*/
@@ -1319,8 +1348,7 @@ public class DefaultSecurityEnvironmentImpl implements SecurityEnvironment {
     //Default expiration time validation code. This will be
     //executed when user does not provide TimestampVlidation.
     private void defaultValidateExpirationTime(
-            String expirationTime, long maxClockSkew, long timestampFreshnessLimit)
-            throws XWSSecurityException {
+            String expirationTime, long maxClockSkew, long timestampFreshnessLimit) {
 
         if (expirationTime != null) {
             Date expires=null;
@@ -1350,6 +1378,7 @@ public class DefaultSecurityEnvironmentImpl implements SecurityEnvironment {
 
     }
 
+    @Override
     public void validateTimestamp(
             Map context, Timestamp timestamp, long maxClockSkew, long freshnessLimit)
             throws XWSSecurityException {
@@ -1357,8 +1386,9 @@ public class DefaultSecurityEnvironmentImpl implements SecurityEnvironment {
                 maxClockSkew, freshnessLimit);
     }
 
+    @Override
     public void validateTimestamp(Map context, String created,
-            String expires, long maxClockSkew, long freshnessLimit)
+                                  String expires, long maxClockSkew, long freshnessLimit)
             throws XWSSecurityException {
         if (expiresBeforeCreated(created, expires)) {
             XWSSecurityException xwsse = new XWSSecurityException("Message expired!");
@@ -1495,6 +1525,7 @@ public class DefaultSecurityEnvironmentImpl implements SecurityEnvironment {
     }
 
     
+    @Override
     public void validateSAMLAssertion(Map context, Element assertion) throws XWSSecurityException {
 
         AuthenticationTokenPolicy authPolicy = new AuthenticationTokenPolicy();
@@ -1522,6 +1553,7 @@ public class DefaultSecurityEnvironmentImpl implements SecurityEnvironment {
         }
     }
 
+    @Override
     public Element locateSAMLAssertion(Map context, Element binding, String assertionId, Document ownerDoc)
             throws XWSSecurityException {
 
@@ -1553,8 +1585,9 @@ public class DefaultSecurityEnvironmentImpl implements SecurityEnvironment {
         return assertion;
     }
 
+    @Override
     public AuthenticationTokenPolicy.SAMLAssertionBinding populateSAMLPolicy(Map fpcontext, AuthenticationTokenPolicy.SAMLAssertionBinding policy,
-            DynamicApplicationContext context)
+                                                                             DynamicApplicationContext context)
             throws XWSSecurityException {
 
         DynamicPolicyCallback dynamicCallback =
@@ -1572,19 +1605,20 @@ public class DefaultSecurityEnvironmentImpl implements SecurityEnvironment {
         return (AuthenticationTokenPolicy.SAMLAssertionBinding) dynamicCallback.getSecurityPolicy();
     }
 
+    @Override
     public CallbackHandler getCallbackHandler() {
         return callbackHandler;
     }
     
     private void validateSamlVersion(Assertion assertion) {
-        BigInteger major = ((com.sun.xml.wss.saml.Assertion) assertion).getMajorVersion();
-        BigInteger minor = ((com.sun.xml.wss.saml.Assertion) assertion).getMinorVersion();
+        BigInteger major = assertion.getMajorVersion();
+        BigInteger minor = assertion.getMinorVersion();
 
         if (major.intValue() != 1) {
             log.log(Level.SEVERE, LogStringsMessages.WSS_0404_SAML_INVALID_VERSION());
             throw SecurableSoapMessage.newSOAPFaultException(
                     MessageConstants.WSSE_INVALID_SECURITY_TOKEN,
-                    "Major version is not 1 for SAML Assertion:" + ((com.sun.xml.wss.saml.Assertion) assertion).getAssertionID(),
+                    "Major version is not 1 for SAML Assertion:" + assertion.getAssertionID(),
                     new Exception(
                     "Major version is not 1 for SAML Assertion"));
         }
@@ -1593,7 +1627,7 @@ public class DefaultSecurityEnvironmentImpl implements SecurityEnvironment {
             log.log(Level.SEVERE, LogStringsMessages.WSS_0404_SAML_INVALID_VERSION());
             throw SecurableSoapMessage.newSOAPFaultException(
                     MessageConstants.WSSE_INVALID_SECURITY_TOKEN,
-                    "Minor version is not 0/1 for SAML Assertion:" + ((com.sun.xml.wss.saml.Assertion) assertion).getAssertionID(),
+                    "Minor version is not 0/1 for SAML Assertion:" + assertion.getAssertionID(),
                     new Exception(
                     "Minor version is not 0/1 for SAML Assertion"));
         }
@@ -1611,6 +1645,7 @@ public class DefaultSecurityEnvironmentImpl implements SecurityEnvironment {
 
     }
 
+    @Override
     @SuppressWarnings("unchecked")
     public void validateSAMLAssertion(Map context, XMLStreamReader assertion) throws XWSSecurityException {
 
@@ -1640,13 +1675,15 @@ public class DefaultSecurityEnvironmentImpl implements SecurityEnvironment {
         }
     }
 
+    @Override
     public void updateOtherPartySubject(final Subject subject, final XMLStreamReader assertion) {
         if (callbackHandler instanceof DefaultCallbackHandler) {
                 if (((DefaultCallbackHandler)callbackHandler).getSAMLValidator() 
                         instanceof SAMLValidator)
                 return;
         }
-        AccessController.doPrivileged(new PrivilegedAction<Object>() {
+        AccessController.doPrivileged(new PrivilegedAction<>() {
+            @Override
             public Object run() {
                 subject.getPublicCredentials().add(assertion);
                 return null; // nothing to return
@@ -1654,6 +1691,7 @@ public class DefaultSecurityEnvironmentImpl implements SecurityEnvironment {
         });
     }
 
+    @Override
     public boolean isSelfCertificate(X509Certificate cert) {
 //        if (this.selfCertificate != null && this.selfCertificate.equals(cert)) {
 //            return true;
@@ -1661,10 +1699,12 @@ public class DefaultSecurityEnvironmentImpl implements SecurityEnvironment {
         return false;
     }
 
+    @Override
     public void updateOtherPartySubject(Subject subject, Subject bootStrapSubject) {
         SecurityUtil.copySubject(subject, bootStrapSubject);
     }
 
+    @Override
     public KerberosContext doKerberosLogin() throws XWSSecurityException {
         String loginModule = configAssertions.getProperty(DefaultCallbackHandler.KRB5_LOGIN_MODULE);
         String servicePrincipal = configAssertions.getProperty(DefaultCallbackHandler.KRB5_SERVICE_PRINCIPAL);
@@ -1678,20 +1718,23 @@ public class DefaultSecurityEnvironmentImpl implements SecurityEnvironment {
         return new KerberosLogin().login(loginModule, servicePrincipal, credentialDelegation);
     }
 
+    @Override
     public KerberosContext doKerberosLogin(byte[] tokenValue) throws XWSSecurityException {
         String loginModule = configAssertions.getProperty(DefaultCallbackHandler.KRB5_LOGIN_MODULE);
         return new KerberosLogin().login(loginModule, tokenValue);
     }
     
-    public void updateOtherPartySubject(final Subject subject, 
-            final GSSName clientCred, 
-            final GSSCredential gssCred) {
-        AccessController.doPrivileged(new PrivilegedAction<Object>() {
+    @Override
+    public void updateOtherPartySubject(final Subject subject,
+                                        final GSSName clientCred,
+                                        final GSSCredential gssCred) {
+        AccessController.doPrivileged(new PrivilegedAction<>() {
+            @Override
             public Object run() {
                 KerberosPrincipal kerbPrincipal = new KerberosPrincipal(clientCred.toString());
                 subject.getPrincipals().add(kerbPrincipal);
                 subject.getPublicCredentials().add(clientCred);
-                if(gssCred != null){
+                if (gssCred != null) {
                     subject.getPrivateCredentials().add(gssCred);
                 }
                 return null; // nothing to return
@@ -1699,7 +1742,8 @@ public class DefaultSecurityEnvironmentImpl implements SecurityEnvironment {
         });
     }
 
-    public boolean validateAndCacheNonce(Map context,String nonce, String created, long nonceAge) throws XWSSecurityException {
+    @Override
+    public boolean validateAndCacheNonce(Map context, String nonce, String created, long nonceAge) throws XWSSecurityException {
         NonceManager nonceMgr = null;
         if (this.mnaProperty != null) {
             nonceMgr = NonceManager.getInstance(this.maxNonceAge, (WSEndpoint)context.get(MessageConstants.WSENDPOINT));

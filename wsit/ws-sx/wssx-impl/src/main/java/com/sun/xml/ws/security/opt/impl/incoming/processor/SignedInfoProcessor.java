@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -46,6 +46,7 @@ import com.sun.xml.wss.impl.policy.mls.SignatureTarget;
 import com.sun.xml.wss.impl.policy.mls.Target;
 import com.sun.xml.wss.logging.LogDomainConstants;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import jakarta.xml.bind.JAXBElement;
@@ -65,6 +66,7 @@ import java.util.logging.Logger;
 import com.sun.xml.wss.logging.impl.opt.signature.LogStringsMessages;
 
 /**
+ * <pre>{@code
  *  <element name="SignedInfo" type="ds:SignedInfoType"/>
  *  <complexType name="SignedInfoType">
  *      <sequence>
@@ -74,13 +76,9 @@ import com.sun.xml.wss.logging.impl.opt.signature.LogStringsMessages;
  *      </sequence>
  *      <attribute name="Id" type="ID" use="optional"/>
  *  </complexType>
- */
-
-/**
+ * }</pre>
  *
- * @author K.Venugopal@sun.com
  */
-
 public class SignedInfoProcessor {
     private static final Logger logger = Logger.getLogger(LogDomainConstants.IMPL_OPT_SIGNATURE_DOMAIN,
             LogDomainConstants.IMPL_OPT_SIGNATURE_DOMAIN_BUNDLE);
@@ -108,7 +106,7 @@ public class SignedInfoProcessor {
     private TagInfoset signatureRoot = null;
     //private XMLStreamWriter canonWriter = null;
     private String signatureMethod = "";
-    private HashMap<String,String> currentNSDecls = new HashMap<String,String>();
+    private HashMap<String,String> currentNSDecls = new HashMap<>();
     private UnsyncByteArrayOutputStream canonInfo = new UnsyncByteArrayOutputStream();
     private XMLStreamReader reader = null;
     private SecurityContext securityContext = null;
@@ -138,7 +136,6 @@ public class SignedInfoProcessor {
     /**
      * processes different types the SignedInfo element of an XMLSignature
      * @return  SignedInfo
-     * @throws com.sun.xml.wss.XWSSecurityException
      */
     public SignedInfo process() throws XWSSecurityException{
         try {            
@@ -232,7 +229,6 @@ public class SignedInfoProcessor {
     /**
      *
      * @param reader  XMLStreamReader
-     * @throws com.sun.xml.wss.XWSSecurityException
      */
     public void readCanonicalizationMethod(XMLStreamReader reader) throws XWSSecurityException{
         try{
@@ -258,10 +254,8 @@ public class SignedInfoProcessor {
             if(MessageConstants.TRANSFORM_C14N_EXCL_OMIT_COMMENTS.equals(canonAlgo)){
                 exc14nFinal = new StAXEXC14nCanonicalizerImpl();               
                 if(prefixList != null && prefixList.length >0){
-                    ArrayList<String> al = new ArrayList<String>(prefixList.length);
-                    for(int i=0;i<prefixList.length ;i++){
-                        al.add(prefixList[i]);
-                    }
+                    ArrayList<String> al = new ArrayList<>(prefixList.length);
+                    al.addAll(Arrays.asList(prefixList));
                     exc14nFinal.setInclusivePrefixList(al);
                 }                
                 Iterator<String> itr = currentNSDecls.keySet().iterator();
@@ -281,7 +275,6 @@ public class SignedInfoProcessor {
     /**
      * processes references
      * @param reader XMLStreamReader
-     * @throws com.sun.xml.wss.XWSSecurityException
      */
     @SuppressWarnings("unchecked")
     private void processReferences(XMLStreamReader reader)throws XWSSecurityException{
@@ -372,14 +365,15 @@ public class SignedInfoProcessor {
      * processes the given reference
      * @param reference Reference
      * @return boolean
-     * @throws com.sun.xml.wss.XWSSecurityException
      */
     public boolean processReference(Reference reference)throws XWSSecurityException{
         final String uri = reference.getURI();
         URIReference ref = new URIReference() {
+            @Override
             public String getType() {
                 return "";
             }
+            @Override
             public String getURI() {
                 return uri;
             }
@@ -411,7 +405,7 @@ public class SignedInfoProcessor {
     
     public ArrayList<Reference> getReferenceList(){
         if(refList == null){
-            refList = new ArrayList<Reference>(1);
+            refList = new ArrayList<>(1);
         }
         return refList;
     }
@@ -450,7 +444,6 @@ public class SignedInfoProcessor {
      * @param reader XMLStreamReader
      * @param uri String
      * @return trList ArrayList
-     * @throws com.sun.xml.wss.XWSSecurityException
      */
     @SuppressWarnings("unchecked")
     private ArrayList processTransforms(XMLStreamReader reader,String uri)throws XWSSecurityException{
@@ -475,7 +468,6 @@ public class SignedInfoProcessor {
      * @param reader XMLStreamReader
      * @param uri String
      * @return Transform
-     * @throws com.sun.xml.wss.XWSSecurityException
      */
     private Transform processTransform(XMLStreamReader reader,String uri) throws XWSSecurityException{
         try{
@@ -550,7 +542,6 @@ public class SignedInfoProcessor {
      * reads the STR transform and creates the XMLStructure
      * @param reader XMLStreamReader
      * @return XMLStructure
-     * @throws com.sun.xml.wss.XWSSecurityException
      */
     private XMLStructure readSTRTransform(XMLStreamReader reader)throws XWSSecurityException{
         try{
@@ -578,7 +569,6 @@ public class SignedInfoProcessor {
      * reads the exclusive canonicalization
      * @param reader XMLStreamReader
      * @return ExcC14NParameterSpec
-     * @throws javax.xml.stream.XMLStreamException
      */
     @SuppressWarnings("unchecked")
     private ExcC14NParameterSpec readEXC14nTransform(XMLStreamReader reader) throws XMLStreamException{
@@ -594,9 +584,7 @@ public class SignedInfoProcessor {
                 }
                 if(pl != null && pl.length >0){
                     ArrayList prefixs = new ArrayList();
-                    for(int i=0;i< pl.length ;i++){
-                        prefixs.add(pl[i]);
-                    }
+                    prefixs.addAll(Arrays.asList(pl));
                     exc14nSpec = new ExcC14NParameterSpec(prefixs);
                 }
                 if(reader.hasNext()){

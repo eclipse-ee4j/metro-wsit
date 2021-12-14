@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -89,9 +89,6 @@ public class SignatureElementFactory {
     
     /**
      *
-     * @param signInfo
-     * @param keyInfo
-     * @param id
      * @return XMLSignature
      */
     public XMLSignature constructSignature(SignedInfo signInfo,javax.xml.crypto.dsig.keyinfo.KeyInfo keyInfo, final String id){
@@ -100,8 +97,6 @@ public class SignatureElementFactory {
     
     /**
      *
-     * @param signInfo
-     * @param keyInfo
      * @return XMLSignature
      */
     public XMLSignature constructSignature(SignedInfo signInfo,javax.xml.crypto.dsig.keyinfo.KeyInfo keyInfo){
@@ -119,9 +114,6 @@ public class SignatureElementFactory {
      * creates the signed info element based on the targets in the policy
      * @param fpContext JAXBFilterProcessingContext
      * @return signedInfo  SignedInfo
-     * @throws java.security.NoSuchAlgorithmException
-     * @throws java.security.InvalidAlgorithmParameterException
-     * @throws com.sun.xml.wss.XWSSecurityException
      */
     @SuppressWarnings("unchecked")
     private SignedInfo generateSignedInfo(JAXBFilterProcessingContext fpContext)
@@ -253,9 +245,6 @@ public class SignatureElementFactory {
      * @param fpContext JAXBFilterProcessingContext
      * @param verify boolean
      * @return references List
-     * @throws java.security.NoSuchAlgorithmException
-     * @throws java.security.InvalidAlgorithmParameterException
-     * @throws com.sun.xml.wss.XWSSecurityException
      */
     @SuppressWarnings("unchecked")
     private List generateReferenceList(List targetList, XMLSignatureFactory signatureFactory,
@@ -371,7 +360,7 @@ public class SignatureElementFactory {
             if(signatureType.equals(SignatureTarget.TARGET_TYPE_VALUE_QNAME)){
                 
                 String expr = null;
-                List<SignedMessagePart> targets = new ArrayList<SignedMessagePart>();
+                List<SignedMessagePart> targets = new ArrayList<>();
                 
                 String targetValue = signatureTarget.getValue();
                 boolean optimized = false;
@@ -670,7 +659,6 @@ public class SignatureElementFactory {
      * @param fpContext JAXBFilterProcessingContext
      * @param id String
      * @return Object
-     * @throws com.sun.xml.wss.XWSSecurityException
      */
     private Object getPartFromId(JAXBFilterProcessingContext fpContext, final String id)
     throws XWSSecurityException{

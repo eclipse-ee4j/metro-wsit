@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -21,7 +21,7 @@ import java.util.Iterator;
  */
 public class AttachmentSetImpl implements AttachmentSet {
     
-    private final ArrayList<Attachment> attList = new ArrayList<Attachment>();
+    private final ArrayList<Attachment> attList = new ArrayList<>();
     
     /**
      * Creates an empty {@link AttachmentSet}.
@@ -37,6 +37,7 @@ public class AttachmentSetImpl implements AttachmentSet {
             add(a);
     }
 
+    @Override
     public Attachment get(String contentId) {
         for( int i=attList.size()-1; i>=0; i-- ) {
             Attachment a = attList.get(i);
@@ -46,14 +47,17 @@ public class AttachmentSetImpl implements AttachmentSet {
         return null;
     }
 
+    @Override
     public boolean isEmpty() {
         return attList.isEmpty();
     }
 
+    @Override
     public void add(Attachment att) {
         attList.add(att);
     }
 
+    @Override
     public Iterator<Attachment> iterator() {
         return attList.iterator();
     }

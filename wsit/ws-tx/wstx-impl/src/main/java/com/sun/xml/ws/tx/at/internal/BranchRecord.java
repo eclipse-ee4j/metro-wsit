@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -25,11 +25,6 @@ import javax.transaction.xa.XAResource;
 import javax.transaction.xa.Xid;
 
 /**
- *
- * @author paulparkinson
- */
-
-/**
  * Encapsulates remote WS-AT participants as a branch for this superior
  * transaction.
  */
@@ -48,12 +43,12 @@ public class BranchRecord implements Externalizable {
    * Used for recovery (created by readObject) and Externalizable no-arg constructor
    */
   public BranchRecord() {
-    this.registeredResources = new HashMap<Xid, RegisteredResource>();
+    this.registeredResources = new HashMap<>();
   }
 
   BranchRecord(Xid xid) {
     this.globalXid = xid;
-    this.registeredResources = new HashMap<Xid, RegisteredResource>();
+    this.registeredResources = new HashMap<>();
   }
 
   /**
@@ -103,7 +98,7 @@ public class BranchRecord implements Externalizable {
   }
 
   int prepare(Xid xid) throws XAException {
-/**
+/*
     if (isPrimaryBranch(xid)) {
       // primary branch always returns RDONLY
       debug("prepare() xid=" + xid + " returning XA_RDONLY");
@@ -237,7 +232,7 @@ public class BranchRecord implements Externalizable {
       boolean isRegisteredBranch =
               Arrays.equals(registeredResource.getBranchXid().getBranchQualifier(), xid.getBranchQualifier());
       if (!isRegisteredBranch) {
-        if (WSATHelper.getInstance().isDebugEnabled()) {
+        if (WSATHelper.isDebugEnabled()) {
           byte[] branchQualifier = registeredResource.getBranchXid().getBranchQualifier();
           if (branchQualifier == null) branchQualifier = new byte[0];
           debug("WS-AT Branch registered branchId:\t[" + new String(branchQualifier) + "] ");
@@ -257,7 +252,7 @@ public class BranchRecord implements Externalizable {
   }
 
   synchronized Collection<Xid> getAllXids() {
-    Collection<Xid> xids = new ArrayList<Xid>();
+    Collection<Xid> xids = new ArrayList<>();
     Iterator<RegisteredResource> resourceIterator = registeredResources.values().iterator();
     while(resourceIterator.hasNext()) {
       xids.add(resourceIterator.next().getBranchXid());
@@ -299,7 +294,7 @@ public class BranchRecord implements Externalizable {
     LOGGER.info(msg);
   }
 
-    class RegisteredResource implements Externalizable {
+    static class RegisteredResource implements Externalizable {
   	private static final long serialVersionUID = 601688150453719976L;
     private static final int STATE_ACTIVE = 1;
     private static final int STATE_PREPARED = 2;
@@ -314,7 +309,7 @@ public class BranchRecord implements Externalizable {
    /**
     * For Externalizable
     */
-    RegisteredResource() {
+   public RegisteredResource() {
     }
 
     RegisteredResource(WSATXAResource wsatResource) {
@@ -488,12 +483,14 @@ public class BranchRecord implements Externalizable {
       }
     }
 
+    @Override
     public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
       branchXid = new BranchXidImpl();
       branchXid.readExternal(in);
       resource = (WSATXAResource) in.readObject();
     }
 
+    @Override
     public void writeExternal(ObjectOutput out) throws IOException {
       resource.setXid(new XidImpl(resource.getXid()));
       new BranchXidImpl(resource.getXid()).writeExternal(out);
@@ -511,6 +508,7 @@ public class BranchRecord implements Externalizable {
   // Externalizable
   //
 
+  @Override
   public void writeExternal(ObjectOutput out) throws IOException {
 
     // Version
@@ -533,7 +531,7 @@ public class BranchRecord implements Externalizable {
 
     // RegisteredResources
     out.writeInt(registeredResources.size());
-   /**
+   /*
     for (int i=0; i<registeredResources.size(); i++) {
       RegisteredResource rr = registeredResources.get(i);
       rr.writeExternal(out);
@@ -545,6 +543,7 @@ public class BranchRecord implements Externalizable {
     }
   }
 
+  @Override
   public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
 
     // Version

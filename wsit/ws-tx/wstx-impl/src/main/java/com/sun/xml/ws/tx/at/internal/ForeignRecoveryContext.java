@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -62,9 +62,9 @@ public class ForeignRecoveryContext implements Externalizable {
         return fxid;
       }
 
- /* *//**
-     * Called by add and contextworker in order to obtain tid
-     * @return byte[] tid
+ /* *//*
+      Called by add and contextworker in order to obtain tid
+      @return byte[] tid
      *//*
     byte[] getTid() {
         return tid;
@@ -107,6 +107,7 @@ public class ForeignRecoveryContext implements Externalizable {
      * @throws ClassNotFoundException classNotFoundException from in.readObject()
      * @throws IOException ioException
      */
+    @Override
     public void readExternal(ObjectInput in) throws ClassNotFoundException, IOException{
         klassVersion = in.readInt();
         fxid = (Xid) in.readObject();
@@ -125,6 +126,7 @@ public class ForeignRecoveryContext implements Externalizable {
      * @param out ObjectInput
      * @throws IOException ioException
      */
+    @Override
     public void writeExternal(ObjectOutput out) throws IOException {
         out.writeInt(klassVersion);
         out.writeObject(fxid);

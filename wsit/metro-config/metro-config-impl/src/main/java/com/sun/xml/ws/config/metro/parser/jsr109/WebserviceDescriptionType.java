@@ -278,7 +278,7 @@ public class WebserviceDescriptionType
      */
     public List<PortComponentType> getPortComponent() {
         if (portComponent == null) {
-            portComponent = new ArrayList<PortComponentType>();
+            portComponent = new ArrayList<>();
         }
         return this.portComponent;
     }
@@ -307,6 +307,7 @@ public class WebserviceDescriptionType
         this.id = value;
     }
 
+    @Override
     public Locator sourceLocation() {
         return locator;
     }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -186,7 +186,7 @@ public abstract class ConfigHelper /*implements RegistrationListener*/ {
                     AuthConfigProvider nextP =
                         factory.getConfigProvider(layer,appCtxt,this.getRegistrationListener());
                     if (nextP != null) {
-                        listenerWrapper.setConfigData(new ConfigData(nextP,getAuthConfig(nextP,isServer)));
+                        listenerWrapper.setConfigData(new ConfigData(nextP, getAuthConfig(nextP, isServer)));
                     } else {
                         listenerWrapper.setConfigData(new ConfigData());
                     }
@@ -250,7 +250,8 @@ public abstract class ConfigHelper /*implements RegistrationListener*/ {
             CallbackHandler rvalue = 
                 (CallbackHandler)AccessController.doPrivileged
                 (new PrivilegedExceptionAction() {
-                    public Object run() throws Exception {
+                    @Override
+                    public Object run() {
                             //JMAC Property takes precedence
                             URL url = loadFromClasspath(JMAC_CALLBACK_PROP, loader);
                             if (url != null) {
@@ -317,9 +318,7 @@ public abstract class ConfigHelper /*implements RegistrationListener*/ {
         } catch (ClassNotFoundException e) {
             // ignore
             
-        } catch(InstantiationException e) {
-            
-        } catch(IllegalAccessException ex) {
+        } catch(InstantiationException | IllegalAccessException e) {
             
         }
         if (DEFAULT_HANDLER_CLASS.equals(classname)) {
@@ -328,7 +327,7 @@ public abstract class ConfigHelper /*implements RegistrationListener*/ {
         throw new RuntimeException("Failed to Load CallbackHandler:" + classname);
     }
 
-    private class ConfigData {
+    private static class ConfigData {
 
 	private AuthConfigProvider provider; 
 	private AuthConfig sConfig; 
@@ -471,6 +470,7 @@ public abstract class ConfigHelper /*implements RegistrationListener*/ {
                 this.appCtxt = appCtxt;
             }
             
+            @Override
             public void notify(String layer, String appContext) {
                 if (this.layer.equals(layer) &&
                         ((this.appCtxt == null && appContext == null) ||

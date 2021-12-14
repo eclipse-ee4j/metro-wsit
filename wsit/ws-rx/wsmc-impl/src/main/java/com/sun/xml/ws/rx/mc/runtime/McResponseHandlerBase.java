@@ -58,7 +58,7 @@ abstract class McResponseHandlerBase extends AbstractResponseHandler implements 
         }
     }
 
-    private final <T> T readHeaderAsUnderstood(Message message, QName headerName) throws RxRuntimeException {
+    private <T> T readHeaderAsUnderstood(Message message, QName headerName) throws RxRuntimeException {
         // TODO P3 merge this method with PacketAdapter method
         Header header = message.getHeaders().get(headerName, true);
         if (header == null) {
@@ -67,7 +67,7 @@ abstract class McResponseHandlerBase extends AbstractResponseHandler implements 
 
         try {
             @SuppressWarnings("unchecked")
-            T result = (T) header.readAsJAXB(configuration.getRuntimeVersion().getUnmarshaller(configuration.getAddressingVersion()));
+            T result = header.readAsJAXB(configuration.getRuntimeVersion().getUnmarshaller(configuration.getAddressingVersion()));
             return result;
         } catch (JAXBException ex) {
             throw LOGGER.logSevereException(new RxRuntimeException(String.format("Error unmarshalling header %s", headerName), ex));

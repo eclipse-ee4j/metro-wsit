@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -27,7 +27,6 @@ import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlAnyAttribute;
 //import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlAnyElement;
-import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlType;
 import javax.xml.namespace.QName;
 
@@ -66,7 +65,7 @@ public class RequestSecurityTokenResponseCollectionType {
 	@XmlAnyElement(lax = true)
     protected List<Object> requestSecurityTokenResponse;
     @XmlAnyAttribute
-    private Map<QName, String> otherAttributes = new HashMap<QName, String>();
+    private Map<QName, String> otherAttributes = new HashMap<>();
 
     /**
      * Gets the value of the requestSecurityTokenResponse property.
@@ -92,7 +91,7 @@ public class RequestSecurityTokenResponseCollectionType {
      */
     public List<Object> getRequestSecurityTokenResponse() {
         if (requestSecurityTokenResponse == null) {
-            requestSecurityTokenResponse = new ArrayList<Object>();
+            requestSecurityTokenResponse = new ArrayList<>();
         }
         return this.requestSecurityTokenResponse;
     }

@@ -120,7 +120,7 @@ public class SecurityRoleType
      */
     public List<DescriptionType> getDescription() {
         if (description == null) {
-            description = new ArrayList<DescriptionType>();
+            description = new ArrayList<>();
         }
         return this.description;
     }
@@ -173,6 +173,7 @@ public class SecurityRoleType
         this.id = value;
     }
 
+    @Override
     public Locator sourceLocation() {
         return locator;
     }

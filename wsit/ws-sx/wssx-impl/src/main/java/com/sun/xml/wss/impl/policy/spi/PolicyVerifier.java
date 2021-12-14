@@ -29,7 +29,7 @@ public interface PolicyVerifier {
      * The ID is then used by the runtime to get the correct response policy for
      * securing the response messages.
      */
-    public static final String POLICY_ALTERNATIVE_ID="policy-alternative-id";
+    String POLICY_ALTERNATIVE_ID="policy-alternative-id";
     /**
      *
      * @param configPolicy Policy configured for the incoming message, can be
@@ -39,5 +39,5 @@ public interface PolicyVerifier {
      * is configured.
      *
      */
-    public void verifyPolicy (SecurityPolicy recvdPolicy ,SecurityPolicy configPolicy )throws PolicyViolationException;
+    void verifyPolicy(SecurityPolicy recvdPolicy, SecurityPolicy configPolicy)throws PolicyViolationException;
 }

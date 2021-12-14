@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -60,6 +60,7 @@ public class DirectReference extends ReferenceType
      * 
      * @return the valueType attribute of direct reference
      */
+    @Override
     public String getValueType() {
         return super.getValueType();
     }
@@ -68,6 +69,7 @@ public class DirectReference extends ReferenceType
      * 
      * @param valueType sets the valueType attribute
      */
+    @Override
     public void setValueType(final String valueType) {
         super.setValueType(valueType);
     }
@@ -76,6 +78,7 @@ public class DirectReference extends ReferenceType
      * 
      * @return the URI attribute
      */
+    @Override
     public String getURI() {
         return super.getURI();
     }
@@ -84,6 +87,7 @@ public class DirectReference extends ReferenceType
      * 
      * @param uri sets the uri attribute
      */
+    @Override
     public void setURI(final String uri) {
         super.setURI(uri);
     }
@@ -92,16 +96,19 @@ public class DirectReference extends ReferenceType
      * 
      * @return the reference type used
      */
+    @Override
     public String getType() {
         return MessageConstants.DIRECT_REFERENCE_TYPE;
     }
     
+    @Override
     public String getId() {
         QName qname = new QName(MessageConstants.WSU_NS, "Id", MessageConstants.WSU_PREFIX);
         Map<QName, String> otherAttributes = this.getOtherAttributes();
         return otherAttributes.get(qname);
     }
     
+    @Override
     public void setId(final String id) {
         QName qname = new QName(MessageConstants.WSU_NS, "Id", MessageConstants.WSU_PREFIX);
         Map<QName, String> otherAttributes = this.getOtherAttributes();
@@ -109,11 +116,13 @@ public class DirectReference extends ReferenceType
     }
     
     
+    @Override
     public String getNamespaceURI() {
         return MessageConstants.WSSE_NS;
     }
     
     
+    @Override
     public String getLocalPart() {
         return "Reference";
     }
@@ -141,6 +150,7 @@ public class DirectReference extends ReferenceType
         return otherAttributes.get(name);
     }
     
+    @Override
     public XMLStreamReader readHeader() throws XMLStreamException {
         XMLStreamBufferResult xbr = new XMLStreamBufferResult();
         JAXBElement<ReferenceType> deirectRefElem = new ObjectFactory().createReference(this);
@@ -160,6 +170,7 @@ public class DirectReference extends ReferenceType
      *      if the operation fails for some reason. This leaves the
      *      writer to an undefined state.
      */
+    @Override
     public void writeTo(XMLStreamWriter streamWriter) throws XMLStreamException {
         JAXBElement<ReferenceType> deirectRefElem = new ObjectFactory().createReference(this);
         try {
@@ -180,11 +191,9 @@ public class DirectReference extends ReferenceType
     }
     
     /**
-     * 
-     * @param streamWriter 
-     * @param props 
-     * @throws javax.xml.stream.XMLStreamException 
+     *
      */
+    @Override
     @SuppressWarnings("unchecked")
     public void writeTo(javax.xml.stream.XMLStreamWriter streamWriter, HashMap props) throws javax.xml.stream.XMLStreamException {
         try{
@@ -205,9 +214,9 @@ public class DirectReference extends ReferenceType
     }
     
     /**
-     * 
-     * @param os 
+     *
      */
+    @Override
     public void writeTo(OutputStream os) {
     }
     
@@ -219,10 +228,9 @@ public class DirectReference extends ReferenceType
     }
     
     /**
-     * 
-     * @param id 
-     * @return 
+     *
      */
+    @Override
     public boolean refersToSecHdrWithId(String id) {
         return false;
     }

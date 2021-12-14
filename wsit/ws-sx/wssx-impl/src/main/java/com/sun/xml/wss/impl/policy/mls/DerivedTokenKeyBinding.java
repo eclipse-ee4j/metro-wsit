@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -35,6 +35,7 @@ public class DerivedTokenKeyBinding extends KeyBindingBase {
         setPolicyIdentifier(PolicyTypeUtil.DERIVED_TOKEN_KEY_BINDING);
     }
     
+    @Override
     public Object clone() {
         DerivedTokenKeyBinding dkt = new DerivedTokenKeyBinding();
         dkt.setOriginalKeyBinding((WSSPolicy)getOriginalKeyBinding().clone());
@@ -42,6 +43,7 @@ public class DerivedTokenKeyBinding extends KeyBindingBase {
         return dkt;
     }
     
+    @Override
     public boolean equals(WSSPolicy policy) {
         if ( !PolicyTypeUtil.derivedTokenKeyBinding(policy)) {
             return false;
@@ -54,10 +56,12 @@ public class DerivedTokenKeyBinding extends KeyBindingBase {
         return true;
     }
     
+    @Override
     public boolean equalsIgnoreTargets(WSSPolicy policy) {
         return equals(policy);
     }
     
+    @Override
     public String getType() {
         return PolicyTypeUtil.DERIVED_TOKEN_KEY_BINDING;
     }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -40,7 +40,7 @@ public class ForeignRecoveryContextManager {
     private static final Logger LOGGER_ContextRunnable = Logger.getLogger(ContextRunnable.class);
     private static final Logger LOGGER_RecoveryContextWorker = Logger.getLogger(RecoveryContextWorker.class);
 
-    private Map<Xid, RecoveryContextWorker> recoveredContexts = new HashMap<Xid, RecoveryContextWorker>();
+    private Map<Xid, RecoveryContextWorker> recoveredContexts = new HashMap<>();
 
     private ForeignRecoveryContextManager() {
     }
@@ -87,7 +87,7 @@ public class ForeignRecoveryContextManager {
      */
     synchronized void add(ForeignRecoveryContext context, boolean isRecovery) {
         if(context==null) return;
-        recoveredContexts.put(context.getXid(), new RecoveryContextWorker(context, isRecovery?-1:0));
+        recoveredContexts.put(context.getXid(), new RecoveryContextWorker(context, isRecovery ? -1 : 0));
     }
 
     synchronized void persist(Xid xid) {
@@ -144,6 +144,7 @@ public class ForeignRecoveryContextManager {
 
     private class ContextRunnable implements Runnable {
 
+        @Override
         public void run() {
            while(true) {
                doRun();
@@ -156,7 +157,7 @@ public class ForeignRecoveryContextManager {
         }
 
         public void doRun() {
-            List<RecoveryContextWorker> replayList = new ArrayList<RecoveryContextWorker>();
+            List<RecoveryContextWorker> replayList = new ArrayList<>();
             synchronized (ForeignRecoveryContextManager.this) {
                 for (RecoveryContextWorker rc : recoveredContexts.values()) {
                     long lastReplay = rc.getLastReplayMillis();
@@ -208,7 +209,7 @@ public class ForeignRecoveryContextManager {
 
     }
 
-    private class RecoveryContextWorker implements Runnable {
+    private static class RecoveryContextWorker implements Runnable {
 
         ForeignRecoveryContext context;
         long lastReplayMillis;
@@ -249,6 +250,7 @@ public class ForeignRecoveryContextManager {
             this.scheduled = b;
         }
 
+        @Override
         public void run() {
             try {
                 Xid xid = context.getXid();

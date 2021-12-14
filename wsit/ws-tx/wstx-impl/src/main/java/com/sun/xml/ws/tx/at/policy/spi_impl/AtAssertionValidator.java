@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -30,7 +30,7 @@ public class AtAssertionValidator implements PolicyAssertionValidator {
     private static final List<QName> SUPPORTED_ASSERTIONS;
 
     static {
-        List<QName> tmpList = new ArrayList<QName>(3);
+        List<QName> tmpList = new ArrayList<>(3);
 
         for (WsatNamespace ns : WsatNamespace.values()) {
             tmpList.add(AtAssertion.nameForNamespace(ns));
@@ -40,15 +40,18 @@ public class AtAssertionValidator implements PolicyAssertionValidator {
         SUPPORTED_ASSERTIONS = Collections.unmodifiableList(tmpList);
     }
 
+    @Override
     public Fitness validateClientSide(final PolicyAssertion assertion) {
         return SUPPORTED_ASSERTIONS.contains(assertion.getName()) ? Fitness.SUPPORTED : Fitness.UNKNOWN;
     }
 
+    @Override
     public Fitness validateServerSide(final PolicyAssertion assertion) {
         return SUPPORTED_ASSERTIONS.contains(assertion.getName()) ? Fitness.SUPPORTED : Fitness.UNKNOWN;
     }
 
+    @Override
     public String[] declareSupportedDomains() {
-        return SUPPORTED_DOMAINS.toArray(new String[SUPPORTED_DOMAINS.size()]);
+        return SUPPORTED_DOMAINS.toArray(new String[0]);
     }
 }

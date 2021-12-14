@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -71,12 +71,12 @@ public class SecurityTokenProcessor {
     
     /** Creates a new instance of SecurityTokenProcessor */
     public SecurityTokenProcessor(JAXBFilterProcessingContext context,Purpose purpose) {
-        this.pc = (JAXBFilterProcessingContext) context;
+        this.pc = context;
         this.purpose =purpose;
     }
     
     public SecurityTokenProcessor(JAXBFilterProcessingContext context, XMLStreamWriter canonWriter,Purpose purpose) {
-        this.pc = (JAXBFilterProcessingContext) context;
+        this.pc = context;
         this.canonWriter = canonWriter;
         this.purpose =purpose;
     }
@@ -85,7 +85,6 @@ public class SecurityTokenProcessor {
      *  resolves references and returns Key
      * @param reader  XMLStreamReader
      * @return Key
-     * @throws com.sun.xml.wss.XWSSecurityException
      */
     @SuppressWarnings("unchecked")
     public Key resolveReference(XMLStreamReader reader) throws XWSSecurityException{
@@ -200,7 +199,6 @@ public class SecurityTokenProcessor {
      * processes the direct references and returns Key
      * @param reader XMLStreamReader
      * @return Key
-     * @throws com.sun.xml.wss.XWSSecurityException
      */
     private Key processDirectReference(XMLStreamReader reader) throws XWSSecurityException{
         try{
@@ -247,7 +245,6 @@ public class SecurityTokenProcessor {
      * processes X509 Data and returns Key
      * @param reader XMLStreamReader
      * @return Key
-     * @throws com.sun.xml.wss.XWSSecurityException
      */
     private Key processX509Data(XMLStreamReader reader) throws XWSSecurityException{
         try{
@@ -274,9 +271,8 @@ public class SecurityTokenProcessor {
      * gets the EventType for X509Data from the given XMLStreamReader
      * @param reader XMLStreamReader
      * @return int
-     * @throws javax.xml.stream.XMLStreamException
      */
-    private int getEventTypeForX509Data(XMLStreamReader reader) throws XMLStreamException{
+    private int getEventTypeForX509Data(XMLStreamReader reader) {
         if(reader.getEventType() == reader.START_ELEMENT){
             if(reader.getLocalName() == X509ISSUERSERIAL_ELEMENT){
                 return X509ISSUERSERIAL;
@@ -288,7 +284,6 @@ public class SecurityTokenProcessor {
      * processes X509 Isser Serial
      * @param reader XMLStreamReader
      * @return Key
-     * @throws com.sun.xml.wss.XWSSecurityException
      */
     private Key processX509IssuerSerial(XMLStreamReader reader) throws XWSSecurityException{
         try{
@@ -351,9 +346,8 @@ public class SecurityTokenProcessor {
      * gets the EventType for X509IssuerSerial from the given XMLStreamReader
      * @param reader XMLStreamReader
      * @return int
-     * @throws javax.xml.stream.XMLStreamException
      */
-    private int getEventTypeForX509IssuerSerial(XMLStreamReader reader) throws XMLStreamException{
+    private int getEventTypeForX509IssuerSerial(XMLStreamReader reader) {
         if(reader.getEventType() == reader.START_ELEMENT){
             if(reader.getLocalName() == X509ISSUERNAME_ELEMENT){
                 return X509ISSUERNAME;
@@ -367,7 +361,6 @@ public class SecurityTokenProcessor {
      * processes the X509 KeyIdentifier 
      * @param reader XMLStreamReader
      * @return Key
-     * @throws com.sun.xml.wss.XWSSecurityException
      */
     private Key processKeyIdentifier(XMLStreamReader reader) throws XWSSecurityException{
         try{

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -42,7 +42,6 @@ public class SignatureConfirmationPolicy extends WSSPolicy{
     
     /**
      * sets the Value attribute for SignatureConfirmation in this SignatureConfirmationPolicy
-     * @param signatureValue
      */
     public void setSignatureValue(String signatureValue){
         this.signatureValue = signatureValue;
@@ -59,6 +58,7 @@ public class SignatureConfirmationPolicy extends WSSPolicy{
      * @param policy the policy to be compared for equality
      * @return true if the argument policy is equal to this policy
      */
+    @Override
     public boolean equals(WSSPolicy policy){
         
         boolean assrt = false;
@@ -75,6 +75,7 @@ public class SignatureConfirmationPolicy extends WSSPolicy{
      * @param policy the policy to be compared for equality
      * @return true if the argument policy is equal to this policy
      */
+    @Override
     public boolean equalsIgnoreTargets(WSSPolicy policy) {
         return equals(policy);
     }
@@ -83,6 +84,7 @@ public class SignatureConfirmationPolicy extends WSSPolicy{
      * Clone operator
      * @return clone of this policy
      */
+    @Override
     public Object clone(){
         SignatureConfirmationPolicy scPolicy = new SignatureConfirmationPolicy();
         
@@ -97,6 +99,7 @@ public class SignatureConfirmationPolicy extends WSSPolicy{
     /**
      * @return the type of policy
      */
+    @Override
     public String getType(){
         return PolicyTypeUtil.SIGNATURE_CONFIRMATION_POLICY_TYPE;
     }

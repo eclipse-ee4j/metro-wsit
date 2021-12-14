@@ -27,9 +27,9 @@ public interface BinarySecret extends XMLStructure {
     /** Predefined constants for the Type of BinarySecret desired in the Security Token
      * Values for the wst:BinarySecret/@Type parameter
      */
-    public static final String ASYMMETRIC_KEY_TYPE = WSTrustConstants.WST_NAMESPACE + "/AsymmetricKey";
-    public static final String SYMMETRIC_KEY_TYPE = WSTrustConstants.WST_NAMESPACE + "/SymmetricKey";
-    public static final String NONCE_KEY_TYPE = WSTrustConstants.WST_NAMESPACE + "/Nonce";
+    String ASYMMETRIC_KEY_TYPE = WSTrustConstants.WST_NAMESPACE + "/AsymmetricKey";
+    String SYMMETRIC_KEY_TYPE = WSTrustConstants.WST_NAMESPACE + "/SymmetricKey";
+    String NONCE_KEY_TYPE = WSTrustConstants.WST_NAMESPACE + "/Nonce";
 
     /**
      * Gets a map that contains attributes that aren't bound to any typed property on this class.

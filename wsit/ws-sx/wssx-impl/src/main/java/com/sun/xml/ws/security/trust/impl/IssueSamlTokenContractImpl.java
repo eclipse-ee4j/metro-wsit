@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -23,7 +23,6 @@ import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -59,7 +58,6 @@ import com.sun.xml.wss.impl.callback.SignatureKeyCallback;
 import com.sun.xml.wss.XWSSecurityException;
 import com.sun.xml.wss.saml.Advice;
 import com.sun.xml.wss.saml.Assertion;
-import com.sun.xml.wss.saml.Attribute;
 import com.sun.xml.wss.saml.AttributeStatement;
 import com.sun.xml.wss.saml.AudienceRestriction;
 import com.sun.xml.wss.saml.AudienceRestrictionCondition;
@@ -98,6 +96,7 @@ public  class IssueSamlTokenContractImpl extends IssueSamlTokenContract {
             LogDomainConstants.TRUST_IMPL_DOMAIN,
             LogDomainConstants.TRUST_IMPL_DOMAIN_BUNDLE);
 
+    @Override
     public Token createSAMLAssertion(final String appliesTo, final String tokenType, final String keyType, final String assertionId, final String issuer, final  Map<QName, List<String>> claimedAttrs, final IssuedTokenContext context) throws WSTrustException {
         Token token = null;
         
@@ -224,7 +223,7 @@ public  class IssueSamlTokenContractImpl extends IssueSamlTokenContract {
             // Encrypt the assertion and return the Encrypteddata
             final Document owner = assertion.getOwnerDocument();
             final EncryptedData encData = cipher.encryptData(owner, assertion);
-            final String id = "uuid-" + UUID.randomUUID().toString();
+            final String id = "uuid-" + UUID.randomUUID();
             encData.setId(id);
                 
             final KeyInfo encKeyInfo = new KeyInfo(owner);
@@ -394,12 +393,12 @@ public  class IssueSamlTokenContractImpl extends IssueSamlTokenContract {
             
             List<AudienceRestrictionCondition> arc = null;
             if (appliesTo != null){
-                arc = new ArrayList<AudienceRestrictionCondition>();
-                List<String> au = new ArrayList<String>();
+                arc = new ArrayList<>();
+                List<String> au = new ArrayList<>();
                 au.add(appliesTo);
                 arc.add(samlFac.createAudienceRestrictionCondition(au));
             }
-            final List<String> confirmMethods = new ArrayList<String>();
+            final List<String> confirmMethods = new ArrayList<>();
             String confirMethod = (String)stsConfig.getOtherOptions().get(WSTrustConstants.SAML_CONFIRMATION_METHOD);
             if (confirMethod == null){
                 if (keyType.equals(wstVer.getBearerKeyTypeURI())){
@@ -444,7 +443,7 @@ public  class IssueSamlTokenContractImpl extends IssueSamlTokenContract {
                 claimedAttrs.remove(idName);
             }
             
-            final List<Object> statements = new ArrayList<Object>();
+            final List<Object> statements = new ArrayList<>();
            //if (attrs.isEmpty()){
             if (claimedAttrs.isEmpty()){
                 final AuthenticationStatement statement = samlFac.createAuthenticationStatement(null, issuerInst, subj, null, null);
@@ -486,8 +485,8 @@ public  class IssueSamlTokenContractImpl extends IssueSamlTokenContract {
             
             List<AudienceRestriction> arc = null;
             if (appliesTo != null){
-                arc = new ArrayList<AudienceRestriction>();
-                List<String> au = new ArrayList<String>();
+                arc = new ArrayList<>();
+                List<String> au = new ArrayList<>();
                 au.add(appliesTo);
                 arc.add(samlFac.createAudienceRestriction(au));
             }
@@ -540,7 +539,7 @@ public  class IssueSamlTokenContractImpl extends IssueSamlTokenContract {
                 claimedAttrs.remove(idName);
             }
         
-            final List<Object> statements = new ArrayList<Object>();
+            final List<Object> statements = new ArrayList<>();
             //if (attrs.isEmpty()){
             if (claimedAttrs.isEmpty()){
                 AuthnContext ctx = samlFac.createAuthnContext(this.authnCtxClass, null);

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -60,7 +60,8 @@ public class AttributeNS implements Cloneable , Comparable {
         this.written = written;
     }
     
-    public Object clone() throws CloneNotSupportedException {
+    @Override
+    public Object clone() {
         AttributeNS attrNS = new AttributeNS();
         attrNS.setPrefix(this.prefix);
         attrNS.setUri(this.uri);
@@ -107,6 +108,7 @@ public class AttributeNS implements Cloneable , Comparable {
         return utf8Data;
     }
     
+    @Override
     public int compareTo(Object cmp) {
         return sortNamespaces(cmp, this);
     }

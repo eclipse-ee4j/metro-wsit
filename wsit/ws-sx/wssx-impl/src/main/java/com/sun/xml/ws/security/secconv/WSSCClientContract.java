@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -161,7 +161,7 @@ public class WSSCClientContract {
         }
     }
     
-    private byte[] getKey(final RequestSecurityTokenResponse rstr, final RequestedProofToken proofToken, final RequestSecurityToken rst) throws UnsupportedOperationException, WSSecureConversationException, WSSecureConversationException, UnsupportedOperationException {
+    private byte[] getKey(final RequestSecurityTokenResponse rstr, final RequestedProofToken proofToken, final RequestSecurityToken rst) throws WSSecureConversationException, UnsupportedOperationException {
         byte[] key = null;
         if (proofToken != null){
             final String proofTokenType = proofToken.getProofTokenType();
@@ -253,7 +253,7 @@ public class WSSCClientContract {
      *
      */
     public RequestSecurityTokenResponse handleRSTRForNegotiatedExchange(
-            final RequestSecurityToken rst, final RequestSecurityTokenResponse rstr, final IssuedTokenContext context) throws WSSecureConversationException {
+            final RequestSecurityToken rst, final RequestSecurityTokenResponse rstr, final IssuedTokenContext context) {
         return null;
     }
     

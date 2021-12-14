@@ -119,6 +119,7 @@ public class XsdBooleanType
         this.id = value;
     }
 
+    @Override
     public Locator sourceLocation() {
         return locator;
     }

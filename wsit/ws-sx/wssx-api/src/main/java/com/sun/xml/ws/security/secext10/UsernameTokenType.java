@@ -73,19 +73,19 @@ public class UsernameTokenType {
     @XmlElement(name = "Username", required = true)
     protected AttributedString username;
     
-    @XmlElement(name = "Password", required = false)
+    @XmlElement(name = "Password")
     protected AttributedString password = null;
     
-    @XmlElement(name = "Nonce", required = false)
+    @XmlElement(name = "Nonce")
     protected AttributedString nonce = null;
     
-    @XmlElement(name = "Created", namespace = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd", required = false)
+    @XmlElement(name = "Created", namespace = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd")
     protected AttributedString created = null;
     
-    @XmlElement(name = "Salt", namespace = "http://docs.oasis-open.org/wss/oasis-wss-wssecurity-secext-1.1.xsd", required = false)
+    @XmlElement(name = "Salt", namespace = "http://docs.oasis-open.org/wss/oasis-wss-wssecurity-secext-1.1.xsd")
     protected  AttributedString  salt = null;
     
-    @XmlElement(name ="Iteration",namespace = "http://docs.oasis-open.org/wss/oasis-wss-wssecurity-secext-1.1.xsd", required = false)
+    @XmlElement(name ="Iteration",namespace = "http://docs.oasis-open.org/wss/oasis-wss-wssecurity-secext-1.1.xsd")
     protected AttributedString iteration;
     
     @XmlAnyElement(lax = true)
@@ -95,7 +95,7 @@ public class UsernameTokenType {
     @XmlID
     protected String id;
     @XmlAnyAttribute
-    private Map<QName, String> otherAttributes = new HashMap<QName, String>();
+    private Map<QName, String> otherAttributes = new HashMap<>();
 
     /**
      * Gets the value of the username property.
@@ -181,7 +181,7 @@ public class UsernameTokenType {
      */
     public List<Object> getAny() {
         if (any == null) {
-            any = new ArrayList<Object>();
+            any = new ArrayList<>();
         }
         return this.any;
     }

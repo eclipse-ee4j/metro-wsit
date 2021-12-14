@@ -47,8 +47,9 @@ public class AtFeatureConfigurator implements PolicyFeatureConfigurator {
      * @return The list of features
      * @throws PolicyException If retrieving the policy triggered an exception
      */
+    @Override
     public Collection<WebServiceFeature> getFeatures(PolicyMapKey endpointKey, PolicyMap policyMap) throws PolicyException {
-        final Collection<WebServiceFeature> features = new LinkedList<WebServiceFeature>();
+        final Collection<WebServiceFeature> features = new LinkedList<>();
         if (endpointKey == null || policyMap == null) {
             return features;
         }

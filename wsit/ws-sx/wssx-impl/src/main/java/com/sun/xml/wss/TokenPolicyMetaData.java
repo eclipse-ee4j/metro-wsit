@@ -74,13 +74,7 @@ public class TokenPolicyMetaData {
                 DocumentBuilder db = dbf.newDocumentBuilder();
                 Document doc = db.parse(new ByteArrayInputStream(claimBytes));
                 claimsElement = (Element) doc.getElementsByTagNameNS("*", "Claims").item(0);
-            } catch (SAXException ex) {
-                Logger.getLogger(TokenPolicyMetaData.class.getName()).log(Level.SEVERE, null, ex);
-                throw new XWSSecurityException(ex);
-            } catch (IOException ex) {
-                Logger.getLogger(TokenPolicyMetaData.class.getName()).log(Level.SEVERE, null, ex);
-                throw new XWSSecurityException(ex);
-            } catch (ParserConfigurationException ex) {
+            } catch (SAXException | ParserConfigurationException | IOException ex) {
                 Logger.getLogger(TokenPolicyMetaData.class.getName()).log(Level.SEVERE, null, ex);
                 throw new XWSSecurityException(ex);
             }

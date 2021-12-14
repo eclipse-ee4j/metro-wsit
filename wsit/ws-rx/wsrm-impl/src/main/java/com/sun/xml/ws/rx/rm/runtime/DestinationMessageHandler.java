@@ -97,7 +97,7 @@ class DestinationMessageHandler implements MessageHandler {
     /**
      * Retrieves acknowledgement information for a given outbound (and inbound) sequence
      *
-     * @param outboundSequenceId outbound sequence identifier
+     * @param inboundSequenceId inbound sequence identifier
      * @return acknowledgement information for a given outbound sequence
      * @throws UnknownSequenceException if no such sequence exits for a given sequence identifier
      */
@@ -133,7 +133,8 @@ class DestinationMessageHandler implements MessageHandler {
         sequenceManager.getInboundSequence(inMessage.getSequenceId()).acknowledgeMessageNumber(inMessage.getMessageNumber());
     }
 
-    public void putToDeliveryQueue(ApplicationMessage message) throws RxRuntimeException, UnknownSequenceException {
+    @Override
+    public void putToDeliveryQueue(ApplicationMessage message) throws RxRuntimeException {
         assert sequenceManager != null;
 
         if (LOGGER.isLoggable(Level.FINER)) {

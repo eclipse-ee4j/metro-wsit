@@ -44,6 +44,7 @@ class WsMcResponseHandler extends McResponseHandlerBase {
         this.actionToProtocolHandlerMap = protocolHandlerMap;
     }
 
+    @Override
     public void onCompletion(Packet response) {
         try {
             Message responseMessage = response.getMessage();
@@ -109,6 +110,7 @@ class WsMcResponseHandler extends McResponseHandlerBase {
         }
     }
 
+    @Override
     public void onCompletion(Throwable error) {
         try {
             LOGGER.warning(LocalizationMessages.WSMC_0121_FAILED_TO_SEND_WSMC_REQUEST(), error);

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -48,6 +48,7 @@ public class TargetResolverImpl implements TargetResolver{
         this.ctx = ctx;
     }
     
+    @Override
     public void resolveAndVerifyTargets(
             List<Target> actualTargets, List<Target> inferredTargets, WSSPolicy actualPolicy) throws XWSSecurityException {
         
@@ -114,6 +115,7 @@ public class TargetResolverImpl implements TargetResolver{
         return targetInPolicy;
     }
     
+    @Override
     public boolean isTargetPresent(List<Target> actualTargets) throws XWSSecurityException {
         FilterProcessingContext fpContext = new FilterProcessingContext(ctx);
         SecurityHeader header = fpContext.getSecurableSoapMessage().findSecurityHeader();
@@ -126,7 +128,7 @@ public class TargetResolverImpl implements TargetResolver{
                     XPath xpath = xpathFactory.newXPath();
                     xpath.setNamespaceContext(fpContext.getSecurableSoapMessage().getNamespaceContext());
                     XPathExpression xpathExpr = xpath.compile(val);
-                    NodeList nodes = (NodeList)xpathExpr.evaluate((Object)fpContext.getSecurableSoapMessage().getSOAPPart(),XPathConstants.NODESET);
+                    NodeList nodes = (NodeList)xpathExpr.evaluate(fpContext.getSecurableSoapMessage().getSOAPPart(),XPathConstants.NODESET);
                     if(nodes != null && nodes.getLength() >0){
                         return true;
                     }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -87,7 +87,7 @@ public class HANonceManager extends NonceManager {
         try {
             HAPojo value = null;
             try {
-                value = HighAvailabilityProvider.INSTANCE.loadFrom(backingStore, new StickyKey(nonce), null);
+                value = HighAvailabilityProvider.loadFrom(backingStore, new StickyKey(nonce), null);
             } catch (Exception ex) {
                 LOGGER.log(Level.WARNING, " exception during load command ", ex);
             }
@@ -98,7 +98,7 @@ public class HANonceManager extends NonceManager {
             } else {
                 HaInfo haInfo = HaContext.currentHaInfo();
                 if (haInfo != null) {
-                    HaContext.udpateReplicaInstance(HighAvailabilityProvider.INSTANCE.saveTo(backingStore, new StickyKey(nonce, haInfo.getKey()), pojo, true));
+                    HaContext.udpateReplicaInstance(HighAvailabilityProvider.saveTo(backingStore, new StickyKey(nonce, haInfo.getKey()), pojo, true));
                 } else {
                     final StickyKey stickyKey = new StickyKey(nonce);
                     final String replicaId = HighAvailabilityProvider.saveTo(backingStore, stickyKey, pojo, true);
@@ -116,6 +116,7 @@ public class HANonceManager extends NonceManager {
 
     public class nonceCleanupTask implements Runnable {
 
+        @Override
         public void run() {
             try {
                 //clear local nonce cache

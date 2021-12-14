@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -27,33 +27,30 @@ public interface ParticipantPortType {
 
 
     /**
-     * 
-     * @param parameters
+     *
      */
     @WebMethod(operationName = "PrepareOperation", action = "http://schemas.xmlsoap.org/ws/2004/10/wsat/Prepare")
     @Oneway
-    public void prepare(
-        @WebParam(name = "Prepare", targetNamespace = "http://schemas.xmlsoap.org/ws/2004/10/wsat", partName = "parameters")
-        Notification parameters);
+    void prepare(
+            @WebParam(name = "Prepare", targetNamespace = "http://schemas.xmlsoap.org/ws/2004/10/wsat", partName = "parameters")
+                    Notification parameters);
 
     /**
-     * 
-     * @param parameters
+     *
      */
     @WebMethod(operationName = "CommitOperation", action = "http://schemas.xmlsoap.org/ws/2004/10/wsat/Commit")
     @Oneway
-    public void commit(
-        @WebParam(name = "Commit", targetNamespace = "http://schemas.xmlsoap.org/ws/2004/10/wsat", partName = "parameters")
-        Notification parameters);
+    void commit(
+            @WebParam(name = "Commit", targetNamespace = "http://schemas.xmlsoap.org/ws/2004/10/wsat", partName = "parameters")
+                    Notification parameters);
 
     /**
-     * 
-     * @param parameters
+     *
      */
     @WebMethod(operationName = "RollbackOperation", action = "http://schemas.xmlsoap.org/ws/2004/10/wsat/Rollback")
     @Oneway
-    public void rollback(
-        @WebParam(name = "Rollback", targetNamespace = "http://schemas.xmlsoap.org/ws/2004/10/wsat", partName = "parameters")
-        Notification parameters);
+    void rollback(
+            @WebParam(name = "Rollback", targetNamespace = "http://schemas.xmlsoap.org/ws/2004/10/wsat", partName = "parameters")
+                    Notification parameters);
 
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -33,6 +33,7 @@ public class MetadataResolverImpl extends MetaDataResolver {
      * code can try retrieving it another way (for instance, with
      * a ?wsdl http GET call).
      */
+    @Override
     public ServiceDescriptor resolve(final URI location) {
         final Metadata mData = mClient.retrieveMetadata(location.toString());
         if (mData == null) {

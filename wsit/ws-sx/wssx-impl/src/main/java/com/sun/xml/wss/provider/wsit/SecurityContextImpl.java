@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -38,15 +38,12 @@ public class SecurityContextImpl implements SecurityContext {
             getSubject = c.getMethod("getSubject", params);
             params = new Class[]{Subject.class};
             ctor = c.getConstructor(params);
-        } catch (NoSuchMethodException ex) {
-            //Logger.getLogger(SecurityContextImpl.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SecurityException ex) {
-            //Logger.getLogger(SecurityContextImpl.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
+        } catch (NoSuchMethodException | ClassNotFoundException | SecurityException ex) {
             //Logger.getLogger(SecurityContextImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
+    @Override
     public Subject getSubject() {
         Subject s = null;        
         Object[] args = new Object[]{};
@@ -66,17 +63,12 @@ public class SecurityContextImpl implements SecurityContext {
             }
             return s;
           
-        } catch (IllegalAccessException ex) {
-            return null;
-        } catch (IllegalArgumentException ex) {
-            return null;
-        } catch (InvocationTargetException ex) {
-            return null;
-        } catch (SecurityException ex) {
+        } catch (IllegalAccessException | SecurityException | InvocationTargetException | IllegalArgumentException ex) {
             return null;
         }
     }
     
+    @Override
     public void setSubject(Subject subject) {
         //SecurityContext sC = new SecurityContext(s);
 	//SecurityContext.setCurrent(sC);
@@ -98,17 +90,7 @@ public class SecurityContextImpl implements SecurityContext {
                 return;
             }
             setCurrent.invoke(null, args);
-        } catch (InstantiationException ex) {
-            //ignore
-        } catch (IllegalAccessException ex) {
-            //ignore
-        } catch (IllegalArgumentException ex) {
-            //ignore
-        } catch (InvocationTargetException ex) {
-            //ignore
-        } catch (NoSuchMethodException ex) {
-            //ignore
-        } catch (SecurityException ex) {
+        } catch (InstantiationException | SecurityException | NoSuchMethodException | InvocationTargetException | IllegalArgumentException | IllegalAccessException ex) {
             //ignore
         }
     }

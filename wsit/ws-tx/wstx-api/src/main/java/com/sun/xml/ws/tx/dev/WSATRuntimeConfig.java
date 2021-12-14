@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -119,7 +119,6 @@ public final class WSATRuntimeConfig {
 
     /**
      * Is WS-AT recovery and therefore WS-AT transaction logging enabled
-     * @return
      */
     public boolean isWSATRecoveryEnabled() {
         return isWsatRecoveryEnabled;
@@ -208,12 +207,14 @@ public final class WSATRuntimeConfig {
         void afterRecovery(boolean success, boolean delegated, String instance);
     }
 
-    public class WSATRecoveryEventListener implements RecoveryEventListener {
+    public static class WSATRecoveryEventListener implements RecoveryEventListener {
 
+        @Override
         public void beforeRecovery(boolean delegated, String instance) {
             if(wsatRecoveryEventListener!=null) wsatRecoveryEventListener.beforeRecovery(delegated, instance);
         }
 
+        @Override
         public void afterRecovery(boolean success, boolean delegated, String instance) {
             if(wsatRecoveryEventListener!=null) wsatRecoveryEventListener.afterRecovery(success, delegated, instance);
         }

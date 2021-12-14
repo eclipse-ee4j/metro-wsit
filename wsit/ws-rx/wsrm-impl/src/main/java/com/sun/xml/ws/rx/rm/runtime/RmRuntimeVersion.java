@@ -123,7 +123,7 @@ public enum RmRuntimeVersion {
      */
     private final JaxbContextRepository jaxbContextRepository;
 
-    private RmRuntimeVersion(RmProtocolVersion protocolVersion, Class<?>... rmProtocolClasses) {
+    RmRuntimeVersion(RmProtocolVersion protocolVersion, Class<?>... rmProtocolClasses) {
         this.protocolVersion = protocolVersion;
         this.jaxbContextRepository = new JaxbContextRepository(rmProtocolClasses);
     }

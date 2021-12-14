@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -56,43 +56,50 @@ public class SAMLAssertion2_2FactoryImpl extends SAMLAssertionFactory {
         return new com.sun.xml.wss.saml.assertion.saml20.jaxb20.Action(actionElement);
     }
     
+    @Override
     public Action createAction(String action, String namespace) {
         return new com.sun.xml.wss.saml.assertion.saml20.jaxb20.Action(action, namespace);
     }
     
+    @Override
     public Advice createAdvice(List assertionidreference, List assertion, List otherelement) {
         return new com.sun.xml.wss.saml.assertion.saml20.jaxb20.Advice(assertionidreference, assertion, otherelement);
     }
     
+    @Override
     public AnyType createAnyType() {
         return null;
     }
     
+    @Override
     public Assertion createAssertion(org.w3c.dom.Element element) throws SAMLException {
         return com.sun.xml.wss.saml.assertion.saml20.jaxb20.Assertion.fromElement(element);
     }
     
+    @Override
     public Assertion createAssertion(
             String assertionID,
             java.lang.String issuer,
             GregorianCalendar issueInstant,
             Conditions conditions,
             Advice advice,
-            List statements) throws SAMLException {
+            List statements) {
         
         throw new UnsupportedOperationException("Not Supported for SAML2.0");
     }
+    @Override
     public Assertion createAssertion(
             String assertionID,
             java.lang.String issuer,
             GregorianCalendar issueInstant,
             Conditions conditions,
             Advice advice,
-            List statements,JAXBContext jcc) throws SAMLException {
+            List statements,JAXBContext jcc) {
         
         throw new UnsupportedOperationException("Not Supported for SAML2.0");
     }
     
+    @Override
     public Assertion createAssertion(
             String ID,
             NameID issuer,
@@ -111,6 +118,7 @@ public class SAMLAssertion2_2FactoryImpl extends SAMLAssertionFactory {
                 (com.sun.xml.wss.saml.assertion.saml20.jaxb20.Subject)subject,
                 statements);
     }
+    @Override
     public Assertion createAssertion(
             String ID,
             NameID issuer,
@@ -131,59 +139,72 @@ public class SAMLAssertion2_2FactoryImpl extends SAMLAssertionFactory {
     }
     
     
-    public AssertionIDReference createAssertionIDReference() throws SAMLException{
+    @Override
+    public AssertionIDReference createAssertionIDReference() {
         throw new UnsupportedOperationException("Not Supported for SAML2.0");
     }
-    public AssertionIDRef createAssertionIDRef() throws SAMLException{
-        throw new UnsupportedOperationException("Not Supported for SAML2.0");
-    }
-    
-    public AssertionIDReference createAssertionIDReference(String id) throws SAMLException{
-        throw new UnsupportedOperationException("Not Supported for SAML2.0");
-    }
-    
-    public AssertionIDRef createAssertionIDRef(String id) throws SAMLException{
+    @Override
+    public AssertionIDRef createAssertionIDRef() {
         throw new UnsupportedOperationException("Not Supported for SAML2.0");
     }
     
-    public Attribute createAttribute(String name, String nameSpace, List values) throws SAMLException{
+    @Override
+    public AssertionIDReference createAssertionIDReference(String id) {
+        throw new UnsupportedOperationException("Not Supported for SAML2.0");
+    }
+    
+    @Override
+    public AssertionIDRef createAssertionIDRef(String id) {
+        throw new UnsupportedOperationException("Not Supported for SAML2.0");
+    }
+    
+    @Override
+    public Attribute createAttribute(String name, String nameSpace, List values) {
         return new com.sun.xml.wss.saml.assertion.saml20.jaxb20.Attribute(name, nameSpace, values);
     }
     
-    public Attribute createAttribute(String name, List values) throws SAMLException{
+    @Override
+    public Attribute createAttribute(String name, List values) {
         return new com.sun.xml.wss.saml.assertion.saml20.jaxb20.Attribute(name, values);
     }
     
-    public AttributeDesignator createAttributeDesignator(String name, String nameSpace) throws SAMLException{
+    @Override
+    public AttributeDesignator createAttributeDesignator(String name, String nameSpace) {
         throw new UnsupportedOperationException("Not Supported for SAML2.0");
     }
     
-    public AttributeStatement createAttributeStatement(Subject subj, List attr) throws SAMLException{
+    @Override
+    public AttributeStatement createAttributeStatement(Subject subj, List attr) {
         throw new UnsupportedOperationException("Not Supported for SAML2.0");
     }
     
-    public AttributeStatement createAttributeStatement(List attr) throws SAMLException{
+    @Override
+    public AttributeStatement createAttributeStatement(List attr) {
         return new com.sun.xml.wss.saml.assertion.saml20.jaxb20.AttributeStatement(attr);
     }
         
-    public AudienceRestrictionCondition createAudienceRestrictionCondition(List audience) throws SAMLException{
+    @Override
+    public AudienceRestrictionCondition createAudienceRestrictionCondition(List audience) {
         throw new UnsupportedOperationException("Not Supported for SAML2.0");
     }
     
-    public AudienceRestriction createAudienceRestriction(List audience) throws SAMLException{
+    @Override
+    public AudienceRestriction createAudienceRestriction(List audience) {
         return new com.sun.xml.wss.saml.assertion.saml20.jaxb20.AudienceRestriction(audience);
     }
     
+    @Override
     public AuthenticationStatement createAuthenticationStatement(
             String authMethod, GregorianCalendar authInstant, Subject subject,
-            SubjectLocality subjectLocality, List authorityBinding) throws SAMLException{
+            SubjectLocality subjectLocality, List authorityBinding) {
         
         throw new UnsupportedOperationException("Not Supported for SAML2.0");
     }
     
+    @Override
     public AuthnStatement createAuthnStatement(
             GregorianCalendar authInstant, SubjectLocality subjectLocality, AuthnContext authnContext,
-            String sessionIndex, GregorianCalendar sessionNotOnOrAfter ) throws SAMLException{
+            String sessionIndex, GregorianCalendar sessionNotOnOrAfter ) {
         
         return new com.sun.xml.wss.saml.assertion.saml20.jaxb20.AuthnStatement(
                 authInstant,
@@ -193,26 +214,31 @@ public class SAMLAssertion2_2FactoryImpl extends SAMLAssertionFactory {
                 sessionNotOnOrAfter);
     }
     
-    public AuthorityBinding createAuthorityBinding(QName authKind, String location, String binding) throws SAMLException{
+    @Override
+    public AuthorityBinding createAuthorityBinding(QName authKind, String location, String binding) {
         throw new UnsupportedOperationException("Not Supported for SAML2.0");
     }
     
-    public AuthnContext createAuthnContext() throws SAMLException{
+    @Override
+    public AuthnContext createAuthnContext() {
         return new com.sun.xml.wss.saml.assertion.saml20.jaxb20.AuthnContext();
     }
     
-    public AuthnContext createAuthnContext(String authContextClassref, String authenticatingAuthority) throws SAMLException{
+    @Override
+    public AuthnContext createAuthnContext(String authContextClassref, String authenticatingAuthority) {
         return new com.sun.xml.wss.saml.assertion.saml20.jaxb20.AuthnContext(authContextClassref, authenticatingAuthority);
     }
     
+    @Override
     public AuthorizationDecisionStatement createAuthorizationDecisionStatement(
-            Subject subject, String resource, String decision, List action, Evidence evidence) throws SAMLException{
+            Subject subject, String resource, String decision, List action, Evidence evidence) {
         
         throw new UnsupportedOperationException("Not Supported for SAML2.0");
     }
     
+    @Override
     public AuthnDecisionStatement createAuthnDecisionStatement(
-            String resource, String decision, List action, Evidence evidence) throws SAMLException{
+            String resource, String decision, List action, Evidence evidence) {
         
         return new com.sun.xml.wss.saml.assertion.saml20.jaxb20.AuthzDecisionStatement(
                 resource,
@@ -222,73 +248,86 @@ public class SAMLAssertion2_2FactoryImpl extends SAMLAssertionFactory {
                 );
     }
     
-    public Conditions createConditions() throws SAMLException{
+    @Override
+    public Conditions createConditions() {
         return new com.sun.xml.wss.saml.assertion.saml20.jaxb20.Conditions();
     }
     
+    @Override
     public Conditions createConditions(
             GregorianCalendar notBefore,
             GregorianCalendar notOnOrAfter,
             List condition,
             List arc,
-            List doNotCacheCnd) throws SAMLException{
+            List doNotCacheCnd) {
         
         throw new UnsupportedOperationException("Not Supported for SAML2.0");
     }
     
+    @Override
     public Conditions createConditions(
             GregorianCalendar notBefore,
             GregorianCalendar notOnOrAfter,
             List condition,
             List ar,
             List oneTimeUse,
-            List proxyRestriction) throws SAMLException{
+            List proxyRestriction) {
         
         return new com.sun.xml.wss.saml.assertion.saml20.jaxb20.Conditions(
                 notBefore, notOnOrAfter, condition, ar, oneTimeUse, proxyRestriction);
     }
     
     
-    public DoNotCacheCondition createDoNotCacheCondition() throws SAMLException{
+    @Override
+    public DoNotCacheCondition createDoNotCacheCondition() {
         throw new UnsupportedOperationException("Not Supported for SAML2.0");
     }
     
-    public OneTimeUse createOneTimeUse() throws SAMLException{
+    @Override
+    public OneTimeUse createOneTimeUse() {
         return new com.sun.xml.wss.saml.assertion.saml20.jaxb20.OneTimeUse();
     }
     
-    public Evidence createEvidence(List assertionIDRef, List assertion) throws SAMLException{
+    @Override
+    public Evidence createEvidence(List assertionIDRef, List assertion) {
         return new com.sun.xml.wss.saml.assertion.saml20.jaxb20.Evidence( assertionIDRef, assertion);
     }
     
-    public NameIdentifier createNameIdentifier(String name, String nameQualifier, String format) throws SAMLException{
+    @Override
+    public NameIdentifier createNameIdentifier(String name, String nameQualifier, String format) {
         throw new UnsupportedOperationException("Not Supported for SAML2.0");
     }
     
-    public NameID createNameID(String name, String nameQualifier, String format) throws SAMLException{
+    @Override
+    public NameID createNameID(String name, String nameQualifier, String format) {
         return new com.sun.xml.wss.saml.assertion.saml20.jaxb20.NameID( name, nameQualifier, format);
     }
     
-    public Subject createSubject(NameIdentifier nameIdentifier, SubjectConfirmation subjectConfirmation) throws SAMLException{
+    @Override
+    public Subject createSubject(NameIdentifier nameIdentifier, SubjectConfirmation subjectConfirmation) {
         throw new UnsupportedOperationException("Not Supported for SAML2.0");
     }
     
-    public Subject createSubject(NameID nameID, SubjectConfirmation subjectConfirmation) throws SAMLException{
+    @Override
+    public Subject createSubject(NameID nameID, SubjectConfirmation subjectConfirmation) {
         return new com.sun.xml.wss.saml.assertion.saml20.jaxb20.Subject(
                 (com.sun.xml.wss.saml.assertion.saml20.jaxb20.NameID)nameID,
                 (com.sun.xml.wss.saml.assertion.saml20.jaxb20.SubjectConfirmation)subjectConfirmation);
     }
     
-    public SubjectConfirmation createSubjectConfirmation(String confirmationMethod) throws SAMLException{
+    @Override
+    public SubjectConfirmation createSubjectConfirmation(String confirmationMethod) {
         throw new UnsupportedOperationException("Not Supported for SAML2.0");
     }
     
-    public SubjectConfirmation createSubjectConfirmation(NameID nameID, String method) throws SAMLException{
+    @Override
+    public SubjectConfirmation createSubjectConfirmation(NameID nameID, String method) {
         return new com.sun.xml.wss.saml.assertion.saml20.jaxb20.SubjectConfirmation(
                 (com.sun.xml.wss.saml.assertion.saml20.jaxb20.NameID)nameID,
                 method);
     }
         
+    @Override
     public SubjectConfirmation createSubjectConfirmation(
             List confirmationMethods,SubjectConfirmationData scd,KeyInfo keyInfo) throws SAMLException {
         com.sun.xml.wss.saml.assertion.saml11.jaxb20.SubjectConfirmation sc = new com.sun.xml.wss.saml.assertion.saml11.jaxb20.SubjectConfirmation();
@@ -309,13 +348,15 @@ public class SAMLAssertion2_2FactoryImpl extends SAMLAssertionFactory {
     }
     
     
+    @Override
     public SubjectConfirmation createSubjectConfirmation(
             List confirmationMethods, Element subjectConfirmationData,
-            Element keyInfo) throws SAMLException {
+            Element keyInfo) {
         
         throw new UnsupportedOperationException("Not Supported for SAML2.0");
     }
     
+    @Override
     public SubjectConfirmation createSubjectConfirmation(
             NameID nameID, SubjectConfirmationData subjectConfirmationData,
             String confirmationMethod) throws SAMLException {
@@ -326,6 +367,7 @@ public class SAMLAssertion2_2FactoryImpl extends SAMLAssertionFactory {
                 confirmationMethod);
     }
     
+    @Override
     public SubjectConfirmation createSubjectConfirmation(
             NameID nameID, KeyInfoConfirmationData keyInfoConfirmationData,
             String confirmationMethod) throws SAMLException {
@@ -336,6 +378,7 @@ public class SAMLAssertion2_2FactoryImpl extends SAMLAssertionFactory {
                 confirmationMethod);
     }
     
+    @Override
     public SubjectConfirmationData createSubjectConfirmationData(
             String address, String inResponseTo, GregorianCalendar notBefore,
             GregorianCalendar notOnOrAfter, String recipient, Element keyInfo) throws SAMLException{
@@ -345,9 +388,10 @@ public class SAMLAssertion2_2FactoryImpl extends SAMLAssertionFactory {
                 keyInfo);
     }
     
+    @Override
     public SubjectConfirmationData createSubjectConfirmationData(
             String address, String inResponseTo, GregorianCalendar notBefore,
-            GregorianCalendar notOnOrAfter, String recipient, KeyInfo keyInfo) throws SAMLException{
+            GregorianCalendar notOnOrAfter, String recipient, KeyInfo keyInfo) {
         com.sun.xml.wss.saml.internal.saml20.jaxb20.SubjectConfirmationDataType scd = new com.sun.xml.wss.saml.assertion.saml20.jaxb20.SubjectConfirmationData();
         scd.setAddress(address);
         scd.setInResponseTo(inResponseTo);
@@ -367,28 +411,30 @@ public class SAMLAssertion2_2FactoryImpl extends SAMLAssertionFactory {
         return (SubjectConfirmationData)scd;
     }
     
+    @Override
     public KeyInfoConfirmationData createKeyInfoConfirmationData(Element keyInfo) throws SAMLException{
         
         return new com.sun.xml.wss.saml.assertion.saml20.jaxb20.KeyInfoConfirmationData(keyInfo);
     }
     
-    public SubjectLocality createSubjectLocality() throws SAMLException{
+    @Override
+    public SubjectLocality createSubjectLocality() {
         return new com.sun.xml.wss.saml.assertion.saml20.jaxb20.SubjectLocality();
     }
     
-    public SubjectLocality createSubjectLocality(String ipAddress, String dnsAddress) throws SAMLException{
+    @Override
+    public SubjectLocality createSubjectLocality(String ipAddress, String dnsAddress) {
         return new com.sun.xml.wss.saml.assertion.saml20.jaxb20.SubjectLocality(ipAddress, dnsAddress);
     }
     
+    @Override
     public Assertion createAssertion(XMLStreamReader reader) throws SAMLException {
         try {
             Element samlElement = SAMLUtil.createSAMLAssertion(reader);
-            Assertion samlAssertion = 
-                    (Assertion)(Assertion)com.sun.xml.wss.saml.assertion.saml20.jaxb20.Assertion.fromElement(samlElement);
+            Assertion samlAssertion =
+                    com.sun.xml.wss.saml.assertion.saml20.jaxb20.Assertion.fromElement(samlElement);
             return samlAssertion;
-        } catch (XWSSecurityException ex) {
-            throw new SAMLException(ex);
-        } catch (XMLStreamException ex) {
+        } catch (XWSSecurityException | XMLStreamException ex) {
             throw new SAMLException(ex);
         }
     }   

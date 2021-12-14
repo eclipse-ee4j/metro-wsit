@@ -116,7 +116,7 @@ public class SequenceAcknowledgementElement {
     @XmlAnyElement(lax = true)
     protected List<Object> any;
     @XmlAnyAttribute
-    private Map<QName, String> otherAttributes = new HashMap<QName, String>();
+    private Map<QName, String> otherAttributes = new HashMap<>();
 
     /**
      * Gets the value of the identifier property.
@@ -166,7 +166,7 @@ public class SequenceAcknowledgementElement {
      */
     public List<SequenceAcknowledgementElement.AcknowledgementRange> getAcknowledgementRange() {
         if (acknowledgementRange == null) {
-            acknowledgementRange = new ArrayList<SequenceAcknowledgementElement.AcknowledgementRange>();
+            acknowledgementRange = new ArrayList<>();
         }
         return this.acknowledgementRange;
     }
@@ -243,7 +243,7 @@ public class SequenceAcknowledgementElement {
      */
     public List<BigInteger> getNack() {
         if (nack == null) {
-            nack = new ArrayList<BigInteger>();
+            nack = new ArrayList<>();
         }
         return this.nack;
     }
@@ -273,7 +273,7 @@ public class SequenceAcknowledgementElement {
      */
     public List<Object> getAny() {
         if (any == null) {
-            any = new ArrayList<Object>();
+            any = new ArrayList<>();
         }
         return this.any;
     }
@@ -327,7 +327,7 @@ public class SequenceAcknowledgementElement {
         @XmlSchemaType(name = "unsignedLong")
         protected BigInteger lower;
         @XmlAnyAttribute
-        private Map<QName, String> otherAttributes = new HashMap<QName, String>();
+        private Map<QName, String> otherAttributes = new HashMap<>();
 
         /**
          * Gets the value of the upper property.

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -20,7 +20,7 @@ import java.util.logging.Level;
 
 public class PendingRequestManager {
     private static final Logger LOGGER = Logger.getLogger(PendingRequestManager.class);
-    static ConcurrentHashMap<String, ResponseBox> pendingRequests = new ConcurrentHashMap<String, ResponseBox>();
+    static ConcurrentHashMap<String, ResponseBox> pendingRequests = new ConcurrentHashMap<>();
 
     public static ResponseBox reqisterRequest(String msgId) {
         ResponseBox box = new ResponseBox();

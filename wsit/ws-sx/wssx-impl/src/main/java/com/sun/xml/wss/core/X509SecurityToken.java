@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -124,6 +124,7 @@ public class X509SecurityToken extends BinarySecurityToken implements Token {
             element, X509SecurityToken.class);
     }
 
+    @Override
     public String getTextValue() throws XWSSecurityException {
 
         if (encodedText == null) {
@@ -154,10 +155,12 @@ public class X509SecurityToken extends BinarySecurityToken implements Token {
     }
 
     // Token interface methods
+    @Override
     public String getType() {
         return MessageConstants.X509_TOKEN_NS;
     }
 
+    @Override
     public Object getTokenValue() {
         try {
             return getCertificate();

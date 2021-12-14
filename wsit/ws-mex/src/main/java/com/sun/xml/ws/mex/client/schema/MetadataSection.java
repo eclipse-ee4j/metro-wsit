@@ -29,7 +29,6 @@ import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.XmlType;
 import javax.xml.namespace.QName;
-import org.w3c.dom.Element;
 
 
 /**
@@ -77,7 +76,7 @@ public class MetadataSection {
     @XmlAttribute(name = "Identifier")
     protected String identifier;
     @XmlAnyAttribute
-    private Map<QName, String> otherAttributes = new HashMap<QName, String>();
+    private Map<QName, String> otherAttributes = new HashMap<>();
 
     /**
      * Gets the value of the any property.

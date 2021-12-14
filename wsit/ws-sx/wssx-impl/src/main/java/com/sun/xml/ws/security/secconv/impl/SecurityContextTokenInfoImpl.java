@@ -41,7 +41,7 @@ public class SecurityContextTokenInfoImpl implements SecurityContextTokenInfo {
     String extId = null;
     String instance = null;
     byte[] secret = null;
-    Map<String, byte[]> secretMap = new HashMap<String, byte[]>();
+    Map<String, byte[]> secretMap = new HashMap<>();
     Date creationTime = null;
     Date expirationTime = null;
     
@@ -50,10 +50,12 @@ public class SecurityContextTokenInfoImpl implements SecurityContextTokenInfo {
         //empty constructor
     }
     
+    @Override
     public String getIdentifier() {
         return identifier;
     }
     
+    @Override
     public void setIdentifier(final String identifier) {
         this.identifier = identifier;
     }
@@ -61,32 +63,39 @@ public class SecurityContextTokenInfoImpl implements SecurityContextTokenInfo {
     /*
      * external Id corresponds to the wsu Id on the token.
      */
+    @Override
     public String getExternalId() {
         return extId;
     }
     
+    @Override
     public void setExternalId(final String externalId) {
         this.extId = externalId;
     }
     
+    @Override
     public String getInstance() {
         return instance;
     }
     
+    @Override
     public void setInstance(final String instance) {
         this.instance = instance;
     }
     
+    @Override
     public byte[] getSecret() {
         byte [] newSecret = new byte[secret.length];
         System.arraycopy(secret,0,newSecret,0,secret.length);
         return newSecret;
     }
     
+    @Override
     public byte[] getInstanceSecret(final String instance) {
         return secretMap.get(instance);
     }
     
+    @Override
     public void addInstance(final String instance, final byte[] key) {
         byte [] newKey = new byte[key.length];
         System.arraycopy(key,0,newKey,0,key.length);
@@ -97,26 +106,32 @@ public class SecurityContextTokenInfoImpl implements SecurityContextTokenInfo {
         }
     }
     
+    @Override
     public Date getCreationTime() {
         return new Date(creationTime.getTime());
     }
     
+    @Override
     public void setCreationTime(final Date creationTime) {
         this.creationTime = new Date(creationTime.getTime());
     }
     
+    @Override
     public Date getExpirationTime() {
         return new Date(expirationTime.getTime());
     }
     
+    @Override
     public void setExpirationTime(final Date expirationTime) {
         this.expirationTime = new Date(expirationTime.getTime());
     }
     
+    @Override
     public Set getInstanceKeys() {
         return secretMap.keySet();
     }
     
+    @Override
     public IssuedTokenContext getIssuedTokenContext() {
         
         final IssuedTokenContext itc = new IssuedTokenContextImpl();
@@ -151,6 +166,7 @@ public class SecurityContextTokenInfoImpl implements SecurityContextTokenInfo {
     }
     
     //public static IssuedTokenContext getIssuedTokenContext(SecurityTokenReference reference) {
+    @Override
     public IssuedTokenContext getIssuedTokenContext(final com.sun.xml.ws.security.SecurityTokenReference reference) {
         // get str id -> get Session corresponding to id
         // from session get corresponding SCTInfo ->

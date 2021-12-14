@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -15,15 +15,11 @@ import com.sun.xml.ws.tx.at.common.CoordinatorIF;
 import com.sun.xml.ws.tx.at.common.WSATVersion;
 import com.sun.xml.ws.tx.at.v10.types.CoordinatorPortType;
 import com.sun.xml.ws.tx.at.v10.types.Notification;
-import com.sun.xml.ws.client.WSServiceDelegate;
 
 import java.io.Closeable;
 import java.io.IOException;
 
 /**
- * 
- * @exclude
- *
  * This is the base class for building client proxy for invoking WSAT10 coordinator services..
  */
 public class CoordinatorProxyBuilderImpl extends CoordinatorProxyBuilder<Notification> {
@@ -46,26 +42,31 @@ public class CoordinatorProxyBuilderImpl extends CoordinatorProxyBuilder<Notific
             port = service.getCoordinatorPortTypePort(to,getEnabledFeatures());
         }
 
+        @Override
         public void preparedOperation(Notification parameters) {
             port.preparedOperation(parameters);
             closePort();
         }
 
+        @Override
         public void abortedOperation(Notification parameters) {
             port.abortedOperation(parameters);
             closePort();
         }
 
+        @Override
         public void readOnlyOperation(Notification parameters) {
             port.readOnlyOperation(parameters);
             closePort();
         }
 
+        @Override
         public void committedOperation(Notification parameters) {
             port.committedOperation(parameters);
             closePort();
         }
 
+        @Override
         public void replayOperation(Notification parameters) {
            port.replayOperation(parameters);
            closePort();

@@ -67,8 +67,9 @@ public class WSITAuthConfigProvider implements AuthConfigProvider {
         this.wLock = rwLock.writeLock(); 
     }
 
+    @Override
     @SuppressWarnings("unchecked")
-    public  ClientAuthConfig getClientAuthConfig(String layer, String appContext, CallbackHandler callbackHandler) throws AuthException {
+    public  ClientAuthConfig getClientAuthConfig(String layer, String appContext, CallbackHandler callbackHandler) {
         
         ClientAuthConfig clientConfig = null;
         this.rLock.lock();
@@ -95,8 +96,9 @@ public class WSITAuthConfigProvider implements AuthConfigProvider {
         }
     }
     
+    @Override
     @SuppressWarnings("unchecked")
-    public  ServerAuthConfig getServerAuthConfig(String layer, String appContext, CallbackHandler callbackHandler) throws AuthException {
+    public  ServerAuthConfig getServerAuthConfig(String layer, String appContext, CallbackHandler callbackHandler) {
         ServerAuthConfig serverConfig = null;
         this.rLock.lock();
          try {
@@ -122,6 +124,7 @@ public class WSITAuthConfigProvider implements AuthConfigProvider {
          }
     }
 
+    @Override
     public void refresh() {
     }
     
@@ -138,7 +141,7 @@ public class WSITAuthConfigProvider implements AuthConfigProvider {
             return false;
         
         try {
-            PolicyMapKey endpointKey = policyMap.createWsdlEndpointScopeKey(wsdlPort.getOwner().getName(),
+            PolicyMapKey endpointKey = PolicyMap.createWsdlEndpointScopeKey(wsdlPort.getOwner().getName(),
                     wsdlPort.getName());
             Policy policy = policyMap.getEndpointEffectivePolicy(endpointKey);
             
@@ -150,7 +153,7 @@ public class WSITAuthConfigProvider implements AuthConfigProvider {
             }
             
             for (WSDLBoundOperation wbo : wsdlPort.getBinding().getBindingOperations()) {
-                PolicyMapKey operationKey = policyMap.createWsdlOperationScopeKey(wsdlPort.getOwner().getName(),
+                PolicyMapKey operationKey = PolicyMap.createWsdlOperationScopeKey(wsdlPort.getOwner().getName(),
                         wsdlPort.getName(),
                         wbo.getName());
                 policy = policyMap.getOperationEffectivePolicy(operationKey);

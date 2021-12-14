@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -76,6 +76,7 @@ public class WSTrustClientContractImpl implements WSTrustClientContract {
      * Handle an RSTR returned by the Issuer and update Token information into the
      * IssuedTokenContext.
      */
+    @Override
     public void handleRSTR(
             final BaseSTSRequest request, final BaseSTSResponse response, final IssuedTokenContext context) throws WSTrustException{
         WSTrustVersion wstVer = WSTrustVersion.getInstance(((STSIssuedTokenConfiguration)context.getSecurityPolicy().get(0)).getProtocol());
@@ -148,8 +149,9 @@ public class WSTrustClientContractImpl implements WSTrustClientContract {
      * Handle an RSTR returned by the Issuer and Respond to the Challenge
      *
      */
+    @Override
     public BaseSTSResponse handleRSTRForNegotiatedExchange(
-            final BaseSTSRequest request, final BaseSTSResponse response, final IssuedTokenContext context) throws WSTrustException{
+            final BaseSTSRequest request, final BaseSTSResponse response, final IssuedTokenContext context) {
         throw new UnsupportedOperationException("Unsupported operation: handleRSTRForNegotiatedExchange");
     }
     
@@ -158,7 +160,8 @@ public class WSTrustClientContractImpl implements WSTrustClientContract {
      * for example a Client Initiated WS-SecureConversation context.
      *
      */
-    public BaseSTSResponse createRSTRForClientInitiatedIssuedTokenContext(final AppliesTo scopes,final IssuedTokenContext context) throws WSTrustException {
+    @Override
+    public BaseSTSResponse createRSTRForClientInitiatedIssuedTokenContext(final AppliesTo scopes, final IssuedTokenContext context) {
         throw new UnsupportedOperationException("Unsupported operation: createRSTRForClientInitiatedIssuedTokenContext");
     }
     
@@ -167,6 +170,7 @@ public class WSTrustClientContractImpl implements WSTrustClientContract {
      * @return true if the RSTR contains a SignChallenge/BinaryExchange or
      *  some other custom challenge recognized by this implementation.
      */
+    @Override
     public boolean containsChallenge(final RequestSecurityTokenResponse rstr){
         throw new UnsupportedOperationException("Unsupported operation: containsChallenge");
     }
@@ -174,6 +178,7 @@ public class WSTrustClientContractImpl implements WSTrustClientContract {
     /**
      * Return the &lt;wst:ComputedKey&gt; URI if any inside the RSTR, null otherwise
      */
+    @Override
     public URI getComputedKeyAlgorithmFromProofToken(final RequestSecurityTokenResponse rstr){
         throw new UnsupportedOperationException("Unsupported operation: getComputedKeyAlgorithmFromProofToken");
     }

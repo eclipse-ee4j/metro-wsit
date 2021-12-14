@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -36,7 +36,6 @@ public class DataWrapper{
     
     /**
      *
-     * @param data
      */    
     DataWrapper(Data data){
         this.data = data;
@@ -104,7 +103,6 @@ public class DataWrapper{
     
     /**
      * null if no target has been set.
-     * @return
      */    
     public SignatureTarget getTarget(){
         return signatureTarget;
@@ -112,7 +110,6 @@ public class DataWrapper{
     
     /**
      *
-     * @param target
      */    
     public void setTarget(SignatureTarget target){
         this.signatureTarget = target;

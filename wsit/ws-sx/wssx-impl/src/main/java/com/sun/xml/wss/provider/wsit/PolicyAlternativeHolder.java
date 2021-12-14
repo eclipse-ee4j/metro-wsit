@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -51,10 +51,10 @@ public class PolicyAlternativeHolder {
         this.spVersion = sv;
         this.bpMSP = bpMSP;
         uuid = UUID.randomUUID().toString();
-        this.inMessagePolicyMap = new HashMap<WSDLBoundOperation, SecurityPolicyHolder>();
-        this.outMessagePolicyMap = new HashMap<WSDLBoundOperation, SecurityPolicyHolder>();
-        this.inProtocolPM = new HashMap<String, SecurityPolicyHolder>();
-        this.outProtocolPM = new HashMap<String, SecurityPolicyHolder>();
+        this.inMessagePolicyMap = new HashMap<>();
+        this.outMessagePolicyMap = new HashMap<>();
+        this.inProtocolPM = new HashMap<>();
+        this.outProtocolPM = new HashMap<>();
     }
 
     public void putToOutMessagePolicyMap(WSDLBoundOperation op, SecurityPolicyHolder sh) {

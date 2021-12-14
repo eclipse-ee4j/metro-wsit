@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -14,19 +14,8 @@
 
 package com.sun.xml.ws.security.trust.impl.wssx.elements;
 
-import org.w3c.dom.Element;
-
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBElement;
-import jakarta.xml.bind.JAXBException;
-
-import javax.xml.namespace.QName;
-
-import jakarta.xml.bind.annotation.XmlAccessType;
-import jakarta.xml.bind.annotation.XmlRootElement;
-import jakarta.xml.bind.annotation.XmlType;
-import jakarta.xml.bind.annotation.XmlAttribute;
-import jakarta.xml.bind.annotation.XmlAccessorType;
 
 import com.sun.xml.ws.api.security.trust.WSTrustException;
 
@@ -77,19 +66,23 @@ public class BinarySecretImpl extends BinarySecretType implements BinarySecret {
         }
     }
 
+     @Override
      public byte[] getRawValue() {
         return super.getValue();
      }
      
      
+     @Override
      public String getTextValue() {
         return Base64.encode(getRawValue());         
      }
      
+     @Override
      public void setRawValue(byte[] rawText) {
         setValue(rawText);
      }
       
+     @Override
      public void setTextValue(String encodedText) {
          try {
              setValue(Base64.decode(encodedText));

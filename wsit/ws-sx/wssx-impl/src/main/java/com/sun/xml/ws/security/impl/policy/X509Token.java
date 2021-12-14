@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -61,14 +61,14 @@ public class X509Token extends PolicyAssertion implements com.sun.xml.ws.securit
         id= PolicyUtil.randomUUID();
         itQname = new QName(spVersion.namespaceUri, Constants.IncludeToken);
         includeToken = spVersion.includeTokenAlways;
-        referenceType = new HashSet<String>();
+        referenceType = new HashSet<>();
     }
     
     public X509Token(AssertionData name,Collection<PolicyAssertion> nestedAssertions, AssertionSet nestedAlternative) {
         super(name,nestedAssertions,nestedAlternative);
         
         id= PolicyUtil.randomUUID();
-        referenceType = new HashSet<String>();
+        referenceType = new HashSet<>();
         
         String nsUri = getName().getNamespaceURI();
         spVersion = PolicyUtil.getSecurityPolicyVersion(nsUri);
@@ -86,16 +86,19 @@ public class X509Token extends PolicyAssertion implements com.sun.xml.ws.securit
         this.tokenType = tokenType;
     }
     
+    @Override
     public String getTokenType() {
         populate();
         return tokenType;
     }
     
+    @Override
     public Set getTokenRefernceType() {
         populate();
         return referenceType;
     }
     
+    @Override
     public String getIncludeToken() {
         populate();
         return includeToken;
@@ -106,30 +109,36 @@ public class X509Token extends PolicyAssertion implements com.sun.xml.ws.securit
     }
     
     
+    @Override
     public String getTokenId() {
         return id;
     }
     
+    @Override
     public boolean isRequireDerivedKeys() {
         populate();
         return reqDK;
     }
     
+    @Override
     public Issuer getIssuer() {
         populate();
         return issuer;
     }
     
+    @Override
     public IssuerName getIssuerName() {
         populate();
         return issuerName;
     }
     
+    @Override
     public Claims getClaims(){
         populate();
         return claims;
     }
     
+    @Override
     public AssertionFitness validate(boolean isServer) {
         return populate(isServer);
     }
@@ -188,11 +197,13 @@ public class X509Token extends PolicyAssertion implements com.sun.xml.ws.securit
         return fitness;
     }
     
-    public Object clone()throws CloneNotSupportedException{
+    @Override
+    public Object clone() {
         throw new UnsupportedOperationException("Fix me");
         //return new X509Token(this.nestedPolicy,getAttributes(),id);
     }
 
+    @Override
     public SecurityPolicyVersion getSecurityPolicyVersion() {
         return spVersion;
     }

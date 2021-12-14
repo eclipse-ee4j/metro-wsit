@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -63,7 +63,7 @@ public class SecurityHeaderProcessor {
     private static final  int SIGNATURE_CONFIRMATION_ELEMENT = 9;
     private static final  int SECURITY_CONTEXT_TOKEN = 10;
     private static final  int SAML_ASSERTION_ELEMEMENT = 11;
-    private Map<String,String> currentParentNS = new HashMap<String,String>();
+    private Map<String,String> currentParentNS = new HashMap<>();
     private JAXBFilterProcessingContext context;
     private XMLInputFactory staxIF = null;
     private StreamReaderBufferCreator creator = null;
@@ -82,7 +82,6 @@ public class SecurityHeaderProcessor {
      * gets the SecurityElementType from the message and creates and processes such header
      * @param message XMLStreamReader
      * @return SecurityHeaderElement
-     * @throws com.sun.xml.wss.XWSSecurityException
      */
     @SuppressWarnings("unchecked")
     public SecurityHeaderElement createHeader(XMLStreamReader message)throws XWSSecurityException{
@@ -355,8 +354,6 @@ public class SecurityHeaderProcessor {
     }
     /**
      * checks the given XMLStreamReader is of type SecurityContextToken or not
-     * @param reader
-     * @return
      */
     private boolean isSCT(XMLStreamReader reader){
         if(reader.getLocalName() == MessageConstants.SECURITY_CONTEXT_TOKEN_LNAME && reader.getNamespaceURI() == MessageConstants.WSSC_NS){
@@ -420,14 +417,14 @@ public class SecurityHeaderProcessor {
         }
         
         if(isDerivedKey(reader)){
-            return this.DERIVED_KEY_ELEMENT;
+            return DERIVED_KEY_ELEMENT;
         }
         
         if(isSCT(reader)){
-            return this.SECURITY_CONTEXT_TOKEN;
+            return SECURITY_CONTEXT_TOKEN;
         }
         if(isSAML(reader)){
-            return this.SAML_ASSERTION_ELEMEMENT;
+            return SAML_ASSERTION_ELEMEMENT;
         }
         return -1;
     }

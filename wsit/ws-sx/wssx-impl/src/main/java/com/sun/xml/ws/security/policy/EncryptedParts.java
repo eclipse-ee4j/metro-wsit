@@ -32,23 +32,23 @@ public interface EncryptedParts extends Target {
      *
      * @return true if the body is part of the target list.
      */
-    public boolean hasBody();
+    boolean hasBody();
     
     /**
      * 
      * @return true if attachments are part of the target list.
      */
-    public boolean hasAttachments();
+    boolean hasAttachments();
    
     /**
      * returns list of SOAP Headers that need to protected.
      * @return {@link java.util.Iterator} over the list of SOAP Headers
      */
-    public Iterator getTargets();
+    Iterator getTargets();
     
 
     /**
      * removes SOAP Body from the list of targets to be confidentiality protected.
      */
-    public void removeBody();
+    void removeBody();
 }

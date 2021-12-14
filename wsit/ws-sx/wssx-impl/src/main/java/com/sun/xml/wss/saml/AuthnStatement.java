@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -18,12 +18,7 @@
 package com.sun.xml.wss.saml;
 
 import java.util.Date;
-import java.util.List;
 
-/**
- *
- * @author abhijit.das@Sun.COM
- */
 /**
  * The <code>AuthenticationStatement</code> element supplies a
  * statement by the issuer that its subject was authenticated by a
@@ -60,7 +55,7 @@ public interface AuthnStatement {
      * @return object is {@link java.util.Date }
      *     
      */
-    public Date getAuthnInstantDate();
+    Date getAuthnInstantDate();
     
     /**
      * Gets the value of the sessionIndex property.
@@ -68,7 +63,7 @@ public interface AuthnStatement {
      * @return object is {@link java.lang.String }
      *     
      */
-    public String getSessionIndex();
+    String getSessionIndex();
     
     /**
      * Gets the value of the sessionNotOnOrAfter property.
@@ -76,7 +71,7 @@ public interface AuthnStatement {
      * @return object is {@link java.util.Date }
      *     
      */
-    public Date getSessionNotOnOrAfterDate();
+    Date getSessionNotOnOrAfterDate();
        
     /**
      * Gets the value of the SubjectLocality address property.
@@ -84,7 +79,7 @@ public interface AuthnStatement {
      * @return object is {@link java.lang.String }
      *     
      */
-    public String getSubjectLocalityAddress();
+    String getSubjectLocalityAddress();
     
     /**
      * Gets the value of the SubjectLocality dnsName property.
@@ -92,7 +87,7 @@ public interface AuthnStatement {
      * @return object is {@link java.lang.String }
      *     
      */
-    public String getSubjectLocalityDNSName();
+    String getSubjectLocalityDNSName();
     
     /**
      * Gets the value of the AuthnContext's AuthnContextClassRef property.
@@ -100,7 +95,7 @@ public interface AuthnStatement {
      * @return object is {@link java.lang.String }
      *     
      */
-    public String getAuthnContextClassRef();
+    String getAuthnContextClassRef();
     
     /**
      * Gets the value of the AuthnContext's AuthenticatingAuthority property.
@@ -108,5 +103,5 @@ public interface AuthnStatement {
      * @return object is {@link java.lang.String }
      *     
      */
-    public String getAuthenticatingAuthority();
+    String getAuthenticatingAuthority();
 }

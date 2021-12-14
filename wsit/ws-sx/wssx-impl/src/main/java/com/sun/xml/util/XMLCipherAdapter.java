@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2014, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -26,11 +26,8 @@ import org.apache.xml.security.encryption.XMLCipher;
 public class XMLCipherAdapter {
   /**
    * Construct an <code>Cipher</code> object. Some JDKs don't support RSA/ECB/OAEPPadding, so add an additional action.
-   * @param algorithm
    * @return the Cipher
-   * @throws NoSuchPaddingException 
-   * @throws NoSuchAlgorithmException 
-  */
+   */
   public static Cipher constructCipher(String algorithm)
       throws  NoSuchPaddingException, NoSuchAlgorithmException {
     String jceAlgorithm = JCEMapper.translateURItoJCEID(algorithm);

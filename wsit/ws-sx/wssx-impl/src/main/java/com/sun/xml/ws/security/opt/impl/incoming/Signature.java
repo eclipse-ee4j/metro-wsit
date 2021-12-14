@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -67,6 +67,7 @@ import com.sun.xml.wss.logging.impl.opt.signature.LogStringsMessages;
 import java.security.PublicKey;
 import java.security.cert.X509Certificate;
 /**
+ * <pre>{@code
  * <element name="Signature" type="ds:SignatureType"/>
  * <complexType name="SignatureType">
  * <sequence>
@@ -77,13 +78,7 @@ import java.security.cert.X509Certificate;
  * </sequence>
  * <attribute name="Id" type="ID" use="optional"/>
  * </complexType>
- *
- */
-
-
-/**
- *
- * @author K.Venugopal@sun.com
+ * }</pre>
  */
 public class Signature implements SecurityHeaderElement,NamespaceContextInfo, SecurityElementWriter, PolicyBuilder{
     
@@ -102,7 +97,7 @@ public class Signature implements SecurityHeaderElement,NamespaceContextInfo, Se
     
     private SignaturePolicy signPolicy = null;
     
-    private HashMap<String,String> currentParentNS = new HashMap<String,String>();
+    private HashMap<String,String> currentParentNS = new HashMap<>();
     private JAXBFilterProcessingContext context;
     private StreamReaderBufferCreator creator = null;
     private SecurityContext securityContext = null;
@@ -178,7 +173,7 @@ public class Signature implements SecurityHeaderElement,NamespaceContextInfo, Se
                     switch(refElement){
                     case SIGNEDINFO_EVENT :{
                         sip = new SignedInfoProcessor(signatureRoot,currentParentNS,reader,context, signPolicy,buffer);
-                        si = (SignedInfo) sip.process();
+                        si = sip.process();
                         canonWriter = sip.getCanonicalizer();
                         break;
                     }
@@ -192,7 +187,7 @@ public class Signature implements SecurityHeaderElement,NamespaceContextInfo, Se
                         
                         if(reader instanceof XMLStreamReaderEx){
                             reader.next();
-                            StringBuffer sb = null;
+                            StringBuilder sb = null;
                             while(reader.getEventType() == reader.CHARACTERS && reader.getEventType() != reader.END_ELEMENT){
                                 CharSequence charSeq = ((XMLStreamReaderEx)reader).getPCDATA();
                                 if(charSeq instanceof Base64Data){
@@ -201,7 +196,7 @@ public class Signature implements SecurityHeaderElement,NamespaceContextInfo, Se
                                     canonWriter.writeCharacters(Base64.encode(signatureValue));
                                 } else{
                                     if(sb == null){
-                                        sb = new StringBuffer();
+                                        sb = new StringBuilder();
                                     }
                                     for(int i=0;i<charSeq.length();i++){
                                         sb.append(charSeq.charAt(i));
@@ -381,7 +376,7 @@ public class Signature implements SecurityHeaderElement,NamespaceContextInfo, Se
         }else{
             ArrayList<com.sun.xml.ws.security.opt.crypto.dsig.Reference> refList =  (ArrayList) sip.getReferenceList().clone();
             for(int i=0;i<refList.size();i++){
-                com.sun.xml.ws.security.opt.crypto.dsig.Reference ref = (com.sun.xml.ws.security.opt.crypto.dsig.Reference) refList.get(i);
+                com.sun.xml.ws.security.opt.crypto.dsig.Reference ref = refList.get(i);
                 if(sip.processReference(ref)){
                     sip.getReferenceList().remove(ref);
                 }
@@ -429,34 +424,42 @@ public class Signature implements SecurityHeaderElement,NamespaceContextInfo, Se
         return false;
     }
     
+    @Override
     public boolean refersToSecHdrWithId(String id) {
         throw new UnsupportedOperationException();
     }
     
+    @Override
     public String getId() {
         return id;
     }
     
+    @Override
     public void setId(String id) {
         throw new UnsupportedOperationException();
     }
     
+    @Override
     public String getNamespaceURI() {
         return MessageConstants.DSIG_NS;
     }
     
+    @Override
     public String getLocalPart() {
         return MessageConstants.SIGNATURE_LNAME;
     }
     
-    public XMLStreamReader readHeader() throws XMLStreamException {
+    @Override
+    public XMLStreamReader readHeader() {
         throw new UnsupportedOperationException();
     }
     
+    @Override
     public void writeTo(OutputStream os) {
         throw new UnsupportedOperationException();
     }
     
+    @Override
     public void writeTo(XMLStreamWriter streamWriter) throws XMLStreamException {
         if(buffer != null){
             buffer.writeToXMLStreamWriter(streamWriter);
@@ -511,12 +514,8 @@ public class Signature implements SecurityHeaderElement,NamespaceContextInfo, Se
             while(itr.hasNext()){
                 Map.Entry<String, String> entry = itr.next();
                 String prefix = entry.getKey();
-                try {
-                    String uri = entry.getValue();
-                    canonicalizer.writeNamespace(prefix,uri);
-                } catch (XMLStreamException ex) {
-                    logger.log(Level.SEVERE, LogStringsMessages.WSS_1715_ERROR_CANONICALIZING_BODY(), ex);
-                }
+                String uri = entry.getValue();
+                canonicalizer.writeNamespace(prefix,uri);
             }
         }
         try {
@@ -534,14 +533,17 @@ public class Signature implements SecurityHeaderElement,NamespaceContextInfo, Se
         return XMLStreamReaderFactory.createFilteredXMLStreamReader(message,digester);
     }
     
-    public void writeTo(javax.xml.stream.XMLStreamWriter streamWriter, HashMap props) throws javax.xml.stream.XMLStreamException {
+    @Override
+    public void writeTo(javax.xml.stream.XMLStreamWriter streamWriter, HashMap props) {
         throw new UnsupportedOperationException();
     }
     
+    @Override
     public HashMap<String, String> getInscopeNSContext() {
         return currentParentNS;
     }
     
+    @Override
     public WSSPolicy getPolicy() {
         return signPolicy;
     }

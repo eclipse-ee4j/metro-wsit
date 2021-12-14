@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -83,20 +83,24 @@ public class BinarySecretImpl extends BinarySecretType implements BinarySecret {
         }
     }
 
+    @Override
     @NotNull
      public byte[] getRawValue() {
         return super.getValue();
      }
      
+     @Override
      @NotNull
      public String getTextValue() {
         return Base64.encode(getRawValue());         
      }
      
+     @Override
      public final void setRawValue(@NotNull final byte[] rawText) {
         setValue(rawText);
      }
       
+     @Override
      public void setTextValue(@NotNull final String encodedText) {
          try {
              setValue(Base64.decode(encodedText));

@@ -28,7 +28,7 @@ public interface ProtocolMessageHandler {
      * @return collection of all WS-Addressing actions that this handler understands and can process.
      *         Must not return {@code null}.
      */
-    public @NotNull Collection<String> getSuportedWsaActions();
+    @NotNull Collection<String> getSuportedWsaActions();
 
     /**
      * <p>
@@ -40,11 +40,11 @@ public interface ProtocolMessageHandler {
      *
      * <p>
      * In case the WS-Addressing {@code wsa:Action} header matches one of the supported WS-Addressing actions returned
-     * from {@link #getSuportedWsaActions()} method, the {@link #processProtocolMessage(com.sun.xml.ws.api.message.Packet)}
+     * from {@link #getSuportedWsaActions()} method, the {@code processProtocolMessage(com.sun.xml.ws.api.message.Packet)}
      * is invoked on {@link ProtocolMessageHandler} instance to process the protocol message.
      * </p>
      *
      * @param protocolMessage a protocol message to be handled
      */
-    public void processProtocolMessage(Packet protocolMessage);
+    void processProtocolMessage(Packet protocolMessage);
 }

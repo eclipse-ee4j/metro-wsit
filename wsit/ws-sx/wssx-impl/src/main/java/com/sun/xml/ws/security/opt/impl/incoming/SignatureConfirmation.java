@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -78,38 +78,47 @@ public class SignatureConfirmation implements SecurityHeaderElement, TokenValida
         return signatureValue;
     }
     
+    @Override
     public boolean refersToSecHdrWithId(String id) {
         throw new UnsupportedOperationException();
     }
     
+    @Override
     public String getId() {
         return id;
     }
     
+    @Override
     public void setId(String id) {
         throw new UnsupportedOperationException();
     }
     
+    @Override
     public String getNamespaceURI() {
         return namespaceURI;
     }
     
+    @Override
     public String getLocalPart() {
         return localName;
     }    
    
+    @Override
     public javax.xml.stream.XMLStreamReader readHeader() throws javax.xml.stream.XMLStreamException {
         return mark.readAsXMLStreamReader();
     }
     
+    @Override
     public void writeTo(OutputStream os) {
         throw new UnsupportedOperationException();
     }
     
+    @Override
     public void writeTo(javax.xml.stream.XMLStreamWriter streamWriter) throws javax.xml.stream.XMLStreamException {
         mark.writeToXMLStreamWriter(streamWriter);
     }
     
+    @Override
     public void validate(ProcessingContext context) throws XWSSecurityException {
         Object temp = context.getExtraneousProperty("SignatureConfirmation");
         List scList = null;
@@ -131,20 +140,24 @@ public class SignatureConfirmation implements SecurityHeaderElement, TokenValida
         }
     }
     
+    @Override
     public WSSPolicy getPolicy() {
         return scPolicy;
     }
     
+    @Override
     public HashMap<String, String> getInscopeNSContext() {
         return nsDecls;
     }
     
-    public void writeTo(javax.xml.stream.XMLStreamWriter streamWriter, HashMap props) throws javax.xml.stream.XMLStreamException {
+    @Override
+    public void writeTo(javax.xml.stream.XMLStreamWriter streamWriter, HashMap props) {
         throw new UnsupportedOperationException();
     }
     
     class SCProcessor implements StreamFilter{
         boolean elementRead = false;
+        @Override
         public boolean accept(XMLStreamReader reader){
             if(reader.getEventType() == XMLStreamReader.END_ELEMENT ){
                 if(reader.getLocalName() == localName && reader.getNamespaceURI() == namespaceURI){

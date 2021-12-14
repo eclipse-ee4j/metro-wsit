@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -66,8 +66,7 @@ public class BinarySecurityToken extends SecurityHeaderBlockImpl
     BinarySecurityToken(
         Document document,
         String wsuId,                    
-        String valueType) 
-        throws SecurityTokenException {
+        String valueType) {
 
         this.soapDoc = document;
         this.wsuId = wsuId;
@@ -152,6 +151,7 @@ public class BinarySecurityToken extends SecurityHeaderBlockImpl
         this.encodingType = encodingType;
     }
 
+    @Override
     public String getId() {
         return this.wsuId;
     }
@@ -190,6 +190,7 @@ public class BinarySecurityToken extends SecurityHeaderBlockImpl
         this.encodedText = encodedText;
     }
         
+    @Override
     public SOAPElement getAsSoapElement() throws SecurityTokenException {
            
         if (null != delegateElement)

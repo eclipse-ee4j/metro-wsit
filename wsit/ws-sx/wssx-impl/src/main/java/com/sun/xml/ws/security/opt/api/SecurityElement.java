@@ -33,8 +33,7 @@ public interface SecurityElement {
      */
     String getId();
     /**
-     * 
-     * @param id 
+     *
      */
     void setId(final String id);
     /**
@@ -78,7 +77,6 @@ public interface SecurityElement {
      * a reasonably efficient implementation of this method.
      * 
      * @return must not null.
-     * @throws javax.xml.stream.XMLStreamException 
      */
     XMLStreamReader readHeader() throws XMLStreamException;  
     

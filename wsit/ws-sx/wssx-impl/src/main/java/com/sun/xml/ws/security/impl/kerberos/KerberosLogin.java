@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -51,12 +51,10 @@ public class KerberosLogin {
         LoginContext lc = null;
         try {
             lc = new LoginContext(loginModule, new com.sun.security.auth.callback.TextCallbackHandler());
-        } catch (LoginException le) {
+        } catch (LoginException | SecurityException le) {
             throw new XWSSecurityException("Cannot create LoginContext. ", le);
-        } catch (SecurityException se) {
-            throw new XWSSecurityException("Cannot create LoginContext. ", se);
         }
-        
+
         try{
             // attempt authentication
             lc.login();
@@ -74,7 +72,7 @@ public class KerberosLogin {
         try{
             Subject loginSubject = lc.getSubject();
             Subject.doAsPrivileged(loginSubject,
-                    new  KerberosClientSetupAction(servicePrincipal, credDeleg),
+                    new KerberosClientSetupAction(servicePrincipal, credDeleg),
                     null);
             
             Set<Object> setPubCred =  loginSubject.getPublicCredentials();
@@ -90,11 +88,11 @@ public class KerberosLogin {
                 }
             }
             if (gssContext != null && gssContext.isEstablished()) {
-                /**
-                 *ExtendedGSSContext ex = (ExtendedGSSContext)x;
-                 *Key k = (Key)ex.inquireSecContext(
-                 *InquireType.KRB5_GET_SESSION_KEY);
-                 **/
+                /*
+                 ExtendedGSSContext ex = (ExtendedGSSContext)x;
+                 Key k = (Key)ex.inquireSecContext(
+                 InquireType.KRB5_GET_SESSION_KEY);
+                 */
                 Class inquireType;
                 try {
                     inquireType = Class.forName("com.sun.security.jgss.InquireType");
@@ -121,12 +119,10 @@ public class KerberosLogin {
         LoginContext lc = null;
         try {
             lc = new LoginContext(loginModule, new com.sun.security.auth.callback.TextCallbackHandler());
-        } catch (LoginException le) {
+        } catch (LoginException | SecurityException le) {
             throw new XWSSecurityException("Cannot create LoginContext. ", le);
-        } catch (SecurityException se) {
-            throw new XWSSecurityException("Cannot create LoginContext. ", se);
         }
-        
+
         try{
             // attempt authentication
             lc.login();
@@ -144,7 +140,7 @@ public class KerberosLogin {
         try{
             Subject loginSubject = lc.getSubject();
             Subject.doAsPrivileged(loginSubject,
-                    new  KerberosServerSetupAction(token),
+                    new KerberosServerSetupAction(token),
                     null);
             
             Set<Object> setPubCred =  loginSubject.getPublicCredentials();
@@ -160,11 +156,11 @@ public class KerberosLogin {
                 }
             }
             if (gssContext != null && gssContext.isEstablished()) {
-                /**
-                 *ExtendedGSSContext ex = (ExtendedGSSContext)x;
-                 *Key k = (Key)ex.inquireSecContext(
-                 *InquireType.KRB5_GET_SESSION_KEY);
-                 **/
+                /*
+                 ExtendedGSSContext ex = (ExtendedGSSContext)x;
+                 Key k = (Key)ex.inquireSecContext(
+                 InquireType.KRB5_GET_SESSION_KEY);
+                 */
                 Class inquireType;
                 try {
                     inquireType = Class.forName("com.sun.security.jgss.InquireType");
@@ -186,7 +182,7 @@ public class KerberosLogin {
         return krbContext;
     }
     
-    class KerberosClientSetupAction implements java.security.PrivilegedExceptionAction {
+    static class KerberosClientSetupAction implements java.security.PrivilegedExceptionAction {
         String server;
         boolean credentialDelegation = false;
         
@@ -195,6 +191,7 @@ public class KerberosLogin {
             credentialDelegation = credDeleg;
         }
         
+        @Override
         public Object run() throws Exception {
             
             try {
@@ -228,13 +225,14 @@ public class KerberosLogin {
         
     }
     
-    class KerberosServerSetupAction implements java.security.PrivilegedExceptionAction {
+    static class KerberosServerSetupAction implements java.security.PrivilegedExceptionAction {
         
         byte[] token;
         
         public KerberosServerSetupAction(byte[] token){
             this.token = token;
         }
+        @Override
         @SuppressWarnings("unchecked")
         public Object run() throws Exception {
             

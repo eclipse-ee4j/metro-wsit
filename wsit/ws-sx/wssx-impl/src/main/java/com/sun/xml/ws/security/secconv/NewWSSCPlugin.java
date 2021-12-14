@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -190,7 +190,7 @@ public class NewWSSCPlugin {
         if (!response.isFault()){
             JAXBElement rstrEle = null;
             try {
-                rstrEle = (JAXBElement)response.readPayloadAsJAXB(unmarshaller);
+                rstrEle = response.readPayloadAsJAXB(unmarshaller);
             }catch (JAXBException ex){
                 log.log(Level.SEVERE,
                         LogStringsMessages.WSSC_0018_ERR_JAXB_RSTR(),ex);
@@ -240,13 +240,7 @@ public class NewWSSCPlugin {
         // Create RequestSecurityToken
         //==============================
         BaseSTSRequest rst = null;
-        try{
-            rst = createRequestSecurityTokenForCancel(ctx);
-        } catch (WSSecureConversationException ex){
-            log.log(Level.SEVERE,
-                    LogStringsMessages.WSSC_0024_ERROR_CREATING_RST(FOR_CANCEL), ex);
-            throw new RuntimeException(LogStringsMessages.WSSC_0024_ERROR_CREATING_RST(FOR_CANCEL), ex);
-        }
+        rst = createRequestSecurityTokenForCancel(ctx);
         return rst;
     }
     
@@ -264,14 +258,8 @@ public class NewWSSCPlugin {
         // Create RequestSecurityToken
         //==============================
         BaseSTSRequest rst = null;
-        try{
-            rst = createRequestSecurityTokenForCancel(ctx);
-        } catch (WSSecureConversationException ex){
-            log.log(Level.SEVERE,
-                    LogStringsMessages.WSSC_0024_ERROR_CREATING_RST(FOR_CANCEL), ex);
-            throw new RuntimeException(LogStringsMessages.WSSC_0024_ERROR_CREATING_RST(FOR_CANCEL), ex);
-        }
-        
+        rst = createRequestSecurityTokenForCancel(ctx);
+
         final BaseSTSResponse rstr = sendRequest(null, wsdlPort, binding, securityPipe, jbCxt, rst, wsscVer.getSCTCancelRequestAction(), endPointAddress, null);
         
         // Handle the RequestSecurityTokenResponse
@@ -338,14 +326,8 @@ public class NewWSSCPlugin {
         }
         
         // Add addressing headers to the message
-        try{
-            reqPacket = addAddressingHeaders(reqPacket, wsdlPort, binding, action);
-        }catch (WSSecureConversationException ex){
-            log.log(Level.SEVERE,
-                    LogStringsMessages.WSSC_0017_PROBLEM_ADD_ADDRESS_HEADERS(), ex);
-            throw new RuntimeException(LogStringsMessages.WSSC_0017_PROBLEM_ADD_ADDRESS_HEADERS(), ex);
-        }
-        
+        reqPacket = addAddressingHeaders(reqPacket, wsdlPort, binding, action);
+
         // Ideally this property for enabling FI or not should be available to the pipeline.
         // As a workaround for now, we
         // copy the property for the client packet to the reqPacket mananually here.
@@ -392,14 +374,8 @@ public class NewWSSCPlugin {
                     LogStringsMessages.WSSC_1008_SET_EP_ADDRESS(endPointAddress));
         }
         // Add addressing headers to the message
-        try{
-            reqPacket = addAddressingHeaders(reqPacket, wsdlPort, binding, action);
-        }catch (WSSecureConversationException ex){
-            log.log(Level.SEVERE,
-                    LogStringsMessages.WSSC_0017_PROBLEM_ADD_ADDRESS_HEADERS(), ex);
-            throw new RuntimeException(LogStringsMessages.WSSC_0017_PROBLEM_ADD_ADDRESS_HEADERS(), ex);
-        }
-        
+        reqPacket = addAddressingHeaders(reqPacket, wsdlPort, binding, action);
+
         // Ideally this property for enabling FI or not should be available to the pipeline.
         // As a workaround for now, we
         // copy the property for the client packet to the reqPacket mananually here.
@@ -416,7 +392,7 @@ public class NewWSSCPlugin {
         if (!response.isFault()){
             JAXBElement rstrEle = null;
             try {
-                rstrEle = (JAXBElement)response.readPayloadAsJAXB(unmarshaller);
+                rstrEle = response.readPayloadAsJAXB(unmarshaller);
             }catch (JAXBException ex){
                 log.log(Level.SEVERE,
                         LogStringsMessages.WSSC_0018_ERR_JAXB_RSTR(), ex);
@@ -438,7 +414,7 @@ public class NewWSSCPlugin {
         return rstr;
     }
     
-    private BaseSTSRequest createRequestSecurityToken(final boolean reqClientEntropy,final int skl) throws WSSecureConversationException, WSTrustException{
+    private BaseSTSRequest createRequestSecurityToken(final boolean reqClientEntropy,final int skl) throws WSTrustException{
         
         final URI tokenType = URI.create(wsscVer.getSCTTokenTypeURI());
         final URI requestType = URI.create(wsTrustVer.getIssueRequestTypeURI());
@@ -456,7 +432,7 @@ public class NewWSSCPlugin {
         return rst;
     }
     
-    private BaseSTSRequest createRequestSecurityTokenForCancel(final IssuedTokenContext ctx) throws WSSecureConversationException{
+    private BaseSTSRequest createRequestSecurityTokenForCancel(final IssuedTokenContext ctx) {
         URI requestType = null;
         requestType = URI.create(wsTrustVer.getCancelRequestTypeURI());
         
@@ -491,7 +467,7 @@ public class NewWSSCPlugin {
         }
     }
     
-    private Packet addAddressingHeaders(final Packet packet, final WSDLPort wsdlPort, final WSBinding binding, final String action)throws WSSecureConversationException {
+    private Packet addAddressingHeaders(final Packet packet, final WSDLPort wsdlPort, final WSBinding binding, final String action) {
         final MessageHeaders headers = packet.getMessage().getHeaders();
         AddressingUtils.fillRequestAddressingHeaders(headers, packet, binding.getAddressingVersion(),binding.getSOAPVersion(),false,action);
         

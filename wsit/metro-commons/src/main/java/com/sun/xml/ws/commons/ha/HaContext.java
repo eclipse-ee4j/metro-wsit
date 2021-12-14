@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -45,7 +45,7 @@ public class HaContext {
         }
     }
     //
-    private static final ThreadLocal<State> state = new ThreadLocal<State>()  {
+    private static final ThreadLocal<State> state = new ThreadLocal<>() {
 
         @Override
         protected State initialValue() {
@@ -63,7 +63,7 @@ public class HaContext {
         final State newState = new State(packet, haInfo);
         state.set(newState);
         if (LOGGER.isLoggable(Level.FINER)) {
-            LOGGER.finer("[METRO-HA] " + Thread.currentThread().toString() + " : Initialized from packet - replaced old " + oldState.toString() + " with a new " + newState.toString());
+            LOGGER.finer("[METRO-HA] " + Thread.currentThread() + " : Initialized from packet - replaced old " + oldState.toString() + " with a new " + newState);
         }
 
         return oldState;
@@ -74,7 +74,7 @@ public class HaContext {
 
         state.set(newState);
         if (LOGGER.isLoggable(Level.FINER)) {
-            LOGGER.finer("[METRO-HA] " + Thread.currentThread().toString() + " : Initialized from state - replaced old " + oldState.toString() + " with a new " + newState.toString());
+            LOGGER.finer("[METRO-HA] " + Thread.currentThread() + " : Initialized from state - replaced old " + oldState.toString() + " with a new " + newState.toString());
         }
 
         return oldState;
@@ -87,7 +87,7 @@ public class HaContext {
     public static void clear() {
         state.set(State.EMPTY);
         if (LOGGER.isLoggable(Level.FINER)) {
-            LOGGER.finer("[METRO-HA] " + Thread.currentThread().toString() + " : Current HA state cleared");
+            LOGGER.finer("[METRO-HA] " + Thread.currentThread() + " : Current HA state cleared");
         }
 
     }
@@ -112,13 +112,13 @@ public class HaContext {
 
         if (updateNeeded) {
             if (LOGGER.isLoggable(Level.FINER)) {
-                LOGGER.finer("[METRO-HA] " + Thread.currentThread().toString() + " : Replica instance value changed to '" + replicaInstance + "'. Updating current HaInfo.");
+                LOGGER.finer("[METRO-HA] " + Thread.currentThread() + " : Replica instance value changed to '" + replicaInstance + "'. Updating current HaInfo.");
             }
             
             final HaInfo old = currentState.haInfo;
             updateHaInfo(new HaInfo(old.getKey(), replicaInstance, old.isFailOver()));
         } else if (LOGGER.isLoggable(Level.FINER)) {
-            LOGGER.finer("[METRO-HA] " + Thread.currentThread().toString() + " : New replica instance value '" + replicaInstance + "' same as current - no HaInfo update necessary");
+            LOGGER.finer("[METRO-HA] " + Thread.currentThread() + " : New replica instance value '" + replicaInstance + "' same as current - no HaInfo update necessary");
         }
     }
 
@@ -130,7 +130,7 @@ public class HaContext {
         }
 
         if (LOGGER.isLoggable(Level.FINER)) {
-            LOGGER.finer("[METRO-HA] " + Thread.currentThread().toString() + " : HaInfo value updated: " + asString(newValue));
+            LOGGER.finer("[METRO-HA] " + Thread.currentThread() + " : HaInfo value updated: " + asString(newValue));
         }
     }
 

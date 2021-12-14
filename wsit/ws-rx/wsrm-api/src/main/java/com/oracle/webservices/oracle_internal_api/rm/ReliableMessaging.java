@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -33,14 +33,14 @@ public @interface ReliableMessaging
      * 
          Enable this feature.  Defaults to true.
      */
-    public boolean enabled() default true;
+    boolean enabled() default true;
 
     /**
      * 
        Specifies the period (in milliseconds) of a sequence manager maintenance task execution.
        Default value: 60000
      */
-    public long sequenceManagerMaintenancePeriod() default 60000;
+    long sequenceManagerMaintenancePeriod() default 60000;
 
     /**
      * 
@@ -49,12 +49,12 @@ public @interface ReliableMessaging
        accepts before starting to refuse new requests for sequence creation.
        Default value: 100
      */
-    public int maxConcurrentSession() default 100;
+    int maxConcurrentSession() default 100;
 
     /**
      * 
        When an XA TX is used to link the RMD with the user's ProviderRequest, this specifies the timeout value in seconds.
        The default value of 0 says to use the system default.
      */
-    public int userTransactionTimeout() default 0;
+    int userTransactionTimeout() default 0;
 }

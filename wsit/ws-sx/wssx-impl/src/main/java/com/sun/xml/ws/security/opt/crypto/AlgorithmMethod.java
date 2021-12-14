@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -35,6 +35,7 @@ public class AlgorithmMethod implements javax.xml.crypto.AlgorithmMethod {
         this.alg = alg;
     }
     
+    @Override
     public String getAlgorithm() {
         return alg;
     }
@@ -43,6 +44,7 @@ public class AlgorithmMethod implements javax.xml.crypto.AlgorithmMethod {
         this.algSpec = algSpec;
     }
     
+    @Override
     public AlgorithmParameterSpec getParameterSpec() {
         return algSpec;
     }

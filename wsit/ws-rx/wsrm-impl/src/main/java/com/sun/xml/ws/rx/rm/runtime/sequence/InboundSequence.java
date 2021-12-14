@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -31,6 +31,7 @@ public final class InboundSequence extends AbstractSequence {
         super(data, deliveryQueueBuilder, timeSynchronizer);
     }
 
+    @Override
     public void registerMessage(ApplicationMessage message, boolean storeMessageFlag) throws DuplicateMessageRegistrationException, IllegalStateException {
         this.getState().verifyAcceptingMessageRegistration(getId(), Code.Receiver);
 
@@ -46,10 +47,12 @@ public final class InboundSequence extends AbstractSequence {
         }
     }
 
+    @Override
     public void acknowledgeMessageNumbers(List<AckRange> ranges) {
         throw new UnsupportedOperationException(String.format("This operation is not supported on %s class", this.getClass().getName()));
     }
 
+    @Override
     public void acknowledgeMessageNumber(long messageId) throws IllegalStateException {
         this.getState().verifyAcceptingAcknowledgement(getId(), Code.Receiver);
 

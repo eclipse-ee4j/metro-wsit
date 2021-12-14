@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -49,10 +49,11 @@ public class XWSSProcessor2_0Impl implements XWSSProcessor {
 
 
     protected XWSSProcessor2_0Impl(
-        InputStream securityConfig) throws XWSSecurityException {
+        InputStream securityConfig) {
         throw new UnsupportedOperationException("Operation Not Supported");
     }
 
+    @Override
     public SOAPMessage secureOutboundMessage(
         ProcessingContext context) 
         throws XWSSecurityException {
@@ -96,6 +97,7 @@ public class XWSSProcessor2_0Impl implements XWSSProcessor {
 
     }
 
+    @Override
     public SOAPMessage verifyInboundMessage(
         ProcessingContext context) 
         throws XWSSecurityException {
@@ -140,6 +142,7 @@ public class XWSSProcessor2_0Impl implements XWSSProcessor {
 
     }
 
+    @Override
     public ProcessingContext createProcessingContext(SOAPMessage msg) throws XWSSecurityException {
         ProcessingContext cntxt = new ProcessingContext();
         cntxt.setSOAPMessage(msg);

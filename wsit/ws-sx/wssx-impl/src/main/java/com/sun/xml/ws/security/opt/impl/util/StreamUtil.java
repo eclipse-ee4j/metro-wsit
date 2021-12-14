@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -89,7 +89,7 @@ public class StreamUtil {
     }
     
     
-    public static boolean _break(XMLStreamReader reader,String localName,String uri) throws XMLStreamException{
+    public static boolean _break(XMLStreamReader reader,String localName,String uri) {
         if(reader.getEventType() == XMLStreamReader.END_ELEMENT){
             if(reader.getLocalName() == localName && 
                     (reader.getNamespaceURI() == uri || reader.getNamespaceURI() == MessageConstants.WSSC_13NS)){
@@ -268,7 +268,7 @@ public class StreamUtil {
     }
     
     public static String getCV(XMLStreamReader reader) throws  XMLStreamException{
-        StringBuffer content = new StringBuffer();
+        StringBuilder content = new StringBuilder();
         int eventType = reader.getEventType();
         while(eventType != XMLStreamReader.END_ELEMENT ) {
             if(eventType == XMLStreamReader.CHARACTERS
@@ -286,9 +286,9 @@ public class StreamUtil {
     }
     
     public static String getCV(XMLStreamReaderEx reader) throws  XMLStreamException{
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         while(reader.getEventType() == reader.CHARACTERS && reader.getEventType() != reader.END_ELEMENT){
-            CharSequence charSeq = ((XMLStreamReaderEx)reader).getPCDATA();
+            CharSequence charSeq = reader.getPCDATA();
             for(int i=0;i<charSeq.length();i++){
                 sb.append(charSeq.charAt(i));
             }

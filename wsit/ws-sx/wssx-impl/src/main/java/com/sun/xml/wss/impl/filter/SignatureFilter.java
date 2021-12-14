@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -100,7 +100,6 @@ public class SignatureFilter {
     * @param untBinding UsernameTokenBinding
     * @param firstByte int
     * @return binding UsernameTokenBinding
-    * @throws com.sun.xml.wss.XWSSecurityException
     */
     public static UsernameTokenBinding createUntBinding(FilterProcessingContext context,UsernameTokenBinding untBinding, int firstByte) throws XWSSecurityException{
         UsernameTokenBinding binding = (UsernameTokenBinding)untBinding.clone();
@@ -120,8 +119,6 @@ public class SignatureFilter {
             binding = UsernameTokenDataResolver.setSaltandIterationsforUsernameToken(opContext, unToken, authPolicy, binding, firstByte);
         } catch (UnsupportedEncodingException ex) {
              throw new XWSSecurityException("error occurred while decoding the salt in username token",ex);
-        } catch(XWSSecurityException ex){
-            throw  ex;
         }
         if (binding.getUseNonce()&& unToken.getNonceValue() == null ) {
             unToken.setNonce(binding.getNonce());
@@ -152,7 +149,6 @@ public class SignatureFilter {
     /**
      * creates the suitable key for each binding type and sets the binding in the context
      * @param context FilterProcessingContext
-     * @throws com.sun.xml.wss.XWSSecurityException
      */
      @SuppressWarnings("unchecked")
     public static void process(FilterProcessingContext context) throws XWSSecurityException {
@@ -164,7 +160,7 @@ public class SignatureFilter {
             
             if (!context.makeDynamicPolicyCallback()) {
 
-                WSSPolicy keyBinding = (WSSPolicy) ((SignaturePolicy) policy).getKeyBinding();
+                WSSPolicy keyBinding = (WSSPolicy) policy.getKeyBinding();
                  if(PolicyTypeUtil.derivedTokenKeyBinding(keyBinding)){
                     DerivedTokenKeyBinding dtk = (DerivedTokenKeyBinding)keyBinding.clone();
                     WSSPolicy originalKeyBinding = dtk.getOriginalKeyBinding();
@@ -321,7 +317,7 @@ public class SignatureFilter {
                     context.setKerberosTokenBinding(binding);
                 } else if (PolicyTypeUtil.samlTokenPolicy(keyBinding)) {
                     //resolvedPolicy = (SignaturePolicy)policy.clone();
-                    keyBinding =(WSSPolicy) ((SignaturePolicy) policy).getKeyBinding();                    
+                    keyBinding =(WSSPolicy) policy.getKeyBinding();
                     AuthenticationTokenPolicy.SAMLAssertionBinding binding =
                             (AuthenticationTokenPolicy.SAMLAssertionBinding) keyBinding;
                     if(binding.getAssertion() != null || binding.getAssertionReader() != null || 
@@ -551,7 +547,7 @@ public class SignatureFilter {
                 }
             } else {
                 //resolvedPolicy = (SignaturePolicy)policy.clone();
-                ((SignaturePolicy)policy).isReadOnly(true);
+                policy.isReadOnly(true);
                 
                 try {
                     DynamicApplicationContext dynamicContext =
@@ -582,7 +578,7 @@ public class SignatureFilter {
             if ( context.makeDynamicPolicyCallback()) {
                 WSSPolicy policy =(WSSPolicy) context.getSecurityPolicy();
                 SignaturePolicy resolvedPolicy = null;
-                ((SignaturePolicy)policy).isReadOnly(true);
+                policy.isReadOnly(true);
                 
                 try {
                     DynamicApplicationContext dynamicContext =
@@ -611,7 +607,6 @@ public class SignatureFilter {
     /**
      * performs signature processing 
      * @param context com.sun.xml.wss.impl.FilterProcessingContext
-     * @throws com.sun.xml.wss.XWSSecurityException
      */
     private static void sign(com.sun.xml.wss.impl.FilterProcessingContext context)
     throws XWSSecurityException{

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -9,7 +9,6 @@
  */
 
 package com.sun.xml.wss.impl.c14n;
-import com.sun.xml.wss.impl.dsig.NamespaceContextImpl;
 import com.sun.xml.wss.impl.misc.UnsyncByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -190,7 +189,7 @@ public class EXC14nStAXReaderBasedCanonicalizer extends BaseCanonicalizer {
         }
     }
     @SuppressWarnings("unchecked")
-    private void updateAttributes(XMLStreamReader reader) throws IOException{
+    private void updateAttributes(XMLStreamReader reader) {
         int count = reader.getAttributeCount();
         for(int i=0;i<count ;i++){
             final String localName = reader.getAttributeLocalName(i);

@@ -57,7 +57,7 @@ public class CloseSequenceResponseElement {
     @XmlAnyElement(lax = true)
     protected List<Object> any;
     @XmlAnyAttribute
-    private Map<QName, String> otherAttributes = new HashMap<QName, String>();
+    private Map<QName, String> otherAttributes = new HashMap<>();
 
     public CloseSequenceResponseElement() {
     }
@@ -121,7 +121,7 @@ public class CloseSequenceResponseElement {
      */
     public List<Object> getAny() {
         if (any == null) {
-            any = new ArrayList<Object>();
+            any = new ArrayList<>();
         }
         return this.any;
     }

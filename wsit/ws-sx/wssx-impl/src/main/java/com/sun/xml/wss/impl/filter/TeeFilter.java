@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -92,7 +92,6 @@ public class TeeFilter {
      *
      * @param out destination OutputStream
      * @param prettyPrint true means to use built-in pretty print stylesheet
-     * @throws XWSSecurityException
      */
     public TeeFilter(OutputStream out, boolean prettyPrint)
     throws XWSSecurityException {
@@ -106,8 +105,6 @@ public class TeeFilter {
     /**
      * Saves a copy of message to Outputstream out
      *
-     * @param out
-     * @throws XWSSecurityException
      */
     public TeeFilter(OutputStream out) throws XWSSecurityException {
         init(out, null);
@@ -116,7 +113,6 @@ public class TeeFilter {
     /**
      * A no-op
      *
-     * @throws XWSSecurityException
      */
     public TeeFilter() throws XWSSecurityException {
         init(null, null);

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -23,35 +23,35 @@ public interface SamlToken extends Token {
      * returns the type of the token.
      * @return one of WSS_SAML_V10_TOKEN10,WSS_SAML_V11_TOKEN10,WSS_SAML_V10_TOKEN11,WSS_SAML_V11_TOKEN11,WSS_SAML_V20_TOKEN11
      */
-    public String getTokenType();
+    String getTokenType();
     /**
      * returns a {@link java.util.Iterator } over the token reference types to be used.
      * @return either REQUIRE_KEY_IDENTIFIER_REFERENCE
      */
-    public Iterator getTokenRefernceType();
+    Iterator getTokenRefernceType();
     
     /**
      * returns true if RequiredDerivedKey element is present under SAML Token.
      * @return true if RequireDerviedKeys element is present under SAML Token or false.
      */
-    public boolean isRequireDerivedKeys();
+    boolean isRequireDerivedKeys();
     
      /**
      * returns the issuer for the SAML token.
      * @return returns the issuer
      */
-    public Issuer getIssuer();
+     Issuer getIssuer();
     
     /**
      * 
      * @return the issuer name for SAML token
      */
-    public IssuerName getIssuerName();
+    IssuerName getIssuerName();
     
     /**
      * 
      * @return Claims
-     */ 
-    public Claims getClaims();
+     */
+    Claims getClaims();
  
 }

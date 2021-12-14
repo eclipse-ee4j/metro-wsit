@@ -74,7 +74,6 @@ public class SubjectConfirmation extends com.sun.xml.wss.saml.internal.saml11.ja
      *
      * @param element a DOM Element representing the
      *        <code>SubjectConfirmation</code> object.
-     * @throws SAMLException
      */
     public static SubjectConfirmationType fromElement(org.w3c.dom.Element element)
     throws SAMLException {
@@ -125,7 +124,7 @@ public class SubjectConfirmation extends com.sun.xml.wss.saml.internal.saml11.ja
                 setKeyInfo((KeyInfoType)((JAXBElement)u.unmarshal(keyInfo)).getValue());
             }
             if ( subjectConfirmationData != null) {
-                setSubjectConfirmationData((SubjectConfirmationType)((JAXBElement)u.unmarshal(subjectConfirmationData)).getValue());
+                setSubjectConfirmationData(((JAXBElement)u.unmarshal(subjectConfirmationData)).getValue());
             }
         } catch (Exception ex) {
             // log here
@@ -139,14 +138,17 @@ public class SubjectConfirmation extends com.sun.xml.wss.saml.internal.saml11.ja
         setConfirmationMethod(subConfType.getConfirmationMethod());
     }
        
+    @Override
     public Object getSubjectConfirmationDataForSAML11() {
         return super.getSubjectConfirmationData();
     }
     
+    @Override
     public SubjectConfirmationData getSubjectConfirmationDataForSAML20() {
         throw new UnsupportedOperationException("Not supported for SAML 1.1");
     }
 
+    @Override
     public NameID getNameId() {
         throw new UnsupportedOperationException("Not supported for SAML 1.1");
     }

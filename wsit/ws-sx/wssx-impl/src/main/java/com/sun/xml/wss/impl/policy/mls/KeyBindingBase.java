@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -8,12 +8,12 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-/**
- * Base class for all KeyBindings 
- *
- */
 package com.sun.xml.wss.impl.policy.mls;
 
+/**
+ * Base class for all KeyBindings
+ *
+ */
 public abstract class KeyBindingBase extends WSSPolicy {
      //added for policy integration
     public static final String INCLUDE_ONCE = "http://schemas.xmlsoap.org/ws/2005/07/securitypolicy/IncludeToken/Once".intern() ;

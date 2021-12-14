@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -40,11 +40,11 @@ public final class AtPolicyCreator {
     }
 
     static {
-        SUPPORTED_COMBINATIONS = new EnumMap<WsatNamespace, Map<TransactionFlowType, Map<EjbTransactionType, Collection<WsatAssertionBase>>>>(WsatNamespace.class);
+        SUPPORTED_COMBINATIONS = new EnumMap<>(WsatNamespace.class);
         for (WsatNamespace ns : WsatNamespace.values()) {
-            Map<TransactionFlowType, Map<EjbTransactionType, Collection<WsatAssertionBase>>> nsMap = new EnumMap<TransactionFlowType, Map<EjbTransactionType, Collection<WsatAssertionBase>>>(TransactionFlowType.class);
+            Map<TransactionFlowType, Map<EjbTransactionType, Collection<WsatAssertionBase>>> nsMap = new EnumMap<>(TransactionFlowType.class);
             for (TransactionFlowType flowType : TransactionFlowType.values()) {
-                nsMap.put(flowType, new EnumMap<EjbTransactionType, Collection<WsatAssertionBase>>(EjbTransactionType.class));
+                nsMap.put(flowType, new EnumMap<>(EjbTransactionType.class));
             }
             SUPPORTED_COMBINATIONS.put(ns, nsMap);
         }
@@ -91,7 +91,7 @@ public final class AtPolicyCreator {
             return null;
         }
 
-        final List<AssertionSet> assertionSets = new ArrayList<AssertionSet>(1);
+        final List<AssertionSet> assertionSets = new ArrayList<>(1);
         assertionSets.add(AssertionSet.createAssertionSet(assertions));
 
         return Policy.createPolicy("", policyId, assertionSets);

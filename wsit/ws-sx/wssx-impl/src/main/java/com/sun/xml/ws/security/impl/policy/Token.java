@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -17,7 +17,6 @@ import com.sun.xml.ws.policy.sourcemodel.AssertionData;
 import com.sun.xml.ws.security.policy.SecurityPolicyVersion;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.UUID;
 import java.util.logging.Level;
 import javax.xml.namespace.QName;
 import static com.sun.xml.ws.security.impl.policy.Constants.*;
@@ -67,6 +66,7 @@ public class Token extends PolicyAssertion implements  com.sun.xml.ws.security.p
         return _token;
     }
     
+    @Override
     public String getIncludeToken() {
         populate();
         return _includeToken;
@@ -79,11 +79,13 @@ public class Token extends PolicyAssertion implements  com.sun.xml.ws.security.p
         //TODO
     }
     
+    @Override
     public String getTokenId() {
         
         return _id;
     }
     
+    @Override
     public AssertionFitness validate(boolean isServer) {
         return populate(isServer);
     }
@@ -124,6 +126,7 @@ public class Token extends PolicyAssertion implements  com.sun.xml.ws.security.p
         return fitness;
     }
 
+    @Override
     public SecurityPolicyVersion getSecurityPolicyVersion() {
         return spVersion;
     }

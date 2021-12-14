@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -95,8 +95,8 @@ public final class SecurityRecipient {
     private static final Logger logger = Logger.getLogger(LogDomainConstants.IMPL_OPT_DOMAIN, LogDomainConstants.IMPL_OPT_DOMAIN_BUNDLE);
 
     static {
-        /**
-         * Work-around for the JDK JCE name mapping for oaep padding. See JDK-8017173
+        /*
+          Work-around for the JDK JCE name mapping for oaep padding. See JDK-8017173
          */
         System.setProperty("org.apache.xml.security.resource.config", "resource/config.xml"); 
         org.apache.xml.security.Init.init();
@@ -131,10 +131,10 @@ public final class SecurityRecipient {
     private final SOAPVersion soapVersion;
     private XMLStreamReader message = null;
     private StreamReaderBufferCreator creator = null;
-    private HashMap<String, String> parentNS = new HashMap<String, String>();
-    private HashMap<String, String> parentNSOnEnvelope = new HashMap<String, String>();
-    private HashMap<String, String> securityHeaderNS = new HashMap<String, String>();
-    private HashMap<String, String> bodyENVNS = new HashMap<String, String>();
+    private HashMap<String, String> parentNS = new HashMap<>();
+    private HashMap<String, String> parentNSOnEnvelope = new HashMap<>();
+    private HashMap<String, String> securityHeaderNS = new HashMap<>();
+    private HashMap<String, String> bodyENVNS = new HashMap<>();
     private HashMap<String, String> envshNS = null;
     // for future use
     private XMLInputFactory staxIF = null;
@@ -150,9 +150,9 @@ public final class SecurityRecipient {
     private String bodyWsuId = "";
     private String payLoadWsuId = "";
     private String payLoadEncId = "";
-    private HashMap<String, String> encIds = new HashMap<String, String>();
-    private HashMap<String, QName> encQNames = new HashMap<String, QName>();
-    private HashMap<String, String> edAlgos = new HashMap<String, String>();
+    private HashMap<String, String> encIds = new HashMap<>();
+    private HashMap<String, QName> encQNames = new HashMap<>();
+    private HashMap<String, String> edAlgos = new HashMap<>();
     //used for bsp checks
     private BasicSecurityProfile bspContext = new BasicSecurityProfile();
 
@@ -240,21 +240,12 @@ public final class SecurityRecipient {
             }
 
             return createMessage();
-        } catch (WssSoapFaultException ex) {
+        } catch (WssSoapFaultException | XWSSecurityRuntimeException | XWSSecurityException | WebServiceException ex) {
             setExceptionMessage(ctx);
             throw ex;
-        } catch (WebServiceException te) {
-            setExceptionMessage(ctx);
-            throw te;
         } catch (XMLStreamException e) {
             setExceptionMessage(ctx);
             throw new WebServiceException(e);
-        } catch (XWSSecurityException xe) {
-            setExceptionMessage(ctx);
-            throw xe;
-        } catch (XWSSecurityRuntimeException re) {
-            setExceptionMessage(ctx);
-            throw re;
         } catch (Exception e) {
             setExceptionMessage(ctx);
             throw new XWSSecurityRuntimeException(e);
@@ -276,7 +267,7 @@ public final class SecurityRecipient {
                     MessageConstants.WSSE_NS.equals(reader.getNamespaceURI())) {
                 // Collect namespaces on SOAP header block
                 if (reader.getNamespaceCount() > 0) {
-                    headerBlockNamespaces = new HashMap<String, String>(namespaces);
+                    headerBlockNamespaces = new HashMap<>(namespaces);
                     for (int i = 0; i < reader.getNamespaceCount(); i++) {
                         headerBlockNamespaces.put(reader.getNamespacePrefix(i), reader.getNamespaceURI(i));
                     }
@@ -288,7 +279,7 @@ public final class SecurityRecipient {
                 try {
                     // Collect namespaces on SOAP header block
                     if (reader.getNamespaceCount() > 0) {
-                        headerBlockNamespaces = new HashMap<String, String>(namespaces);
+                        headerBlockNamespaces = new HashMap<>(namespaces);
                         for (int i = 0; i < reader.getNamespaceCount(); i++) {
                             headerBlockNamespaces.put(reader.getNamespacePrefix(i), reader.getNamespaceURI(i));
                         }
@@ -328,7 +319,7 @@ public final class SecurityRecipient {
                 }
             }
 
-            HashMap<String, String> currentParentNS = new HashMap<String, String>();
+            HashMap<String, String> currentParentNS = new HashMap<>();
             currentParentNS.putAll(parentNS);
             currentParentNS.putAll(securityHeaderNS);
             envshNS = currentParentNS;
@@ -346,7 +337,7 @@ public final class SecurityRecipient {
                             log_bsp_3203();
                         }
                         bspContext.setTimeStampFound(true);
-                        TimestampHeader timestamp = new TimestampHeader(message, creator, (HashMap) currentParentNS, context);
+                        TimestampHeader timestamp = new TimestampHeader(message, creator, currentParentNS, context);
                         WSSPolicy policy = timestamp.getPolicy();
                         ((TokenValidator) timestamp).validate(context);
                         processedHeaders.add(timestamp);
@@ -354,7 +345,7 @@ public final class SecurityRecipient {
                         break;
                     }
                     case USERNAME_TOKEN_ELEMENT: {
-                        UsernameTokenHeader ut = new UsernameTokenHeader(message, creator, (HashMap) currentParentNS, staxIF);
+                        UsernameTokenHeader ut = new UsernameTokenHeader(message, creator, currentParentNS, staxIF);
                         ut.validate(context);
                         context.getSecurityContext().getProcessedSecurityHeaders().add(ut);
                         context.getInferredSecurityPolicy().append(ut.getPolicy());
@@ -386,7 +377,7 @@ public final class SecurityRecipient {
                         String valueType = message.getAttributeValue(null, MessageConstants.WSE_VALUE_TYPE);
                         if (MessageConstants.KERBEROS_V5_GSS_APREQ_1510.equals(valueType)
                                 || MessageConstants.KERBEROS_V5_GSS_APREQ.equals(valueType)) {
-                            KerberosBinarySecurityToken kbst = new KerberosBinarySecurityToken(message, creator, (HashMap) currentParentNS, staxIF);
+                            KerberosBinarySecurityToken kbst = new KerberosBinarySecurityToken(message, creator, currentParentNS, staxIF);
                             WSSPolicy policy = kbst.getPolicy();
                             ((TokenValidator) kbst).validate(context);
                             processedHeaders.add(kbst);
@@ -408,7 +399,7 @@ public final class SecurityRecipient {
                         } else if (MessageConstants.X509v3_NS.equals(valueType)
                                 || MessageConstants.X509v1_NS.equals(valueType)
                                 || valueType == null) /*null takes as X509 BST */ {
-                            X509BinarySecurityToken bst = new X509BinarySecurityToken(message, creator, (HashMap) currentParentNS, staxIF);
+                            X509BinarySecurityToken bst = new X509BinarySecurityToken(message, creator, currentParentNS, staxIF);
                             WSSPolicy policy = bst.getPolicy();
                             ((TokenValidator) bst).validate(context);
                             processedHeaders.add(bst);
@@ -436,7 +427,7 @@ public final class SecurityRecipient {
                         break;
                     }
                     case ENCRYPTED_KEY_ELEMENT: {
-                        EncryptedKey ek = new EncryptedKey(message, context, (HashMap) currentParentNS);
+                        EncryptedKey ek = new EncryptedKey(message, context, currentParentNS);
                         ArrayList<String> list = (ArrayList) ek.getPendingReferenceList();
                         if (list != null) {
                             findAndReplaceED(list, ek);
@@ -495,12 +486,12 @@ public final class SecurityRecipient {
                         break;
                     }
                     case DERIVED_KEY_ELEMENT: {
-                        DerivedKeyToken dkt = new DerivedKeyToken(message, context, (HashMap) currentParentNS);
+                        DerivedKeyToken dkt = new DerivedKeyToken(message, context, currentParentNS);
                         processedHeaders.add(dkt);
                         break;
                     }
                     case SIGNATURE_CONFIRMATION_ELEMENT: {
-                        SignatureConfirmation signConfirm = new SignatureConfirmation(message, creator, (HashMap) currentParentNS, staxIF);
+                        SignatureConfirmation signConfirm = new SignatureConfirmation(message, creator, currentParentNS, staxIF);
                         WSSPolicy policy = signConfirm.getPolicy();
                         signConfirm.validate(context);
                         processedHeaders.add(signConfirm);
@@ -508,12 +499,12 @@ public final class SecurityRecipient {
                         break;
                     }
                     case SECURITY_CONTEXT_TOKEN: {
-                        SecurityContextToken sct = new SecurityContextToken(message, context, (HashMap) currentParentNS);
+                        SecurityContextToken sct = new SecurityContextToken(message, context, currentParentNS);
                         processedHeaders.add(sct);
                         break;
                     }
                     case SAML_ASSERTION_ELEMENT: {
-                        SAMLAssertion samlAssertion = new SAMLAssertion(message, context, null, (HashMap) currentParentNS);
+                        SAMLAssertion samlAssertion = new SAMLAssertion(message, context, null, currentParentNS);
                         processedHeaders.add(samlAssertion);
                         if (samlAssertion.isHOK()) {
                             if (!samlAssertion.validateSignature()) {
@@ -578,12 +569,8 @@ public final class SecurityRecipient {
                 }
             }
             message.next();
-        } catch (XMLStreamException ex) {
+        } catch (XMLStreamException | XMLStreamBufferException ex) {
             //ex.printStackTrace();
-            logger.log(Level.FINE, "Error occurred while reading SOAP Headers", ex);
-            throw new XWSSecurityException(ex);
-        } catch (XMLStreamBufferException ex) {
-            //  ex.printStackTrace();
             logger.log(Level.FINE, "Error occurred while reading SOAP Headers", ex);
             throw new XWSSecurityException(ex);
         }
@@ -849,11 +836,9 @@ public final class SecurityRecipient {
                     }
 
                 }
-            } catch (XMLStreamException e) {
+            } catch (XMLStreamException | XWSSecurityException e) {
                 // TODO need to throw more meaningful exception
                 throw new WebServiceException(e);
-            } catch (XWSSecurityException xse) {
-                throw new WebServiceException(xse);
             }
         }
 
@@ -895,7 +880,7 @@ public final class SecurityRecipient {
                 logger.log(Level.FINE, "Not Buffering Payload from incomming message");
             }
             // FIXME: RJE -- remove cast once StreamMessage constr can take MessageHeaders
-            streamMsg = new StreamMessage(envelopeTag, headerTag, as, (HeaderList) headers, bodyTag, message, soapVersion);
+            streamMsg = new StreamMessage(envelopeTag, headerTag, as, headers, bodyTag, message, soapVersion);
         }
         context.setMessage(streamMsg);
         boolean scCancel = false;
@@ -1164,7 +1149,7 @@ public final class SecurityRecipient {
         }
     }
 
-    private boolean isPending() throws XWSSecurityException {
+    private boolean isPending() {
         for (int i = 0; i < bufferedHeaders.size(); i++) {
             SecurityHeaderElement she = (SecurityHeaderElement) bufferedHeaders.get(i);
             if (isPrimary(she)) {
@@ -1707,7 +1692,7 @@ public final class SecurityRecipient {
                 Map<String, String> headerBlockNamespaces = parentNS;
                 // Collect namespaces on SOAP header block
                 if (decryptedData.getNamespaceCount() > 0) {
-                    headerBlockNamespaces = new HashMap<String, String>(parentNS);
+                    headerBlockNamespaces = new HashMap<>(parentNS);
                     for (int k = 0; k < decryptedData.getNamespaceCount(); k++) {
                         headerBlockNamespaces.put(decryptedData.getNamespacePrefix(k), decryptedData.getNamespaceURI(k));
                     }
@@ -1728,7 +1713,7 @@ public final class SecurityRecipient {
                 Map<String, String> headerBlockNamespaces = parentNS;
                 // Collect namespaces on SOAP header block
                 if (decryptedHeader.getNamespaceCount() > 0) {
-                    headerBlockNamespaces = new HashMap<String, String>(parentNS);
+                    headerBlockNamespaces = new HashMap<>(parentNS);
                     for (int k = 0; k < decryptedHeader.getNamespaceCount(); k++) {
                         String prefix = decryptedHeader.getNamespacePrefix(k);
                         if (prefix == null) {
@@ -1824,7 +1809,7 @@ public final class SecurityRecipient {
             bodyTag = new TagInfoset(rdr);
         }
         // FIXME: RJE -- remove cast once StreamMessage constr can take MessageHeaders
-        Message msg = new StreamMessage(envelopeTag, headerTag, new AttachmentSetImpl(), (HeaderList) headers, bodyTag, rdr, soapVersion);
+        Message msg = new StreamMessage(envelopeTag, headerTag, new AttachmentSetImpl(), headers, bodyTag, rdr, soapVersion);
         ctx.setPVMessage(msg);
     }
 

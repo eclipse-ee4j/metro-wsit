@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -45,8 +45,9 @@ public class OptimalTransportFeatureConfigurator implements PolicyFeatureConfigu
      * @return The list of features
      * @throws PolicyException If retrieving the policy triggered an exception
      */
+    @Override
     public Collection<WebServiceFeature> getFeatures(PolicyMapKey key, PolicyMap policyMap) throws PolicyException {
-        final Collection<WebServiceFeature> features = new LinkedList<WebServiceFeature>();
+        final Collection<WebServiceFeature> features = new LinkedList<>();
         if ((key != null) && (policyMap != null)) {
             Policy policy = policyMap.getEndpointEffectivePolicy(key);
             if (policy != null) {

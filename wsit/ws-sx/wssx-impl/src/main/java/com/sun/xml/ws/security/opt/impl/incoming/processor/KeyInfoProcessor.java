@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -105,8 +105,6 @@ public class KeyInfoProcessor {
      * gets the event type from the reader,processes it and returns the key calculated from it
      * @param reader XMLStreamReader
      * @return Key
-     * @throws javax.xml.stream.XMLStreamException
-     * @throws com.sun.xml.wss.XWSSecurityException
      */
     private Key processKeyInfo(XMLStreamReader reader) throws XMLStreamException, XWSSecurityException{
         //Start element for KeyInfo
@@ -166,7 +164,7 @@ public class KeyInfoProcessor {
                     StreamUtil.moveToNextStartOREndElement(reader, canonWriter);
                     if(reader.getLocalName() == X509Certificate && reader.getNamespaceURI() == MessageConstants.DSIG_NS){
                         reader.next();
-                        StringBuffer sb = null;
+                        StringBuilder sb = null;
                         byte [] value = null;
                         CharSequence charSeq = ((XMLStreamReaderEx)reader).getPCDATA();
                         if(charSeq instanceof Base64Data){
@@ -177,7 +175,7 @@ public class KeyInfoProcessor {
                                 canonWriter.writeCharacters(ev);
                             }
                         }else {
-                            sb = new StringBuffer();
+                            sb = new StringBuilder();
                             while(reader.getEventType() == reader.CHARACTERS && reader.getEventType() != reader.END_ELEMENT){
                                 charSeq = ((XMLStreamReaderEx)reader).getPCDATA();
                                 for(int i=0;i<charSeq.length();i++){
@@ -227,8 +225,6 @@ public class KeyInfoProcessor {
      * parses the BinarySecret element and returns the Key
      * @param reader XMLStreamReader
      * @return Key
-     * @throws com.sun.xml.wss.XWSSecurityException
-     * @throws javax.xml.stream.XMLStreamException
      */
     private Key buildBinarySecret(XMLStreamReader reader)throws XWSSecurityException,XMLStreamException{
         byte [] value = null;
@@ -269,7 +265,7 @@ public class KeyInfoProcessor {
     }
     
     private String readCharacters(XMLStreamReader reader)throws XMLStreamException{
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         while(reader.getEventType() == reader.CHARACTERS && reader.getEventType() != reader.END_ELEMENT){
             CharSequence charSeq = ((XMLStreamReaderEx)reader).getPCDATA();
             for(int i=0;i<charSeq.length();i++){
@@ -287,7 +283,6 @@ public class KeyInfoProcessor {
      * generates a X509 certificate from the caertificate value 
      * @param certValue  InputStream
      * @return X509Certificate
-     * @throws com.sun.xml.wss.XWSSecurityException
      */
     private X509Certificate buildCertificate(InputStream certValue)throws XWSSecurityException{
         try {
@@ -304,9 +299,8 @@ public class KeyInfoProcessor {
      * returns the event type of the XMLStreamReader..
      * @param reader XMLStreamReader
      * @return  int
-     * @throws javax.xml.stream.XMLStreamException
      */
-    private int getEventType(XMLStreamReader reader) throws XMLStreamException{
+    private int getEventType(XMLStreamReader reader) {
         if(reader.getEventType() == reader.START_ELEMENT){
             if(reader.getLocalName() == SECURITY_TOKEN_REFERENCE){
                 return SECURITY_TOKEN_REFERENCE_ELEMENT;

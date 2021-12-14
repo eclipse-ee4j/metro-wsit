@@ -11,7 +11,6 @@
 package com.sun.xml.ws.tx.coord.common.types;
 
 import org.glassfish.jaxb.runtime.api.JAXBRIContext;
-import org.w3c.dom.Element;
 
 import jakarta.xml.ws.EndpointReference;
 import java.util.List;
@@ -66,6 +65,6 @@ public interface CoordinationContextIF<T extends EndpointReference,E,I,C>
      */
     List<Object> getAny();
 
-    public abstract JAXBRIContext getJAXBRIContext();
+    JAXBRIContext getJAXBRIContext();
 
 }

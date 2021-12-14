@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -19,7 +19,7 @@ import javax.xml.namespace.QName;
  */
 public class JCapsPolicyValidator extends AbstractQNameValidator {
     public static final String NS_URI_BASIC_AUTHENTICATION_SECURITY_POLICY = "http://sun.com/ws/httpbc/security/BasicauthSecurityPolicy";    
-    private static final ArrayList<QName> supportedAssertions = new ArrayList<QName>(2);
+    private static final ArrayList<QName> supportedAssertions = new ArrayList<>(2);
     
     static{
         supportedAssertions.add(new QName(NS_URI_BASIC_AUTHENTICATION_SECURITY_POLICY, "MustSupportBasicAuthentication"));

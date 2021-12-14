@@ -39,7 +39,7 @@ import org.w3c.dom.Node;
 public class NameSpaceSymbTable {
 
 	/**The map betwen prefix-> entry table. */
-	HashMap<String,NameSpaceSymbEntry>  symb = new HashMap<String,NameSpaceSymbEntry>();
+	HashMap<String,NameSpaceSymbEntry>  symb = new HashMap<>();
 	/**The level of nameSpaces (for Inclusive visibility).*/
 	int nameSpaces=0;
 	/**The stacks for removing the definitions when doing pop.*/
@@ -99,7 +99,7 @@ public class NameSpaceSymbTable {
         @SuppressWarnings("unchecked")
 	public void push() {
 		//Put the number of namespace definitions in the stack.
-        /**if (cloned) {
+        /*if (cloned) {
         	Object ob[]= {symb,cloned ? symb : null};
         	level.add(ob);
         } **/
@@ -145,7 +145,7 @@ public class NameSpaceSymbTable {
      * definition.
      **/
 	public Attr getMapping(String prefix) {
-		NameSpaceSymbEntry entry=(NameSpaceSymbEntry) symb.get(prefix);
+		NameSpaceSymbEntry entry= symb.get(prefix);
 		if (entry==null) {
 			//There is no definition for the prefix(a bug?).
 			return null;
@@ -172,7 +172,7 @@ public class NameSpaceSymbTable {
      * @return the attr to render, null if there is no need to render
      **/
 	public Attr getMappingWithoutRendered(String prefix) {
-		NameSpaceSymbEntry entry=(NameSpaceSymbEntry) symb.get(prefix);
+		NameSpaceSymbEntry entry= symb.get(prefix);
 		if (entry==null) {
 			return null;
 		}
@@ -190,7 +190,7 @@ public class NameSpaceSymbTable {
      * @return true if there is already defined.
      **/
 	public boolean addMapping(String prefix, String uri,Attr n) {
-		NameSpaceSymbEntry ob = (NameSpaceSymbEntry)symb.get(prefix);
+		NameSpaceSymbEntry ob = symb.get(prefix);
 		if ((ob!=null) && uri.equals(ob.uri)) {
 			//If we have it previously defined. Don't keep working.
 			return false;
@@ -220,7 +220,7 @@ public class NameSpaceSymbTable {
      * @return the attr to render, null if there is no need to render
      **/
     public Node addMappingAndRender(String prefix, String uri,Attr n) {
-        NameSpaceSymbEntry ob = (NameSpaceSymbEntry)symb.get(prefix);
+        NameSpaceSymbEntry ob = symb.get(prefix);
 
         if ((ob!=null) && uri.equals(ob.uri)) {
             if (!ob.rendered) {
@@ -259,7 +259,7 @@ public class NameSpaceSymbTable {
      * definition.
      **/
 	public Node addMappingAndRenderXNodeSet(String prefix, String uri,Attr n,boolean outputNode) {
-		NameSpaceSymbEntry ob = (NameSpaceSymbEntry)symb.get(prefix);
+		NameSpaceSymbEntry ob = symb.get(prefix);
 		int visibleNameSpaces=nameSpaces;
 		if ((ob!=null) && uri.equals(ob.uri)) {
 			if (!ob.rendered) {
@@ -306,6 +306,7 @@ class NameSpaceSymbEntry implements Cloneable {
         this.rendered=rendered;
         this.n=n;
     }
+    @Override
     public Object clone() {
         try {
             return super.clone();

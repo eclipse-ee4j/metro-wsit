@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -85,8 +85,7 @@ public class MetroParser {
             // If we did not get a config file from the container, fall back to class path
             if (configFileUrl == null) {
                 // Try META-INF
-                final StringBuilder examinedPath = new StringBuilder(JAR_PREFIX).append(configFileName);
-                configFileUrl = PolicyUtils.ConfigFile.loadFromClasspath(examinedPath.toString());
+                configFileUrl = PolicyUtils.ConfigFile.loadFromClasspath(JAR_PREFIX + configFileName);
             }
 
             return configFileUrl;
@@ -99,10 +98,7 @@ public class MetroParser {
     private static XMLStreamReader urlToReader(URL url) throws WebServiceException {
         try {
             return inputFactory.createXMLStreamReader(url.openStream());
-        } catch (IOException e) {
-            // TODO logging message
-            throw LOGGER.logSevereException(new WebServiceException("Failed to load URL", e));
-        } catch (XMLStreamException e) {
+        } catch (IOException | XMLStreamException e) {
             // TODO logging message
             throw LOGGER.logSevereException(new WebServiceException("Failed to load URL", e));
         }

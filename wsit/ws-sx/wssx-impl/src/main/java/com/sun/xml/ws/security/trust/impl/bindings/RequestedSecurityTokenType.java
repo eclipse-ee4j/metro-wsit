@@ -22,8 +22,6 @@ import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlAnyElement;
 import jakarta.xml.bind.annotation.XmlType;
-import com.sun.xml.ws.security.trust.impl.bindings.RequestedSecurityTokenType;
-import org.w3c.dom.Element;
 
 
 /**

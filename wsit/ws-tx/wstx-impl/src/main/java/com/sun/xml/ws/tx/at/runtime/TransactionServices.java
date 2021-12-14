@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -43,17 +43,15 @@ public interface TransactionServices {
      * Called by Registration service to register a volatile participant
      * @param synchronization jakarta.transaction.Synchronization
      * @param xid Xid
-     * @throws WSATException wsatXAResource
      */
-    void registerSynchronization(Synchronization synchronization, Xid xid) throws WSATException;
+    void registerSynchronization(Synchronization synchronization, Xid xid);
 
     /**
      * Called by server tube (WSATServerHelper) to infect thread with tx
      * @param timeout timeout/ttl
      * @param tId byte[]
-     * @throws WSATException wsatXAResource
      */
-  Xid importTransaction(int timeout, byte[] tId) throws WSATException;
+  Xid importTransaction(int timeout, byte[] tId);
 
     /**
      * Called by Participant endpoint to prepare tx/subordinate branch

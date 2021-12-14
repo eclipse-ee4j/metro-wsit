@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -92,14 +92,15 @@ public class DefaultRealmAuthenticationAdapter extends RealmAuthenticationAdapte
             final Subject callerSubject, final String username, final String password) 
             throws XWSSecurityException {
         if (tomcatUsersXML != null) {
-            String pass = (String)tomcatUsersXML.get(username);
+            String pass = tomcatUsersXML.get(username);
             if (pass == null) {
                 return false;
             }
             if (pass.equals(password)) {
                 //populate the subject
-                AccessController.doPrivileged(new PrivilegedAction<Object>() {
-                    
+                AccessController.doPrivileged(new PrivilegedAction<>() {
+
+                    @Override
                     public Object run() {
                         String x500Name = "CN=" + username;
                         Principal principal = new X500Principal(x500Name);
@@ -228,7 +229,7 @@ public class DefaultRealmAuthenticationAdapter extends RealmAuthenticationAdapte
             DocumentBuilder builder = dbf.newDocumentBuilder();
             Document doc = builder.parse(tomcatUserXML);
             NodeList nl = doc.getElementsByTagName("user");
-            tomcatUsersXML = new HashMap<String, String>();
+            tomcatUsersXML = new HashMap<>();
             
             for (int i=0; i<nl.getLength(); i++) {
                 Node n = nl.item(i);
@@ -244,12 +245,8 @@ public class DefaultRealmAuthenticationAdapter extends RealmAuthenticationAdapte
                     System.out.println("Entered : U=" + un.getNodeValue() + ": P=" + pn.getNodeValue());
                 }
             }
-        }catch (ParserConfigurationException ex) {
+        }catch (ParserConfigurationException | IOException | SAXException ex) {
             throw new RuntimeException(ex);
-        }catch (SAXException e) {
-            throw new RuntimeException(e);
-        }catch (IOException ie) {
-            throw new RuntimeException(ie);
         }
     }
 }

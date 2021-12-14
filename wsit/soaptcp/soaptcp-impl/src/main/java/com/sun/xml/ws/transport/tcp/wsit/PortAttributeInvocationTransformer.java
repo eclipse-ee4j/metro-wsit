@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -40,7 +40,7 @@ public class PortAttributeInvocationTransformer implements InvocationTransformer
     private static final Logger logger = Logger.getLogger(
             com.sun.xml.ws.transport.tcp.util.TCPConstants.LoggingDomain + ".server");
     
-    private Collection<Invocation> invocationWrapper = new ArrayList<Invocation>(4);
+    private Collection<Invocation> invocationWrapper = new ArrayList<>(4);
     
     private boolean isProcessingWSTCPAssertion;
     
@@ -52,9 +52,9 @@ public class PortAttributeInvocationTransformer implements InvocationTransformer
      * So call transform next time only if previously returned Collection is not required
      * any more.
      * 
-     * @param invocation
      * @return transformed invocations
      */
+    @Override
     public Collection<Invocation> transform(final Invocation invocation) {
         Invocation resultInvocation = invocation;
         switch (invocation.getMethodType()) {
@@ -64,6 +64,7 @@ public class PortAttributeInvocationTransformer implements InvocationTransformer
                 }
                 break;
             case WRITE_END_ELEMENT:
+            case CLOSE:
                 isProcessingWSTCPAssertion = false;
                 break;
             case WRITE_ATTRIBUTE:
@@ -86,9 +87,6 @@ public class PortAttributeInvocationTransformer implements InvocationTransformer
                     
                     resultInvocation = addPortAttributeInvocation;
                 }
-                break;
-            case CLOSE:
-                isProcessingWSTCPAssertion = false;
                 break;
             default:
                 break;

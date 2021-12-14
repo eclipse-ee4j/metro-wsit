@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -19,7 +19,6 @@ import org.w3c.dom.Element;
 import javax.xml.namespace.QName;
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBElement;
-import jakarta.xml.bind.JAXBException;
 
 //import com.sun.xml.security.core.xenc.EncryptedDataType;
 
@@ -35,9 +34,6 @@ import com.sun.xml.ws.security.secconv.impl.wssx.bindings.SecurityContextTokenTy
 import com.sun.xml.ws.security.trust.WSTrustVersion;
 
 import com.sun.xml.ws.security.trust.impl.wssx.WSTrustElementFactoryImpl;
-
-import com.sun.xml.wss.saml.assertion.saml11.jaxb20.Assertion;
-import com.sun.xml.wss.saml.internal.saml11.jaxb20.AssertionType;
 
 /**
  * Implementation for the RequestedSecurityToken.
@@ -119,10 +115,12 @@ public class RequestedSecurityTokenImpl extends RequestedSecurityTokenType imple
     /*
      * Return the security token contained in the RequestedSecurityToken.
      */
+    @Override
     public Token getToken() {
         return containedToken;
     }
     
+    @Override
     public void setToken(Token token) {
         if (token != null)  {
             String tokenType = token.getType();

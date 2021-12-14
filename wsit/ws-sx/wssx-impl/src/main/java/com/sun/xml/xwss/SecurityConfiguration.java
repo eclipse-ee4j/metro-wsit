@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -15,7 +15,6 @@ import javax.security.auth.callback.CallbackHandler;
 
 import com.sun.xml.wss.SecurityEnvironment;
 import com.sun.xml.wss.XWSSecurityException;
-import com.sun.xml.wss.impl.XWSSecurityRuntimeException;
 import com.sun.xml.wss.impl.config.SecurityConfigurationXmlReader;
 import com.sun.xml.wss.impl.config.ApplicationSecurityConfiguration;
 import com.sun.xml.wss.impl.misc.DefaultSecurityEnvironmentImpl;
@@ -61,8 +60,6 @@ public class SecurityConfiguration implements XWSSecurityConfiguration {
            securityEnvironment =
                    new DefaultSecurityEnvironmentImpl(callbackhandler);
            
-       } catch (IOException e) {
-           throw new XWSSecurityException(e);
        } catch (Exception e) {
            throw new XWSSecurityException(e);
        } finally {
@@ -120,8 +117,7 @@ public class SecurityConfiguration implements XWSSecurityConfiguration {
     }
 
     /**
-     * 
-     * @return 
+     *
      */
     public boolean isEmpty() {
         return configEmpty;

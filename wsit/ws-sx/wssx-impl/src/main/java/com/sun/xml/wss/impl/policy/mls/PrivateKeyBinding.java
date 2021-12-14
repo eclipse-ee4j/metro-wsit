@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -113,6 +113,7 @@ public class PrivateKeyBinding extends WSSPolicy {
      * @param binding the Policy to be checked for equality
      * @return true if the argument binding is equal to this PrivateKeyBinding.
      */
+    @Override
     public boolean equals(WSSPolicy binding) {
         
         try {
@@ -133,6 +134,7 @@ public class PrivateKeyBinding extends WSSPolicy {
     /*
      * equality operator ignoring Target bindings
      */
+    @Override
     public boolean equalsIgnoreTargets(WSSPolicy binding) {
         return equals(binding);
     }
@@ -141,6 +143,7 @@ public class PrivateKeyBinding extends WSSPolicy {
      * clone operator
      * @return a clone of this PrivateKeyBinding
      */
+    @Override
     public Object clone(){
         PrivateKeyBinding pkBinding = new PrivateKeyBinding();
         
@@ -160,6 +163,7 @@ public class PrivateKeyBinding extends WSSPolicy {
     /**
      * @return the type of the policy
      */
+    @Override
     public String getType() {
         return PolicyTypeUtil.PRIVATEKEY_BINDING_TYPE;
     }

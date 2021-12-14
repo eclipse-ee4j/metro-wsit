@@ -31,12 +31,12 @@ public interface EncryptedElements extends Target {
      * Returns XPath Version in use.
      * @return xpath version 
      */
-    public String getXPathVersion();
+    String getXPathVersion();
   
     /**
      * targets that needs to be confidentiality
      * protected if present in the message.
      * @return {@link java.util.Iterator }
      */
-    public Iterator<String> getTargets();
+    Iterator<String> getTargets();
 }

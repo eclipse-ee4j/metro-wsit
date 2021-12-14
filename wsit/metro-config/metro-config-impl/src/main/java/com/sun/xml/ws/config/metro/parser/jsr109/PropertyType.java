@@ -154,6 +154,7 @@ public class PropertyType
         this.id = value;
     }
 
+    @Override
     public Locator sourceLocation() {
         return locator;
     }

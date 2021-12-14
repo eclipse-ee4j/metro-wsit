@@ -46,26 +46,32 @@ public abstract class RxConfigurationBase implements RxConfiguration {
         this.haProvider = haProvider;
     }
 
+    @Override
     public boolean isReliableMessagingEnabled() {
         return rmEnabled;
     }
 
+    @Override
     public boolean isMakeConnectionSupportEnabled() {
         return mcSupportEnabled;
     }
 
+    @Override
     public SOAPVersion getSoapVersion() {
         return soapVersion;
     }
 
+    @Override
     public AddressingVersion getAddressingVersion() {
         return addressingVersion;
     }
 
+    @Override
     public boolean requestResponseOperationsDetected() {
         return requestResponseDetected;
     }
 
+    @Override
     public ManagedObjectManager getManagedObjectManager() {
 	return managedObjectManager;
     }

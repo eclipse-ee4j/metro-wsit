@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -49,7 +49,7 @@ public class SequenceAcknowledgementElement {
     @XmlAnyElement(lax = true)
     protected List<Object> any;
     @XmlAnyAttribute
-    private Map<QName, String> otherAttributes = new HashMap<QName, String>();
+    private Map<QName, String> otherAttributes = new HashMap<>();
 
     public SequenceAcknowledgementElement() {
 
@@ -80,7 +80,7 @@ public class SequenceAcknowledgementElement {
      */
     public List<SequenceAcknowledgementElement.AcknowledgementRange> getAcknowledgementRange() {
         if (acknowledgementRange == null) {
-            acknowledgementRange = new ArrayList<SequenceAcknowledgementElement.AcknowledgementRange>();
+            acknowledgementRange = new ArrayList<>();
         }
         return this.acknowledgementRange;
     }
@@ -94,7 +94,7 @@ public class SequenceAcknowledgementElement {
      */
     public List<BigInteger> getNack() {
         if (nack == null) {
-            nack = new ArrayList<BigInteger>();
+            nack = new ArrayList<>();
         }
         return this.nack;
     }
@@ -107,7 +107,7 @@ public class SequenceAcknowledgementElement {
      */
     public List<Object> getAny() {
         if (any == null) {
-            any = new ArrayList<Object>();
+            any = new ArrayList<>();
         }
         return this.any;
     }
@@ -169,7 +169,7 @@ public class SequenceAcknowledgementElement {
 
     @Override
     public String toString() {
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder buffer = new StringBuilder();
         buffer.append(LocalizationMessages.WSRM_4004_SEQUENCE_ACKNOWLEDGEMENT_TOSTRING_STRING(getId(), getBufferRemaining()));
         List<AcknowledgementRange> ranges = getAcknowledgementRange();
         if (ranges != null) {
@@ -189,7 +189,7 @@ public class SequenceAcknowledgementElement {
         @XmlAttribute(name = "Upper", required = true)
         protected BigInteger upper;
         @XmlAnyAttribute
-        private Map<QName, String> otherAttributes = new HashMap<QName, String>();
+        private Map<QName, String> otherAttributes = new HashMap<>();
 
         /**
          * Gets the value of the lower property.

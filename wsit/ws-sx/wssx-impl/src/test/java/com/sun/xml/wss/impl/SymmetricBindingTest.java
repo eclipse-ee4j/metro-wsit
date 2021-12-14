@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -18,15 +18,10 @@ import com.sun.xml.wss.*;
 
 import jakarta.xml.soap.*;
 import com.sun.xml.wss.impl.policy.mls.*;
-import com.sun.xml.wss.impl.filter.*;
-import com.sun.xml.wss.ProcessingContext;
-import com.sun.xml.ws.security.impl.*;
-import com.sun.xml.wss.core.*;
-import com.sun.xml.wss.impl.ProcessingContextImpl;
 //import com.sun.xml.ws.security.policy.*;
 import com.sun.xml.ws.security.impl.policy.*;
 import javax.xml.namespace.QName;
-import java.security.SecureRandom;
+
 import com.sun.xml.wss.impl.misc.*;
 import javax.security.auth.callback.CallbackHandler;
 import com.sun.xml.wss.impl.*;
@@ -51,15 +46,17 @@ public class SymmetricBindingTest extends TestCase{
     private static HashMap server = new HashMap();
     private static  AlgorithmSuite alg = null;
         
-    public SymmetricBindingTest(String testName) throws Exception {
+    public SymmetricBindingTest(String testName) {
         super(testName);
     }
                                                                                                                                                              
-    protected void setUp() throws Exception {
+    @Override
+    protected void setUp() {
     	
     }
                                                                                                                                                              
-    protected void tearDown() throws Exception {
+    @Override
+    protected void tearDown() {
     }
                                                                                                                                                              
     public static Test suite() {
@@ -121,7 +118,7 @@ public class SymmetricBindingTest extends TestCase{
             com.sun.xml.ws.security.policy.WSSAssertion wssAssertionws = null;
             WSSAssertion wssAssertion = null;
             AssertionSet as = null;
-            Policy wssPolicy = new PolicyResourceLoader().loadPolicy("security/policy-binding2.xml");
+            Policy wssPolicy = PolicyResourceLoader.loadPolicy("security/policy-binding2.xml");
             Iterator<AssertionSet> i = wssPolicy.iterator();
             if(i.hasNext())
                 as = i.next();
@@ -191,7 +188,7 @@ public class SymmetricBindingTest extends TestCase{
        com.sun.xml.ws.security.policy.WSSAssertion wssAssertionws = null;
        WSSAssertion wssAssertion = null;
        AssertionSet as = null;
-       Policy wssPolicy = new PolicyResourceLoader().loadPolicy("security/policy-binding2.xml");
+       Policy wssPolicy = PolicyResourceLoader.loadPolicy("security/policy-binding2.xml");
        Iterator<AssertionSet> i = wssPolicy.iterator();
        if(i.hasNext())
            as = i.next();
@@ -228,7 +225,7 @@ public class SymmetricBindingTest extends TestCase{
        com.sun.xml.ws.security.policy.WSSAssertion wssAssertionws = null;
        WSSAssertion wssAssertion = null;
        AssertionSet as = null;
-       Policy wssPolicy = new PolicyResourceLoader().loadPolicy("security/policy-binding2.xml");
+       Policy wssPolicy = PolicyResourceLoader.loadPolicy("security/policy-binding2.xml");
        Iterator<AssertionSet> i = wssPolicy.iterator();
        if(i.hasNext())
            as = i.next();

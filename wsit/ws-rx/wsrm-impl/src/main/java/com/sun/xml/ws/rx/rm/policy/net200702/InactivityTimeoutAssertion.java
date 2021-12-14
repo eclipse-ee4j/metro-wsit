@@ -35,6 +35,7 @@ public class InactivityTimeoutAssertion extends SimpleAssertion implements RmCon
     private static final QName MILISECONDS_ATTRIBUTE_QNAME = new QName("", "Milliseconds");    
 
     private static AssertionInstantiator instantiator = new AssertionInstantiator() {
+        @Override
         public PolicyAssertion newInstance(AssertionData data, Collection<PolicyAssertion> assertionParameters, AssertionSet nestedAlternative){
             return new InactivityTimeoutAssertion(data, assertionParameters);
         }
@@ -56,10 +57,12 @@ public class InactivityTimeoutAssertion extends SimpleAssertion implements RmCon
         return timeout;
     }
 
+    @Override
     public ReliableMessagingFeatureBuilder update(ReliableMessagingFeatureBuilder builder) {
         return builder.sequenceInactivityTimeout(timeout);
     }
 
+    @Override
     public boolean isCompatibleWith(RmProtocolVersion version) {
         return RmProtocolVersion.WSRM200702 == version;
     }

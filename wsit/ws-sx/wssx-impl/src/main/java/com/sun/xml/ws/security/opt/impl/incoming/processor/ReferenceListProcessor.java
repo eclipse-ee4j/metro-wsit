@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -36,10 +36,9 @@ public class ReferenceListProcessor {
     /**
      * processes the ReferenceList and sets the refList member
      * @param reader XMLStreamReader
-     * @throws javax.xml.stream.XMLStreamException
      */
     public void process(XMLStreamReader reader) throws XMLStreamException{
-        refList = new ArrayList<String>(2);
+        refList = new ArrayList<>(2);
         if(StreamUtil.moveToNextStartOREndElement(reader)){
             while(reader.getEventType() != reader.END_DOCUMENT){
                 if(reader.getEventType() == XMLStreamReader.START_ELEMENT){

@@ -36,6 +36,7 @@ public class JaxwsMessage extends RxMessageBase {
             this.correlationId = message.getCorrelationId();
         }
 
+        @Override
         public JaxwsMessage toMessage() {
             ByteArrayInputStream bais = new ByteArrayInputStream(data);
             return JaxwsMessage.newInstance(bais,correlationId, wsaAction);
@@ -97,6 +98,7 @@ public class JaxwsMessage extends RxMessageBase {
         return jaxwsMessage.getWsaAction();
     }
 
+    @Override
     public JaxwsMessageState getState() {
         return new JaxwsMessageState(this);
     }

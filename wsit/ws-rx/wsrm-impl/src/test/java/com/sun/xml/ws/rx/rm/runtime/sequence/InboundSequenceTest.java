@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -122,10 +122,8 @@ public class InboundSequenceTest extends TestCase {
 
         try {
             // duplicate message acknowledgement
-            sequence.acknowledgeMessageNumbers(Arrays.asList(new Sequence.AckRange[]{
-                        new Sequence.AckRange(2, 2),
-                        new Sequence.AckRange(4, 5)
-                    }));
+            sequence.acknowledgeMessageNumbers(Arrays.asList(new Sequence.AckRange(2, 2),
+                    new Sequence.AckRange(4, 5)));
         } catch (UnsupportedOperationException e) {
             return;
         }
@@ -157,7 +155,7 @@ public class InboundSequenceTest extends TestCase {
         assertTrue("Expected exception was not thrown", passed);
     }
 
-    public void testSequenceState() throws Exception {
+    public void testSequenceState() {
         Sequence inbound = sequenceManager.createInboundSequence(
                 sequenceManager.generateSequenceUID(),
                 null,
@@ -172,7 +170,7 @@ public class InboundSequenceTest extends TestCase {
     }
 
     public void testStoreAndRetrieveMessage() throws Exception {
-        Map<String, ApplicationMessage> correlatedMessageMap = new HashMap<String, ApplicationMessage>();
+        Map<String, ApplicationMessage> correlatedMessageMap = new HashMap<>();
         for (int i = 1; i <= 3; i++) {
             ApplicationMessage message = new DummyAppMessage(sequence.getId(), i, null, null, false, "" + i);
             sequence.registerMessage(message, true);

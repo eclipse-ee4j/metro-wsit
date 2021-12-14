@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -24,33 +24,33 @@ public interface IssuedToken extends Token{
      * returns {@link com.sun.xml.ws.security.policy.Issuer } which is the issuer for the issued token.
      * @return {@link com.sun.xml.ws.security.policy.Issuer} or null
      */
-    public Issuer getIssuer();
+    Issuer getIssuer();
     
     /**
      * returns {@link com.sun.xml.ws.security.policy.IssuerName } which is the issuer for the issued token.
      * @return the issuer name for Issued token
      */
-    public IssuerName getIssuerName();
+    IssuerName getIssuerName();
     
     /**
      * 
      * @return Claims
-     */ 
-    public Claims getClaims();
+     */
+    Claims getClaims();
    
     /**
      * returns {@link RequestSecurityTokenTemplate }
      * @return {@link RequestSecurityTokenTemplate}
      */
-    public RequestSecurityTokenTemplate getRequestSecurityTokenTemplate();  
+    RequestSecurityTokenTemplate getRequestSecurityTokenTemplate();
   
     
     /**
      * returns a {@link java.util.Iterator } over the token reference types to be used.
      * @return either REQUIRE_KEY_IDENTIFIER_REFERENCE,REQUIRE_ISSUER_SERIAL_REFERENCE,REQUIRE_EMBEDDED_TOKEN_REFERENCE,REQUIRE_THUMBPRINT_REFERENCE
      */
-    public Iterator getTokenRefernceType();
+    Iterator getTokenRefernceType();
     
-    public boolean isRequireDerivedKeys();
+    boolean isRequireDerivedKeys();
     
 }

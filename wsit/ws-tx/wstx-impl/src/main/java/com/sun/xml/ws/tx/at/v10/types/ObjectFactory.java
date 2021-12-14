@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -95,7 +95,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://schemas.xmlsoap.org/ws/2004/10/wsat", name = "Replay")
     public JAXBElement<Notification> createReplay(Notification value) {
-        return new JAXBElement<Notification>(_Replay_QNAME, Notification.class, null, value);
+        return new JAXBElement<>(_Replay_QNAME, Notification.class, null, value);
     }
 
     /**
@@ -104,7 +104,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://schemas.xmlsoap.org/ws/2004/10/wsat", name = "Committed")
     public JAXBElement<Notification> createCommitted(Notification value) {
-        return new JAXBElement<Notification>(_Committed_QNAME, Notification.class, null, value);
+        return new JAXBElement<>(_Committed_QNAME, Notification.class, null, value);
     }
 
     /**
@@ -113,7 +113,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://schemas.xmlsoap.org/ws/2004/10/wsat", name = "ReadOnly")
     public JAXBElement<Notification> createReadOnly(Notification value) {
-        return new JAXBElement<Notification>(_ReadOnly_QNAME, Notification.class, null, value);
+        return new JAXBElement<>(_ReadOnly_QNAME, Notification.class, null, value);
     }
 
     /**
@@ -122,7 +122,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://schemas.xmlsoap.org/ws/2004/10/wsat", name = "Aborted")
     public JAXBElement<Notification> createAborted(Notification value) {
-        return new JAXBElement<Notification>(_Aborted_QNAME, Notification.class, null, value);
+        return new JAXBElement<>(_Aborted_QNAME, Notification.class, null, value);
     }
 
     /**
@@ -131,7 +131,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://schemas.xmlsoap.org/ws/2004/10/wsat", name = "Commit")
     public JAXBElement<Notification> createCommit(Notification value) {
-        return new JAXBElement<Notification>(_Commit_QNAME, Notification.class, null, value);
+        return new JAXBElement<>(_Commit_QNAME, Notification.class, null, value);
     }
 
     /**
@@ -140,7 +140,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://schemas.xmlsoap.org/ws/2004/10/wsat", name = "Prepare")
     public JAXBElement<Notification> createPrepare(Notification value) {
-        return new JAXBElement<Notification>(_Prepare_QNAME, Notification.class, null, value);
+        return new JAXBElement<>(_Prepare_QNAME, Notification.class, null, value);
     }
 
     /**
@@ -149,7 +149,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://schemas.xmlsoap.org/ws/2004/10/wsat", name = "Prepared")
     public JAXBElement<Notification> createPrepared(Notification value) {
-        return new JAXBElement<Notification>(_Prepared_QNAME, Notification.class, null, value);
+        return new JAXBElement<>(_Prepared_QNAME, Notification.class, null, value);
     }
 
     /**
@@ -158,7 +158,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://schemas.xmlsoap.org/ws/2004/10/wsat", name = "Rollback")
     public JAXBElement<Notification> createRollback(Notification value) {
-        return new JAXBElement<Notification>(_Rollback_QNAME, Notification.class, null, value);
+        return new JAXBElement<>(_Rollback_QNAME, Notification.class, null, value);
     }
 
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -17,11 +17,6 @@
 package com.sun.xml.wss.saml;
 
 import java.util.List;
-
-/**
- *
- * @author abhijit.das@Sun.COM
- */
 
 /**
  * The <code>Attribute</code> element specifies an attribute of the assertion subject.
@@ -60,7 +55,7 @@ public interface Attribute {
      * @return object is {@link java.lang.String }
      *     
      */
-    public String getFriendlyName();
+    String getFriendlyName();
     
     /**
      * Gets the value of the name property.
@@ -76,5 +71,5 @@ public interface Attribute {
      * @return object is {@link java.lang.String }
      *     
      */
-    public String getNameFormat();
+    String getNameFormat();
 }

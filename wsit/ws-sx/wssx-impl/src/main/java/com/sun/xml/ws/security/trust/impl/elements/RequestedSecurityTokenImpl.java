@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -128,10 +128,12 @@ public class RequestedSecurityTokenImpl extends RequestedSecurityTokenType imple
     /*
      * Return the security token contained in the RequestedSecurityToken.
      */
+    @Override
     public Token getToken() {
         return containedToken;
     }
     
+    @Override
     public final void setToken(final Token token) {
         if (token != null)  {
             final String tokenType = token.getType();

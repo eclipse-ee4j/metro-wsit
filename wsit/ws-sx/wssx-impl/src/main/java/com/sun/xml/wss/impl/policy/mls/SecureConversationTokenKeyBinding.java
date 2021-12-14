@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -31,6 +31,7 @@ public class SecureConversationTokenKeyBinding extends KeyBindingBase {
         setPolicyIdentifier(PolicyTypeUtil.SECURE_CONVERSATION_TOKEN_KEY_BINDING);
     }
     
+    @Override
     public Object clone() {
         SecureConversationTokenKeyBinding itb = new SecureConversationTokenKeyBinding();
         //itb.setPolicyToken(this.getPolicyToken());
@@ -40,6 +41,7 @@ public class SecureConversationTokenKeyBinding extends KeyBindingBase {
         return itb;
     }
     
+    @Override
     public boolean equals(WSSPolicy policy) {
         if ( !PolicyTypeUtil.secureConversationTokenKeyBinding(policy)) {
             return false;
@@ -49,10 +51,12 @@ public class SecureConversationTokenKeyBinding extends KeyBindingBase {
         return true;
     }
     
+    @Override
     public boolean equalsIgnoreTargets(WSSPolicy policy) {
         return equals(policy);
     }
     
+    @Override
     public String getType() {
         return PolicyTypeUtil.SECURE_CONVERSATION_TOKEN_KEY_BINDING;
     }

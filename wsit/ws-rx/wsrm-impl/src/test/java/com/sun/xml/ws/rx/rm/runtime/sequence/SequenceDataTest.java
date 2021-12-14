@@ -47,7 +47,7 @@ public class SequenceDataTest extends TestCase {
     }
 
     @Override
-    protected void setUp() throws Exception {
+    protected void setUp() {
         for (SequenceDataLoader loader : loaders) {
             loader.setUp();
         }
@@ -69,7 +69,7 @@ public class SequenceDataTest extends TestCase {
     }
 
     @Override
-    protected void tearDown() throws Exception {
+    protected void tearDown() {
         for (SequenceDataLoader loader : loaders) {
             loader.tearDown();
         }

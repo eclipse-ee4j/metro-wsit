@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -45,8 +45,8 @@ public class X509TokenBuilder extends TokenBuilder {
     /**
      * processes the token and obtain the keys
      * @return BuilderResult
-     * @throws com.sun.xml.wss.XWSSecurityException
      */
+    @Override
     @SuppressWarnings("unchecked")
     public BuilderResult process() throws XWSSecurityException {
 

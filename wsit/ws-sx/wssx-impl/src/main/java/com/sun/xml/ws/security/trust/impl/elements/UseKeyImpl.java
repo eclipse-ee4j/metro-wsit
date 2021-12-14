@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -17,10 +17,7 @@ package com.sun.xml.ws.security.trust.impl.elements;
 import com.sun.xml.ws.security.trust.GenericToken;
 import java.net.URI;
 
-import com.sun.xml.ws.security.trust.elements.str.SecurityTokenReference;
-import com.sun.xml.ws.security.trust.impl.elements.str.SecurityTokenReferenceImpl;
 import com.sun.xml.ws.security.Token;
-import com.sun.xml.ws.security.trust.WSTrustConstants;
 import com.sun.xml.ws.security.trust.elements.UseKey;
 import com.sun.xml.ws.security.trust.impl.bindings.UseKeyType;
 
@@ -53,10 +50,12 @@ public class UseKeyImpl extends UseKeyType implements UseKey {
         setSig(ukType.getSig());
     }
     
+    @Override
     public void setToken(@NotNull final Token token) {
         setAny(token.getTokenValue());
     }
     
+    @Override
     public Token getToken() {
         Object value = getAny();
         if (value instanceof Element){
@@ -69,10 +68,12 @@ public class UseKeyImpl extends UseKeyType implements UseKey {
         return null;
     }
     
+    @Override
     public void setSignatureID(@NotNull final URI sigID) {
         setSig(sigID.toString());
     }
     
+    @Override
     public URI getSignatureID() {
         return URI.create(getSig());
     }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -108,8 +108,7 @@ public class KeySelectorImpl extends KeySelector {
     private static KeySelectorImpl keyResolver = null;
     private static final Logger logger = Logger.getLogger(LogDomainConstants.IMPL_SIGNATURE_DOMAIN,
             LogDomainConstants.IMPL_SIGNATURE_DOMAIN_BUNDLE);
-    /** Creates a new instance of KeySelectorImpl */
-    
+
 
     static {
         keyResolver = new KeySelectorImpl();
@@ -121,7 +120,6 @@ public class KeySelectorImpl extends KeySelector {
 
     /**
      *
-     * @return
      */
     public static KeySelector getInstance() {
         return keyResolver;
@@ -129,13 +127,8 @@ public class KeySelectorImpl extends KeySelector {
 
     /**
      *
-     * @param keyInfo
-     * @param purpose
-     * @param method
-     * @param context
-     * @throws KeySelectorException
-     * @return
      */
+    @Override
     public KeySelectorResult select(KeyInfo keyInfo, Purpose purpose, AlgorithmMethod method, XMLCryptoContext context) throws KeySelectorException {
         if (keyInfo == null) {
             if (logger.getLevel() == Level.SEVERE) {
@@ -199,6 +192,7 @@ public class KeySelectorImpl extends KeySelector {
                         final Key key = resolve(reference, context, purpose);
                         return new KeySelectorResult() {
 
+                            @Override
                             public Key getKey() {
                                 return key;
                             }
@@ -241,6 +235,7 @@ public class KeySelectorImpl extends KeySelector {
             this.pk = pk;
         }
 
+        @Override
         public Key getKey() {
             return pk;
         }
@@ -312,14 +307,10 @@ public class KeySelectorImpl extends KeySelector {
                         MessageConstants.WSSE_UNSUPPORTED_SECURITY_TOKEN, xwsse.getMessage(), xwsse);
             }
             return returnKey;
-        } catch (XWSSecurityException xwsExp) {
+        } catch (Exception xwsExp) {
             logger.log(Level.FINEST, "Error occurred while resolving" +
                     "key information", xwsExp);
             throw new KeySelectorException(xwsExp);
-        } catch (Exception ex) {
-            logger.log(Level.FINEST, "Error occurred while resolving" +
-                    "key information", ex);
-            throw new KeySelectorException(ex);
         }
 
     }
@@ -370,8 +361,7 @@ public class KeySelectorImpl extends KeySelector {
                     SecurityElement bst = elementFactory.createBinarySecurityToken(null, cert.getEncoded());
                     SSEData data = new SSEData(bst, false, wssContext.getNamespaceContext());
                     wssContext.getSTRTransformCache().put(strId, data);
-                } catch (XWSSecurityException ex) {
-                } catch (CertificateEncodingException ex) {
+                } catch (XWSSecurityException | CertificateEncodingException ex) {
                 } catch (Exception ex) {
                     // ignore the exception
                 }
@@ -542,7 +532,7 @@ public class KeySelectorImpl extends KeySelector {
                 if (token == null) {
                     throw new KeySelectorException("Token with Id " + wsuId + "not found");
                 }
-                returnKey = ((DerivedKeyToken) token).getKey();
+                returnKey = token.getKey();
                 DerivedTokenKeyBinding dtkBinding = new DerivedTokenKeyBinding();
                 dtkBinding.setOriginalKeyBinding(token.getInferredKB());
                 if (inferredKB == null) {
@@ -714,8 +704,7 @@ public class KeySelectorImpl extends KeySelector {
                         SecurityElement bst = elementFactory.createBinarySecurityToken(null, cert.getEncoded());
                         SSEData data = new SSEData(bst, false, context.getNamespaceContext());
                         context.getSTRTransformCache().put(strId, data);
-                    } catch (XWSSecurityException ex) {
-                    } catch (CertificateEncodingException ex) {
+                    } catch (XWSSecurityException | CertificateEncodingException ex) {
                     } catch (Exception ex) {
                         //ignore the exception
                     }
@@ -764,8 +753,7 @@ public class KeySelectorImpl extends KeySelector {
                         SecurityElement bst = elementFactory.createBinarySecurityToken(null, cert.getEncoded());
                         SSEData data = new SSEData(bst, false, context.getNamespaceContext());
                         context.getSTRTransformCache().put(strId, data);
-                    } catch (XWSSecurityException ex) {
-                    } catch (CertificateEncodingException ex) {
+                    } catch (XWSSecurityException | CertificateEncodingException ex) {
                     } catch (Exception ex) {
                         //ignore the exception
                     }
@@ -846,7 +834,7 @@ public class KeySelectorImpl extends KeySelector {
                     SAMLAssertion samlAssertion = (SAMLAssertion) she;
                     returnKey = samlAssertion.getKey();
                     if (strId != null && strId.length() > 0) {
-                        Data data = new SSEData((SecurityElement) samlAssertion, false, context.getNamespaceContext());
+                        Data data = new SSEData(samlAssertion, false, context.getNamespaceContext());
                         context.getElementCache().put(strId, data);
                     }
                 } else {
@@ -885,9 +873,6 @@ public class KeySelectorImpl extends KeySelector {
     //@@@FIXME: this should also work for key types other than DSA/RSA
     /**
      *
-     * @param algURI
-     * @param algName
-     * @return
      */
     private static boolean algEquals(String algURI, String algName) {
         if (algName.equalsIgnoreCase("DSA") &&
@@ -936,12 +921,7 @@ public class KeySelectorImpl extends KeySelector {
         if ((purpose == Purpose.DECRYPT)) {
             salt[0] = MessageConstants.VALUE_FOR_ENCRYPTION;
             if (isSymmetric) {
-                try {
-                    verifySignature = pdk.generate160BitKey(password, iterations, salt);
-                } catch (UnsupportedEncodingException ex) {
-                    logger.log(Level.SEVERE, LogStringsMessages.WSS_1381_ERROR_GENERATING_160_BITKEY(), ex);
-                    throw new XWSSecurityException("error during generating 160 bit key ");
-                }
+                verifySignature = pdk.generate160BitKey(password, iterations, salt);
                 untBinding.setSecretKey(verifySignature);
                 sKey = untBinding.getSecretKey(SecurityUtil.getSecretKeyAlgorithm(algo));
                 untBinding.setSecretKey(sKey);
@@ -951,12 +931,7 @@ public class KeySelectorImpl extends KeySelector {
                 sKey = key;
             } else {
                 byte[] decSignature = null;
-                try {
-                    decSignature = pdk.generate160BitKey(password, iterations, salt);
-                } catch (UnsupportedEncodingException ex) {
-                   logger.log(Level.SEVERE, LogStringsMessages.WSS_1381_ERROR_GENERATING_160_BITKEY(), ex);
-                   throw new XWSSecurityException("error during generating 160 bit key ");
-                }
+                decSignature = pdk.generate160BitKey(password, iterations, salt);
                 byte[] keyof128Bits = new byte[16];
                 for (int i = 0; i < 16; i++) {
                     keyof128Bits[i] = decSignature[i];
@@ -967,12 +942,7 @@ public class KeySelectorImpl extends KeySelector {
             }
         } else if (purpose == Purpose.VERIFY) {
             salt[0] = MessageConstants.VALUE_FOR_SIGNATURE;
-            try {
-                verifySignature = pdk.generate160BitKey(password, iterations, salt);
-            } catch (UnsupportedEncodingException ex) {
-               logger.log(Level.SEVERE, LogStringsMessages.WSS_1381_ERROR_GENERATING_160_BITKEY(), ex);
-               throw new XWSSecurityException("error during generating 160 bit key ");
-            }
+            verifySignature = pdk.generate160BitKey(password, iterations, salt);
             untBinding.setSecretKey(verifySignature);
             sKey = untBinding.getSecretKey(SecurityUtil.getSecretKeyAlgorithm(algo));
             untBinding.setSecretKey(sKey);
@@ -981,12 +951,7 @@ public class KeySelectorImpl extends KeySelector {
             //handles RequiredDerivedKeys case
             salt[0] = MessageConstants.VALUE_FOR_ENCRYPTION;
             byte[] key = null;
-            try {
-                key = pdk.generate160BitKey(password, iterations, salt);
-            } catch (UnsupportedEncodingException ex) {
-                logger.log(Level.SEVERE, LogStringsMessages.WSS_1381_ERROR_GENERATING_160_BITKEY(), ex);
-                throw new XWSSecurityException("error during generating 160 bit key ");
-            }
+            key = pdk.generate160BitKey(password, iterations, salt);
             byte[] sKeyof16ByteLength = new byte[16];
             for (int i = 0; i < 16; i++) {
                 sKeyof16ByteLength[i] = key[i];
@@ -1083,15 +1048,17 @@ public class KeySelectorImpl extends KeySelector {
     }
 
     protected static SecurityHeaderElement resolveToken(final String uri, XMLCryptoContext context) throws
-            URIReferenceException, XWSSecurityException {
+            URIReferenceException {
         URIDereferencer resolver = context.getURIDereferencer();
 
         URIReference uriRef = new URIReference() {
 
+            @Override
             public String getURI() {
                 return uri;
             }
 
+            @Override
             public String getType() {
                 return null;
             }
@@ -1126,11 +1093,11 @@ public class KeySelectorImpl extends KeySelector {
                     return x509bst;
                 }
             } else if (MessageConstants.ENCRYPTEDKEY_LNAME.equals(she.getLocalPart())) {
-                return (EncryptedKey) she;
+                return she;
             } else if (MessageConstants.SECURITY_CONTEXT_TOKEN_LNAME.equals(she.getLocalPart())) {
-                return (SecurityContextToken) she;
+                return she;
             } else if (MessageConstants.DERIVEDKEY_TOKEN_LNAME.equals(she.getLocalPart())) {
-                return (DerivedKeyToken) she;
+                return she;
             } else if (MessageConstants.SAML_ASSERTION_LNAME.equals(she.getLocalPart())) {
                 //TODO : update other party subject
                 return she;

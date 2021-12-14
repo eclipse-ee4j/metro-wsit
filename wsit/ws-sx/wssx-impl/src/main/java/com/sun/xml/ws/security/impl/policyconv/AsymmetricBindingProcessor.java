@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -147,10 +147,12 @@ public class AsymmetricBindingProcessor extends BindingProcessor {
         }
     }
     
+    @Override
     protected Binding getBinding(){
         return binding;
     }
     
+    @Override
     protected EncryptionPolicy getSecondaryEncryptionPolicy() throws PolicyException{
         if(sEncPolicy == null){
             sEncPolicy  = new EncryptionPolicy();
@@ -162,6 +164,7 @@ public class AsymmetricBindingProcessor extends BindingProcessor {
         return sEncPolicy;
     }
     
+    @Override
     protected void close(){
         
         if(protectionOrder == Binding.SIGN_ENCRYPT){

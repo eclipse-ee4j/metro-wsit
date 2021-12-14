@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -65,8 +65,7 @@ public class SAMLUtil {
     private static Logger logger = Logger.getLogger(LogDomainConstants.SAML_API_DOMAIN,
             LogDomainConstants.SAML_API_DOMAIN_BUNDLE);      
     
-    public static Element locateSamlAssertion(String assertionId,Document soapDocument)
-    throws XWSSecurityException {
+    public static Element locateSamlAssertion(String assertionId,Document soapDocument) {
         
         //System.out.println("\n\n--------SOAP DOCUMENT : " + soapDocument + "--------\n\n");
         
@@ -204,7 +203,7 @@ public class SAMLUtil {
         Document doc = null;        
         try{                                
             XMLStreamWriter writer = xof.createXMLStreamWriter(baos);
-            XMLStreamWriter writer_tmp = (XMLStreamWriter)bCreator;
+            XMLStreamWriter writer_tmp = bCreator;
             while(!(XMLStreamReader.END_DOCUMENT == reader.getEventType())){
                 com.sun.xml.ws.security.opt.impl.util.StreamUtil.writeCurrentEvent(reader, writer_tmp);
                 reader.next();
@@ -294,7 +293,7 @@ public class SAMLUtil {
 
     public static boolean verifySignature(Element samlAssertion, PublicKey pubKey)throws XWSSecurityException {
         try {
-            Map<String, Object> map = new HashMap<String, Object>();
+            Map<String, Object> map = new HashMap<>();
             String id = samlAssertion.getAttribute("ID");
             if (id == null || id.length() < 1){
                 id = samlAssertion.getAttribute("AssertionID");
@@ -337,7 +336,7 @@ public class SAMLUtil {
         void init(){
             try{
                 _nodeSetClass = Class.forName(optNSClassName);
-                _constructor = _nodeSetClass.getConstructor(new Class [] {org.w3c.dom.Node.class,boolean.class});
+                _constructor = _nodeSetClass.getConstructor(Node.class,boolean.class);
             }catch(LinkageError le){
                 // logger.log (Level.FINE,"Not able load JSR 105 RI specific NodeSetData class ",le);
             }catch(ClassNotFoundException cne){
@@ -346,6 +345,7 @@ public class SAMLUtil {
 
             }
         }
+        @Override
         public Data dereference(URIReference uriRef, XMLCryptoContext context) throws URIReferenceException {
             try{
                 String uri = null;
@@ -372,9 +372,10 @@ public class SAMLUtil {
                         ex.printStackTrace();
                     }
                 }else{
-                    final HashSet<Object> nodeSet = new HashSet<Object>();
+                    final HashSet<Object> nodeSet = new HashSet<>();
                     toNodeSet(el,nodeSet);
                     return new NodeSetData(){
+                        @Override
                         public Iterator iterator(){
                             return nodeSet.iterator();
                         }
@@ -393,7 +394,7 @@ public class SAMLUtil {
                     result.add(rootNode);
                     Element el=(Element)rootNode;
                     if (el.hasAttributes()) {
-                        NamedNodeMap nl = ((Element)rootNode).getAttributes();
+                        NamedNodeMap nl = rootNode.getAttributes();
                         for (int i=0;i<nl.getLength();i++) {
                             result.add(nl.item(i));
                         }
@@ -419,7 +420,6 @@ public class SAMLUtil {
                 default:
                     result.add(rootNode);
             }
-            return;
         }
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -180,6 +180,7 @@ public class ProcessingContext implements SecurityProcessingContext {
      * @param securityPolicy SecurityPolicy
      * @throws XWSSecurityException if the securityPolicy is of invalid type
      */
+    @Override
     public void setSecurityPolicy(SecurityPolicy securityPolicy)
     throws XWSSecurityException {
         this.securityPolicy = securityPolicy;
@@ -188,6 +189,7 @@ public class ProcessingContext implements SecurityProcessingContext {
     /**
      * @return SecurityPolicy for this context
      */
+    @Override
     public SecurityPolicy getSecurityPolicy() {
         return this.securityPolicy;
     }
@@ -196,6 +198,7 @@ public class ProcessingContext implements SecurityProcessingContext {
      * set the StaticPolicyContext for this ProcessingContext.
      * @param context StaticPolicyContext for this context
      */
+    @Override
     public void setPolicyContext(StaticPolicyContext context) {
         this.context = context;
     }
@@ -203,6 +206,7 @@ public class ProcessingContext implements SecurityProcessingContext {
     /**
      * @return StaticPolicyContext associated with this ProcessingContext, null otherwise
      */
+    @Override
     public StaticPolicyContext getPolicyContext() {
         return this.context;
     }
@@ -212,6 +216,7 @@ public class ProcessingContext implements SecurityProcessingContext {
      * @param message SOAPMessage
      * @throws XWSSecurityException if there was an error in setting the SOAPMessage
      */
+    @Override
     public void setSOAPMessage(SOAPMessage message)
     throws XWSSecurityException {
         
@@ -224,6 +229,7 @@ public class ProcessingContext implements SecurityProcessingContext {
     /**
      * @return the SOAPMessage from the context
      */
+    @Override
     public SOAPMessage getSOAPMessage() {
         return secureMessage.getSOAPMessage();
     }
@@ -239,6 +245,7 @@ public class ProcessingContext implements SecurityProcessingContext {
      * set the CallbackHandler for the context
      * @param handler The CallbackHandler
      */
+    @Override
     public void setHandler(CallbackHandler handler) {
         this.callbackHandler = handler;
         this.environmentHandler = new DefaultSecurityEnvironmentImpl(handler);
@@ -248,6 +255,7 @@ public class ProcessingContext implements SecurityProcessingContext {
      * set the SecurityEnvironment Handler for the context
      * @param handler The SecurityEnvironment Handler
      */
+    @Override
     public void setSecurityEnvironment(SecurityEnvironment handler) {
         this.environmentHandler = handler;
     }
@@ -255,6 +263,7 @@ public class ProcessingContext implements SecurityProcessingContext {
     /**
      * @return the CallbackHandler set for the context
      */
+    @Override
     public CallbackHandler getHandler() {
         return this.callbackHandler;
     }
@@ -262,6 +271,7 @@ public class ProcessingContext implements SecurityProcessingContext {
     /**
      * @return The SecurityEnvironment Handler set for the context
      */
+    @Override
     public SecurityEnvironment getSecurityEnvironment() {
         return this.environmentHandler;
     }
@@ -272,6 +282,7 @@ public class ProcessingContext implements SecurityProcessingContext {
      *
      * @return Map of extraneous properties
      */
+    @Override
     public Map getExtraneousProperties() {
         if (properties == null) {
             properties = new HashMap();
@@ -283,6 +294,7 @@ public class ProcessingContext implements SecurityProcessingContext {
      * set the message flow direction (to true if inbound, false if outbound)
      * @param inBound message flow direction
      */
+    @Override
     public void isInboundMessage(boolean inBound) {
         this.inBoundMessage = inBound;
     }
@@ -290,6 +302,7 @@ public class ProcessingContext implements SecurityProcessingContext {
     /**
      * @return message flow direction, true if incoming, false otherwise
      */
+    @Override
     public boolean isInboundMessage() {
         return this.inBoundMessage;
     }
@@ -298,6 +311,7 @@ public class ProcessingContext implements SecurityProcessingContext {
      * Allow for message identifier to be generated externally
      * @param identifier the Message Identifier value
      */
+    @Override
     public void setMessageIdentifier(String identifier) {
         this.messageIdentifier = identifier;
     }
@@ -305,6 +319,7 @@ public class ProcessingContext implements SecurityProcessingContext {
     /**
      * @return message identifier for the Message in the context
      */
+    @Override
     public String getMessageIdentifier() {
         return this.messageIdentifier;
     }
@@ -317,6 +332,7 @@ public class ProcessingContext implements SecurityProcessingContext {
      * @param name the property name
      * @param value the property value
      */
+    @Override
     @SuppressWarnings("unchecked")
     public void setExtraneousProperty(String name, Object value) {
         getExtraneousProperties().put(name, value);
@@ -325,6 +341,7 @@ public class ProcessingContext implements SecurityProcessingContext {
     /**
      * @return the value for the named extraneous property.
      */
+    @Override
     public Object getExtraneousProperty(String name) {
         return getExtraneousProperties().get(name);
     }
@@ -333,6 +350,7 @@ public class ProcessingContext implements SecurityProcessingContext {
      * remove the named extraneous property if present
      * @param name the Extraneous Property to be removed
      */
+    @Override
     public void removeExtraneousProperty(String name) {
         getExtraneousProperties().remove(name);
     }
@@ -388,12 +406,14 @@ public class ProcessingContext implements SecurityProcessingContext {
     /**
      * This method is used for internal purposes
      */
+    @Override
     public void reset(){
     }
     
     /**
      * This method is used for internal purposes
      */
+    @Override
     public int getConfigType() {
         return this.configType;
     }
@@ -401,6 +421,7 @@ public class ProcessingContext implements SecurityProcessingContext {
     /**
      * This method is used for internal purposes
      */
+    @Override
     public void setConfigType(int type) {
         this.configType = type;
         setOptimized();
@@ -425,7 +446,8 @@ public class ProcessingContext implements SecurityProcessingContext {
         }
     }
     
-    public void copy(SecurityProcessingContext ctx1, SecurityProcessingContext ctx2) throws XWSSecurityException {
+    @Override
+    public void copy(SecurityProcessingContext ctx1, SecurityProcessingContext ctx2) {
         throw new UnsupportedOperationException("Not yet supported");
     }
     

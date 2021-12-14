@@ -29,6 +29,7 @@ public class PersistentAssertion extends SimpleAssertion implements RmConfigurat
     public static final QName NAME = RmAssertionNamespace.METRO_200702.getQName("Persistent");
 
     private static AssertionInstantiator instantiator = new AssertionInstantiator() {
+        @Override
         public PolicyAssertion newInstance(AssertionData data, Collection<PolicyAssertion> assertionParameters, AssertionSet nestedAlternative){
             return new PersistentAssertion(data, assertionParameters);
         }
@@ -42,10 +43,12 @@ public class PersistentAssertion extends SimpleAssertion implements RmConfigurat
         super(data, assertionParameters);
     }
 
+    @Override
     public ReliableMessagingFeatureBuilder update(ReliableMessagingFeatureBuilder builder) {
         return builder.enablePersistence();
     }
 
+    @Override
     public boolean isCompatibleWith(RmProtocolVersion version) {
         return RmProtocolVersion.WSRM200702 == version;
     }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -63,7 +63,7 @@ public final class WSTCP {
     }
     
     public @NotNull List<TCPAdapter> parseDeploymentDescriptor() throws IOException {
-        final DeploymentDescriptorParser<TCPAdapter> parser = new DeploymentDescriptorParser<TCPAdapter>(
+        final DeploymentDescriptorParser<TCPAdapter> parser = new DeploymentDescriptorParser<>(
                 initClassLoader, new TCPResourceLoader(context), null, TCPAdapter.FACTORY);
         final URL sunJaxWsXml = context.getResource(JAXWS_RI_RUNTIME);
         
@@ -73,7 +73,7 @@ public final class WSTCP {
     public @NotNull Collection<WSTCPConnector> initialize() throws IOException {
         final List<TCPAdapter> adapters = parseDeploymentDescriptor();
         delegate = new WSTCPDelegate();
-        Collection<WSTCPConnector> connectors = new LinkedList<WSTCPConnector>();
+        Collection<WSTCPConnector> connectors = new LinkedList<>();
         
         Iterator<TCPAdapter> it = adapters.iterator();
         while(it.hasNext()) {
@@ -115,7 +115,7 @@ public final class WSTCP {
     }
     
     public static void main(final String[] args) {
-        Set<String> params = new HashSet<String>();
+        Set<String> params = new HashSet<>();
         
         if (args.length < 1) {
             System.out.println(MessagesMessages.STANDALONE_RUN());

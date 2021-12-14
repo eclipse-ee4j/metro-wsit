@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -13,8 +13,6 @@
  */
 
 package com.sun.xml.wss.impl.transform;
-
-import jakarta.mail.internet.ContentType;
 
 import com.sun.xml.wss.impl.c14n.Canonicalizer;
 import com.sun.xml.wss.impl.c14n.CanonicalizerFactory;
@@ -31,10 +29,12 @@ public class AttachmentContentOnlyTransform extends TransformSpi {
           "http://docs.oasis-open.org/wss/2004/XX/" + 
           "oasis-2004XX-wss-swa-profile-1.0#Attachment-Content-Only-Transform";
 
+   @Override
    protected String engineGetURI() {
        return implementedTransformURI;
    }
 
+   @Override
    protected XMLSignatureInput enginePerformTransform(
              XMLSignatureInput input)
              throws TransformationException {
