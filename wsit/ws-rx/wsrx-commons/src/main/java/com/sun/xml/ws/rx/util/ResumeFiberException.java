@@ -17,6 +17,8 @@ import com.sun.xml.ws.rx.RxRuntimeException;
  */
 public class ResumeFiberException extends RxRuntimeException {
 
+    private static final long serialVersionUID = 5112069155416492967L;
+
     public ResumeFiberException(String message) {
         super(message);
     }

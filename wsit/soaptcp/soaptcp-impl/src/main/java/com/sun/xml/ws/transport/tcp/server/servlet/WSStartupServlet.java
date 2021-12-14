@@ -46,7 +46,8 @@ public final class WSStartupServlet extends HttpServlet
             com.sun.xml.ws.transport.tcp.util.TCPConstants.LoggingDomain + ".server");
     
     private static final String JAXWS_RI_RUNTIME = "/WEB-INF/sun-jaxws.xml";
-    
+    private static final long serialVersionUID = 7719094234831957333L;
+
     private WSTCPModule registry;
     
     private List<TCPAdapter> adapters;

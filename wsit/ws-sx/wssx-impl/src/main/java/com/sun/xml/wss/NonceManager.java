@@ -84,6 +84,8 @@ public abstract class NonceManager extends AbstractMOMRegistrationAware {
      */
     public static class NonceException extends XWSSecurityException {
 
+        private static final long serialVersionUID = 234506161204469172L;
+
         /**
          * Constructor specifying the message string.
          * @param message the exception message string

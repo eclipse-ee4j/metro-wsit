@@ -20,6 +20,7 @@ import java.util.Queue;
  * @author Marek Potociar (marek.potociar at sun.com)
  */
 class PendingResponseIdentifiers implements Serializable {
+    private static final long serialVersionUID = -5256891700990574407L;
     private final Queue<String> messageIdentifiers;
 
     public PendingResponseIdentifiers() {

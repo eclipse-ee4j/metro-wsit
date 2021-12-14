@@ -26,6 +26,7 @@ import java.io.InputStream;
 public class JaxwsApplicationMessage extends ApplicationMessageBase {
     public static class JaxwsApplicationMessageState implements RxMessage.State {
 
+        private static final long serialVersionUID = 3877515996105255338L;
         private final String sequenceId;
         private final long messageNumber;
         private final int nextResendCount;

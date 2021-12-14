@@ -57,7 +57,9 @@ import java.io.Serializable;
 public class URI implements Serializable
 {
 
-  /**
+    private static final long serialVersionUID = 2921562740109919705L;
+
+    /**
    * MalformedURIExceptions are thrown in the process of building a URI
    * or setting fields on a URI when an operation would result in an
    * invalid URI specification.
@@ -66,8 +68,10 @@ public class URI implements Serializable
   public static class MalformedURIException extends IOException
   {
 
-    
-    /**
+
+      private static final long serialVersionUID = -3549152384849072321L;
+
+      /**
      * Constructs a <code>MalformedURIException</code> with no specified
      * detail message.
      */

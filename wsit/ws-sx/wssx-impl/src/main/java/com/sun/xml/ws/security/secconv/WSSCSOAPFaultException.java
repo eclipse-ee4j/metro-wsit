@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -31,7 +31,8 @@ public class WSSCSOAPFaultException extends WSTrustSOAPFaultException {
     public static final String WS_SC_UNKNOWN_DERIVATION_SOURCE_FAULTSTRING = "The specified source for the derivation is unknown";
     public static final String WS_SC_RENED_NEEDED_FAULTSTRING = "The provided context token has expired";
     public static final String WS_SC_UNABLE_TO_RENEW_FAULTSTRING = "The specified context token could not be renewed";
-    
+    private static final long serialVersionUID = 6580856296180287519L;
+
     /** 
      * Creates a new instance of WSSCSOAPFaultException 
      */

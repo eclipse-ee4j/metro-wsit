@@ -36,7 +36,8 @@ import java.util.Set;
  * @author Manveen Kaur (manveen.kaur@sun.com)
  */
 public class SecurityContextTokenInfoImpl implements SecurityContextTokenInfo {
-    
+
+    private static final long serialVersionUID = 1806240028086957655L;
     String identifier = null;
     String extId = null;
     String instance = null;

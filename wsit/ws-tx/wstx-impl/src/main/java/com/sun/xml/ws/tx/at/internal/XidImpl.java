@@ -20,6 +20,7 @@ import javax.transaction.xa.Xid;
  */
 public class XidImpl implements Xid, Serializable {
 
+    private static final long serialVersionUID = -8107817796881726995L;
     int formatId;
     byte[] globalTransactionId;
     byte[] branchQual;

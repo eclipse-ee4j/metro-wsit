@@ -14,6 +14,7 @@ package com.sun.xml.ws.transport.tcp.util;
  * @author Alexey Stashok
  */
 public class WSTCPException extends Exception {
+    private static final long serialVersionUID = 7349295906709071053L;
     private WSTCPError error;
     
     public WSTCPException(final WSTCPError error) {

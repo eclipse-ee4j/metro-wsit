@@ -26,6 +26,7 @@ import java.io.InputStream;
 public class JaxwsMessage extends RxMessageBase {
     public static class JaxwsMessageState implements RxMessage.State {
 
+        private static final long serialVersionUID = -7455427961857912934L;
         private final byte[] data;
         private final String wsaAction;
         private final String correlationId;

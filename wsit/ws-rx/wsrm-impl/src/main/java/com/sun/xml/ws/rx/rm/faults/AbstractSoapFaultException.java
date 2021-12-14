@@ -30,6 +30,8 @@ import jakarta.xml.soap.SOAPFault;
  */
 public abstract class AbstractSoapFaultException extends RxRuntimeException {
 
+    private static final long serialVersionUID = 2150433701824227848L;
+
     public enum Code {
         Sender {
              @Override

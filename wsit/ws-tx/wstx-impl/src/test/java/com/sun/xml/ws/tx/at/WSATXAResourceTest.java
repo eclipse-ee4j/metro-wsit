@@ -73,6 +73,8 @@ public class WSATXAResourceTest extends TestCase {
         String address0 = "testaddress";
         MemberSubmissionEndpointReference epr0_0 = EndpointReferenceBuilder.MemberSubmission().address(address0).referenceParameter(node0).build();
         WSATXAResource testWSATXAResource = new WSATXAResource(epr0_0, xid0) {
+            private static final long serialVersionUID = 6069096621952109154L;
+
             @Override
             WSATHelper getWSATHelper() {
                 return new WSATHelperStub();
@@ -110,6 +112,8 @@ public class WSATXAResourceTest extends TestCase {
         String address0 = "testaddress";
         MemberSubmissionEndpointReference epr0_0 = EndpointReferenceBuilder.MemberSubmission().address(address0).referenceParameter(node0).build();
         WSATXAResource testWSATXAResource = new WSATXAResource(epr0_0, xid0) {
+            private static final long serialVersionUID = -7657238873902757683L;
+
             @Override
             WSATHelper getWSATHelper() {
                 return new WSATHelperStub();
@@ -153,6 +157,8 @@ public class WSATXAResourceTest extends TestCase {
         String address0 = "testaddress";
         MemberSubmissionEndpointReference epr0_0 = EndpointReferenceBuilder.MemberSubmission().address(address0).referenceParameter(node0).build();
         WSATXAResource wsatXAResourceTest = new WSATXAResource(epr0_0, xid0) {
+            private static final long serialVersionUID = 8704912825523153194L;
+
             @Override
             WSATHelper getWSATHelper() {
                 return new WSATHelperStub();

@@ -19,6 +19,8 @@ package com.sun.xml.wss.impl;
  */
 public class XWSSecurityRuntimeException extends RuntimeException {
 
+    private static final long serialVersionUID = -4052471715929902049L;
+
     /*
      * Constructs a XWS Exeception specifying the message string.
      */

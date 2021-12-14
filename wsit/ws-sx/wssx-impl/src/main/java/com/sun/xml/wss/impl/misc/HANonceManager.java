@@ -138,6 +138,7 @@ public class HANonceManager extends NonceManager {
 
     static public class HAPojo implements Serializable {
 
+        private static final long serialVersionUID = 5214186833541531653L;
         byte[] data;
 
         public void setData(byte[] data) {

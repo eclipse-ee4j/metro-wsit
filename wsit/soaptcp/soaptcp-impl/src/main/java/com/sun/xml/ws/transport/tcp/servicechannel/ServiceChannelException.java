@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -22,6 +22,7 @@ import jakarta.xml.ws.WebFault;
  */
 @WebFault(name = "ServiceChannelException", targetNamespace = "http://servicechannel.tcp.transport.ws.xml.sun.com/", faultBean = "com.sun.xml.ws.transport.tcp.servicechannel.ServiceChannelException$ServiceChannelExceptionBean")
 public class ServiceChannelException extends Exception {
+    private static final long serialVersionUID = 5036755146025862602L;
     private ServiceChannelExceptionBean faultInfo;
     
     public ServiceChannelException() {

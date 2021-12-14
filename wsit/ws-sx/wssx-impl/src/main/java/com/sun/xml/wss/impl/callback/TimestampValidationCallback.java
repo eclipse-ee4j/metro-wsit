@@ -127,6 +127,8 @@ public class TimestampValidationCallback extends XWSSCallback implements Callbac
     
     public static class TimestampValidationException extends Exception {
 
+        private static final long serialVersionUID = 5390126265884591759L;
+
         public TimestampValidationException(String message) {
             super(message);
         }

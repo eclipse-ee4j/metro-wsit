@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -25,7 +25,8 @@ public class SecurityTokenException extends XWSSecurityException {
     
     // ------------ Token related fault code constants -----------
     public static final String INVALID_SECURITY_TOKEN = "Invalid Security Token";
-    
+    private static final long serialVersionUID = -3062421461359612078L;
+
     /*
      * Constructs a XWS Exeception specifying the message string.
      */
