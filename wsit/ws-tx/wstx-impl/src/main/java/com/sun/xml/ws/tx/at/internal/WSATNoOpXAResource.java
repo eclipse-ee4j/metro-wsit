@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -18,10 +18,6 @@ import javax.transaction.xa.Xid;
 import java.util.logging.Level;
 
 /**
- *
- * @author paulparkinson
- */
-/**
  * NoOp XAResource implemented in order to insure onePhase optimization is not
  *  used for WS-AT transactions
  * @author paulparkinson
@@ -31,43 +27,53 @@ class WSATNoOpXAResource implements XAResource {
     public WSATNoOpXAResource() {
     }
 
-    public void commit(Xid xid, boolean bln) throws XAException {
+    @Override
+    public void commit(Xid xid, boolean bln) {
         debug("commit");
     }
 
-    public void end(Xid xid, int i) throws XAException {
+    @Override
+    public void end(Xid xid, int i) {
         debug("end");
     }
 
-    public void forget(Xid xid) throws XAException {
+    @Override
+    public void forget(Xid xid) {
     }
 
-    public int getTransactionTimeout() throws XAException {
+    @Override
+    public int getTransactionTimeout() {
         return -1; 
     }
 
-    public boolean isSameRM(XAResource xar) throws XAException {
+    @Override
+    public boolean isSameRM(XAResource xar) {
         return false;
     }
 
-    public int prepare(Xid xid) throws XAException {
+    @Override
+    public int prepare(Xid xid) {
         debug("prepare");
         return XAResource.XA_OK;
     }
 
-    public Xid[] recover(int i) throws XAException {
+    @Override
+    public Xid[] recover(int i) {
         return new Xid[]{};
     }
 
-    public void rollback(Xid xid) throws XAException {
+    @Override
+    public void rollback(Xid xid) {
         debug("rollback");
     }
 
-    public boolean setTransactionTimeout(int i) throws XAException {
+    @Override
+    public boolean setTransactionTimeout(int i) {
         return true;
     }
 
-    public void start(Xid xid, int i) throws XAException {
+    @Override
+    public void start(Xid xid, int i) {
         debug("start");
     }
 

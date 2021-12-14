@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -35,9 +35,9 @@ public final class Connection {
             com.sun.xml.ws.transport.tcp.util.TCPConstants.LoggingDomain);
     
     private static ByteBufferStreamPool<FramedMessageInputStream> byteBufferInputStreamPool =
-            new ByteBufferStreamPool<FramedMessageInputStream>(FramedMessageInputStream.class);
+            new ByteBufferStreamPool<>(FramedMessageInputStream.class);
     private static ByteBufferStreamPool<FramedMessageOutputStream> byteBufferOutputStreamPool =
-            new ByteBufferStreamPool<FramedMessageOutputStream>(FramedMessageOutputStream.class);
+            new ByteBufferStreamPool<>(FramedMessageOutputStream.class);
     
     private SocketChannel socketChannel;
     
@@ -104,9 +104,9 @@ public final class Connection {
      * Method should be called <b>once</b> each time for new message reading!!!
      * prepareForReading() should be called before!
      */
-    public InputStream openInputStream() throws IOException {
+    public InputStream openInputStream() {
         final BufferedMessageInputStream is = new BufferedMessageInputStream(inputStream);
-        inputStreamRef = new WeakReference<BufferedMessageInputStream>(is);
+        inputStreamRef = new WeakReference<>(is);
         return is;
     }
     

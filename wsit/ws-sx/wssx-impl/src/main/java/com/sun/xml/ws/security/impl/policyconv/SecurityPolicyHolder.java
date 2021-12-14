@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -55,7 +55,7 @@ public class SecurityPolicyHolder {
     
     public void  addSecureConversationToken(PolicyAssertion pa){
         if(scList == null){
-            scList = new ArrayList<PolicyAssertion> ();
+            scList = new ArrayList<>();
         }
         scList.add(pa);
     }
@@ -66,7 +66,7 @@ public class SecurityPolicyHolder {
     
     public void  addKerberosToken(PolicyAssertion pa){
         if(kerberosTokenList == null){
-            kerberosTokenList = new ArrayList<PolicyAssertion> ();
+            kerberosTokenList = new ArrayList<>();
         }
         kerberosTokenList.add(pa);
     }
@@ -77,7 +77,7 @@ public class SecurityPolicyHolder {
     
     public void addIssuedToken(PolicyAssertion pa){
         if(issuedTokenList == null){
-            issuedTokenList = new ArrayList<PolicyAssertion> ();
+            issuedTokenList = new ArrayList<>();
         }
         issuedTokenList.add(pa);
     }
@@ -112,7 +112,7 @@ public class SecurityPolicyHolder {
     
     public void addFaultPolicy(WSDLFault fault , SecurityPolicyHolder policy){
         if(faultFPMap == null){
-            faultFPMap =  new HashMap<WSDLFault,SecurityPolicyHolder>();
+            faultFPMap = new HashMap<>();
         }
         faultFPMap.put(fault,policy);
     }
@@ -126,11 +126,11 @@ public class SecurityPolicyHolder {
     
     public void addConfigAssertions(PolicyAssertion assertion){
         if(configAssertions == null){
-            configAssertions = new HashMap<String,Set<PolicyAssertion>>();
+            configAssertions = new HashMap<>();
         }
         Set<PolicyAssertion> assertions = configAssertions.get(assertion.getName().getNamespaceURI());
         if(assertions == null){
-            assertions = new HashSet<PolicyAssertion>();
+            assertions = new HashSet<>();
             configAssertions.put(assertion.getName().getNamespaceURI(),assertions);
         }
         assertions.add(assertion);

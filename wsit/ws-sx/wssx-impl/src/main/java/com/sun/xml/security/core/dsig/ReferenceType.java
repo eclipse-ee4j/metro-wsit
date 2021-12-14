@@ -79,13 +79,13 @@ public class ReferenceType {
     @XmlAttribute(name = "URI")
     protected String uri;
 
-    /**
-     * Gets the value of the transforms property.
-     * 
-     * @return
+    /*
+      Gets the value of the transforms property.
+
+      @return
      *     possible object is
      *     {@link TransformsType }
-     *     
+
      */
     /*public TransformsType getTransforms() {
         return transforms;
@@ -146,7 +146,7 @@ public class ReferenceType {
      *     byte[]
      */
     public void setDigestValue(byte[] value) {
-        this.digestValue = ((byte[]) value);
+        this.digestValue = value;
     }
 
     /**

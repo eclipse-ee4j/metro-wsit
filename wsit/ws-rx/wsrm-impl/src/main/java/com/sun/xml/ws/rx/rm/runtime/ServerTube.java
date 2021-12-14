@@ -44,7 +44,6 @@ import com.sun.xml.ws.rx.rm.runtime.sequence.DuplicateMessageRegistrationExcepti
 import com.sun.xml.ws.rx.rm.runtime.sequence.Sequence;
 import com.sun.xml.ws.rx.rm.runtime.sequence.SequenceManager;
 import com.sun.xml.ws.rx.rm.runtime.sequence.SequenceManagerFactory;
-import com.sun.xml.ws.rx.rm.runtime.sequence.UnknownSequenceException;
 import com.sun.xml.ws.rx.rm.runtime.transaction.TransactionPropertySet;
 import com.sun.xml.ws.rx.util.Communicator;
 import com.sun.xml.ws.security.secconv.STRValidationHelper;
@@ -263,7 +262,7 @@ public class ServerTube extends AbstractFilterTubeImpl {
         }
     }
 
-    private NextAction handleDuplicateMessageException(final JaxwsApplicationMessage message, Packet request) throws UnknownSequenceException, RxRuntimeException {
+    private NextAction handleDuplicateMessageException(final JaxwsApplicationMessage message, Packet request) throws RxRuntimeException {
         // Is failed over during request processing?
         final Sequence inboundSequence = rc.sequenceManager().getInboundSequence(message.getSequenceId());
         if (inboundSequence.isFailedOver(message.getMessageNumber())) {
@@ -574,7 +573,7 @@ public class ServerTube extends AbstractFilterTubeImpl {
      * Determines whether the security context token identifier used to secure the message
      * wrapped in the packet is the expected one
      *
-     * @param expectedStrId expected security context token identifier
+     * @param expectedSctId expected security context token identifier
      * @param packet packet wrapping the checked message
      * @throws RmSecurityException if the actual security context token identifier does not equal to the expected one
      */

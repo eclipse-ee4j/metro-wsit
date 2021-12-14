@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -31,7 +31,7 @@ public class ConcurrentQueueNonBlockingImpl<V> implements ConcurrentQueue<V> {
     // Structure: Head points to a node containing a null value, which is a special marker.
     // head.next is the first element, head.prev is the last.  The queue is empty if
     // head.next == head.prev == head.
-    final Entry<V> head = new Entry<V>( null ) ;
+    final Entry<V> head = new Entry<>(null) ;
     final Object lock = new Object() ;
     int count = 0 ;
 
@@ -41,7 +41,7 @@ public class ConcurrentQueueNonBlockingImpl<V> implements ConcurrentQueue<V> {
 	private HandleImpl<V> handle ;
 
 	Entry( V value ) {
-	    handle = new HandleImpl<V>( this, value ) ;
+	    handle = new HandleImpl<>(this, value) ;
 	}
 
 	HandleImpl<V> handle() {
@@ -64,14 +64,16 @@ public class ConcurrentQueueNonBlockingImpl<V> implements ConcurrentQueue<V> {
 	    return entry ;
 	}
 
-	public V value() {
+	@Override
+    public V value() {
 	    return value ;
 	}
 
 	/** Delete the element corresponding to this handle 
 	 * from the queue.  Takes constant time.
 	 */
-	public boolean remove() {
+	@Override
+    public boolean remove() {
 	    synchronized (lock) {
 		if (!valid) {
 		    return false ;
@@ -93,6 +95,7 @@ public class ConcurrentQueueNonBlockingImpl<V> implements ConcurrentQueue<V> {
 	}
     }
 
+    @Override
     public int size() {
 	synchronized (lock) {
 	    return count ;
@@ -102,11 +105,12 @@ public class ConcurrentQueueNonBlockingImpl<V> implements ConcurrentQueue<V> {
     /** Add a new element to the tail of the queue.
      * Returns a handle for the element in the queue.
      */
-    public Handle<V> offer( V arg ) {
+    @Override
+    public Handle<V> offer(V arg ) {
 	if (arg == null)
 	    throw new IllegalArgumentException( "Argument cannot be null" ) ;
 
-	Entry<V> entry = new Entry<V>( arg ) ;
+	Entry<V> entry = new Entry<>(arg) ;
 	
 	synchronized (lock) {
 	    entry.next = head ;
@@ -122,6 +126,7 @@ public class ConcurrentQueueNonBlockingImpl<V> implements ConcurrentQueue<V> {
     /** Return an element from the head of the queue.
      * The element is removed from the queue.
      */
+    @Override
     public V poll() {
 	Entry<V> first = null ;
 

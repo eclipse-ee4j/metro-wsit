@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -46,11 +46,11 @@ public class PolicyConfigParserTest extends TestCase {
     }
     
     @Override
-    protected void setUp() throws Exception {
+    protected void setUp() {
     }
     
     @Override
-    protected void tearDown() throws Exception {
+    protected void tearDown() {
     }
     
     public void testParseContainerNullWithoutConfig() {
@@ -83,7 +83,7 @@ public class PolicyConfigParserTest extends TestCase {
         testLoadedMap(map);
     }
     
-    public void testParseContainerWithContext() throws Exception {
+    public void testParseContainerWithContext() {
         // TODO Need MockServletContext
     }
     
@@ -98,7 +98,7 @@ public class PolicyConfigParserTest extends TestCase {
         assertNull(map);
     }
     
-    public void testWsitXmlNotLoadedContainerWithContext() throws Exception {
+    public void testWsitXmlNotLoadedContainerWithContext() {
         // TODO Need MockServletContext
     }
     
@@ -370,13 +370,14 @@ public class PolicyConfigParserTest extends TestCase {
         assertEquals("MutualCertificate10Sign_IPingService_policy", policy.getId());        
     }
     
-    class MockContainer extends Container {
+    static class MockContainer extends Container {
         private final Object spi;
         
         public MockContainer(Object spi) {
             this.spi = spi;
         }
         
+        @Override
         public <T> T getSPI(Class<T> spiType) {
             if (spiType.isInstance(this.spi)) {
                 return spiType.cast(this.spi);

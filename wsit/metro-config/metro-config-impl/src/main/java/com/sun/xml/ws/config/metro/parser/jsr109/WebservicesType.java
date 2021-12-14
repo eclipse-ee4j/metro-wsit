@@ -110,7 +110,7 @@ public class WebservicesType
      */
     public List<DescriptionType> getDescription() {
         if (description == null) {
-            description = new ArrayList<DescriptionType>();
+            description = new ArrayList<>();
         }
         return this.description;
     }
@@ -139,7 +139,7 @@ public class WebservicesType
      */
     public List<DisplayNameType> getDisplayName() {
         if (displayName == null) {
-            displayName = new ArrayList<DisplayNameType>();
+            displayName = new ArrayList<>();
         }
         return this.displayName;
     }
@@ -168,7 +168,7 @@ public class WebservicesType
      */
     public List<IconType> getIcon() {
         if (icon == null) {
-            icon = new ArrayList<IconType>();
+            icon = new ArrayList<>();
         }
         return this.icon;
     }
@@ -197,7 +197,7 @@ public class WebservicesType
      */
     public List<WebserviceDescriptionType> getWebserviceDescription() {
         if (webserviceDescription == null) {
-            webserviceDescription = new ArrayList<WebserviceDescriptionType>();
+            webserviceDescription = new ArrayList<>();
         }
         return this.webserviceDescription;
     }
@@ -254,6 +254,7 @@ public class WebservicesType
         this.id = value;
     }
 
+    @Override
     public Locator sourceLocation() {
         return locator;
     }

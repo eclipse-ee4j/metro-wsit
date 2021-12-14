@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -12,7 +12,6 @@ package com.sun.xml.ws.rx;
 
 import com.sun.xml.ws.api.SOAPVersion;
 import com.sun.xml.ws.api.addressing.AddressingVersion;
-import com.sun.xml.ws.api.ha.HighAvailabilityProvider;
 import com.sun.xml.ws.rx.mc.api.MakeConnectionSupportedFeature;
 import com.sun.xml.ws.rx.rm.api.ReliableMessagingFeature;
 import org.glassfish.gmbal.ManagedObjectManager;
@@ -23,31 +22,31 @@ import org.glassfish.gmbal.ManagedObjectManager;
  * @author Marek Potociar (marek.potociar at sun.com)
  */
 public interface RxConfiguration {
-    public static final String ACK_REQUESTED_HEADER_SET = RxConfiguration.class.getName() + ".ACK_REQUESTED_HEADER_SET";
+    String ACK_REQUESTED_HEADER_SET = RxConfiguration.class.getName() + ".ACK_REQUESTED_HEADER_SET";
     
     /**
      * @see ReliableMessagingFeature
      */
-    public boolean isReliableMessagingEnabled();
+    boolean isReliableMessagingEnabled();
     
     /**
      * @see MakeConnectionSupportedFeature
      */
-    public boolean isMakeConnectionSupportEnabled();
+    boolean isMakeConnectionSupportEnabled();
 
     /**
      * Provides information about the SOAP protocol version used on the endpoint.
      * 
      * @return the SOAP protocol version used on the RM-enabled endpoint
      */
-    public SOAPVersion getSoapVersion();
+    SOAPVersion getSoapVersion();
 
     /**
      * Provides information about the WS-Addressing protocol version used on the endpoint.
      * 
      * @return the WS-Addressing protocol version used on the RM-enabled endpoint
      */
-    public AddressingVersion getAddressingVersion();
+    AddressingVersion getAddressingVersion();
     
     /**
      * Provides information if the port, which this configuration belongs to, has 
@@ -55,12 +54,12 @@ public interface RxConfiguration {
      *
      * @return {@code true} in case the port has any request/response operations; {@code false} otherwise
      */
-    public boolean requestResponseOperationsDetected();
+    boolean requestResponseOperationsDetected();
     
     /**
      * Returns GMBAL/JMX manager
      *
      * @return GMBAL/JMX manager. May return null.
      */
-    public ManagedObjectManager getManagedObjectManager();
+    ManagedObjectManager getManagedObjectManager();
 }

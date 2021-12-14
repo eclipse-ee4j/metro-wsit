@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -50,6 +50,7 @@ public class Coordinator<T> implements CoordinatorIF<T> {
      * If Xid does not exist this must be a recovery call
      * @param parameters Notification
      */
+    @Override
     public void preparedOperation(T parameters) {
         if(isDebugEnabled()) LOGGER.info(LocalizationMessages.WSAT_4509_PREPARED_OPERATION_ENTERED(parameters));
         Xid xidFromWebServiceContextHeaderList = getXid();
@@ -66,6 +67,7 @@ public class Coordinator<T> implements CoordinatorIF<T> {
      * Get Xid and update status in order to notify.
      * @param parameters Notification
      */
+    @Override
     public void abortedOperation(T parameters) {
       if(isDebugEnabled()) LOGGER.info(LocalizationMessages.WSAT_4512_ABORTED_OPERATION_ENTERED(parameters));
         Xid xidFromWebServiceContextHeaderList = getXid();
@@ -79,6 +81,7 @@ public class Coordinator<T> implements CoordinatorIF<T> {
      * Get Xid and update status in order to notify.
      * @param parameters Notification
      */
+    @Override
     public void readOnlyOperation(T parameters) {
         if(isDebugEnabled()) LOGGER.info(LocalizationMessages.WSAT_4515_READ_ONLY_OPERATION_ENTERED(parameters));
         Xid xidFromWebServiceContextHeaderList = getXid();
@@ -92,6 +95,7 @@ public class Coordinator<T> implements CoordinatorIF<T> {
      * Get Xid and update status in order to notify.
      * @param parameters Notification
      */
+    @Override
     public void committedOperation(T parameters) {
         if(isDebugEnabled()) LOGGER.info(LocalizationMessages.WSAT_4518_COMMITTED_OPERATION_ENTERED(parameters));
         Xid xidFromWebServiceContextHeaderList = getXid();
@@ -105,6 +109,7 @@ public class Coordinator<T> implements CoordinatorIF<T> {
      * Get Xid and issue replay
      * @param parameters  Notification
      */
+    @Override
     public void replayOperation(T parameters) {
         if(isDebugEnabled()) LOGGER.info(LocalizationMessages.WSAT_4521_REPLAY_OPERATION_ENTERED(parameters));
         Xid xidFromWebServiceContextHeaderList = getXid();

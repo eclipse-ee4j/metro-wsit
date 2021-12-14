@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -36,6 +36,7 @@ public class KeyValue extends com.sun.xml.security.core.dsig.KeyValueType implem
     public KeyValue() {
     }
     
+    @Override
     public PublicKey getPublicKey() throws KeyException {
         PublicKey publicKey = null;
         for ( Object o : content) {
@@ -71,6 +72,7 @@ public class KeyValue extends com.sun.xml.security.core.dsig.KeyValueType implem
         return null;
     }
     
+    @Override
     public boolean isFeatureSupported(String string) {
         return false;
     }

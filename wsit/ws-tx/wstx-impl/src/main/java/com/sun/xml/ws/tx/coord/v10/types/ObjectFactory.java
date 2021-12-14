@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -123,7 +123,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://schemas.xmlsoap.org/ws/2004/10/wscoor", name = "Register")
     public JAXBElement<RegisterType> createRegister(RegisterType value) {
-        return new JAXBElement<RegisterType>(_Register_QNAME, RegisterType.class, null, value);
+        return new JAXBElement<>(_Register_QNAME, RegisterType.class, null, value);
     }
 
     /**
@@ -132,7 +132,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://schemas.xmlsoap.org/ws/2004/10/wscoor", name = "RegisterResponse")
     public JAXBElement<RegisterResponseType> createRegisterResponse(RegisterResponseType value) {
-        return new JAXBElement<RegisterResponseType>(_RegisterResponse_QNAME, RegisterResponseType.class, null, value);
+        return new JAXBElement<>(_RegisterResponse_QNAME, RegisterResponseType.class, null, value);
     }
 
     /**
@@ -141,7 +141,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://schemas.xmlsoap.org/ws/2004/10/wscoor", name = "CreateCoordinationContext")
     public JAXBElement<CreateCoordinationContextType> createCreateCoordinationContext(CreateCoordinationContextType value) {
-        return new JAXBElement<CreateCoordinationContextType>(_CreateCoordinationContext_QNAME, CreateCoordinationContextType.class, null, value);
+        return new JAXBElement<>(_CreateCoordinationContext_QNAME, CreateCoordinationContextType.class, null, value);
     }
 
     /**
@@ -150,7 +150,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://schemas.xmlsoap.org/ws/2004/10/wscoor", name = "CreateCoordinationContextResponse")
     public JAXBElement<CreateCoordinationContextResponseType> createCreateCoordinationContextResponse(CreateCoordinationContextResponseType value) {
-        return new JAXBElement<CreateCoordinationContextResponseType>(_CreateCoordinationContextResponse_QNAME, CreateCoordinationContextResponseType.class, null, value);
+        return new JAXBElement<>(_CreateCoordinationContextResponse_QNAME, CreateCoordinationContextResponseType.class, null, value);
     }
 
 }

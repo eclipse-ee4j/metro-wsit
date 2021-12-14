@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -108,8 +108,8 @@ public class ConnectionManagementSettings {
      * Contains client and server cache settings
      */
     public interface ConnectionManagementSettingsHolder {
-        public ConnectionManagementSettings getClientSettings();
-        public ConnectionManagementSettings getServerSettings();
+        ConnectionManagementSettings getClientSettings();
+        ConnectionManagementSettings getServerSettings();
     }
     
     /**
@@ -121,6 +121,7 @@ public class ConnectionManagementSettings {
         private volatile ConnectionManagementSettings clientSettings;
         private volatile ConnectionManagementSettings serverSettings;
         
+        @Override
         public ConnectionManagementSettings getClientSettings() {
             if (clientSettings == null) {
                 synchronized(this) {
@@ -133,6 +134,7 @@ public class ConnectionManagementSettings {
             return clientSettings;
         }
 
+        @Override
         public ConnectionManagementSettings getServerSettings() {
             if (serverSettings == null) {
                 synchronized(this) {

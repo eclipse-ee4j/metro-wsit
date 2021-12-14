@@ -18,10 +18,10 @@ import com.sun.xml.ws.rx.mc.api.MakeConnectionSupportedFeature;
  */
 public interface McConfiguration extends RxConfiguration {
 
-    public MakeConnectionSupportedFeature getFeature();
+    MakeConnectionSupportedFeature getFeature();
 
-    public McRuntimeVersion getRuntimeVersion();
+    McRuntimeVersion getRuntimeVersion();
 
-    public String getUniqueEndpointId();
+    String getUniqueEndpointId();
 
 }

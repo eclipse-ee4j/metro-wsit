@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -69,6 +69,7 @@ public class EncryptedHeader
         this.soapVersion = soapVersion;
     }
     
+    @Override
     public boolean refersToSecHdrWithId(String id) {
         KeyInfo ki = (KeyInfo) eht.getEncryptedData().getKeyInfo();
         if(ki != null){
@@ -89,23 +90,28 @@ public class EncryptedHeader
         return false;
     }
     
+    @Override
     public String getId() {
         return eht.getId();
     }
     
+    @Override
     public void setId(String id) {
         eht.setId(id);
     }
     
+    @Override
     public String getNamespaceURI() {
         return MessageConstants.WSSE11_NS;
     }
     
+    @Override
     public String getLocalPart() {
         return MessageConstants.ENCRYPTED_HEADER_LNAME;
     }
     
-    public XMLStreamReader readHeader() throws XMLStreamException {
+    @Override
+    public XMLStreamReader readHeader() {
         throw new UnsupportedOperationException();
     }
     
@@ -119,8 +125,8 @@ public class EncryptedHeader
     /**
      * writes the encrypted header to an XMLStreamWriter
      * @param streamWriter XMLStreamWriter
-     * @throws XMLStreamException
      */
+    @Override
     public void writeTo(XMLStreamWriter streamWriter) throws XMLStreamException {
         try {
             if (streamWriter instanceof Map && !(dep != null)) {
@@ -155,16 +161,14 @@ public class EncryptedHeader
             writer.marshal(eh,streamWriter);
         } catch (jakarta.xml.bind.JAXBException ex) {
             logger.log(Level.SEVERE, LogStringsMessages.WSS_1916_ERROR_WRITING_ECRYPTEDHEADER(ex.getMessage()), ex);
-        } catch (com.sun.xml.wss.XWSSecurityException ex) {
-            logger.log(Level.SEVERE, LogStringsMessages.WSS_1916_ERROR_WRITING_ECRYPTEDHEADER(ex.getMessage()), ex);
         }
     }
     /**
      * writes the encrypted header to an XMLStreamWriter
      * @param streamWriter XMLStreamWriter
      * @param props  HashMap
-     * @throws XMLStreamException
      */
+    @Override
     @SuppressWarnings("unchecked")
     public void writeTo(XMLStreamWriter streamWriter, HashMap props) throws XMLStreamException {
         try{
@@ -184,6 +188,7 @@ public class EncryptedHeader
      * writes the encrypted header to an OutputStream
      * @param os OutputStream
      */
+    @Override
     public void writeTo(OutputStream os) {
         try {
             Marshaller writer = getMarshaller();
@@ -195,9 +200,7 @@ public class EncryptedHeader
             com.sun.xml.ws.security.secext11.ObjectFactory obj = new com.sun.xml.ws.security.secext11.ObjectFactory();
             JAXBElement eh = obj.createEncryptedHeader(eht);
             writer.marshal(eh,os);
-        }catch (com.sun.xml.wss.XWSSecurityException ex) {
-            logger.log(Level.SEVERE, LogStringsMessages.WSS_1916_ERROR_WRITING_ECRYPTEDHEADER(ex.getMessage()), ex);
-        }catch (jakarta.xml.bind.JAXBException ex) {
+        } catch (jakarta.xml.bind.JAXBException ex) {
             logger.log(Level.SEVERE, LogStringsMessages.WSS_1916_ERROR_WRITING_ECRYPTEDHEADER(ex.getMessage()), ex);
         }
     }

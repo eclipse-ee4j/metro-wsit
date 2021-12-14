@@ -33,12 +33,13 @@ public class SequenceMaintenanceTask implements DelayedTaskManager.DelayedTask {
         assert period > 0;
         assert timeUnit != null;
 
-        this.smReference = new WeakReference<SequenceManager>(sequenceManager);
+        this.smReference = new WeakReference<>(sequenceManager);
         this.period = period;
         this.timeUnit = timeUnit;
         this.endpointUid = sequenceManager.uniqueEndpointId();
     }
 
+    @Override
     public void run(DelayedTaskManager manager) {
         SequenceManager sequenceManager = smReference.get();
         if (sequenceManager != null && sequenceManager.onMaintenance()) {
@@ -54,6 +55,7 @@ public class SequenceMaintenanceTask implements DelayedTaskManager.DelayedTask {
         }
     }
 
+    @Override
     public String getName() {
         return "sequence maintenance task";
     }

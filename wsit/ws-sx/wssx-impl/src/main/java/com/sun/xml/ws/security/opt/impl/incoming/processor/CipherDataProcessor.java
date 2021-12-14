@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -57,9 +57,8 @@ public class CipherDataProcessor {
     /**
      * processes the cipher data and sets the cipher value
      * @param reader XMLStreamReader
-     * @throws com.sun.xml.wss.XWSSecurityException
      */
-    public void process(XMLStreamReader reader) throws XWSSecurityException{
+    public void process(XMLStreamReader reader) {
         try {
             if(StreamUtil.moveToNextElement(reader)){
                 if(reader.getLocalName() == CIPHER_VALUE){
@@ -139,7 +138,6 @@ public class CipherDataProcessor {
     /**
      *
      * @return InputStream
-     * @throws com.sun.xml.wss.XWSSecurityException
      */
     public InputStream readAsStream() throws XWSSecurityException{
         
@@ -161,9 +159,8 @@ public class CipherDataProcessor {
     /**
      *
      * @return byte[] cipherValue
-     * @throws com.sun.xml.wss.XWSSecurityException
      */
-    public byte[] readAsBytes() throws XWSSecurityException{
+    public byte[] readAsBytes() {
         if(cipherValue != null){
             return cipherValue;
         }

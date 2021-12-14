@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -29,7 +29,7 @@ public enum EjbTransactionType {
     public static EjbTransactionType getDefaultFor(Class<?> seiClass) {
         EjbTransactionType result = EjbTransactionType.NOT_DEFINED;
 
-        TransactionAttribute txnAttr = (TransactionAttribute) seiClass.getAnnotation(TransactionAttribute.class);
+        TransactionAttribute txnAttr = seiClass.getAnnotation(TransactionAttribute.class);
         if (txnAttr != null) {
             result = EjbTransactionType.valueOf(EjbTransactionType.class, txnAttr.value().name());
         }

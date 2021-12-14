@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -38,10 +38,10 @@ public class RegistrationPortImpl
 
     /**
      * 
-     * @param parameters
      * @return
      *     returns com.sun.xml.ws.tx.coord.v11.RegisterResponseType
      */
+    @Override
     public RegisterResponseType registerOperation(RegisterType parameters) {
         m_context.getMessageContext().put(BindingProvider.SOAPACTION_USE_PROPERTY,true);
         m_context.getMessageContext().put(BindingProvider.SOAPACTION_URI_PROPERTY,"http://docs.oasis-open.org/ws-tx/wscoor/2006/06/RegisterResponse");

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -108,9 +108,9 @@ public abstract class WSSFeatureBindingExtension extends WSSPolicy {
     }
     
     
-    /**
-     * Create and set the FeatureBinding for this WSSPolicy to a TimestampPolicy
-     * @return a new TimestampPolicy as a FeatureBinding for this WSSPolicy
+    /*
+      Create and set the FeatureBinding for this WSSPolicy to a TimestampPolicy
+      @return a new TimestampPolicy as a FeatureBinding for this WSSPolicy
      * @exception PolicyGenerationException, if TimestampPolicy is not a valid FeatureBinding for this WSSPolicy
      * @see SignaturePolicy
      * @see EncryptionPolicy

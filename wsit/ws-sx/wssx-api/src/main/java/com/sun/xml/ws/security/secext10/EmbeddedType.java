@@ -64,7 +64,7 @@ public class EmbeddedType {
     @XmlAttribute(name = "ValueType")
     protected String valueType;
     @XmlAnyAttribute
-    private Map<QName, String> otherAttributes = new HashMap<QName, String>();
+    private Map<QName, String> otherAttributes = new HashMap<>();
 
     /**
      * Gets the value of the any property.
@@ -91,7 +91,7 @@ public class EmbeddedType {
      */
     public List<Object> getAny() {
         if (any == null) {
-            any = new ArrayList<Object>();
+            any = new ArrayList<>();
         }
         return this.any;
     }

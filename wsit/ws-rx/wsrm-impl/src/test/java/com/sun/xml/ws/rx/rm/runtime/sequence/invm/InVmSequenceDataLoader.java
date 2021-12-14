@@ -10,7 +10,6 @@
 
 package com.sun.xml.ws.rx.rm.runtime.sequence.invm;
 
-import com.sun.xml.ws.rx.rm.runtime.ApplicationMessage;
 import com.sun.xml.ws.rx.rm.runtime.sequence.Sequence.State;
 import com.sun.xml.ws.rx.rm.runtime.sequence.SequenceData;
 import com.sun.xml.ws.rx.rm.runtime.sequence.SequenceDataLoader;
@@ -22,12 +21,15 @@ import java.util.HashMap;
  */
 public class InVmSequenceDataLoader implements SequenceDataLoader {
 
+    @Override
     public void setUp() {
     }
 
+    @Override
     public void tearDown() {
     }
 
+    @Override
     public SequenceData newInstance(boolean isInbound, String sequenceId, String securityContextTokenId, long expirationTime, State state, boolean ackRequestedFlag, long lastMessageId, long lastActivityTime, long lastAcknowledgementRequestTime) {
         SequenceDataPojo sdPojo = new SequenceDataPojo(sequenceId, securityContextTokenId, expirationTime, isInbound, null);
         sdPojo.setState(state);
@@ -40,10 +42,11 @@ public class InVmSequenceDataLoader implements SequenceDataLoader {
                 sdPojo,
                 new TimeSynchronizer() {
 
+                    @Override
                     public long currentTimeInMillis() {
                         return System.currentTimeMillis();
                     }
                 },
-                new HashMap<String, ApplicationMessage>());
+                new HashMap<>());
     }
 }

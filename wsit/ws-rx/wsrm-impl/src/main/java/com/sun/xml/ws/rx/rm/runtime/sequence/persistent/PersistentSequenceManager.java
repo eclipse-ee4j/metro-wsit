@@ -55,11 +55,11 @@ public final class PersistentSequenceManager extends AbstractMOMRegistrationAwar
     /**
      * Internal in-memory cache of sequence data
      */
-    private final Map<String, AbstractSequence> sequences = new HashMap<String, AbstractSequence>();
+    private final Map<String, AbstractSequence> sequences = new HashMap<>();
     /**
      * Internal in-memory map of bound sequences
      */
-    private final Map<String, String> boundSequences = new HashMap<String, String>();
+    private final Map<String, String> boundSequences = new HashMap<>();
     /**
      * Inbound delivery queue builder
      */
@@ -115,6 +115,7 @@ public final class PersistentSequenceManager extends AbstractMOMRegistrationAwar
     /**
      * {@inheritDoc}
      */
+    @Override
     public boolean persistent() {
         return true;
     }
@@ -122,6 +123,7 @@ public final class PersistentSequenceManager extends AbstractMOMRegistrationAwar
     /**
      * {@inheritDoc}
      */
+    @Override
     public String uniqueEndpointId() {
         return uniqueEndpointId;
     }
@@ -129,11 +131,12 @@ public final class PersistentSequenceManager extends AbstractMOMRegistrationAwar
     /**
      * {@inheritDoc}
      */
+    @Override
     public Map<String, Sequence> sequences() {
         try {
             dataLock.readLock().lock();
 
-            return new HashMap<String, Sequence>(sequences);
+            return new HashMap<>(sequences);
         } finally {
             dataLock.readLock().unlock();
         }
@@ -142,11 +145,12 @@ public final class PersistentSequenceManager extends AbstractMOMRegistrationAwar
     /**
      * {@inheritDoc}
      */
+    @Override
     public Map<String, String> boundSequences() {
         try {
             dataLock.readLock().lock();
 
-            return new HashMap<String, String>(boundSequences);
+            return new HashMap<>(boundSequences);
         } finally {
             dataLock.readLock().unlock();
         }
@@ -155,6 +159,7 @@ public final class PersistentSequenceManager extends AbstractMOMRegistrationAwar
     /**
      * {@inheritDoc}
      */
+    @Override
     public long concurrentlyOpenedInboundSequencesCount() {
         return actualConcurrentInboundSequences.longValue();
     }
@@ -162,6 +167,7 @@ public final class PersistentSequenceManager extends AbstractMOMRegistrationAwar
     /**
      * {@inheritDoc}
      */
+    @Override
     public Sequence createOutboundSequence(final String sequenceId, final String strId, final long expirationTime) throws DuplicateSequenceException {
         PersistentSequenceData data = PersistentSequenceData.newInstance(this, cm, uniqueEndpointId, sequenceId, PersistentSequenceData.SequenceType.Outbound, strId, expirationTime, Sequence.State.CREATED, false, OutboundSequence.INITIAL_LAST_MESSAGE_ID, currentTimeInMillis(), 0L);
         return registerSequence(new OutboundSequence(data, outboundQueueBuilder, this), data.getBoundSequenceId());
@@ -170,6 +176,7 @@ public final class PersistentSequenceManager extends AbstractMOMRegistrationAwar
     /**
      * {@inheritDoc}
      */
+    @Override
     public Sequence createInboundSequence(final String sequenceId, final String strId, final long expirationTime) throws DuplicateSequenceException {
         final long actualSessions = actualConcurrentInboundSequences.incrementAndGet();
         if (maxConcurrentInboundSequences >= 0) {
@@ -186,6 +193,7 @@ public final class PersistentSequenceManager extends AbstractMOMRegistrationAwar
     /**
      * {@inheritDoc}
      */
+    @Override
     public String generateSequenceUID() {
         return "uuid:" + UUID.randomUUID();
     }
@@ -193,6 +201,7 @@ public final class PersistentSequenceManager extends AbstractMOMRegistrationAwar
     /**
      * {@inheritDoc}
      */
+    @Override
     public Sequence closeSequence(final String sequenceId) throws UnknownSequenceException {
         Sequence sequence = getSequence(sequenceId);
         sequence.close();
@@ -202,6 +211,7 @@ public final class PersistentSequenceManager extends AbstractMOMRegistrationAwar
     /**
      * {@inheritDoc}
      */
+    @Override
     public Sequence getSequence(final String sequenceId) throws UnknownSequenceException {
         checkIfExist(sequenceId);
 
@@ -224,6 +234,7 @@ public final class PersistentSequenceManager extends AbstractMOMRegistrationAwar
     /**
      * {@inheritDoc}
      */
+    @Override
     public Sequence getInboundSequence(String sequenceId) throws UnknownSequenceException {
         final Sequence sequence = getSequence(sequenceId);
 
@@ -237,6 +248,7 @@ public final class PersistentSequenceManager extends AbstractMOMRegistrationAwar
     /**
      * {@inheritDoc}
      */
+    @Override
     public Sequence getOutboundSequence(String sequenceId) throws UnknownSequenceException {
         final Sequence sequence = getSequence(sequenceId);
 
@@ -250,6 +262,7 @@ public final class PersistentSequenceManager extends AbstractMOMRegistrationAwar
     /**
      * {@inheritDoc}
      */
+    @Override
     public boolean isValid(final String sequenceId) {
         Sequence s;
         try {
@@ -345,6 +358,7 @@ public final class PersistentSequenceManager extends AbstractMOMRegistrationAwar
     /**
      * {@inheritDoc}
      */
+    @Override
     public Sequence terminateSequence(final String sequenceId) throws UnknownSequenceException {
         try {
             dataLock.writeLock().lock();
@@ -360,6 +374,7 @@ public final class PersistentSequenceManager extends AbstractMOMRegistrationAwar
     /**
      * {@inheritDoc}
      */
+    @Override
     public void bindSequences(final String referenceSequenceId, final String boundSequenceId) throws UnknownSequenceException {
         try {
             dataLock.writeLock().lock();
@@ -375,6 +390,7 @@ public final class PersistentSequenceManager extends AbstractMOMRegistrationAwar
     /**
      * {@inheritDoc}
      */
+    @Override
     public Sequence getBoundSequence(final String referenceSequenceId) throws UnknownSequenceException {
         checkIfExist(referenceSequenceId);
 
@@ -414,11 +430,13 @@ public final class PersistentSequenceManager extends AbstractMOMRegistrationAwar
     /**
      * {@inheritDoc}
      */
+    @Override
     public long currentTimeInMillis() {
         // TODO sync time with database
         return System.currentTimeMillis();
     }
 
+    @Override
     public boolean onMaintenance() {
         LOGGER.entering();
         final boolean continueMaintenance = !disposed;
@@ -471,10 +489,12 @@ public final class PersistentSequenceManager extends AbstractMOMRegistrationAwar
         return sequence.getState() == Sequence.State.TERMINATING;
     }
 
+    @Override
     public void invalidateCache() {
         // do nothing
     }
 
+    @Override
     public void dispose() {
         this.disposed = true;
     }

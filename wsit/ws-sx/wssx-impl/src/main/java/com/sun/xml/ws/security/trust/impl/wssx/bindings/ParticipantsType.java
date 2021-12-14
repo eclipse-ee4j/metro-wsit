@@ -25,7 +25,6 @@ import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlAnyElement;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlType;
-import org.w3c.dom.Element;
 
 
 /**
@@ -112,7 +111,7 @@ public class ParticipantsType {
      */
     public List<ParticipantType> getParticipant() {
         if (participant == null) {
-            participant = new ArrayList<ParticipantType>();
+            participant = new ArrayList<>();
         }
         return this.participant;
     }
@@ -142,7 +141,7 @@ public class ParticipantsType {
      */
     public List<Object> getAny() {
         if (any == null) {
-            any = new ArrayList<Object>();
+            any = new ArrayList<>();
         }
         return this.any;
     }

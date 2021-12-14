@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -85,18 +85,17 @@ public final class ChannelSettings {
     }
     
     public String toString() {
-        StringBuffer sb = new StringBuffer(200);
-        sb.append("TargetURI: ");
-        sb.append(targetWSURI);
-        sb.append(" wsServiceName: ");
-        sb.append(wsServiceName);
-        sb.append(" channelId: ");
-        sb.append(channelId);
-        sb.append(" negotiatedParams: ");
-        sb.append(negotiatedParams);
-        sb.append(" negotiatedMimeTypes: ");
-        sb.append(negotiatedMimeTypes);
+        String sb = "TargetURI: " +
+                targetWSURI +
+                " wsServiceName: " +
+                wsServiceName +
+                " channelId: " +
+                channelId +
+                " negotiatedParams: " +
+                negotiatedParams +
+                " negotiatedMimeTypes: " +
+                negotiatedMimeTypes;
                 
-        return sb.toString();
+        return sb;
     }
 }

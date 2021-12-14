@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -87,6 +87,7 @@ public class SecuredMessage {
             int idx = 0;
             Object next;
 
+            @Override
             public boolean hasNext() {
                 if (next == null) {
                     fetch();
@@ -94,6 +95,7 @@ public class SecuredMessage {
                 return next != null;
             }
 
+            @Override
             public Object next() {
                 if (next == null) {
                     fetch();
@@ -128,6 +130,7 @@ public class SecuredMessage {
                 }
             }
 
+            @Override
             public void remove() {
                 throw new UnsupportedOperationException();
             }
@@ -141,6 +144,7 @@ public class SecuredMessage {
             int idx = 0;
             Object next;
 
+            @Override
             public boolean hasNext() {
                 if (next == null) {
                     fetch();
@@ -148,6 +152,7 @@ public class SecuredMessage {
                 return next != null;
             }
 
+            @Override
             public Object next() {
                 if (next == null) {
                     fetch();
@@ -180,6 +185,7 @@ public class SecuredMessage {
                 }
             }
 
+            @Override
             public void remove() {
                 throw new UnsupportedOperationException();
             }
@@ -260,7 +266,6 @@ public class SecuredMessage {
         } else {
             throw new XMLStreamException("No Payload found");
         }
-        return;
     }
 
     public Object getBody() throws XWSSecurityException {

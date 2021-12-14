@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -30,7 +30,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.UUID;
 import java.util.logging.Level;
 import javax.xml.namespace.QName;
 import static com.sun.xml.ws.security.impl.policy.Constants.*;
@@ -63,11 +62,13 @@ public class SamlToken extends PolicyAssertion implements com.sun.xml.ws.securit
         includeTokenType = spVersion.includeTokenAlways;
     }
     
+    @Override
     public String getTokenType() {
         populate();
         return tokenType;
     }
     
+    @Override
     public Iterator getTokenRefernceType() {
         if ( tokenRefType != null ) {
             return tokenRefType.iterator();
@@ -76,6 +77,7 @@ public class SamlToken extends PolicyAssertion implements com.sun.xml.ws.securit
         }
     }
     
+    @Override
     public boolean isRequireDerivedKeys() {
         populate();
         if (rdKey != null ) {
@@ -84,31 +86,37 @@ public class SamlToken extends PolicyAssertion implements com.sun.xml.ws.securit
         return false;
     }
     
+    @Override
     public String getIncludeToken() {
         populate();
         return includeTokenType;
     }
     
     
+    @Override
     public String getTokenId() {
         return id;
     }
     
+     @Override
      public Issuer getIssuer() {
         populate();
         return issuer;
     }
     
+    @Override
     public IssuerName getIssuerName() {
         populate();
         return issuerName;
     }
     
+    @Override
     public Claims getClaims(){
         populate();
         return claims;
     }
     
+    @Override
     public AssertionFitness validate(boolean isServer) {
         return populate(isServer);
     }
@@ -141,7 +149,7 @@ public class SamlToken extends PolicyAssertion implements com.sun.xml.ws.securit
                     rdKey = assertion;
                 }else if(PolicyUtil.isRequireKeyIR(assertion, spVersion)){
                     if(tokenRefType == null){
-                        tokenRefType = new ArrayList<String>();
+                        tokenRefType = new ArrayList<>();
                     }
                     tokenRefType.add(assertion.getName().getLocalPart().intern());
                 } else{
@@ -174,6 +182,7 @@ public class SamlToken extends PolicyAssertion implements com.sun.xml.ws.securit
         return fitness;
     }
 
+    @Override
     public SecurityPolicyVersion getSecurityPolicyVersion() {
         return spVersion;
     }

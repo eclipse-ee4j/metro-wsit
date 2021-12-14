@@ -23,7 +23,7 @@ public enum McAssertionNamespace {
     WSMC_200702("http://docs.oasis-open.org/ws-rx/wsmc/200702", "wsmc");
 
     public static List<String> namespacesList() {
-        List<String> retVal = new ArrayList<String>(McAssertionNamespace.values().length);
+        List<String> retVal = new ArrayList<>(McAssertionNamespace.values().length);
         for (McAssertionNamespace pns : McAssertionNamespace.values()) {
             retVal.add(pns.toString());
         }
@@ -33,7 +33,7 @@ public enum McAssertionNamespace {
     private final String namespace;
     private final String prefix;
 
-    private McAssertionNamespace(String namespace, String prefix) {
+    McAssertionNamespace(String namespace, String prefix) {
         this.namespace = namespace;
         this.prefix = prefix;
     }

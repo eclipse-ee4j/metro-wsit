@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -62,30 +62,36 @@ public class AsymmetricBinding extends com.sun.xml.ws.policy.PolicyAssertion imp
         spVersion = PolicyUtil.getSecurityPolicyVersion(nsUri);
     }    
     
-    public Token getRecipientToken() {  
+    @Override
+    public Token getRecipientToken() {
         populate();    
         return recipientToken; 
     }    
     
-    public Token getInitiatorToken() {  
+    @Override
+    public Token getInitiatorToken() {
         populate();       
         return initiatorToken;   
     }
 
+    @Override
     public Token getRecipientSignatureToken() {
         populate();
         return recipientSignatureToken;
     }
 
+    @Override
     public Token getInitiatorSignatureToken() {
         populate();
         return initiatorSignatureToken;
     }
+    @Override
     public Token getRecipientEncryptionToken() {
         populate();
         return recipientEncryptionToken;
     }
 
+    @Override
     public Token getInitiatorEncryptionToken() {
         populate();
         return initiatorEncryptionToken;
@@ -95,7 +101,8 @@ public class AsymmetricBinding extends com.sun.xml.ws.policy.PolicyAssertion imp
         this.algSuite = algSuite;   
     }      
     
-    public AlgorithmSuite getAlgorithmSuite() {   
+    @Override
+    public AlgorithmSuite getAlgorithmSuite() {
         populate();      
         if(algSuite == null){    
             algSuite = new  com.sun.xml.ws.security.impl.policy.AlgorithmSuite();     
@@ -109,11 +116,13 @@ public class AsymmetricBinding extends com.sun.xml.ws.policy.PolicyAssertion imp
         this.includeTimestamp = value;   
     }    
     
-    public boolean isIncludeTimeStamp() {   
+    @Override
+    public boolean isIncludeTimeStamp() {
         populate();      
         return includeTimestamp;   
     }  
     
+    @Override
     public boolean isDisableTimestampSigning() {
         populate();
         return disableTimestampSigning;
@@ -123,6 +132,7 @@ public class AsymmetricBinding extends com.sun.xml.ws.policy.PolicyAssertion imp
         this.layout = layout;    
     }   
     
+    @Override
     public MessageLayout getLayout() {
         populate();   
         return layout; 
@@ -152,6 +162,7 @@ public class AsymmetricBinding extends com.sun.xml.ws.policy.PolicyAssertion imp
         this.recipientEncryptionToken = token;
     }
     
+    @Override
     public boolean isSignContent() {
         populate();      
         return contentOnly;    
@@ -165,7 +176,8 @@ public class AsymmetricBinding extends com.sun.xml.ws.policy.PolicyAssertion imp
         this.protectionOrder = order;  
     }     
     
-    public String getProtectionOrder() {     
+    @Override
+    public String getProtectionOrder() {
         populate();    
         return protectionOrder;   
     }        
@@ -179,17 +191,20 @@ public class AsymmetricBinding extends com.sun.xml.ws.policy.PolicyAssertion imp
     
     }   
     
-    public boolean getTokenProtection() {      
+    @Override
+    public boolean getTokenProtection() {
         populate();       
         return protectToken;    
     }   
     
-    public boolean getSignatureProtection() {    
+    @Override
+    public boolean getSignatureProtection() {
         populate();       
         return protectSignature;  
     }     
     
-    public AssertionFitness validate(boolean isServer) {    
+    @Override
+    public AssertionFitness validate(boolean isServer) {
         
         return populate(isServer);    
     
@@ -257,6 +272,7 @@ public class AsymmetricBinding extends com.sun.xml.ws.policy.PolicyAssertion imp
         return fitness; 
     }  
 
+    @Override
     public SecurityPolicyVersion getSecurityPolicyVersion() {
         return spVersion;
     }

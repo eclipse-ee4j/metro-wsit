@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -126,7 +126,7 @@ public class OutboundSequenceTest extends TestCase {
         assertTrue("IllegalMessageIdentifierException expected", passed);
     }
     
-    public void testSequenceStatusAfterCloseOperation() throws Exception {
+    public void testSequenceStatusAfterCloseOperation() {
         sequence.close();
         assertEquals(Sequence.State.CLOSED, sequence.getState());
     }
@@ -155,7 +155,7 @@ public class OutboundSequenceTest extends TestCase {
         assertTrue("Expected exception was not thrown", passed);
     }
 
-    public void testSequenceState() throws Exception {
+    public void testSequenceState() {
         Sequence outbound = sequenceManager.createOutboundSequence(sequenceManager.generateSequenceUID(), null, -1);
         assertEquals(Sequence.State.CREATED, outbound.getState());
 
@@ -167,7 +167,7 @@ public class OutboundSequenceTest extends TestCase {
     }
 
     public void testStoreAndRetrieveMessage() throws Exception {
-        Map<String, ApplicationMessage> correlatedMessageMap = new HashMap<String, ApplicationMessage>();
+        Map<String, ApplicationMessage> correlatedMessageMap = new HashMap<>();
         for (int i = 0; i < 3; i++) {
             ApplicationMessage message = new DummyAppMessage("" + i);
             sequence.registerMessage(message, true);

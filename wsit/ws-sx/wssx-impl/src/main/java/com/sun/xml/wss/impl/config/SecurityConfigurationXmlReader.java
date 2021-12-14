@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -94,8 +94,7 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
     }
     
     //Note: Assumes the passed element is a <SecurityConfiguration> element
-    private static void validateConfiguration(Element element)
-    throws Exception {
+    private static void validateConfiguration(Element element) {
         
         // Check if more than one xwss:Timestamp element exists
         NodeList timestamps =
@@ -465,7 +464,7 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
             NodeList nl = configData.getChildNodes();
             for (int i=0; i < nl.getLength(); i++) {
                 // assuming all element nodes
-                Node child = (Node) nl.item(i);
+                Node child = nl.item(i);
                 if (child instanceof Element) {
                     readApplicationSecurityConfiguration(
                             (Element)child, declarations, innerDeclarations, iContext);
@@ -508,7 +507,7 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
             NodeList nl = configData.getChildNodes();
             for (int i=0; i < nl.getLength(); i++) {
                 // assuming all element nodes
-                Node child = (Node) nl.item(i);
+                Node child = nl.item(i);
                 if (child instanceof Element) {
                     readApplicationSecurityConfiguration(
                             (Element)child, declarations, innerDeclarations, jContext);
@@ -546,7 +545,7 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
             NodeList nl = configData.getChildNodes();
             for (int i=0; i < nl.getLength(); i++) {
                 // assuming all element nodes
-                Node child = (Node) nl.item(i);
+                Node child = nl.item(i);
                 if (child instanceof Element) {
                     readApplicationSecurityConfiguration(
                             (Element)child, declarations, innerDeclarations, kContext);
@@ -670,7 +669,7 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
             Element configData,
             DeclarativeSecurityConfiguration declarations,
             String securityHandlerClass)
-            throws PolicyGenerationException, XWSSecurityException {
+            throws XWSSecurityException {
         
         Element eachDefinitionElement = getFirstChildElement(configData);
         boolean timestampFound = false;
@@ -1512,19 +1511,22 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
             this.out = out;
         }
         
+        @Override
         public void error(SAXParseException e) throws SAXException {
             if (out != null)
                 out.println(e);
             throw e;
         }
         
-        public void warning(SAXParseException e) throws SAXException {
+        @Override
+        public void warning(SAXParseException e) {
             if (out != null)
                 out.println(e);
             else
                 ;// log
         }
         
+        @Override
         public void fatalError(SAXParseException e) throws SAXException {
             if (out != null)
                 out.println(e);
@@ -2186,7 +2188,6 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
             throw new IllegalStateException(definitionType +
                     " is not a recognized sub-element of Transform");
         }
-        return;
     }
     @SuppressWarnings("unchecked")
     private static void fillXPATH2TransformParams(Element algoElement , SignatureTarget.Transform transform){
@@ -2222,7 +2223,6 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
             
         }
         transform.setAlgorithmParameters(new XPathFilter2ParameterSpec(xpathTypeList));
-        return;
     }
     
     private static void fillSTRTransformParams(Element algoElement , SignatureTarget.Transform transform){
@@ -2239,7 +2239,6 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
             throw new IllegalStateException(definitionType +
                     " is not a recognized sub-element of Transform");
         }
-        return;
     }
     
     private static EncryptionTarget.Transform readEncTransform(
@@ -2406,7 +2405,7 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
     private static String generateUUID() {
         //Random rnd = new Random();
         int intRandom = rnd.nextInt();
-        String id = "XWSSGID-"+String.valueOf(System.currentTimeMillis())+String.valueOf(intRandom);
+        String id = "XWSSGID-"+ System.currentTimeMillis() + intRandom;
         return id;
     }
     
@@ -2605,8 +2604,7 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
     private static void applyReceiverDefaults(
             AuthenticationTokenPolicy.UsernameTokenBinding policy,
             boolean bsp,
-            String securityHandlerClass, boolean dp)
-            throws PolicyGenerationException {
+            String securityHandlerClass, boolean dp) {
         
         // defaults are applied here which is RequireNonce = true, RequireDigest=true        
         policy.isBSP(bsp);

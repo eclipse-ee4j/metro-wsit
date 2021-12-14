@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -22,6 +22,8 @@ import com.sun.xml.ws.security.opt.impl.util.WSSElementFactory;
 
 import javax.xml.crypto.Data;
 import java.util.HashMap;
+
+import com.sun.xml.wss.impl.policy.mls.KeyBindingBase;
 import com.sun.xml.wss.saml.SAMLException;
 import com.sun.xml.wss.impl.SecurableSoapMessage;
 import com.sun.xml.wss.XWSSecurityException;
@@ -34,7 +36,7 @@ import com.sun.xml.wss.impl.keyinfo.KeyIdentifierStrategy;
 import com.sun.xml.wss.impl.policy.mls.AuthenticationTokenPolicy;
 
 import com.sun.xml.wss.impl.MessageConstants;
-import jakarta.xml.bind.JAXBElement;
+
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 import javax.xml.stream.XMLStreamWriter;
@@ -74,7 +76,7 @@ public class ExportSamlAssertionFilter {
         AuthenticationTokenPolicy.SAMLAssertionBinding samlPolicy =
                 (AuthenticationTokenPolicy.SAMLAssertionBinding)policy.getFeatureBinding();
         
-        if (samlPolicy.getIncludeToken() == samlPolicy.INCLUDE_ONCE) {
+        if (samlPolicy.getIncludeToken() == KeyBindingBase.INCLUDE_ONCE) {
             throw new XWSSecurityException("Include Token ONCE not supported for SAMLToken Assertions");
         }
         
@@ -114,7 +116,7 @@ public class ExportSamlAssertionFilter {
                     version = reader.getAttributeValue(null, "Version");
                     buffer = new MutableXMLStreamBuffer();
                     StreamWriterBufferCreator bCreator = new StreamWriterBufferCreator(buffer);
-                    XMLStreamWriter writer_tmp = (XMLStreamWriter) bCreator;
+                    XMLStreamWriter writer_tmp = bCreator;
                     while (!(XMLStreamReader.END_DOCUMENT == reader.getEventType())) {
                        com.sun.xml.ws.security.opt.impl.util.StreamUtil.writeCurrentEvent(reader, writer_tmp);
                        reader.next();                       
@@ -127,9 +129,9 @@ public class ExportSamlAssertionFilter {
             try {
                 if (System.getProperty("com.sun.xml.wss.saml.binding.jaxb") == null) {
                     if (assertionElement.getAttributeNode("ID") != null) {
-                        _assertion = (Assertion) com.sun.xml.wss.saml.assertion.saml20.jaxb20.Assertion.fromElement(assertionElement);
+                        _assertion = com.sun.xml.wss.saml.assertion.saml20.jaxb20.Assertion.fromElement(assertionElement);
                     } else {
-                        _assertion = (Assertion) com.sun.xml.wss.saml.assertion.saml11.jaxb20.Assertion.fromElement(assertionElement);
+                        _assertion = com.sun.xml.wss.saml.assertion.saml11.jaxb20.Assertion.fromElement(assertionElement);
                     }
                 }
             } catch (SAMLException ex) {
@@ -137,8 +139,8 @@ public class ExportSamlAssertionFilter {
             }
         }
 
-        if (samlPolicy.getIncludeToken() == samlPolicy.INCLUDE_NEVER ||
-               samlPolicy.getIncludeToken() == samlPolicy.INCLUDE_NEVER_VER2 ) {
+        if (samlPolicy.getIncludeToken() == KeyBindingBase.INCLUDE_NEVER ||
+               samlPolicy.getIncludeToken() == KeyBindingBase.INCLUDE_NEVER_VER2) {
             if (_authorityBinding != null) {
                 //nullify the assertion set by Callback since IncludeToken is never
                 // do this because we have to maintain BackwardCompat with XWSS2.0
@@ -157,7 +159,7 @@ public class ExportSamlAssertionFilter {
             if(_assertion.getVersion() == null && _authorityBinding == null){
                 if(!isOptimized){
                     if ( System.getProperty("com.sun.xml.wss.saml.binding.jaxb") == null) {
-                        ((com.sun.xml.wss.saml.assertion.saml11.jaxb20.Assertion)_assertion).toElement(securityHeader);
+                        _assertion.toElement(securityHeader);
                     }
                 } else {
                     she = new GSHeaderElement(assertionElement, ((JAXBFilterProcessingContext) context).getSOAPVersion());
@@ -169,10 +171,10 @@ public class ExportSamlAssertionFilter {
                 }
                 HashMap tokenCache = context.getTokenCache();
                 //assuming unique IDs
-                tokenCache.put(((com.sun.xml.wss.saml.Assertion)_assertion).getAssertionID(), _assertion);
+                tokenCache.put(_assertion.getAssertionID(), _assertion);
             } else if (_assertion.getVersion() != null){
                 if(!isOptimized){
-                    ((com.sun.xml.wss.saml.assertion.saml20.jaxb20.Assertion)_assertion).toElement(securityHeader);
+                    _assertion.toElement(securityHeader);
                 } else {
                     she = new GSHeaderElement(assertionElement, ((JAXBFilterProcessingContext) context).getSOAPVersion());
                     if (optSecHeader.getChildElement(she.getId()) == null) {
@@ -183,7 +185,7 @@ public class ExportSamlAssertionFilter {
                 }
                 HashMap tokenCache = context.getTokenCache();
                 //assuming unique IDs
-                tokenCache.put(((com.sun.xml.wss.saml.Assertion)_assertion).getID(), _assertion);
+                tokenCache.put(_assertion.getID(), _assertion);
             }  else {
                 //Authoritybinding is set. So the Assertion should not be exported
                 if (null == resolvedPolicy.getSTRID()) {
@@ -213,7 +215,7 @@ public class ExportSamlAssertionFilter {
             
             String assertionId = resolvedPolicy.getAssertionId();
             if (_assertion != null) {
-                assertionId = ((com.sun.xml.wss.saml.Assertion) _assertion).getAssertionID();
+                assertionId = _assertion.getAssertionID();
             } else {
                 assertionId = (id != null) ? id : assertionId ;
             }
@@ -280,7 +282,7 @@ public class ExportSamlAssertionFilter {
                     }
                     ((NamespaceContextEx)optContext.getNamespaceContext()).addWSS11NS();
                 }
-                Data data = new SSEData((SecurityElement)she,false,optContext.getNamespaceContext());
+                Data data = new SSEData(she,false,optContext.getNamespaceContext());
                 optContext.getElementCache().put(strId,data);
                 optSecHeader.add(secTokRef);
             }

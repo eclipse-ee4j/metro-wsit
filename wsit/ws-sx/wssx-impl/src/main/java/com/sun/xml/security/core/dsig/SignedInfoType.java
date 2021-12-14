@@ -100,13 +100,13 @@ public class SignedInfoType {
         this.canonicalizationMethod = value;
     }
 
-    /**
-     * Gets the value of the signatureMethod property.
-     * 
-     * @return
+    /*
+      Gets the value of the signatureMethod property.
+
+      @return
      *     possible object is
      *     {@link SignatureMethodType }
-     *     
+
      */
     /*public SignatureMethodType getSignatureMethod() {
         return signatureMethod;
@@ -148,7 +148,7 @@ public class SignedInfoType {
      */
     public List<Reference> getReference() {
         if (reference == null) {
-            reference = new ArrayList<Reference>();
+            reference = new ArrayList<>();
         }
         return this.reference;
     }

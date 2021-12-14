@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -18,11 +18,6 @@
 package com.sun.xml.wss.saml;
 
 import java.util.List;
-
-/**
- *
- * @author abhijit.das@Sun.COM
- */
 
 /**
  * The <code>AuthorizationDecisionStatement</code> element supplies a statement
@@ -58,7 +53,7 @@ public interface AuthnDecisionStatement {
      * 
      * 
      */
-    public List<Action> getActionList();
+    List<Action> getActionList();
     
     /**
      * Gets the value of the evidence property.
@@ -66,7 +61,7 @@ public interface AuthnDecisionStatement {
      * @return object is {@link Evidence }
      *     
      */
-    public Evidence getEvidence();
+    Evidence getEvidence();
     
     /**
      * Gets the value of the decision property.
@@ -74,7 +69,7 @@ public interface AuthnDecisionStatement {
      * @return object is {@link java.lang.String }
      *     
      */
-    public String getDecisionValue();
+    String getDecisionValue();
     
     /**
      * Gets the value of the resource property.
@@ -82,5 +77,5 @@ public interface AuthnDecisionStatement {
      * @return object is {@link java.lang.String }
      *     
      */
-    public String getResource();
+    String getResource();
 }

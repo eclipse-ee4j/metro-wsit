@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -21,37 +21,37 @@ public interface HttpsToken extends Token {
      * or true if RequireClientCertificate assertion is present in SP 1.2 version 
      * @return true or false
      */
-    public boolean isRequireClientCertificate();
+    boolean isRequireClientCertificate();
 
     /**
      * valid for SecurityPolicy 1.2 only
      * returns true if HttpBasicAuthentication nested policy assertion is present 
      * @return true or false
      */
-    public boolean isHttpBasicAuthentication();
+    boolean isHttpBasicAuthentication();
 
     /**
      * valid for SecurityPolicy 1.2 only
      * returns true if HttpDigestAuthentication nested policy assertion is present
      * @return true or false
      */
-    public boolean isHttpDigestAuthentication();
+    boolean isHttpDigestAuthentication();
 
     /**
      * returns the issuer for the X509 token.
      * @return returns the issuer
      */
-    public Issuer getIssuer();
+    Issuer getIssuer();
 
     /**
      * 
      * @return the issuer name for X509 token
      */
-    public IssuerName getIssuerName();
+    IssuerName getIssuerName();
     
     /**
      * 
      * @return Claims
-     */ 
-    public Claims getClaims();
+     */
+    Claims getClaims();
 }

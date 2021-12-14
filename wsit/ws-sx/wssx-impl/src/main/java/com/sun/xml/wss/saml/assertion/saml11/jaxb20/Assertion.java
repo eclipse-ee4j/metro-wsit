@@ -123,22 +123,27 @@ public class Assertion  extends com.sun.xml.wss.saml.internal.saml11.jaxb20.Asse
             LogDomainConstants.WSS_API_DOMAIN,
             LogDomainConstants.WSS_API_DOMAIN_BUNDLE);
     
+    @Override
     public String getVersion(){
         return this.version;
     }
     
+    @Override
     public void setVersion(String version){
         this.version = version;
     }
     
+    @Override
     public String getID(){
         return null;
     }
     
+    @Override
     public String getSamlIssuer(){
         return getIssuer();
     }    
     
+    @Override
     public String getIssueInstance(){
         if(this.issueInstant != null){
             return this.issueInstant.toString();
@@ -158,7 +163,8 @@ public class Assertion  extends com.sun.xml.wss.saml.internal.saml11.jaxb20.Asse
         return advice;        
     }
     
-    public Subject getSubject(){        
+    @Override
+    public Subject getSubject(){
         throw new UnsupportedOperationException("Direct call of getSubject() method on SAML1.1 assertion is not supported."+
                 "So, first get the Statements of the SAML assertion and then call the getSubject() on each statement");
     }
@@ -169,6 +175,7 @@ public class Assertion  extends com.sun.xml.wss.saml.internal.saml11.jaxb20.Asse
      * @param privKey PrivateKey to be used for Signature calculation
      */
     
+    @Override
     public Element sign(PublicKey pubKey, PrivateKey privKey) throws SAMLException {
         
         
@@ -190,6 +197,7 @@ public class Assertion  extends com.sun.xml.wss.saml.internal.saml11.jaxb20.Asse
         }
     }
     
+    @Override
     public Element sign(X509Certificate cert, PrivateKey privKey, boolean alwaysIncludeCert) throws SAMLException {
         //Check if the signature is already calculated
         if ( signedAssertion != null) {
@@ -208,6 +216,7 @@ public class Assertion  extends com.sun.xml.wss.saml.internal.saml11.jaxb20.Asse
         }
     }
     
+    @Override
     public Element sign(X509Certificate cert, PrivateKey privKey, boolean alwaysIncludeCert, String sigAlgorithm, String canonicalizationAlgorithm) throws SAMLException {
         //Check if the signature is already calculated
         if ( signedAssertion != null) {
@@ -232,6 +241,7 @@ public class Assertion  extends com.sun.xml.wss.saml.internal.saml11.jaxb20.Asse
         }
     }
     
+     @Override
      public Element sign(X509Certificate cert, PrivateKey privKey) throws SAMLException {
         //Check if the signature is already calculated
         if ( signedAssertion != null) {
@@ -257,6 +267,7 @@ public class Assertion  extends com.sun.xml.wss.saml.internal.saml11.jaxb20.Asse
      * @param pubKey PublicKey to be used for Signature verification
      * @param privKey PrivateKey to be used for Signature calculation
      */
+    @Override
     @SuppressWarnings("unchecked")
     public Element sign(DigestMethod digestMethod, String signatureMethod,PublicKey pubKey, PrivateKey privKey) throws SAMLException {
         
@@ -341,6 +352,7 @@ public class Assertion  extends com.sun.xml.wss.saml.internal.saml11.jaxb20.Asse
         }
         //return signedAssertion;
     }        
+    @Override
     @SuppressWarnings("unchecked")
     public Element sign(DigestMethod digestMethod, String signatureMethod, X509Certificate cert, PrivateKey privKey, boolean alwaysIncludeCert) throws SAMLException {
         //Check if the signature is already calculated
@@ -422,26 +434,18 @@ public class Assertion  extends com.sun.xml.wss.saml.internal.saml11.jaxb20.Asse
 
             signedAssertion = assertionElement;
             return assertionElement;
-        } catch (XWSSecurityException ex) {
-            throw new SAMLException(ex);
-        } catch (MarshalException ex) {
-            throw new SAMLException(ex);
-        } catch (NoSuchAlgorithmException ex) {
-            throw new SAMLException(ex);
-        } catch (SOAPException ex) {
-            throw new SAMLException(ex);
-        } catch (XMLSignatureException ex) {
-            throw new SAMLException(ex);
-        } catch (InvalidAlgorithmParameterException ex) {
+        } catch (XWSSecurityException | InvalidAlgorithmParameterException | XMLSignatureException | SOAPException | NoSuchAlgorithmException | MarshalException ex) {
             throw new SAMLException(ex);
         }
     }
 
+    @Override
     public Element sign(DigestMethod digestMethod, String signatureMethod, X509Certificate cert, PrivateKey privKey) throws SAMLException {
         return sign(digestMethod, signatureMethod, cert, privKey, false);
     }
     
     
+    @Override
     public Element toElement(Node doc) throws XWSSecurityException {
         if ( signedAssertion == null) {
             
@@ -482,6 +486,7 @@ public class Assertion  extends com.sun.xml.wss.saml.internal.saml11.jaxb20.Asse
             throw new SAMLException(ex);
         }
     }
+    @Override
     @SuppressWarnings("unchecked")
     public List<Object> getStatements() {
         if(statementList == null){
@@ -518,16 +523,17 @@ public class Assertion  extends com.sun.xml.wss.saml.internal.saml11.jaxb20.Asse
         this.statementOrSubjectStatementOrAuthenticationStatement = statement;
     }
     
+    @Override
     public String getType(){
         return MessageConstants.SAML_v1_1_NS;
     }
     
+    @Override
     public Object getTokenValue(){
        try {
             Document doc = XMLUtil.newDocument();
             return this.toElement(doc);
-        } catch (ParserConfigurationException ex) {
-        } catch (XWSSecurityException ex) {
+        } catch (ParserConfigurationException | XWSSecurityException ex) {
         }
         return null;
     }
@@ -643,7 +649,7 @@ public class Assertion  extends com.sun.xml.wss.saml.internal.saml11.jaxb20.Asse
         void init(){
             try{
                 _nodeSetClass = Class.forName(optNSClassName);
-                _constructor = _nodeSetClass.getConstructor(new Class [] {org.w3c.dom.Node.class,boolean.class});
+                _constructor = _nodeSetClass.getConstructor(Node.class,boolean.class);
             }catch(LinkageError le){
                 // logger.log (Level.FINE,"Not able load JSR 105 RI specific NodeSetData class ",le);
             }catch(ClassNotFoundException cne){
@@ -652,6 +658,7 @@ public class Assertion  extends com.sun.xml.wss.saml.internal.saml11.jaxb20.Asse
                 
             }
         }
+        @Override
         public Data dereference(URIReference uriRef, XMLCryptoContext context) throws URIReferenceException {
             try{
                 String uri = null;
@@ -681,6 +688,7 @@ public class Assertion  extends com.sun.xml.wss.saml.internal.saml11.jaxb20.Asse
                     final HashSet nodeSet = new HashSet();
                     toNodeSet(el,nodeSet);
                     return new NodeSetData(){
+                        @Override
                         public Iterator iterator(){
                             return nodeSet.iterator();
                         }
@@ -699,7 +707,7 @@ public class Assertion  extends com.sun.xml.wss.saml.internal.saml11.jaxb20.Asse
                     result.add(rootNode);
                     Element el=(Element)rootNode;
                     if (el.hasAttributes()) {
-                        NamedNodeMap nl = ((Element)rootNode).getAttributes();
+                        NamedNodeMap nl = rootNode.getAttributes();
                         for (int i=0;i<nl.getLength();i++) {
                             result.add(nl.item(i));
                         }
@@ -725,10 +733,10 @@ public class Assertion  extends com.sun.xml.wss.saml.internal.saml11.jaxb20.Asse
                 default:
                     result.add(rootNode);
             }
-            return;
         }
         
     }
+    @Override
     @SuppressWarnings("unchecked")
     public boolean verifySignature(PublicKey pubKey) throws SAMLException {
         try {

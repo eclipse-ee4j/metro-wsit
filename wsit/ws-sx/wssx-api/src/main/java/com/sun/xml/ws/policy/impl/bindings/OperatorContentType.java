@@ -98,7 +98,7 @@ public class OperatorContentType {
      */
     public List<Object> getPolicyOrAllOrExactlyOne() {
         if (policyOrAllOrExactlyOne == null) {
-            policyOrAllOrExactlyOne = new ArrayList<Object>();
+            policyOrAllOrExactlyOne = new ArrayList<>();
         }
         return this.policyOrAllOrExactlyOne;
     }

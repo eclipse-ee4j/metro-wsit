@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -34,34 +34,34 @@ public class ParticipantPortImpl
     }
 
     /**
-     * 
-     * @param parameters
+     *
      */
+    @Override
     public void prepareOperation(Notification parameters) {
         Participant<Notification> proxy = getPoxy();
         proxy.prepare(parameters);
     }
 
     /**
-     * 
-     * @param parameters
+     *
      */
+    @Override
     public void commitOperation(Notification parameters) {
         Participant<Notification> proxy = getPoxy();
         proxy.commit(parameters);
     }
 
     /**
-     * 
-     * @param parameters
+     *
      */
+    @Override
     public void rollbackOperation(Notification parameters) {
         Participant<Notification> proxy = getPoxy();
         proxy.rollback(parameters);
     }
 
     protected Participant<Notification> getPoxy() {
-        return new Participant<Notification>(m_context, WSATVersion.v11);
+        return new Participant<>(m_context, WSATVersion.v11);
     }
 
 }

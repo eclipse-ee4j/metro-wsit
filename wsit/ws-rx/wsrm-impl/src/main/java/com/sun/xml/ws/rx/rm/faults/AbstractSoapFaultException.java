@@ -30,13 +30,15 @@ import jakarta.xml.soap.SOAPFault;
  */
 public abstract class AbstractSoapFaultException extends RxRuntimeException {
 
-    public static enum Code {
+    public enum Code {
         Sender {
+             @Override
              QName asQName(SOAPVersion sv) {
                 return sv.faultCodeClient;
              }
         },
         Receiver {
+             @Override
              QName asQName(SOAPVersion sv) {
                 return sv.faultCodeServer;
              }            
@@ -113,7 +115,7 @@ public abstract class AbstractSoapFaultException extends RxRuntimeException {
                     }
                     break;
                 default:
-                    throw new RxRuntimeException("Unsupported SOAP version: '" + rc.soapVersion.toString() + "'");
+                    throw new RxRuntimeException("Unsupported SOAP version: '" + rc.soapVersion + "'");
             }
 
             Message soapFaultMessage = Messages.create(soapFault);
@@ -132,7 +134,6 @@ public abstract class AbstractSoapFaultException extends RxRuntimeException {
     /**
      * TODO javadoc
      *
-     * @return
      */
     protected static String getProperFaultActionForAddressingVersion(RmRuntimeVersion rmVersion, AddressingVersion addressingVersion) {
         return (addressingVersion == AddressingVersion.MEMBER) ? addressingVersion.getDefaultFaultAction() : rmVersion.protocolVersion.wsrmFaultAction;

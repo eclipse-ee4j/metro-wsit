@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -106,12 +106,14 @@ public class WSTrustContractImpl implements WSTrustContract<BaseSTSRequest, Base
     
     private static final int DEFAULT_KEY_SIZE = 256;
     
+    @Override
     public void init(final STSConfiguration stsConfig) {
         this.stsConfig = stsConfig;
         this.wstVer = (WSTrustVersion)stsConfig.getOtherOptions().get(WSTrustConstants.WST_VERSION);
         this.eleFac = WSTrustElementFactory.newInstance(wstVer);
     }
 
+    @Override
     public BaseSTSResponse issue(BaseSTSRequest request, IssuedTokenContext context) throws WSTrustException {
         RequestSecurityToken rst = (RequestSecurityToken)request;
         SecondaryParameters secParas = null;
@@ -164,8 +166,8 @@ public class WSTrustContractImpl implements WSTrustContract<BaseSTSRequest, Base
         
         // Get STS certificate and private key
         Object[] certAndKey = this.getSTSCertAndPrivateKey();
-        context.getOtherProperties().put(IssuedTokenContext.STS_CERTIFICATE, (X509Certificate)certAndKey[0]);
-        context.getOtherProperties().put(IssuedTokenContext.STS_PRIVATE_KEY, (PrivateKey)certAndKey[1]);
+        context.getOtherProperties().put(IssuedTokenContext.STS_CERTIFICATE, certAndKey[0]);
+        context.getOtherProperties().put(IssuedTokenContext.STS_PRIVATE_KEY, certAndKey[1]);
         
         // Get TokenType
         String tokenType = null;
@@ -401,7 +403,7 @@ public class WSTrustContractImpl implements WSTrustContract<BaseSTSRequest, Base
             // Get UseKey from the RST
             UseKey useKey = rst.getUseKey();
             if (useKey != null){
-                Element uk = (Element)eleFac.toElement(useKey.getToken().getTokenValue());
+                Element uk = eleFac.toElement(useKey.getToken().getTokenValue());
                 context.getOtherProperties().put("ConfirmationKeyInfo", uk);
             }
             final Set certs = subject.getPublicCredentials();
@@ -501,7 +503,7 @@ public class WSTrustContractImpl implements WSTrustContract<BaseSTSRequest, Base
         }
         
         if (wstVer.getNamespaceURI().equals(WSTrustVersion.WS_TRUST_13.getNamespaceURI())){
-            List<RequestSecurityTokenResponse> list = new ArrayList<RequestSecurityTokenResponse>();
+            List<RequestSecurityTokenResponse> list = new ArrayList<>();
             list.add(rstr);
             RequestSecurityTokenResponseCollection rstrc = eleFac.createRSTRC(list);
 
@@ -515,21 +517,24 @@ public class WSTrustContractImpl implements WSTrustContract<BaseSTSRequest, Base
     
     }
 
-    public BaseSTSResponse renew(BaseSTSRequest rst, IssuedTokenContext context) throws WSTrustException {
+    @Override
+    public BaseSTSResponse renew(BaseSTSRequest rst, IssuedTokenContext context) {
         throw new UnsupportedOperationException("Unsupported operation: renew");
     }
 
-    public BaseSTSResponse cancel(BaseSTSRequest rst, IssuedTokenContext context, Map map) throws WSTrustException {
+    @Override
+    public BaseSTSResponse cancel(BaseSTSRequest rst, IssuedTokenContext context, Map map) {
         throw new UnsupportedOperationException("Unsupported operation: cancel");
     }
 
+    @Override
     public BaseSTSResponse validate(BaseSTSRequest request, IssuedTokenContext context) throws WSTrustException {
         RequestSecurityToken rst = (RequestSecurityToken)request;
         
         // Get STS certificate and private key
         Object[] certAndKey = this.getSTSCertAndPrivateKey();
-        context.getOtherProperties().put(IssuedTokenContext.STS_CERTIFICATE, (X509Certificate)certAndKey[0]);
-        context.getOtherProperties().put(IssuedTokenContext.STS_PRIVATE_KEY, (PrivateKey)certAndKey[1]);
+        context.getOtherProperties().put(IssuedTokenContext.STS_CERTIFICATE, certAndKey[0]);
+        context.getOtherProperties().put(IssuedTokenContext.STS_PRIVATE_KEY, certAndKey[1]);
         context.getOtherProperties().put(IssuedTokenContext.WS_TRUST_VERSION, wstVer);
          
         // get TokenType
@@ -572,7 +577,7 @@ public class WSTrustContractImpl implements WSTrustContract<BaseSTSRequest, Base
         final RequestSecurityTokenResponse rstr = eleFac.createRSTRForValidate(tokenType, reqSecTok, (Status)context.getOtherProperties().get(IssuedTokenContext.STATUS));
         
         if (wstVer.getNamespaceURI().equals(WSTrustVersion.WS_TRUST_13.getNamespaceURI())){
-            List<RequestSecurityTokenResponse> list = new ArrayList<RequestSecurityTokenResponse>();
+            List<RequestSecurityTokenResponse> list = new ArrayList<>();
             list.add(rstr);
             RequestSecurityTokenResponseCollection rstrc = eleFac.createRSTRC(list);
 
@@ -582,7 +587,8 @@ public class WSTrustContractImpl implements WSTrustContract<BaseSTSRequest, Base
         return rstr;
     }
 
-    public void handleUnsolicited(BaseSTSResponse rstr, IssuedTokenContext context) throws WSTrustException {
+    @Override
+    public void handleUnsolicited(BaseSTSResponse rstr, IssuedTokenContext context) {
         throw new UnsupportedOperationException("Unsupported operation: handleUnsolicited");
     }
     
@@ -686,7 +692,7 @@ public class WSTrustContractImpl implements WSTrustContract<BaseSTSRequest, Base
             // Encrypt the assertion and return the Encrypteddata
             final Document owner = assertion.getOwnerDocument();
             final EncryptedData encData = cipher.encryptData(owner, assertion);
-            final String id = "uuid-" + UUID.randomUUID().toString();
+            final String id = "uuid-" + UUID.randomUUID();
             encData.setId(id);
                 
             final KeyInfo encKeyInfo = new KeyInfo(owner);

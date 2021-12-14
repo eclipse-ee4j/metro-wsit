@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -54,6 +54,7 @@ public class SSEData implements StreamWriterData {
         this.buffer = buffer;
     }
     
+    @Override
     public NamespaceContextEx getNamespaceContext() {
         return nsContext;
     }
@@ -61,6 +62,7 @@ public class SSEData implements StreamWriterData {
     public SecurityElement getSecurityElement(){
         return data;
     }
+    @Override
     @SuppressWarnings("unchecked")
     public void write(javax.xml.stream.XMLStreamWriter writer) throws javax.xml.stream.XMLStreamException {
         if(buffer != null){

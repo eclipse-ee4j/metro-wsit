@@ -25,18 +25,17 @@ public final class Postman {
 
     private static final Logger LOGGER = Logger.getLogger(Postman.class);
 
-    public static interface Callback {
+    public interface Callback {
 
         /**
          * Implementation of this method is responsible for processing RM data in a
          * protocol dependent way and delivering the application message
          * using underlying message transport and processing framework
          *
-         * @param message
          */
-        public void deliver(ApplicationMessage message);
+        void deliver(ApplicationMessage message);
         
-        public RuntimeContext getRuntimeContext();
+        RuntimeContext getRuntimeContext();
     }
 
     private final Executor executor;
@@ -66,6 +65,7 @@ public final class Postman {
 
         executor.execute(new Runnable()  {
 
+            @Override
             public void run() {
                 if (LOGGER.isLoggable(Level.FINER)) {
                     LOGGER.finer(String.format(

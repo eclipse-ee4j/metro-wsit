@@ -40,6 +40,7 @@ public class SignerOutputStream extends ByteArrayOutputStream {
         this.sig=sig;       
     }
 
+    @Override
     public void write(byte[] arg0)  {
 	super.write(arg0, 0, arg0.length);
         try {
@@ -49,6 +50,7 @@ public class SignerOutputStream extends ByteArrayOutputStream {
 	}
     }
     
+    @Override
     public void write(int arg0) {
 	super.write(arg0);
         try {
@@ -58,6 +60,7 @@ public class SignerOutputStream extends ByteArrayOutputStream {
         }
     }
     
+    @Override
     public void write(byte[] arg0, int arg1, int arg2) {
 	super.write(arg0, arg1, arg2);
         try {

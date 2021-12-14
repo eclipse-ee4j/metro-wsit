@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -25,7 +25,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.UUID;
 import java.util.logging.Level;
 import javax.xml.namespace.QName;
 import static com.sun.xml.ws.security.impl.policy.Constants.*;
@@ -58,11 +57,13 @@ public class RelToken extends PolicyAssertion implements com.sun.xml.ws.security
     }
     
     
+    @Override
     public String getTokenType() {
         populate();
         return tokenType;
     }
     
+    @Override
     public Iterator getTokenRefernceType() {
         if ( tokenRefType != null ) {
             return tokenRefType.iterator();
@@ -71,6 +72,7 @@ public class RelToken extends PolicyAssertion implements com.sun.xml.ws.security
         }
     }
     
+    @Override
     public boolean isRequireDerivedKeys() {
         populate();
         if (rdKey != null ) {
@@ -79,17 +81,20 @@ public class RelToken extends PolicyAssertion implements com.sun.xml.ws.security
         return false;
     }
     
+    @Override
     public String getIncludeToken() {
         populate();
         return includeToken;
     }
     
     
+    @Override
     public String getTokenId() {
         return id;
     }
     
     
+    @Override
     public AssertionFitness validate(boolean isServer) {
         return populate(isServer);
     }
@@ -119,7 +124,7 @@ public class RelToken extends PolicyAssertion implements com.sun.xml.ws.security
                     rdKey = assertion;
                 }else if(PolicyUtil.isRequireKeyIR(assertion, spVersion)){
                     if(tokenRefType == null){
-                        tokenRefType = new ArrayList<String>();
+                        tokenRefType = new ArrayList<>();
                     }
                     tokenRefType.add(assertion.getName().getLocalPart().intern());
                 } else{
@@ -135,6 +140,7 @@ public class RelToken extends PolicyAssertion implements com.sun.xml.ws.security
         return fitness;
     }
 
+    @Override
     public SecurityPolicyVersion getSecurityPolicyVersion() {
         return spVersion;
     }

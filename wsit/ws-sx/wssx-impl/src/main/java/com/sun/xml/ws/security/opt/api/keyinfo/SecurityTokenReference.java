@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -24,10 +24,10 @@ import com.sun.xml.ws.security.opt.api.reference.Reference;
  */
 public interface SecurityTokenReference extends Token{
     
-    public static final String KEYIDENTIFIER = "Identifier";
-    public static final String REFERENCE = "Direct";//TODO: This looks incorrect
-    public static final String X509DATA_ISSUERSERIAL = "X509Data";
-    public static final String DIRECT_REFERENCE = "Reference";
+    String KEYIDENTIFIER = "Identifier";
+    String REFERENCE = "Direct";//TODO: This looks incorrect
+    String X509DATA_ISSUERSERIAL = "X509Data";
+    String DIRECT_REFERENCE = "Reference";
     
     /**
      * Sets the appropriate reference type for STR - like EkyIndentifier, Direct reference etc

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -16,20 +16,20 @@ package com.sun.xml.ws.security.policy;
  */
 public interface KeyStore {
     
-    public String getLocation();
+    String getLocation();
     
-    public String getType();
+    String getType();
     
-    public char[] getPassword();
+    char[] getPassword();
     
-    public String getAlias();
+    String getAlias();
     
-    public String getKeyPassword();
+    String getKeyPassword();
     
-    public String getAliasSelectorClassName();
+    String getAliasSelectorClassName();
     
-    public String getKeyStoreCallbackHandler();
+    String getKeyStoreCallbackHandler();
 
-    public String getKeyStoreLoginModuleConfigName();
+    String getKeyStoreLoginModuleConfigName();
     
 }

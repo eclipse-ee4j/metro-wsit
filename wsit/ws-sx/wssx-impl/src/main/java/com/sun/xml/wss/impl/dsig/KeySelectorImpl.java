@@ -1,17 +1,11 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
  * http://www.eclipse.org/org/documents/edl-v10.php.
  *
  * SPDX-License-Identifier: BSD-3-Clause
- */
-
-/**
- * KeySelectorImpl.java
- *
- * Created on February 25, 2005, 4:36 PM
  */
 
 package com.sun.xml.wss.impl.dsig;
@@ -115,7 +109,6 @@ import com.sun.xml.wss.impl.misc.KeyResolver;
 import javax.security.auth.Subject;
 import com.sun.xml.ws.runtime.dev.SessionManager;
 import com.sun.xml.ws.security.SecurityContextTokenInfo;
-import com.sun.xml.ws.security.secconv.WSSecureConversationException;
 import com.sun.xml.ws.security.secconv.impl.client.DefaultSCTokenConfiguration;
 import com.sun.xml.wss.logging.impl.dsig.LogStringsMessages;
 import java.net.URI;
@@ -132,31 +125,19 @@ public class KeySelectorImpl extends KeySelector{
     private static Logger logger = Logger.getLogger(LogDomainConstants.IMPL_SIGNATURE_DOMAIN,
             LogDomainConstants.IMPL_SIGNATURE_DOMAIN_BUNDLE);
     
-    /** Creates a new instance of KeySelectorImpl */
     static{
         keyResolver = new KeySelectorImpl();
     }
+
+    /** Creates a new instance of KeySelectorImpl */
     private KeySelectorImpl() {
-        
     }
     
-    /**
-     *
-     * @return
-     */
     public static KeySelector getInstance(){
         return keyResolver;
     }
     
-    /**
-     *
-     * @param keyInfo
-     * @param purpose
-     * @param method
-     * @param context
-     * @throws KeySelectorException
-     * @return
-     */
+    @Override
     public KeySelectorResult select(KeyInfo keyInfo, Purpose purpose, AlgorithmMethod method, XMLCryptoContext context) throws KeySelectorException {
         if (keyInfo == null) {
             if(logger.getLevel() == Level.SEVERE){
@@ -220,6 +201,7 @@ public class KeySelectorImpl extends KeySelector{
                         isStr = true;
                         final Key key = resolve(reference, context, purpose);
                         return new KeySelectorResult(){
+                            @Override
                             public Key getKey(){
                                 return key;
                             }
@@ -267,9 +249,6 @@ public class KeySelectorImpl extends KeySelector{
     //@@@FIXME: this should also work for key types other than DSA/RSA
     /**
      *
-     * @param algURI
-     * @param algName
-     * @return
      */
     static boolean algEquals(String algURI, String algName) {
         if (algName.equalsIgnoreCase("DSA") &&
@@ -288,6 +267,7 @@ public class KeySelectorImpl extends KeySelector{
         SimpleKeySelectorResult(Key pk) {
             this.pk = pk;
         }
+        @Override
         public Key getKey() { return pk; }
     }
     @SuppressWarnings("unchecked")
@@ -466,8 +446,8 @@ public class KeySelectorImpl extends KeySelector{
                                         wssContext.getExtraneousProperties(), str.getSamlAuthorityBinding(), assertionID, secureMsg.getSOAPPart());
                             } else {
                                 tokenElement = SAMLUtil.locateSamlAssertion(assertionID,secureMsg.getSOAPPart());
-                                if (!("true".equals((String)wssContext.getExtraneousProperty(MessageConstants.SAML_SIG_RESOLVED))) || 
-                                        "false".equals((String)wssContext.getExtraneousProperty(MessageConstants.SAML_SIG_RESOLVED))){
+                                if (!("true".equals(wssContext.getExtraneousProperty(MessageConstants.SAML_SIG_RESOLVED))) ||
+                                        "false".equals(wssContext.getExtraneousProperty(MessageConstants.SAML_SIG_RESOLVED))){
                                     wssContext.setExtraneousProperty(MessageConstants.SAML_SIG_RESOLVED,"false");
                                 }
                             }
@@ -606,7 +586,7 @@ public class KeySelectorImpl extends KeySelector{
                     if(keyBinding != null){
                         keyBinding.setValueType(valueType);
                     }
-                    String wsuId = secureMsg.getIdFromFragmentRef(uri);
+                    String wsuId = SecurableSoapMessage.getIdFromFragmentRef(uri);
                     X509SecurityToken token = (X509SecurityToken) insertedX509Cache.get(wsuId);               
                     //if(token == null)
                     //    token =(X509SecurityToken) tokenCache.get(wsuId);
@@ -646,7 +626,7 @@ public class KeySelectorImpl extends KeySelector{
                     returnKey = resolveX509Token(wssContext,  token, purpose, isSymmetric);
                     
                 } else if(MessageConstants.EncryptedKey_NS.equals(valueType)) {
-                    String wsuId = secureMsg.getIdFromFragmentRef(uri);
+                    String wsuId = SecurableSoapMessage.getIdFromFragmentRef(uri);
                     SecurityToken token = (SecurityToken)tokenCache.get(wsuId);
                     if(token == null){
                         token = resolveToken(wsuId, context);
@@ -689,7 +669,7 @@ public class KeySelectorImpl extends KeySelector{
                         wssContext.setExtraneousProperty(MessageConstants.SECRET_KEY_VALUE, returnKey);
                 } else if (MessageConstants.SCT_VALUETYPE.equals(valueType) || MessageConstants.SCT_13_VALUETYPE.equals(valueType)) {
                     // could be wsuId or SCT Session Id
-                    String sctId = secureMsg.getIdFromFragmentRef(uri);
+                    String sctId = SecurableSoapMessage.getIdFromFragmentRef(uri);
                     SecurityToken token = (SecurityToken)tokenCache.get(sctId);
                     
                     if(token == null){
@@ -729,7 +709,7 @@ public class KeySelectorImpl extends KeySelector{
                     //logger.log(Level.WARNING, "Fails BSP requirements R3058 and 3059");
                     
                     // Do default processing
-                    String wsuId = secureMsg.getIdFromFragmentRef(uri);
+                    String wsuId = SecurableSoapMessage.getIdFromFragmentRef(uri);
                     SecurityToken token = (SecurityToken)tokenCache.get(wsuId);
                     
                     if(token == null){
@@ -1249,21 +1229,18 @@ public class KeySelectorImpl extends KeySelector{
     
     /**
      * BinaryTokens if found would be cached into {@link FilterProcessingContext}.
-     * @param uri
-     * @param context
-     * @throws URIReferenceException
-     * @throws XWSSecurityException
-     * @return
      */
     protected static SecurityToken resolveToken(final String uri, XMLCryptoContext context) throws URIReferenceException, XWSSecurityException{
         
         URIDereferencer resolver = context.getURIDereferencer();
         URIReference uriRef = new URIReference(){
             
+            @Override
             public String getURI(){
                 return uri;
             }
             
+            @Override
             public String getType(){
                 return null;
             }
@@ -1353,8 +1330,8 @@ public class KeySelectorImpl extends KeySelector{
             } else {
                 tokenElement = SAMLUtil.locateSamlAssertion(
                         assertionId, context.getSOAPMessage().getSOAPPart());
-                if (!("true".equals((String)context.getExtraneousProperty(MessageConstants.SAML_SIG_RESOLVED))) || 
-                        "false".equals((String)context.getExtraneousProperty(MessageConstants.SAML_SIG_RESOLVED))){                
+                if (!("true".equals(context.getExtraneousProperty(MessageConstants.SAML_SIG_RESOLVED))) ||
+                        "false".equals(context.getExtraneousProperty(MessageConstants.SAML_SIG_RESOLVED))){
                     context.setExtraneousProperty(MessageConstants.SAML_SIG_RESOLVED,"false");
                 }
             }

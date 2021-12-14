@@ -26,10 +26,11 @@ import javax.xml.namespace.QName;
 import jakarta.xml.ws.WebServiceException;
 
 /**
+ * <pre>{@code
  * <sunc:AllowDuplicates />
- */
-/**
- * Proprietary assertion that works with WS-RM v1.0 (WSRM200502) and enables 
+ * }</pre>
+ *
+ * Proprietary assertion that works with WS-RM v1.0 (WSRM200502) and enables
  * "At Least Once" message delivery:
  * <p>
  * Each message is to be delivered at least once, or else an error MUST be raised 
@@ -50,6 +51,7 @@ public class AllowDuplicatesAssertion extends SimpleAssertion implements RmConfi
     public static final QName NAME = RmAssertionNamespace.METRO_200603.getQName("AllowDuplicates");
     
     private static AssertionInstantiator instantiator = new AssertionInstantiator() {
+        @Override
         public PolicyAssertion newInstance(AssertionData data, Collection<PolicyAssertion> assertionParameters, AssertionSet nestedAlternative) {
             return new AllowDuplicatesAssertion(data, assertionParameters);
         }
@@ -63,6 +65,7 @@ public class AllowDuplicatesAssertion extends SimpleAssertion implements RmConfi
         super(data, assertionParameters);
     }
 
+    @Override
     public ReliableMessagingFeatureBuilder update(ReliableMessagingFeatureBuilder builder) {
         if (builder.getProtocolVersion() != RmProtocolVersion.WSRM200502) {
             throw new WebServiceException(LocalizationMessages.WSRM_1001_ASSERTION_NOT_COMPATIBLE_WITH_RM_VERSION(NAME, builder.getProtocolVersion()));
@@ -71,6 +74,7 @@ public class AllowDuplicatesAssertion extends SimpleAssertion implements RmConfi
         return builder.deliveryAssurance(DeliveryAssurance.AT_LEAST_ONCE);
     }
     
+    @Override
     public boolean isCompatibleWith(RmProtocolVersion version) {
         return RmProtocolVersion.WSRM200502 == version;
     }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -83,20 +83,19 @@ public class XWSSPolicyGenerator {
     private boolean encryptBody = false;
     //private HashSet<Header> signParts  = new HashSet<Header>();
     
-    private Vector<SignedParts> signedParts = new Vector<SignedParts>();
-    private Vector<EncryptedParts> encryptedParts = new Vector<EncryptedParts>();
-    private Vector<SignedElements> signedElements = new Vector<SignedElements>();
-    private Vector<EncryptedElements> encryptedElements = new Vector<EncryptedElements>();
+    private Vector<SignedParts> signedParts = new Vector<>();
+    private Vector<EncryptedParts> encryptedParts = new Vector<>();
+    private Vector<SignedElements> signedElements = new Vector<>();
+    private Vector<EncryptedElements> encryptedElements = new Vector<>();
     private boolean ignoreST = false;
     private boolean transportBinding = false;
     private IntegrityAssertionProcessor iAP = null;
     private EncryptionAssertionProcessor eAP = null;
     private Binding policyBinding = null;
-    private List<RequiredElements> reqElements = new ArrayList<RequiredElements>();
+    private List<RequiredElements> reqElements = new ArrayList<>();
     private SecurityPolicyVersion spVersion;
     private boolean isIssuedTokenAsEncryptedSupportingToken = false;
     /** Creates a new instance of WSPolicyProcessorImpl
-     * @param effectivePolicy
      */
     //public XWSSPolicyGenerator(AssertionSet assertionSet,boolean isServer,boolean isIncoming){
     public XWSSPolicyGenerator(Policy effectivePolicy,boolean isServer,boolean isIncoming, 
@@ -239,7 +238,6 @@ public class XWSSPolicyGenerator {
         for(AssertionSet assertionSet: effectivePolicy){
             for(PolicyAssertion assertion:assertionSet){
                 if(PolicyUtil.isBinding(assertion, spVersion)){
-                    continue;
                 }else if(!ignoreST && shouldAddST() && PolicyUtil.isSupportingToken(assertion, spVersion)){
                     bindingProcessor.processSupportingTokens((SupportingTokens)assertion);
                 } else if(!ignoreST && shouldAddST() && PolicyUtil.isSignedSupportingToken(assertion, spVersion)){

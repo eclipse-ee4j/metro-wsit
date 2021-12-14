@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -94,7 +94,7 @@ public class DefaultSCTokenConfiguration extends SCTokenConfiguration{
         this.clientSecurityTube = null;
         this.packet = packet;
         this.addVer = addVer;
-        this.tokenId = ((Token)scToken).getTokenId();
+        this.tokenId = scToken.getTokenId();
         parseAssertions(scToken, localToken);
     }
 
@@ -117,7 +117,7 @@ public class DefaultSCTokenConfiguration extends SCTokenConfiguration{
         this.wsBinding = binding;
         this.packet = packet;
         this.addVer = addVer;
-        this.tokenId = ((Token)scToken).getTokenId();
+        this.tokenId = scToken.getTokenId();
         parseAssertions(scToken, localToken);
     }
 
@@ -199,26 +199,32 @@ public class DefaultSCTokenConfiguration extends SCTokenConfiguration{
         }
     }
 
+    @Override
     public String getTokenId(){
         return tokenId;
     }
 
+    @Override
     public boolean checkTokenExpiry(){
         return this.checkTokenExpiry;
     }
 
+    @Override
     public boolean isClientOutboundMessage(){
         return this.clientOutboundMessage;
     }
 
+    @Override
     public boolean addRenewPolicy(){
         return this.addRenewPolicy;
     }
 
+    @Override
     public boolean getReqClientEntropy(){
         return this.reqClientEntropy;
     }
 
+    @Override
     public boolean isSymmetricBinding(){
         if(symBinding == null){
             return false;
@@ -226,34 +232,42 @@ public class DefaultSCTokenConfiguration extends SCTokenConfiguration{
         return true;
     }
 
+    @Override
     public int getKeySize(){
         return this.skl;
     }
 
+    @Override
     public Token getSCToken(){
         return this.scToken;
     }
 
+    @Override
     public WSDLPort getWSDLPort(){
         return this.wsdlPort;
     }
 
+    @Override
     public WSBinding getWSBinding(){
         return this.wsBinding;
     }
 
+    @Override
     public Tube getClientTube(){
         return this.clientSecurityTube;
     }
 
+    @Override
     public Tube getNextTube(){
         return this.nextTube;
     }
 
+    @Override
     public Packet getPacket(){
         return this.packet;
     }
 
+    @Override
     public AddressingVersion getAddressingVersion(){
         return this.addVer;
     }

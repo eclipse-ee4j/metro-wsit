@@ -78,7 +78,7 @@ public class CoordinationContextType {
     @XmlElement(name = "RegistrationService", required = true)
     protected MemberSubmissionEndpointReference registrationService;
     @XmlAnyAttribute
-    private Map<QName, String> otherAttributes = new HashMap<QName, String>();
+    private Map<QName, String> otherAttributes = new HashMap<>();
 
     /**
      * Gets the value of the identifier property.
@@ -222,7 +222,7 @@ public class CoordinationContextType {
         @XmlSchemaType(name = "anyURI")
         protected String value;
         @XmlAnyAttribute
-        private Map<QName, String> otherAttributes = new HashMap<QName, String>();
+        private Map<QName, String> otherAttributes = new HashMap<>();
 
         /**
          * Gets the value of the value property.

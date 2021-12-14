@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -84,7 +84,7 @@ public class SecurityContextTokenImpl extends SecurityContextTokenType implement
             }else{
                 getAny().add(object);
                 if(extElements == null){
-                    extElements = new ArrayList<Object>();
+                    extElements = new ArrayList<>();
                     extElements.add(object);
                 }
             }
@@ -93,6 +93,7 @@ public class SecurityContextTokenImpl extends SecurityContextTokenType implement
         setWsuId(sTokenType.getId());
     }
     
+    @Override
     public URI getIdentifier() {
         return identifier;
     }
@@ -108,6 +109,7 @@ public class SecurityContextTokenImpl extends SecurityContextTokenType implement
         }
     }
     
+    @Override
     public String getInstance() {
         return instance;
     }
@@ -127,14 +129,17 @@ public class SecurityContextTokenImpl extends SecurityContextTokenType implement
         }
     }
     
+    @Override
     public String getWsuId(){
         return getId();
     }
     
+    @Override
     public String getType() {
         return WSSCConstants.SECURITY_CONTEXT_TOKEN;
     }
     
+    @Override
     public Object getTokenValue() {
         try {
             final DocumentBuilderFactory dbf = WSITXMLFactory.createDocumentBuilderFactory(WSITXMLFactory.DISABLE_SECURE_PROCESSING);
@@ -143,7 +148,7 @@ public class SecurityContextTokenImpl extends SecurityContextTokenType implement
             final Document doc = builder.newDocument();
             
             final jakarta.xml.bind.Marshaller marshaller = WSTrustElementFactory.getContext().createMarshaller();
-            final JAXBElement<SecurityContextTokenType> tElement =  (new ObjectFactory()).createSecurityContextToken((SecurityContextTokenType)this);
+            final JAXBElement<SecurityContextTokenType> tElement =  (new ObjectFactory()).createSecurityContextToken(this);
             marshaller.marshal(tElement, doc);
             return doc.getDocumentElement();
             
@@ -154,6 +159,7 @@ public class SecurityContextTokenImpl extends SecurityContextTokenType implement
         }
     }
     
+    @Override
     public List getExtElements() {
         return extElements;
     }

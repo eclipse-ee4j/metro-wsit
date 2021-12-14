@@ -69,7 +69,6 @@ public class ManagementWSDLPatcher extends XMLStreamReaderToXMLStreamWriter {
         final XmlToken policyToken = NamespaceVersion.resolveAsToken(elementName);
         if (policyToken != XmlToken.UNKNOWN) {
             this.skipDepth++;
-            return;
         }
         else if (elementName.equals(WSDLConstants.QNAME_BINDING)) {
             this.inBinding = true;
@@ -125,11 +124,9 @@ public class ManagementWSDLPatcher extends XMLStreamReaderToXMLStreamWriter {
         }
         if (this.skipDepth < 0L) {
             super.handleEndElement();
-            return;
         }
         else {
             this.skipDepth--;
-            return;
         }
     }
 
@@ -214,7 +211,7 @@ public class ManagementWSDLPatcher extends XMLStreamReaderToXMLStreamWriter {
         }
     }
 
-    class FragmentSerializer extends StaxSerializer {
+    static class FragmentSerializer extends StaxSerializer {
 
         public FragmentSerializer(XMLStreamWriter writer) {
             super(writer);
@@ -222,12 +219,10 @@ public class ManagementWSDLPatcher extends XMLStreamReaderToXMLStreamWriter {
 
         @Override
         public void endDocument() {
-            return;
         }
 
         @Override
         public void startDocument() {
-            return;
         }
 
     }    

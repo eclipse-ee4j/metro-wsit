@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -33,6 +33,7 @@ public class StatusImpl extends StatusType implements Status{
         setReason(statusType.getReason());
     }
     
+     @Override
      public boolean isValid(){
         WSTrustVersion wstVer = WSTrustVersion.WS_TRUST_13 ;
         return wstVer.getValidStatusCodeURI().equals(getCode());

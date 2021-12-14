@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -70,7 +70,7 @@ public class AttributeType {
     @XmlAttribute(name = "NameFormat")
     protected String nameFormat;
     @XmlAnyAttribute
-    private Map<QName, String> otherAttributes = new HashMap<QName, String>();
+    private Map<QName, String> otherAttributes = new HashMap<>();
 
     /**
      * Gets the value of the attributeValue property.
@@ -96,7 +96,7 @@ public class AttributeType {
      */
     public List<Object> getAttributeValue() {
         if (attributeValue == null) {
-            attributeValue = new ArrayList<Object>();
+            attributeValue = new ArrayList<>();
         }
         return this.attributeValue;
     }

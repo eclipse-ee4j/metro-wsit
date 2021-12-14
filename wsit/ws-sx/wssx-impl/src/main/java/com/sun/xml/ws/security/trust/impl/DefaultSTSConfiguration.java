@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -29,7 +29,7 @@ import javax.security.auth.callback.CallbackHandler;
  * @author Jiandong Guo
  */
 public class DefaultSTSConfiguration implements STSConfiguration{
-    private Map<String, TrustSPMetadata> spMap = new HashMap<String, TrustSPMetadata>();
+    private Map<String, TrustSPMetadata> spMap = new HashMap<>();
     private String type;
     private String issuer;
     private boolean encryptIssuedToken = false;
@@ -38,21 +38,24 @@ public class DefaultSTSConfiguration implements STSConfiguration{
     
     private CallbackHandler callbackHandler;
     
-    private Map<String, Object> otherOptions = new HashMap<String, Object>();
+    private Map<String, Object> otherOptions = new HashMap<>();
     
     
+    @Override
     public void addTrustSPMetadata(final TrustSPMetadata data, final String spEndpoint){
         spMap.put(spEndpoint, data);
     }
     
+    @Override
     public TrustSPMetadata getTrustSPMetadata(final String spEndpoint){
-        return (TrustSPMetadata)spMap.get(spEndpoint);
+        return spMap.get(spEndpoint);
     }
     
     public void setType(String type){
         this.type = type;
     } 
     
+    @Override
     public String getType(){
         return this.type;
     }
@@ -61,6 +64,7 @@ public class DefaultSTSConfiguration implements STSConfiguration{
         this.issuer = issuer;
     }
         
+    @Override
     public String getIssuer(){
         return this.issuer;
     }
@@ -69,6 +73,7 @@ public class DefaultSTSConfiguration implements STSConfiguration{
         this.encryptIssuedToken = encryptIssuedToken;
     }
     
+    @Override
     public boolean getEncryptIssuedToken(){
         return this.encryptIssuedToken;
     }
@@ -77,6 +82,7 @@ public class DefaultSTSConfiguration implements STSConfiguration{
         this.encryptIssuedKey = encryptIssuedKey;
     }
     
+    @Override
     public boolean getEncryptIssuedKey(){
         return this.encryptIssuedKey;
     }
@@ -85,18 +91,22 @@ public class DefaultSTSConfiguration implements STSConfiguration{
         this.issuedTokenTimeout = issuedTokenTimeout;
     }
     
+    @Override
     public long getIssuedTokenTimeout(){
         return this.issuedTokenTimeout;
     }
     
+    @Override
     public void setCallbackHandler(CallbackHandler callbackHandler){
         this.callbackHandler = callbackHandler;
     }
     
+    @Override
     public CallbackHandler getCallbackHandler(){
         return this.callbackHandler;
     }
     
+    @Override
     public Map<String, Object> getOtherOptions(){
         return this.otherOptions;
     }

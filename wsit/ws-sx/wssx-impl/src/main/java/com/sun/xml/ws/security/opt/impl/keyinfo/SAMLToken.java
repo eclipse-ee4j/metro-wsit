@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -40,34 +40,40 @@ public class SAMLToken implements SecurityHeaderElement, SecurityElementWriter {
         
     }
     
+    @Override
     public boolean refersToSecHdrWithId(String id) {
         throw new UnsupportedOperationException();
     }
     
+    @Override
     public String getId() {
         return samlToken.getAssertionID();
     }
     
+    @Override
     public void setId(String id) {
         throw new UnsupportedOperationException();
     }
     
+    @Override
     public String getNamespaceURI() {
         throw new UnsupportedOperationException();
     }
     
+    @Override
     public String getLocalPart() {
         throw new UnsupportedOperationException();
     }
     
-    public XMLStreamReader readHeader() throws XMLStreamException {
+    @Override
+    public XMLStreamReader readHeader() {
         throw new UnsupportedOperationException();
     }
     /**
      * writes the SAML assertion to the XMLStreamWriter
      * @param streamWriter XMLStreamWriter
-     * @throws javax.xml.stream.XMLStreamException
      */
+    @Override
     public void writeTo(XMLStreamWriter streamWriter) throws XMLStreamException {
         try{
             Marshaller marshaller = jxbContext.createMarshaller();
@@ -89,9 +95,11 @@ public class SAMLToken implements SecurityHeaderElement, SecurityElementWriter {
         }
     }
     
-    public void writeTo(XMLStreamWriter streamWriter, HashMap props) throws XMLStreamException {
+    @Override
+    public void writeTo(XMLStreamWriter streamWriter, HashMap props) {
     }
     
+    @Override
     public void writeTo(OutputStream os) {
     }
     

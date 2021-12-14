@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -35,9 +35,9 @@ public class RegistrationPortTypeRPCPortImpl
     }
 
     /**
-     * @param parameters
      * @return returns com.sun.xml.ws.tx.coord.v10.RegisterResponseType
      */
+    @Override
     public RegisterResponseType registerOperation(RegisterType parameters) {
         RegistrationProxyImpl proxy = getProxy();
         BaseRegisterResponseType<MemberSubmissionEndpointReference, RegisterResponseType>

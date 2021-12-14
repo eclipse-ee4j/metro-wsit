@@ -31,7 +31,6 @@ import jakarta.xml.bind.annotation.XmlElements;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.XmlType;
 import javax.xml.namespace.QName;
-import org.w3c.dom.Element;
 
 
 /**
@@ -79,7 +78,7 @@ public class PolicyAttachment {
     @XmlAnyElement(lax = true)
     protected List<Object> any;
     @XmlAnyAttribute
-    private Map<QName, String> otherAttributes = new HashMap<QName, String>();
+    private Map<QName, String> otherAttributes = new HashMap<>();
 
     /**
      * Gets the value of the appliesTo property.
@@ -130,7 +129,7 @@ public class PolicyAttachment {
      */
     public List<Object> getPolicyOrPolicyReference() {
         if (policyOrPolicyReference == null) {
-            policyOrPolicyReference = new ArrayList<Object>();
+            policyOrPolicyReference = new ArrayList<>();
         }
         return this.policyOrPolicyReference;
     }
@@ -160,7 +159,7 @@ public class PolicyAttachment {
      */
     public List<Object> getAny() {
         if (any == null) {
-            any = new ArrayList<Object>();
+            any = new ArrayList<>();
         }
         return this.any;
     }

@@ -15,8 +15,6 @@ import java.util.Map;
 import javax.xml.namespace.QName;
 import jakarta.xml.ws.EndpointReference;
 
-import org.w3c.dom.Element;
-
 
 /**
  * <p>Java class for RegisterResponseType complex type.

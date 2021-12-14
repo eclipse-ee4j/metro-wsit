@@ -39,8 +39,8 @@ public interface XWSSProcessor {
      * @exception XWSSecurityException if there was an error in securing 
      *            the message.
      */
-    public  SOAPMessage secureOutboundMessage(
-        ProcessingContext messageCntxt) 
+    SOAPMessage secureOutboundMessage(
+            ProcessingContext messageCntxt)
         throws XWSSecurityException;
 
     /**
@@ -64,8 +64,8 @@ public interface XWSSProcessor {
      *     will return a <code>QName</code> which would correspond to the 
      *     WSS defined fault.
      */
-    public SOAPMessage verifyInboundMessage(
-        ProcessingContext messageCntxt) 
+    SOAPMessage verifyInboundMessage(
+            ProcessingContext messageCntxt)
         throws XWSSecurityException;
 
 
@@ -74,5 +74,5 @@ public interface XWSSProcessor {
      * @param msg the SOAPMessage with which to initialize the ProcessingContext
      * @return  A ProcessingContext instance.
      */
-    public ProcessingContext createProcessingContext(SOAPMessage msg) throws XWSSecurityException ;
+    ProcessingContext createProcessingContext(SOAPMessage msg) throws XWSSecurityException ;
 }

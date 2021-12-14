@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -40,6 +40,7 @@ public class PolicyAlternativesVerifier implements PolicyVerifier {
         //this.targetResolver = targetResolver;
     }
 
+    @Override
     public void verifyPolicy(SecurityPolicy recvdPolicy, SecurityPolicy configPolicy) throws PolicyViolationException {
         PolicyAlternatives confPolicies = (PolicyAlternatives)configPolicy;
        
@@ -50,7 +51,6 @@ public class PolicyAlternativesVerifier implements PolicyVerifier {
             if (mps.get(0).getPolicyAlternativeId() != null) {
                 ctx.getExtraneousProperties().put(POLICY_ALTERNATIVE_ID,mps.get(0).getPolicyAlternativeId());
             }
-            return;
         } else {
            //do policy verification 
            // try with an AlternativeSelector first
@@ -66,7 +66,6 @@ public class PolicyAlternativesVerifier implements PolicyVerifier {
                 if (toVerify.getPolicyAlternativeId() != null) {
                    ctx.getExtraneousProperties().put(POLICY_ALTERNATIVE_ID,toVerify.getPolicyAlternativeId());
                 }
-                return;
             } else {
                 //unsupported
                throw new UnsupportedOperationException(

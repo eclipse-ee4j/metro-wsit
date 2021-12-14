@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -38,8 +38,8 @@ public final class WSTCPDelegate implements WSTCPAdapterRegistry, TCPMessageList
     private static final Logger logger = Logger.getLogger(
             com.sun.xml.ws.transport.tcp.util.TCPConstants.LoggingDomain + ".server");
     
-    private final Map<String, TCPAdapter> fixedUrlPatternEndpoints = new HashMap<String, TCPAdapter>();
-    private final List<TCPAdapter> pathUrlPatternEndpoints = new ArrayList<TCPAdapter>();
+    private final Map<String, TCPAdapter> fixedUrlPatternEndpoints = new HashMap<>();
+    private final List<TCPAdapter> pathUrlPatternEndpoints = new ArrayList<>();
     
     private volatile TCPAdapter serviceChannelWSAdapter;
     
@@ -95,6 +95,7 @@ public final class WSTCPDelegate implements WSTCPAdapterRegistry, TCPMessageList
     /**
      * Determines which {@link TCPAdapter} serves the given request.
      */
+    @Override
     public @Nullable TCPAdapter getTarget(@NotNull final WSTCPURI tcpURI) {
         TCPAdapter result = null;
         final String path = tcpURI.path;
@@ -126,6 +127,7 @@ public final class WSTCPDelegate implements WSTCPAdapterRegistry, TCPMessageList
      * method is called if error occured during frame processing
      * on upper level
      */
+    @Override
     public void onError(ChannelContext channelContext, WSTCPError error) throws IOException {
         sendErrorResponse(channelContext, error);
     }
@@ -134,6 +136,7 @@ public final class WSTCPDelegate implements WSTCPAdapterRegistry, TCPMessageList
      * Implementation of TCPMessageListener.onMessage
      * method is called once request message come
      */
+    @Override
     public void onMessage(@NotNull final ChannelContext channelContext) throws IOException {
         if (logger.isLoggable(Level.FINE)) {
             final Connection connection = channelContext.getConnection();
@@ -214,7 +217,7 @@ public final class WSTCPDelegate implements WSTCPAdapterRegistry, TCPMessageList
         }
     }
     
-    private synchronized void registerServiceChannelWSAdapter() throws Exception {
+    private synchronized void registerServiceChannelWSAdapter() {
         if (serviceChannelWSAdapter == null) {
             WSEndpoint<ServiceChannelWSImpl> endpoint = ServiceChannelCreator.getServiceChannelEndpointInstance();
             final String serviceNameLocal = endpoint.getServiceName().getLocalPart();

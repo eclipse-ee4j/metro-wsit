@@ -16,7 +16,7 @@ import com.sun.xml.ws.rx.RxConfiguration;
  *
  */
 public interface RmConfiguration extends RxConfiguration {
-    public com.sun.xml.ws.rx.rm.api.ReliableMessagingFeature getRmFeature();
-    public com.oracle.webservices.oracle_internal_api.rm.ReliableMessagingFeature getInternalRmFeature();
-    public RmRuntimeVersion getRuntimeVersion();
+    com.sun.xml.ws.rx.rm.api.ReliableMessagingFeature getRmFeature();
+    com.oracle.webservices.oracle_internal_api.rm.ReliableMessagingFeature getInternalRmFeature();
+    RmRuntimeVersion getRuntimeVersion();
 }

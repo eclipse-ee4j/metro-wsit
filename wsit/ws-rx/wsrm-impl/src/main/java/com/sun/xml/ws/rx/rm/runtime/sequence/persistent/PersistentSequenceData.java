@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -94,14 +94,14 @@ final class PersistentSequenceData implements SequenceData {
         }
     }
 
-    static enum SequenceType {
+    enum SequenceType {
 
         Inbound("I"),
         Outbound("O");
         //
         private final String id;
 
-        private SequenceType(String id) {
+        SequenceType(String id) {
             this.id = id;
         }
 
@@ -133,11 +133,11 @@ final class PersistentSequenceData implements SequenceData {
     private final String boundSequenceId;
     private final long expirationTime;
     //
-    private final FieldInfo<Integer> fState = new FieldInfo<Integer>("STATUS", Types.SMALLINT, Integer.class);
-    private final FieldInfo<String> fAckRequestedFlag = new FieldInfo<String>("ACK_REQUESTED_FLAG", Types.CHAR, String.class);
-    private final FieldInfo<Long> fLastMessageNumber = new FieldInfo<Long>("LAST_MESSAGE_NUMBER", Types.BIGINT, Long.class);
-    private final FieldInfo<Long> fLastActivityTime = new FieldInfo<Long>("LAST_ACTIVITY_TIME", Types.BIGINT, Long.class);
-    private final FieldInfo<Long> fLastAcknowledgementRequestTime = new FieldInfo<Long>("LAST_ACK_REQUEST_TIME", Types.BIGINT, Long.class);
+    private final FieldInfo<Integer> fState = new FieldInfo<>("STATUS", Types.SMALLINT, Integer.class);
+    private final FieldInfo<String> fAckRequestedFlag = new FieldInfo<>("ACK_REQUESTED_FLAG", Types.CHAR, String.class);
+    private final FieldInfo<Long> fLastMessageNumber = new FieldInfo<>("LAST_MESSAGE_NUMBER", Types.BIGINT, Long.class);
+    private final FieldInfo<Long> fLastActivityTime = new FieldInfo<>("LAST_ACTIVITY_TIME", Types.BIGINT, Long.class);
+    private final FieldInfo<Long> fLastAcknowledgementRequestTime = new FieldInfo<>("LAST_ACK_REQUEST_TIME", Types.BIGINT, Long.class);
     //
     private final ConnectionManager cm;
     private final TimeSynchronizer ts;
@@ -371,6 +371,7 @@ final class PersistentSequenceData implements SequenceData {
         }
     }
 
+    @Override
     public String getSequenceId() {
         return sequenceId;
     }
@@ -379,6 +380,7 @@ final class PersistentSequenceData implements SequenceData {
         return type;
     }
 
+    @Override
     public String getBoundSecurityTokenReferenceId() {
         return boundSecurityTokenReferenceId;
     }
@@ -387,10 +389,12 @@ final class PersistentSequenceData implements SequenceData {
         return boundSequenceId;
     }
 
+    @Override
     public long getExpirationTime() {
         return expirationTime;
     }
     
+    @Override
     public boolean isFailedOver(long messageNumber) {
         Connection con = cm.getConnection();
         boolean result = false;
@@ -531,34 +535,42 @@ final class PersistentSequenceData implements SequenceData {
         }
     }
 
+    @Override
     public long getLastMessageNumber() {
         return getFieldData(fLastMessageNumber);
     }
 
+    @Override
     public State getState() {
         return State.asState(getFieldData(fState));
     }
 
+    @Override
     public void setState(State newValue) {
         setFieldData(fState, newValue.asInt(), true);
     }
 
+    @Override
     public boolean getAckRequestedFlag() {
         return s2b(getFieldData(fAckRequestedFlag));
     }
 
+    @Override
     public void setAckRequestedFlag(boolean newValue) {
         setFieldData(fAckRequestedFlag, b2s(newValue), true);
     }
 
+    @Override
     public long getLastAcknowledgementRequestTime() {
         return getFieldData(fLastAcknowledgementRequestTime);
     }
 
+    @Override
     public void setLastAcknowledgementRequestTime(long newValue) {
         setFieldData(fLastAcknowledgementRequestTime, newValue, true);
     }
 
+    @Override
     public long getLastActivityTime() {
         return getFieldData(fLastActivityTime);
     }
@@ -566,6 +578,7 @@ final class PersistentSequenceData implements SequenceData {
     /**
      * {@inheritDoc }
      */
+    @Override
     public long incrementAndGetLastMessageNumber(boolean received) {
         Connection con = cm.getConnection();
         PreparedStatement ps = null;
@@ -721,6 +734,7 @@ final class PersistentSequenceData implements SequenceData {
     /**
      * {@inheritDoc }
      */
+    @Override
     public void registerReceivedUnackedMessageNumber(long messageNumber) throws DuplicateMessageRegistrationException {
         Connection con = cm.getConnection();
         try {
@@ -757,6 +771,7 @@ final class PersistentSequenceData implements SequenceData {
         }
     }
 
+    @Override
     public void markAsAcknowledged(long messageNumber) {
         Connection con = cm.getConnection();
         PreparedStatement ps = null;
@@ -807,6 +822,7 @@ final class PersistentSequenceData implements SequenceData {
         }
     }
 
+    @Override
     public List<Long> getUnackedMessageNumbers() {
         Connection con = cm.getConnection();
         PreparedStatement ps = null;
@@ -819,7 +835,7 @@ final class PersistentSequenceData implements SequenceData {
 
             ResultSet rs = ps.executeQuery();
 
-            List<Long> result = new LinkedList<Long>();
+            List<Long> result = new LinkedList<>();
             while (rs.next()) {
                 result.add(rs.getLong("MSG_NUMBER"));
             }
@@ -839,6 +855,7 @@ final class PersistentSequenceData implements SequenceData {
         }
     }
 
+    @Override
     public List<Long> getLastMessageNumberWithUnackedMessageNumbers() {
         Connection con = cm.getConnection();
         PreparedStatement ps = null;
@@ -854,7 +871,7 @@ final class PersistentSequenceData implements SequenceData {
 
             ResultSet rs = ps.executeQuery();
 
-            List<Long> result = new LinkedList<Long>();
+            List<Long> result = new LinkedList<>();
             if (rs.next()) { // add last message id and first message number
                 result.add(rs.getLong("LAST_NUMBER"));
                 result.add(rs.getLong("MESSAGE_NUMBER"));
@@ -882,6 +899,7 @@ final class PersistentSequenceData implements SequenceData {
         }
     }
 
+    @Override
     public void attachMessageToUnackedMessageNumber(ApplicationMessage message) {
         ByteArrayInputStream bais = null;
         Connection con = cm.getConnection();
@@ -944,6 +962,7 @@ final class PersistentSequenceData implements SequenceData {
         }
     }
 
+    @Override
     public ApplicationMessage retrieveMessage(String correlationId) {
 
         Connection con = cm.getConnection();

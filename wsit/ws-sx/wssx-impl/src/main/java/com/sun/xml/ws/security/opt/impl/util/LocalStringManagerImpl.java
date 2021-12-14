@@ -78,11 +78,8 @@ public class LocalStringManagerImpl implements LocalStringManager {
 	    try {
 		// Construct the bundle name as LocalStrings in the
 		// caller class's package.
-		StringBuilder resFileName = new StringBuilder(
-		    c.getName().substring(0, c.getName().lastIndexOf(".")));
-		resFileName.append(".LocalStrings");
 
-		resources = ResourceBundle.getBundle(resFileName.toString(), Locale.getDefault(), c.getClassLoader());
+            resources = ResourceBundle.getBundle(c.getName().substring(0, c.getName().lastIndexOf(".")) + ".LocalStrings", Locale.getDefault(), c.getClassLoader());
 		if ( resources != null ) {
 		    String value = resources.getString(key);
 		    if ( value != null )

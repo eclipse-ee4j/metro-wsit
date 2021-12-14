@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -16,13 +16,11 @@ import com.sun.xml.ws.api.security.trust.client.SecondaryIssuedTokenParameters;
 import com.sun.xml.ws.api.security.trust.client.STSIssuedTokenConfiguration;
 import com.sun.xml.ws.policy.PolicyAssertion;
 import com.sun.xml.ws.security.Token;
-import com.sun.xml.ws.security.impl.policy.PolicyUtil;
 import com.sun.xml.ws.security.policy.Issuer;
 import com.sun.xml.ws.security.policy.IssuedToken;
 import com.sun.xml.ws.security.policy.RequestSecurityTokenTemplate;
 import com.sun.xml.ws.security.secext10.*;
 import com.sun.xml.ws.security.trust.*;
-import com.sun.xml.ws.security.trust.util.WSTrustUtil;
 import com.sun.xml.ws.security.trust.logging.LogStringsMessages;
 import com.sun.xml.wss.impl.MessageConstants;
 
@@ -184,46 +182,57 @@ public class DefaultSTSIssuedTokenConfiguration extends STSIssuedTokenConfigurat
         this.getOtherOptions().put(STSIssuedTokenConfiguration.ACT_AS, this.createBinaryTokenForCertificate(cert));
     }
     
+    @Override
     public String getTokenType(){
         return this.tokenType;
     }
     
+    @Override
     public String getKeyType(){
         return this.keyType;
     }
     
+    @Override
     public long getKeySize(){
         return this.keySize;
     }
     
+    @Override
     public String getSignatureAlgorithm(){
         return this.signatureAlg;
     }
     
+    @Override
     public String getEncryptionAlgorithm(){
         return this.encAlg;
     }
     
+    @Override
     public String getCanonicalizationAlgorithm(){
         return this.canAlg;
     }
     
+    @Override
     public String getKeyWrapAlgorithm(){
         return this.keyWrapAlg;
     }
     
+    @Override
     public String getSignWith(){
         return signWith;
     }
     
+    @Override
     public String getEncryptWith(){
         return encryptWith;
     }
     
+    @Override
     public Claims getClaims(){
         return this.claims;
     }
     
+    @Override
     public Token getOBOToken(){
         return this.oboToken;
     }

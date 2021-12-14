@@ -46,8 +46,9 @@ public class RmFeatureConfigurator implements PolicyFeatureConfigurator {
      * @return The list of features
      * @throws PolicyException If retrieving the policy triggered an exception
      */
+    @Override
     public Collection<WebServiceFeature> getFeatures(PolicyMapKey key, PolicyMap policyMap) throws PolicyException {
-        final Collection<WebServiceFeature> features = new LinkedList<WebServiceFeature>();
+        final Collection<WebServiceFeature> features = new LinkedList<>();
         if ((key != null) && (policyMap != null)) {
             Policy policy = policyMap.getEndpointEffectivePolicy(key);
             if (policy != null) {
@@ -79,7 +80,7 @@ public class RmFeatureConfigurator implements PolicyFeatureConfigurator {
 
         for (PolicyAssertion assertion : alternative) {
             if (assertion instanceof RmConfigurator) {
-                final RmConfigurator rmAssertion = RmConfigurator.class.cast(assertion);
+                final RmConfigurator rmAssertion = (RmConfigurator) assertion;
                 if (!rmAssertion.isCompatibleWith(rmFeatureBuilder.getProtocolVersion())) {
                     LOGGER.warning(LocalizationMessages.WSRM_1009_INCONSISTENCIES_IN_POLICY(rmAssertion.getName(), rmFeatureBuilder.getProtocolVersion()));
                     // TODO replace warning with exception in Metro >2.0:

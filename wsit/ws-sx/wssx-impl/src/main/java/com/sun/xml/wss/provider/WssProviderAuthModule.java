@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -79,7 +79,6 @@ public class WssProviderAuthModule implements ModuleOptions, ConfigurationStates
        *        Map of module options
        * @param isClientAuthModule
        *        indicates if the current instance is client or server module
-       * @throws RuntimeException
        */
        public void initialize (jakarta.security.auth.message.MessagePolicy requestPolicy,
                                jakarta.security.auth.message.MessagePolicy responsePolicy,
@@ -101,7 +100,7 @@ public class WssProviderAuthModule implements ModuleOptions, ConfigurationStates
               try {
                       InputStream is = null;
                       if (securityConfigurationURL != null) {
-                          is = new BufferedInputStream(new FileInputStream(new File(securityConfigurationURL)));
+                          is = new BufferedInputStream(new FileInputStream(securityConfigurationURL));
                       } else {
                           // try to locate the config file from the classpath
                           if (this instanceof ServerSecurityAuthModule) {
@@ -141,7 +140,6 @@ public class WssProviderAuthModule implements ModuleOptions, ConfigurationStates
        *        AuthPolicy object whose state is to be resolved
        * @return configurationState
        *        returns one of the possible states defined in ConfigurationStates
-       * @throws RuntimeException
        */
        @Override
        public int resolveConfigurationState(jakarta.security.auth.message.MessagePolicy messagePolicy,
@@ -218,8 +216,7 @@ public class WssProviderAuthModule implements ModuleOptions, ConfigurationStates
        }
       @SuppressWarnings("unchecked")
       private Collection getEncryptPolicies(
-          MessagePolicy mPolicy, CallbackHandler handler, boolean senderConfiguration) 
-          throws PolicyGenerationException {
+          MessagePolicy mPolicy, CallbackHandler handler, boolean senderConfiguration) {
           Collection requiredElements = new ArrayList();              
           Iterator it = mPolicy.iterator();
           while (it.hasNext()) {
@@ -239,8 +236,7 @@ public class WssProviderAuthModule implements ModuleOptions, ConfigurationStates
       }
       @SuppressWarnings("unchecked")
       private Collection getEncryptPoliciesOptional(
-          MessagePolicy mPolicy, CallbackHandler handler, boolean senderConfiguration) 
-          throws PolicyGenerationException {
+          MessagePolicy mPolicy, CallbackHandler handler, boolean senderConfiguration) {
           Collection requiredElements = new ArrayList();              
           Iterator it = mPolicy.iterator();
           while (it.hasNext()) {
@@ -255,8 +251,7 @@ public class WssProviderAuthModule implements ModuleOptions, ConfigurationStates
       }
       @SuppressWarnings("unchecked")
       private Collection getSignPolicies(
-          MessagePolicy mPolicy, CallbackHandler handler, boolean senderConfiguration) 
-          throws PolicyGenerationException {
+          MessagePolicy mPolicy, CallbackHandler handler, boolean senderConfiguration) {
           Collection requiredElements = new ArrayList();              
           Iterator it = mPolicy.iterator();
           while (it.hasNext()) {
@@ -272,8 +267,7 @@ public class WssProviderAuthModule implements ModuleOptions, ConfigurationStates
           }
           return requiredElements;
       }
-      private WSSPolicy getUsernamePolicy(MessagePolicy mPolicy, CallbackHandler handler, boolean senderConfiguration) 
-          throws PolicyGenerationException {
+      private WSSPolicy getUsernamePolicy(MessagePolicy mPolicy, CallbackHandler handler, boolean senderConfiguration) {
           WSSPolicy usernamePolicy = null;
           Iterator it = mPolicy.iterator();
           while (it.hasNext()) {
@@ -297,8 +291,7 @@ public class WssProviderAuthModule implements ModuleOptions, ConfigurationStates
           return usernamePolicy;
       }
      @SuppressWarnings("unchecked")
-      private Collection getUsernamePolicies(MessagePolicy mPolicy, CallbackHandler handler, boolean senderConfiguration)
-          throws PolicyGenerationException {
+      private Collection getUsernamePolicies(MessagePolicy mPolicy, CallbackHandler handler, boolean senderConfiguration) {
           Collection requiredElements = new ArrayList();              
           WSSPolicy encryptUsernamePolicy = null;
           Iterator it = mPolicy.iterator();
@@ -397,7 +390,6 @@ public class WssProviderAuthModule implements ModuleOptions, ConfigurationStates
        *        the state of the policy object
        * @param modifyReceiverSettings
        *        indicates if sender/receiver settings need to be modified
-       * @throws RuntimeException
        */
        @SuppressWarnings("unchecked")
        private void augmentConfiguration(int requiredState, boolean modifyReceiverSettings, CallbackHandler handler, boolean debugON,
@@ -580,7 +572,7 @@ public class WssProviderAuthModule implements ModuleOptions, ConfigurationStates
                   if (numTargets <= 1) {
                      continue; 
                   }
-                  if (hasBodyFollowedByUsername((ArrayList)fb.getTargetBindings())) {
+                  if (hasBodyFollowedByUsername(fb.getTargetBindings())) {
                       ret = policy;
                       return ret;
                   } 
@@ -600,7 +592,7 @@ public class WssProviderAuthModule implements ModuleOptions, ConfigurationStates
                   if (numTargets <= 1) {
                      continue; 
                   }
-                  if (hasUsernameFollowedByBody((ArrayList)fb.getTargetBindings())) {
+                  if (hasUsernameFollowedByBody(fb.getTargetBindings())) {
                       ret = policy;
                       return ret;
                   } 

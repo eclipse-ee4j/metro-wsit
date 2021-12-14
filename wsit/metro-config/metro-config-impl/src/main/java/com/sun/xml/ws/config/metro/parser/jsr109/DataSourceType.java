@@ -382,7 +382,7 @@ public class DataSourceType
      */
     public List<PropertyType> getProperty() {
         if (property == null) {
-            property = new ArrayList<PropertyType>();
+            property = new ArrayList<>();
         }
         return this.property;
     }
@@ -603,6 +603,7 @@ public class DataSourceType
         this.id = value;
     }
 
+    @Override
     public Locator sourceLocation() {
         return locator;
     }

@@ -24,14 +24,14 @@ public interface ApplicationMessage extends RxMessage {
      *
      * @return associated sequence identifier
      */
-    public String getSequenceId();
+    String getSequenceId();
 
     /**
      * Returns message number within a given sequence of this message
      *
      * @return sequence message number of this message
      */
-    public long getMessageNumber();
+    long getMessageNumber();
 
     /**
      * Sets reliable messaging sequence data for this message.
@@ -39,26 +39,26 @@ public interface ApplicationMessage extends RxMessage {
      * @param sequenceId identifier of a sequence this message is associated with
      * @param messageNumber message number within a given RM sequence
      */
-    public void setSequenceData(String sequenceId, long messageNumber);
+    void setSequenceData(String sequenceId, long messageNumber);
 
     /**
      * Returns acknowledgement data attached to the message
      *
      * @return acknowledgement data attached to the message
      */
-    public AcknowledgementData getAcknowledgementData();
+    AcknowledgementData getAcknowledgementData();
 
     /**
      * Sets acknowledgement data attached to the message
      *
      * @param data acknowledgement data attached to the message
      */
-    public void setAcknowledgementData(AcknowledgementData data);
+    void setAcknowledgementData(AcknowledgementData data);
 
     /**
      * Retrieves number of the next resend attempt
      *
      * @return number of the next resend attempt
      */
-    public int getNextResendCount();
+    int getNextResendCount();
 }

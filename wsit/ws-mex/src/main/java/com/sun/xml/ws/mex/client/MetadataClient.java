@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -106,12 +106,10 @@ public class MetadataClient {
                     logger.log(ERROR_LOG_LEVEL,
                         MessagesMessages.MEX_0006_RETRIEVING_MDATA_FAILURE(
                             p, newAddress));
-                    continue;
                 } catch (Exception e) {
                     logger.log(Level.WARNING,
                         MessagesMessages.MEX_0008_PARSING_MDATA_FAILURE(
                             p, newAddress));
-                    continue;
                 }
             }
         }
@@ -149,7 +147,7 @@ public class MetadataClient {
      * @return A list of PortInfo objects
      */
     public List<PortInfo> getServiceInformation(@NotNull final Metadata data) {
-        List<PortInfo> portInfos = new ArrayList<PortInfo>();
+        List<PortInfo> portInfos = new ArrayList<>();
         for (MetadataSection section : data.getMetadataSection()) {
             if (section.getDialect().equals(WSDL_DIALECT)) {
                 if (section.getAny() != null) {

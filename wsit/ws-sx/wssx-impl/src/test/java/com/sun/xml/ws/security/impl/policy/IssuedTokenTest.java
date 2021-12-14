@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -35,10 +35,12 @@ public class IssuedTokenTest extends TestCase {
         super(testName);
     }
     
-    protected void setUp() throws Exception {
+    @Override
+    protected void setUp() {
     }
     
-    protected void tearDown() throws Exception {
+    @Override
+    protected void tearDown() {
     }
     
     public static Test suite() {
@@ -96,7 +98,7 @@ public class IssuedTokenTest extends TestCase {
                 System.out.println(it.getIncludeToken());
                 Iterator itrIt = it.getTokenRefernceType();
                 if(itrIt.hasNext()) {
-                    assertTrue(((String)itrIt.next()).equals(rType));
+                    assertTrue(itrIt.next().equals(rType));
                 }
             }
         } else {
@@ -118,7 +120,7 @@ public class IssuedTokenTest extends TestCase {
                 System.out.println(it.getIncludeToken());
                 Iterator itrIt = it.getTokenRefernceType();
                 if(itrIt.hasNext()) {
-                    assertTrue(((String)itrIt.next()).equals(rType));
+                    assertTrue(itrIt.next().equals(rType));
                 }
             }
         } else {

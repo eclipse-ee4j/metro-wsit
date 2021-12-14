@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -21,7 +21,6 @@
 package com.sun.xml.wss.impl.callback;
 
 import javax.security.auth.callback.*;
-import java.util.*;
 
 /**
  *
@@ -56,7 +55,7 @@ public class TimestampValidationCallback extends XWSSCallback implements Callbac
         }
     }
     
-    public static interface Request {
+    public interface Request {
         
     }
     
@@ -142,12 +141,12 @@ public class TimestampValidationCallback extends XWSSCallback implements Callbac
     }
     
     
-    public static interface TimestampValidator {
+    public interface TimestampValidator {
         /** 
          * Timestamp validation method.
          *
          * @throws TimestampValidationException if validation does not succeed.
          */
-        public void validate(Request request) throws TimestampValidationException;
+        void validate(Request request) throws TimestampValidationException;
     }
 }

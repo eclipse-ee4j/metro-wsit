@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -140,6 +140,7 @@ public class EncryptedHeader implements SecurityHeaderElement, SecurityElementWr
 
     
 
+    @Override
     public boolean refersToSecHdrWithId(String id) {
 
         throw new UnsupportedOperationException();
@@ -148,6 +149,7 @@ public class EncryptedHeader implements SecurityHeaderElement, SecurityElementWr
 
     
 
+    @Override
     public String getId() {
 
         return id;
@@ -156,6 +158,7 @@ public class EncryptedHeader implements SecurityHeaderElement, SecurityElementWr
 
     
 
+    @Override
     public void setId(String id) {
 
         throw new UnsupportedOperationException();
@@ -164,6 +167,7 @@ public class EncryptedHeader implements SecurityHeaderElement, SecurityElementWr
 
     
 
+    @Override
     public String getNamespaceURI() {
 
         return namespaceURI;
@@ -172,6 +176,7 @@ public class EncryptedHeader implements SecurityHeaderElement, SecurityElementWr
 
     
 
+    @Override
     public String getLocalPart() {
 
         return localName;
@@ -180,7 +185,8 @@ public class EncryptedHeader implements SecurityHeaderElement, SecurityElementWr
 
     
 
-    public XMLStreamReader readHeader() throws XMLStreamException {
+    @Override
+    public XMLStreamReader readHeader() {
 
         throw new UnsupportedOperationException();
 
@@ -188,7 +194,8 @@ public class EncryptedHeader implements SecurityHeaderElement, SecurityElementWr
 
     
 
-    public void writeTo(XMLStreamWriter streamWriter) throws XMLStreamException {
+    @Override
+    public void writeTo(XMLStreamWriter streamWriter) {
 
         throw new UnsupportedOperationException();
 
@@ -196,7 +203,8 @@ public class EncryptedHeader implements SecurityHeaderElement, SecurityElementWr
 
     
 
-    public void writeTo(XMLStreamWriter streamWriter, HashMap props) throws XMLStreamException {
+    @Override
+    public void writeTo(XMLStreamWriter streamWriter, HashMap props) {
 
         throw new UnsupportedOperationException();
 
@@ -204,6 +212,7 @@ public class EncryptedHeader implements SecurityHeaderElement, SecurityElementWr
 
     
 
+    @Override
     public void writeTo(OutputStream os) {
 
         throw new UnsupportedOperationException();

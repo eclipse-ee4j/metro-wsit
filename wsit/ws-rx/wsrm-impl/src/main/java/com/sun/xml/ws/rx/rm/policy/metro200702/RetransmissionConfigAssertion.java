@@ -45,6 +45,7 @@ public class RetransmissionConfigAssertion extends ComplexAssertion implements R
     //
     private static AssertionInstantiator instantiator = new AssertionInstantiator() {
 
+        @Override
         public PolicyAssertion newInstance(AssertionData data, Collection<PolicyAssertion> assertionParameters, AssertionSet nestedAlternative) throws AssertionCreationException {
             return new RetransmissionConfigAssertion(data, assertionParameters, nestedAlternative);
         }
@@ -109,10 +110,12 @@ public class RetransmissionConfigAssertion extends ComplexAssertion implements R
         return maxRetries;
     }
 
+    @Override
     public ReliableMessagingFeatureBuilder update(ReliableMessagingFeatureBuilder builder) {
         return builder.messageRetransmissionInterval(interval).retransmissionBackoffAlgorithm(algorithm).maxMessageRetransmissionCount(maxRetries);
     }
 
+    @Override
     public boolean isCompatibleWith(RmProtocolVersion version) {
         return RmProtocolVersion.WSRM200702 == version;
     }

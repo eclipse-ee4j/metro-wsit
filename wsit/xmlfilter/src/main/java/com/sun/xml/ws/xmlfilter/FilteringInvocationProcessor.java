@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -52,7 +52,7 @@ public final class FilteringInvocationProcessor implements InvocationProcessor {
         }
 
         public void setBuffer(final InvocationBuffer buffer) {
-            this.bufferRef = new WeakReference<InvocationBuffer>(buffer);
+            this.bufferRef = new WeakReference<>(buffer);
         }
     }
 
@@ -62,7 +62,7 @@ public final class FilteringInvocationProcessor implements InvocationProcessor {
         private int referenceCount;
 
         InvocationBuffer(int refCount) {
-            this.queue = new LinkedList<Invocation>();
+            this.queue = new LinkedList<>();
             this.referenceCount = refCount;
         }
 
@@ -107,13 +107,14 @@ public final class FilteringInvocationProcessor implements InvocationProcessor {
         }
 
         this.mirrorWriter = XML_OUTPUT_FACTORY.createXMLStreamWriter(new StringWriter());
-        this.invocationBuffers = new LinkedList<InvocationBuffer>();
-        this.startBufferingCandidates = new LinkedList<StateMachineContext>();
-        this.stopBufferingCandidates = new LinkedList<StateMachineContext>();
-        this.startFilteringCandidates = new LinkedList<StateMachineContext>();
+        this.invocationBuffers = new LinkedList<>();
+        this.startBufferingCandidates = new LinkedList<>();
+        this.stopBufferingCandidates = new LinkedList<>();
+        this.startFilteringCandidates = new LinkedList<>();
         this.invocationTransformer = transformer;
     }
 
+    @Override
     public Object process(final Invocation invocation) throws InvocationProcessingException {
         if (invocation.getMethodType().isFilterable()) {
             if (invocationTransformer != null) {

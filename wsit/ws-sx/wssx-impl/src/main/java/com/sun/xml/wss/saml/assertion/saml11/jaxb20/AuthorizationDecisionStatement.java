@@ -110,9 +110,10 @@ public class AuthorizationDecisionStatement extends AuthorizationDecisionStateme
         setEvidence(authDesStmt.getEvidence());
     }
     
+     @Override
      public List<Action> getActionList(){
          if(actionList == null){
-            actionList = new ArrayList<Action>();
+            actionList = new ArrayList<>();
          }else{
              return actionList;
          }
@@ -131,6 +132,7 @@ public class AuthorizationDecisionStatement extends AuthorizationDecisionStateme
         return eve;
     }
 
+    @Override
     public String getDecisionValue(){
         return super.getDecision().value();
     }

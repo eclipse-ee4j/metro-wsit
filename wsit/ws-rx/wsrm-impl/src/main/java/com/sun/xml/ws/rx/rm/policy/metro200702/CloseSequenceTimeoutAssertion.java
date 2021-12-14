@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -23,9 +23,10 @@ import java.util.Collection;
 import javax.xml.namespace.QName;
 
 /**
+ * <pre>{@code
  * <metro:CloseSequenceTimeout Milliseconds="..." />
- */
-/**
+ * }</pre>
+ *
  * By default, the call to proxy.close() will not return until all messages have
  * been acknowledged. RM close timeout is the interval (in milliseconds) that the
  * client runtime will block waiting for a call to close() to return. If there are
@@ -40,6 +41,7 @@ public class CloseSequenceTimeoutAssertion extends SimpleAssertion implements Rm
     private static final QName MILLISECONDS_ATTRIBUTE_QNAME = new QName("", "Milliseconds");
 
     private static AssertionInstantiator instantiator = new AssertionInstantiator() {
+        @Override
         public PolicyAssertion newInstance(AssertionData data, Collection<PolicyAssertion> assertionParameters, AssertionSet nestedAlternative) {
             return new CloseSequenceTimeoutAssertion(data, assertionParameters);
         }
@@ -61,10 +63,12 @@ public class CloseSequenceTimeoutAssertion extends SimpleAssertion implements Rm
         return interval;
     }
 
+    @Override
     public ReliableMessagingFeatureBuilder update(ReliableMessagingFeatureBuilder builder) {
         return builder.closeSequenceOperationTimeout(interval);
     }
 
+    @Override
     public boolean isCompatibleWith(RmProtocolVersion version) {
         return RmProtocolVersion.WSRM200702 == version;
     }

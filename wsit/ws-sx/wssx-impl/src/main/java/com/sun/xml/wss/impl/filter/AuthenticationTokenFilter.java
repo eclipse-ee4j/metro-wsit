@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -70,7 +70,6 @@ public class AuthenticationTokenFilter {
     /** if the message is incomming it gets Username Token from the meaage
      *  for outgoing it adds Username Token to the message
      *  @param context FilterProcessingContext
-     *  @throws XWSSecurityException
      */
     public static void processUserNameToken(FilterProcessingContext context) throws XWSSecurityException {
         if (context.isInboundMessage()) {
@@ -82,7 +81,6 @@ public class AuthenticationTokenFilter {
     /**
      * imports and exports the SAML Assertion
      * @param context FilterProcessingContext
-     * @throws com.sun.xml.wss.XWSSecurityException
      */
     public static void processSamlToken(FilterProcessingContext context) throws XWSSecurityException {
         if (context.isInboundMessage()) {
@@ -95,7 +93,6 @@ public class AuthenticationTokenFilter {
     /**
      * adds the issued token to the message if the message is not an inbound message
      * @param context FilterProcessingContext
-     * @throws com.sun.xml.wss.XWSSecurityException
      */
     public static void processIssuedToken(FilterProcessingContext context) throws XWSSecurityException {
         if (!context.isInboundMessage()) {            
@@ -106,7 +103,6 @@ public class AuthenticationTokenFilter {
     /**
      * gets the username token from the message and validates it
      * @param context FilterProcessingContext
-     * @throws com.sun.xml.wss.XWSSecurityException
      */
     private static void getUserNameTokenFromMessage(FilterProcessingContext context)
     throws XWSSecurityException{
@@ -232,7 +228,7 @@ public class AuthenticationTokenFilter {
             if (nonce != null) {
                 sp.setUseNonce(true);
             }
-            ((MessagePolicy)context.getInferredSecurityPolicy()).append(sp);
+            context.getInferredSecurityPolicy().append(sp);
         }
         
         try {
@@ -328,7 +324,6 @@ public class AuthenticationTokenFilter {
      * @param token UsernameToken
      * @param  unToken com.sun.xml.ws.security.opt.impl.tokens.UsernameToken
      * @param policy AuthenticationTokenPolicy
-     * @throws XWSSecurityException
      * @return userNamePolicy UsernameTokenBinding
      */
     public static AuthenticationTokenPolicy.UsernameTokenBinding resolveUserNameTokenData(
@@ -418,7 +413,6 @@ public class AuthenticationTokenFilter {
      * sets the parameters nonce,creationtime,...etc to the username token
      * adds this username token to the security header
      * @param context FilterProcessingContext
-     * @throws XWSSecurityException
      */
     public static void addUserNameTokenToMessage(FilterProcessingContext context)
     throws XWSSecurityException{
@@ -503,7 +497,6 @@ public class AuthenticationTokenFilter {
     /**
      * gets the issued token and adds it to the security header
      * @param context FilterProcessingContext
-     * @throws XWSSecurityException
      */
     @SuppressWarnings({"unchecked", "static-access" })
     public static void addIssuedTokenToMessage(FilterProcessingContext context)
@@ -567,7 +560,7 @@ public class AuthenticationTokenFilter {
                 String strId = itkb.getSTRID();
                 secTokRef.setId(strId);
                 
-                Data data = new SSEData((SecurityElement)issuedTokenElement,false,opContext.getNamespaceContext());
+                Data data = new SSEData(issuedTokenElement,false,opContext.getNamespaceContext());
                 opContext.getElementCache().put(strId,data);
                 secHeader.add(secTokRef);
             }
@@ -607,7 +600,6 @@ public class AuthenticationTokenFilter {
     /**
      * processes the X509 token , if any
      * @param context FilterProcessingContext
-     * @throws com.sun.xml.wss.XWSSecurityException
      */
     public static void processX509Token(FilterProcessingContext context) throws XWSSecurityException {
         
@@ -650,12 +642,10 @@ public class AuthenticationTokenFilter {
     /**
      * processes the RSA token 
      * @param context FilterProcessingContext
-     * @throws com.sun.xml.wss.XWSSecurityException
      */
-    public static void processRSAToken(FilterProcessingContext context) throws XWSSecurityException {
+    public static void processRSAToken(FilterProcessingContext context) {
         
         if (context.isInboundMessage()) {
-            return;
-        }                
+        }
     }
 }

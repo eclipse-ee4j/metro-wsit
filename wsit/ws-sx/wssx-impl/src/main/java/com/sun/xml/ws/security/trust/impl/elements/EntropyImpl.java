@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -110,6 +110,7 @@ public class EntropyImpl extends EntropyType implements Entropy {
     /**
      *Gets the type of the Entropy contents
      */
+    @Override
     public String getEntropyType() {
         return entropyType;
     }
@@ -117,6 +118,7 @@ public class EntropyImpl extends EntropyType implements Entropy {
     /**
      *Sets the type of the Entropy contents
      */
+    @Override
     public final void setEntropyType(@NotNull final String type)  {
         if (!(type.equalsIgnoreCase(this.BINARY_SECRET_TYPE)  ||
                 type.equalsIgnoreCase(this.CUSTOM_TYPE)
@@ -133,6 +135,7 @@ public class EntropyImpl extends EntropyType implements Entropy {
     /** Gets the BinarySecret (if any) inside this Entropy
      * @return BinarySecret if set, null otherwise
      */
+    @Override
     public BinarySecret getBinarySecret() {
         return binarySecret;
     }
@@ -140,6 +143,7 @@ public class EntropyImpl extends EntropyType implements Entropy {
     /**
      * Sets the BinarySecret (if any) inside this Entropy
      */
+    @Override
     public final void setBinarySecret(final BinarySecret binarySecret) {
         if (binarySecret != null) {
             this.binarySecret = binarySecret;
@@ -153,6 +157,7 @@ public class EntropyImpl extends EntropyType implements Entropy {
      * Gets the xenc:EncryptedKey set inside this Entropy instance
      * @return xenc:EncryptedKey if set, null otherwise
      */
+    @Override
     public EncryptedKey getEncryptedKey() {
         return encryptedKey;
     }
@@ -160,6 +165,7 @@ public class EntropyImpl extends EntropyType implements Entropy {
     /**
      * Sets the xenc:EncryptedKey set inside this Entropy instance
      */
+    @Override
     public final void setEncryptedKey(final EncryptedKey encryptedKey) {
         if (encryptedKey != null) {
             this.encryptedKey = encryptedKey;

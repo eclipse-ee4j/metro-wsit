@@ -1,15 +1,11 @@
 /*
- * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
  * http://www.eclipse.org/org/documents/edl-v10.php.
  *
  * SPDX-License-Identifier: BSD-3-Clause
- */
-
-/**
- * $Id: TimestampFilter.java,v 1.2 2010-10-21 15:37:29 snajper Exp $
  */
 
 package com.sun.xml.wss.impl.filter;
@@ -77,7 +73,6 @@ public class TimestampFilter {
     /**
      * processes the time stamps and verifies whether the message is conform to time stamp policies or not
      * @param context FilterProcessingContext     *
-     * @throws XWSSecurityException
      */
     public static void process (FilterProcessingContext context) throws XWSSecurityException {
 
@@ -272,7 +267,6 @@ public class TimestampFilter {
      * @param timeout Long
      * @param created String
      * @param id String
-     * @throws com.sun.xml.wss.XWSSecurityException
      */
     private static void setTimestamp(FilterProcessingContext context, 
             Long timeout, String created, String id) throws XWSSecurityException{

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -75,7 +75,7 @@ public class JAXBFilterProcessingContext extends FilterProcessingContext{
     private NamespaceContextEx nsc = null;
     private XMLStreamBuffer xmlBuffer = null;
     private boolean isSSL = false;
-    private HashMap<String, Key> currentSecretMap = new HashMap<String, Key>();
+    private HashMap<String, Key> currentSecretMap = new HashMap<>();
     private boolean disablePayloadBuffering = false;
     private boolean disbaleIncPrefix = false;
     private boolean encHeaderContent = false;
@@ -90,8 +90,7 @@ public class JAXBFilterProcessingContext extends FilterProcessingContext{
         bspContext = new BasicSecurityProfile();
     }
     
-    public JAXBFilterProcessingContext(ProcessingContext context)
-            throws XWSSecurityException {
+    public JAXBFilterProcessingContext(ProcessingContext context) {
         //super(context);
         bspContext = new BasicSecurityProfile();
     }
@@ -182,10 +181,9 @@ public class JAXBFilterProcessingContext extends FilterProcessingContext{
     /**
      * set the SOAP Message into the ProcessingContext.
      * @param message SOAPMessage
-     * @throws XWSSecurityException if there was an error in setting the SOAPMessage
      */
-    public void setSOAPMessage(SOAPMessage message)
-            throws XWSSecurityException {
+    @Override
+    public void setSOAPMessage(SOAPMessage message) {
         
     }
     
@@ -219,7 +217,7 @@ public class JAXBFilterProcessingContext extends FilterProcessingContext{
     
     public synchronized  String generateID(){
         uid++;
-        return "_" + Integer.toString(uid);
+        return "_" + uid;
     }
     
     public SecurityContext getSecurityContext() {

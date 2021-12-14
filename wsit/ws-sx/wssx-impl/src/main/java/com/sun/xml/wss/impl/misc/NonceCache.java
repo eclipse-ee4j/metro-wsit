@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -41,8 +41,8 @@ public class NonceCache extends TimerTask {
             LogDomainConstants.WSS_API_DOMAIN,
             LogDomainConstants.WSS_API_DOMAIN_BUNDLE);
     // Nonce Cache
-    private Map<String, String> nonceCache = Collections.synchronizedMap(new HashMap<String, String>());
-    private Map<String, String> oldNonceCache = Collections.synchronizedMap(new HashMap<String, String>());
+    private Map<String, String> nonceCache = Collections.synchronizedMap(new HashMap<>());
+    private Map<String, String> oldNonceCache = Collections.synchronizedMap(new HashMap<>());
 
     @ManagedAttribute // Only for monitoring
     private Map<String, String> getNonceCache() {
@@ -95,6 +95,7 @@ public class NonceCache extends TimerTask {
         return canceledFlag;
     }
 
+    @Override
     public void run() {
 
         if (nonceCache.isEmpty()) {

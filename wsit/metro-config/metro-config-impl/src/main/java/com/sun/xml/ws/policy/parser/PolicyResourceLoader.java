@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -56,8 +56,8 @@ public class PolicyResourceLoader {
                                                            new PolicyEntityResolver(),
                                                            isClient,
                                                            Container.NONE,
-                                                           PolicyResolverFactory.DEFAULT_POLICY_RESOLVER,
-                                                           new WSDLParserExtension[] {});
+                                                           PolicyResolverFactory.DEFAULT_POLICY_RESOLVER
+        );
         return model;
     }
 
@@ -88,6 +88,7 @@ public class PolicyResourceLoader {
          * @see javax.xml.stream.XMLStreamReader
          * @see com.sun.xml.ws.api.wsdl.parser.XMLEntityResolver.Parser
          */
+        @Override
         public Parser resolveEntity(final String publicId, final String systemId)
             throws XMLStreamException, IOException {
 

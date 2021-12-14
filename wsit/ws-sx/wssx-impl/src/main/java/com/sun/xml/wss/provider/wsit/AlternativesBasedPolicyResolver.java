@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -97,6 +97,7 @@ class AlternativesBasedPolicyResolver implements PolicyResolver {
         this.mcVer = mcVer;
     }
 
+    @Override
     public SecurityPolicy resolvePolicy(ProcessingContext ctx) {
         Message msg = null;
         SOAPMessage soapMsg = null;
@@ -169,7 +170,7 @@ class AlternativesBasedPolicyResolver implements PolicyResolver {
         }
         List<PolicyAssertion> policies = sph.getSecureConversationTokens();
         if (!policies.isEmpty()) {
-            return (PolicyAssertion) policies.get(0);
+            return policies.get(0);
         }
         return null;
     }
@@ -189,13 +190,13 @@ class AlternativesBasedPolicyResolver implements PolicyResolver {
             }
         }
 
-        List<MessagePolicy> mps = new ArrayList<MessagePolicy>();
+        List<MessagePolicy> mps = new ArrayList<>();
         for (PolicyAlternativeHolder p : this.policyAlternatives) {
-            SecurityPolicyHolder sph = (SecurityPolicyHolder) p.getInMessagePolicyMap().get(operation);
+            SecurityPolicyHolder sph = p.getInMessagePolicyMap().get(operation);
             //TODO: pass isTrustMessage Flag to this method later
             if (sph == null && (isTrustMessage() || isSCMessage)) {
                 operation = getWSDLOpFromAction();
-                sph = (SecurityPolicyHolder) p.getInMessagePolicyMap().get(operation);
+                sph = p.getInMessagePolicyMap().get(operation);
             }
             if (sph != null) {
                 mps.add(cloneWithId(sph.getMessagePolicy(), p.getId()));
@@ -207,7 +208,7 @@ class AlternativesBasedPolicyResolver implements PolicyResolver {
     //TODO:POLALT modify this to return a PolicyAlternatives object when applicable
     private SecurityPolicy getInboundFaultPolicy(SOAPMessage msg) {
         if (cachedOperation != null) {
-            List<MessagePolicy> mps = new ArrayList<MessagePolicy>();
+            List<MessagePolicy> mps = new ArrayList<>();
             for (PolicyAlternativeHolder p : this.policyAlternatives) {
                 WSDLOperation operation = cachedOperation.getOperation();
                 try {
@@ -327,7 +328,7 @@ class AlternativesBasedPolicyResolver implements PolicyResolver {
     }
 
     private SecurityPolicy getProtocolPolicy(String protocol) {
-        List<MessagePolicy> mps = new ArrayList<MessagePolicy>();
+        List<MessagePolicy> mps = new ArrayList<>();
         for (PolicyAlternativeHolder p : this.policyAlternatives) {
             SecurityPolicyHolder sph = p.getInProtocolPM().get(protocol);
             if (sph != null) {

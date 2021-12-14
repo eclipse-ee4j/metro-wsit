@@ -27,17 +27,17 @@ public final class DelayedTaskManager extends AbstractTaskManager {
     private final String threadPoolName;
     private final int coreThreadPoolSize;
     
-    public static interface DelayedTask {
-        public String getName();
+    public interface DelayedTask {
+        String getName();
 
-        public void run(DelayedTaskManager manager);
+        void run(DelayedTaskManager manager);
     }
 
     public static DelayedTaskManager createManager(String name, int coreThreadPoolSize, Component component){
         return new DelayedTaskManager(name, coreThreadPoolSize, component);
     }
 
-    private static final ThreadFactory createThreadFactory(String name) {
+    private static ThreadFactory createThreadFactory(String name) {
         return new NamedThreadFactory(name);
     }
 
@@ -52,6 +52,7 @@ public final class DelayedTaskManager extends AbstractTaskManager {
         /**
          * This method contains main task loop. It should not be called directly from outside.
          */
+        @Override
         public void run() {
             LOGGER.entering();
 

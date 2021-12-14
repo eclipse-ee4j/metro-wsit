@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -49,20 +49,23 @@ public class Trust10 extends PolicyAssertion implements com.sun.xml.ws.security.
     
     public void addRequiredProperty(String requirement) {
         if(requiredProps == null){
-            requiredProps = new HashSet<String>();
+            requiredProps = new HashSet<>();
         }
         requiredProps.add(requirement);
     }
     
+    @Override
     public Set getRequiredProperties() {
         populate();
         return requiredProps;
     }
     
+    @Override
     public String getType() {
         return version;
     }
     
+    @Override
     public AssertionFitness validate(boolean isServer) {
         return populate(isServer);
     }

@@ -65,9 +65,6 @@ public class SamlAssertionHeaderBlock extends SecurityHeaderBlockImpl implements
     
     /**
      *
-     * @param element
-     * @return
-     * @throws XWSSecurityException
      */
     public static SecurityHeaderBlock fromSoapElement(SOAPElement element)
     throws XWSSecurityException {
@@ -83,8 +80,6 @@ public class SamlAssertionHeaderBlock extends SecurityHeaderBlockImpl implements
      * Constructs code&gt;SamlAssertionHeaderBlock&lt;/code&gt; from an existing SAML
      * &lt;code&gt;Assertion&lt;/code&gt;.
      *
-     * @param assertion
-     * @throws XWSSecurityException
      */
     public SamlAssertionHeaderBlock(Element assertion, Document doc) throws  XWSSecurityException {
         if (null != assertion) {
@@ -100,11 +95,8 @@ public class SamlAssertionHeaderBlock extends SecurityHeaderBlockImpl implements
      * &lt;code&gt;SOAPElement&lt;/code&gt;.
      *
      * @param element an existing SAML assertion element.
-     * @throws XWSSecurityException when the element is not a valid template
-     *         for a SAML &lt;code&gt;Assertion&lt;/code&gt;.
      */
-    public SamlAssertionHeaderBlock(SOAPElement element)
-    throws XWSSecurityException {
+    public SamlAssertionHeaderBlock(SOAPElement element) {
         contextDocument_ = element.getOwnerDocument();
         
         delegateAssertion_ = element;
@@ -116,6 +108,7 @@ public class SamlAssertionHeaderBlock extends SecurityHeaderBlockImpl implements
     /* (non-Javadoc)
      * @see com.sun.xml.wss.SecurityHeaderBlock#getAsSoapElement()
      */
+    @Override
     public SOAPElement getAsSoapElement() throws XWSSecurityException {
         
         
@@ -145,7 +138,6 @@ public class SamlAssertionHeaderBlock extends SecurityHeaderBlockImpl implements
     
     
     /**
-     * @return
      */
     public Document getContextDocument() {
         return contextDocument_;
@@ -153,16 +145,15 @@ public class SamlAssertionHeaderBlock extends SecurityHeaderBlockImpl implements
     
     
     /**
-     * @return
      */
     public Element getDelegateAssertion() {
         return delegateAssertion_;
     }
 
-    /**
-     * Set the signature for the Request.
-     *
-     * @param elem &lt;code&gt;ds:Signature&lt;/code&gt; element.
+    /*
+      Set the signature for the Request.
+
+      @param elem &lt;code&gt;ds:Signature&lt;/code&gt; element.
      * @return A boolean value: true if the operation succeeds; false otherwise.
      */
     /*public boolean setSignature(Element elem) {

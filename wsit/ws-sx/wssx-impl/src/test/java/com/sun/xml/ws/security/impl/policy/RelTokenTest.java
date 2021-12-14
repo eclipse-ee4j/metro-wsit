@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -35,10 +35,12 @@ public class RelTokenTest extends TestCase {
         super(testName);
     }
     
-    protected void setUp() throws Exception {
+    @Override
+    protected void setUp() {
     }
     
-    protected void tearDown() throws Exception {
+    @Override
+    protected void tearDown() {
     }
     
     public static Test suite() {
@@ -90,7 +92,7 @@ public class RelTokenTest extends TestCase {
                 else {
                     Iterator itrRt = rt.getTokenRefernceType();
                     if(itrRt.hasNext()) {
-                        assertTrue(((String)itrRt.next()).equals(com.sun.xml.ws.security.policy.RelToken.REQUIRE_KEY_IDENTIFIER_REFERENCE));
+                        assertTrue(itrRt.next().equals(com.sun.xml.ws.security.policy.RelToken.REQUIRE_KEY_IDENTIFIER_REFERENCE));
                     }
                 }
             }
@@ -106,7 +108,7 @@ public class RelTokenTest extends TestCase {
             AssertionSet as = itr.next();
             for(PolicyAssertion assertion : as) {
                 assertEquals("Invalid assertion","RelToken",assertion.getName().getLocalPart());
-                assertion = (PolicyAssertion)assertion;
+                assertion = assertion;
                 com.sun.xml.ws.security.impl.policy.RelToken rt = (com.sun.xml.ws.security.impl.policy.RelToken)assertion;
                 assertTrue(rt.getTokenType().equals(tokenType));
             }

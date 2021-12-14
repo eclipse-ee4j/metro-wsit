@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -155,7 +155,6 @@ public class PipeHelper extends ConfigHelper {
             addModel(info, map);
 	    c.getAuthContext(c.getAuthContextID(info),s,m);
 	}
-	return;
     }
 
    	
@@ -169,7 +168,7 @@ public class PipeHelper extends ConfigHelper {
     public Packet makeFaultResponse(Packet response, Throwable t) {
 	// wrap throwable in WebServiceException, if necessary
 	if (!(t instanceof WebServiceException)) {
-	    t = (Throwable) new WebServiceException(t);
+	    t = new WebServiceException(t);
 	}
  	if (response == null) {
  	    response = new Packet();

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -67,8 +67,6 @@ public class KeyValueProcessor {
      * processes the KeyValue token and returns the Key
      * @param reader XMLStreamReader
      * @return Key
-     * @throws javax.xml.stream.XMLStreamException
-     * @throws com.sun.xml.wss.XWSSecurityException
      */
     public Key processKeyValue(XMLStreamReader reader)throws XMLStreamException,XWSSecurityException{
         boolean done = false;
@@ -108,8 +106,6 @@ public class KeyValueProcessor {
      * gets the RSA KeyValue from the reader and returns the Key
      * @param reader XMLStreamReader
      * @return Key
-     * @throws javax.xml.stream.XMLStreamException
-     * @throws com.sun.xml.wss.XWSSecurityException
      */
     public Key processRSAKeyValue(XMLStreamReader reader)throws XMLStreamException,XWSSecurityException{
         BigInteger modulus  = null;
@@ -124,7 +120,7 @@ public class KeyValueProcessor {
                         StreamUtil.writeCurrentEvent(reader,canonWriter);
                     }
                     reader.next();
-                    StringBuffer sb = null;
+                    StringBuilder sb = null;
                     byte [] value = null;
                     CharSequence charSeq = ((XMLStreamReaderEx)reader).getPCDATA();
                     if(charSeq instanceof Base64Data){
@@ -136,7 +132,7 @@ public class KeyValueProcessor {
                             canonWriter.writeCharacters(ev);
                         }
                     }else {
-                        sb = new StringBuffer();
+                        sb = new StringBuilder();
                         
                         
                         while(reader.getEventType() == reader.CHARACTERS && reader.getEventType() != reader.END_ELEMENT){
@@ -169,7 +165,7 @@ public class KeyValueProcessor {
                         StreamUtil.writeCurrentEvent(reader,canonWriter);
                     }
                     reader.next();
-                    StringBuffer sb = null;
+                    StringBuilder sb = null;
                     byte [] value = null;
                     CharSequence charSeq = ((XMLStreamReaderEx)reader).getPCDATA();
                     if(charSeq instanceof Base64Data){
@@ -181,7 +177,7 @@ public class KeyValueProcessor {
                             canonWriter.writeCharacters(ev);
                         }
                     }else {
-                        sb = new StringBuffer();
+                        sb = new StringBuilder();
                         
                         while(reader.getEventType() == reader.CHARACTERS && reader.getEventType() != reader.END_ELEMENT){
                             charSeq = ((XMLStreamReaderEx)reader).getPCDATA();
@@ -230,7 +226,7 @@ public class KeyValueProcessor {
         
     }
     
-    private int getKeyValueEventType(XMLStreamReader reader)throws XMLStreamException{
+    private int getKeyValueEventType(XMLStreamReader reader) {
         if(reader.getEventType() == reader.START_ELEMENT){
             if(reader.getLocalName() == RSA_KEY_VALUE){
                 return RSA_KEY_VALUE_ELEMENT;
@@ -243,7 +239,7 @@ public class KeyValueProcessor {
         return -1;
     }
     
-    private int getRSAKVEventType(XMLStreamReader reader)throws XMLStreamException{
+    private int getRSAKVEventType(XMLStreamReader reader) {
         if(reader.getEventType() == reader.START_ELEMENT){
             if(reader.getLocalName() == MODULUS){
                 return MODULUS_ELEMENT;
@@ -256,14 +252,14 @@ public class KeyValueProcessor {
         return -1;
     }
     
-    private boolean isRSAKeyValue(XMLStreamReader reader)throws XMLStreamException{
+    private boolean isRSAKeyValue(XMLStreamReader reader) {
         if(reader.getLocalName() == RSA_KEY_VALUE){
             return true;
         }
         return false;
     }
     
-    private boolean isKeyValue(XMLStreamReader reader)throws XMLStreamException{
+    private boolean isKeyValue(XMLStreamReader reader) {
         if(reader.getLocalName() == KEY_VALUE){
             return true;
         }

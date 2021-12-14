@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -36,12 +36,13 @@ public class NodeListImpl implements NodeList{
      * Creates a new instance of NodeListImpl
      */
     public NodeListImpl() {
-        nodes = new ArrayList<Node>();
+        nodes = new ArrayList<>();
     }
     
     /**
      * get the size of the nodeList
      */
+    @Override
     public int getLength(){
         return nodes.size();
     }
@@ -49,6 +50,7 @@ public class NodeListImpl implements NodeList{
     /**
      * get the ith item from NodeList
      */
+    @Override
     public Node item(int i){
         return nodes.get(i);
     }

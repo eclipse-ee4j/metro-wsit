@@ -37,33 +37,41 @@ final class SequenceTestUtils  {
 
         return new RmConfiguration() {
 
+            @Override
             public boolean isReliableMessagingEnabled() {
                 return true;
             }
 
+            @Override
             public boolean isMakeConnectionSupportEnabled() {
                 return false;
             }
 
+            @Override
             public SOAPVersion getSoapVersion() {
                 return SOAPVersion.SOAP_12;
             }
 
+            @Override
             public AddressingVersion getAddressingVersion() {
                 return AddressingVersion.W3C;
             }
 
+            @Override
             public boolean requestResponseOperationsDetected() {
                 throw new UnsupportedOperationException("Not supported yet.");
             }
 
+            @Override
             public ReliableMessagingFeature getRmFeature() {
                 return rmf;
             }
+            @Override
             public ManagedObjectManager getManagedObjectManager() {
                 return null;
             }
 
+            @Override
             public RmRuntimeVersion getRuntimeVersion() {
                 return RmRuntimeVersion.WSRM200702;
             }
@@ -82,6 +90,7 @@ final class SequenceTestUtils  {
 
         return DeliveryQueueBuilder.getBuilder(getConfiguration(), PostmanPool.INSTANCE.getPostman(), new Postman.Callback() {
 
+            @Override
             public void deliver(ApplicationMessage message) {
             }
 
@@ -94,7 +103,7 @@ final class SequenceTestUtils  {
     }
 
     static List<Sequence.AckRange> createAckRanges(long... msgNumbers) {
-        List<Sequence.AckRange> ackList = new LinkedList<Sequence.AckRange>();
+        List<Sequence.AckRange> ackList = new LinkedList<>();
 
         if (msgNumbers.length > 0) {
             long lower = msgNumbers[0];

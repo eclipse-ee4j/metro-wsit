@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -36,14 +36,17 @@ public class WSTCPTomcatRegistry extends WSTCPModule implements TCPMessageListen
         delegate = new WSTCPDelegate();
     }
     
+    @Override
     public int getPort() {
         return listeningPort;
     }
     
+    @Override
     public void onMessage(ChannelContext channelContext) throws IOException {
         delegate.onMessage(channelContext);
     }
 
+    @Override
     public void onError(ChannelContext channelContext, WSTCPError error) throws IOException {
         delegate.onError(channelContext, error);
     }

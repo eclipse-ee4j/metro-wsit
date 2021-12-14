@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -60,7 +60,6 @@ public class SubjectConfirmationData extends SubjectConfirmationDataType
      *
      * @param element a DOM Element representing the
      *        <code>SubjectConfirmationData</code> object.
-     * @throws SAMLException
      */
     public static SubjectConfirmationDataType fromElement(org.w3c.dom.Element element)
     throws SAMLException {
@@ -133,7 +132,7 @@ public class SubjectConfirmationData extends SubjectConfirmationDataType
         try {
             if (keyInfo != null) {
                 //this.getContent().add(keyInfo);
-                this.getContent().add((KeyInfoType) ((JAXBElement) u.unmarshal(keyInfo)).getValue());
+                this.getContent().add(((JAXBElement) u.unmarshal(keyInfo)).getValue());
             }
         } catch (Exception ex) {
             // log here
@@ -149,6 +148,7 @@ public class SubjectConfirmationData extends SubjectConfirmationDataType
         setRecipient(subConfDataType.getRecipient());
     }
     
+    @Override
     public Date getNotBeforeDate() {
         if (notBeforeDate == null) {
             if (super.getNotBefore() != null) {
@@ -162,6 +162,7 @@ public class SubjectConfirmationData extends SubjectConfirmationDataType
         return notBeforeDate;
     }
 
+    @Override
     public Date getNotOnOrAfterDate() {
         if (notOnOrAfterDate == null) {
             if (super.getNotOnOrAfter() != null) {

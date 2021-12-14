@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -20,7 +20,6 @@ import com.sun.xml.ws.security.policy.SecurityPolicyVersion;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.UUID;
 import java.util.logging.Level;
 import javax.xml.namespace.QName;
 import static com.sun.xml.ws.security.impl.policy.Constants.*;
@@ -64,16 +63,19 @@ public class IssuedToken extends PolicyAssertion implements  com.sun.xml.ws.secu
         includeToken = spVersion.includeTokenAlways;
     }
     
+    @Override
     public RequestSecurityTokenTemplate getRequestSecurityTokenTemplate() {
         populate();
         return rstTemplate;
     }
     
+    @Override
     public Iterator getTokenRefernceType() {
         populate();
         return referenceType.iterator();
     }
     
+    @Override
     public String getIncludeToken() {
         populate();
         return includeToken;
@@ -84,30 +86,36 @@ public class IssuedToken extends PolicyAssertion implements  com.sun.xml.ws.secu
         throw new UnsupportedOperationException();
     }
     
+    @Override
     public String getTokenId() {
         return id;
     }
     
+    @Override
     public Issuer getIssuer() {
         populate();
         return issuer;
     }
     
+    @Override
     public IssuerName getIssuerName() {
         populate();
         return issuerName;
     }  
     
+    @Override
     public Claims getClaims(){
         populate();
         return claims;
     }
     
+    @Override
     public boolean isRequireDerivedKeys() {
         populate();
         return reqDK;
     }
     
+    @Override
     public AssertionFitness validate(boolean isServer) {
         return populate(isServer);
     }
@@ -167,7 +175,7 @@ public class IssuedToken extends PolicyAssertion implements  com.sun.xml.ws.secu
             while(ast.hasNext()){
                 PolicyAssertion assertion = ast.next();
                 if(referenceType == null){
-                    referenceType = new ArrayList<String>();
+                    referenceType = new ArrayList<>();
                 }
                 if ( PolicyUtil.isRequireDerivedKeys(assertion, spVersion)) {
                     reqDK = true;
@@ -187,6 +195,7 @@ public class IssuedToken extends PolicyAssertion implements  com.sun.xml.ws.secu
         return fitness;
     }
 
+    @Override
     public SecurityPolicyVersion getSecurityPolicyVersion() {
         return spVersion;
     }

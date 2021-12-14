@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -57,7 +57,7 @@ public abstract class WSTCPModule {
         return WSEndpoint.create(ServiceChannelWSImpl.class, true,
                     null,
                     serviceName, portName, null, binding,
-                    null, null, (EntityResolver) null, true);
+                    null, null, null, true);
     }
 
     public abstract void register(@NotNull final String contextPath,

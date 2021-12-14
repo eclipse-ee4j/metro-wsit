@@ -96,6 +96,7 @@ public class RespectBindingType
         this.enabled = value;
     }
 
+    @Override
     public Locator sourceLocation() {
         return locator;
     }

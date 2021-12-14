@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -37,9 +37,8 @@ public interface SecurityProcessingContext {
      * 
      * @param ctx1 the ProcessingContext to which to copy
      * @param ctx2 the ProcessingContext from which to copy
-     * @throws XWSSecurityException if there was an error during the copy operation
      */
-    void copy(SecurityProcessingContext ctx1, SecurityProcessingContext ctx2) throws XWSSecurityException;
+    void copy(SecurityProcessingContext ctx1, SecurityProcessingContext ctx2);
 
     /**
      * This method is used for internal purposes

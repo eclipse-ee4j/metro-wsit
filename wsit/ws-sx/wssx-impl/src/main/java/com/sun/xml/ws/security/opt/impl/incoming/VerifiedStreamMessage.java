@@ -226,7 +226,7 @@ public final class VerifiedStreamMessage extends AbstractMessageImpl {
 
     @SuppressWarnings("unchecked")
     @Override
-    public <T> T readPayloadAsJAXB(final Unmarshaller unmarshaller) throws JAXBException {
+    public <T> T readPayloadAsJAXB(final Unmarshaller unmarshaller) {
         try {
             cacheMessage();
             if (!hasPayload()) {
@@ -347,7 +347,6 @@ public final class VerifiedStreamMessage extends AbstractMessageImpl {
 
     /**
      * This method should be called when the StreamMessage is created with a payload
-     * @param writer
      */
     private void writeEnvelope(XMLStreamWriter writer) throws XMLStreamException {
         writer.writeStartDocument();
@@ -355,7 +354,7 @@ public final class VerifiedStreamMessage extends AbstractMessageImpl {
 
         //write headers
         // FIXME: RJE -- remove cast
-        HeaderList hl = (HeaderList) getHeaders();
+        HeaderList hl = getHeaders();
         if (hl.size() > 0) {
             headerTag.writeStart(writer);
             for (Header h : hl) {
@@ -486,7 +485,7 @@ public final class VerifiedStreamMessage extends AbstractMessageImpl {
         headerTag.writeStart(contentHandler);
         if (hasHeaders()) {
             // FIXME: remove cast
-            HeaderList headerList = (HeaderList) getHeaders();
+            HeaderList headerList = getHeaders();
             int len = headerList.size();
             for (int i = 0; i < len; i++) {
                 // shouldn't JDK be smart enough to use array-style indexing for this foreach!?
@@ -514,7 +513,7 @@ public final class VerifiedStreamMessage extends AbstractMessageImpl {
         }    // no payload. can be consumed multiple times.
 
         if (reader.getEventType() != XMLStreamReader.START_ELEMENT) {
-            System.out.append("Event Type=" + reader.getEventType() + " name=" + reader.getLocalName());
+            System.out.append("Event Type=").append(String.valueOf(reader.getEventType())).append(" name=").append(reader.getLocalName());
             System.out.append("START " + XMLStreamReader.START_ELEMENT);
             System.out.append("END =" + XMLStreamReader.END_ELEMENT);
             AssertionError error = new AssertionError("StreamMessage has been already consumed. See the nested exception for where it's consumed");

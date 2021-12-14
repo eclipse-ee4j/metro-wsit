@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -24,14 +24,12 @@ import com.sun.xml.wss.impl.policy.mls.TimestampPolicy;
 import com.sun.xml.wss.impl.policy.mls.WSSPolicy;
 import junit.framework.*;
 import com.sun.xml.wss.impl.PolicyTypeUtil;
-import com.sun.xml.wss.impl.policy.MLSPolicy;
-import com.sun.xml.wss.impl.policy.SecurityPolicy;
 import com.sun.xml.ws.security.policy.MessageLayout;
 import com.sun.xml.wss.impl.policy.mls.AuthenticationTokenPolicy;
 import com.sun.xml.wss.impl.policy.mls.EncryptionPolicy;
 import com.sun.xml.wss.impl.policy.mls.MessagePolicy;
 import com.sun.xml.wss.impl.policy.mls.SignaturePolicy;
-import java.util.ArrayList;
+
 import java.util.List;
 
 /**
@@ -44,10 +42,12 @@ public class XWSSPolicyContainerTest extends TestCase {
         super(testName);
     }
     
-    protected void setUp() throws Exception {
+    @Override
+    protected void setUp() {
     }
     
-    protected void tearDown() throws Exception {
+    @Override
+    protected void tearDown() {
     }
     
     public static Test suite() {

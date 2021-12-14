@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -50,8 +50,6 @@ public class UsernameTokenDataResolver {
       * @param untBinding UsernameTokenBinding
       * @param firstByte int
       * @return untBinding  UsernameTokenBinding
-      * @throws com.sun.xml.wss.XWSSecurityException
-      * @throws java.io.UnsupportedEncodingException
       */
      public static UsernameTokenBinding setSaltandIterationsforUsernameToken(
             FilterProcessingContext context, UsernameToken unToken,
@@ -115,13 +113,8 @@ public class UsernameTokenDataResolver {
             }
             //salt[0] = MessageConstants.VALUE_FOR_SIGNATURE;
             salt[0] = (byte) firstByte;
-            try {
-                macSignature = pdk.generate160BitKey(password, iterations, salt);
-            } catch (UnsupportedEncodingException ex) {
-                log.log(Level.SEVERE, LogStringsMessages.WSS_1425_UNSUPPORTED_ENCODING(), ex);
-                throw new UnsupportedEncodingException("error while creating 160 bit key");
-            }
-            untBinding.setSecretKey(macSignature);        
+         macSignature = pdk.generate160BitKey(password, iterations, salt);
+         untBinding.setSecretKey(macSignature);
         return untBinding;
     }
     /**
@@ -132,7 +125,6 @@ public class UsernameTokenDataResolver {
      * @param policy EncryptionPolicy
      * @param untBinding UsernameTokenBinding
      * @return untBinding  AuthenticationTokenPolicy.UsernameTokenBinding
-     * @throws com.sun.xml.wss.XWSSecurityException
      */
     public static AuthenticationTokenPolicy.UsernameTokenBinding setSaltandIterationsforUsernameToken(
     FilterProcessingContext context, UsernameToken unToken,
@@ -196,12 +188,7 @@ public class UsernameTokenDataResolver {
             }
         }
         salt[0] = MessageConstants.VALUE_FOR_ENCRYPTION;
-        try {
-            encSignature = pdk.generate160BitKey(password, iterations, salt);
-        } catch (UnsupportedEncodingException ex) {
-            log.log(Level.SEVERE, LogStringsMessages.WSS_1425_UNSUPPORTED_ENCODING(), ex);
-            throw new UnsupportedEncodingException("error while creating 128 bit key");
-        }
+        encSignature = pdk.generate160BitKey(password, iterations, salt);
         for (int i = 0; i < 16; i++) {
             keyof128bits[i] = encSignature[i];
         }
@@ -215,7 +202,6 @@ public class UsernameTokenDataResolver {
    * @param unToken UsernameToken
    * @param policy AuthenticationTokenPolicy
    * @return UsernameTokenBinding
-   * @throws com.sun.xml.wss.XWSSecurityException
    */
    // currently we are not using this method
    public static AuthenticationTokenPolicy.UsernameTokenBinding resolveUsernameToken(

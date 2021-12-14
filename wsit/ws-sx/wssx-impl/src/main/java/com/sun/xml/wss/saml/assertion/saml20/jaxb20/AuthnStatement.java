@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -129,6 +129,7 @@ public class AuthnStatement extends AuthnStatementType
         setSessionNotOnOrAfter(authStmtType.getSessionNotOnOrAfter());
     }
 
+    @Override
     public Date getAuthnInstantDate() {
         if(authnInstantDate != null){
             return authnInstantDate;
@@ -143,6 +144,7 @@ public class AuthnStatement extends AuthnStatementType
         return authnInstantDate;
     }
 
+    @Override
     public Date getSessionNotOnOrAfterDate() {
         if(sessionDate != null){
             return sessionDate;
@@ -157,6 +159,7 @@ public class AuthnStatement extends AuthnStatementType
         return sessionDate;
     }
 
+    @Override
     public String getSubjectLocalityAddress() {
         if(super.getSubjectLocality() != null){
             return super.getSubjectLocality().getAddress();
@@ -164,6 +167,7 @@ public class AuthnStatement extends AuthnStatementType
         return null;
     }
 
+    @Override
     public String getSubjectLocalityDNSName() {
         if(super.getSubjectLocality() != null){
             return super.getSubjectLocality().getDNSName();
@@ -171,6 +175,7 @@ public class AuthnStatement extends AuthnStatementType
         return null;
     }
 
+    @Override
     public String getAuthnContextClassRef() {
         Iterator it = super.getAuthnContext().getContent().iterator();        
         while(it.hasNext()){
@@ -185,6 +190,7 @@ public class AuthnStatement extends AuthnStatementType
         return null;
     }
 
+    @Override
     public String getAuthenticatingAuthority() {
         Iterator it = super.getAuthnContext().getContent().iterator();        
         while(it.hasNext()){

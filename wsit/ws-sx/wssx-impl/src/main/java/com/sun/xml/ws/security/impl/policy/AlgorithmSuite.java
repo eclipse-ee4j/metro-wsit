@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -34,7 +34,7 @@ public class AlgorithmSuite extends com.sun.xml.ws.policy.PolicyAssertion implem
     
     private AssertionFitness fitness = AssertionFitness.IS_VALID;
     private AlgorithmSuiteValue value;
-    private HashSet<String> props = new HashSet<String>();
+    private HashSet<String> props = new HashSet<>();
     private boolean populated = false;    
     private SecurityPolicyVersion spVersion;
     private String signatureAlgo = null;
@@ -51,6 +51,7 @@ public class AlgorithmSuite extends com.sun.xml.ws.policy.PolicyAssertion implem
         spVersion = PolicyUtil.getSecurityPolicyVersion(nsUri);
     }
     
+    @Override
     public Set getAdditionalProps() {
         return props;
     }
@@ -63,52 +64,62 @@ public class AlgorithmSuite extends com.sun.xml.ws.policy.PolicyAssertion implem
         populated = true;
     }
     
+    @Override
     public AlgorithmSuiteValue getType() {
         populate();
         return value;
     }
     
+    @Override
     public String getDigestAlgorithm() {
         populate();
         return value.getDigAlgorithm();
     }
     
     
+    @Override
     public String getEncryptionAlgorithm() {
         populate();
         return value.getEncAlgorithm();
     }
     
     
+    @Override
     public String getSymmetricKeyAlgorithm() {
         populate();
         return value.getSymKWAlgorithm();
     }
     
+    @Override
     public String getAsymmetricKeyAlgorithm() {
         populate();
         return value.getAsymKWAlgorithm();
     }
     
+    @Override
     public String getSignatureKDAlogrithm() {
         populate();
         return value.getSigKDAlgorithm();
     }
     
+    @Override
     public String getEncryptionKDAlogrithm() {
         populate();
         return value.getEncKDAlgorithm();
     }
     
+    @Override
     public int getMinSKLAlgorithm() {
         populate();
         return value.getMinSKLAlgorithm();
     }
     
+    @Override
     public String getSymmetricKeySignatureAlgorithm() {
         return com.sun.xml.ws.security.policy.Constants.HMAC_SHA1;
     }
     
+    @Override
     public String getAsymmetricKeySignatureAlgorithm() {
         return com.sun.xml.ws.security.policy.Constants.RSA_SHA1;
     }
@@ -180,29 +191,36 @@ public class AlgorithmSuite extends com.sun.xml.ws.policy.PolicyAssertion implem
     }
     
     
+    @Override
     public String getComputedKeyAlgorithm() {
         return com.sun.xml.ws.security.policy.Constants.PSHA1;
     }
     
+    @Override
     public int getMaxSymmetricKeyLength() {
         return MAX_SKL;
     }
     
+    @Override
     public int getMinAsymmetricKeyLength() {
         return MIN_AKL;
     }
     
+    @Override
     public int getMaxAsymmetricKeyLength() {
         return MAX_AKL;
     }
     
+    @Override
     public AssertionFitness validate(boolean isServer) {
         return populate(isServer);
     }
 
+    @Override
     public void setSignatureAlgorithm(String sigAlgo) {
        this.signatureAlgo = sigAlgo;
     }
+    @Override
     public String getSignatureAlgorithm() {
        return this.signatureAlgo ;
     }

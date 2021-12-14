@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -56,15 +56,16 @@ public class SCTokenProviderImpl implements IssuedTokenProvider {
      * Map of SecurityContextId --> IssuedTokenContext
      */
     private Map<String, IssuedTokenContext> issuedTokenContextMap
-            = new HashMap<String, IssuedTokenContext>();    
+            = new HashMap<>();
     /**
      * Map of wsu:Instance --> SecurityContextTokenInfo
      */
     private Map<String, SecurityContextTokenInfo> securityContextTokenMap
-            = new HashMap<String, SecurityContextTokenInfo>();    
+            = new HashMap<>();
     private boolean tokenExpired = false;    
     
-    public void issue(IssuedTokenContext ctx)throws WSTrustException{        
+    @Override
+    public void issue(IssuedTokenContext ctx)throws WSTrustException{
         SCTokenConfiguration sctConfig = (SCTokenConfiguration)ctx.getSecurityPolicy().get(0);
         if(issuedTokenContextMap.get(sctConfig.getTokenId()) != null ){
             IssuedTokenContext tmpCtx = null;
@@ -111,7 +112,8 @@ public class SCTokenProviderImpl implements IssuedTokenProvider {
         }        
     } 
     
-    public void cancel(IssuedTokenContext ctx)throws WSTrustException{
+    @Override
+    public void cancel(IssuedTokenContext ctx) {
         SCTokenConfiguration sctConfig = (SCTokenConfiguration)ctx.getSecurityPolicy().get(0);
         if(issuedTokenContextMap.get(sctConfig.getTokenId()) != null ){              
             scp.processCancellation(ctx);            
@@ -119,6 +121,7 @@ public class SCTokenProviderImpl implements IssuedTokenProvider {
         }            
     }
         
+    @Override
     public void renew(IssuedTokenContext ctx)throws WSTrustException{
         SCTokenConfiguration sctConfig = (SCTokenConfiguration)ctx.getSecurityPolicy().get(0);
         MessagePolicy msgPolicy = (MessagePolicy)sctConfig.getOtherOptions().get("MessagePolicy");
@@ -146,7 +149,8 @@ public class SCTokenProviderImpl implements IssuedTokenProvider {
         }        
     }
     
-    public void validate(IssuedTokenContext ctx)throws WSTrustException{
+    @Override
+    public void validate(IssuedTokenContext ctx) {
         
     }
     
@@ -169,7 +173,7 @@ public class SCTokenProviderImpl implements IssuedTokenProvider {
      * @param key The key of the security context to be looked
      * @param expiryCheck indicates whether to check the token expiry or not, 
      *                    As in case of renew we don't need to check token expiry
-     * @returns IssuedTokenContext for security context key
+     * @return IssuedTokenContext for security context key
      */
     
     private IssuedTokenContext getSecurityContextToken(String key, boolean expiryCheck) throws WSSecureConversationException{
@@ -250,7 +254,7 @@ public class SCTokenProviderImpl implements IssuedTokenProvider {
             }
         }
         if (addedSigTarget){
-            policy.append((SecurityPolicy)sp);
+            policy.append(sp);
         }
     }
     
@@ -262,7 +266,7 @@ public class SCTokenProviderImpl implements IssuedTokenProvider {
             if(PolicyTypeUtil.signaturePolicy(primaryPolicy)){
                 SignaturePolicy sigPolicy = (SignaturePolicy)primaryPolicy;
                 if(sigPolicy.getUUID().equals("_99")){
-                    policy.remove((SecurityPolicy)sigPolicy);
+                    policy.remove(sigPolicy);
                     break;
                 }
             }

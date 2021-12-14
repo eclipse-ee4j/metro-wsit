@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -40,6 +40,8 @@ import com.sun.xml.wss.logging.LogDomainConstants;
 import com.sun.xml.ws.security.opt.impl.JAXBFilterProcessingContext;
 import com.sun.xml.wss.impl.policy.mls.EncryptionPolicy.FeatureBinding;
 import com.sun.xml.wss.logging.impl.opt.crypto.LogStringsMessages;
+
+import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
@@ -57,12 +59,7 @@ public class EncryptionProcessor {
     private static final Logger logger = Logger.getLogger(LogDomainConstants.IMPL_OPT_CRYPTO_DOMAIN,
             LogDomainConstants.IMPL_OPT_CRYPTO_DOMAIN_BUNDLE);
     static{
-        try{
-            crlf =  "\r\n".getBytes("US-ASCII");
-        }catch( java.io.UnsupportedEncodingException ue){
-            //log;
-            logger.log(Level.SEVERE,LogStringsMessages.WSS_1917_CRLF_INIT_FAILED(),ue);
-        }
+        crlf =  "\r\n".getBytes(StandardCharsets.US_ASCII);
     }
     /** Creates a new instance of EncryptionProcessor */
     public EncryptionProcessor() {
@@ -70,7 +67,6 @@ public class EncryptionProcessor {
     /**
      * performs encryption
      * @param context JAXBFilterProcessingContext
-     * @throws XWSSecurityException
      */
     public void process(JAXBFilterProcessingContext context) throws XWSSecurityException{
         boolean ekRefList = false;
@@ -157,11 +153,7 @@ public class EncryptionProcessor {
         }
     }
     /**
-     * 
-     * @param elemName
-     * @param uri
-     * @param contentOnly
-     * @throws XWSSecurityException
+     *
      */
     private void checkBSP5607(String elemName, String uri, boolean contentOnly) throws XWSSecurityException {
         // BSP: 5607

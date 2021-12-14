@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -10,7 +10,6 @@
 
 package com.sun.xml.wss.impl.callback;
 
-import javax.security.auth.Subject;
 import org.w3c.dom.Element;
 import javax.xml.stream.XMLStreamReader;
 
@@ -28,21 +27,19 @@ public interface SAMLAssertionValidator {
          * SAML validator.
          * @param assertion the assertion to be validated
          * successful validation.
-         * @throws SAMLValidationException if the SAML Assertion is invalid
          */
-        public void validate(Element assertion)
-            throws SAMLValidationException;
+        void validate(Element assertion)
+        ;
 
         /**
          * SAML validator.
          * @param assertion the assertion to be validated
          * successful validation.
-         * @throws SAMLValidationException if the SAML Assertion is invalid
          */
-        public void validate(XMLStreamReader assertion)
-            throws SAMLValidationException;
+        void validate(XMLStreamReader assertion)
+        ;
 
-        public static class SAMLValidationException extends Exception {
+        class SAMLValidationException extends Exception {
                                                                                                                       
         public SAMLValidationException(String message) {
             super(message);

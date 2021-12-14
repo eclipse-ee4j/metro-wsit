@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -30,11 +30,12 @@ import jakarta.xml.ws.WebServiceException;
 
 public class CoordinationContextBuilderImpl extends CoordinationContextBuilder {
 
+    @Override
     protected CoordinationContextIF _fromHeader(Header header){
         try {
             Unmarshaller unmarshaller = XmlTypeAdapter.CoordinationContextImpl.jaxbContext.createUnmarshaller();
             CoordinationContext cct = header.readAsJAXB(unmarshaller);
-            return new XmlTypeAdapter().adapt(cct);
+            return XmlTypeAdapter.adapt(cct);
         } catch (JAXBException e) {
             throw new WebServiceException(e);
         }
@@ -45,9 +46,10 @@ public class CoordinationContextBuilderImpl extends CoordinationContextBuilder {
 
         CoordinationContext cct = buildContext();
 
-        return new XmlTypeAdapter().adapt(cct);
+        return XmlTypeAdapter.adapt(cct);
     }
 
+    @Override
     public JAXBRIContext getJAXBRIContext() {
         return XmlTypeAdapter.CoordinationContextImpl.jaxbContext;
     }

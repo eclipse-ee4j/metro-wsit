@@ -85,7 +85,7 @@ public class SPKIDataType {
      */
     public List<Object> getSPKISexpAndAny() {
         if (spkiSexpAndAny == null) {
-            spkiSexpAndAny = new ArrayList<Object>();
+            spkiSexpAndAny = new ArrayList<>();
         }
         return this.spkiSexpAndAny;
     }

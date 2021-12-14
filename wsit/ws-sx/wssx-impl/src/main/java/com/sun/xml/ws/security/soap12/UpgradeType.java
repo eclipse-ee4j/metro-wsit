@@ -78,7 +78,7 @@ public class UpgradeType {
      */
     public List<SupportedEnvType> getSupportedEnvelope() {
         if (supportedEnvelope == null) {
-            supportedEnvelope = new ArrayList<SupportedEnvType>();
+            supportedEnvelope = new ArrayList<>();
         }
         return this.supportedEnvelope;
     }

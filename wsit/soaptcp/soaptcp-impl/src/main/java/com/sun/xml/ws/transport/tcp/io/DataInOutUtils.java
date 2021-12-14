@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -184,7 +184,7 @@ public final class DataInOutUtils {
         } while(value != 0);
     }
     
-    public static void writeInt8(final ByteBuffer bb, int value) throws IOException {
+    public static void writeInt8(final ByteBuffer bb, int value) {
         int octet;
         do {
             octet = value & 0x7F;
@@ -298,7 +298,7 @@ public final class DataInOutUtils {
         return 0;
     }
     
-    public static int writeInt4(final ByteBuffer bb, int value, int highValue, final boolean flush) throws IOException {
+    public static int writeInt4(final ByteBuffer bb, int value, int highValue, final boolean flush) {
         int nibbleL;
         int nibbleH;
         

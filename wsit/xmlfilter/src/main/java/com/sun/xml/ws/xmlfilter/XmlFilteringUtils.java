@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -56,10 +56,10 @@ public final class XmlFilteringUtils {
     public static QName getElementNameToWrite(final Invocation invocation, final String defaultNamespaceURI) {
         checkInvocationParameter(invocation, XmlStreamWriterMethodType.WRITE_START_ELEMENT);
         
-        /**
-         * void writeStartElement(String localName)
-         * void writeStartElement(String namespaceURI, String localName)
-         * void writeStartElement(String prefix, String localName, String namespaceURI)
+        /*
+          void writeStartElement(String localName)
+          void writeStartElement(String namespaceURI, String localName)
+          void writeStartElement(String prefix, String localName, String namespaceURI)
          */
         final int argumentsCount = invocation.getArgumentsCount();
         final String namespaceURI;

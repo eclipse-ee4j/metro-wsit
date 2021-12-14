@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -80,7 +80,7 @@ public class JAXBSignatureFactory extends javax.xml.crypto.dsig.XMLSignatureFact
         return instance;
     }
     
-    public JAXBContext getJAXBContext() throws JAXBException{
+    public JAXBContext getJAXBContext() {
         return JAXBUtil.getJAXBContext();
     }
     
@@ -93,6 +93,7 @@ public class JAXBSignatureFactory extends javax.xml.crypto.dsig.XMLSignatureFact
      *
      * @return XMLSignature
      */
+    @Override
     public XMLSignature newXMLSignature(SignedInfo signedInfo, KeyInfo keyInfo) {
         if ( signedInfo == null ) {
             throw new NullPointerException("SignedInfo can not be null");
@@ -115,6 +116,7 @@ public class JAXBSignatureFactory extends javax.xml.crypto.dsig.XMLSignatureFact
      * @return XMLSignature
      * 
      */
+    @Override
     @SuppressWarnings("unchecked")
     public XMLSignature newXMLSignature(SignedInfo signedInfo, KeyInfo keyInfo, List objects, String id, String type) {
         Signature signature = (Signature) newXMLSignature(signedInfo, keyInfo);
@@ -128,12 +130,10 @@ public class JAXBSignatureFactory extends javax.xml.crypto.dsig.XMLSignatureFact
      *
      * Creates a Reference with the specified URI and digest method.
      *
-     * @param uri
-     * @param digestMethod
-     *
      * @return Reference
      *
      */
+    @Override
     public Reference newReference(String uri, DigestMethod digestMethod) {
         if ( digestMethod == null ) {
             throw new NullPointerException("Digest method can not be null");
@@ -147,13 +147,9 @@ public class JAXBSignatureFactory extends javax.xml.crypto.dsig.XMLSignatureFact
     /**
      * Creates a Reference with the specified parameters 
      *
-     * @param uri 
-     * @param digestMethod 
-     * @param transforms 
-     * @param type 
-     * @param id 
      * @return Reference
      */
+    @Override
     @SuppressWarnings("unchecked")
     public Reference newReference(String uri, DigestMethod digestMethod, List transforms, String type, String id) {
         com.sun.xml.ws.security.opt.crypto.dsig.Reference ref = (com.sun.xml.ws.security.opt.crypto.dsig.Reference) newReference(uri, digestMethod);
@@ -171,14 +167,9 @@ public class JAXBSignatureFactory extends javax.xml.crypto.dsig.XMLSignatureFact
      *
      * Creates a Reference with the specified parameters  
      *
-     * @param uri 
-     * @param digestMethod 
-     * @param transforms 
-     * @param type 
-     * @param id 
-     * @param digestValue 
      * @return Reference
      */
+    @Override
     public Reference newReference(String uri, DigestMethod digestMethod, List transforms, String type, String id, byte[] digestValue) {
         if ( digestMethod == null ) {
             throw new NullPointerException("DigestMethod can not be null");
@@ -195,15 +186,9 @@ public class JAXBSignatureFactory extends javax.xml.crypto.dsig.XMLSignatureFact
      * 
      * Creates a Reference with the specified parameters 
      *
-     * @param string 
-     * @param digestMethod 
-     * @param list 
-     * @param data 
-     * @param list0 
-     * @param string0 
-     * @param string1 
      * @return Reference
      */
+    @Override
     public Reference newReference(String string, DigestMethod digestMethod, List list, Data data, List list0, String string0, String string1) {
         throw new UnsupportedOperationException("Not yet suported");
     }
@@ -212,11 +197,9 @@ public class JAXBSignatureFactory extends javax.xml.crypto.dsig.XMLSignatureFact
      * 
      * Creates a SignedInfo with the specified parameters 
      *
-     * @param canonicalizationMethod 
-     * @param signatureMethod 
-     * @param references 
      * @return SignedInfo
      */
+    @Override
     @SuppressWarnings("unchecked")
     public SignedInfo newSignedInfo(CanonicalizationMethod canonicalizationMethod, SignatureMethod signatureMethod, List references) {
         
@@ -240,12 +223,9 @@ public class JAXBSignatureFactory extends javax.xml.crypto.dsig.XMLSignatureFact
      * 
      * Creates a SignedInfo with the specified parameters 
      *
-     * @param canonicalizationMethod 
-     * @param signatureMethod 
-     * @param references 
-     * @param id 
      * @return SignedInfo
      */
+    @Override
     public SignedInfo newSignedInfo(CanonicalizationMethod canonicalizationMethod, SignatureMethod signatureMethod, List references, String id) {
         com.sun.xml.ws.security.opt.crypto.dsig.SignedInfo signedInfo = 
                 (com.sun.xml.ws.security.opt.crypto.dsig.SignedInfo) newSignedInfo(canonicalizationMethod, signatureMethod, references);
@@ -257,12 +237,9 @@ public class JAXBSignatureFactory extends javax.xml.crypto.dsig.XMLSignatureFact
      * 
      * Creates a XMLObject with the specified parameters 
      *
-     * @param content 
-     * @param id 
-     * @param mime 
-     * @param encoding 
      * @return XMLObject
      */
+    @Override
     public XMLObject newXMLObject(List content, String id, String mime, String encoding) {
         com.sun.xml.ws.security.opt.crypto.dsig.XMLObject xmlObject = 
                 new com.sun.xml.ws.security.opt.crypto.dsig.XMLObject();
@@ -277,53 +254,46 @@ public class JAXBSignatureFactory extends javax.xml.crypto.dsig.XMLSignatureFact
      * 
      * Creates a Manifest with the specified parameters
      *
-     * @param list 
      * @return Manifest
      */
+    @Override
     public Manifest newManifest(List list) {
         return null;
     }
 
     /**
      * Creates a Manifest with the specified parameters
-     * @param list 
-     * @param string 
      * @return Manifest
      */
+    @Override
     public Manifest newManifest(List list, String string) {
         return null;
     }
 
     /**
      * Creates a SignatureProperty with the specified parameters
-     * @param list 
-     * @param string 
-     * @param string0 
      * @return SignatureProperty
      */
+    @Override
     public SignatureProperty newSignatureProperty(List list, String string, String string0) {
         return null;
     }
 
     /**
      * Creates a SignatureProperties with the specified parameters
-     * @param list 
-     * @param string 
      * @return SignatureProperties
      */
+    @Override
     public SignatureProperties newSignatureProperties(List list, String string) {
         return null;
     }
 
     /**
      * Creates a DigestMethod with the specified parameters
-     * @param algorithm 
-     * @param digestMethodParameterSpec 
-     * @throws java.security.NoSuchAlgorithmException 
-     * @throws java.security.InvalidAlgorithmParameterException 
      * @return DigestMethod
      */
-    public DigestMethod newDigestMethod(String algorithm, DigestMethodParameterSpec digestMethodParameterSpec) throws NoSuchAlgorithmException, InvalidAlgorithmParameterException {
+    @Override
+    public DigestMethod newDigestMethod(String algorithm, DigestMethodParameterSpec digestMethodParameterSpec) {
         if ( algorithm == null ) {
             throw new NullPointerException("Digest algorithm can not be null");
         }
@@ -336,13 +306,10 @@ public class JAXBSignatureFactory extends javax.xml.crypto.dsig.XMLSignatureFact
 
     /**
      * Creates a SignatureMethod with the specified parameters
-     * @param algorithm 
-     * @param signatureMethodParameterSpec 
-     * @throws java.security.NoSuchAlgorithmException 
-     * @throws java.security.InvalidAlgorithmParameterException 
      * @return SignatureMethod
      */
-    public SignatureMethod newSignatureMethod(String algorithm, SignatureMethodParameterSpec signatureMethodParameterSpec) throws NoSuchAlgorithmException, InvalidAlgorithmParameterException {
+    @Override
+    public SignatureMethod newSignatureMethod(String algorithm, SignatureMethodParameterSpec signatureMethodParameterSpec) {
         if ( algorithm == null ) {
             throw new NullPointerException("Signature Method algorithm can not be null");
         }
@@ -357,13 +324,10 @@ public class JAXBSignatureFactory extends javax.xml.crypto.dsig.XMLSignatureFact
 
     /**
      * Creates a Transform with the specified parameters
-     * @param algorithm 
-     * @param transformParameterSpec 
-     * @throws java.security.NoSuchAlgorithmException 
-     * @throws java.security.InvalidAlgorithmParameterException 
      * @return Transforms
      */
-    public Transform newTransform(String algorithm, TransformParameterSpec transformParameterSpec) throws NoSuchAlgorithmException, InvalidAlgorithmParameterException {
+    @Override
+    public Transform newTransform(String algorithm, TransformParameterSpec transformParameterSpec) {
         com.sun.xml.ws.security.opt.crypto.dsig.Transform transform = 
                 new com.sun.xml.ws.security.opt.crypto.dsig.Transform();
         transform.setAlgorithm(algorithm);
@@ -373,14 +337,11 @@ public class JAXBSignatureFactory extends javax.xml.crypto.dsig.XMLSignatureFact
 
     /**
      * Creates a Transform with the specified parameters
-     * @param algorithm 
-     * @param xMLStructure 
-     * @throws java.security.NoSuchAlgorithmException 
-     * @throws java.security.InvalidAlgorithmParameterException 
      * @return Transform
      */
+    @Override
     @SuppressWarnings("unchecked")
-    public Transform newTransform(String algorithm, XMLStructure xMLStructure) throws NoSuchAlgorithmException, InvalidAlgorithmParameterException {
+    public Transform newTransform(String algorithm, XMLStructure xMLStructure) {
         if ( algorithm == null ) {
             throw new NullPointerException("Algorithm can not be null");
         }
@@ -397,13 +358,10 @@ public class JAXBSignatureFactory extends javax.xml.crypto.dsig.XMLSignatureFact
 
     /**
      * Creates a CanonicalizationMethod with the specified parameters
-     * @param algorithm 
-     * @param c14NMethodParameterSpec 
-     * @throws java.security.NoSuchAlgorithmException 
-     * @throws java.security.InvalidAlgorithmParameterException 
      * @return CanonicalizationMethod
      */
-    public CanonicalizationMethod newCanonicalizationMethod(String algorithm, C14NMethodParameterSpec c14NMethodParameterSpec) throws NoSuchAlgorithmException, InvalidAlgorithmParameterException {
+    @Override
+    public CanonicalizationMethod newCanonicalizationMethod(String algorithm, C14NMethodParameterSpec c14NMethodParameterSpec) {
         com.sun.xml.ws.security.opt.crypto.dsig.CanonicalizationMethod canonicalizationMethod = 
                 new com.sun.xml.ws.security.opt.crypto.dsig.CanonicalizationMethod();
         canonicalizationMethod.setAlgorithm(algorithm);
@@ -413,14 +371,11 @@ public class JAXBSignatureFactory extends javax.xml.crypto.dsig.XMLSignatureFact
 
     /**
      * Creates a CanonicalizationMethod with the specified parameters
-     * @param algorithm 
-     * @param xMLStructure 
-     * @throws java.security.NoSuchAlgorithmException 
-     * @throws java.security.InvalidAlgorithmParameterException 
      * @return CanonicalizationMethod
      */
+    @Override
     @SuppressWarnings("unchecked")
-    public CanonicalizationMethod newCanonicalizationMethod(String algorithm, XMLStructure xMLStructure) throws NoSuchAlgorithmException, InvalidAlgorithmParameterException {
+    public CanonicalizationMethod newCanonicalizationMethod(String algorithm, XMLStructure xMLStructure) {
         com.sun.xml.ws.security.opt.crypto.dsig.CanonicalizationMethod canonicalizationMethod = 
                 new com.sun.xml.ws.security.opt.crypto.dsig.CanonicalizationMethod();
         canonicalizationMethod.setAlgorithm(algorithm);
@@ -439,13 +394,6 @@ public class JAXBSignatureFactory extends javax.xml.crypto.dsig.XMLSignatureFact
     }
     /**
      * Creates a DSAKeyValue with the specified parameters
-     * @param p 
-     * @param q 
-     * @param g 
-     * @param y 
-     * @param j 
-     * @param seed 
-     * @param pgenCounter 
      * @return DSAKeyValue
      */
     public DSAKeyValue newDSAKeyValue(
@@ -471,8 +419,6 @@ public class JAXBSignatureFactory extends javax.xml.crypto.dsig.XMLSignatureFact
     
     /**
      * Creates a KeyInfo with the specified parameters
-     * @param id 
-     * @param content 
      * @return KeyInfo
      */
     @SuppressWarnings("unchecked")
@@ -485,7 +431,6 @@ public class JAXBSignatureFactory extends javax.xml.crypto.dsig.XMLSignatureFact
     
     /**
      * Creates a KeyName with the specified parameters
-     * @param name 
      * @return KeyName
      */
     public KeyName newKeyName(String name) {
@@ -496,7 +441,6 @@ public class JAXBSignatureFactory extends javax.xml.crypto.dsig.XMLSignatureFact
     
     /**
      * Creates a KeyValue with the specified parameters
-     * @param content 
      * @return KeyValue
      */
     @SuppressWarnings("unchecked")
@@ -510,7 +454,6 @@ public class JAXBSignatureFactory extends javax.xml.crypto.dsig.XMLSignatureFact
     
     /**
      * Creates a PGPData with the specified parameters
-     * @param content 
      * @return PGPData
      */
     @SuppressWarnings("unchecked")
@@ -522,8 +465,6 @@ public class JAXBSignatureFactory extends javax.xml.crypto.dsig.XMLSignatureFact
     
     /**
      * Creates a RSAKeyValue with the specified parameters
-     * @param modulas 
-     * @param exponent 
      * @return RSAKeyValue
      */
     public RSAKeyValue newRSAKeyValue(byte[] modulas, byte[] exponent) {
@@ -535,9 +476,6 @@ public class JAXBSignatureFactory extends javax.xml.crypto.dsig.XMLSignatureFact
     
     /**
      * Creates a RetrievalMethod with the specified parameters
-     * @param transforms 
-     * @param type 
-     * @param uri 
      * @return RetrievalMethod
      */
     public RetrievalMethod newRetrievalMethod(Transforms transforms, String type, String uri) {
@@ -550,7 +488,6 @@ public class JAXBSignatureFactory extends javax.xml.crypto.dsig.XMLSignatureFact
     
     /**
      * Creates a SPKIData with the specified parameters
-     * @param spkiSexpAndAny 
      * @return SPKIData
      */
     @SuppressWarnings("unchecked")
@@ -562,7 +499,6 @@ public class JAXBSignatureFactory extends javax.xml.crypto.dsig.XMLSignatureFact
     
     /**
      * Creates a X509Data with the specified parameters
-     * @param content 
      * @return X509Data
      */
     @SuppressWarnings("unchecked")
@@ -574,8 +510,6 @@ public class JAXBSignatureFactory extends javax.xml.crypto.dsig.XMLSignatureFact
     
     /**
      * Creates a X509IssuerSerial with the specified parameters
-     * @param issuer 
-     * @param serialno 
      * @return X509IssuerSerial
      */
     public X509IssuerSerial newX509IssuerSerial(String issuer, BigInteger serialno) {
@@ -586,38 +520,33 @@ public class JAXBSignatureFactory extends javax.xml.crypto.dsig.XMLSignatureFact
     }
     
     /**
-     * 
-     * @param xMLValidateContext 
-     * @throws javax.xml.crypto.MarshalException 
-     * @return 
+     *
      */
+    @Override
     public XMLSignature unmarshalXMLSignature(XMLValidateContext xMLValidateContext) throws MarshalException {
         return null;
     }
 
     /**
-     * 
-     * @param xMLStructure 
-     * @throws javax.xml.crypto.MarshalException 
-     * @return 
+     *
      */
+    @Override
     public XMLSignature unmarshalXMLSignature(XMLStructure xMLStructure) throws MarshalException {
         return null;
     }
 
     /**
-     * 
-     * @param string 
-     * @return 
+     *
      */
+    @Override
     public boolean isFeatureSupported(String string) {
         return false;
     }
 
     /**
-     * 
-     * @return 
+     *
      */
+    @Override
     public URIDereferencer getURIDereferencer() {
         return null;
     }

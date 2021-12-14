@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -47,11 +47,13 @@ public class ImageCanonicalizer extends Canonicalizer {
      * So right now we are just serializing the attachment for gif data types.
      *
      */
-    public byte[] canonicalize(byte[] input) throws XWSSecurityException {
+    @Override
+    public byte[] canonicalize(byte[] input) {
         return input;
     }
     
-    public InputStream canonicalize(InputStream input,OutputStream outputStream)
+    @Override
+    public InputStream canonicalize(InputStream input, OutputStream outputStream)
     throws javax.xml.crypto.dsig.TransformException  {
         try{
             if(outputStream == null){

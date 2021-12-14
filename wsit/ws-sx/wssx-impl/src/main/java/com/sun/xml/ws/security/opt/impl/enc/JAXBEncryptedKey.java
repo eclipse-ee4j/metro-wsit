@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -74,19 +74,23 @@ public class JAXBEncryptedKey implements EncryptedKey,
     public void decrypt() {
     }
     
+    @Override
     public String getId() {
         return ekt.getId();
     }
     
+    @Override
     public void setId(String id) {
         ekt.setId(id);
     }
     
+    @Override
     public String getNamespaceURI() {
         return "http://www.w3.org/2001/04/xmlenc#";
     }
     
     
+    @Override
     public String getLocalPart() {
         return "EncryptedKey";
     }
@@ -101,27 +105,28 @@ public class JAXBEncryptedKey implements EncryptedKey,
         throw new UnsupportedOperationException();
     }
     
-    public javax.xml.stream.XMLStreamReader readHeader() throws javax.xml.stream.XMLStreamException {
+    @Override
+    public javax.xml.stream.XMLStreamReader readHeader() {
         throw new UnsupportedOperationException();
     }
     
-    public <T> T readAsJAXB(Unmarshaller unmarshaller) throws jakarta.xml.bind.JAXBException {
+    public <T> T readAsJAXB(Unmarshaller unmarshaller) {
         throw new UnsupportedOperationException();
     }
     
-    public <T> T readAsJAXB(org.glassfish.jaxb.runtime.api.Bridge<T> bridge, org.glassfish.jaxb.runtime.api.BridgeContext context) throws jakarta.xml.bind.JAXBException {
+    public <T> T readAsJAXB(org.glassfish.jaxb.runtime.api.Bridge<T> bridge, org.glassfish.jaxb.runtime.api.BridgeContext context) {
         throw new UnsupportedOperationException();
     }
     
-    public <T> T readAsJAXB(org.glassfish.jaxb.runtime.api.Bridge<T> bridge) throws jakarta.xml.bind.JAXBException {
+    public <T> T readAsJAXB(org.glassfish.jaxb.runtime.api.Bridge<T> bridge) {
         throw new UnsupportedOperationException();
     }
 
     /**
      * writes the jaxb encrypted key to to an XMLStreamWriter
      * @param streamWriter javax.xml.stream.XMLStreamWriter
-     * @throws javax.xml.stream.XMLStreamException
      */
+    @Override
     public void writeTo(javax.xml.stream.XMLStreamWriter streamWriter) throws javax.xml.stream.XMLStreamException {
         Marshaller writer;
         try {
@@ -138,8 +143,6 @@ public class JAXBEncryptedKey implements EncryptedKey,
             writer.marshal(ed,streamWriter);
         } catch (jakarta.xml.bind.JAXBException ex) {
             logger.log(Level.SEVERE,LogStringsMessages.WSS_1921_ERROR_WRITING_ENCRYPTEDKEY(ex.getMessage()), ex);
-        } catch (com.sun.xml.wss.XWSSecurityException ex) {
-            logger.log(Level.SEVERE,LogStringsMessages.WSS_1921_ERROR_WRITING_ENCRYPTEDKEY(ex.getMessage()), ex);
         }
     }
     
@@ -147,6 +150,7 @@ public class JAXBEncryptedKey implements EncryptedKey,
      * writes the jaxb encrypted key to to an XMLStreamWriter
      * @param os OutputStream
      */
+    @Override
     public void writeTo(OutputStream os)  {
         Marshaller writer;
         try {
@@ -156,12 +160,10 @@ public class JAXBEncryptedKey implements EncryptedKey,
             writer.marshal(ed,os);
         } catch (jakarta.xml.bind.JAXBException ex) {
             logger.log(Level.SEVERE,LogStringsMessages.WSS_1921_ERROR_WRITING_ENCRYPTEDKEY(ex.getMessage()), ex);
-        } catch (com.sun.xml.wss.XWSSecurityException ex) {
-            logger.log(Level.SEVERE,LogStringsMessages.WSS_1921_ERROR_WRITING_ENCRYPTEDKEY(ex.getMessage()), ex);
         }
     }
     
-    private JAXBElement getEK(Marshaller writer) throws JAXBException, XWSSecurityException{
+    private JAXBElement getEK(Marshaller writer) {
         
         CVAdapter adapter = new CVAdapter(dep);
         writer.setAdapter(CVAdapter.class,adapter);
@@ -173,7 +175,7 @@ public class JAXBEncryptedKey implements EncryptedKey,
         throw new UnsupportedOperationException();
     }
     
-    public void writeTo(ContentHandler contentHandler, ErrorHandler errorHandler) throws SAXException {
+    public void writeTo(ContentHandler contentHandler, ErrorHandler errorHandler) {
         throw new UnsupportedOperationException();
     }
     
@@ -189,6 +191,7 @@ public class JAXBEncryptedKey implements EncryptedKey,
         return JAXBUtil.createMarshaller(soapVersion);
     }
     
+    @Override
     public ReferenceList getReferenceList() {
         return ekt.getReferenceList();
     }
@@ -198,9 +201,8 @@ public class JAXBEncryptedKey implements EncryptedKey,
     }
     /**
      * finds whether the this security header element refers to the element with given id
-     * @param id
-     * @return
      */
+    @Override
     @SuppressWarnings("unchecked")
     public boolean refersToSecHdrWithId(String id) {
         KeyInfo ki = (KeyInfo) this.ekt.getKeyInfo();
@@ -222,13 +224,11 @@ public class JAXBEncryptedKey implements EncryptedKey,
         if(list == null){
             return false;
         }
-        StringBuffer sb = new StringBuffer();
-        sb.append("#");
-        sb.append(id);
-        String idref = sb.toString();
+        String idref = "#" +
+                id;
         for(int i=0;i< list.size();i++){
             JAXBElement<ReferenceType> rt =(JAXBElement<ReferenceType> )list.get(i);
-            ReferenceType ref = (ReferenceType) rt.getValue();
+            ReferenceType ref = rt.getValue();
             if(ref.getURI().equals(idref)){
                 return true;
             }
@@ -236,10 +236,12 @@ public class JAXBEncryptedKey implements EncryptedKey,
         return false;
     }
     
+    @Override
     public void setReferenceList(ReferenceList list) {
         ekt.setReferenceList(list);
     }
     
+    @Override
     public Key getKey() {
         return dataEnckey;
     }
@@ -252,8 +254,8 @@ public class JAXBEncryptedKey implements EncryptedKey,
      * writes the jaxb encrypted key to to an XMLStreamWriter
      * @param streamWriter javax.xml.stream.XMLStreamWriter
      * @param props HashMap
-     * @throws XMLStreamException
      */
+    @Override
     @SuppressWarnings("unchecked")
     public void writeTo(javax.xml.stream.XMLStreamWriter streamWriter, HashMap props) throws XMLStreamException {
         try{

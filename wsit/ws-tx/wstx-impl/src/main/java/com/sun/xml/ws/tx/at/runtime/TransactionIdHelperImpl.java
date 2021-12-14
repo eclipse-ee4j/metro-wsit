@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -31,11 +31,12 @@ class TransactionIdHelperImpl extends TransactionIdHelper {
   private Map<String, Xid> tids2xids;
   private Map<Xid, String> xids2tids;
 
-  public TransactionIdHelperImpl() throws NoSuchAlgorithmException {
-    tids2xids = new HashMap<String, Xid>();
-    xids2tids = new HashMap<Xid, String>();
+  public TransactionIdHelperImpl() {
+    tids2xids = new HashMap<>();
+    xids2tids = new HashMap<>();
   }
 
+  @Override
   public String xid2wsatid(Xid xid) {
       return xidToString(xid, true);
   // return xid.toString();
@@ -44,7 +45,7 @@ class TransactionIdHelperImpl extends TransactionIdHelper {
   //XAResourceHelper.xidToString(Xid xid, true)
   static String xidToString(Xid xid, boolean includeBranchQualifier) {
     if (xid == null) return "";
-    StringBuffer sb = new StringBuffer()
+    StringBuilder sb = new StringBuilder()
       .append(Integer.toHexString(xid.getFormatId()).toUpperCase(Locale.ENGLISH)).append("-")
       .append(byteArrayToString(xid.getGlobalTransactionId()));
     if (includeBranchQualifier) {
@@ -56,7 +57,7 @@ class TransactionIdHelperImpl extends TransactionIdHelper {
     return sb.toString();
   }
 
-  private static final char DIGITS[]   = {
+  private static final char[] DIGITS = {
     '0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'};
 
   private static String byteArrayToString(byte[] barray) {
@@ -71,6 +72,7 @@ class TransactionIdHelperImpl extends TransactionIdHelper {
 
   }
 
+  @Override
   public Xid wsatid2xid(String wsatid) {
     return create(wsatid);
   }
@@ -102,6 +104,7 @@ class TransactionIdHelperImpl extends TransactionIdHelper {
     return bytes;
   }
 
+  @Override
   public synchronized Xid getOrCreateXid(byte[] tid) {
     Xid xid = getXid(tid);
     if (xid != null) return xid;
@@ -120,16 +123,19 @@ class TransactionIdHelperImpl extends TransactionIdHelper {
   }
 
 
+  @Override
   public synchronized byte[] getTid(Xid xid) {
     String stid = xids2tids.get(xid);
     if (stid == null) return null;
     return stid.getBytes();
   }
 
+  @Override
   public synchronized Xid getXid(byte[] tid) {
     return tids2xids.get(new String(tid));
   }
 
+  @Override
   public synchronized Xid remove(byte[] tid) {
     if (getXid(tid) == null)
       return null;
@@ -138,6 +144,7 @@ class TransactionIdHelperImpl extends TransactionIdHelper {
     return xid;
   }
 
+  @Override
   public synchronized byte[] remove(Xid xid) {
     if (getTid(xid) == null)
       return null;

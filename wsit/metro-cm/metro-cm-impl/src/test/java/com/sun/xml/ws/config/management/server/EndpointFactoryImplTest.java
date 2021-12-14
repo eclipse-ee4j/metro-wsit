@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -77,7 +77,6 @@ public class EndpointFactoryImplTest extends TestCase {
 
     /**
      * Test of createEndpoint method, of class EndpointFactoryImpl.
-     * @throws Exception 
      */
     public void testCreateEndpointNoManagedAssertion() throws Exception {
         final URL resourceUrl = Thread.currentThread().getContextClassLoader().getResource("management/factory/managed.wsdl");

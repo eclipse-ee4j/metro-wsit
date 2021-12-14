@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -71,9 +71,10 @@ public class AttributeStatement extends AttributeStatementType
         }
     }
 
+    @Override
     public List<Attribute> getAttributes(){
         if(attValueList == null){
-            attValueList = new ArrayList<Attribute>();
+            attValueList = new ArrayList<>();
         }else{
             return attValueList;
         }
@@ -86,6 +87,7 @@ public class AttributeStatement extends AttributeStatementType
         return attValueList;                 
     }
 
+    @Override
     public Subject getSubject() {
         throw new UnsupportedOperationException("getSubject() on statement object is not supported for SAML 2.0 "+
                 "Make the direct call of getSubject() method on SAML2.0 assertion");

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -25,54 +25,54 @@ public interface SecureConversationToken extends Token {
      * returns a {@link java.util.Iterator } over the token reference types to be used.
      * @return either REQUIRE_EXTERNAL_URI_REFERENCE
      */
-    public Set getTokenRefernceTypes();
+    Set getTokenRefernceTypes();
     
     /**
      * returns true if RequiredDerivedKey element is present under SecureConversationToken
      * @return true if RequireDerviedKeys element is present under SecureConversationToken or false.
      */
-    public boolean isRequireDerivedKeys();
+    boolean isRequireDerivedKeys();
    
     /**
      * returns true if isMustNotSendCancel element is present under SecureConversationToken
      * @return true if isMustNotSendCancel element is present under SecureConversationToken or false.
      */
-    public boolean isMustNotSendCancel();
+    boolean isMustNotSendCancel();
     
     /**
      * returns true if isMustNotSendRenew element is present under SecureConversationToken
      * @return true if isMustNotSendRenew element is present under SecureConversationToken or false.
      */
-    public boolean isMustNotSendRenew();
+    boolean isMustNotSendRenew();
     
     /**
      * returns the type of the token.
      * @return one of SC10_SECURITYCONTEXT_TOKEN
      */
-    public String getTokenType();
+    String getTokenType();
     
     /**
      * returns the issuer for the SecureConversation token.
      * @return returns the issuer
      */
-    public Issuer getIssuer();
+    Issuer getIssuer();
     
     /**
      * 
      * @return the issuer name for SecureConversation token
      */
-    public IssuerName getIssuerName();
+    IssuerName getIssuerName();
     
     /**
      * 
      * @return Claims
-     */ 
-    public Claims getClaims();
+     */
+    Claims getClaims();
   
     /**
      * returns {@link com.sun.xml.ws.policy.Policy } which represents Bootstrap Policy
      * @return {@link com.sun.xml.ws.policy.Policy }
      */
-    public NestedPolicy getBootstrapPolicy();
+    NestedPolicy getBootstrapPolicy();
    
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -31,7 +31,7 @@ public interface SubjectConfirmationData {
      * @return object is {@link java.lang.String }
      *     
      */
-    public String getAddress();
+    String getAddress();
 
     /**
      * Gets the value of the inResponseTo property.
@@ -39,7 +39,7 @@ public interface SubjectConfirmationData {
      * @return object is {@link java.lang.String }
      *     
      */
-    public String getInResponseTo();
+    String getInResponseTo();
 
     /**
      * Gets the value of the notBefore property.
@@ -47,7 +47,7 @@ public interface SubjectConfirmationData {
      * @return object is {@link Date }
      *     
      */
-    public Date getNotBeforeDate();
+    Date getNotBeforeDate();
 
     /**
      * Gets the value of the notOnOrAfter property.
@@ -55,7 +55,7 @@ public interface SubjectConfirmationData {
      * @return object is {@link Date }
      *     
      */
-    public Date getNotOnOrAfterDate();
+    Date getNotOnOrAfterDate();
 
     /**
      * Gets the value of the recipient property.
@@ -63,5 +63,5 @@ public interface SubjectConfirmationData {
      * @return object is {@link java.lang.String }
      *     
      */
-    public String getRecipient();
+    String getRecipient();
 }

@@ -113,7 +113,7 @@ public class ListenerType
      */
     public List<DescriptionType> getDescription() {
         if (description == null) {
-            description = new ArrayList<DescriptionType>();
+            description = new ArrayList<>();
         }
         return this.description;
     }
@@ -142,7 +142,7 @@ public class ListenerType
      */
     public List<DisplayNameType> getDisplayName() {
         if (displayName == null) {
-            displayName = new ArrayList<DisplayNameType>();
+            displayName = new ArrayList<>();
         }
         return this.displayName;
     }
@@ -171,7 +171,7 @@ public class ListenerType
      */
     public List<IconType> getIcon() {
         if (icon == null) {
-            icon = new ArrayList<IconType>();
+            icon = new ArrayList<>();
         }
         return this.icon;
     }
@@ -224,6 +224,7 @@ public class ListenerType
         this.id = value;
     }
 
+    @Override
     public Locator sourceLocation() {
         return locator;
     }

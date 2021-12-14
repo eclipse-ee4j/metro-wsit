@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -31,10 +31,12 @@ public class BufferedMessageInputStream extends InputStream {
     }
     
     
+    @Override
     public int read() throws IOException {
         return inputStream.read();
     }
     
+    @Override
     public int read(final byte[] b, final int offset, final int length) throws IOException {
         return inputStream.read(b, offset, length);
     }
@@ -73,6 +75,7 @@ public class BufferedMessageInputStream extends InputStream {
         return isBuffered;
     }
     
+    @Override
     public void close() throws IOException {
         isClosed = true;
         inputStream.close();

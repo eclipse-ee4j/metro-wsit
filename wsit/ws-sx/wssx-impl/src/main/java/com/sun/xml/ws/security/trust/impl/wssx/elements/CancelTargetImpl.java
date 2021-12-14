@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -46,7 +46,7 @@ public class CancelTargetImpl extends CancelTargetType implements CancelTarget {
         setTargetType(CancelTarget.CUSTOM_TARGET_TYPE);
     }
     
-    public CancelTargetImpl (CancelTargetType ctType)throws Exception{
+    public CancelTargetImpl (CancelTargetType ctType) {
         JAXBElement obj = (JAXBElement)ctType.getAny();
         String local = obj.getName().getLocalPart();
         if ("SecurityTokenReference".equals(local)) {
@@ -59,6 +59,7 @@ public class CancelTargetImpl extends CancelTargetType implements CancelTarget {
         } 
     }
     
+    @Override
     public String getTargetType() {
         return targetType;
     }
@@ -67,6 +68,7 @@ public class CancelTargetImpl extends CancelTargetType implements CancelTarget {
         targetType = ttype;
     }
     
+    @Override
     public void setSecurityTokenReference(SecurityTokenReference ref) {
         if (ref != null) {
             str = ref;
@@ -78,10 +80,12 @@ public class CancelTargetImpl extends CancelTargetType implements CancelTarget {
         token = null;        
     }
     
+    @Override
     public SecurityTokenReference getSecurityTokenReference() {
         return str;
     }
     
+    @Override
     public void setToken(Token token) {
         if (token != null) {
             this.token = token;
@@ -91,6 +95,7 @@ public class CancelTargetImpl extends CancelTargetType implements CancelTarget {
         str = null;
     }
     
+    @Override
     public Token getToken() {
         return token;
     }

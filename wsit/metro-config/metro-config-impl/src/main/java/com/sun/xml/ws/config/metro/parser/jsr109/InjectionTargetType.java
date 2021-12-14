@@ -135,6 +135,7 @@ public class InjectionTargetType
         this.injectionTargetName = value;
     }
 
+    @Override
     public Locator sourceLocation() {
         return locator;
     }

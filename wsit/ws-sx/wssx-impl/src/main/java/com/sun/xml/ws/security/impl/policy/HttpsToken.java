@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -66,11 +66,13 @@ public class HttpsToken extends PolicyAssertion implements com.sun.xml.ws.securi
         requireCC = value;
     }
     
+    @Override
     public boolean isRequireClientCertificate() {
         populate();
         return this.requireCC;
     }
     
+    @Override
     public String getIncludeToken() {
         throw new UnsupportedOperationException("This method is not supported for HttpsToken");
     }
@@ -79,25 +81,30 @@ public class HttpsToken extends PolicyAssertion implements com.sun.xml.ws.securi
         throw new UnsupportedOperationException("This method is not supported for HttpsToken");
     }
     
+    @Override
     public String getTokenId() {
         return id;
     }
     
+    @Override
     public Issuer getIssuer() {
         populate();
         return issuer;
     }
     
+    @Override
     public IssuerName getIssuerName() {
         populate();
         return issuerName;
     }
     
+    @Override
     public Claims getClaims(){
         populate();
         return claims;
     }
     
+    @Override
     public AssertionFitness validate(boolean isServer) {
         return populate(isServer);
     }
@@ -160,10 +167,12 @@ public class HttpsToken extends PolicyAssertion implements com.sun.xml.ws.securi
         
     }
     
+    @Override
     public SecurityPolicyVersion getSecurityPolicyVersion() {
         return spVersion;
     }
 
+    @Override
     public boolean isHttpBasicAuthentication() {
         populate();
         if(SecurityPolicyVersion.SECURITYPOLICY200507.namespaceUri.equals(
@@ -174,6 +183,7 @@ public class HttpsToken extends PolicyAssertion implements com.sun.xml.ws.securi
         return httpBasicAuthentication;
     }
 
+    @Override
     public boolean isHttpDigestAuthentication() {
         populate();
         if(SecurityPolicyVersion.SECURITYPOLICY200507.namespaceUri.equals(

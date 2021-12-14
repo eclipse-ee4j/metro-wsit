@@ -56,100 +56,92 @@ import java.util.Set;
  */
 public interface AlgorithmSuite {
     
-    public static final String INCLUSIVE14N="InclusiveC14N";
-    public static final String SOAP_NORMALIZATION10="SOAPNormalization10";
-    public static final String STR_TRANSFORM10="STRTransform10";
-    public static final String XPATH10="XPath10";
-    public static final String XPATH_FILTER20="XPathFilter20";
-    public static int MAX_SKL = 256;
-    public static int MAX_AKL = 4096;
-    public static int MIN_AKL = 1024;
+    String INCLUSIVE14N="InclusiveC14N";
+    String SOAP_NORMALIZATION10="SOAPNormalization10";
+    String STR_TRANSFORM10="STRTransform10";
+    String XPATH10="XPath10";
+    String XPATH_FILTER20="XPathFilter20";
+    int MAX_SKL = 256;
+    int MAX_AKL = 4096;
+    int MIN_AKL = 1024;
     /**
      * returns the Algorithm suite to be used.
      * @return {@link AlgorithmSuiteValue}
      */
-    public AlgorithmSuiteValue getType();
+    AlgorithmSuiteValue getType();
     
     /**
      * Property set containing INCLUSIVE14N,SOAP_NORMALIZATION10,STR_TRANSFORM10,XPATH10,XPATH_FILTER20
      * @return list identifying the properties
      */
-    public Set getAdditionalProps();
+    Set getAdditionalProps();
     
     
     /**
      * Gets the Digest algorithm identified by this AlgorithmSuite.
      * @return String
      */
-    public String getDigestAlgorithm();
+    String getDigestAlgorithm();
     
     /**
      * Gets the Encryption algorithm
-     * @return
      */
-    public String getEncryptionAlgorithm();
+    String getEncryptionAlgorithm();
     
     /**
      * Gets the Symmetric key signature algorithm
-     * @return
      */
-    public String getSymmetricKeySignatureAlgorithm();
+    String getSymmetricKeySignatureAlgorithm();
     
     /**
      * Gets the Asymmetric key signature algorithm
-     * @return
      */
-    public String getAsymmetricKeySignatureAlgorithm();
+    String getAsymmetricKeySignatureAlgorithm();
     
     /**
      * Gets the Symmetric Key algorithm
-     * @return
      */
-    public String getSymmetricKeyAlgorithm();
+    String getSymmetricKeyAlgorithm();
     
     /**
      * Get the Assymetric key algorithm
-     * @return
      */
-    public String getAsymmetricKeyAlgorithm();
+    String getAsymmetricKeyAlgorithm();
     
     /**
      * Gets the Signature key derivation algorithm
-     * @return
      */
-    public String getSignatureKDAlogrithm();
+    String getSignatureKDAlogrithm();
     
     /**
      * Gets the Encryprion key derivation algorithm
-     * @return
      */
-    public String getEncryptionKDAlogrithm();
+    String getEncryptionKDAlogrithm();
     
     
     /**
      * Gets minimum key length  for symmetric key algorithm.
-     * @return
      */
-    public int getMinSKLAlgorithm();
+    int getMinSKLAlgorithm();
     
     /*
      * Gets the computed key algorithm
      */
-    public String getComputedKeyAlgorithm();
+    String getComputedKeyAlgorithm();
     /*
      *Gets the Maximum symmetric key length
      */
-    public int getMaxSymmetricKeyLength();
+    int getMaxSymmetricKeyLength();
     /*
      *Gets the minimum Asymmetric key length
      */
-    public int getMinAsymmetricKeyLength();
+    int getMinAsymmetricKeyLength();
     /*
      *Gets the maximum Asymmetric key length
      */
-    public int getMaxAsymmetricKeyLength();
+    int getMaxAsymmetricKeyLength();
 
-    public void setSignatureAlgorithm(String sigAlgo);
+    void setSignatureAlgorithm(String sigAlgo);
 
-    public String getSignatureAlgorithm();
+    String getSignatureAlgorithm();
 }

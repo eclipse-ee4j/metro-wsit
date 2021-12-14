@@ -49,18 +49,21 @@ class McConfigurationImpl extends RxConfigurationBase implements McConfiguration
         this.uniqueEndpointId = uniqueEndpointId;
     }
 
+    @Override
     public MakeConnectionSupportedFeature getFeature() {
         checkState();
 
         return mcSupportedFeature;
     }
 
+    @Override
     public McRuntimeVersion getRuntimeVersion() {
         checkState();
 
         return runtimeVersion;
     }
 
+    @Override
     public String getUniqueEndpointId() {
         checkState();
 

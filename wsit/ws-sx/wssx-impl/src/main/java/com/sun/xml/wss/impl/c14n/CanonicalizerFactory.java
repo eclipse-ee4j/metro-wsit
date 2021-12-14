@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -30,7 +30,7 @@ public class CanonicalizerFactory {
 
     static MimeHeaderCanonicalizer _mhCanonicalizer = null;
 
-    static HashMap<String, Object> _canonicalizers = new HashMap<String, Object>(10);
+    static HashMap<String, Object> _canonicalizers = new HashMap<>(10);
    
     public static final Canonicalizer getCanonicalizer(String mimeType) throws Exception {
         ContentType contentType = new ContentType(mimeType);        
@@ -117,8 +117,7 @@ public class CanonicalizerFactory {
      * Example of charset parameter as per the RFC definition is -
      * Content-type: text/plain; charset=iso-8859-1
      */
-    public static boolean ensureRegisteredCharset(ContentType contentType) 
-                                           throws XWSSecurityException {
+    public static boolean ensureRegisteredCharset(ContentType contentType) {
         String charsetName = contentType.getParameter("charset");
         if (charsetName != null) {            
             return Charset.forName(charsetName).isRegistered();

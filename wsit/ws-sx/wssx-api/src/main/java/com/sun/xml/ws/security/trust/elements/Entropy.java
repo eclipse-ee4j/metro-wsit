@@ -29,9 +29,9 @@ public interface Entropy {
     /** 
      * Constants defining the Type of Entropy
      */
-     public static final String BINARY_SECRET_TYPE="BinarySecret";
-     public static final String ENCRYPTED_KEY_TYPE="EncryptedKey";
-     public static final String CUSTOM_TYPE="Custom";
+    String BINARY_SECRET_TYPE="BinarySecret";
+     String ENCRYPTED_KEY_TYPE="EncryptedKey";
+     String CUSTOM_TYPE="Custom";
      
      /**
       *Gets the type of the Entropy contents

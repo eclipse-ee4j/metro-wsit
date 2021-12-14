@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -71,7 +71,7 @@ public final class WSTCPURI implements com.sun.xml.ws.transport.tcp.connectionca
         
         if (query != null && query.length() > 0) {
             final String[] paramsStr = query.split(";");
-            params = new HashMap<String, String>(paramsStr.length);
+            params = new HashMap<>(paramsStr.length);
             for(String paramStr : paramsStr) {
                 if (paramStr.length() > 0) {
                     final String[] paramAsgn = paramStr.split("=");
@@ -134,6 +134,7 @@ public final class WSTCPURI implements com.sun.xml.ws.transport.tcp.connectionca
         return host.hashCode() + (port << 2) + customPort;
     }
 
+    @Override
     public ConnectionSession createConnection() throws IOException {
         try {
             return WSConnectionManager.getInstance().createConnectionSession(this);
@@ -149,11 +150,13 @@ public final class WSTCPURI implements com.sun.xml.ws.transport.tcp.connectionca
      * This is used in JAXB serialization/deserialization
      */
     public static final class WSTCPURI2StringJAXBAdapter extends XmlAdapter<String, WSTCPURI> {
-        public String marshal(final WSTCPURI tcpURI) throws Exception {
+        @Override
+        public String marshal(final WSTCPURI tcpURI) {
             return tcpURI.toString();
         }
 
-        public WSTCPURI unmarshal(final String uri) throws Exception {
+        @Override
+        public WSTCPURI unmarshal(final String uri) {
             return WSTCPURI.parse(uri);
         }
         

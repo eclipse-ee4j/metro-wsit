@@ -111,16 +111,16 @@ public class WsdlDocumentFilterTest extends TestCase {
         
     }
     
-    private final XMLStreamWriter openFilteredWriter(Writer outputStream, InvocationProcessorFactory factory) throws XMLStreamException {
+    private XMLStreamWriter openFilteredWriter(Writer outputStream, InvocationProcessorFactory factory) throws XMLStreamException {
         XMLStreamWriter writer = XMLOutputFactory.newInstance().createXMLStreamWriter(outputStream);
         return EnhancedXmlStreamWriterProxy.createProxy(writer, factory);
     }
 
-    private final XMLStreamWriter openFilteredWriter(Writer outputStream, SDDocumentFilter filter) throws XMLStreamException, IOException {
+    private XMLStreamWriter openFilteredWriter(Writer outputStream, SDDocumentFilter filter) throws XMLStreamException, IOException {
         return filter.filter(null, XMLOutputFactory.newInstance().createXMLStreamWriter(outputStream));
     }
 
-    private final void performResourceBasedTest(String[] resourceNames, String resourcePrefix, String resourceSuffix, InvocationProcessorFactory factory) throws PolicyException, IOException, XMLStreamException {
+    private void performResourceBasedTest(String[] resourceNames, String resourcePrefix, String resourceSuffix, InvocationProcessorFactory factory) throws PolicyException, IOException, XMLStreamException {
         for (String testResourceName : resourceNames) {
             PolicySourceModel model = ResourceLoader.unmarshallModel(resourcePrefix + testResourceName + resourceSuffix);
             PolicySourceModel expected = ResourceLoader.unmarshallModel(resourcePrefix + testResourceName + "_expected" + resourceSuffix);
@@ -137,7 +137,7 @@ public class WsdlDocumentFilterTest extends TestCase {
         }
     }
 
-    private final void performResourceBasedTest(String[] resourceNames, String resourcePrefix, String resourceSuffix, SDDocumentFilter filter) throws PolicyException, IOException, XMLStreamException {
+    private void performResourceBasedTest(String[] resourceNames, String resourcePrefix, String resourceSuffix, SDDocumentFilter filter) throws PolicyException, IOException, XMLStreamException {
         for (String testResourceName : resourceNames) {
             PolicySourceModel model = ResourceLoader.unmarshallModel(resourcePrefix + testResourceName + resourceSuffix);
             PolicySourceModel expected = ResourceLoader.unmarshallModel(resourcePrefix + testResourceName + "_expected" + resourceSuffix);
@@ -154,7 +154,7 @@ public class WsdlDocumentFilterTest extends TestCase {
         }
     }
 
-    private final PolicyModelMarshaller getPolicyModelMarshaller() {
+    private PolicyModelMarshaller getPolicyModelMarshaller() {
         return marshaller;
     }
 }

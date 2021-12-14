@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -218,7 +218,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "urn:oasis:names:tc:SAML:1.0:assertion", name = "DoNotCacheCondition")
     public JAXBElement<DoNotCacheConditionType> createDoNotCacheCondition(DoNotCacheConditionType value) {
-        return new JAXBElement<DoNotCacheConditionType>(_DoNotCacheCondition_QNAME, DoNotCacheConditionType.class, null, value);
+        return new JAXBElement<>(_DoNotCacheCondition_QNAME, DoNotCacheConditionType.class, null, value);
     }
 
     /**
@@ -227,7 +227,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "urn:oasis:names:tc:SAML:1.0:assertion", name = "SubjectStatement")
     public JAXBElement<SubjectStatementAbstractType> createSubjectStatement(SubjectStatementAbstractType value) {
-        return new JAXBElement<SubjectStatementAbstractType>(_SubjectStatement_QNAME, SubjectStatementAbstractType.class, null, value);
+        return new JAXBElement<>(_SubjectStatement_QNAME, SubjectStatementAbstractType.class, null, value);
     }
 
     /**
@@ -236,7 +236,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "urn:oasis:names:tc:SAML:1.0:assertion", name = "AttributeDesignator")
     public JAXBElement<AttributeDesignatorType> createAttributeDesignator(AttributeDesignatorType value) {
-        return new JAXBElement<AttributeDesignatorType>(_AttributeDesignator_QNAME, AttributeDesignatorType.class, null, value);
+        return new JAXBElement<>(_AttributeDesignator_QNAME, AttributeDesignatorType.class, null, value);
     }
 
     /**
@@ -245,7 +245,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "urn:oasis:names:tc:SAML:1.0:assertion", name = "Subject")
     public JAXBElement<SubjectType> createSubject(SubjectType value) {
-        return new JAXBElement<SubjectType>(_Subject_QNAME, SubjectType.class, null, value);
+        return new JAXBElement<>(_Subject_QNAME, SubjectType.class, null, value);
     }
 
     /**
@@ -254,7 +254,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "urn:oasis:names:tc:SAML:1.0:assertion", name = "AuthorizationDecisionStatement")
     public JAXBElement<AuthorizationDecisionStatementType> createAuthorizationDecisionStatement(AuthorizationDecisionStatementType value) {
-        return new JAXBElement<AuthorizationDecisionStatementType>(_AuthorizationDecisionStatement_QNAME, AuthorizationDecisionStatementType.class, null, value);
+        return new JAXBElement<>(_AuthorizationDecisionStatement_QNAME, AuthorizationDecisionStatementType.class, null, value);
     }
 
     /**
@@ -263,7 +263,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "urn:oasis:names:tc:SAML:1.0:assertion", name = "Evidence")
     public JAXBElement<EvidenceType> createEvidence(EvidenceType value) {
-        return new JAXBElement<EvidenceType>(_Evidence_QNAME, EvidenceType.class, null, value);
+        return new JAXBElement<>(_Evidence_QNAME, EvidenceType.class, null, value);
     }
 
     /**
@@ -272,7 +272,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "urn:oasis:names:tc:SAML:1.0:assertion", name = "SubjectConfirmationData")
     public JAXBElement<Object> createSubjectConfirmationData(Object value) {
-        return new JAXBElement<Object>(_SubjectConfirmationData_QNAME, Object.class, null, value);
+        return new JAXBElement<>(_SubjectConfirmationData_QNAME, Object.class, null, value);
     }
 
     /**
@@ -282,7 +282,7 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "urn:oasis:names:tc:SAML:1.0:assertion", name = "AssertionIDReference")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     public JAXBElement<String> createAssertionIDReference(String value) {
-        return new JAXBElement<String>(_AssertionIDReference_QNAME, String.class, null, value);
+        return new JAXBElement<>(_AssertionIDReference_QNAME, String.class, null, value);
     }
 
     /**
@@ -291,7 +291,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "urn:oasis:names:tc:SAML:1.0:assertion", name = "Attribute")
     public JAXBElement<AttributeType> createAttribute(AttributeType value) {
-        return new JAXBElement<AttributeType>(_Attribute_QNAME, AttributeType.class, null, value);
+        return new JAXBElement<>(_Attribute_QNAME, AttributeType.class, null, value);
     }
 
     /**
@@ -300,7 +300,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "urn:oasis:names:tc:SAML:1.0:assertion", name = "Audience")
     public JAXBElement<String> createAudience(String value) {
-        return new JAXBElement<String>(_Audience_QNAME, String.class, null, value);
+        return new JAXBElement<>(_Audience_QNAME, String.class, null, value);
     }
 
     /**
@@ -309,7 +309,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "urn:oasis:names:tc:SAML:1.0:assertion", name = "SubjectLocality")
     public JAXBElement<SubjectLocalityType> createSubjectLocality(SubjectLocalityType value) {
-        return new JAXBElement<SubjectLocalityType>(_SubjectLocality_QNAME, SubjectLocalityType.class, null, value);
+        return new JAXBElement<>(_SubjectLocality_QNAME, SubjectLocalityType.class, null, value);
     }
 
     /**
@@ -318,7 +318,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "urn:oasis:names:tc:SAML:1.0:assertion", name = "AudienceRestrictionCondition")
     public JAXBElement<AudienceRestrictionConditionType> createAudienceRestrictionCondition(AudienceRestrictionConditionType value) {
-        return new JAXBElement<AudienceRestrictionConditionType>(_AudienceRestrictionCondition_QNAME, AudienceRestrictionConditionType.class, null, value);
+        return new JAXBElement<>(_AudienceRestrictionCondition_QNAME, AudienceRestrictionConditionType.class, null, value);
     }
 
     /**
@@ -327,7 +327,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "urn:oasis:names:tc:SAML:1.0:assertion", name = "ConfirmationMethod")
     public JAXBElement<String> createConfirmationMethod(String value) {
-        return new JAXBElement<String>(_ConfirmationMethod_QNAME, String.class, null, value);
+        return new JAXBElement<>(_ConfirmationMethod_QNAME, String.class, null, value);
     }
 
     /**
@@ -336,7 +336,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "urn:oasis:names:tc:SAML:1.0:assertion", name = "AttributeValue")
     public JAXBElement<Object> createAttributeValue(Object value) {
-        return new JAXBElement<Object>(_AttributeValue_QNAME, Object.class, null, value);
+        return new JAXBElement<>(_AttributeValue_QNAME, Object.class, null, value);
     }
 
     /**
@@ -345,7 +345,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "urn:oasis:names:tc:SAML:1.0:assertion", name = "Condition")
     public JAXBElement<ConditionAbstractType> createCondition(ConditionAbstractType value) {
-        return new JAXBElement<ConditionAbstractType>(_Condition_QNAME, ConditionAbstractType.class, null, value);
+        return new JAXBElement<>(_Condition_QNAME, ConditionAbstractType.class, null, value);
     }
 
     /**
@@ -354,7 +354,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "urn:oasis:names:tc:SAML:1.0:assertion", name = "Advice")
     public JAXBElement<AdviceType> createAdvice(AdviceType value) {
-        return new JAXBElement<AdviceType>(_Advice_QNAME, AdviceType.class, null, value);
+        return new JAXBElement<>(_Advice_QNAME, AdviceType.class, null, value);
     }
 
     /**
@@ -363,7 +363,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "urn:oasis:names:tc:SAML:1.0:assertion", name = "Statement")
     public JAXBElement<StatementAbstractType> createStatement(StatementAbstractType value) {
-        return new JAXBElement<StatementAbstractType>(_Statement_QNAME, StatementAbstractType.class, null, value);
+        return new JAXBElement<>(_Statement_QNAME, StatementAbstractType.class, null, value);
     }
 
     /**
@@ -372,7 +372,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "urn:oasis:names:tc:SAML:1.0:assertion", name = "Conditions")
     public JAXBElement<ConditionsType> createConditions(ConditionsType value) {
-        return new JAXBElement<ConditionsType>(_Conditions_QNAME, ConditionsType.class, null, value);
+        return new JAXBElement<>(_Conditions_QNAME, ConditionsType.class, null, value);
     }
 
     /**
@@ -381,7 +381,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "urn:oasis:names:tc:SAML:1.0:assertion", name = "SubjectConfirmation")
     public JAXBElement<SubjectConfirmationType> createSubjectConfirmation(SubjectConfirmationType value) {
-        return new JAXBElement<SubjectConfirmationType>(_SubjectConfirmation_QNAME, SubjectConfirmationType.class, null, value);
+        return new JAXBElement<>(_SubjectConfirmation_QNAME, SubjectConfirmationType.class, null, value);
     }
 
     /**
@@ -390,7 +390,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "urn:oasis:names:tc:SAML:1.0:assertion", name = "AuthenticationStatement")
     public JAXBElement<AuthenticationStatementType> createAuthenticationStatement(AuthenticationStatementType value) {
-        return new JAXBElement<AuthenticationStatementType>(_AuthenticationStatement_QNAME, AuthenticationStatementType.class, null, value);
+        return new JAXBElement<>(_AuthenticationStatement_QNAME, AuthenticationStatementType.class, null, value);
     }
 
     /**
@@ -399,7 +399,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "urn:oasis:names:tc:SAML:1.0:assertion", name = "AuthorityBinding")
     public JAXBElement<AuthorityBindingType> createAuthorityBinding(AuthorityBindingType value) {
-        return new JAXBElement<AuthorityBindingType>(_AuthorityBinding_QNAME, AuthorityBindingType.class, null, value);
+        return new JAXBElement<>(_AuthorityBinding_QNAME, AuthorityBindingType.class, null, value);
     }
 
     /**
@@ -408,7 +408,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "urn:oasis:names:tc:SAML:1.0:assertion", name = "NameIdentifier")
     public JAXBElement<NameIdentifierType> createNameIdentifier(NameIdentifierType value) {
-        return new JAXBElement<NameIdentifierType>(_NameIdentifier_QNAME, NameIdentifierType.class, null, value);
+        return new JAXBElement<>(_NameIdentifier_QNAME, NameIdentifierType.class, null, value);
     }
 
     /**
@@ -417,7 +417,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "urn:oasis:names:tc:SAML:1.0:assertion", name = "AttributeStatement")
     public JAXBElement<AttributeStatementType> createAttributeStatement(AttributeStatementType value) {
-        return new JAXBElement<AttributeStatementType>(_AttributeStatement_QNAME, AttributeStatementType.class, null, value);
+        return new JAXBElement<>(_AttributeStatement_QNAME, AttributeStatementType.class, null, value);
     }
 
     /**
@@ -426,7 +426,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "urn:oasis:names:tc:SAML:1.0:assertion", name = "Assertion")
     public JAXBElement<AssertionType> createAssertion(AssertionType value) {
-        return new JAXBElement<AssertionType>(_Assertion_QNAME, AssertionType.class, null, value);
+        return new JAXBElement<>(_Assertion_QNAME, AssertionType.class, null, value);
     }
 
     /**
@@ -435,7 +435,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "urn:oasis:names:tc:SAML:1.0:assertion", name = "Action")
     public JAXBElement<ActionType> createAction(ActionType value) {
-        return new JAXBElement<ActionType>(_Action_QNAME, ActionType.class, null, value);
+        return new JAXBElement<>(_Action_QNAME, ActionType.class, null, value);
     }
 
 }

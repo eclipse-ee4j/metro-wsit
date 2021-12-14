@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -43,6 +43,7 @@ public class ByteBufferInputStream extends InputStream {
      * Return the available bytes
      * @return the wrapped byteBuffer.remaining()
      */
+    @Override
     public int available() {
         return byteBuffer.remaining();
     }
@@ -51,6 +52,7 @@ public class ByteBufferInputStream extends InputStream {
     /**
      * Close this stream.
      */
+    @Override
     public void close() {
     }
     
@@ -58,6 +60,7 @@ public class ByteBufferInputStream extends InputStream {
     /**
      * Return true if mark is supported.
      */
+    @Override
     public boolean markSupported() {
         return false;
     }
@@ -66,6 +69,7 @@ public class ByteBufferInputStream extends InputStream {
     /**
      * Read the first byte from the wrapped <code>ByteBuffer</code>.
      */
+    @Override
     public int read() {
         if (!byteBuffer.hasRemaining()){
             return -1;
@@ -78,6 +82,7 @@ public class ByteBufferInputStream extends InputStream {
     /**
      * Read the bytes from the wrapped <code>ByteBuffer</code>.
      */
+    @Override
     public int read(final byte[] b) {
         return (read(b, 0, b.length));
     }
@@ -86,6 +91,7 @@ public class ByteBufferInputStream extends InputStream {
     /**
      * Read the first byte of the wrapped <code>ByteBuffer</code>.
      */
+    @Override
     public int read(final byte[] b, final int offset, int length) {
         if (!byteBuffer.hasRemaining()) {
             return -1;

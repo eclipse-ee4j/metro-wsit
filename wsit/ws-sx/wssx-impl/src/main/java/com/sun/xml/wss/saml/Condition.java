@@ -18,11 +18,6 @@
 package com.sun.xml.wss.saml;
 
 /**
- *
- * @author abhijit.das@Sun.COM
- */
-
-/**
  * {@code
  * <element ref="{urn:oasis:names:tc:SAML:1.0:assertion}Condition"/>.
  * }

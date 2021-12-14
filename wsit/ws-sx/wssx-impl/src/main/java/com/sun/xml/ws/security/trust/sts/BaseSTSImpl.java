@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -11,7 +11,6 @@
 package com.sun.xml.ws.security.trust.sts;
 
 import com.sun.xml.ws.api.security.trust.BaseSTS;
-import com.sun.xml.ws.security.trust.WSTrustConstants;
 import com.sun.xml.ws.api.security.trust.WSTrustContract;
 import com.sun.xml.ws.api.security.trust.WSTrustException;
 import com.sun.xml.ws.api.security.trust.config.STSConfiguration;
@@ -46,8 +45,7 @@ import jakarta.xml.ws.handler.MessageContext;
 
 import com.sun.xml.ws.policy.impl.bindings.AppliesTo;
 import com.sun.xml.wss.WSITXMLFactory;
-import com.sun.xml.wss.impl.MessageConstants;
-import javax.xml.XMLConstants;
+
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMResult;
@@ -149,6 +147,7 @@ public abstract class BaseSTSImpl implements BaseSTS {
    *          of ProtocolException to control the protocol level
    *          representation of the exception.
   **/
+    @Override
     public Source invoke(final Source rstElement){
         final STSConfiguration config = getConfiguration();
         Source rstrEle = null;
@@ -293,7 +292,7 @@ public abstract class BaseSTSImpl implements BaseSTS {
 
     private Source issue(final STSConfiguration config, final String appliesTo, 
             final WSTrustElementFactory eleFac, final BaseSTSRequest rst) 
-            throws WSTrustException, TransformerException {
+            throws WSTrustException {
         
         // Create the RequestSecurityTokenResponse message
         final WSTrustContract<BaseSTSRequest, BaseSTSResponse> contract = WSTrustFactory.newWSTrustContract(config, 

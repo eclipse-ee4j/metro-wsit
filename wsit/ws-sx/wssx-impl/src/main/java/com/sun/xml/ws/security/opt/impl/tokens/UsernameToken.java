@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -22,7 +22,7 @@ import com.sun.xml.ws.security.opt.impl.util.JAXBUtil;
 import com.sun.xml.ws.security.secext10.AttributedString;
 import com.sun.xml.ws.security.secext10.UsernameTokenType;
 import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -97,11 +97,13 @@ public class UsernameToken extends UsernameTokenType
     /**
      * @return Returns the username.
      */
+    @Override
     public String getUsernameValue() {
         //AttributedString userName
         return usernameValue;
     }
     
+    @Override
     public void setUsernameValue(String username) {
         /*AttributedString ut = objFac.createAttributedString();
         ut.setValue(username);
@@ -112,14 +114,15 @@ public class UsernameToken extends UsernameTokenType
     /**
      * @return Returns the password which may be null meaning no password.
      */
+    @Override
     public String getPasswordValue() {
         return passwordValue;
     }
     
     /**
      * Sets the password.
-     * @param passwd
      */
+    @Override
     public void setPasswordValue(String passwd){
         /*AttributedString password = objFac.createAttributedString();
         password.setValue(passwd);
@@ -176,7 +179,7 @@ public class UsernameToken extends UsernameTokenType
     /**
      * @return Returns the encoded nonce. Null indicates no nonce was set.
      */
-    public String getNonceValue() throws SecurityTokenException {
+    public String getNonceValue() {
         return nonceValue;
     }
     
@@ -193,7 +196,6 @@ public class UsernameToken extends UsernameTokenType
     
     /**
      * set the nonce value.If nonce value is null then it will create one.
-     * @param nonceValue
      */
     public void setNonce(String nonceValue){
         if(nonceValue == null || MessageConstants.EMPTY_STRING.equals(nonceValue)){
@@ -227,10 +229,12 @@ public class UsernameToken extends UsernameTokenType
         return bsp;
     }
     
+    @Override
     public String getNamespaceURI() {
         return MessageConstants.WSSE_NS;
     }
     
+    @Override
     public String getLocalPart() {
         return MessageConstants.USERNAME_TOKEN_LNAME;
     }
@@ -246,6 +250,7 @@ public class UsernameToken extends UsernameTokenType
         return otherAttributes.get(name);
     }
     
+    @Override
     public javax.xml.stream.XMLStreamReader readHeader() throws javax.xml.stream.XMLStreamException {
         if(!this.valuesSet)
             setValues();
@@ -260,11 +265,13 @@ public class UsernameToken extends UsernameTokenType
         return xbr.getXMLStreamBuffer().readAsXMLStreamReader();
     }
     
+    @Override
     public void writeTo(OutputStream os) {
         if(!this.valuesSet)
             setValues();
     }
     
+    @Override
     public void writeTo(javax.xml.stream.XMLStreamWriter streamWriter) throws javax.xml.stream.XMLStreamException {
         if(!this.valuesSet)
             setValues();
@@ -344,13 +351,8 @@ public class UsernameToken extends UsernameTokenType
         }
         
         byte[] utf8Bytes;
-        try {
-            utf8Bytes = utf8String.getBytes("utf-8");
-        } catch (UnsupportedEncodingException uee) {
-            log.log(Level.SEVERE, LogStringsMessages.WSS_0390_UNSUPPORTED_CHARSET_EXCEPTION());
-            throw new SecurityTokenException(uee);
-        }
-        
+        utf8Bytes = utf8String.getBytes(StandardCharsets.UTF_8);
+
         byte[] bytesToHash;
         if (decodedNonce != null) {
             bytesToHash = new byte[utf8Bytes.length + decodedNonce.length];
@@ -420,13 +422,13 @@ public class UsernameToken extends UsernameTokenType
     }
     
     /**
-     * 
-     * @param id 
-     * @return 
+     *
      */
+    @Override
     public boolean refersToSecHdrWithId(String id) {
         return false;
     }
+    @Override
     @SuppressWarnings("unchecked")
     public void writeTo(javax.xml.stream.XMLStreamWriter streamWriter, HashMap props) throws javax.xml.stream.XMLStreamException {
         try{

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -19,12 +19,10 @@
 
 package com.sun.xml.ws.security.opt.impl.reference;
 
-import com.sun.xml.security.core.dsig.X509IssuerSerialType;
 import com.sun.xml.stream.buffer.XMLStreamBufferResult;
 import com.sun.xml.ws.api.SOAPVersion;
 import com.sun.xml.ws.security.opt.api.SecurityElementWriter;
 import com.sun.xml.ws.security.opt.api.SecurityHeaderElement;
-import com.sun.xml.ws.security.opt.api.reference.Reference;
 import com.sun.xml.ws.security.opt.impl.util.JAXBUtil;
 import com.sun.xml.wss.impl.MessageConstants;
 import java.io.OutputStream;
@@ -53,26 +51,32 @@ public class X509IssuerSerial extends com.sun.xml.ws.security.opt.crypto.dsig.ke
         this.soapVersion = sv;
     }
 
+    @Override
     public boolean refersToSecHdrWithId(final String id) {
         return false;
     }
 
+    @Override
     public String getId() {
         throw new UnsupportedOperationException();
     }
 
+    @Override
     public void setId(final String id) {
         throw new UnsupportedOperationException();
     }
 
+    @Override
     public String getNamespaceURI() {
         return MessageConstants.DSIG_NS;
     }
 
+    @Override
     public String getLocalPart() {
         return "X509IssuerSerial".intern();
     }
 
+    @Override
     public XMLStreamReader readHeader() throws XMLStreamException {
         XMLStreamBufferResult xbr = new XMLStreamBufferResult();
         JAXBElement<com.sun.xml.ws.security.opt.crypto.dsig.keyinfo.X509IssuerSerial> 
@@ -86,6 +90,7 @@ public class X509IssuerSerial extends com.sun.xml.ws.security.opt.crypto.dsig.ke
         return xbr.getXMLStreamBuffer().readAsXMLStreamReader();
     }
 
+    @Override
     public void writeTo(XMLStreamWriter streamWriter) throws XMLStreamException {
         JAXBElement<com.sun.xml.ws.security.opt.crypto.dsig.keyinfo.X509IssuerSerial> 
                 issuerSerialElem = new ObjectFactory().createX509DataTypeX509IssuerSerial(this);
@@ -105,6 +110,7 @@ public class X509IssuerSerial extends com.sun.xml.ws.security.opt.crypto.dsig.ke
             throw new XMLStreamException(e);
         }
     }
+    @Override
     @SuppressWarnings("unchecked")
     public void writeTo(XMLStreamWriter streamWriter, HashMap props) throws XMLStreamException {
         try{
@@ -120,6 +126,7 @@ public class X509IssuerSerial extends com.sun.xml.ws.security.opt.crypto.dsig.ke
         }
     }
 
+    @Override
     public void writeTo(OutputStream os) {
     }
     

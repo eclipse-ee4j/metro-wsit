@@ -73,6 +73,7 @@ public class MessageWrapper extends com.sun.xml.ws.api.message.Message{
      * @return
      *      true if headers are present.
      */
+    @Override
     public boolean hasHeaders(){
         // FIXME: RJE -- remove cast when MessageHeaders supports hasHeaders()
         return (((HeaderList)hl).size() > 0);
@@ -91,6 +92,7 @@ public class MessageWrapper extends com.sun.xml.ws.api.message.Message{
      * @return
      *      always return the same non-null object.
      */
+    @Override
     public HeaderList getHeaders(){
         // FIXME: remove cast
         return (HeaderList) hl;
@@ -100,6 +102,7 @@ public class MessageWrapper extends com.sun.xml.ws.api.message.Message{
      * Gets the attachments of this message
      * (attachments live outside a message.)
      */
+    @Override
     public AttachmentSet getAttachments() {
         return sm.getAttachments();
     }
@@ -108,6 +111,7 @@ public class MessageWrapper extends com.sun.xml.ws.api.message.Message{
      * Optimization hint for the derived class to check
      * if we may have some attachments.
      */
+    @Override
     protected boolean hasAttachments() {
         return sm.getAttachments() !=null;
     }
@@ -135,6 +139,7 @@ public class MessageWrapper extends com.sun.xml.ws.api.message.Message{
      *      value, so the behavior is undefined if multiple callers provide
      *      different {@link WSDLPort} objects, which is a bug of the caller.
      */
+    @Override
     public boolean isOneWay(@NotNull WSDLPort port) {
         return isOneWay;
     }
@@ -144,6 +149,7 @@ public class MessageWrapper extends com.sun.xml.ws.api.message.Message{
      * @return
      *      null if a Message doesn't have any payload.
      */
+    @Override
     public String getPayloadLocalPart() {
         return sm.getPayloadLocalPart();
     }
@@ -155,6 +161,7 @@ public class MessageWrapper extends com.sun.xml.ws.api.message.Message{
      * Just a convenience method built on {@link #getPayloadNamespaceURI()}
      * and {@link #getPayloadLocalPart()}.
      */
+    @Override
     public boolean isFault() {
         // TODO: is SOAP version a property of a Message?
         // or is it defined by external factors?
@@ -186,6 +193,7 @@ public class MessageWrapper extends com.sun.xml.ws.api.message.Message{
      * @return
      *      null if a Message doesn't have any payload.
      */
+    @Override
     public String getPayloadNamespaceURI(){
         return sm.getPayloadNamespaceURI();
     }
@@ -207,6 +215,7 @@ public class MessageWrapper extends com.sun.xml.ws.api.message.Message{
      * </xmp>
      * }</pre>
      */
+    @Override
     public boolean hasPayload(){
         return true;
     }
@@ -216,6 +225,7 @@ public class MessageWrapper extends com.sun.xml.ws.api.message.Message{
      * Consumes this message including the envelope.
      * returns it as a {@link Source} object.
      */
+    @Override
     public Source readEnvelopeAsSource(){
         throw new UnsupportedOperationException();
     }
@@ -229,6 +239,7 @@ public class MessageWrapper extends com.sun.xml.ws.api.message.Message{
      * @return
      *      if there's no payload, this method returns null.
      */
+    @Override
     public Source readPayloadAsSource(){
         throw new UnsupportedOperationException();
     }
@@ -241,6 +252,7 @@ public class MessageWrapper extends com.sun.xml.ws.api.message.Message{
      * @throws SOAPException
      *      if there's any error while creating a {@link SOAPMessage}.
      */
+    @Override
     public SOAPMessage readAsSOAPMessage() throws SOAPException {
         throw new UnsupportedOperationException();
     }
@@ -250,10 +262,9 @@ public class MessageWrapper extends com.sun.xml.ws.api.message.Message{
      *
      * This consumes the message.
      *
-     * @throws JAXBException
-     *      If JAXB reports an error during the processing.
      */
-    public <T> T readPayloadAsJAXB(Unmarshaller unmarshaller) throws JAXBException{
+    @Override
+    public <T> T readPayloadAsJAXB(Unmarshaller unmarshaller) {
         throw new UnsupportedOperationException();
     }
 
@@ -263,11 +274,9 @@ public class MessageWrapper extends com.sun.xml.ws.api.message.Message{
      *
      * This consumes the message.
      *
-     * @throws JAXBException
-     *      If JAXB reports an error during the processing.
      */
     @Override
-    public <T> T readPayloadAsJAXB(Bridge<T> bridge) throws JAXBException{
+    public <T> T readPayloadAsJAXB(Bridge<T> bridge) {
         throw new UnsupportedOperationException();
     }
 
@@ -284,6 +293,7 @@ public class MessageWrapper extends com.sun.xml.ws.api.message.Message{
      *      Otherwise always non-null valid {@link XMLStreamReader} that points to
      *      the payload tag name.
      */
+    @Override
     public XMLStreamReader readPayload() throws XMLStreamException{
         _check();
         return sm.readPayload();
@@ -306,6 +316,7 @@ public class MessageWrapper extends com.sun.xml.ws.api.message.Message{
      *      If the {@link XMLStreamWriter} reports an error,
      *      or some other errors happen during the processing.
      */
+    @Override
     public void writePayloadTo(XMLStreamWriter sw) throws XMLStreamException{
         _check();
         sm.writePayloadTo(sw);
@@ -321,6 +332,7 @@ public class MessageWrapper extends com.sun.xml.ws.api.message.Message{
      *      If the {@link XMLStreamWriter} reports an error,
      *      or some other errors happen during the processing.
      */
+    @Override
     public void writeTo(XMLStreamWriter sw) throws XMLStreamException{
         if(bufferedMsg != null){
             bufferedMsg.writeToXMLStreamWriter(sw);
@@ -344,7 +356,8 @@ public class MessageWrapper extends com.sun.xml.ws.api.message.Message{
      *      thrown as SAXParseException. {@link SAXException}s thrown
      *      from {@link ErrorHandler} should propagate directly through this method.
      */
-    public void writeTo( ContentHandler contentHandler, ErrorHandler errorHandler ) throws SAXException{
+    @Override
+    public void writeTo(ContentHandler contentHandler, ErrorHandler errorHandler ) {
         throw new UnsupportedOperationException();
     }
 
@@ -410,6 +423,7 @@ public class MessageWrapper extends com.sun.xml.ws.api.message.Message{
      */
     // TODO: update the class javadoc with 'lifescope'
     // and move the discussion about life scope there.
+    @Override
     public MessageWrapper copy(){
         return this;
 //        if(bufferedMsg == null){
@@ -432,7 +446,8 @@ public class MessageWrapper extends com.sun.xml.ws.api.message.Message{
         }
     }
 
-	public <T> T readPayloadAsJAXB(XMLBridge<T> arg0) throws JAXBException {
+	@Override
+    public <T> T readPayloadAsJAXB(XMLBridge<T> arg0) {
         throw new UnsupportedOperationException();
 	}
 }

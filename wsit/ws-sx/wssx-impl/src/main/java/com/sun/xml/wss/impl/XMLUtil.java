@@ -21,8 +21,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringReader;
-import java.io.UnsupportedEncodingException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.security.KeyFactory;
 import java.security.cert.X509Certificate;
 import java.security.spec.DSAPublicKeySpec;
@@ -39,7 +39,6 @@ import javax.xml.parsers.ParserConfigurationException;
 import jakarta.xml.soap.SOAPElement;
 import jakarta.xml.soap.SOAPException;
 import jakarta.xml.soap.SOAPFactory;
-import javax.xml.transform.TransformerException;
 
 import org.w3c.dom.Attr;
 import org.w3c.dom.DOMException;
@@ -83,7 +82,7 @@ public class XMLUtil {
          * This method reads the resource from a reader
          */
         String read(Reader aReader) {
-            StringBuffer sb = new StringBuffer();
+            StringBuilder sb = new StringBuilder();
             
             try {
                 BufferedReader bReader = new BufferedReader(aReader);
@@ -153,6 +152,7 @@ public class XMLUtil {
             //try/catch
             return data;
         }
+        @Override
         public InputSource resolveEntity(String aPublicID, String aSystemID) {
             String sysid = aSystemID.trim();
             
@@ -187,7 +187,6 @@ public class XMLUtil {
      * @param doc the Owner Soap Document of the SOAPElement to be returned
      * @param elem the DOM Element to be converted to SOAPElement
      * @return a SOAPElement whose parent node is null
-     * @throws DOMException
      */
     public static SOAPElement convertToSoapElement(Document doc, Element elem)
     throws DOMException, ClassCastException {
@@ -236,7 +235,7 @@ public class XMLUtil {
             return null;
         }
         
-        StringBuffer sb = new StringBuffer(1000);
+        StringBuilder sb = new StringBuilder(1000);
         NodeList nl = element.getChildNodes();
         Node child = null;
         int length = nl.getLength();
@@ -299,7 +298,7 @@ public class XMLUtil {
             throw new Exception(
             "Element does not have an owner document");
         }
-        StringBuffer xpath = new StringBuffer();
+        StringBuilder xpath = new StringBuilder();
         String prefix = element.getPrefix();
         String lcname = element.getLocalName();
         String lxpath = prefix+":"+lcname;
@@ -351,7 +350,7 @@ public class XMLUtil {
             return null;
         }
         
-        StringBuffer xml = new StringBuffer(100);
+        StringBuilder xml = new StringBuilder(100);
         int type = node.getNodeType();
         
         switch (type) {
@@ -532,15 +531,11 @@ public class XMLUtil {
         if (xmlString == null) {
             return null;
         }
-        
-        try {
-            ByteArrayInputStream is = new ByteArrayInputStream(xmlString.getBytes(
-            "UTF-8"));
-            
-            return toDOMDocument(is);
-        } catch (UnsupportedEncodingException uee) {
-            return null;
-        }
+
+        ByteArrayInputStream is = new ByteArrayInputStream(xmlString.getBytes(
+                StandardCharsets.UTF_8));
+
+        return toDOMDocument(is);
     }
     
     /**
@@ -583,8 +578,8 @@ public class XMLUtil {
         try {
             KeyFactory keyFactory = KeyFactory.getInstance("DSA");
             DSAPublicKeySpec dsaPkSpec =
-            (DSAPublicKeySpec) keyFactory.getKeySpec(
-            cert.getPublicKey(), DSAPublicKeySpec.class);
+                    keyFactory.getKeySpec(
+                    cert.getPublicKey(), DSAPublicKeySpec.class);
             return
             new DSAKeyValue(
             doc,
@@ -604,8 +599,8 @@ public class XMLUtil {
         try {
             KeyFactory keyFactory = KeyFactory.getInstance("RSA");
             RSAPublicKeySpec rsaPkSpec =
-            (RSAPublicKeySpec) keyFactory.getKeySpec(
-            cert.getPublicKey(), RSAPublicKeySpec.class);
+                    keyFactory.getKeySpec(
+                    cert.getPublicKey(), RSAPublicKeySpec.class);
             return
             new RSAKeyValue(
             doc,

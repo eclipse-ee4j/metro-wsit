@@ -38,7 +38,6 @@ import com.sun.xml.ws.rx.rm.protocol.wsrm200502.SequenceAcknowledgementElement;
 import com.sun.xml.ws.rx.rm.protocol.wsrm200502.SequenceElement;
 import com.sun.xml.ws.rx.rm.protocol.wsrm200502.SequenceElement.LastMessage;
 import com.sun.xml.ws.rx.rm.protocol.wsrm200502.TerminateSequenceElement;
-import com.sun.xml.ws.rx.rm.runtime.sequence.UnknownSequenceException;
 import com.sun.xml.ws.rx.util.Communicator;
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -64,6 +63,7 @@ final class Wsrm200502ProtocolHandler extends WsrmProtocolHandler {
         this.rc = rc;
     }
 
+    @Override
     public CreateSequenceData toCreateSequenceData(@NotNull Packet packet) throws RxRuntimeException {
         assert packet != null;
         assert packet.getMessage() != null;
@@ -77,12 +77,14 @@ final class Wsrm200502ProtocolHandler extends WsrmProtocolHandler {
         return csElement.toDataBuilder().build();
     }
 
+    @Override
     public Packet toPacket(CreateSequenceData data, @Nullable Packet requestPacket) throws RxRuntimeException {
         Packet packet = communicator.createRequestPacket(requestPacket, new CreateSequenceElement(data), rmVersion.protocolVersion.createSequenceAction, true);
 
         return packet;
     }
 
+    @Override
     public CreateSequenceResponseData toCreateSequenceResponseData(Packet packet) throws RxRuntimeException {
         assert packet != null;
         assert packet.getMessage() != null;
@@ -94,10 +96,12 @@ final class Wsrm200502ProtocolHandler extends WsrmProtocolHandler {
         return csrElement.toDataBuilder().build();
     }
 
+    @Override
     public Packet toPacket(CreateSequenceResponseData data, @NotNull Packet requestPacket, boolean clientSideResponse) throws RxRuntimeException {
         return communicator.createResponsePacket(requestPacket, new CreateSequenceResponseElement(data), rmVersion.protocolVersion.createSequenceResponseAction, clientSideResponse);
     }
 
+    @Override
     public CloseSequenceData toCloseSequenceData(Packet packet) throws RxRuntimeException {
         assert packet != null;
         assert packet.getMessage() != null;
@@ -108,6 +112,7 @@ final class Wsrm200502ProtocolHandler extends WsrmProtocolHandler {
         try {
             ApplicationMessage lastAppMessage = new ApplicationMessageBase("") {
 
+                @Override
                 public State getState() {
                     throw new UnsupportedOperationException("Not supported yet.");
                 }
@@ -133,6 +138,7 @@ final class Wsrm200502ProtocolHandler extends WsrmProtocolHandler {
         }
     }
 
+    @Override
     public Packet toPacket(CloseSequenceData data, @Nullable Packet requestPacket) throws RxRuntimeException {
         Packet packet;
         if (requestPacket != null) {
@@ -144,15 +150,14 @@ final class Wsrm200502ProtocolHandler extends WsrmProtocolHandler {
 
         ApplicationMessage lastAppMessage = new ApplicationMessageBase("") {
 
+            @Override
             public State getState() {
                 throw new UnsupportedOperationException("Not supported yet.");
             }
         };
         try {
             rc.sequenceManager().getOutboundSequence(data.getSequenceId()).registerMessage(lastAppMessage, false);
-        } catch (DuplicateMessageRegistrationException ex) {
-            LOGGER.logSevereException(ex);
-        } catch (IllegalStateException ex) {
+        } catch (DuplicateMessageRegistrationException | IllegalStateException ex) {
             LOGGER.logSevereException(ex);
         }
 
@@ -168,6 +173,7 @@ final class Wsrm200502ProtocolHandler extends WsrmProtocolHandler {
         return packet;
     }
 
+    @Override
     public CloseSequenceResponseData toCloseSequenceResponseData(Packet packet) throws RxRuntimeException {
         assert packet != null;
         assert packet.getMessage() != null;
@@ -187,17 +193,18 @@ final class Wsrm200502ProtocolHandler extends WsrmProtocolHandler {
         }
     }
 
+    @Override
     public Packet toPacket(CloseSequenceResponseData data, @NotNull Packet requestPacket, boolean clientSideResponse) throws RxRuntimeException {
-        /**
-         * Server-side Replay model (https://www.wso2.org/library/2792#Server) requirements:
-         * 
-         * D) If there is no response to a given request – i.e. the request is a one-way message, 
-         *    then the Server MUST respond with an acknowledgement that includes the request message 
-         *    in one of the ranges.
-         * 
-         * ...
-         * 
-         * F) The Server SHOULD respond to an incoming LastMessage with a LastMessage for the Offered Sequence
+        /*
+          Server-side Replay model (https://www.wso2.org/library/2792#Server) requirements:
+
+          D) If there is no response to a given request – i.e. the request is a one-way message,
+             then the Server MUST respond with an acknowledgement that includes the request message
+             in one of the ranges.
+
+          ...
+
+          F) The Server SHOULD respond to an incoming LastMessage with a LastMessage for the Offered Sequence
          */
         Sequence boundSequence = rc.sequenceManager().getBoundSequence(data.getSequenceId());
         if (boundSequence != null) {
@@ -210,6 +217,7 @@ final class Wsrm200502ProtocolHandler extends WsrmProtocolHandler {
         }
     }
 
+    @Override
     public TerminateSequenceData toTerminateSequenceData(Packet packet) throws RxRuntimeException {
         assert packet != null;
         assert packet.getMessage() != null;
@@ -224,6 +232,7 @@ final class Wsrm200502ProtocolHandler extends WsrmProtocolHandler {
         return dataBuilder.build();
     }
 
+    @Override
     public Packet toPacket(TerminateSequenceData data, @Nullable Packet requestPacket) throws RxRuntimeException {
         Packet packet = communicator.createRequestPacket(requestPacket, new TerminateSequenceElement(data), rmVersion.protocolVersion.terminateSequenceAction, true);
 
@@ -234,6 +243,7 @@ final class Wsrm200502ProtocolHandler extends WsrmProtocolHandler {
         return packet;
     }
 
+    @Override
     public TerminateSequenceResponseData toTerminateSequenceResponseData(Packet packet) throws RxRuntimeException {
         assert packet != null;
         assert packet.getMessage() != null;
@@ -250,6 +260,7 @@ final class Wsrm200502ProtocolHandler extends WsrmProtocolHandler {
         }
     }
 
+    @Override
     public Packet toPacket(TerminateSequenceResponseData data, @NotNull Packet requestPacket, boolean clientSideResponse) throws RxRuntimeException {
         if (data.getBoundSequenceId() != null) { 
             // Send terminate sequence. RM v1.0 does not define TerminateSequenceResponse. 
@@ -274,6 +285,7 @@ final class Wsrm200502ProtocolHandler extends WsrmProtocolHandler {
         }
     }
 
+    @Override
     public void appendSequenceHeader(@NotNull Message jaxwsMessage, @NotNull ApplicationMessage message) throws RxRuntimeException {
         assert message != null;
         assert message.getSequenceId() != null;
@@ -286,6 +298,7 @@ final class Wsrm200502ProtocolHandler extends WsrmProtocolHandler {
         jaxwsMessage.getHeaders().addOrReplace(createHeader(sequenceHeaderElement));
     }
 
+    @Override
     public void appendAcknowledgementHeaders(@NotNull Packet packet, @NotNull AcknowledgementData ackData) {
         assert packet != null;
         assert packet.getMessage() != null;
@@ -323,6 +336,7 @@ final class Wsrm200502ProtocolHandler extends WsrmProtocolHandler {
         }
     }
 
+    @Override
     public void loadSequenceHeaderData(@NotNull ApplicationMessage message, @NotNull Message jaxwsMessage) throws RxRuntimeException {
         assert message != null;
         assert message.getSequenceId() == null; // not initialized yet
@@ -333,6 +347,7 @@ final class Wsrm200502ProtocolHandler extends WsrmProtocolHandler {
         }
     }
 
+    @Override
     public void loadAcknowledgementData(@NotNull ApplicationMessage message, @NotNull Message jaxwsMessage) throws RxRuntimeException {
         assert message != null;
         assert message.getAcknowledgementData() == null; // not initialized yet
@@ -340,7 +355,8 @@ final class Wsrm200502ProtocolHandler extends WsrmProtocolHandler {
         message.setAcknowledgementData(getAcknowledgementData(jaxwsMessage));
     }
 
-    public AcknowledgementData getAcknowledgementData(Message jaxwsMessage) throws UnknownSequenceException, RxRuntimeException {
+    @Override
+    public AcknowledgementData getAcknowledgementData(Message jaxwsMessage) throws RxRuntimeException {
         assert jaxwsMessage != null;
 
         AcknowledgementData.Builder ackDataBuilder = AcknowledgementData.getBuilder();
@@ -350,9 +366,9 @@ final class Wsrm200502ProtocolHandler extends WsrmProtocolHandler {
         }
         SequenceAcknowledgementElement ackElement = readHeaderAsUnderstood(rmVersion.protocolVersion.protocolNamespaceUri, "SequenceAcknowledgement", jaxwsMessage);
         if (ackElement != null) {
-            List<Sequence.AckRange> ranges = new LinkedList<Sequence.AckRange>();
+            List<Sequence.AckRange> ranges = new LinkedList<>();
             if (!ackElement.getNack().isEmpty()) {
-                List<BigInteger> nacks = new ArrayList<BigInteger>(ackElement.getNack());
+                List<BigInteger> nacks = new ArrayList<>(ackElement.getNack());
                 Collections.sort(nacks);
                 long lastLowerBound = 1;
                 for (BigInteger nackId : nacks) {

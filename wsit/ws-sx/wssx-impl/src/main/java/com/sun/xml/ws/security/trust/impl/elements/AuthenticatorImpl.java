@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -51,18 +51,22 @@ public class AuthenticatorImpl extends AuthenticatorType implements Authenticato
         setRawCombinedHash(hash);
     }
     
+    @Override
     public byte[] getRawCombinedHash() {
         return getCombinedHash();
     }
     
+    @Override
     public final void setRawCombinedHash(final byte[] rawCombinedHash) {
         setCombinedHash(rawCombinedHash);
     }
     
+    @Override
     public String getTextCombinedHash() {
         return Base64.encode(getRawCombinedHash());
     }
     
+    @Override
     public void setTextCombinedHash(final String encodedCombinedHash) {
         try {
             setRawCombinedHash(Base64.decode(encodedCombinedHash));

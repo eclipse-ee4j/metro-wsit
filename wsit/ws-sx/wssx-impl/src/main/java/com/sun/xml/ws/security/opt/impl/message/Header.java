@@ -109,6 +109,7 @@ public class Header implements com.sun.xml.ws.api.message.Header {
      *      true if no error needs to be reported. False if an error needs to be raised.
      *      See the method javadoc for more discussion.
      */
+    @Override
     public boolean isIgnorable(@NotNull SOAPVersion soapVersion, @NotNull Set<String> roles){
         return this.wrappedHeader.isIgnorable(soapVersion,roles);
     }
@@ -127,6 +128,7 @@ public class Header implements com.sun.xml.ws.api.message.Header {
      * @return
      *      never null. This string need not be interned.
      */
+    @Override
     public @NotNull String getRole(@NotNull SOAPVersion soapVersion){
         return this.wrappedHeader.getRole(soapVersion);
     }
@@ -148,6 +150,7 @@ public class Header implements com.sun.xml.ws.api.message.Header {
      * @return
      *      false.
      */
+    @Override
     public boolean isRelay(){
         return this.wrappedHeader.isRelay();
     }
@@ -158,6 +161,7 @@ public class Header implements com.sun.xml.ws.api.message.Header {
      * @return
      *      this string must be interned.
      */
+    @Override
     public @NotNull String getNamespaceURI(){
         if(!parsed){
             try {
@@ -176,6 +180,7 @@ public class Header implements com.sun.xml.ws.api.message.Header {
      * @return
      *      this string must be interned.
      */
+    @Override
     public @NotNull String getLocalPart(){
         if(!parsed){
             try {
@@ -203,6 +208,7 @@ public class Header implements com.sun.xml.ws.api.message.Header {
      *      whitespace-normalizing attributes, so {@link Header} implementation
      *      doesn't have to do anything.
      */
+    @Override
     public  @Nullable String getAttribute(@NotNull String nsUri, @NotNull String localName){
         throw new UnsupportedOperationException();
     }
@@ -218,6 +224,7 @@ public class Header implements com.sun.xml.ws.api.message.Header {
      *
      * @see #getAttribute(String, String)
      */
+    @Override
     public  @Nullable String getAttribute(@NotNull QName name){
         throw new UnsupportedOperationException();
     }
@@ -248,7 +255,8 @@ public class Header implements com.sun.xml.ws.api.message.Header {
      * @return
      *      must not null.
      */
-    public XMLStreamReader readHeader() throws XMLStreamException{
+    @Override
+    public XMLStreamReader readHeader() {
         throw new UnsupportedOperationException();
         //We should avoid such operations for Security operated headers.
         
@@ -257,7 +265,8 @@ public class Header implements com.sun.xml.ws.api.message.Header {
     /**
      * Reads the header as a JAXB object by using the given unmarshaller.
      */
-    public <T> T readAsJAXB(Unmarshaller unmarshaller) throws JAXBException{
+    @Override
+    public <T> T readAsJAXB(Unmarshaller unmarshaller) {
         throw new UnsupportedOperationException();
     }
 
@@ -266,7 +275,7 @@ public class Header implements com.sun.xml.ws.api.message.Header {
      * @deprecated
      *      Use {@link #readAsJAXB(Bridge)}. To be removed after JavaOne.
      */
-    public <T> T readAsJAXB(Bridge<T> bridge, BridgeContext context) throws JAXBException{
+    public <T> T readAsJAXB(Bridge<T> bridge, BridgeContext context) {
         throw new UnsupportedOperationException();
     }
     
@@ -274,7 +283,7 @@ public class Header implements com.sun.xml.ws.api.message.Header {
      * Reads the header as a JAXB object by using the given unmarshaller.
      */
     @Override
-    public <T> T readAsJAXB(Bridge<T> bridge) throws JAXBException{
+    public <T> T readAsJAXB(Bridge<T> bridge) {
         throw new UnsupportedOperationException();
     }
     
@@ -285,6 +294,7 @@ public class Header implements com.sun.xml.ws.api.message.Header {
      *      if the operation fails for some reason. This leaves the
      *      writer to an undefined state.
      */
+    @Override
     public void writeTo(XMLStreamWriter w) throws XMLStreamException{
         if(!parsed){
             parse();
@@ -306,6 +316,7 @@ public class Header implements com.sun.xml.ws.api.message.Header {
      *      if the operation fails for some reason. This leaves the
      *      writer to an undefined state.
      */
+    @Override
     public void writeTo(SOAPMessage saaj) throws SOAPException{
         throw new UnsupportedOperationException("use writeTo(XMLStreamWriter w) ");
     }
@@ -335,14 +346,17 @@ public class Header implements com.sun.xml.ws.api.message.Header {
      * @param errorHandler
      *      The {@link ErrorHandler} that receives parsing errors.
      */
-    public void writeTo(ContentHandler contentHandler, ErrorHandler errorHandler) throws SAXException{
+    @Override
+    public void writeTo(ContentHandler contentHandler, ErrorHandler errorHandler) {
         throw new UnsupportedOperationException("use writeTo(XMLStreamWriter w) ");
     }
     
+    @Override
     public String getStringContent(){
         throw new UnsupportedOperationException();
     }
-    public @NotNull WSEndpointReference readAsEPR(AddressingVersion expected) throws XMLStreamException{
+    @Override
+    public @NotNull WSEndpointReference readAsEPR(AddressingVersion expected) {
         throw new UnsupportedOperationException();
     }
     @SuppressWarnings("unchecked")
@@ -418,7 +432,8 @@ public class Header implements com.sun.xml.ws.api.message.Header {
         }
     }
 
-	public <T> T readAsJAXB(XMLBridge<T> arg0) throws JAXBException {
+	@Override
+    public <T> T readAsJAXB(XMLBridge<T> arg0) {
         throw new UnsupportedOperationException();
 	}
 }

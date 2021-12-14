@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -26,8 +26,8 @@ public class TXAttributesValidator {
   public static final short TX_MANDATORY = 4;
   public static final short TX_NEVER = 5;
 
-   Set<InvalidCombination> inValidateCombinations = new HashSet<InvalidCombination>();
-  static Set<Combination> validateCombinations = new HashSet<Combination>();
+   Set<InvalidCombination> inValidateCombinations = new HashSet<>();
+  static Set<Combination> validateCombinations = new HashSet<>();
 
   static {
     validateCombinations.add(new Combination(TransactionAttributeType.REQUIRED, Transactional.TransactionFlowType.MANDATORY));
@@ -51,7 +51,7 @@ public class TXAttributesValidator {
   public void validate() throws WebServiceException {
     StringBuilder sb = new StringBuilder();
     for (InvalidCombination combination : inValidateCombinations) {
-      sb.append("The effective TransactionAttributeType "+combination.ejbTx).append(" and WS-AT Transaction flowType ").append(combination.wsat).append(" on WebService operation ").append(combination.operationName).append(" is not a valid combination! ");
+      sb.append("The effective TransactionAttributeType ").append(combination.ejbTx).append(" and WS-AT Transaction flowType ").append(combination.wsat).append(" on WebService operation ").append(combination.operationName).append(" is not a valid combination! ");
     }
     if (sb.length() > 0)
       throw new WebServiceException(sb.toString());

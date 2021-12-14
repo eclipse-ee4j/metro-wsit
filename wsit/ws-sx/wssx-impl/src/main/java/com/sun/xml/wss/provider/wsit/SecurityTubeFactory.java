@@ -92,18 +92,21 @@ public final class SecurityTubeFactory implements TubeFactory, TubelineAssemblyC
        } 
     }    
 
+    @Override
     public void prepareContext(ClientTubelineAssemblyContext context) throws WebServiceException {
         if (isSecurityEnabled(context.getPolicyMap(), context.getWsdlPort())) {
             context.setCodec(createSecurityCodec(context.getBinding()));
         }
     }
 
+    @Override
     public void prepareContext(ServerTubelineAssemblyContext context) throws WebServiceException {
         if (isSecurityEnabled(context.getPolicyMap(), context.getWsdlPort())) {
             context.setCodec(createSecurityCodec(context.getEndpoint().getBinding()));
         }
     }
 
+    @Override
     public Tube createTube(ServerTubelineAssemblyContext context) throws WebServiceException {
         if (HighAvailabilityProvider.INSTANCE.isHaEnvironmentConfigured()) {
             initHaBackingStores( context.getEndpoint());
@@ -199,6 +202,7 @@ public final class SecurityTubeFactory implements TubeFactory, TubelineAssemblyC
         }
     }
 
+    @Override
     public Tube createTube(ClientTubelineAssemblyContext context) throws WebServiceException {
         ClientPipelineHook hook = null;
         ClientPipelineHook[] hooks = getClientTublineHooks(context);
@@ -487,17 +491,7 @@ public final class SecurityTubeFactory implements TubeFactory, TubelineAssemblyC
             }
 
             return context.getTubelineHead();
-        } catch (InstantiationException ex) {
-            throw new WebServiceException(ex);
-        } catch (IllegalAccessException ex) {
-            throw new WebServiceException(ex);
-        } catch (IllegalArgumentException ex) {
-            throw new WebServiceException(ex);
-        } catch (InvocationTargetException ex) {
-            throw new WebServiceException(ex);
-        } catch (SecurityException ex) {
-            throw new WebServiceException(ex);
-        } catch (ClassNotFoundException ex) {
+        } catch (InstantiationException | ClassNotFoundException | SecurityException | InvocationTargetException | IllegalArgumentException | IllegalAccessException ex) {
             throw new WebServiceException(ex);
         }
     }
@@ -509,6 +503,7 @@ public final class SecurityTubeFactory implements TubeFactory, TubelineAssemblyC
         final ClassLoader loader = Thread.currentThread().getContextClassLoader();
         AccessController.doPrivileged(new PrivilegedAction() {
 
+            @Override
             public Object run() {
                 /*String defaultFactory = Security.getProperty(AuthConfigFactory.DEFAULT_FACTORY_SECURITY_PROPERTY);
                 if (defaultFactory == null || !(JMACAuthConfigFactory.class.getName().equals(defaultFactory))) {

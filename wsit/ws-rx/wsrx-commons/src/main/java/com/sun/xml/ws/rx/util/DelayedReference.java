@@ -43,10 +43,12 @@ public class DelayedReference<V> implements Delayed {
         return data;
     }
 
+    @Override
     public long getDelay(TimeUnit unit) {
         return unit.convert(resumeTimeInMilliseconds - System.currentTimeMillis(), TimeUnit.MILLISECONDS);
     }
 
+    @Override
     public int compareTo(Delayed other) {
         long thisDelay = resumeTimeInMilliseconds - System.currentTimeMillis();
         long thatDelay = other.getDelay(TimeUnit.MILLISECONDS);
@@ -55,10 +57,10 @@ public class DelayedReference<V> implements Delayed {
     }
 
     public DelayedReference<V> updateData(V data) {
-        return new DelayedReference<V>(data, resumeTimeInMilliseconds);
+        return new DelayedReference<>(data, resumeTimeInMilliseconds);
     }
 
     public DelayedReference<V> updateDelay(long newDelay, TimeUnit timeUnit) {
-        return new DelayedReference<V>(data, timeUnit.toMillis(newDelay) + System.currentTimeMillis());
+        return new DelayedReference<>(data, timeUnit.toMillis(newDelay) + System.currentTimeMillis());
     }
 }

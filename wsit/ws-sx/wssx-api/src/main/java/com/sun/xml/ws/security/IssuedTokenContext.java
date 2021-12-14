@@ -49,16 +49,16 @@ import javax.security.auth.Subject;
 @Description("Information used by Trust and Security enforcement")
 public interface IssuedTokenContext {
 
-    public static String CLAIMED_ATTRUBUTES = "cliamedAttributes";
-    public static String TARGET_SERVICE_CERTIFICATE = "tagetedServiceCertificate";
-    public static String STS_CERTIFICATE = "stsCertificate";
-    public static String STS_PRIVATE_KEY = "stsPrivateKey";
-    public static String WS_TRUST_VERSION = "wstVersion";
-    public static String CONFIRMATION_METHOD = "samlConfirmationMethod";
-    public static String CONFIRMATION_KEY_INFO = "samlConfirmationKeyInfo";
-    public static String AUTHN_CONTEXT = "authnContext";
-    public static String KEY_WRAP_ALGORITHM = "keyWrapAlgorithm";
-    public static String STATUS = "status";
+    String CLAIMED_ATTRUBUTES = "cliamedAttributes";
+    String TARGET_SERVICE_CERTIFICATE = "tagetedServiceCertificate";
+    String STS_CERTIFICATE = "stsCertificate";
+    String STS_PRIVATE_KEY = "stsPrivateKey";
+    String WS_TRUST_VERSION = "wstVersion";
+    String CONFIRMATION_METHOD = "samlConfirmationMethod";
+    String CONFIRMATION_KEY_INFO = "samlConfirmationKeyInfo";
+    String AUTHN_CONTEXT = "authnContext";
+    String KEY_WRAP_ALGORITHM = "keyWrapAlgorithm";
+    String STATUS = "status";
 
     void setTokenIssuer(String issuer);
 
@@ -140,7 +140,7 @@ public interface IssuedTokenContext {
     * <p>
     * when the SecurityToken is a SecurityContext token (as defined in
     * WS-SecureConversation) and Derived Keys are being used then
-    * the Proof Token is the {@code<wsc:DerivedKeyToken>}
+    * the Proof Token is the {@code <wsc:DerivedKeyToken>}
     */
     void setAssociatedProofToken(Token token);
 
@@ -212,7 +212,7 @@ public interface IssuedTokenContext {
     * generate the actual Key.
     * </p>
     * For composite Keys Entropy can be set by both parties, the concrete
-    * entropy element can be a {@code<wst:Entropy>} instance but the argument here is
+    * entropy element can be a {@code <wst:Entropy>} instance but the argument here is
     * generic to avoid a dependence of the SPI on WS-Trust packages
     */
     void setOtherPartyEntropy(Object entropy);

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -36,7 +36,7 @@ public abstract class RegistrationProxyBuilder {
 
     public RegistrationProxyBuilder feature(WebServiceFeature feature){
         if(feature == null) return  this;
-        if(features == null) features = new ArrayList<WebServiceFeature>();
+        if(features == null) features = new ArrayList<>();
         features.add(feature);
         return  this;
    }
@@ -83,6 +83,7 @@ public abstract class RegistrationProxyBuilder {
 
     public abstract class RegistrationProxyF<T extends EndpointReference,K,P,D> implements RegistrationIF<T,K,P> {
 
+        @Override
         public BaseRegisterResponseType<T,P> registerOperation(BaseRegisterType<T,K> parameters){
             try {
                 PendingRequestManager.ResponseBox box = PendingRequestManager.reqisterRequest(txId);

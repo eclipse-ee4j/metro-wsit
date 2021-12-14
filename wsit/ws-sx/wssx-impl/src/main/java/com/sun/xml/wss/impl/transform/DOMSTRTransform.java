@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -60,6 +60,7 @@ public class DOMSTRTransform extends TransformService {
     public static final String WSU =
             "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd";
     
+    @Override
     public void init(TransformParameterSpec params) throws InvalidAlgorithmParameterException {
         if (params == null) {
             throw new InvalidAlgorithmParameterException("params are required");
@@ -67,6 +68,7 @@ public class DOMSTRTransform extends TransformService {
         this.params = (STRTransformParameterSpec) params;
     }
     
+    @Override
     public void init(javax.xml.crypto.XMLStructure params, javax.xml.crypto.XMLCryptoContext xMLCryptoContext)
     throws java.security.InvalidAlgorithmParameterException {
         DOMStructure domParams = (DOMStructure) params;
@@ -77,10 +79,12 @@ public class DOMSTRTransform extends TransformService {
         }
     }
     
+    @Override
     public java.security.spec.AlgorithmParameterSpec getParameterSpec() {
         return params;
     }
     
+    @Override
     public void marshalParams(XMLStructure parent, XMLCryptoContext context) throws MarshalException {
         
         Node pn = ((DOMStructure) parent).getNode();
@@ -122,15 +126,17 @@ public class DOMSTRTransform extends TransformService {
     }
     
     
+    @Override
     public javax.xml.crypto.Data transform(javax.xml.crypto.Data data, javax.xml.crypto.XMLCryptoContext xc) throws javax.xml.crypto.dsig.TransformException {
         java.io.OutputStream outputStream = null;
-        return new STRTransformImpl().transform(data,xc,outputStream);
+        return STRTransformImpl.transform(data,xc,outputStream);
     }
     
     
+    @Override
     public javax.xml.crypto.Data transform(javax.xml.crypto.Data data, javax.xml.crypto.XMLCryptoContext xc, java.io.OutputStream outputStream) throws javax.xml.crypto.dsig.TransformException {
         //throw new UnsupportedOperationException();
-        return new STRTransformImpl().transform(data,xc,outputStream);
+        return STRTransformImpl.transform(data,xc,outputStream);
     }
     
     public void unmarshalParams(XMLStructure parent, XMLCryptoContext context)
@@ -146,7 +152,7 @@ public class DOMSTRTransform extends TransformService {
         
         Element c14nElem = null;
         if(tpElem.getNodeType() == Node.DOCUMENT_NODE){
-            c14nElem =(Element) ((Document)tpElem).getFirstChild();
+            c14nElem =(Element) tpElem.getFirstChild();
         }else{
             c14nElem = XMLUtil.getFirstChildElement(tpElem);
         }
@@ -180,6 +186,7 @@ public class DOMSTRTransform extends TransformService {
         
     }
     
+    @Override
     public boolean isFeatureSupported(String str) {
         return false;
     }
@@ -190,14 +197,19 @@ public class DOMSTRTransform extends TransformService {
         STRC14NMethod(javax.xml.crypto.dsig.TransformService cmSpi) {
             this.cmSpi = cmSpi;
         }
+        @Override
         public String getAlgorithm() { return cmSpi.getAlgorithm(); }
+        @Override
         public AlgorithmParameterSpec getParameterSpec() {
             return cmSpi.getParameterSpec();
         }
+        @Override
         public boolean isFeatureSupported(String feature) { return false; }
+        @Override
         public Data transform(Data data, XMLCryptoContext context) throws TransformException {
             return cmSpi.transform(data, context);
         }
+        @Override
         public Data transform(Data data, XMLCryptoContext context, OutputStream os) throws TransformException {
             return cmSpi.transform(data, context, os);
         }

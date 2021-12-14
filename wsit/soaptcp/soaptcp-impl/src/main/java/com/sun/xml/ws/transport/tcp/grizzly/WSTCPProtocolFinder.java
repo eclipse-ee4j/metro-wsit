@@ -38,14 +38,14 @@ public final class WSTCPProtocolFinder implements ProtocolFinder {
     /**
      * Try to find the protocol from the <code>SocketChannel</code> bytes.
      *
-     * @param puContext
      * @param ctx filter chain context
      *
      * @return ProtocolInfo The ProtocolInfo that contains the information about the
      *                   current protocol.
      */
+    @Override
     public Result find(final PUContext puContext,
-                     final FilterChainContext ctx) {
+                       final FilterChainContext ctx) {
         final Buffer buffer = ctx.getMessage();
         final Connection connection = ctx.getConnection();
 

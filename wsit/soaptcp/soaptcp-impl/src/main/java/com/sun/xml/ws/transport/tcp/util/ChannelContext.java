@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -151,7 +151,7 @@ public class ChannelContext implements WSTCPFastInfosetStreamReaderRecyclable.Re
         
         String contentTypeStr = mimeType;
         if (params.size() > 0) {
-            final StringBuffer ctBuf = new StringBuffer(contentTypeStr);
+            final StringBuilder ctBuf = new StringBuilder(contentTypeStr);
             for(Map.Entry<Integer, String> parameter : params.entrySet()) {
                 ctBuf.append(';');
                 final String paramKey = decodeParam(parameter.getKey());
@@ -240,9 +240,10 @@ public class ChannelContext implements WSTCPFastInfosetStreamReaderRecyclable.Re
     
     @Override
     public String toString() {
-        return String.format("ID: %d\nURI: %s\nCodec:%s", new Object[] {getChannelId(), getTargetWSURI(), getCodec()});
+        return String.format("ID: %d\nURI: %s\nCodec:%s", getChannelId(), getTargetWSURI(), getCodec());
     }
     
+    @Override
     public void onRecycled() {
         connectionSession.onReadCompleted();
     }

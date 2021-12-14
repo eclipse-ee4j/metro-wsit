@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -93,62 +93,77 @@ public class KerberosBinarySecurityToken implements com.sun.xml.ws.security.opt.
         digestBST(bstReader);
     }
     
+    @Override
     public String getValueType() {
         return valueType;
     }
     
+    @Override
     public String getEncodingType() {
         return encodingType;
     }
     
+    @Override
     public byte[] getTokenValue() {
         return bstValue;
     }
     
+    @Override
     public String getId() {
         return id;
     }
     
+    @Override
     public boolean refersToSecHdrWithId(final String id) {
         throw new UnsupportedOperationException();
     }
     
+    @Override
     public void setId(final String id) {
         throw new UnsupportedOperationException();
     }
     
+    @Override
     public String getNamespaceURI() {
         return namespaceURI;
     }
     
+    @Override
     public String getLocalPart() {
         return localPart;
     }
     
+    @Override
     public XMLStreamReader readHeader() throws XMLStreamException {
         return mark.readAsXMLStreamReader();
     }
     
+    @Override
     public WSSPolicy getPolicy() {
         return ktPolicy;
     }
     
-    public void validate(ProcessingContext context) throws XWSSecurityException {
+    @Override
+    public void validate(ProcessingContext context) {
         //TODO
     }
     
+    @Override
     public HashMap<String, String> getInscopeNSContext() {
         return nsDecls;
     }
     
+    @Override
     public void writeTo(XMLStreamWriter streamWriter) throws XMLStreamException {
         mark.writeToXMLStreamWriter(streamWriter);
     }
     
-    public void writeTo(XMLStreamWriter streamWriter, HashMap props) throws XMLStreamException {
+    @Override
+    public void writeTo(XMLStreamWriter streamWriter, HashMap props) {
         throw new UnsupportedOperationException();
     }
     
+    @Override
     public void writeTo(OutputStream os) {
         throw new UnsupportedOperationException();
     }

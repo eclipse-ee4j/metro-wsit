@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -26,8 +26,8 @@ import javax.xml.namespace.QName;
  * @author jax-ws team
  */
 public final class TCPAdapterList extends AbstractList<TCPAdapter> implements AdapterFactory<TCPAdapter> {
-    private final List<TCPAdapter> adapters = new ArrayList<TCPAdapter>();
-    private final Map<PortInfo, String> addressMap = new HashMap<PortInfo, String>();
+    private final List<TCPAdapter> adapters = new ArrayList<>();
+    private final Map<PortInfo, String> addressMap = new HashMap<>();
     
     // TODO: documented because it's used by AS
     @Override

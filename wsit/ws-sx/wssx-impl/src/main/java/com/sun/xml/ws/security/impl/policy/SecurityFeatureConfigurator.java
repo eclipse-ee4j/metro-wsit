@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -71,9 +71,10 @@ public final class SecurityFeatureConfigurator implements PolicyFeatureConfigura
         }
     }
 
+    @Override
     public Collection<WebServiceFeature> getFeatures(PolicyMapKey key, PolicyMap policyMap) throws PolicyException {
         SecurityStickyFeature stickyFeature = null;
-        final Collection<WebServiceFeature> features = new LinkedList<WebServiceFeature>();
+        final Collection<WebServiceFeature> features = new LinkedList<>();
         if ((key != null) && (policyMap != null)) {
             Policy policy = policyMap.getEndpointEffectivePolicy(key);
             if (policy != null) {
@@ -103,14 +104,12 @@ public final class SecurityFeatureConfigurator implements PolicyFeatureConfigura
     private static final String SC_LOCAL_NAME = "SecureConversationToken";
     private static final String DIGEST_PASSWORD_LOCAL_NAME = "HashPassword";
     private static final String NONCE_LOCAL_NAME = "Nonce";
-    private static final Set<QName> STICKINESS_ENABLERS = Collections.unmodifiableSet(new HashSet(Arrays.asList(new QName[] {
-        new QName(SecurityPolicyVersion.SECURITYPOLICY200507.namespaceUri, SC_LOCAL_NAME),
-        new QName(SecurityPolicyVersion.SECURITYPOLICY12NS.namespaceUri, SC_LOCAL_NAME),
-        new QName(SecurityPolicyVersion.SECURITYPOLICY200507.namespaceUri, DIGEST_PASSWORD_LOCAL_NAME),
-        new QName(SecurityPolicyVersion.SECURITYPOLICY12NS.namespaceUri, DIGEST_PASSWORD_LOCAL_NAME),
-        new QName(SecurityPolicyVersion.SECURITYPOLICY200507.namespaceUri, NONCE_LOCAL_NAME),
-        new QName(SecurityPolicyVersion.SECURITYPOLICY12NS.namespaceUri, NONCE_LOCAL_NAME)
-    })));
+    private static final Set<QName> STICKINESS_ENABLERS = Collections.unmodifiableSet(new HashSet(Arrays.asList(new QName(SecurityPolicyVersion.SECURITYPOLICY200507.namespaceUri, SC_LOCAL_NAME),
+            new QName(SecurityPolicyVersion.SECURITYPOLICY12NS.namespaceUri, SC_LOCAL_NAME),
+            new QName(SecurityPolicyVersion.SECURITYPOLICY200507.namespaceUri, DIGEST_PASSWORD_LOCAL_NAME),
+            new QName(SecurityPolicyVersion.SECURITYPOLICY12NS.namespaceUri, DIGEST_PASSWORD_LOCAL_NAME),
+            new QName(SecurityPolicyVersion.SECURITYPOLICY200507.namespaceUri, NONCE_LOCAL_NAME),
+            new QName(SecurityPolicyVersion.SECURITYPOLICY12NS.namespaceUri, NONCE_LOCAL_NAME))));
 
     /**
      *

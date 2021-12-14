@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -13,7 +13,6 @@ package com.sun.xml.wss;
 import com.sun.xml.ws.api.ha.HighAvailabilityProvider;
 import com.sun.xml.ws.api.server.WSEndpoint;
 import com.sun.xml.ws.commons.AbstractMOMRegistrationAware;
-import com.sun.xml.ws.commons.MOMRegistrationAware;
 import com.sun.xml.ws.commons.WSEndpointCollectionBasedMOMListener;
 import com.sun.xml.wss.impl.XWSSecurityRuntimeException;
 import com.sun.xml.wss.impl.misc.DefaultNonceManager;
@@ -51,7 +50,7 @@ public abstract class NonceManager extends AbstractMOMRegistrationAware {
             LogDomainConstants.WSS_API_DOMAIN_BUNDLE);
     public static final String nonceManager = "com.sun.xml.xwss.NonceManager";
     private static final String NONCE_MANAGER = "NonceManager"; // monitoring
-    private static WeakHashMap<WSEndpoint, NonceManager> nonceMgrMap = new WeakHashMap<WSEndpoint, NonceManager>();
+    private static WeakHashMap<WSEndpoint, NonceManager> nonceMgrMap = new WeakHashMap<>();
     private static NonceManager jaxRPCNonceManager = null;
     private long maxNonceAge;
     private static final Object LOCK = new Object();
@@ -74,7 +73,6 @@ public abstract class NonceManager extends AbstractMOMRegistrationAware {
 
     /**
      * Set the approximate maximum age for which a received nonce needs to be stored by the NonceManager
-     * @param maxNonceAge  
      */
     public void setMaxNonceAge(long maxNonceAge) {
         this.maxNonceAge = maxNonceAge;
@@ -132,7 +130,7 @@ public abstract class NonceManager extends AbstractMOMRegistrationAware {
             if (endpoint == null) {
                 if (LOGGER.isLoggable(Level.FINE)) {
                     LOGGER.log(Level.FINE,
-                            String.format("getInstance(): endpoint is null: using singleton"));
+                            "getInstance(): endpoint is null: using singleton");
                 }
             }
 

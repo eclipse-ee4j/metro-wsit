@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -44,7 +44,7 @@ public final class ServiceChannelWSDLGenerator {
         final QName portName = WSEndpoint.getDefaultPortName(serviceName, ServiceChannelWSImpl.class);
         final BindingID bindingId = BindingID.parse(ServiceChannelWSImpl.class);
         final WSBinding binding = bindingId.createBinding();
-        final Collection<SDDocumentSource> docs = new ArrayList<SDDocumentSource>(0);
+        final Collection<SDDocumentSource> docs = new ArrayList<>(0);
         
         final WSEndpoint<?> endpoint = WSEndpoint.create(
                 ServiceChannelWSImpl.class, true,
@@ -54,6 +54,7 @@ public final class ServiceChannelWSDLGenerator {
                 );
         
         final DocumentAddressResolver resolver = new DocumentAddressResolver() {
+            @Override
             public String getRelativeAddressFor(SDDocument current, SDDocument referenced) {
                 if (current.isWSDL() && referenced.isSchema() && referenced.getURL().getProtocol().equals("file")) {
                     return referenced.getURL().getFile().substring(1);
@@ -77,6 +78,7 @@ public final class ServiceChannelWSDLGenerator {
             baos.reset();
             
             document.writeTo(new PortAddressResolver() {
+                @Override
                 public @Nullable String getAddressFor(QName serviceName, @NotNull String portName) {
                     return TCP_ENDPOINT_ADDRESS_STUB;
                 }

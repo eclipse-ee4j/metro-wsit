@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -43,17 +43,17 @@ public class WSATXAResourceStub extends WSATXAResource {
     }
 
     @Override
-    public int prepare(Xid xid) throws XAException {
+    public int prepare(Xid xid) {
         return m_prepareReturn;
     }
 
     @Override
-    public void commit(Xid xid, boolean onePhase) throws XAException {
+    public void commit(Xid xid, boolean onePhase) {
 
     }
 
     @Override
-    public void rollback(Xid xid) throws XAException {
+    public void rollback(Xid xid) {
 
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -97,11 +97,9 @@ public class KeyResolver {
      * value is an instance of SecretKey.
      * Else, an XWSSecurityException is thrown.
      *
-     * @param keyInfo
      * @param sig
      *     true if this method is called by a signature verifier, false if
      *     called by a decrypter
-     * @param context
      */
     
     /*
@@ -109,7 +107,7 @@ public class KeyResolver {
      * TODO:: SIG flag to be removed once JSR105 has been tested completly.-Venu
      */
     public static Key getKey( KeyInfoHeaderBlock keyInfo,  boolean sig,
-            FilterProcessingContext context)  throws XWSSecurityException {
+            FilterProcessingContext context) {
         
         Key returnKey;
         //HashMap tokenCache = context.getTokenCache();
@@ -522,7 +520,7 @@ public class KeyResolver {
             if (MessageConstants.X509v3_NS.equals(valueType)||MessageConstants.X509v1_NS.equals(valueType)) {
                 // its an X509 Token
                 HashMap insertedX509Cache = context.getInsertedX509Cache();
-                String wsuId = secureMsg.getIdFromFragmentRef(uri);
+                String wsuId = SecurableSoapMessage.getIdFromFragmentRef(uri);
                 X509SecurityToken token = (X509SecurityToken)insertedX509Cache.get(wsuId);
                 if(token == null)
                     token =(X509SecurityToken)resolveToken(wsuId,context,secureMsg);
@@ -548,7 +546,7 @@ public class KeyResolver {
                 
             } else if(MessageConstants.EncryptedKey_NS.equals(valueType)){
                 // Do default processing
-                String wsuId = secureMsg.getIdFromFragmentRef(uri);
+                String wsuId = SecurableSoapMessage.getIdFromFragmentRef(uri);
                 SecurityToken token =resolveToken(wsuId,context,secureMsg);
                 //TODO: STR is referring to EncryptedKey
                 KeyInfoHeaderBlock kiHB = ((EncryptedKeyToken)token).getKeyInfo();
@@ -601,7 +599,7 @@ public class KeyResolver {
                 
             } else if (MessageConstants.SCT_VALUETYPE.equals(valueType) || MessageConstants.SCT_13_VALUETYPE.equals(valueType)) {
                 // could be wsuId or SCT Session Id
-                String sctId = secureMsg.getIdFromFragmentRef(uri);
+                String sctId = SecurableSoapMessage.getIdFromFragmentRef(uri);
                 SecurityToken token = (SecurityToken)tokenCache.get(sctId);
                 
                 if(token == null){
@@ -643,7 +641,7 @@ public class KeyResolver {
                 
             } else if (null == valueType) {
                 // Do default processing
-                String wsuId = secureMsg.getIdFromFragmentRef(uri);
+                String wsuId = SecurableSoapMessage.getIdFromFragmentRef(uri);
                 SecurityToken token = SecurityUtil.locateBySCTId(context, wsuId);
                 if (token == null) {
                     token =resolveToken(wsuId,context,secureMsg);
@@ -964,8 +962,8 @@ public class KeyResolver {
             } else {
                 tokenElement = SAMLUtil.locateSamlAssertion(
                         assertionId, context.getSOAPMessage().getSOAPPart());
-                if (!("true".equals((String)context.getExtraneousProperty(MessageConstants.SAML_SIG_RESOLVED))) ||
-                        "false".equals((String)context.getExtraneousProperty(MessageConstants.SAML_SIG_RESOLVED))){
+                if (!("true".equals(context.getExtraneousProperty(MessageConstants.SAML_SIG_RESOLVED))) ||
+                        "false".equals(context.getExtraneousProperty(MessageConstants.SAML_SIG_RESOLVED))){
                     context.setExtraneousProperty(MessageConstants.SAML_SIG_RESOLVED,"false");
                 }
             }
@@ -1127,7 +1125,7 @@ public class KeyResolver {
         if (refElement instanceof DirectReference) {
             String uri = ((DirectReference) refElement).getURI();
             String valueType = ((DirectReference) refElement).getValueType();
-            String wsuId = secureMsg.getIdFromFragmentRef(uri);
+            String wsuId = SecurableSoapMessage.getIdFromFragmentRef(uri);
             SecurityToken secToken = SecurityUtil.locateBySCTId(context, wsuId);
             if (secToken == null) {
                 secToken =resolveToken(wsuId,context,secureMsg);
@@ -1272,9 +1270,6 @@ public class KeyResolver {
             returnKey = dkt.generateSymmetricKey(jceAlgo);
         } catch (InvalidKeyException ex) {
             log.log(Level.SEVERE, LogStringsMessages.WSS_0247_FAILED_RESOLVE_DERIVED_KEY_TOKEN());
-            throw new XWSSecurityException(ex);
-        } catch (UnsupportedEncodingException ex) {
-            log.log(Level.SEVERE,  LogStringsMessages.WSS_0247_FAILED_RESOLVE_DERIVED_KEY_TOKEN());
             throw new XWSSecurityException(ex);
         } catch (NoSuchAlgorithmException ex) {
             log.log(Level.SEVERE,  LogStringsMessages.WSS_0247_FAILED_RESOLVE_DERIVED_KEY_TOKEN());
@@ -1509,7 +1504,7 @@ public class KeyResolver {
             if (MessageConstants.X509v3_NS.equals(valueType)||MessageConstants.X509v1_NS.equals(valueType)) {
                 // its an X509 Token
                 HashMap insertedX509Cache = context.getInsertedX509Cache();
-                String wsuId = secureMsg.getIdFromFragmentRef(uri);
+                String wsuId = SecurableSoapMessage.getIdFromFragmentRef(uri);
                 X509SecurityToken token = (X509SecurityToken)insertedX509Cache.get(wsuId);
                 if(token == null)
                     token =(X509SecurityToken)resolveToken(wsuId,context,secureMsg);
@@ -1529,7 +1524,7 @@ public class KeyResolver {
                 
             } else if(MessageConstants.EncryptedKey_NS.equals(valueType)){
                 // Do default processing
-                String wsuId = secureMsg.getIdFromFragmentRef(uri);
+                String wsuId = SecurableSoapMessage.getIdFromFragmentRef(uri);
                 SecurityToken token =resolveToken(wsuId,context,secureMsg);
                 //TODO: STR is referring to EncryptedKey
                 KeyInfoHeaderBlock kiHB = ((EncryptedKeyToken)token).getKeyInfo();
@@ -1575,7 +1570,7 @@ public class KeyResolver {
                 
             } else if (MessageConstants.SCT_VALUETYPE.equals(valueType) || MessageConstants.SCT_13_VALUETYPE.equals(valueType)) {
                 // could be wsuId or SCT Session Id
-                String sctId = secureMsg.getIdFromFragmentRef(uri);
+                String sctId = SecurableSoapMessage.getIdFromFragmentRef(uri);
                 SecurityToken token = (SecurityToken)tokenCache.get(sctId);
                 
                 if(token == null){
@@ -1617,7 +1612,7 @@ public class KeyResolver {
                 
             } else if (null == valueType) {
                 // Do default processing
-                String wsuId = secureMsg.getIdFromFragmentRef(uri);
+                String wsuId = SecurableSoapMessage.getIdFromFragmentRef(uri);
                 SecurityToken token = SecurityUtil.locateBySCTId(context, wsuId);
                 if (token == null) {
                     token =resolveToken(wsuId,context,secureMsg);

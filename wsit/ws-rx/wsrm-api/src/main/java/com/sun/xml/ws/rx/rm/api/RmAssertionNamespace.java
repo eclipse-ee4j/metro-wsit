@@ -29,7 +29,7 @@ public enum RmAssertionNamespace {
     METRO_200702("http://java.sun.com/xml/ns/metro/ws-rx/wsrmp/200702", "metrormp");
 
     public static List<String> namespacesList() {
-        List<String> retVal = new ArrayList<String>(RmAssertionNamespace.values().length);
+        List<String> retVal = new ArrayList<>(RmAssertionNamespace.values().length);
         for (RmAssertionNamespace pns : RmAssertionNamespace.values()) {
             retVal.add(pns.toString());
         }
@@ -39,7 +39,7 @@ public enum RmAssertionNamespace {
     private final String namespace;
     private final String prefix;
 
-    private RmAssertionNamespace(String namespace, String prefix) {
+    RmAssertionNamespace(String namespace, String prefix) {
         this.namespace = namespace;
         this.prefix = prefix;
     }

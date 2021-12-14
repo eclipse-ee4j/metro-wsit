@@ -141,7 +141,7 @@ public class MessageDestinationType
      */
     public List<DescriptionType> getDescription() {
         if (description == null) {
-            description = new ArrayList<DescriptionType>();
+            description = new ArrayList<>();
         }
         return this.description;
     }
@@ -170,7 +170,7 @@ public class MessageDestinationType
      */
     public List<DisplayNameType> getDisplayName() {
         if (displayName == null) {
-            displayName = new ArrayList<DisplayNameType>();
+            displayName = new ArrayList<>();
         }
         return this.displayName;
     }
@@ -199,7 +199,7 @@ public class MessageDestinationType
      */
     public List<IconType> getIcon() {
         if (icon == null) {
-            icon = new ArrayList<IconType>();
+            icon = new ArrayList<>();
         }
         return this.icon;
     }
@@ -300,6 +300,7 @@ public class MessageDestinationType
         this.id = value;
     }
 
+    @Override
     public Locator sourceLocation() {
         return locator;
     }

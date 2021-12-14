@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2010, 2018 The Apache Software Foundation
+ * Copyright (c) 2010, 2021 The Apache Software Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -74,6 +74,7 @@ public abstract class EncryptedTypeHeaderBlock extends SecurityHeaderBlockImpl {
     /**
      * Returns null if id attr is not present
      */
+    @Override
     public String getId() {
         String id = getAttribute("Id");
         if (id.equals(""))
@@ -332,13 +333,13 @@ public abstract class EncryptedTypeHeaderBlock extends SecurityHeaderBlockImpl {
 
                 if ((se == null) || !(se.getNodeType() == Node.ELEMENT_NODE)) break;
                        
-                if (((SOAPElement)se).getLocalName().equals("EncryptionMethod"))
+                if (se.getLocalName().equals("EncryptionMethod"))
                     encryptionMethod = (SOAPElement)se;
                 else
-                if (((SOAPElement)se).getLocalName().equals("CipherData"))
+                if (se.getLocalName().equals("CipherData"))
                     cipherData = (SOAPElement)se;
                 else
-                if (((SOAPElement)se).getLocalName().equals("KeyInfo")) 
+                if (se.getLocalName().equals("KeyInfo"))
                     keyInfo = new KeyInfoHeaderBlock(
                                    new org.apache.xml.security.keys.KeyInfo((Element)se, null));
             }  
@@ -349,8 +350,8 @@ public abstract class EncryptedTypeHeaderBlock extends SecurityHeaderBlockImpl {
         } 
     }
 
-    /**
-     * @throws XWSSecurityException
+    /*
+      @throws XWSSecurityException
      *     If there is problem in initializing the EncryptedType
      *
     public void initializeEncryptedType(SOAPElement element)
@@ -411,11 +412,10 @@ public abstract class EncryptedTypeHeaderBlock extends SecurityHeaderBlockImpl {
          * From XMLUtil.getFullTextChildrenFromElement() apache xml-secuirty
          * 16may03
          *
-         * @param element
-         */
+     */
     private String getFullTextChildrenFromElement(Element element) {
 
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         NodeList children = element.getChildNodes();
         int iMax = children.getLength();
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -117,11 +117,7 @@ final class ResourceLoader {
         URL resourceUrl = getResourceUrl(resourceName);
         try {
             return com.sun.xml.ws.policy.parser.PolicyResourceLoader.getWsdlModel(resourceUrl, isClient);
-        } catch (XMLStreamException ex) {
-            throw new PolicyException("Failed to parse document", ex);
-        } catch (IOException ex) {
-            throw new PolicyException("Failed to parse document", ex);
-        } catch (SAXException ex) {
+        } catch (XMLStreamException | SAXException | IOException ex) {
             throw new PolicyException("Failed to parse document", ex);
         }
     }

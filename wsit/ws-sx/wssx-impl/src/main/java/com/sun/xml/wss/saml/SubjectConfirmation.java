@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -19,10 +19,6 @@ package com.sun.xml.wss.saml;
 
 import java.util.List;
 
-/**
- *
- * @author abhijit.das@Sun.COM
- */
 /**
  * The <code>SubjectConfirmation</code> element specifies a subject by specifying data that
  * authenticates the subject.
@@ -54,7 +50,7 @@ public interface SubjectConfirmation {
      * 
      * 
      */
-    public List<String> getConfirmationMethod();
+    List<String> getConfirmationMethod();
 
     /**
      * Gets the value of the subjectConfirmationData property for SAML 1.1 and SAML 1.0.
@@ -62,7 +58,7 @@ public interface SubjectConfirmation {
      * @return object is {@link Object }
      *     
      */
-    public Object getSubjectConfirmationDataForSAML11();
+    Object getSubjectConfirmationDataForSAML11();
 
     /**
      * Gets the value of the subjectConfirmationData property for SAML 2.0
@@ -70,7 +66,7 @@ public interface SubjectConfirmation {
      * @return object is {@link SubjectConfirmationData }
      *     
      */
-    public SubjectConfirmationData getSubjectConfirmationDataForSAML20();
+    SubjectConfirmationData getSubjectConfirmationDataForSAML20();
 
     /**
      * Gets the value of the nameID property for SAML 2.0
@@ -78,5 +74,5 @@ public interface SubjectConfirmation {
      * @return object is {@link NameID }
      *     
      */
-    public NameID getNameId();
+    NameID getNameId();
 }

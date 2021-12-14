@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -11,7 +11,6 @@
 package com.sun.xml.ws.security.opt.impl.incoming;
 
 import com.sun.xml.stream.buffer.MutableXMLStreamBuffer;
-import com.sun.xml.stream.buffer.stax.StreamWriterBufferCreator;
 import com.sun.xml.ws.security.opt.api.NamespaceContextInfo;
 import com.sun.xml.ws.security.opt.api.SecurityElementWriter;
 import com.sun.xml.ws.security.opt.api.SecurityHeaderElement;
@@ -69,6 +68,7 @@ public class SecurityContextToken implements SecurityHeaderElement, NamespaceCon
         return identifier;
     }
     
+    @Override
     public URI getIdentifier() {
         try {
             return new URI(identifier);
@@ -77,47 +77,58 @@ public class SecurityContextToken implements SecurityHeaderElement, NamespaceCon
         }
     }
     
+    @Override
     public String getInstance() {
         return instance;
     }
     
+    @Override
     public List getExtElements() {
         return extElements;
     }
     
+    @Override
     public boolean refersToSecHdrWithId(final String id) {
         throw new UnsupportedOperationException();
     }
     
+    @Override
     public String getId() {
         return id;
     }
     
+    @Override
     public void setId(final String id) {
         throw new UnsupportedOperationException();
     }
     
+    @Override
     public String getNamespaceURI() {
         return namespaceURI;
     }
     
+    @Override
     public String getLocalPart() {
         return localName;
     }
     
-    public javax.xml.stream.XMLStreamReader readHeader() throws javax.xml.stream.XMLStreamException {
+    @Override
+    public javax.xml.stream.XMLStreamReader readHeader() {
         throw new UnsupportedOperationException();
     }
     
+    @Override
     public void writeTo(OutputStream os) {
         throw new UnsupportedOperationException();
     }
     
+    @Override
     public void writeTo(javax.xml.stream.XMLStreamWriter streamWriter) throws javax.xml.stream.XMLStreamException {
         buffer.writeToXMLStreamWriter(streamWriter);
     }
     
     
+    @Override
     public HashMap<String, String> getInscopeNSContext() {
         return nsDecls;
     }
@@ -169,18 +180,22 @@ public class SecurityContextToken implements SecurityHeaderElement, NamespaceCon
         return -1;
     }
     
-    public void writeTo(javax.xml.stream.XMLStreamWriter streamWriter, HashMap props) throws javax.xml.stream.XMLStreamException {
+    @Override
+    public void writeTo(javax.xml.stream.XMLStreamWriter streamWriter, HashMap props) {
         throw new UnsupportedOperationException();
     }
     
+    @Override
     public String getWsuId() {
         return id;
     }
     
+    @Override
     public String getType() {
         return MessageConstants.SECURITY_CONTEXT_TOKEN_NS;
     }
     
+    @Override
     public Object getTokenValue() {
         return this;
     }

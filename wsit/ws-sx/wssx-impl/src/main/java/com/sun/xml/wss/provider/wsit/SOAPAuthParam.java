@@ -89,7 +89,7 @@ public class SOAPAuthParam implements AuthParam {
 	 } 
 	 if ((request == null || request instanceof Packet) &&
 	     (response == null || response instanceof Packet)) {
-	     this.infoMap = new HashMap<Object, Object>();
+	     this.infoMap = new HashMap<>();
 	     this.infoMap.put(REQ_PACKET,request);
 	     this.infoMap.put(RES_PACKET,response);
 	     this.requestInPacket = (request == null ? false : true);
@@ -107,7 +107,7 @@ public class SOAPAuthParam implements AuthParam {
       */
      public Map<Object, Object> getMap() {
 	 if (this.infoMap == null) {
-	     this.infoMap = new HashMap<Object, Object>();
+	     this.infoMap = new HashMap<>();
 	 }
          return this.infoMap;
      }

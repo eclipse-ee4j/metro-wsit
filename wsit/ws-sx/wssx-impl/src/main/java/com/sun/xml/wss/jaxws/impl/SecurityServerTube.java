@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -194,6 +194,7 @@ public class SecurityServerTube extends SecurityTubeBase {
         contextDelegate = that.contextDelegate;
     }
 
+    @Override
     public AbstractTubeImpl copy(TubeCloner cloner) {
         return new SecurityServerTube(this, cloner);
     }
@@ -225,7 +226,7 @@ public class SecurityServerTube extends SecurityTubeBase {
             if (this.contextDelegate != null) {
                 try {
                     WebServiceContextDelegate current = packet.webServiceContextDelegate;
-                    Constructor ctor = contextDelegate.getConstructor(new Class[]{WebServiceContextDelegate.class});
+                    Constructor ctor = contextDelegate.getConstructor(WebServiceContextDelegate.class);
                     packet.webServiceContextDelegate = (WebServiceContextDelegate) ctor.newInstance(new Object[]{current});
                 } catch (InstantiationException ex) {
                     log.log(Level.SEVERE, LogStringsMessages.WSSTUBE_0036_ERROR_INSTATIATE_WEBSERVICE_CONTEXT_DELEGATE(), ex);
@@ -777,36 +778,43 @@ public class SecurityServerTube extends SecurityTubeBase {
      * return packet;
      * }*/
     //TODO:Encapsulate, change this direct member access in all the 4 methods
+    @Override
     protected SecurityPolicyHolder addOutgoingMP(WSDLBoundOperation operation, Policy policy, PolicyAlternativeHolder ph) throws PolicyException {
         SecurityPolicyHolder sph = constructPolicyHolder(policy, true, true);
         ph.getInMessagePolicyMap().put(operation, sph);
         return sph;
     }
 
+    @Override
     protected SecurityPolicyHolder addIncomingMP(WSDLBoundOperation operation, Policy policy, PolicyAlternativeHolder ph) throws PolicyException {
         SecurityPolicyHolder sph = constructPolicyHolder(policy, true, false);
         ph.getOutMessagePolicyMap().put(operation, sph);
         return sph;
     }
 
+    @Override
     protected void addIncomingProtocolPolicy(Policy effectivePolicy, String protocol, PolicyAlternativeHolder ph) throws PolicyException {
         ph.getOutProtocolPM().put(protocol, constructPolicyHolder(effectivePolicy, true, false, true));
     }
 
+    @Override
     protected void addOutgoingProtocolPolicy(Policy effectivePolicy, String protocol, PolicyAlternativeHolder ph) throws PolicyException {
         ph.getInProtocolPM().put(protocol, constructPolicyHolder(effectivePolicy, true, true, false));
     }
 
+    @Override
     protected void addIncomingFaultPolicy(Policy effectivePolicy, SecurityPolicyHolder sph, WSDLFault fault) throws PolicyException {
         SecurityPolicyHolder faultPH = constructPolicyHolder(effectivePolicy, true, false);
         sph.addFaultPolicy(fault, faultPH);
     }
 
+    @Override
     protected void addOutgoingFaultPolicy(Policy effectivePolicy, SecurityPolicyHolder sph, WSDLFault fault) throws PolicyException {
         SecurityPolicyHolder faultPH = constructPolicyHolder(effectivePolicy, true, true);
         sph.addFaultPolicy(fault, faultPH);
     }
 
+    @Override
     protected String getAction(WSDLOperation operation, boolean inComming) {
         if (inComming) {
             return operation.getInput().getAction();
@@ -920,6 +928,7 @@ public class SecurityServerTube extends SecurityTubeBase {
         }
         AccessController.doPrivileged(new PrivilegedAction() {
 
+            @Override
             public Object run() {
                 to.getPrincipals().addAll(from.getPrincipals());
                 to.getPublicCredentials().addAll(from.getPublicCredentials());

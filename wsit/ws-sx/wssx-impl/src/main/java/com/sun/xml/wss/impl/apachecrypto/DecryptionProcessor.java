@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -17,6 +17,8 @@
 package com.sun.xml.wss.impl.apachecrypto;
 
 import com.sun.xml.wss.impl.misc.Base64;
+import jakarta.mail.MessagingException;
+import jakarta.xml.soap.SOAPException;
 import org.apache.xml.security.encryption.EncryptedKey;
 import org.apache.xml.security.encryption.XMLCipher;
 import org.apache.xml.security.encryption.XMLEncryptionException;
@@ -48,6 +50,7 @@ import com.sun.xml.wss.impl.policy.mls.EncryptionTarget;
 import com.sun.xml.wss.swa.MimeConstants;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.security.Key;
 import java.util.logging.Level;
@@ -519,15 +522,9 @@ public class DecryptionProcessor {
                 _attachmentBuffer.setDataHandler(p.getDataHandler());
                 encryptedAttachment = decryptAttachment(secureMessage, xencEncryptedData, symmetricKey);
                 
-            } catch (java.io.IOException ioe) {
+            } catch (IOException | MessagingException | SOAPException ioe) {
                 log.log(Level.SEVERE, "WSS1232.failedto.decrypt.attachment", ioe);
                 throw new XWSSecurityException(ioe);
-            } catch (jakarta.xml.soap.SOAPException se) {
-                log.log(Level.SEVERE, "WSS1232.failedto.decrypt.attachment", se);
-                throw new XWSSecurityException(se);
-            } catch (jakarta.mail.MessagingException me) {
-                log.log(Level.SEVERE, "WSS1232.failedto.decrypt.attachment", me);
-                throw new XWSSecurityException(me);
             }
             encDataElement.detachNode();
         } else {
@@ -702,7 +699,7 @@ public class DecryptionProcessor {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         part.getDataHandler().writeTo(baos);
         
-        byte[] cipherInput  = ((ByteArrayOutputStream)baos).toByteArray();
+        byte[] cipherInput  = baos.toByteArray();
         String tmp = edhb.getEncryptionMethodURI();
         
         // initialize Cipher
@@ -792,7 +789,7 @@ public class DecryptionProcessor {
                         reqTargets.remove(et);
                         break;
                     }
-                }else if(encTarget.getType() == encTarget.TARGET_TYPE_VALUE_QNAME){
+                }else if(encTarget.getType() == Target.TARGET_TYPE_VALUE_QNAME){
                     QName qname = encTarget.getQName();
                     String localPart = qname.getLocalPart();
                     if(localPart.equals(elementData.getElement().getLocalName())){
@@ -803,7 +800,7 @@ public class DecryptionProcessor {
                             break;
                         }
                     }
-                }else if (encTarget.getType() == encTarget.TARGET_TYPE_VALUE_XPATH){
+                }else if (encTarget.getType() == Target.TARGET_TYPE_VALUE_XPATH){
                     ArrayList list = getAllTargetElements(ssm,encTarget,requiredTarget);
                     if(contains(list,(EncryptedElement)encData)){
                         reqTargets.remove(et);
@@ -814,7 +811,7 @@ public class DecryptionProcessor {
             }else {
                 if(encTarget.getType() == Target.TARGET_TYPE_VALUE_URI && encTarget.isAttachment()){
                     if (encTarget.getValue().startsWith("cid:") && encTarget.getEnforce()){
-                        AttachmentPart ap = (AttachmentPart)ssm.getAttachmentPart(encTarget.getValue());
+                        AttachmentPart ap = ssm.getAttachmentPart(encTarget.getValue());
                         AttachmentData ad = (AttachmentData)encData;
                         if(ap != null && (ad.getCID() == ap.getContentId()) &&
                                 (ad.isContentOnly() == encTarget.getContentOnly())){
@@ -882,7 +879,7 @@ public class DecryptionProcessor {
     
     private static void contribute(NodeList targetElements,ArrayList result, boolean contentOnly) {
         for (int i = 0; i < targetElements.getLength(); i ++)
-            contribute((Node)targetElements.item(i), result, contentOnly);
+            contribute(targetElements.item(i), result, contentOnly);
     }
     @SuppressWarnings("unchecked")
     private static void contribute( Node element,ArrayList result, boolean contentOnly) {
@@ -927,7 +924,7 @@ public class DecryptionProcessor {
     
     private static Document decryptElementWithCipher(
             XMLCipher xmlCipher,SOAPElement element,
-            SecurableSoapMessage secureMessage) throws XWSSecurityException {
+            SecurableSoapMessage secureMessage) {
         
         Document document = null;
         // TODO the following normalize() call is a workaround for a bug
@@ -952,9 +949,9 @@ public class DecryptionProcessor {
         return document;
     }
     
-    private static interface EncryptedData{
-        public boolean isElementData();
-        public boolean isAttachmentData();
+    private interface EncryptedData{
+        boolean isElementData();
+        boolean isAttachmentData();
     }
     
     private static class AttachmentData implements EncryptedData {
@@ -979,10 +976,12 @@ public class DecryptionProcessor {
             return false;
         }
         
+        @Override
         public boolean isElementData(){
             return false;
         }
         
+        @Override
         public boolean isAttachmentData(){
             return true;
         }
@@ -1007,7 +1006,7 @@ public class DecryptionProcessor {
         }
         
         public boolean equals(EncryptedElement element) {
-            EncryptedElement encryptedElement = (EncryptedElement) element;
+            EncryptedElement encryptedElement = element;
             return (encryptedElement.getElement() == this.element &&
                     encryptedElement.getContentOnly() == this.contentOnly);
             //&& this.policy.equals(encryptedElement.getPolicy()));
@@ -1022,10 +1021,12 @@ public class DecryptionProcessor {
             return policy;
         }
         
+        @Override
         public boolean isElementData(){
             return true;
         }
         
+        @Override
         public boolean isAttachmentData(){
             return false;
         }
@@ -1037,18 +1038,22 @@ public class DecryptionProcessor {
         
         _DS(byte[] b, String mt) { this._b = b; this._mt = mt; }
         
-        public java.io.InputStream getInputStream() throws java.io.IOException {
+        @Override
+        public java.io.InputStream getInputStream() {
             return new java.io.ByteArrayInputStream(_b);
         }
         
-        public java.io.OutputStream getOutputStream() throws java.io.IOException {
+        @Override
+        public java.io.OutputStream getOutputStream() {
             java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
             baos.write(_b, 0, _b.length);
             return baos;
         }
         
+        @Override
         public String getName() { return "_DS"; }
         
+        @Override
         public String getContentType() { return _mt; }
     }
 }

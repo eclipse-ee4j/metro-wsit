@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -37,6 +37,7 @@ final class UnackedMessageReplicationManager implements ReplicationManager<Strin
                 JaxwsApplicationMessageState.class);
     }
 
+    @Override
     public ApplicationMessage load(String key) {
         JaxwsApplicationMessageState state = HighAvailabilityProvider.loadFrom(unackedMesagesBs, new StickyKey(key), null);
         if (LOGGER.isLoggable(Level.FINER)) {
@@ -54,6 +55,7 @@ final class UnackedMessageReplicationManager implements ReplicationManager<Strin
         return message;
     }
 
+    @Override
     public void save(final String key, final ApplicationMessage _value, final boolean isNew) {
         if (!(_value instanceof JaxwsApplicationMessage)) {
             throw new IllegalArgumentException("Unsupported application message type: " + _value.getClass().getName());
@@ -83,6 +85,7 @@ final class UnackedMessageReplicationManager implements ReplicationManager<Strin
         }                       
     }
 
+    @Override
     public void remove(String key) {
         HighAvailabilityProvider.removeFrom(unackedMesagesBs, new StickyKey(key));
         if (LOGGER.isLoggable(Level.FINER)) {
@@ -90,6 +93,7 @@ final class UnackedMessageReplicationManager implements ReplicationManager<Strin
         }
     }
 
+    @Override
     public void close() {
         HighAvailabilityProvider.close(unackedMesagesBs);
         if (LOGGER.isLoggable(Level.FINER)) {
@@ -97,6 +101,7 @@ final class UnackedMessageReplicationManager implements ReplicationManager<Strin
         }
     }
 
+    @Override
     public void destroy() {
         HighAvailabilityProvider.destroy(unackedMesagesBs);
         if (LOGGER.isLoggable(Level.FINER)) {

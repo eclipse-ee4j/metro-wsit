@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -84,6 +84,7 @@ public class StAXEXC14nCanonicalizerImpl extends StAXC14nCanonicalizerImpl  {
         return false;
     }
 
+    @Override
     public void reset(){
         super.reset();
         exC14NContext.reset();
@@ -100,7 +101,8 @@ public class StAXEXC14nCanonicalizerImpl extends StAXC14nCanonicalizerImpl  {
     public void forceDefaultNS(boolean isForce){
         this.forceDefNS = isForce;
     }
-    public void writeNamespace(String prefix, String namespaceURI) throws XMLStreamException {
+    @Override
+    public void writeNamespace(String prefix, String namespaceURI) {
         if(prefix == null || prefix.length() == 0){
             String defNS = exC14NContext.getNamespaceURI(prefix);
             if((defNS == null || defNS.length()== 0) && (namespaceURI == null || namespaceURI.length() ==0)){
@@ -116,6 +118,7 @@ public class StAXEXC14nCanonicalizerImpl extends StAXC14nCanonicalizerImpl  {
         exC14NContext.declareNamespace(prefix,namespaceURI);
     }
 
+    @Override
     public void writeStartElement(String prefix, String localName, String namespaceURI) throws XMLStreamException {
         String pf = prefix;
         if(prefix == null){
@@ -126,8 +129,9 @@ public class StAXEXC14nCanonicalizerImpl extends StAXC14nCanonicalizerImpl  {
         exC14NContext.push();
     }
 
+    @Override
     @SuppressWarnings("unchecked")
-    protected void closeStartTag() throws XMLStreamException{
+    protected void closeStartTag() {
         try{
             if(closeStartTag){
                 if(_attrResult.size() >0){
@@ -198,13 +202,15 @@ public class StAXEXC14nCanonicalizerImpl extends StAXC14nCanonicalizerImpl  {
         }
     }
 
-    public void writeEmptyElement(String namespaceURI, String localName) throws XMLStreamException {
+    @Override
+    public void writeEmptyElement(String namespaceURI, String localName) {
        /* String prefix = nsContext.getPrefix (namespaceURI);
         writeEmptyElement (prefix,localName,namespaceURI);*/
         //TODO
         throw new UnsupportedOperationException();
     }
 
+    @Override
     @SuppressWarnings("unchecked")
     public void writeEmptyElement(String prefix, String localName, String namespaceURI) throws XMLStreamException {
 
@@ -268,6 +274,7 @@ public class StAXEXC14nCanonicalizerImpl extends StAXC14nCanonicalizerImpl  {
         }
     }
 
+    @Override
     public void writeEndDocument() throws XMLStreamException {
         while(_depth > 0){
             writeEndElement();
@@ -275,6 +282,7 @@ public class StAXEXC14nCanonicalizerImpl extends StAXC14nCanonicalizerImpl  {
     }
 
 
+    @Override
     public void writeEndElement() throws XMLStreamException {
         closeStartTag();
         if(_depth ==0 ){
@@ -307,7 +315,7 @@ public class StAXEXC14nCanonicalizerImpl extends StAXC14nCanonicalizerImpl  {
     }
 
     @SuppressWarnings("unchecked")
-    protected void collectVisiblePrefixes(Iterator itr) throws IOException {
+    protected void collectVisiblePrefixes(Iterator itr) {
         while(itr.hasNext()){
             StAXAttr attr = (StAXAttr) itr.next();
             String prefix = attr.getPrefix();
@@ -345,6 +353,7 @@ public class StAXEXC14nCanonicalizerImpl extends StAXC14nCanonicalizerImpl  {
         }
     }
 
+    @Override
     public NamespaceContext getNamespaceContext() {
         return exC14NContext;
     }

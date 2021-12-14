@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -41,6 +41,7 @@ public final class HighlyAvailableMap<K extends Serializable, V> implements Map<
         public NoopReplicationManager(String name) {
             this.loggerProlog = "[" + name + "]: ";
         }
+        @Override
         public V load(K key) {
             if (LOGGER.isLoggable(Level.FINER)) {
                 LOGGER.finer(loggerProlog + "load() method invoked for key: " + key);
@@ -48,6 +49,7 @@ public final class HighlyAvailableMap<K extends Serializable, V> implements Map<
             return null;
         }
 
+        @Override
         public void save(K key, V value, boolean isNew) {
             // noop
             if (LOGGER.isLoggable(Level.FINER)) {
@@ -55,6 +57,7 @@ public final class HighlyAvailableMap<K extends Serializable, V> implements Map<
             }            
         }
 
+        @Override
         public void remove(K key) {
             // noop
             if (LOGGER.isLoggable(Level.FINER)) {
@@ -62,6 +65,7 @@ public final class HighlyAvailableMap<K extends Serializable, V> implements Map<
             }
         }
 
+        @Override
         public void close() {
             // noop
             if (LOGGER.isLoggable(Level.FINER)) {
@@ -69,6 +73,7 @@ public final class HighlyAvailableMap<K extends Serializable, V> implements Map<
             }            
         }
 
+        @Override
         public void destroy() {
             // noop
             if (LOGGER.isLoggable(Level.FINER)) {
@@ -87,6 +92,7 @@ public final class HighlyAvailableMap<K extends Serializable, V> implements Map<
             this.loggerProlog = "[" + name + "]: ";
         }
 
+        @Override
         public V load(K key) {
             final V data = HighAvailabilityProvider.loadFrom(backingStore, key, null);
             if (LOGGER.isLoggable(Level.FINER)) {
@@ -95,6 +101,7 @@ public final class HighlyAvailableMap<K extends Serializable, V> implements Map<
             return data;
         }
 
+        @Override
         public void save(K key, V value, boolean isNew) {
             if (LOGGER.isLoggable(Level.FINER)) {
                 LOGGER.finer(loggerProlog + "sending for replication [key=" + key + ", value=" + value + ", isNew=" + isNew + "]");
@@ -102,6 +109,7 @@ public final class HighlyAvailableMap<K extends Serializable, V> implements Map<
             HighAvailabilityProvider.saveTo(backingStore, key, value, isNew);
         }
 
+        @Override
         public void remove(K key) {
             if (LOGGER.isLoggable(Level.FINER)) {
                 LOGGER.finer(loggerProlog + "removing data for key: " + key);
@@ -109,6 +117,7 @@ public final class HighlyAvailableMap<K extends Serializable, V> implements Map<
             HighAvailabilityProvider.removeFrom(backingStore, key);
         }
 
+        @Override
         public void close() {
             if (LOGGER.isLoggable(Level.FINER)) {
                 LOGGER.finer(loggerProlog + "closing backing store");
@@ -116,6 +125,7 @@ public final class HighlyAvailableMap<K extends Serializable, V> implements Map<
             HighAvailabilityProvider.close(backingStore);
         }
 
+        @Override
         public void destroy() {
             if (LOGGER.isLoggable(Level.FINER)) {
                 LOGGER.finer(loggerProlog + "destroying backing store");
@@ -134,6 +144,7 @@ public final class HighlyAvailableMap<K extends Serializable, V> implements Map<
             this.loggerProlog = "[" + name + "]: ";
         }
 
+        @Override
         public V load(K key) {
             final V data = HighAvailabilityProvider.loadFrom(backingStore, new StickyKey(key), null);
             if (LOGGER.isLoggable(Level.FINER)) {
@@ -142,6 +153,7 @@ public final class HighlyAvailableMap<K extends Serializable, V> implements Map<
             return data;
         }
 
+        @Override
         public void save(final K key, final V value, final boolean isNew) {
             if (LOGGER.isLoggable(Level.FINER)) {
                 LOGGER.finer(loggerProlog + "sending for replication [key=" + key + ", value=" + value + ", isNew=" + isNew + "]");
@@ -165,6 +177,7 @@ public final class HighlyAvailableMap<K extends Serializable, V> implements Map<
             }
         }
 
+        @Override
         public void remove(K key) {
             if (LOGGER.isLoggable(Level.FINER)) {
                 LOGGER.finer(loggerProlog + "removing data for key: " + key);
@@ -172,6 +185,7 @@ public final class HighlyAvailableMap<K extends Serializable, V> implements Map<
             HighAvailabilityProvider.removeFrom(backingStore, new StickyKey(key));
         }
 
+        @Override
         public void close() {
             if (LOGGER.isLoggable(Level.FINER)) {
                 LOGGER.finer(loggerProlog + "closing backing store");
@@ -179,6 +193,7 @@ public final class HighlyAvailableMap<K extends Serializable, V> implements Map<
             HighAvailabilityProvider.close(backingStore);
         }
 
+        @Override
         public void destroy() {
             if (LOGGER.isLoggable(Level.FINER)) {
                 LOGGER.finer(loggerProlog + "destroying backing store");
@@ -193,19 +208,19 @@ public final class HighlyAvailableMap<K extends Serializable, V> implements Map<
     private final String loggerProlog;
     
     public static <K extends Serializable, V extends Serializable> HighlyAvailableMap<K, V> create(final String name, BackingStore<K, V> backingStore) {
-        return new HighlyAvailableMap<K, V>(name, new HashMap<K, V>(), new SimpleReplicationManager<K, V>(name + "_MANAGER", backingStore));
+        return new HighlyAvailableMap<>(name, new HashMap<>(), new SimpleReplicationManager<>(name + "_MANAGER", backingStore));
     }
 
     public static <K extends Serializable, V extends Serializable> HighlyAvailableMap<K, V> createSticky(final String name, BackingStore<StickyKey, V> backingStore) {
-        return new HighlyAvailableMap<K, V>(name, new HashMap<K, V>(), new StickyReplicationManager<K, V>(name + "_MANAGER", backingStore));
+        return new HighlyAvailableMap<>(name, new HashMap<>(), new StickyReplicationManager<>(name + "_MANAGER", backingStore));
     }
 
     public static <K extends Serializable, V> HighlyAvailableMap<K, V> create(final String name, ReplicationManager<K, V> replicationManager) {
         if (replicationManager == null) {
-            replicationManager = new NoopReplicationManager<K, V>(name + "_MANAGER");
+            replicationManager = new NoopReplicationManager<>(name + "_MANAGER");
         }
         
-        return new HighlyAvailableMap<K, V>(name, new HashMap<K, V>(), replicationManager);
+        return new HighlyAvailableMap<>(name, new HashMap<>(), replicationManager);
     }
 
     private HighlyAvailableMap(final String name, Map<K, V> wrappedMap, ReplicationManager<K, V> replicationManager) {
@@ -214,6 +229,7 @@ public final class HighlyAvailableMap<K extends Serializable, V> implements Map<
         this.replicationManager = replicationManager;
     }
 
+    @Override
     public int size() {
         dataLock.readLock().lock();
         try {
@@ -224,6 +240,7 @@ public final class HighlyAvailableMap<K extends Serializable, V> implements Map<
         }        
     }
 
+    @Override
     public boolean isEmpty() {
         dataLock.readLock().lock();
         try {
@@ -234,6 +251,7 @@ public final class HighlyAvailableMap<K extends Serializable, V> implements Map<
         }
     }
 
+    @Override
     public boolean containsKey(Object key) {
         @SuppressWarnings("unchecked")
         K _key = (K) key;
@@ -251,11 +269,13 @@ public final class HighlyAvailableMap<K extends Serializable, V> implements Map<
         }        
     }
 
+    @Override
     @SuppressWarnings("unchecked")
     public boolean containsValue(Object value) {
         throw new UnsupportedOperationException();
     }
 
+    @Override
     public V get(Object key) {
         if (LOGGER.isLoggable(Level.FINER)) {
             LOGGER.finer(loggerProlog + "Retrieving data for key ["+ key + "]");
@@ -284,6 +304,7 @@ public final class HighlyAvailableMap<K extends Serializable, V> implements Map<
         }        
     }
 
+    @Override
     public V put(K key, V value) {
         if (LOGGER.isLoggable(Level.FINER)) {
             LOGGER.finer(loggerProlog + "Storing data for key ["+ key + "]: " + value);
@@ -303,7 +324,8 @@ public final class HighlyAvailableMap<K extends Serializable, V> implements Map<
         }           
     }
 
-    public V remove(Object key) {        
+    @Override
+    public V remove(Object key) {
         @SuppressWarnings("unchecked")
         K _key = (K) key;
 
@@ -324,6 +346,7 @@ public final class HighlyAvailableMap<K extends Serializable, V> implements Map<
         
     }
 
+    @Override
     public void putAll(Map<? extends K, ? extends V> m) {
         dataLock.writeLock().lock();
         try {
@@ -364,6 +387,7 @@ public final class HighlyAvailableMap<K extends Serializable, V> implements Map<
         }
     }
 
+    @Override
     public void clear() {
         dataLock.writeLock().lock();
         try {
@@ -380,6 +404,7 @@ public final class HighlyAvailableMap<K extends Serializable, V> implements Map<
         }        
     }
 
+    @Override
     public Set<K> keySet() {
         dataLock.readLock().lock();
         try {
@@ -390,6 +415,7 @@ public final class HighlyAvailableMap<K extends Serializable, V> implements Map<
         }                
     }
 
+    @Override
     public Collection<V> values() {
         dataLock.readLock().lock();
         try {
@@ -400,6 +426,7 @@ public final class HighlyAvailableMap<K extends Serializable, V> implements Map<
         }        
     }
 
+    @Override
     public Set<Entry<K, V>> entrySet() {
         dataLock.readLock().lock();
         try {
@@ -414,7 +441,7 @@ public final class HighlyAvailableMap<K extends Serializable, V> implements Map<
         dataLock.readLock().lock();
         try {
             
-            return new HashMap<K, V>(localMap);
+            return new HashMap<>(localMap);
         } finally {
             dataLock.readLock().unlock();
         }        

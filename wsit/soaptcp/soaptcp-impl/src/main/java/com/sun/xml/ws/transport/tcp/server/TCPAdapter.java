@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -58,6 +58,7 @@ public class TCPAdapter extends Adapter<TCPAdapter.TCPToolkit> {
         }
     }
     
+    @Override
     protected TCPAdapter.TCPToolkit createToolkit() {
         return new TCPToolkit();
     }
@@ -138,6 +139,7 @@ public class TCPAdapter extends Adapter<TCPAdapter.TCPToolkit> {
         public void addCustomPacketSattellites(@NotNull final Packet packet) {
         }
         
+        @Override
         public void close() {
             if (logger.isLoggable(Level.FINE)) {
                 logger.log(Level.FINE, MessagesMessages.WSTCP_1094_TCP_ADAPTER_CLOSE());

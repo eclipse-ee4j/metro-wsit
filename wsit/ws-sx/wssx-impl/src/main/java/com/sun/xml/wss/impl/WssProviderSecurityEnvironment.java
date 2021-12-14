@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -129,8 +129,7 @@ public class WssProviderSecurityEnvironment implements SecurityEnvironment {
     private static final SimpleDateFormat calendarFormatter2 =
         new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'.'SSS'Z'");
  
-    public WssProviderSecurityEnvironment(CallbackHandler handler, Map options) 
-           throws XWSSecurityException {
+    public WssProviderSecurityEnvironment(CallbackHandler handler, Map options) {
            _handler = new PriviledgedHandler(handler);
            _securityOptions = options;
 
@@ -156,6 +155,7 @@ public class WssProviderSecurityEnvironment implements SecurityEnvironment {
     /*
      * @throws XWSSecurityException
      */
+    @Override
     public PrivateKey getPrivateKey(Map context, String alias)
         throws XWSSecurityException {
 
@@ -166,7 +166,7 @@ public class WssProviderSecurityEnvironment implements SecurityEnvironment {
             PrivateKeyCallback pkCallback = new PrivateKeyCallback(request);
             Callback[] callbacks = new Callback[] { pkCallback };
             _handler.handle(callbacks);
-            privateKey = (PrivateKey) pkCallback.getKey();
+            privateKey = pkCallback.getKey();
         } catch (Exception e) {
              throw new XWSSecurityException(e);
         }
@@ -191,6 +191,7 @@ public class WssProviderSecurityEnvironment implements SecurityEnvironment {
      *
      * @throws XWSSecurityException
      */
+    @Override
     public PrivateKey getPrivateKey(Map context, byte[] keyIdentifier)
         throws XWSSecurityException {
         /*
@@ -232,6 +233,7 @@ public class WssProviderSecurityEnvironment implements SecurityEnvironment {
      *
      * @throws XWSSecurityException
      */
+    @Override
     public PrivateKey getPrivateKey(Map context, X509Certificate cert)
         throws XWSSecurityException {
         /*
@@ -283,6 +285,7 @@ public class WssProviderSecurityEnvironment implements SecurityEnvironment {
      *
      * @throws XWSSecurityException
      */
+    @Override
     public PrivateKey getPrivateKey(Map context, BigInteger serialNumber, String issuerName)
         throws XWSSecurityException {
         /*
@@ -327,10 +330,9 @@ public class WssProviderSecurityEnvironment implements SecurityEnvironment {
      * 
      * @return the default certificate for the current user
      *
-     * @param  context
-     * @throws XWSSecurityException
      */
-    public X509Certificate getDefaultCertificate(Map context) 
+    @Override
+    public X509Certificate getDefaultCertificate(Map context)
         throws XWSSecurityException {
         /* 
           use PrivateKeyCallback to get the
@@ -363,11 +365,10 @@ public class WssProviderSecurityEnvironment implements SecurityEnvironment {
      * Authenticate the user against a list of known username-password
      * pairs.
      *
-     * @param username
-     * @param password
      * @return true if the username-password pair is valid
      */
-    public boolean authenticateUser(Map context,String username, String password) 
+    @Override
+    public boolean authenticateUser(Map context, String username, String password)
            throws XWSSecurityException {
         /*
           use PasswordValidationCallback
@@ -389,7 +390,8 @@ public class WssProviderSecurityEnvironment implements SecurityEnvironment {
 
         return pvCallback.getResult(); 
     }
-    public String authenticateUser(Map context, String username) throws XWSSecurityException {
+    @Override
+    public String authenticateUser(Map context, String username) {
 
         throw new UnsupportedOperationException("Not supported yet.");
     }
@@ -397,19 +399,15 @@ public class WssProviderSecurityEnvironment implements SecurityEnvironment {
     /**
      * Authenticate the user given the password digest.
      *
-     * @param username
-     * @param passwordDigest
-     * @param nonce
-     * @param created
      * @return true if the password digest is valid
      */
+    @Override
     public boolean authenticateUser(
         Map context,
         String username,
         String passwordDigest,
         String nonce,
-        String created)
-        throws XWSSecurityException {
+        String created) {
         /*
           can not implement
         */ 
@@ -422,7 +420,8 @@ public class WssProviderSecurityEnvironment implements SecurityEnvironment {
      * @throws XWSSecurityException
      *     if there is some problem during validation.
      */
-    public boolean validateCertificate(X509Certificate cert, Map context) 
+    @Override
+    public boolean validateCertificate(X509Certificate cert, Map context)
         throws XWSSecurityException {
         /*
           use TrustStore and CertStore 
@@ -451,7 +450,7 @@ public class WssProviderSecurityEnvironment implements SecurityEnvironment {
         CertPathBuilder builder = null;
         CertPathValidator certValidator = null;
         CertPath certPath = null;
-        List<Certificate> certChainList = new ArrayList<Certificate>();
+        List<Certificate> certChainList = new ArrayList<>();
         boolean caFound = false;
         Principal certChainIssuer = null;
         int noOfEntriesInTrustStore = 0;        
@@ -523,7 +522,6 @@ public class WssProviderSecurityEnvironment implements SecurityEnvironment {
                             }
                         }
                     }else{
-                        continue;
                     }
                 }
                 if(!caFound){
@@ -794,6 +792,7 @@ public class WssProviderSecurityEnvironment implements SecurityEnvironment {
                 + " found in KeyStore or TrustStore");
     }
 
+    @Override
     public SecretKey getSecretKey(Map context, String alias, boolean encryptMode)
         throws XWSSecurityException {
         /*
@@ -808,9 +807,10 @@ public class WssProviderSecurityEnvironment implements SecurityEnvironment {
             throw new XWSSecurityException(e);
         }
  
-        return (SecretKey) skCallback.getKey();
+        return skCallback.getKey();
     }
 
+    @Override
     public X509Certificate getCertificate(Map context, String alias, boolean forSigning)
         throws XWSSecurityException {
         X509Certificate cert = null;
@@ -1045,38 +1045,43 @@ public class WssProviderSecurityEnvironment implements SecurityEnvironment {
         return null;
     }
 
+    @Override
     public void updateOtherPartySubject(
             final Subject subject,
             final String username,
             final String password) {
         AccessController.doPrivileged(
-                new PrivilegedAction<Object>() {
-            public Object run() {
-                String x500Name = "CN=" + username;
-                Principal principal = new X500Principal(x500Name);
-                subject.getPrincipals().add(principal);
-                subject.getPrivateCredentials().add(password);
-                return null;
-            }
-        });
+                new PrivilegedAction<>() {
+                    @Override
+                    public Object run() {
+                        String x500Name = "CN=" + username;
+                        Principal principal = new X500Principal(x500Name);
+                        subject.getPrincipals().add(principal);
+                        subject.getPrivateCredentials().add(password);
+                        return null;
+                    }
+                });
         
     }
 
+    @Override
     public void updateOtherPartySubject(
         final Subject subject,
         final X509Certificate cert) {
         AccessController.doPrivileged(
-                new PrivilegedAction<Object>() {
-            public Object run() {
-                Principal principal = cert.getSubjectX500Principal();
-                subject.getPrincipals().add(principal);
-                subject.getPublicCredentials().add(cert);
-                return null;
-            }
-        });
+                new PrivilegedAction<>() {
+                    @Override
+                    public Object run() {
+                        Principal principal = cert.getSubjectX500Principal();
+                        subject.getPrincipals().add(principal);
+                        subject.getPublicCredentials().add(cert);
+                        return null;
+                    }
+                });
     }
       
 
+    @Override
     public void updateOtherPartySubject(
         final Subject subject,
         final Assertion assertion) {
@@ -1085,6 +1090,7 @@ public class WssProviderSecurityEnvironment implements SecurityEnvironment {
     }
 
 
+    @Override
     public PublicKey getPublicKey(Map context, BigInteger serialNumber, String issuerName)
         throws XWSSecurityException {
       return getMatchingCertificate(context, serialNumber, issuerName).getPublicKey();
@@ -1101,6 +1107,7 @@ public class WssProviderSecurityEnvironment implements SecurityEnvironment {
         }
     }
 
+    @Override
     public PublicKey getPublicKey(Map context, byte[] keyIdentifier)
         throws XWSSecurityException {
         try {
@@ -1110,6 +1117,7 @@ public class WssProviderSecurityEnvironment implements SecurityEnvironment {
         }
     }
     
+    @Override
     public PublicKey getPublicKey(Map context, byte[] identifier, String valueType)
     throws XWSSecurityException {
         return getMatchingCertificate(context, identifier, valueType).getPublicKey();
@@ -1126,6 +1134,7 @@ public class WssProviderSecurityEnvironment implements SecurityEnvironment {
         }
     }
 
+    @Override
     public X509Certificate getCertificate(
         Map context,
         BigInteger serialNumber,
@@ -1144,20 +1153,22 @@ public class WssProviderSecurityEnvironment implements SecurityEnvironment {
         }
     }
 
+    @Override
     public PrivateKey getPrivateKey(Map context, PublicKey publicKey, boolean forSign) {
         return null;
     }
     
+    @Override
     public X509Certificate getCertificate(Map context, byte[] ski) {
         return null;
     }
-    public X509Certificate getCertificate(Map context, PublicKey publicKey, boolean forSign)
-        throws XWSSecurityException {
+    @Override
+    public X509Certificate getCertificate(Map context, PublicKey publicKey, boolean forSign) {
         return null;
     }
     
-    public X509Certificate getCertificate(Map context, byte[] identifier, String valueType)
-    throws XWSSecurityException {
+    @Override
+    public X509Certificate getCertificate(Map context, byte[] identifier, String valueType) {
         // on the lines of other getCertificates here return null for now.
         return null;
     }
@@ -1180,6 +1191,7 @@ public class WssProviderSecurityEnvironment implements SecurityEnvironment {
         context.put(MessageConstants.AUTH_SUBJECT, subject);
     }
 
+    @Override
     public Subject getSubject() {
         return null;
     }
@@ -1212,7 +1224,8 @@ public class WssProviderSecurityEnvironment implements SecurityEnvironment {
     /**
      * Not implemented: AuthModules use Callbacks internally
      */ 
-    public String getUsername(Map context) throws XWSSecurityException {
+    @Override
+    public String getUsername(Map context) {
 
         NameCallback nameCallback    = new NameCallback("Username: ");
         try {
@@ -1228,7 +1241,8 @@ public class WssProviderSecurityEnvironment implements SecurityEnvironment {
     /**
      * Not implemented: AuthModules use Callbacks internally
      */ 
-    public String getPassword(Map context) throws XWSSecurityException {
+    @Override
+    public String getPassword(Map context) {
 
         PasswordCallback pwdCallback = new PasswordCallback("Password: ", false);
         try {
@@ -1244,15 +1258,17 @@ public class WssProviderSecurityEnvironment implements SecurityEnvironment {
         return new String(pwdCallback.getPassword());
     }
     
-   public boolean validateAndCacheNonce(Map context, String nonce, String created, long maxNonceAge) 
+   @Override
+   public boolean validateAndCacheNonce(Map context, String nonce, String created, long maxNonceAge)
        throws XWSSecurityException {
        NonceManager nonceMgr = null;
        nonceMgr = NonceManager.getInstance(maxNonceAge, (WSEndpoint)context.get(MessageConstants.WSENDPOINT));
        return nonceMgr.validateNonce(nonce, created);
    }
 
+    @Override
     public void validateTimestamp(Map context, String created,
-               String expires, long maxClockSkew, long freshnessLimit)
+                                  String expires, long maxClockSkew, long freshnessLimit)
                throws XWSSecurityException{
         if (expiresBeforeCreated(created, expires)) {
             XWSSecurityException xwsse = new XWSSecurityException("Message expired!");
@@ -1266,6 +1282,7 @@ public class WssProviderSecurityEnvironment implements SecurityEnvironment {
     }
 
 
+   @Override
    public void validateTimestamp(Map context, Timestamp timestamp, long maxClockSkew, long freshnessLimit)
    throws XWSSecurityException {
         validateTimestamp(context, timestamp.getCreated(), timestamp.getExpires(),
@@ -1306,6 +1323,7 @@ public class WssProviderSecurityEnvironment implements SecurityEnvironment {
         return false;
     }
 
+    @Override
     public void validateCreationTime(
     Map context,
     String creationTime,
@@ -1329,11 +1347,7 @@ public class WssProviderSecurityEnvironment implements SecurityEnvironment {
         }
             
         Date current = null;
-        try {
-            current = getFreshnessAndSkewAdjustedDate(maxClockSkew, timestampFreshnessLimit);
-        } catch (java.text.ParseException pe) {
-            throw new XWSSecurityException(pe.getMessage());
-        }
+        current = getFreshnessAndSkewAdjustedDate(maxClockSkew, timestampFreshnessLimit);
 
         if (created.before(current)) {
             XWSSecurityException xwsse = new XWSSecurityException(
@@ -1388,24 +1402,26 @@ public class WssProviderSecurityEnvironment implements SecurityEnvironment {
         }
     }
 
-    public CallbackHandler getCallbackHandler()
-       throws XWSSecurityException {
+    @Override
+    public CallbackHandler getCallbackHandler() {
         return _handler;
     }
 
-    public void validateSAMLAssertion(Map context, Element assertion) throws XWSSecurityException {
+    @Override
+    public void validateSAMLAssertion(Map context, Element assertion) {
         throw new UnsupportedOperationException("Not supported");
     }
 
+    @Override
     public Element locateSAMLAssertion(
-        Map context, Element binding, String assertionId, Document ownerDoc) 
-        throws XWSSecurityException {
+        Map context, Element binding, String assertionId, Document ownerDoc) {
         throw new UnsupportedOperationException("Not supported");
     }
 
+    @Override
     public AuthenticationTokenPolicy.SAMLAssertionBinding
          populateSAMLPolicy(Map fpcontext, AuthenticationTokenPolicy.SAMLAssertionBinding policy,
-         DynamicApplicationContext context) throws XWSSecurityException {
+         DynamicApplicationContext context) {
         throw new UnsupportedOperationException("Not supported");
     }
 
@@ -1429,8 +1445,7 @@ public class WssProviderSecurityEnvironment implements SecurityEnvironment {
     }
 
     private static Date getFreshnessAndSkewAdjustedDate(
-    long maxClockSkew, long timestampFreshnessLimit)
-    throws ParseException {
+    long maxClockSkew, long timestampFreshnessLimit) {
         Calendar c = new GregorianCalendar();
         long offset = c.get(Calendar.ZONE_OFFSET);
         if (c.getTimeZone().inDaylightTime(c.getTime())) {
@@ -1491,7 +1506,8 @@ public class WssProviderSecurityEnvironment implements SecurityEnvironment {
         Key secretKey) {
      }
      
-    public PrivateKey getPrivateKey(Map context, byte[] keyIdentifier, String valueType) 
+    @Override
+    public PrivateKey getPrivateKey(Map context, byte[] keyIdentifier, String valueType)
         throws XWSSecurityException {
         if ( MessageConstants.KEY_INDETIFIER_TYPE.equals(valueType)) {
             return getPrivateKey(context, keyIdentifier);
@@ -1529,36 +1545,43 @@ public class WssProviderSecurityEnvironment implements SecurityEnvironment {
         
     }
 
-    public void validateSAMLAssertion(Map context, XMLStreamReader assertion) throws XWSSecurityException {
+    @Override
+    public void validateSAMLAssertion(Map context, XMLStreamReader assertion) {
          throw new UnsupportedOperationException("Not supported");
     }
     
 
+    @Override
     public void updateOtherPartySubject(Subject subject, XMLStreamReader assertion) {
         //TODO:
     }
 
+    @Override
     public boolean isSelfCertificate(X509Certificate cert) {
         throw new UnsupportedOperationException("Not supported");
     }
 
+    @Override
     public void updateOtherPartySubject(Subject subject, Subject bootStrapSubject) {
         throw new UnsupportedOperationException("Not supported");
     }
 
-    public KerberosContext doKerberosLogin() throws XWSSecurityException {
+    @Override
+    public KerberosContext doKerberosLogin() {
         throw new UnsupportedOperationException("Not supported");
     }
 
-    public KerberosContext doKerberosLogin(byte[] tokenValue) throws XWSSecurityException {
+    @Override
+    public KerberosContext doKerberosLogin(byte[] tokenValue) {
         throw new UnsupportedOperationException("Not supported");
     }
 
+    @Override
     public void updateOtherPartySubject(Subject subject, GSSName clientCred, GSSCredential gssCred) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    class PriviledgedHandler implements CallbackHandler {
+    static class PriviledgedHandler implements CallbackHandler {
 
         CallbackHandler delegate = null;
 
@@ -1566,9 +1589,11 @@ public class WssProviderSecurityEnvironment implements SecurityEnvironment {
             delegate = handler;
         }
 
-        public void handle(final Callback[] callbacks) throws IOException, UnsupportedCallbackException {
+        @Override
+        public void handle(final Callback[] callbacks) {
             AccessController.doPrivileged(new PrivilegedAction() {
 
+                @Override
                 public Object run() {
                     try {
                         delegate.handle(callbacks);

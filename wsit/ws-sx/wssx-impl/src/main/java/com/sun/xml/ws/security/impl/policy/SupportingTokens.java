@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -33,10 +33,10 @@ import static com.sun.xml.ws.security.impl.policy.Constants.*;
 public class SupportingTokens extends PolicyAssertion implements com.sun.xml.ws.security.policy.SupportingTokens{
     
     private AlgorithmSuite algSuite;
-    private List<com.sun.xml.ws.security.policy.SignedParts> spList = new ArrayList<com.sun.xml.ws.security.policy.SignedParts>(1);
-    private List<com.sun.xml.ws.security.policy.EncryptedParts> epList = new ArrayList<com.sun.xml.ws.security.policy.EncryptedParts>(1);
-    private List<com.sun.xml.ws.security.policy.SignedElements> seList = new ArrayList<com.sun.xml.ws.security.policy.SignedElements>(1);
-    private List<com.sun.xml.ws.security.policy.EncryptedElements> eeList = new ArrayList<com.sun.xml.ws.security.policy.EncryptedElements>(1);;
+    private List<com.sun.xml.ws.security.policy.SignedParts> spList = new ArrayList<>(1);
+    private List<com.sun.xml.ws.security.policy.EncryptedParts> epList = new ArrayList<>(1);
+    private List<com.sun.xml.ws.security.policy.SignedElements> seList = new ArrayList<>(1);
+    private List<com.sun.xml.ws.security.policy.EncryptedElements> eeList = new ArrayList<>(1);;
     private boolean isServer = false;
     private List<Token> _tokenList;
     private boolean populated;
@@ -58,6 +58,7 @@ public class SupportingTokens extends PolicyAssertion implements com.sun.xml.ws.
         this.algSuite =algSuite;
     }
     
+    @Override
     public AlgorithmSuite getAlgorithmSuite() {
         populate();
         return algSuite;
@@ -66,7 +67,7 @@ public class SupportingTokens extends PolicyAssertion implements com.sun.xml.ws.
     
     public void addToken(Token token) {
         if(_tokenList == null){
-            _tokenList = new ArrayList<Token>();
+            _tokenList = new ArrayList<>();
             //Workaround - workaround to remove duplicate UsernameToken : uncomment this
             //_tokenList.add(token);
         }
@@ -74,6 +75,7 @@ public class SupportingTokens extends PolicyAssertion implements com.sun.xml.ws.
         _tokenList.add(token);
     }
     
+    @Override
     public Iterator getTokens() {
         populate();
         if ( _tokenList != null ) {
@@ -151,6 +153,7 @@ public class SupportingTokens extends PolicyAssertion implements com.sun.xml.ws.
         }
     }
     
+    @Override
     public String getIncludeToken() {
         return "";
     }
@@ -158,30 +161,36 @@ public class SupportingTokens extends PolicyAssertion implements com.sun.xml.ws.
     public void setIncludeToken(String type) {
     }
     
+    @Override
     public String getTokenId() {
         return "";
     }
     
+    @Override
     public Iterator<com.sun.xml.ws.security.policy.SignedParts> getSignedParts() {
         populate();
         return spList.iterator();
     }
     
+    @Override
     public Iterator<com.sun.xml.ws.security.policy.SignedElements> getSignedElements() {
         populate();
         return seList.iterator();
     }
     
+    @Override
     public Iterator<com.sun.xml.ws.security.policy.EncryptedParts> getEncryptedParts() {
         populate();
         return epList.iterator();
     }
     
+    @Override
     public Iterator<com.sun.xml.ws.security.policy.EncryptedElements> getEncryptedElements() {
         populate();
         return eeList.iterator();
     }
 
+    @Override
     public SecurityPolicyVersion getSecurityPolicyVersion() {
         return spVersion;
     }

@@ -51,6 +51,7 @@ public final class CallbackHandlerFeature extends WebServiceFeature {
         this.handler = handler;
     }
 
+    @Override
     @ManagedAttribute
     public String getID() {
         return CallbackHandlerFeature.class.getName();

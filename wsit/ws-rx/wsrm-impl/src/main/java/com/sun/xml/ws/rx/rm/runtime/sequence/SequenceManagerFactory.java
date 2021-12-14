@@ -32,9 +32,9 @@ public enum SequenceManagerFactory {
     INSTANCE;
 
     private final WSEndpointCollectionBasedMOMListener listener;
-    private final WeakHashMap<WSEndpoint, SequenceManager> sequenceManagersForDeferredRegistration = new WeakHashMap<WSEndpoint, SequenceManager>();
+    private final WeakHashMap<WSEndpoint, SequenceManager> sequenceManagersForDeferredRegistration = new WeakHashMap<>();
         
-    private SequenceManagerFactory() {
+    SequenceManagerFactory() {
         // TODO: load from external configuration and revert to default if not present
 
         listener = new WSEndpointCollectionBasedMOMListener(this, SequenceManager.MANAGED_BEAN_NAME, sequenceManagersForDeferredRegistration);

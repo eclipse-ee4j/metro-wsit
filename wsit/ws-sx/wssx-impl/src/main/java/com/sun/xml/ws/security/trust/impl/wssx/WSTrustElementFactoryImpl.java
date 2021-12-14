@@ -135,8 +135,9 @@ public class WSTrustElementFactoryImpl extends WSTrustElementFactory {
      * Create an RST for Issue from the given arguments
      * Any of the arguments can be null since they are all optional, but one of tokenType and AppliesTo must be present
      */
+    @Override
     public  RequestSecurityToken createRSTForIssue(URI tokenType, URI requestType, URI context, AppliesTo scopes,
-            Claims claims, Entropy entropy, Lifetime lt) throws WSTrustException {
+                                                   Claims claims, Entropy entropy, Lifetime lt) {
        // if (tokenType==null || scopes==null)
          //   throw new WSTrustException("TokenType and AppliesTo cannot be both null");
         RequestSecurityToken rst = new RequestSecurityTokenImpl(tokenType, requestType, context, scopes, claims, entropy, lt, null);
@@ -147,7 +148,8 @@ public class WSTrustElementFactoryImpl extends WSTrustElementFactory {
      * Create an RSTR for Issue from the given arguments. TokenType should be Issue.
      * Any of the arguments can be null since they are all optional, but one of RequestedSecurityToken or RequestedProofToken should be returned
      */
-    public  RequestSecurityTokenResponse createRSTRForIssue(URI tokenType, URI context, RequestedSecurityToken token, AppliesTo scopes, RequestedAttachedReference attachedReference, RequestedUnattachedReference unattachedReference, RequestedProofToken proofToken, Entropy entropy, Lifetime lt) throws WSTrustException {
+    @Override
+    public  RequestSecurityTokenResponse createRSTRForIssue(URI tokenType, URI context, RequestedSecurityToken token, AppliesTo scopes, RequestedAttachedReference attachedReference, RequestedUnattachedReference unattachedReference, RequestedProofToken proofToken, Entropy entropy, Lifetime lt) {
         return new RequestSecurityTokenResponseImpl(tokenType, context, token, scopes,
                 attachedReference, unattachedReference, proofToken, entropy, lt, null);
     }
@@ -155,11 +157,12 @@ public class WSTrustElementFactoryImpl extends WSTrustElementFactory {
     /**
      * Create  a collection of RequestSecurityTokenResponse(s)
      */
-    public  RequestSecurityTokenResponseCollection createRSTRCollectionForIssue(URI tokenType, URI context, RequestedSecurityToken token, AppliesTo scopes, RequestedAttachedReference attached, RequestedUnattachedReference unattached, RequestedProofToken proofToken, Entropy entropy, Lifetime lt) throws WSTrustException {
+    @Override
+    public  RequestSecurityTokenResponseCollection createRSTRCollectionForIssue(URI tokenType, URI context, RequestedSecurityToken token, AppliesTo scopes, RequestedAttachedReference attached, RequestedUnattachedReference unattached, RequestedProofToken proofToken, Entropy entropy, Lifetime lt) {
         return new RequestSecurityTokenResponseCollectionImpl(tokenType, context, token, scopes, attached, unattached, proofToken, entropy, lt);
     }
     
-    public RequestSecurityTokenResponseCollection createRSTRCollectionForIssue(List rstrs) throws WSTrustException {
+    public RequestSecurityTokenResponseCollection createRSTRCollectionForIssue(List rstrs) {
          //RequestSecurityTokenResponseCollection rstrc = new RequestSecurityTokenResponseCollectionImpl();
         RequestSecurityTokenResponseCollectionImpl rstrc = new RequestSecurityTokenResponseCollectionImpl();
          for (int i = 0; i < rstrs.size(); i++) {
@@ -172,7 +175,8 @@ public class WSTrustElementFactoryImpl extends WSTrustElementFactory {
      * Create an RSTR for Renew from the given arguments. TokenType should be Issue.
      * Any of the arguments can be null since they are all optional, but one of RequestedSecurityToken or RequestedProofToken should be returned
      */
-    public  RequestSecurityTokenResponse createRSTRForRenew(URI tokenType, final URI context, RequestedSecurityToken token, final RequestedAttachedReference attachedReference, final RequestedUnattachedReference unattachedRef, final RequestedProofToken proofToken, final Entropy entropy, final Lifetime lifetime) throws WSTrustException {
+    @Override
+    public  RequestSecurityTokenResponse createRSTRForRenew(URI tokenType, final URI context, RequestedSecurityToken token, final RequestedAttachedReference attachedReference, final RequestedUnattachedReference unattachedRef, final RequestedProofToken proofToken, final Entropy entropy, final Lifetime lifetime) {
         final RequestSecurityTokenResponse rstr =
                 new RequestSecurityTokenResponseImpl(tokenType, context, token, null, attachedReference, unattachedRef, proofToken, entropy, lifetime, null);
         return rstr;
@@ -181,6 +185,7 @@ public class WSTrustElementFactoryImpl extends WSTrustElementFactory {
     /**
      * Create a wst:IssuedTokens object
      */
+    @Override
     public  IssuedTokens createIssuedTokens(RequestSecurityTokenResponseCollection issuedTokens) {
         return new IssuedTokensImpl(issuedTokens);
     }
@@ -188,6 +193,7 @@ public class WSTrustElementFactoryImpl extends WSTrustElementFactory {
     /**
      * Create an Entropy with a BinarySecret
      */
+    @Override
     public Entropy createEntropy(BinarySecret secret) {
         return new EntropyImpl(secret);
     }
@@ -195,23 +201,28 @@ public class WSTrustElementFactoryImpl extends WSTrustElementFactory {
     /**
      * Create an Entropy with an xenc:EncryptedKey
      */
+    @Override
     public  Entropy createEntropy(EncryptedKey key) {
         return new EntropyImpl(key);
     }
     
+    @Override
     public BinarySecret createBinarySecret(byte[] rawValue, String type) {
         return new BinarySecretImpl(rawValue, type);
     }
 
+    @Override
     public BinarySecret createBinarySecret(Element elem) throws WSTrustException {
         return new BinarySecretImpl(BinarySecretImpl.fromElement(elem));
     }
     
+    @Override
     public Claims createClaims(Element elem)throws WSTrustException {
         return new ClaimsImpl(ClaimsImpl.fromElement(elem));
     }
 
-     public Claims createClaims(Claims claims) throws WSTrustException {
+     @Override
+     public Claims createClaims(Claims claims) {
         ClaimsImpl newClaims = new ClaimsImpl();
         if (claims != null){
             newClaims.setDialect(claims.getDialect());
@@ -222,10 +233,12 @@ public class WSTrustElementFactoryImpl extends WSTrustElementFactory {
         return newClaims;
     }
 
-    public Claims createClaims() throws WSTrustException {
+    @Override
+    public Claims createClaims() {
         return new ClaimsImpl();
     }
     
+    @Override
     public Status createStatus(String code, String reason){
         return new StatusImpl(code, reason);
     }
@@ -234,14 +247,17 @@ public class WSTrustElementFactoryImpl extends WSTrustElementFactory {
     /**
      * Create a Lifetime.
      */
-    public Lifetime createLifetime(AttributedDateTime created,  AttributedDateTime expires) {
+    @Override
+    public Lifetime createLifetime(AttributedDateTime created, AttributedDateTime expires) {
         return new LifetimeImpl(created, expires);
     }
     
+    @Override
     public OnBehalfOf createOnBehalfOf(Token oboToken){
          return new OnBehalfOfImpl(oboToken);
     }
 
+    @Override
     public ActAs createActAs(Token actAsToken){
         return new ActAsImpl(actAsToken);
     }
@@ -249,6 +265,7 @@ public class WSTrustElementFactoryImpl extends WSTrustElementFactory {
     /**
      * Create a RequestedSecurityToken.
      */
+    @Override
     public RequestedSecurityToken createRequestedSecurityToken(Token token) {
         return new RequestedSecurityTokenImpl(token);
     }
@@ -256,24 +273,29 @@ public class WSTrustElementFactoryImpl extends WSTrustElementFactory {
      /**
      * Create a RequestedSecurityToken.
      */
+    @Override
     public RequestedSecurityToken createRequestedSecurityToken() {
         return new RequestedSecurityTokenImpl();
     }
     
+    @Override
     public DirectReference createDirectReference(String valueType, String uri){
         return new DirectReferenceImpl(valueType, uri);
     }
    
+   @Override
    public KeyIdentifier createKeyIdentifier(String valueType, String encodingType){
        return new KeyIdentifierImpl(valueType, encodingType);
    }
    
+    @Override
     public SecurityTokenReference createSecurityTokenReference(Reference ref){
         return new SecurityTokenReferenceImpl(ref);
     }
     /**
      * Create a RequestedAttachedReference.
      */
+    @Override
     public RequestedAttachedReference createRequestedAttachedReference(SecurityTokenReference str) {
         return new RequestedAttachedReferenceImpl(str);
     }
@@ -281,6 +303,7 @@ public class WSTrustElementFactoryImpl extends WSTrustElementFactory {
     /**
      * Create a RequestedUnattachedReference.
      */
+    @Override
     public RequestedUnattachedReference createRequestedUnattachedReference(SecurityTokenReference str) {
         return new RequestedUnattachedReferenceImpl(str);
     }
@@ -288,6 +311,7 @@ public class WSTrustElementFactoryImpl extends WSTrustElementFactory {
     /**
      * Create a RequestedProofToken.
      */
+    @Override
     public RequestedProofToken createRequestedProofToken() {
         return new RequestedProofTokenImpl();
     }
@@ -296,26 +320,32 @@ public class WSTrustElementFactoryImpl extends WSTrustElementFactory {
     /**
      *Create an RST for a Renewal Request
      */
+    @Override
     public  RequestSecurityToken createRSTForRenew(URI tokenType, URI requestType, URI context, RenewTarget target, AllowPostdating apd, Renewing renewingInfo) {
         return new RequestSecurityTokenImpl(tokenType, requestType, context, target, apd, renewingInfo);
     }
     
+    @Override
     public RenewTarget createRenewTarget(final SecurityTokenReference str){
         return new RenewTargetImpl(str);
     }
     
+    @Override
     public CancelTarget createCancelTarget(SecurityTokenReference str){
         return new CancelTargetImpl(str);
     }
     
+    @Override
     public ValidateTarget createValidateTarget(Token token){
          return new ValidateTargetImpl(token);
     }
     
+    @Override
     public SecondaryParameters createSecondaryParameters(){
         return new SecondaryParametersImpl();
     }
     
+    @Override
     public UseKey createUseKey(Token token, String sig){
         UseKey useKey = new UseKeyImpl(token);
         if (sig != null){
@@ -328,6 +358,7 @@ public class WSTrustElementFactoryImpl extends WSTrustElementFactory {
     /**
      *Create an RST for Token Cancellation
      */
+    @Override
     public  RequestSecurityToken createRSTForCancel(URI requestType, CancelTarget target) {
         return new RequestSecurityTokenImpl(null, requestType, target);
     }
@@ -335,6 +366,7 @@ public class WSTrustElementFactoryImpl extends WSTrustElementFactory {
     /**
      *Create an RSTR for a Successful Token Cancellation
      */
+    @Override
     public  RequestSecurityTokenResponse createRSTRForCancel() {
         RequestSecurityTokenResponse rstr =  new RequestSecurityTokenResponseImpl();
         rstr.setRequestedTokenCancelled(new RequestedTokenCancelledImpl());
@@ -350,6 +382,7 @@ public class WSTrustElementFactoryImpl extends WSTrustElementFactory {
      * a security token if the requestor desires the envelope to be validated.
      *
      */
+    @Override
     public  RequestSecurityToken createRSTForValidate(URI tokenType, URI requestType) {
         return new RequestSecurityTokenImpl(tokenType, requestType);
     }
@@ -357,6 +390,7 @@ public class WSTrustElementFactoryImpl extends WSTrustElementFactory {
     /**
      * create an RSTR for validate request.
      */
+    @Override
     public  RequestSecurityTokenResponse createRSTRForValidate(URI tokenType, RequestedSecurityToken token, Status status) {
         return new RequestSecurityTokenResponseImpl(tokenType, null, token, null, null, null, null, null, null, status);
     }
@@ -364,6 +398,7 @@ public class WSTrustElementFactoryImpl extends WSTrustElementFactory {
     /**
      * Create an Empty RST
      */
+    @Override
     public RequestSecurityToken createRST() {
         return new RequestSecurityTokenImpl();
     }
@@ -371,10 +406,12 @@ public class WSTrustElementFactoryImpl extends WSTrustElementFactory {
     /**
      * Create an Empty RSTR
      */
+    @Override
     public RequestSecurityTokenResponse createRSTR() {
         return new RequestSecurityTokenResponseImpl();
     }
 
+    @Override
     public RequestSecurityTokenResponseCollection createRSTRC(List<RequestSecurityTokenResponse> rstrs){
         RequestSecurityTokenResponseCollection rstrc = new RequestSecurityTokenResponseCollectionImpl();
         //rstrc.getRequestSecurityTokenResponses().addAll(rstrs);        
@@ -389,6 +426,7 @@ public class WSTrustElementFactoryImpl extends WSTrustElementFactory {
     /**
      * create an RST from a Source
      */
+    @Override
     public RequestSecurityToken createRSTFrom(Source src) {
         try {           
             jakarta.xml.bind.Unmarshaller u = getContext(WSTrustVersion.WS_TRUST_13).createUnmarshaller();
@@ -403,6 +441,7 @@ public class WSTrustElementFactoryImpl extends WSTrustElementFactory {
     /**
      * create an RST from DOM Element
      */
+    @Override
     public  RequestSecurityToken createRSTFrom(Element elem) {
         try {
             jakarta.xml.bind.Unmarshaller u = getContext(WSTrustVersion.WS_TRUST_13).createUnmarshaller();
@@ -417,6 +456,7 @@ public class WSTrustElementFactoryImpl extends WSTrustElementFactory {
     /**
      * create an RSTR from a Source
      */
+    @Override
     public  RequestSecurityTokenResponse createRSTRFrom(Source src) {
         try {
             jakarta.xml.bind.Unmarshaller u = getContext(WSTrustVersion.WS_TRUST_13).createUnmarshaller();
@@ -431,6 +471,7 @@ public class WSTrustElementFactoryImpl extends WSTrustElementFactory {
     /**
      * create an RSTR from DOM Element
      */
+    @Override
     public  RequestSecurityTokenResponse createRSTRFrom(Element elem) {
         try {
             jakarta.xml.bind.Unmarshaller u = getContext(WSTrustVersion.WS_TRUST_13).createUnmarshaller();
@@ -445,6 +486,7 @@ public class WSTrustElementFactoryImpl extends WSTrustElementFactory {
     /**
      * Create RSTR Collection from Source
      */
+    @Override
     public  RequestSecurityTokenResponseCollection createRSTRCollectionFrom(Source src) {
          try {
             jakarta.xml.bind.Unmarshaller u = getContext(WSTrustVersion.WS_TRUST_13).createUnmarshaller();
@@ -459,6 +501,7 @@ public class WSTrustElementFactoryImpl extends WSTrustElementFactory {
     /**
      * Create RSTR Collection from Element
      */
+    @Override
     public  RequestSecurityTokenResponseCollection createRSTRCollectionFrom(Element elem) {
         checkElement(elem);
         try {
@@ -484,6 +527,7 @@ public class WSTrustElementFactoryImpl extends WSTrustElementFactory {
      * The default implementation expects the packagename of the generated JAXB Beans to be fixed.
      * 
      */
+    @Override
     public RequestSecurityToken createRSTFrom(JAXBElement elem) {
         try {
             RequestSecurityTokenType type = (RequestSecurityTokenType)elem.getValue();
@@ -505,6 +549,7 @@ public class WSTrustElementFactoryImpl extends WSTrustElementFactory {
      * The default implementation expects the packagename of the generated JAXB Beans to be fixed.
      * 
      */
+    @Override
     public  RequestSecurityTokenResponse createRSTRFrom(JAXBElement elem) {
         try {
             RequestSecurityTokenResponseType type = (RequestSecurityTokenResponseType)elem.getValue();
@@ -525,6 +570,7 @@ public class WSTrustElementFactoryImpl extends WSTrustElementFactory {
      * The default implementation expects the packagename of the generated JAXB Beans to be fixed.
      * 
      */
+    @Override
     public  RequestSecurityTokenResponseCollection createRSTRCollectionFrom(JAXBElement elem) {
         try {
             RequestSecurityTokenResponseCollectionType type = (RequestSecurityTokenResponseCollectionType)elem.getValue();
@@ -543,6 +589,7 @@ public class WSTrustElementFactoryImpl extends WSTrustElementFactory {
         }
     }
     
+     @Override
      public SecurityTokenReference createSecurityTokenReference(JAXBElement elem){
           try {
             SecurityTokenReferenceType type = (SecurityTokenReferenceType)elem.getValue();
@@ -552,10 +599,12 @@ public class WSTrustElementFactoryImpl extends WSTrustElementFactory {
         }
      }
 
+     @Override
      public SecurityContextToken createSecurityContextToken(final URI identifier, final String instance, final String wsuId){
         throw new UnsupportedOperationException("this operation is not supported");
      }
 
+     @Override
      public JAXBElement toJAXBElement(final BaseSTSRequest request) {
         if (request instanceof RequestSecurityToken){
             return toJAXBElement((RequestSecurityToken)request);
@@ -564,6 +613,7 @@ public class WSTrustElementFactoryImpl extends WSTrustElementFactory {
         return null;
     }
 
+    @Override
     public JAXBElement toJAXBElement(final BaseSTSResponse response) {
         if (response instanceof RequestSecurityTokenResponse){
             return toJAXBElement((RequestSecurityTokenResponse)response);
@@ -579,6 +629,7 @@ public class WSTrustElementFactoryImpl extends WSTrustElementFactory {
      /**
      * convert an SecurityTokenReference to a JAXBElement
      */
+     @Override
      public JAXBElement toJAXBElement(SecurityTokenReference str){
          JAXBElement<SecurityTokenReferenceType> strElement =
             (new com.sun.xml.ws.security.secext10.ObjectFactory()).createSecurityTokenReference((SecurityTokenReferenceType)str);
@@ -588,6 +639,7 @@ public class WSTrustElementFactoryImpl extends WSTrustElementFactory {
     /**
      * convert an RST to a JAXBElement
      */
+    @Override
     public JAXBElement toJAXBElement(RequestSecurityToken rst) {
         JAXBElement<RequestSecurityTokenType> rstElement=
                 (new ObjectFactory()).createRequestSecurityToken((RequestSecurityTokenType)rst);
@@ -597,6 +649,7 @@ public class WSTrustElementFactoryImpl extends WSTrustElementFactory {
     /**
      * convert an RSTR to a JAXBElement
      */
+    @Override
     public  JAXBElement toJAXBElement(RequestSecurityTokenResponse rstr) {
         JAXBElement<RequestSecurityTokenResponseType> rstElement=
                 (new ObjectFactory()).createRequestSecurityTokenResponse((RequestSecurityTokenResponseType)rstr);
@@ -616,12 +669,14 @@ public class WSTrustElementFactoryImpl extends WSTrustElementFactory {
     /**
      * convert an RSTR Collection to a JAXBElement
      */
+    @Override
     public  JAXBElement toJAXBElement(RequestSecurityTokenResponseCollection rstrCollection) {
         JAXBElement<RequestSecurityTokenResponseCollectionType> rstElement=
                 (new ObjectFactory()).createRequestSecurityTokenResponseCollection((RequestSecurityTokenResponseCollectionType)rstrCollection);
         return rstElement;
     }
 
+     @Override
      public Source toSource(final BaseSTSRequest request) {
         if (request instanceof RequestSecurityToken){
             return toSource((RequestSecurityToken)request);
@@ -630,6 +685,7 @@ public class WSTrustElementFactoryImpl extends WSTrustElementFactory {
         return null;
     }
 
+    @Override
     public Source toSource(final BaseSTSResponse response) {
         if (response instanceof RequestSecurityTokenResponse){
             return toSource((RequestSecurityTokenResponse)response);
@@ -648,6 +704,7 @@ public class WSTrustElementFactoryImpl extends WSTrustElementFactory {
      * Note: Useful for Dispatch Client implementations
      * 
      */
+    @Override
     public Source toSource(RequestSecurityToken rst) {
         return new DOMSource(toElement(rst));
     }
@@ -658,6 +715,7 @@ public class WSTrustElementFactoryImpl extends WSTrustElementFactory {
      * Note: Useful for STS implementations which are JAXWS Providers
      * 
      */
+    @Override
     public Source toSource(RequestSecurityTokenResponse rstr) {
         return new DOMSource(toElement(rstr));
     }
@@ -668,10 +726,12 @@ public class WSTrustElementFactoryImpl extends WSTrustElementFactory {
      * Note: Useful for STS implementations which are JAXWS Providers
      * 
      */
+    @Override
     public  Source toSource(RequestSecurityTokenResponseCollection rstrCollection) {
          return new DOMSource(toElement(rstrCollection));
     }
 
+     @Override
      public Element toElement(final BaseSTSRequest request) {
         if (request instanceof RequestSecurityToken){
             return toElement((RequestSecurityToken)request);
@@ -680,6 +740,7 @@ public class WSTrustElementFactoryImpl extends WSTrustElementFactory {
         return null;
     }
 
+    @Override
     public Element toElement(final BaseSTSResponse response) {
         if (response instanceof RequestSecurityTokenResponse){
             return toElement((RequestSecurityTokenResponse)response);
@@ -698,6 +759,7 @@ public class WSTrustElementFactoryImpl extends WSTrustElementFactory {
      * Note: Useful for Dispatch Client implementations
      * 
      */
+    @Override
     public Element toElement(RequestSecurityToken rst) {
         try {
             Document doc = WSTrustUtil.newDocument();
@@ -720,6 +782,7 @@ public class WSTrustElementFactoryImpl extends WSTrustElementFactory {
      * Note: Useful for STS implementations which are JAXWS Providers
      * 
      */
+    @Override
     public Element toElement(RequestSecurityTokenResponse rstr) {
         try {
             Document doc = WSTrustUtil.newDocument();
@@ -734,6 +797,7 @@ public class WSTrustElementFactoryImpl extends WSTrustElementFactory {
         }
     }
     
+     @Override
      public Element toElement(RequestSecurityTokenResponse rstr, Document doc) {
         try { 
            // jakarta.xml.bind.Marshaller marshaller = getContext(WSTrustVersion.WS_TRUST_13).createMarshaller();
@@ -752,6 +816,7 @@ public class WSTrustElementFactoryImpl extends WSTrustElementFactory {
      * Note: Useful for STS implementations which are JAXWS Providers
      * 
      */
+    @Override
     public  Element toElement(RequestSecurityTokenResponseCollection rstrCollection) {
         try {
             Document doc = WSTrustUtil.newDocument();
@@ -766,6 +831,7 @@ public class WSTrustElementFactoryImpl extends WSTrustElementFactory {
         }
     }
     
+    @Override
     public Element toElement(BinarySecret bs){
         try {
             Document doc = WSTrustUtil.newDocument();
@@ -786,6 +852,7 @@ public class WSTrustElementFactoryImpl extends WSTrustElementFactory {
      * Note: Useful for Dispatch Client implementations
      * 
      */
+    @Override
     public Element toElement(SecurityTokenReference str, Document doc) {
         try {
             if(doc == null){
@@ -808,6 +875,7 @@ public class WSTrustElementFactoryImpl extends WSTrustElementFactory {
      * Note: Useful for Dispatch Client implementations
      * 
      */
+    @Override
     public Element toElement(BinarySecret bs, Document doc) {
         try {
             if(doc == null){
@@ -825,6 +893,7 @@ public class WSTrustElementFactoryImpl extends WSTrustElementFactory {
         }
     }
      
+    @Override
     public Marshaller getMarshaller(){
          try {
             Marshaller marshaller = getContext(WSTrustVersion.WS_TRUST_13).createMarshaller();
@@ -849,7 +918,7 @@ public class WSTrustElementFactoryImpl extends WSTrustElementFactory {
             try {
                 QName qname = null;
                 Map<String,Object> faultMap = null;
-                Set<String> subcodeValues = new LinkedHashSet<String>();
+                Set<String> subcodeValues = new LinkedHashSet<>();
 
                 if (elem.getNamespaceURI().equals(MessageConstants.SOAP_1_1_NS)) {
                     faultMap = getFaultCodeAndReasonForSOAP1_1(elem);
@@ -869,7 +938,7 @@ public class WSTrustElementFactoryImpl extends WSTrustElementFactory {
                     SOAPFault fault = SOAPFactory.newInstance(SOAPConstants.SOAP_1_2_PROTOCOL).createFault(reasonText, qname);
 
 
-                    List<String> subcodesList = new ArrayList<String>(subcodeValues);
+                    List<String> subcodesList = new ArrayList<>(subcodeValues);
                     Collections.reverse(subcodesList);
                     if (!subcodesList.isEmpty()) {
                         for (String subCodeValue : subcodesList) {

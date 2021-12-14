@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -56,9 +56,6 @@ public class SecurityContextTokenImpl extends SecurityHeaderBlockImpl
     
     /**
      *
-     * @param element
-     * @return
-     * @throws XWSSecurityException
      */
     public static SecurityHeaderBlock fromSoapElement(SOAPElement element)
     throws XWSSecurityException {
@@ -70,7 +67,7 @@ public class SecurityContextTokenImpl extends SecurityHeaderBlockImpl
     
     
     public SecurityContextTokenImpl(
-        Document contextDocument, String contextId, String instance, String wsuId, List extElements) throws XWSSecurityException {
+        Document contextDocument, String contextId, String instance, String wsuId, List extElements) {
         securityContextId = contextId;
         this.instance = instance;
         this.wsuId = wsuId;
@@ -176,10 +173,12 @@ public class SecurityContextTokenImpl extends SecurityHeaderBlockImpl
         return contextDocument;
     }
 
+    @Override
     public String getType() {
         return MessageConstants.SECURITY_CONTEXT_TOKEN_NS;
     }
 
+    @Override
     public Object getTokenValue() {
         return this;
     }
@@ -188,11 +187,13 @@ public class SecurityContextTokenImpl extends SecurityHeaderBlockImpl
         this.wsuId = wsuId;
     }
     
+    @Override
     public String getWsuId() {
         return this.wsuId;
     }
 
     // dont use this
+    @Override
     public URI getIdentifier() {
         try {
             return new URI(securityContextId);
@@ -205,10 +206,12 @@ public class SecurityContextTokenImpl extends SecurityHeaderBlockImpl
         return securityContextId;
     }
 
+    @Override
     public String getInstance() {
         return instance;
     }
 
+    @Override
     public List getExtElements() {
         return extElements;
     }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -15,7 +15,6 @@ import com.sun.xml.ws.api.WSBinding;
 import com.sun.xml.ws.api.message.Header;
 import com.sun.xml.ws.api.message.Packet;
 import com.sun.xml.ws.api.model.wsdl.WSDLPort;
-import com.sun.xml.ws.api.pipe.ClientTubeAssemblerContext;
 import com.sun.xml.ws.api.pipe.NextAction;
 import com.sun.xml.ws.api.pipe.Tube;
 import com.sun.xml.ws.api.pipe.TubeCloner;
@@ -50,9 +49,10 @@ public class WSATClientTube extends AbstractFilterTubeImpl implements WSATConsta
 
 
     public Set<QName> getHeaders() {
-        return new HashSet<QName>();
+        return new HashSet<>();
     }
 
+    @Override
     @NotNull
     public NextAction processRequest(@NotNull Packet request) {
         try{
@@ -76,6 +76,7 @@ public class WSATClientTube extends AbstractFilterTubeImpl implements WSATConsta
     }
 
 
+    @Override
     @NotNull
     public NextAction processResponse(@NotNull Packet response) {
         m_wsatClientHelper.doHandleResponse(response.invocationProperties);
@@ -83,6 +84,7 @@ public class WSATClientTube extends AbstractFilterTubeImpl implements WSATConsta
     }
 
 
+    @Override
     @NotNull
     public NextAction processException(Throwable t) {
         Map<String, Object> map = com.sun.xml.ws.api.pipe.Fiber.current().getPacket().invocationProperties;
@@ -90,6 +92,7 @@ public class WSATClientTube extends AbstractFilterTubeImpl implements WSATConsta
         return super.processException(t);   
     }
 
+    @Override
     public AbstractTubeImpl copy(TubeCloner cloner) {
         return new WSATClientTube(this, cloner);
     }

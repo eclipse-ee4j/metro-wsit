@@ -109,7 +109,6 @@ public class ManagedEndpoint<T> extends WSEndpoint<T>{
 
     /**
      * Returns attributes used for creation of this endpoint.
-     * @return
      */
     public EndpointCreationAttributes getCreationAttributes() {
         return this.creationAttributes;
@@ -296,9 +295,8 @@ public class ManagedEndpoint<T> extends WSEndpoint<T>{
 
     /**
      * Return the appropriate ScheduledExecutorService - on initial access, check for container.getSPI
-     * NOTE - THIS METHOD IS A COPY OF {@link com.sun.xml.ws.commons.AbstractTaskManager#getExecutorService() AbstractTaskManager.getExecutorService() } IN metro-commons!!!
+     * NOTE - THIS METHOD IS A COPY OF {@code com.sun.xml.ws.commons.AbstractTaskManager#getExecutorService() AbstractTaskManager.getExecutorService() } IN metro-commons!!!
      * IF A SUITABLE COMMON LOCATION CAN BE FOUND IT MUST BE REMOVED FROM HERE!
-     * @return
      *
      */
     private ScheduledExecutorService getExecutorService() {

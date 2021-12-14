@@ -62,7 +62,7 @@ public class PolicyReference {
     @XmlAttribute(name = "URI")
     protected String uri;
     @XmlAnyAttribute
-    private Map<QName, String> otherAttributes = new HashMap<QName, String>();
+    private Map<QName, String> otherAttributes = new HashMap<>();
 
     /**
      * Gets the value of the digest property.
@@ -83,7 +83,7 @@ public class PolicyReference {
      *     byte[]
      */
     public void setDigest(byte[] value) {
-        this.digest = ((byte[]) value);
+        this.digest = value;
     }
 
     /**

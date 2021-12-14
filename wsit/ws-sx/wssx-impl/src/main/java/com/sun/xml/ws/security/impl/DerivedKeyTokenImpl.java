@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -21,6 +21,7 @@ import com.sun.xml.wss.impl.misc.SecurityUtil;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.SecureRandom;
 import java.security.NoSuchAlgorithmException;
@@ -84,6 +85,7 @@ public class DerivedKeyTokenImpl implements DerivedKeyToken {
         }
     }
     
+    @Override
     public URI getAlgorithm() {
         try {
             return new URI(this.DEFAULT_DERIVED_KEY_TOKEN_ALGORITHM);
@@ -93,40 +95,48 @@ public class DerivedKeyTokenImpl implements DerivedKeyToken {
         return null;
     }
     
+    @Override
     public long getLength() {
         return length;
     }
     
+    @Override
     public long getOffset() {
         return offset;
     }
     
+    @Override
     public String getType() {
         return this.DERIVED_KEY_TOKEN_TYPE;
     }
     
+    @Override
     public Object getTokenValue() {
         //TODO: implement this method
         return null;
     }
     
+    @Override
     public long getGeneration() {
         return generation;
     }
     
+    @Override
     public String getLabel(){
         return label;
     }
     
+    @Override
     public byte[] getNonce() {
         return nonce;
     }
     
     
-    public SecretKey generateSymmetricKey(String algorithm) 
-        throws InvalidKeyException, NoSuchAlgorithmException, UnsupportedEncodingException {
+    @Override
+    public SecretKey generateSymmetricKey(String algorithm)
+        throws InvalidKeyException, NoSuchAlgorithmException {
         
-           byte[] temp = label.getBytes("UTF-8");
+           byte[] temp = label.getBytes(StandardCharsets.UTF_8);
            byte[] seed = new byte[temp.length + nonce.length];
            System.arraycopy(temp, 0, seed, 0, temp.length);
            System.arraycopy(nonce, 0, seed, temp.length, nonce.length);
@@ -138,7 +148,7 @@ public class DerivedKeyTokenImpl implements DerivedKeyToken {
                key[i] = tempBytes[i+(int)offset];
            
            SecretKeySpec keySpec = new SecretKeySpec(key, algorithm);
-           return (SecretKey)keySpec;
+           return keySpec;
        
     }
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -44,10 +44,10 @@ public class KeyNameStrategy extends KeyInfoStrategy {
         this.keyName = alias;
     }
 
+    @Override
     public void insertKey(
         SecurityTokenReference tokenRef,
-        SecurableSoapMessage secureMsg)
-        throws XWSSecurityException {
+        SecurableSoapMessage secureMsg) {
 
         log.log(Level.SEVERE,
                 LogStringsMessages.WSS_0703_UNSUPPORTED_OPERATION());
@@ -56,15 +56,17 @@ public class KeyNameStrategy extends KeyInfoStrategy {
     }
 
 
+    @Override
     public void insertKey(
         KeyInfoHeaderBlock keyInfo,
         SecurableSoapMessage secureMsg,
         String x509TokenId) // x509TokenId can be ignored
-        throws XWSSecurityException {
+    {
 
         keyInfo.addKeyName(keyName);
     }
 
+    @Override
     public void setCertificate(X509Certificate cert) {
         log.log(Level.SEVERE,
                 LogStringsMessages.WSS_0705_UNSUPPORTED_OPERATION());
@@ -76,6 +78,7 @@ public class KeyNameStrategy extends KeyInfoStrategy {
         return keyName;
     }
 
+    @Override
     public String getAlias() {
         return keyName;
     }

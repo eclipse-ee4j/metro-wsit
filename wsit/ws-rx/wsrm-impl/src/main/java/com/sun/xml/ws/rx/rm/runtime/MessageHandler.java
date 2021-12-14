@@ -11,11 +11,10 @@
 package com.sun.xml.ws.rx.rm.runtime;
 
 import com.sun.xml.ws.rx.RxRuntimeException;
-import com.sun.xml.ws.rx.rm.runtime.sequence.UnknownSequenceException;
 
 /**
  *
  */
 public interface MessageHandler {
-    void putToDeliveryQueue(ApplicationMessage message) throws RxRuntimeException, UnknownSequenceException;
+    void putToDeliveryQueue(ApplicationMessage message) throws RxRuntimeException;
 }

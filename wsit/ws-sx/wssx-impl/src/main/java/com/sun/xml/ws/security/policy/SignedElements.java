@@ -32,5 +32,5 @@ public interface SignedElements extends Target{
      * returns a {@link java.util.Iterator} over list target elements.
      * @return {@link java.util.Iterator} over list of XPath expressions
      */
-    public Iterator<String> getTargets();
+    Iterator<String> getTargets();
 }

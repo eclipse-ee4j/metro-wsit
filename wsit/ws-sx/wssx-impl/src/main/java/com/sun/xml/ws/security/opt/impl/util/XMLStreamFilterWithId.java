@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -31,10 +31,12 @@ public class XMLStreamFilterWithId  extends XMLStreamFilter{
         this.id = id;
     }
     
+    @Override
     public void setDefaultNamespace(String string) throws XMLStreamException {
         writer.setDefaultNamespace(string);
     }
     
+    @Override
     public void writeEndElement() throws XMLStreamException {
         if(!wroteId && count == 1){
             writer.writeAttribute(MessageConstants.WSU_PREFIX, MessageConstants.WSU_NS,
@@ -47,6 +49,7 @@ public class XMLStreamFilterWithId  extends XMLStreamFilter{
         writer.writeEndElement();
     }
     
+    @Override
     public void writeStartElement(String string) throws XMLStreamException {
         if(!wroteId && count == 1){
             writer.writeAttribute(MessageConstants.WSU_PREFIX, MessageConstants.WSU_NS,
@@ -70,14 +73,17 @@ public class XMLStreamFilterWithId  extends XMLStreamFilter{
         count++;
     }
     
+    @Override
     public void writeAttribute(String string, String string0) throws XMLStreamException {
         writer.writeAttribute(string,string0);
     }
     
+    @Override
     public void writeNamespace(String string, String string0) throws XMLStreamException {
         writer.writeNamespace(string,string0);
     }
     
+    @Override
     public void writeStartElement(String string, String string0) throws XMLStreamException {
         if(!wroteId && count == 1){
             writer.writeAttribute(MessageConstants.WSU_PREFIX, MessageConstants.WSU_NS,
@@ -102,10 +108,12 @@ public class XMLStreamFilterWithId  extends XMLStreamFilter{
         
     }
     
+    @Override
     public void writeAttribute(String string, String string0, String string1) throws XMLStreamException {
         writer.writeAttribute(string,string0,string1);
     }
     
+    @Override
     public void writeStartElement(String string, String string0, String string1) throws XMLStreamException {
         if(!wroteId && count == 1){
             writer.writeAttribute(MessageConstants.WSU_PREFIX, MessageConstants.WSU_NS,
@@ -131,10 +139,12 @@ public class XMLStreamFilterWithId  extends XMLStreamFilter{
         
     }
     
+    @Override
     public void writeAttribute(String string, String string0, String string1, String string2) throws XMLStreamException {
         writer.writeAttribute(string,string0,string1,string2);
     }
     
+    @Override
     public void writeCharacters(char[] c, int index, int len) throws XMLStreamException {
         if(!wroteId && count == 1){
             writer.writeAttribute(MessageConstants.WSU_PREFIX, MessageConstants.WSU_NS,
@@ -147,6 +157,7 @@ public class XMLStreamFilterWithId  extends XMLStreamFilter{
         writer.writeCharacters(c,index,len);
     }
     
+    @Override
     public void writeCharacters(String string) throws XMLStreamException {
         if(!wroteId && count == 1){
             writer.writeAttribute(MessageConstants.WSU_PREFIX, MessageConstants.WSU_NS,
@@ -159,6 +170,7 @@ public class XMLStreamFilterWithId  extends XMLStreamFilter{
         writer.writeCharacters(string);
     }
     
+    @Override
     public void writeEmptyElement(String string) throws XMLStreamException {
         if(count == 0){
             writer.setNamespaceContext(nsContext);
@@ -175,6 +187,7 @@ public class XMLStreamFilterWithId  extends XMLStreamFilter{
         
     }
     
+    @Override
     public void writeEmptyElement(String string, String string0, String string1) throws XMLStreamException {
         if(count == 0){
             writer.setNamespaceContext(nsContext);
@@ -190,6 +203,7 @@ public class XMLStreamFilterWithId  extends XMLStreamFilter{
         writer.writeEmptyElement(string,string0,string1);
     }
     
+    @Override
     public void writeEmptyElement(String string, String string0) throws XMLStreamException {
         if(count == 0){
             writer.setNamespaceContext(nsContext);
@@ -205,6 +219,7 @@ public class XMLStreamFilterWithId  extends XMLStreamFilter{
         writer.writeEmptyElement(string,string0);
     }
     
+    @Override
     public void writeProcessingInstruction(String string, String string0) throws XMLStreamException {
         if(!wroteId && count == 1){
             writer.writeAttribute(MessageConstants.WSU_PREFIX, MessageConstants.WSU_NS,
@@ -217,6 +232,7 @@ public class XMLStreamFilterWithId  extends XMLStreamFilter{
         writer.writeProcessingInstruction(string,string0);
     }
     
+    @Override
     public void writeProcessingInstruction(String string) throws XMLStreamException {
         if(!wroteId && count == 1){
             writer.writeAttribute(MessageConstants.WSU_PREFIX, MessageConstants.WSU_NS,
@@ -229,6 +245,7 @@ public class XMLStreamFilterWithId  extends XMLStreamFilter{
         writer.writeProcessingInstruction(string);
     }
     
+    @Override
     public void writeCData(String string) throws XMLStreamException {
         if(!wroteId && count == 1){
             writer.writeAttribute(MessageConstants.WSU_PREFIX, MessageConstants.WSU_NS,

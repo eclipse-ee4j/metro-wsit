@@ -15,8 +15,6 @@ import java.util.Map;
 import javax.xml.namespace.QName;
 import jakarta.xml.ws.EndpointReference;
 
-import org.w3c.dom.Element;
-
 
 /**
  * <p>Java class for CreateCoordinationContextType complex type.
@@ -160,7 +158,7 @@ public interface CreateCoordinationContextType {
      * 
      * 
      */
-    public interface CurrentContextIF<T extends EndpointReference,E,I,C>
+    interface CurrentContextIF<T extends EndpointReference,E,I,C>
         extends CoordinationContextTypeIF<T, E,I,C>
     {
 

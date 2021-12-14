@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -55,11 +55,13 @@ public class SecurityContextToken extends PolicyAssertion implements com.sun.xml
         includeToken = spVersion.includeTokenAlways;
     }
     
+    @Override
     public String getTokenType() {
         populate();
         return tokenType;
     }
     
+    @Override
     public Iterator getTokenRefernceType() {
         //this check is not necessary as tokenRefType is always null
         /*if ( tokenRefType != null ) {
@@ -70,6 +72,7 @@ public class SecurityContextToken extends PolicyAssertion implements com.sun.xml
         return Collections.emptyList().iterator();
     }
     
+    @Override
     public boolean isRequireDerivedKeys() {
         populate();
         if (rdKey != null ) {
@@ -78,17 +81,20 @@ public class SecurityContextToken extends PolicyAssertion implements com.sun.xml
         return false;
     }
     
+    @Override
     public String getIncludeToken() {
         populate();
         return includeToken;
     }
     
     
+    @Override
     public String getTokenId() {
         return id;
     }
     
     
+    @Override
     public AssertionFitness validate(boolean isServer) {
         return populate(isServer);
     }
@@ -120,7 +126,7 @@ public class SecurityContextToken extends PolicyAssertion implements com.sun.xml
                     rdKey = assertion;
                 }else if(PolicyUtil.isRequireExternalUriReference(assertion, spVersion)){
                     if(referenceType == null){
-                        referenceType =new HashSet<String>();
+                        referenceType = new HashSet<>();
                     }
                     referenceType.add(assertion.getName().getLocalPart().intern());
                 } else{
@@ -140,6 +146,7 @@ public class SecurityContextToken extends PolicyAssertion implements com.sun.xml
         return fitness;
     }
 
+    @Override
     public SecurityPolicyVersion getSecurityPolicyVersion() {
         return spVersion;
     }

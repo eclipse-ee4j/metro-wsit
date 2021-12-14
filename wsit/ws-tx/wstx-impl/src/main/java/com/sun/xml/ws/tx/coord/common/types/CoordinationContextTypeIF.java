@@ -55,7 +55,7 @@ public interface CoordinationContextTypeIF<T extends EndpointReference,E,I,C> {
      *     {@link BaseIdentifier }
      *     
      */
-    public abstract BaseIdentifier<I> getIdentifier();
+    BaseIdentifier<I> getIdentifier();
 
     /**
      * Sets the value of the identifier property.
@@ -65,7 +65,7 @@ public interface CoordinationContextTypeIF<T extends EndpointReference,E,I,C> {
      *     {@link BaseIdentifier }
      *     
      */
-    public abstract void setIdentifier(BaseIdentifier<I> value);
+    void setIdentifier(BaseIdentifier<I> value);
 
     /**
      * Gets the value of the expires property.
@@ -75,7 +75,7 @@ public interface CoordinationContextTypeIF<T extends EndpointReference,E,I,C> {
      *     {@link BaseExpires }
      *     
      */
-    public abstract BaseExpires<E> getExpires();
+    BaseExpires<E> getExpires();
 
     /**
      * Sets the value of the expires property.
@@ -85,7 +85,7 @@ public interface CoordinationContextTypeIF<T extends EndpointReference,E,I,C> {
      *     {@link BaseExpires }
      *     
      */
-    public abstract void setExpires(BaseExpires<E> value);
+    void setExpires(BaseExpires<E> value);
 
     /**
      * Gets the value of the coordinationType property.
@@ -95,7 +95,7 @@ public interface CoordinationContextTypeIF<T extends EndpointReference,E,I,C> {
      *     {@link String }
      *     
      */
-    public abstract String getCoordinationType();
+    String getCoordinationType();
 
     /**
      * Sets the value of the coordinationType property.
@@ -105,7 +105,7 @@ public interface CoordinationContextTypeIF<T extends EndpointReference,E,I,C> {
      *     {@link String }
      *     
      */
-    public abstract void setCoordinationType(String value);
+    void setCoordinationType(String value);
 
     /**
      * Gets the value of the registrationService property.
@@ -115,7 +115,7 @@ public interface CoordinationContextTypeIF<T extends EndpointReference,E,I,C> {
      *     {@link W3CEndpointReference }
      *     
      */
-    public abstract T  getRegistrationService();
+    T  getRegistrationService();
 
     /**
      * Sets the value of the registrationService property.
@@ -125,11 +125,11 @@ public interface CoordinationContextTypeIF<T extends EndpointReference,E,I,C> {
      *     {@link W3CEndpointReference }
      *     
      */
-    public abstract void setRegistrationService(T value);
+    void setRegistrationService(T value);
 
-    public abstract Map<QName, String> getOtherAttributes();
+    Map<QName, String> getOtherAttributes();
 
-    public abstract C getDelegate();
+    C getDelegate();
 
 
 }

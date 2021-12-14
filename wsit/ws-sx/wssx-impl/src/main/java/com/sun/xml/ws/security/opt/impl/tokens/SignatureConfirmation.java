@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -50,10 +50,12 @@ public class SignatureConfirmation extends SignatureConfirmationType
         this.soapVersion = sv;
     }
     
+    @Override
     public String getNamespaceURI() {
         return MessageConstants.WSSE11_NS;
     }
     
+    @Override
     public String getLocalPart() {
         return MessageConstants.SIGNATURE_CONFIRMATION_LNAME;
     }
@@ -66,6 +68,7 @@ public class SignatureConfirmation extends SignatureConfirmationType
         throw new UnsupportedOperationException();
     }
     
+    @Override
     public javax.xml.stream.XMLStreamReader readHeader() throws javax.xml.stream.XMLStreamException {
         XMLStreamBufferResult xbr = new XMLStreamBufferResult();
         JAXBElement<SignatureConfirmationType> scElem = objFac.createSignatureConfirmation(this);
@@ -78,9 +81,11 @@ public class SignatureConfirmation extends SignatureConfirmationType
         return xbr.getXMLStreamBuffer().readAsXMLStreamReader();
     }
     
+    @Override
     public void writeTo(OutputStream os) {
     }
     
+    @Override
     public void writeTo(javax.xml.stream.XMLStreamWriter streamWriter) throws javax.xml.stream.XMLStreamException {
         JAXBElement<SignatureConfirmationType> scElem = objFac.createSignatureConfirmation(this);
         try {
@@ -105,13 +110,13 @@ public class SignatureConfirmation extends SignatureConfirmationType
     }
     
     /**
-     * 
-     * @param id 
-     * @return 
+     *
      */
+    @Override
     public boolean refersToSecHdrWithId(String id) {
         return false;
     }
+    @Override
     @SuppressWarnings("unchecked")
     public void writeTo(javax.xml.stream.XMLStreamWriter streamWriter, HashMap props) throws javax.xml.stream.XMLStreamException {
         try{

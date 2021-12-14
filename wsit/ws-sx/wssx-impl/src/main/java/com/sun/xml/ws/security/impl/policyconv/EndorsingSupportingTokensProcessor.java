@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -33,14 +33,17 @@ public class EndorsingSupportingTokensProcessor extends SupportingTokensProcesso
         super(st,tokenProcessor,binding,container,sp,ep,pid);
     }
     
-    protected void addToPrimarySignature(WSSPolicy policy,Token token) throws PolicyException{
+    @Override
+    protected void addToPrimarySignature(WSSPolicy policy, Token token) throws PolicyException{
     }
     
     
+    @Override
     protected void collectSignaturePolicies(Token token) throws PolicyException{
         createSupportingSignature(token);
     }
     
+    @Override
     protected void endorseSignature(SignaturePolicy sp){
         SignaturePolicy.FeatureBinding spFB = (SignaturePolicy.FeatureBinding)sp.getFeatureBinding();
         SignatureTarget sigTarget = stc.newURISignatureTarget(signaturePolicy.getUUID());
@@ -50,6 +53,7 @@ public class EndorsingSupportingTokensProcessor extends SupportingTokensProcesso
         spFB.isEndorsingSignature(true);
     }
     
+    @Override
     protected void correctSAMLBinding(WSSPolicy policy) {
         ((AuthenticationTokenPolicy.SAMLAssertionBinding)policy).setAssertionType(AuthenticationTokenPolicy.SAMLAssertionBinding.HOK_ASSERTION);
     }

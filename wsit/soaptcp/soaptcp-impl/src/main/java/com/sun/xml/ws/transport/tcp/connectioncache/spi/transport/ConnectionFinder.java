@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -23,6 +23,6 @@ public interface ConnectionFinder<C extends Connection> {
      * exists.  May create a new connection and return it.
      */
     C find( ContactInfo<C> cinfo, Collection<C> idleConnections, 
-	Collection<C> busyConnections ) throws IOException ;
+	Collection<C> busyConnections );
 }
 

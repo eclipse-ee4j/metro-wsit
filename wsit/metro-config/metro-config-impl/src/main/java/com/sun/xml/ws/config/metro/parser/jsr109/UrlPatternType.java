@@ -94,6 +94,7 @@ public class UrlPatternType
         this.value = value;
     }
 
+    @Override
     public Locator sourceLocation() {
         return locator;
     }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -83,12 +83,11 @@ import org.w3c.dom.NodeList;
 import org.w3c.dom.NamedNodeMap;
 
 import javax.xml.xpath.*;
-import javax.xml.parsers.DocumentBuilderFactory;
+
 import jakarta.xml.soap.AttachmentPart;
 import jakarta.xml.soap.SOAPMessage;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Document;
@@ -155,7 +154,8 @@ public class WSSPolicyConsumerImpl {
             logger.log(Level.FINEST, "JSR 105 provider mechanism is : " + pMT);
         }
         
-        AccessController.doPrivileged(new java.security.PrivilegedAction<Object>() {
+        AccessController.doPrivileged(new java.security.PrivilegedAction<>() {
+            @Override
             public Object run() {
                 try {
                     Security.insertProviderAt(provider, 5);
@@ -185,14 +185,9 @@ public class WSSPolicyConsumerImpl {
     
     /**
      *
-     * @return
-     * @throws PolicyGenerationException
-     * @throws NoSuchAlgorithmException
-     * @throws InvalidAlgorithmParameterException
-     * @throws XWSSecurityException
      */
     public SignedInfo constructSignedInfo(FilterProcessingContext fpContext)throws
-            PolicyGenerationException,NoSuchAlgorithmException,InvalidAlgorithmParameterException,XWSSecurityException {
+            NoSuchAlgorithmException,InvalidAlgorithmParameterException,XWSSecurityException {
         
         if(PolicyTypeUtil.signaturePolicy(fpContext.getSecurityPolicy())) {
             SignedInfo signInfo = generateSignedInfo(fpContext);
@@ -203,8 +198,6 @@ public class WSSPolicyConsumerImpl {
     
     /**
      *
-     * @param signInfo
-     * @param keyInfo
      * @return XMLSignature
      */
     public XMLSignature constructSignature(SignedInfo signInfo,KeyInfo keyInfo){
@@ -213,9 +206,6 @@ public class WSSPolicyConsumerImpl {
 
     /**
      *
-     * @param signInfo
-     * @param keyInfo
-     * @param id
      * @return XMLSignature
      */
     public XMLSignature constructSignature(SignedInfo signInfo,KeyInfo keyInfo, String id){
@@ -224,14 +214,9 @@ public class WSSPolicyConsumerImpl {
     
     /**
      *
-     * @param signaturePolicy
-     * @param reference
-     * @throws PolicyGenerationException
-     * @throws SOAPException
-     * @throws XWSSecurityException
      * @return KeyInfo
      */
-    public KeyInfo constructKeyInfo(MLSPolicy signaturePolicy,SecurityTokenReference reference) throws PolicyGenerationException,SOAPException,XWSSecurityException {
+    public KeyInfo constructKeyInfo(MLSPolicy signaturePolicy,SecurityTokenReference reference) throws SOAPException,XWSSecurityException {
         
         if(PolicyTypeUtil.signaturePolicy(signaturePolicy)) {
             //SignaturePolicy.FeatureBinding featureBinding = (SignaturePolicy.FeatureBinding)signaturePolicy.getFeatureBinding();
@@ -251,15 +236,10 @@ public class WSSPolicyConsumerImpl {
     
     /**
      *
-     * @param signaturePolicy
-     * @param KeyName
-     * @throws PolicyGenerationException
-     * @throws SOAPException
-     * @throws XWSSecurityException
      * @return KeyInfo
      */
      @SuppressWarnings("unchecked")
-    public KeyInfo constructKeyInfo(MLSPolicy signaturePolicy,String KeyName) throws PolicyGenerationException,SOAPException,XWSSecurityException {
+    public KeyInfo constructKeyInfo(MLSPolicy signaturePolicy,String KeyName) throws SOAPException {
         
         if(PolicyTypeUtil.signaturePolicy(signaturePolicy)) {
             //SignaturePolicy.FeatureBinding featureBinding = (SignaturePolicy.FeatureBinding)signaturePolicy.getFeatureBinding();
@@ -308,7 +288,6 @@ public class WSSPolicyConsumerImpl {
     }
     
     /**
-     * @param signedInfo
      * @return SignaturePolicy
      */
     public SignaturePolicy constructSignaturePolicy(SignedInfo signedInfo, boolean isBSP){
@@ -394,7 +373,6 @@ public class WSSPolicyConsumerImpl {
     
     /**
      *
-     * @param reference
      * @return Transform
      */
     public SignatureTarget.Transform getSignatureTransform(Reference reference ){
@@ -416,8 +394,6 @@ public class WSSPolicyConsumerImpl {
     
     /**
      *
-     * @param algoSpec
-     * @param paramList
      */
      @SuppressWarnings("unchecked")
     public void addCanonicalizationParams(AlgorithmParameterSpec algoSpec,HashMap paramList){
@@ -432,7 +408,7 @@ public class WSSPolicyConsumerImpl {
     }
     
     private SignedInfo generateSignedInfo(FilterProcessingContext fpContext)
-    throws PolicyGenerationException,NoSuchAlgorithmException,InvalidAlgorithmParameterException ,XWSSecurityException{
+    throws NoSuchAlgorithmException,InvalidAlgorithmParameterException ,XWSSecurityException{
         SignaturePolicy signaturePolicy = (SignaturePolicy) fpContext.getSecurityPolicy();
         SignaturePolicy.FeatureBinding featureBinding = (SignaturePolicy.FeatureBinding)signaturePolicy.getFeatureBinding();
         MLSPolicy keyBinding = signaturePolicy.getKeyBinding();
@@ -597,7 +573,7 @@ attribute.getNamespaceURI().equals(MessageConstants.NAMESPACES_NS)) {
     
     public List generateReferenceList(List targetList,SecurableSoapMessage secureMessage,FilterProcessingContext fpContext,
             boolean verify, boolean isEndorsing)
-    throws PolicyGenerationException,NoSuchAlgorithmException,InvalidAlgorithmParameterException,XWSSecurityException {
+    throws NoSuchAlgorithmException,InvalidAlgorithmParameterException,XWSSecurityException {
         XMLSignatureFactory factory = getSignatureFactory();
         return generateReferenceList(targetList,factory,secureMessage,fpContext,verify, isEndorsing);
     }
@@ -608,7 +584,7 @@ attribute.getNamespaceURI().equals(MessageConstants.NAMESPACES_NS)) {
     private List generateReferenceList(List targetList,XMLSignatureFactory signatureFactory,
             SecurableSoapMessage secureMessage,FilterProcessingContext fpContext,boolean verify, 
             boolean isEndorsing)
-            throws PolicyGenerationException,NoSuchAlgorithmException,InvalidAlgorithmParameterException,XWSSecurityException {
+            throws NoSuchAlgorithmException,InvalidAlgorithmParameterException,XWSSecurityException {
         
         SignaturePolicy signaturePolicy = (SignaturePolicy) fpContext.getSecurityPolicy();
         SignaturePolicy.FeatureBinding featureBinding = (SignaturePolicy.FeatureBinding)signaturePolicy.getFeatureBinding();
@@ -734,6 +710,7 @@ attribute.getNamespaceURI().equals(MessageConstants.NAMESPACES_NS)) {
                             
                             nodes = new NodeList(){
                                 Node node = se;
+                                @Override
                                 public int getLength(){
                                     if(node == null){
                                         return 0;
@@ -741,6 +718,7 @@ attribute.getNamespaceURI().equals(MessageConstants.NAMESPACES_NS)) {
                                         return 1;
                                     }
                                 }
+                                @Override
                                 public Node item(int num){
                                     if(num == 0){
                                         return node;
@@ -826,9 +804,9 @@ attribute.getNamespaceURI().equals(MessageConstants.NAMESPACES_NS)) {
                         if(logger.isLoggable(Level.FINEST)){
                             logger.log(Level.FINEST, "++++++++++++++++++++++++++++++");
                             logger.log(Level.FINEST, "Expr is "+expr);
-                            printDocument((Node)secureMessage.getSOAPPart());
+                            printDocument(secureMessage.getSOAPPart());
                         }
-                        nodes = (NodeList)xpathExpr.evaluate((Object)secureMessage.getSOAPPart(),XPathConstants.NODESET);
+                        nodes = (NodeList)xpathExpr.evaluate(secureMessage.getSOAPPart(),XPathConstants.NODESET);
                     }catch(XPathExpressionException xpe){
                         logger.log(Level.SEVERE,LogStringsMessages.WSS_1371_FAILED_RESOLVE_X_PATH()+expr,xpe);
                         throw new XWSSecurityException(xpe);
@@ -990,7 +968,7 @@ attribute.getNamespaceURI().equals(MessageConstants.NAMESPACES_NS)) {
                         NodeList headers = soapHeader.getChildNodes();
                         Reference reference = null;
                         for(int i=0;i<headers.getLength();i++){
-                            if(((Node)headers.item(i)).getNodeType() ==  Node.ELEMENT_NODE){
+                            if(headers.item(i).getNodeType() ==  Node.ELEMENT_NODE){
                             Element element = (Element)headers.item(i);
                                 if(!("Security".equals(element.getLocalName()) &&
                                     MessageConstants.WSSE_NS.equals(element.getNamespaceURI())) ){
@@ -1027,20 +1005,14 @@ attribute.getNamespaceURI().equals(MessageConstants.NAMESPACES_NS)) {
     
     /**
      *
-     * @param Element
-     * @param SecurableSoapMessage
      * @return String
      */
     private String generateReferenceID(Element secElement, SecurableSoapMessage securableSoapMessage) {
         String id = secElement.getAttributeNS(MessageConstants.WSU_NS,"Id");
         //((Element)secElement).getAttribute(MessageConstants.WSU_ID_QNAME);
         if (id == null || id.equals("")) {
-            try {
-                id = securableSoapMessage.generateId();
-            } catch(XWSSecurityException xse) {
-                xse.printStackTrace();
-            }
-            XMLUtil.setWsuIdAttr((Element)secElement, id);
+            id = securableSoapMessage.generateId();
+            XMLUtil.setWsuIdAttr(secElement, id);
         }
         if(logger.isLoggable(Level.FINE)){
             logger.log(Level.FINE, "Element wsu:id attribute is: "+id);
@@ -1056,7 +1028,6 @@ attribute.getNamespaceURI().equals(MessageConstants.NAMESPACES_NS)) {
     }
     /**
      *
-     * @param node
      */
     public static void printDocument(Node node){
         try{

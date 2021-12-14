@@ -28,9 +28,10 @@ class ServerSourceDeliveryCallback implements Postman.Callback {
         this.rc = rc;
     }
 
+    @Override
     public void deliver(ApplicationMessage message) {
         if (message instanceof JaxwsApplicationMessage) {
-            deliver(JaxwsApplicationMessage.class.cast(message));
+            deliver((JaxwsApplicationMessage) message);
         } else {
             throw LOGGER.logSevereException(new RxRuntimeException(LocalizationMessages.WSRM_1141_UNEXPECTED_MESSAGE_CLASS(
                     message.getClass().getName(),
@@ -38,6 +39,7 @@ class ServerSourceDeliveryCallback implements Postman.Callback {
         }
     }
     
+    @Override
     public RuntimeContext getRuntimeContext() {
         return rc;
     }

@@ -18,11 +18,6 @@
 package com.sun.xml.wss.saml;
 
 /**
- *
- * @author abhijit.das@Sun.COM
- */
-
-/**
  * The <code>Subject</code> element specifies one or more subjects. It contains either or
 both of the following elements:<code>NameIdentifier</code>;
 An identification of a subject by its name and security domain.

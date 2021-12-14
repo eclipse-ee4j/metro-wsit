@@ -72,7 +72,7 @@ public class EncryptionPropertyType {
     @XmlAttribute(name = "Target")
     protected String target;
     @XmlAnyAttribute
-    private Map<QName, String> otherAttributes = new HashMap<QName, String>();
+    private Map<QName, String> otherAttributes = new HashMap<>();
 
     /**
      * Gets the value of the content property.
@@ -100,7 +100,7 @@ public class EncryptionPropertyType {
      */
     public List<Object> getContent() {
         if (content == null) {
-            content = new ArrayList<Object>();
+            content = new ArrayList<>();
         }
         return this.content;
     }

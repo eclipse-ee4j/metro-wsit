@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -31,18 +31,21 @@ public class EmulatedTransactionServices implements TransactionServices {
         public boolean m_isCommitException = false;
         String m_prepareVote = WSATConstants.PREPARED;
 
+        @Override
         public byte[] getGlobalTransactionId() //the tx id of the tx on this thread
         {
             return new byte[0];
         }
 
-        public Xid enlistResource(XAResource resource, Xid xid) throws WSATException //enlist XAResource (this is essentially the WSAT participant EPR wrapper)
+        @Override
+        public Xid enlistResource(XAResource resource, Xid xid)  //enlist XAResource (this is essentially the WSAT participant EPR wrapper)
         {
             return new XidImpl(1234, new byte[]{'1','2','3','4','5','6','7','8','9'},
                     new byte[]{'1','2','3','4','5','6','7','8','9'});
         }
 
-        public void registerSynchronization(Synchronization synchronization, Xid xid) throws WSATException {
+        @Override
+        public void registerSynchronization(Synchronization synchronization, Xid xid) {
 
         }
 
@@ -51,32 +54,38 @@ public class EmulatedTransactionServices implements TransactionServices {
             return 0;
         }
 
-        public Xid importTransaction(int timeout, byte[] tId) throws WSATException //infect thread with tx
+        @Override
+        public Xid importTransaction(int timeout, byte[] tId)  //infect thread with tx
         {
             return null;
         }
 
+        @Override
         public String prepare(byte[] tId) throws WSATException//prepare tx/subordinate branch
         {
             if (m_isPrepareException) throw new WSATException("test exception from prepare");
             return m_prepareVote;
         }
 
+        @Override
         public void commit(byte[] tId) throws WSATException//commit tx/subordinate branch
         {
             if (m_isCommitException) throw new WSATException("test exception from commit");
         }
 
+        @Override
         public void rollback(byte[] tId) throws WSATException//rollback tx/subordinate branch
         {
             if (m_isRollbackException) throw new WSATException("test exception from rollback");
         }
 
-        public void replayCompletion(String tId, XAResource xaResource) throws WSATException//bottom-up recovery call, as in JTS, a hint to resend
+        @Override
+        public void replayCompletion(String tId, XAResource xaResource) //bottom-up recovery call, as in JTS, a hint to resend
         {
 
         }
 
+        @Override
         public EndpointReference getParentReference(Xid xid) {
             return null;
         }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -43,7 +43,7 @@ public class ProofEncryptionImpl extends ProofEncryptionType implements ProofEnc
         setTargetType(WSTrustConstants.TOKEN_TYPE);
     }
     
-     public ProofEncryptionImpl (ProofEncryptionType peType)throws Exception{
+     public ProofEncryptionImpl (ProofEncryptionType peType) {
         JAXBElement obj = (JAXBElement)peType.getAny();
         String local = obj.getName().getLocalPart();
         if ("SecurityTokenReference".equals(local)) {
@@ -56,14 +56,17 @@ public class ProofEncryptionImpl extends ProofEncryptionType implements ProofEnc
         } 
     }
     
+    @Override
     public String getTargetType() {
         return targetType;
     }
     
+    @Override
     public void setTargetType(String ttype) {
         targetType = ttype;
     }
     
+    @Override
     public void setSecurityTokenReference(SecurityTokenReference ref) {
         if (ref != null) {
             str = ref;
@@ -75,6 +78,7 @@ public class ProofEncryptionImpl extends ProofEncryptionType implements ProofEnc
         token = null;
     }
     
+    @Override
     public SecurityTokenReference getSecurityTokenReference() {
         return str;
     }

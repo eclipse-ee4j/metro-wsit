@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -295,13 +295,13 @@ public class SecurityRecipient {
             if (policy != null) {
                 if (!mConfiguration.contains(policy)) {
                     // log
-                    StringBuffer buf = null;
+                    StringBuilder buf = null;
                     if ( PolicyTypeUtil.messagePolicy(policy)) {
                         for ( int it=0; it<policy.size(); it++) {
                             if ( buf == null)
-                                buf = new StringBuffer();
+                                buf = new StringBuilder();
                             try {
-                                buf.append(policy.get(it).getType() + " ");
+                                buf.append(policy.get(it).getType()).append(" ");
                             } catch (Exception e) {
                                 //ignore
                             }
@@ -431,8 +431,8 @@ public class SecurityRecipient {
             boolean isSecondary)
             throws Exception {
         
-        /**
-         * Re-visit: Handle BooleanComposer
+        /*
+          Re-visit: Handle BooleanComposer
          */
         
         //TODO: secondary policies don't follow order
@@ -576,7 +576,7 @@ public class SecurityRecipient {
                 EncryptedData ci = (EncryptedData)inferredNodeSet.get(j);
                 boolean found = false;
                 if(cn.isAttachmentData() && ci.isAttachmentData()){
-                    found = cn.equals((AttachmentData)ci);
+                    found = cn.equals(ci);
                 }else if (cn.isElementData() && ci.isElementData()){
                     found = ((EncryptedElement)cn).equals((EncryptedElement)ci);
                 }
@@ -619,7 +619,7 @@ public class SecurityRecipient {
                 EncryptedData ci = (EncryptedData)inferredNodeSet.get(j);
                 boolean found = false;
                 if(cn.isAttachmentData() && ci.isAttachmentData()){
-                    found = cn.equals((AttachmentData)ci);
+                    found = cn.equals(ci);
                 }else if (cn.isElementData() && ci.isElementData()){
                     found = ((EncryptedElement)cn).equals((EncryptedElement)ci);
                 }
@@ -692,7 +692,6 @@ public class SecurityRecipient {
                     log.log(Level.SEVERE, LogStringsMessages.WSS_0272_FAILEDTO_DEREFER_TARGETS());
                     throw ex;
                 }
-                continue;
             }
             
             /*System.out.println("Object"+object);
@@ -771,7 +770,7 @@ public class SecurityRecipient {
         
         SecurityHeader header = fpContext.getSecurableSoapMessage().findSecurityHeader();
         if (header == null) {
-            StringBuffer buf = new StringBuffer();
+            StringBuilder buf = new StringBuilder();
             for(int it=0; it<policy.size(); it++) {
                 try {
                     buf.append(policy.get(it).getType() );
@@ -785,7 +784,7 @@ public class SecurityRecipient {
                 }
             }
             log.log(Level.SEVERE,LogStringsMessages.WSS_0253_INVALID_MESSAGE());
-            throw new XWSSecurityException("Message does not conform to configured policy [ " + buf.toString()
+            throw new XWSSecurityException("Message does not conform to configured policy [ " + buf
             + "]:  No Security Header found");
         }
         SOAPElement current = header.getFirstChildElement();
@@ -799,7 +798,7 @@ public class SecurityRecipient {
         SecurableSoapMessage secureMsg = fpContext.getSecurableSoapMessage();
         MessagePolicy secPolicy = null;
         ArrayList targets = null;
-        StringBuffer buf = null;
+        StringBuilder buf = null;
         
         boolean foundPrimaryPolicy = false;
         while (idx < policy.size()) {
@@ -866,8 +865,8 @@ public class SecurityRecipient {
                         }else{
                             //log
                             if ( buf == null )
-                                buf = new StringBuffer();
-                            buf.append(wssPolicy.getType() + " ");
+                                buf = new StringBuilder();
+                            buf.append(wssPolicy.getType()).append(" ");
                             //throw new XWSSecurityException("More Receiver requirements specified"+
                             //        " than present in the message");
                         }
@@ -1028,7 +1027,6 @@ public class SecurityRecipient {
 //        }
         
         fpContext.setSecurityPolicy(policy);
-        return;
     }
     
     private static void checkForExtraSecurity(FilterProcessingContext context)
@@ -1073,9 +1071,9 @@ public class SecurityRecipient {
         boolean _UT = false;
         boolean _TS = false;
         
-        for (SOAPElement current = (SOAPElement) header.getFirstChildElement();
-        current != null;
-        current = (SOAPElement) current.getNextSibling()) {
+        for (SOAPElement current = header.getFirstChildElement();
+             current != null;
+             current = (SOAPElement) current.getNextSibling()) {
             try {
                 _UT = current.getLocalName().equals(MessageConstants.USERNAME_TOKEN_LNAME);
                 _TS = current.getLocalName().equals(MessageConstants.TIMESTAMP_LNAME);
@@ -1086,16 +1084,16 @@ public class SecurityRecipient {
         }
         
         boolean throwFault = false;
-        StringBuffer buf = null;
+        StringBuilder buf = null;
         
         if (!_UT)
             for (int i=0; i < policy.size(); i++)
                 try {
                     if (PolicyTypeUtil.usernameTokenPolicy(policy.get(i))) {
                         if ( buf == null) {
-                            buf = new StringBuffer();
+                            buf = new StringBuilder();
                         }
-                        buf.append(policy.get(i).getType() + " ");
+                        buf.append(policy.get(i).getType()).append(" ");
                         throwFault = true;
                     }
                 } catch (Exception e) {
@@ -1108,9 +1106,9 @@ public class SecurityRecipient {
                 try {
                     if (PolicyTypeUtil.timestampPolicy(policy.get(j))) {
                         if ( buf == null) {
-                            buf = new StringBuffer();
+                            buf = new StringBuilder();
                         }
-                        buf.append(policy.get(j).getType() + " ");
+                        buf.append(policy.get(j).getType()).append(" ");
                         throwFault = true;
                     }
                 } catch (Exception e) {
@@ -1276,17 +1274,17 @@ public class SecurityRecipient {
      * @param context Processing Context
      */
     public static void handleFault(ProcessingContext context) {
-        /**
-         * TODO
+        /*
+          TODO
          */
     }
     
     
     //COPIED FROM DECRYPTION PROCESSOR NOW
     //COMBINE ALL LATER.
-    private static interface EncryptedData{
-        public boolean isElementData();
-        public boolean isAttachmentData();
+    private interface EncryptedData{
+        boolean isElementData();
+        boolean isAttachmentData();
     }
     
     private static class AttachmentData implements EncryptedData {
@@ -1311,10 +1309,12 @@ public class SecurityRecipient {
             return false;
         }
         
+        @Override
         public boolean isElementData(){
             return false;
         }
         
+        @Override
         public boolean isAttachmentData(){
             return true;
         }
@@ -1339,7 +1339,7 @@ public class SecurityRecipient {
         }
         
         public boolean equals(EncryptedElement element) {
-            EncryptedElement encryptedElement = (EncryptedElement) element;
+            EncryptedElement encryptedElement = element;
             return (encryptedElement.getElement()== this.element &&
                     encryptedElement.getContentOnly() == this.contentOnly);
             //&& this.policy.equals(encryptedElement.getPolicy()));
@@ -1354,10 +1354,12 @@ public class SecurityRecipient {
             return policy;
         }
         
+        @Override
         public boolean isElementData(){
             return true;
         }
         
+        @Override
         public boolean isAttachmentData(){
             return false;
         }

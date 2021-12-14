@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -23,8 +23,8 @@ import jakarta.xml.bind.JAXBElement;
  */
 public interface JAXBData extends Data{
    
-    public NamespaceContextEx getNamespaceContext();
-    public void writeTo(XMLStreamWriter writer) throws XWSSecurityException;
-    public void writeTo(OutputStream os)throws XWSSecurityException;
-    public JAXBElement getJAXBElement();
+    NamespaceContextEx getNamespaceContext();
+    void writeTo(XMLStreamWriter writer) throws XWSSecurityException;
+    void writeTo(OutputStream os)throws XWSSecurityException;
+    JAXBElement getJAXBElement();
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -116,10 +116,6 @@ import java.util.logging.Logger;
 import com.sun.xml.ws.security.trust.logging.LogDomainConstants;
 import com.sun.xml.ws.security.trust.logging.LogStringsMessages;
 
-/**
- *
- * @author
- */
 public class SBIssuedSamlTokenContractImpl extends IssueSamlTokenContract{
     
     //move to base class
@@ -142,6 +138,7 @@ public class SBIssuedSamlTokenContractImpl extends IssueSamlTokenContract{
         //constructor
     }
     
+    @Override
     public Token createSAMLAssertion(final String appliesTo, final String tokenType, final String keyType, final String assertionId, final String issuer, final Map<QName, List<String>> claimedAttrs, final IssuedTokenContext context) throws WSTrustException {
         Token token = null;
         
@@ -149,7 +146,7 @@ public class SBIssuedSamlTokenContractImpl extends IssueSamlTokenContract{
         
         try{
             NamespaceContextEx nsContext = null;
-            if(soapVersion == soapVersion.SOAP_11){
+            if(soapVersion == SOAPVersion.SOAP_11){
                 nsContext = new NamespaceContextEx();
             }else{
                 nsContext  = new NamespaceContextEx(true);
@@ -200,7 +197,7 @@ public class SBIssuedSamlTokenContractImpl extends IssueSamlTokenContract{
             token = new GenericToken(signedAssertion);
             
             if (stsConfig.getEncryptIssuedToken()){
-                final String id = "uuid-" + UUID.randomUUID().toString();
+                final String id = "uuid-" + UUID.randomUUID();
                 final int keysizeInBytes = 32;
                 final byte[] skey = WSTrustUtil.generateRandomSecret(keysizeInBytes);
                 final Key key = new SecretKeySpec(skey, "AES");
@@ -211,7 +208,7 @@ public class SBIssuedSamlTokenContractImpl extends IssueSamlTokenContract{
                 final EncryptedDataType edt = createEncryptedData(id,MessageConstants.AES_BLOCK_ENCRYPTION_256,encKeyInfo,false);
                 
                 
-                final JAXBEncryptedData jed = new JAXBEncryptedData(edt,new SSEData((SecurityElement)signedAssertion,false,nsContext),soapVersion);
+                final JAXBEncryptedData jed = new JAXBEncryptedData(edt,new SSEData(signedAssertion,false,nsContext),soapVersion);
                 token = new GenericToken(jed);
             }else{
                 token = new GenericToken(signedAssertion);
@@ -243,17 +240,17 @@ public class SBIssuedSamlTokenContractImpl extends IssueSamlTokenContract{
                     samlFac.createConditions(issuerInst, notOnOrAfter, null, null, null);
             final Advice advice = samlFac.createAdvice(null, null, null);
             
-            final List<String>  confirmMethods = new ArrayList<String>();
+            final List<String>  confirmMethods = new ArrayList<>();
             confirmMethods.add(SAML_HOLDER_OF_KEY);
             
             final SubjectConfirmation subjectConfirm = samlFac.createSubjectConfirmation(confirmMethods,null, keyInfo);
             
             com.sun.xml.wss.saml.Subject subj = null;
-            final List<Attribute> attrs = new ArrayList<Attribute>();
+            final List<Attribute> attrs = new ArrayList<>();
             final Set<Map.Entry<QName, List<String>>> entries = claimedAttrs.entrySet();
             for(Map.Entry<QName, List<String>> entry : entries){
-                final QName attrKey = (QName)entry.getKey();
-                final List<String> values = (List<String>)entry.getValue();
+                final QName attrKey = entry.getKey();
+                final List<String> values = entry.getValue();
                 if (values != null && values.size() > 0){
                     if (STSAttributeProvider.NAME_IDENTIFIER.equals(attrKey.getLocalPart()) && subj == null){
                         final NameIdentifier nameId = samlFac.createNameIdentifier(values.get(0), attrKey.getNamespaceURI(), null);
@@ -266,7 +263,7 @@ public class SBIssuedSamlTokenContractImpl extends IssueSamlTokenContract{
                 }
             }
             final AttributeStatement statement = samlFac.createAttributeStatement(subj, attrs);
-            final List<AttributeStatement> statements = new ArrayList<AttributeStatement>();
+            final List<AttributeStatement> statements = new ArrayList<>();
             statements.add(statement);
             assertion =
                     samlFac.createAssertion(assertionId, issuer, issuerInst, conditions, advice, statements);
@@ -306,11 +303,11 @@ public class SBIssuedSamlTokenContractImpl extends IssueSamlTokenContract{
                     null, subjComfData, SAML_HOLDER_OF_KEY);
             
             com.sun.xml.wss.saml.Subject subj = null;
-            final List<Attribute> attrs = new ArrayList<Attribute>();
+            final List<Attribute> attrs = new ArrayList<>();
             final Set<Map.Entry<QName, List<String>>> entries = claimedAttrs.entrySet();
             for(Map.Entry<QName, List<String>> entry : entries){
-                final QName attrKey = (QName)entry.getKey();
-                final List<String> values = (List<String>)entry.getValue();
+                final QName attrKey = entry.getKey();
+                final List<String> values = entry.getValue();
                 if (values != null && values.size() > 0){
                     if (STSAttributeProvider.NAME_IDENTIFIER.equals(attrKey.getLocalPart()) && subj == null){
                         final NameIdentifier nameId = samlFac.createNameIdentifier(values.get(0), attrKey.getNamespaceURI(), null);
@@ -323,7 +320,7 @@ public class SBIssuedSamlTokenContractImpl extends IssueSamlTokenContract{
                 }
             }
             final AttributeStatement statement = samlFac.createAttributeStatement(attrs);
-            final List<AttributeStatement> statements = new ArrayList<AttributeStatement>();
+            final List<AttributeStatement> statements = new ArrayList<>();
             statements.add(statement);
             
             final NameID issuerID = samlFac.createNameID(issuer, null, null);
@@ -455,81 +452,71 @@ public class SBIssuedSamlTokenContractImpl extends IssueSamlTokenContract{
     }
     
     private SecurityHeaderElement createSignature(final PublicKey pubKey,final Key signingKey,final SAMLToken samlToken,final NamespaceContextEx nsContext)throws WSTrustException{
-        try{
-            final JAXBSignatureFactory signatureFactory = JAXBSignatureFactory.newInstance();
-            final C14NMethodParameterSpec spec = null;
-            final CanonicalizationMethod canonicalMethod =
-                    signatureFactory.newCanonicalizationMethod(CanonicalizationMethod.EXCLUSIVE,spec);
-            DigestMethod digestMethod;
-            digestMethod = signatureFactory.newDigestMethod(DigestMethod.SHA1, null);
-            SignatureMethod signatureMethod;
-            signatureMethod = signatureFactory.newSignatureMethod(SignatureMethod.RSA_SHA1, null);
-            
-            //Note : Signature algorithm parameters null for now , fix me.
-            
-            final ArrayList<Transform> transformList = new ArrayList<Transform>();
-            Transform tr1;
-            
-            tr1 = signatureFactory.newTransform(Transform.ENVELOPED, (TransformParameterSpec) null);
-            
-            Transform tr2;
-            
-            tr2 = signatureFactory.newTransform(CanonicalizationMethod.EXCLUSIVE, (TransformParameterSpec) null);
-            
-            transformList.add(tr1);
-            transformList.add(tr2);
-            
-            final String uri = "#" + "uuid-" + UUID.randomUUID().toString();
-            final Reference ref = signatureFactory.newReference(uri,digestMethod,transformList, null, null);
-            
-            // Create the SignedInfo
-            final SignedInfo signedInfo = signatureFactory.newSignedInfo(canonicalMethod,signatureMethod,Collections.singletonList(ref));
-            
-            KeyValue keyValue;
-            
-            //kv = kif.newKeyValue(pubKey);
-            if (pubKey instanceof java.security.interfaces.DSAPublicKey) {
-                DSAKeyValue dsa = null;
-                final DSAPublicKey key = (DSAPublicKey)pubKey;
-                
-                final byte[] paramP = key.getParams().getP().toByteArray();
-                final byte[] paramQ = key.getParams().getQ().toByteArray();
-                final byte[] paramG = key.getParams().getG().toByteArray();
-                final byte[] paramY = key.getY().toByteArray();
-                dsa = signatureFactory.newDSAKeyValue(paramP,paramQ,paramG,paramY,null,null,null);
-                keyValue = signatureFactory.newKeyValue(Collections.singletonList(dsa));
-                
-            } else if (pubKey instanceof java.security.interfaces.RSAPublicKey) {
-                RSAKeyValue rsa = null;
-                final RSAPublicKey key = (RSAPublicKey)pubKey;
-                rsa = signatureFactory.newRSAKeyValue(key.getModulus().toByteArray(),key.getPublicExponent().toByteArray());
-                keyValue = signatureFactory.newKeyValue(Collections.singletonList(rsa));
-            }else{
-                throw new WSTrustException("Unsupported PublicKey");
-            }
-            
-            // Create a KeyInfo and add the KeyValue to it
-            final javax.xml.crypto.dsig.keyinfo.KeyInfo keyInfo = signatureFactory.newKeyInfo(Collections.singletonList(keyValue));
-            final JAXBSignContext signContext = new JAXBSignContext(signingKey);
-            
-            final SSEData data = null;
-            signContext.setURIDereferencer(new DSigResolver(data));
-            final com.sun.xml.ws.security.opt.crypto.dsig.Signature signature = (Signature) signatureFactory.newXMLSignature(signedInfo,keyInfo);
-            final JAXBSignatureHeaderElement jhe =  new JAXBSignatureHeaderElement(signature,soapVersion,(XMLSignContext)signContext);
-            return new EnvelopedSignedMessageHeader(samlToken,(com.sun.xml.ws.security.opt.crypto.dsig.Reference) ref, jhe,nsContext);
+        final JAXBSignatureFactory signatureFactory = JAXBSignatureFactory.newInstance();
+        final C14NMethodParameterSpec spec = null;
+        final CanonicalizationMethod canonicalMethod =
+                signatureFactory.newCanonicalizationMethod(CanonicalizationMethod.EXCLUSIVE,spec);
+        DigestMethod digestMethod;
+        digestMethod = signatureFactory.newDigestMethod(DigestMethod.SHA1, null);
+        SignatureMethod signatureMethod;
+        signatureMethod = signatureFactory.newSignatureMethod(SignatureMethod.RSA_SHA1, null);
+
+        //Note : Signature algorithm parameters null for now , fix me.
+
+        final ArrayList<Transform> transformList = new ArrayList<>();
+        Transform tr1;
+
+        tr1 = signatureFactory.newTransform(Transform.ENVELOPED, (TransformParameterSpec) null);
+
+        Transform tr2;
+
+        tr2 = signatureFactory.newTransform(CanonicalizationMethod.EXCLUSIVE, (TransformParameterSpec) null);
+
+        transformList.add(tr1);
+        transformList.add(tr2);
+
+        final String uri = "#" + "uuid-" + UUID.randomUUID();
+        final Reference ref = signatureFactory.newReference(uri,digestMethod,transformList, null, null);
+
+        // Create the SignedInfo
+        final SignedInfo signedInfo = signatureFactory.newSignedInfo(canonicalMethod,signatureMethod,Collections.singletonList(ref));
+
+        KeyValue keyValue;
+
+        //kv = kif.newKeyValue(pubKey);
+        if (pubKey instanceof DSAPublicKey) {
+            DSAKeyValue dsa = null;
+            final DSAPublicKey key = (DSAPublicKey)pubKey;
+
+            final byte[] paramP = key.getParams().getP().toByteArray();
+            final byte[] paramQ = key.getParams().getQ().toByteArray();
+            final byte[] paramG = key.getParams().getG().toByteArray();
+            final byte[] paramY = key.getY().toByteArray();
+            dsa = signatureFactory.newDSAKeyValue(paramP,paramQ,paramG,paramY,null,null,null);
+            keyValue = signatureFactory.newKeyValue(Collections.singletonList(dsa));
+
+        } else if (pubKey instanceof RSAPublicKey) {
+            RSAKeyValue rsa = null;
+            final RSAPublicKey key = (RSAPublicKey)pubKey;
+            rsa = signatureFactory.newRSAKeyValue(key.getModulus().toByteArray(),key.getPublicExponent().toByteArray());
+            keyValue = signatureFactory.newKeyValue(Collections.singletonList(rsa));
+        }else{
+            throw new WSTrustException("Unsupported PublicKey");
+        }
+
+        // Create a KeyInfo and add the KeyValue to it
+        final javax.xml.crypto.dsig.keyinfo.KeyInfo keyInfo = signatureFactory.newKeyInfo(Collections.singletonList(keyValue));
+        final JAXBSignContext signContext = new JAXBSignContext(signingKey);
+
+        final SSEData data = null;
+        signContext.setURIDereferencer(new DSigResolver(data));
+        final Signature signature = (Signature) signatureFactory.newXMLSignature(signedInfo,keyInfo);
+        final JAXBSignatureHeaderElement jhe =  new JAXBSignatureHeaderElement(signature,soapVersion, signContext);
+        return new EnvelopedSignedMessageHeader(samlToken,(com.sun.xml.ws.security.opt.crypto.dsig.Reference) ref, jhe,nsContext);
 //        } catch (KeyException ex) {
 //            ex.printStackTrace();
 //            throw new WSTrustException("Unable to create sign SAML Assertion",ex);
 //        }
-        } catch (NoSuchAlgorithmException ex) {
-            log.log(Level.SEVERE,
-                    LogStringsMessages.WST_0035_UNABLE_CREATE_SIGN_SAML_ASSERTION(), ex);
-            throw new WSTrustException(LogStringsMessages.WST_0035_UNABLE_CREATE_SIGN_SAML_ASSERTION(),ex);
-        } catch (InvalidAlgorithmParameterException ex) {
-            log.log(Level.SEVERE,
-                    LogStringsMessages.WST_0035_UNABLE_CREATE_SIGN_SAML_ASSERTION(), ex);
-            throw new WSTrustException(LogStringsMessages.WST_0035_UNABLE_CREATE_SIGN_SAML_ASSERTION(),ex);
-        }
     }
     
     private static class DSigResolver implements URIDereferencer{
@@ -537,6 +524,7 @@ public class SBIssuedSamlTokenContractImpl extends IssueSamlTokenContract{
         DSigResolver(Data data){
             this.data = data;
         }
+        @Override
         public Data dereference(final URIReference uRIReference, final XMLCryptoContext xMLCryptoContext) throws URIReferenceException {
             return data;
         }

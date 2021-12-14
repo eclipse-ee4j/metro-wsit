@@ -42,6 +42,7 @@ public class JaxwsApplicationMessage extends ApplicationMessageBase {
             this.messageNumber = message.getMessageNumber();
         }
 
+        @Override
         public JaxwsApplicationMessage toMessage() {
             ByteArrayInputStream bais = new ByteArrayInputStream(data);
             return JaxwsApplicationMessage.newInstance(bais, nextResendCount, correlationId, wsaAction, sequenceId, messageNumber);                        
@@ -111,6 +112,7 @@ public class JaxwsApplicationMessage extends ApplicationMessageBase {
         return jaxwsMessage.getWsaAction();
     }
 
+    @Override
     public JaxwsApplicationMessageState getState() {
         return new JaxwsApplicationMessageState(this);
     }
@@ -127,13 +129,12 @@ public class JaxwsApplicationMessage extends ApplicationMessageBase {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder("JAX-WS Application Message { ");
-        sb.append("sequenceId=[ ").append(this.getSequenceId()).append(" ], ");
-        sb.append("messageNumber=[ ").append(this.getMessageNumber()).append(" ], ");
-        sb.append("correlationId=[ ").append(this.getCorrelationId()).append(" ], ");
-        sb.append("nextResendCount=[ ").append(this.getNextResendCount()).append(" ], ");
-        sb.append("wsaAction=[ ").append(this.jaxwsMessage.getWsaAction());
-        sb.append(" ] }");
-        return sb.toString();
+        String sb = "JAX-WS Application Message { " + "sequenceId=[ " + this.getSequenceId() + " ], " +
+                "messageNumber=[ " + this.getMessageNumber() + " ], " +
+                "correlationId=[ " + this.getCorrelationId() + " ], " +
+                "nextResendCount=[ " + this.getNextResendCount() + " ], " +
+                "wsaAction=[ " + this.jaxwsMessage.getWsaAction() +
+                " ] }";
+        return sb;
     }
 }

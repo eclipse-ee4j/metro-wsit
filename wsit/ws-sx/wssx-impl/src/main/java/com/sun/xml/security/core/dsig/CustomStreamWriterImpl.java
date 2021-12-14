@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -46,10 +46,12 @@ public class CustomStreamWriterImpl extends XMLStreamWriterFilter implements XML
         this.sw = (XMLStreamWriterEx) sw;
     }
 
+    @Override
     public void writeBinary(byte[] arg0, int arg1, int arg2, String arg3) throws XMLStreamException {
         sw.writeBinary(arg0, arg1, arg2, arg3);
     }
 
+    @Override
     public void writeBinary(DataHandler dh) throws XMLStreamException {
         int len =0;
         byte[] data = null;
@@ -73,18 +75,22 @@ public class CustomStreamWriterImpl extends XMLStreamWriterFilter implements XML
         }
     }
 
+    @Override
     public OutputStream writeBinary(String arg0) throws XMLStreamException {
         return sw.writeBinary(arg0);
     }
 
+    @Override
     public void writePCDATA(CharSequence data) throws XMLStreamException {
         sw.writePCDATA(data);
     }
 
+    @Override
     public NamespaceContextEx getNamespaceContext() {
-        return (NamespaceContextEx) sw.getNamespaceContext();
+        return sw.getNamespaceContext();
     }
 
+    @Override
     public AttachmentMarshaller getAttachmentMarshaller() {
         throw new UnsupportedOperationException("Not supported yet.");
     }

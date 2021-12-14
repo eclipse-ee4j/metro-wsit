@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -40,6 +40,7 @@ public class KeyIdentifierCertSelector implements CertSelector {
         this.keyId = keyIdValue;
     }
 
+    @Override
     public boolean match(Certificate cert) {
         if (cert instanceof X509Certificate) {
             byte[] keyIdtoMatch = null;
@@ -56,6 +57,7 @@ public class KeyIdentifierCertSelector implements CertSelector {
         return false;
     }
     
+    @Override
     public Object clone() {
         return new KeyIdentifierCertSelector(this.keyId);
     }

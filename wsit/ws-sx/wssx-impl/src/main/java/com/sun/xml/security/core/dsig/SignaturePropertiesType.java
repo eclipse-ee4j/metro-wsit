@@ -89,7 +89,7 @@ public class SignaturePropertiesType {
      */
     public List<SignaturePropertyType> getSignatureProperty() {
         if (signatureProperty == null) {
-            signatureProperty = new ArrayList<SignaturePropertyType>();
+            signatureProperty = new ArrayList<>();
         }
         return this.signatureProperty;
     }

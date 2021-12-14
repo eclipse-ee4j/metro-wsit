@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -43,7 +43,7 @@ public class DelegateToImpl extends DelegateToType implements DelegateTo {
         setTargetType(WSTrustConstants.TOKEN_TYPE);
     }
     
-    public DelegateToImpl (DelegateToType ctType)throws Exception{
+    public DelegateToImpl (DelegateToType ctType) {
         JAXBElement obj = (JAXBElement)ctType.getAny();
         String local = obj.getName().getLocalPart();
         if ("SecurityTokenReference".equals(local)) {
@@ -56,14 +56,17 @@ public class DelegateToImpl extends DelegateToType implements DelegateTo {
         } 
     }
     
+    @Override
     public String getTargetType() {
         return targetType;
     }
     
+    @Override
     public void setTargetType(String ttype) {
         targetType = ttype;
     }
     
+    @Override
     public void setSecurityTokenReference(SecurityTokenReference ref) {
         if (ref != null) {
             str = ref;
@@ -75,10 +78,12 @@ public class DelegateToImpl extends DelegateToType implements DelegateTo {
         token = null;
     }
     
+    @Override
     public SecurityTokenReference getSecurityTokenReference() {
         return str;
     }
     
+    @Override
     public void setToken(Token token) {
         if (token != null) {
             this.token = token;
@@ -88,6 +93,7 @@ public class DelegateToImpl extends DelegateToType implements DelegateTo {
         str = null;
     }
     
+    @Override
     public Token getToken() {
         return token;
     }

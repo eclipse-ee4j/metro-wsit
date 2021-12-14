@@ -65,11 +65,8 @@ public class DSigResolver implements URIDereferencer {
 
     /**
      * resolve the URI of type "cid:" , "attachmentRef:", "http:", "#xyz".
-     * @param uriRef
-     * @param context
-     * @throws URIReferenceException
-     * @return
      */
+    @Override
     public Data dereference(final URIReference uriRef, final XMLCryptoContext context) throws URIReferenceException {
         String uri = null;
         uri = uriRef.getURI();
@@ -84,7 +81,6 @@ public class DSigResolver implements URIDereferencer {
      * @param url String
      * @param context XMLCryptoContext
      * @return Data
-     * @throws URIReferenceException
      */
     private Data dereferenceURI(final String url, final XMLCryptoContext context) throws URIReferenceException {
         try {
@@ -120,7 +116,6 @@ public class DSigResolver implements URIDereferencer {
      * @param uri String
      * @param context XMLCryptoContext
      * @return  Data
-     * @throws URIReferenceException
      */
     Data dereferenceAttachments(final String uri, final XMLCryptoContext context) throws URIReferenceException {
         JAXBFilterProcessingContext filterContext = (JAXBFilterProcessingContext) context.get(MessageConstants.WSS_PROCESSING_CONTEXT);
@@ -138,7 +133,6 @@ public class DSigResolver implements URIDereferencer {
      * @param uri String
      * @param context XMLCryptoContext
      * @return Data
-     * @throws XWSSecurityException
      */
     Data dereferenceFragment(final String uri, final XMLCryptoContext context) throws XWSSecurityException {
         JAXBFilterProcessingContext filterContext = (JAXBFilterProcessingContext) context.get(MessageConstants.WSS_PROCESSING_CONTEXT);
@@ -158,8 +152,6 @@ public class DSigResolver implements URIDereferencer {
             return getDataById(filterContext, uri);
         } catch (JAXBException jbe) {
             throw new XWSSecurityException(jbe);
-        } catch (XMLStreamException sxe) {
-            throw new XWSSecurityException(sxe);
         }
     }
 
@@ -176,12 +168,9 @@ public class DSigResolver implements URIDereferencer {
      * @param context JAXBFilterProcessingContext
      * @param uri String
      * @return Data
-     * @throws JAXBException
-     * @throws XMLStreamException
-     * @throws XWSSecurityException
      */
     private Data getDataById(final JAXBFilterProcessingContext context,
-            final String uri) throws JAXBException, XMLStreamException,
+            final String uri) throws
             XWSSecurityException {
         SecuredMessage secMessage = context.getSecuredMessage();
         ArrayList headerList = secMessage.getHeaders();

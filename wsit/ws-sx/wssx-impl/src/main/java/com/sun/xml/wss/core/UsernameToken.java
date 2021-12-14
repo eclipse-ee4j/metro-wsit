@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -15,7 +15,7 @@
 package com.sun.xml.wss.core;
 
 
-import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -161,7 +161,6 @@ implements SecurityToken, Token {
     /**
      * Extracts info from SOAPElement representation
      *
-     * @param usernameTokenSoapElement
      */
     public UsernameToken(SOAPElement usernameTokenSoapElement) throws XWSSecurityException {
         
@@ -334,7 +333,7 @@ implements SecurityToken, Token {
     /**
      * @return Returns the encoded nonce. Null indicates no nonce was set.
      */
-    public String getNonce() throws SecurityTokenException {
+    public String getNonce() {
         return nonce;
     }
     
@@ -351,7 +350,6 @@ implements SecurityToken, Token {
     
     /**
      * Sets the password.
-     * @param passwd
      */    
     public void setPassword(String passwd){
         this.password = passwd;
@@ -359,7 +357,6 @@ implements SecurityToken, Token {
     
     /**
      * set the nonce value.If nonce value is null then it will create one.
-     * @param nonceValue
      */    
     public void setNonce(String nonceValue){
         if(nonceValue == null || MessageConstants.EMPTY_STRING.equals(nonceValue)){
@@ -384,6 +381,7 @@ implements SecurityToken, Token {
         setPasswordType(MessageConstants.PASSWORD_DIGEST_NS);
     }
     
+    @Override
     public SOAPElement getAsSoapElement() throws SecurityTokenException {
         
         if (null != delegateElement)
@@ -496,13 +494,8 @@ implements SecurityToken, Token {
         }
         
         byte[] utf8Bytes;
-        try {
-            utf8Bytes = utf8String.getBytes("utf-8");
-        } catch (UnsupportedEncodingException uee) {
-            log.log(Level.SEVERE, "WSS0390.unsupported.charset.exception");
-            throw new SecurityTokenException(uee);
-        }
-        
+        utf8Bytes = utf8String.getBytes(StandardCharsets.UTF_8);
+
         byte[] bytesToHash;
         if (decodedNonce != null) {
             bytesToHash = new byte[utf8Bytes.length + 18];
@@ -533,18 +526,22 @@ implements SecurityToken, Token {
         return ts.getCreated();
     }
     
+    @Override
     public void isBSP(boolean flag) {
         bsp = flag;
     }
 
+    @Override
     public boolean isBSP() {
         return bsp;
     }
 
+    @Override
     public String getType() {
         return MessageConstants.USERNAME_TOKEN_NS;
     }
 
+    @Override
     public Object getTokenValue() {
         log.log(Level.SEVERE, "WSS0281.unsupported.operation");
         throw new UnsupportedOperationException("Not yet implemented");

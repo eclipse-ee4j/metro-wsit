@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -79,12 +79,10 @@ public final class RegStoreFileParser {
                     }
                 }
             }
-        } catch (IOException ioe) {
+        } catch (IOException | IllegalArgumentException ioe) {
             logWarningDefault(ioe);
-        } catch (IllegalArgumentException iae) {
-            logWarningDefault(iae);
         }
-        
+
         // file not parsed
         if (entries == null) {
             entries = JMACAuthConfigFactory.getDefaultProviders();
@@ -319,7 +317,7 @@ public final class RegStoreFileParser {
      * entries are stored or deleted.
      */
     private void loadEntries() throws IOException {
-        entries = new ArrayList<EntryInfo>();
+        entries = new ArrayList<>();
         BufferedReader reader = new BufferedReader(new FileReader(confFile));
         String line = reader.readLine();
         while (line != null) {
@@ -354,7 +352,7 @@ public final class RegStoreFileParser {
         if (line != null && line.equals("}")) {
             return null;
         }
-        Map<String, String> properties = new HashMap<String, String>();
+        Map<String, String> properties = new HashMap<>();
         while (line != null && !line.equals("}")) {
             properties.put(line.substring(0, line.indexOf(SEP)),
                 line.substring(line.indexOf(SEP) + 1, line.length()));
@@ -367,7 +365,7 @@ public final class RegStoreFileParser {
         String className = null;
         Map<String, String> properties = null;
         List<RegistrationContext> ctxs =
-            new ArrayList<RegistrationContext>();
+                new ArrayList<>();
         String nextLine = reader.readLine();
         String line = (nextLine != null)? nextLine.trim():null;
         while (line != null && !line.equals("}")) {

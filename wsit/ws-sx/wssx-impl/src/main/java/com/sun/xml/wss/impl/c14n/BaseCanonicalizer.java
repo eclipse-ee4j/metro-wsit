@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  * Copyright 1995-2005 The Apache Software Foundation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -382,8 +382,7 @@ public abstract class BaseCanonicalizer {
             }
             out.write(write);
             out.write(0x80 | ((c) & 0x3F));
-            continue;
-            
+
         }
         
     }
@@ -392,9 +391,7 @@ public abstract class BaseCanonicalizer {
     /**
      * Outputs a PI to the internal Writer.
      *
-     * @param currentPI
      * @param writer where to write the things
-     * @throws IOException
      */
     
     static final void outputPItoWriter(String target, String data,OutputStream writer) throws IOException {
@@ -442,9 +439,7 @@ public abstract class BaseCanonicalizer {
     /**
      * Method outputCommentToWriter
      *
-     * @param currentComment
      * @param writer writer where to write the things
-     * @throws IOException
      */
     
     static final void outputCommentToWriter(String data, OutputStream writer) throws IOException {
@@ -531,7 +526,6 @@ public abstract class BaseCanonicalizer {
     /**
      * Method namespaceIsRelative
      *
-     * @param namespaceValue
      * @return true if the given namespace is relative.
      */
     public static boolean namespaceIsRelative(String namespaceValue) {
@@ -543,7 +537,6 @@ public abstract class BaseCanonicalizer {
     /**
      * Method namespaceIsAbsolute
      *
-     * @param namespaceValue
      * @return true if the given namespace is absolute.
      */
     public static boolean namespaceIsAbsolute(String namespaceValue) {
@@ -624,26 +617,14 @@ public abstract class BaseCanonicalizer {
             nsDecl.setUri(uri);
             if(nsDecls == null){
                 nsDecls = new Stack();
-                try {
-                    nsDecls.add(nsDecl.clone());
-                    prefixMappings.put(prefix,nsDecls);
-                } catch (CloneNotSupportedException ex) {
-                    throw new RuntimeException(ex);
-                }
+                nsDecls.add(nsDecl.clone());
+                prefixMappings.put(prefix,nsDecls);
             }else if(!nsDecls.contains(nsDecl)){
-                try {
-                    nsDecls.add(nsDecl.clone());
-                } catch (CloneNotSupportedException ex) {
-                    throw new RuntimeException(ex);
-                }
+                nsDecls.add(nsDecl.clone());
             } else if (nsDecls.contains(nsDecl) && "".equals(prefix)) {
                 AttributeNS top = (AttributeNS)nsDecls.peek();
                 if (!nsDecl.equals(top)) {
-                    try {
-                        nsDecls.add(nsDecl.clone());
-                    } catch (CloneNotSupportedException ex) {
-                        throw new RuntimeException(ex);
-                    }
+                    nsDecls.add(nsDecl.clone());
                 }
             }else{
                 return;
@@ -729,6 +710,7 @@ public abstract class BaseCanonicalizer {
             }
         }
         
+        @Override
         public String getNamespaceURI(String prefix) {
             Stack stack = (Stack)prefixMappings.get(prefix);
             if(stack == null || stack.empty() ){
@@ -738,6 +720,7 @@ public abstract class BaseCanonicalizer {
             return attrNS.getUri();
         }
 
+        @Override
         @SuppressWarnings("unchecked")
         public String getPrefix(String namespaceURI) {
             Set<String> keys = prefixMappings.keySet();
@@ -757,6 +740,7 @@ public abstract class BaseCanonicalizer {
             return null;
         }
 
+        @Override
         @SuppressWarnings("unchecked")
         public Iterator getPrefixes(String namespaceURI) {
             Set<String> keys = prefixMappings.keySet();

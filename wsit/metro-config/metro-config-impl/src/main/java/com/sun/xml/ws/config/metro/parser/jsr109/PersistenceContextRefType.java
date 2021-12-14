@@ -155,7 +155,7 @@ public class PersistenceContextRefType
      */
     public List<DescriptionType> getDescription() {
         if (description == null) {
-            description = new ArrayList<DescriptionType>();
+            description = new ArrayList<>();
         }
         return this.description;
     }
@@ -256,7 +256,7 @@ public class PersistenceContextRefType
      */
     public List<PropertyType> getPersistenceProperty() {
         if (persistenceProperty == null) {
-            persistenceProperty = new ArrayList<PropertyType>();
+            persistenceProperty = new ArrayList<>();
         }
         return this.persistenceProperty;
     }
@@ -309,7 +309,7 @@ public class PersistenceContextRefType
      */
     public List<InjectionTargetType> getInjectionTarget() {
         if (injectionTarget == null) {
-            injectionTarget = new ArrayList<InjectionTargetType>();
+            injectionTarget = new ArrayList<>();
         }
         return this.injectionTarget;
     }
@@ -338,6 +338,7 @@ public class PersistenceContextRefType
         this.id = value;
     }
 
+    @Override
     public Locator sourceLocation() {
         return locator;
     }

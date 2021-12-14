@@ -27,7 +27,7 @@ import javax.xml.namespace.QName;
  */
 
 public interface STSAttributeProvider {
-    public static final String NAME_IDENTIFIER = "NameID";
+    String NAME_IDENTIFIER = "NameID";
     
     /**
      * Returns the map of claimed attributes of the requestor apply to the targeted service.

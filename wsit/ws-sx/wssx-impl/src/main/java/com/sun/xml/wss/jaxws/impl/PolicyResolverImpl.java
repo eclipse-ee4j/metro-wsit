@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -88,6 +88,7 @@ public class PolicyResolverImpl implements PolicyResolver {
         this.mcVer = mcVer;
     }
 
+    @Override
     public SecurityPolicy resolvePolicy(ProcessingContext ctx) {
         Message msg = null;
         SOAPMessage soapMsg = null;
@@ -162,7 +163,7 @@ public class PolicyResolverImpl implements PolicyResolver {
         }
         List<PolicyAssertion> policies = sph.getSecureConversationTokens();
         if (!policies.isEmpty()) {
-            return (PolicyAssertion) policies.get(0);
+            return policies.get(0);
         }
         return null;
     }
@@ -181,11 +182,11 @@ public class PolicyResolverImpl implements PolicyResolver {
             }
         }
 
-        SecurityPolicyHolder sph = (SecurityPolicyHolder) inMessagePolicyMap.get(operation);
+        SecurityPolicyHolder sph = inMessagePolicyMap.get(operation);
         //TODO: pass isTrustMessage Flag to this method later
         if (sph == null && (isTrustMessage() || isSCMessage)) {
             operation = getWSDLOpFromAction();
-            sph = (SecurityPolicyHolder) inMessagePolicyMap.get(operation);
+            sph = inMessagePolicyMap.get(operation);
         }
         if (sph == null) {
             return null;

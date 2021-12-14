@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -31,6 +31,7 @@ public class KeyName implements javax.xml.crypto.dsig.keyinfo.KeyName {
     public KeyName() {
     }
 
+    @Override
     public String getName() {
         return keyName;
     }
@@ -39,6 +40,7 @@ public class KeyName implements javax.xml.crypto.dsig.keyinfo.KeyName {
         this.keyName = keyName;
     }
 
+    @Override
     public boolean isFeatureSupported(String string) {
         return false;
     }

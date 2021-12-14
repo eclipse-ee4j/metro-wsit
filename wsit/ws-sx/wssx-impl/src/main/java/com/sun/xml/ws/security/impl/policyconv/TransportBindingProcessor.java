@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -11,7 +11,6 @@
 package com.sun.xml.ws.security.impl.policyconv;
 
 import com.sun.xml.ws.policy.PolicyException;
-import com.sun.xml.ws.security.impl.policy.AsymmetricBinding;
 import com.sun.xml.ws.security.policy.Binding;
 import com.sun.xml.ws.security.policy.EndorsingSupportingTokens;
 import com.sun.xml.ws.security.policy.SignedElements;
@@ -61,6 +60,7 @@ public class TransportBindingProcessor extends BindingProcessor {
         }
     }
     
+    @Override
     public void processSupportingTokens(SupportingTokens tokens) throws PolicyException{
         Iterator itr = tokens.getTokens();
         while(itr.hasNext()){
@@ -77,6 +77,7 @@ public class TransportBindingProcessor extends BindingProcessor {
         }
     }
     
+    @Override
     public void processSupportingTokens(SignedSupportingTokens sst) throws PolicyException{
         Iterator itr = sst.getTokens();
         while(itr.hasNext()){
@@ -93,6 +94,7 @@ public class TransportBindingProcessor extends BindingProcessor {
         }
     }
     
+    @Override
     public void processSupportingTokens(EndorsingSupportingTokens est) throws PolicyException{
         Iterator itr = est.getTokens();        
         if(est.getSignedElements().hasNext() || est.getSignedParts().hasNext()){
@@ -136,6 +138,7 @@ public class TransportBindingProcessor extends BindingProcessor {
         }                
     }
     
+    @Override
     public void processSupportingTokens(SignedEndorsingSupportingTokens set) throws PolicyException{
         Iterator itr = set.getTokens();
         while(itr.hasNext()){
@@ -161,6 +164,7 @@ public class TransportBindingProcessor extends BindingProcessor {
         }
     }
     
+    @Override
     public void processSupportingTokens(SignedEncryptedSupportingTokens sest) throws PolicyException{
         Iterator itr = sest.getTokens();
         while(itr.hasNext()){
@@ -177,14 +181,17 @@ public class TransportBindingProcessor extends BindingProcessor {
         }
     }        
     
+    @Override
     protected EncryptionPolicy getSecondaryEncryptionPolicy() throws PolicyException {
         throw new UnsupportedOperationException();
     }
     
+    @Override
     protected Binding getBinding() {
         return binding;
     }        
     
+    @Override
     protected void close(){
       
     }         

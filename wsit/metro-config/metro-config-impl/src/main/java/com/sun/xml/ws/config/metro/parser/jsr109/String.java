@@ -150,6 +150,7 @@ public class String
         this.id = value;
     }
 
+    @Override
     public Locator sourceLocation() {
         return locator;
     }

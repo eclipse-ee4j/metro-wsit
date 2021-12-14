@@ -23,9 +23,10 @@ import java.util.Collection;
 import javax.xml.namespace.QName;
 
 /**
+ * <pre>{@code
  * <metro:MaxConcurrentSessions>...</metro:MaxConcurrentSessions>
- */
-/**
+ * }</pre>
+ *
  * Specifies how many concurrently active RM sessions (measured based on inbound
  * RM sequences) the SequenceManager dedicated to the WS Endpoint accepts before
  * starting to refuse new requests for sequence creation.
@@ -35,6 +36,7 @@ public class MaxConcurrentSessionsAssertion extends SimpleAssertion implements R
     public static final QName NAME = RmAssertionNamespace.METRO_200702.getQName("MaxConcurrentSessions");
 
     private static AssertionInstantiator instantiator = new AssertionInstantiator() {
+        @Override
         public PolicyAssertion newInstance(AssertionData data, Collection<PolicyAssertion> assertionParameters, AssertionSet nestedAlternative) {
             return new MaxConcurrentSessionsAssertion(data, assertionParameters);
         }
@@ -56,10 +58,12 @@ public class MaxConcurrentSessionsAssertion extends SimpleAssertion implements R
         return longValue;
     }
 
+    @Override
     public ReliableMessagingFeatureBuilder update(ReliableMessagingFeatureBuilder builder) {
         return builder.maxConcurrentSessions(longValue);
     }
 
+    @Override
     public boolean isCompatibleWith(RmProtocolVersion version) {
         return RmProtocolVersion.WSRM200702 == version;
     }

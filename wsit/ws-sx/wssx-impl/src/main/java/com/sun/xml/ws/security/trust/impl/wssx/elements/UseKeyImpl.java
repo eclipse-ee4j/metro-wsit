@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -17,7 +17,6 @@ package com.sun.xml.ws.security.trust.impl.wssx.elements;
 import java.net.URI;
 
 import com.sun.xml.ws.security.trust.elements.str.SecurityTokenReference;
-import com.sun.xml.ws.security.trust.impl.elements.str.SecurityTokenReferenceImpl;
 import com.sun.xml.ws.security.secext10.SecurityTokenReferenceType;
 import com.sun.xml.ws.security.Token;
 import com.sun.xml.ws.security.trust.GenericToken;
@@ -47,7 +46,7 @@ public class UseKeyImpl extends UseKeyType implements UseKey {
         setTargetType(WSTrustConstants.STR_TYPE);
     }
     
-    public UseKeyImpl (UseKeyType ukType)throws Exception{
+    public UseKeyImpl (UseKeyType ukType) {
         Object obj = ukType.getAny();
         if (obj instanceof JAXBElement){
            token = new GenericToken((JAXBElement)obj);
@@ -79,6 +78,7 @@ public class UseKeyImpl extends UseKeyType implements UseKey {
         return str;
     }
     
+    @Override
     public void setToken(Token token) {
         if (token != null) {
             this.token = token;
@@ -88,14 +88,17 @@ public class UseKeyImpl extends UseKeyType implements UseKey {
         str = null;
     }
     
+    @Override
     public Token getToken() {
         return token;
     }
     
+    @Override
     public void setSignatureID(URI sigID) {
         setSig(sigID.toString());
     }
     
+    @Override
     public URI getSignatureID() {
         try {
             return new URI(getSig());

@@ -133,6 +133,7 @@ public class AuthenticationStatement extends AuthenticationStatementType
         setAuthorityBinding(authStmtType.getAuthorityBinding());
     }
     
+    @Override
     public Date getAuthenticationInstantDate(){
         if(instantDate != null){
             return instantDate;
@@ -153,9 +154,10 @@ public class AuthenticationStatement extends AuthenticationStatementType
         return super.getAuthenticationMethod();
     }
     
+    @Override
     public List<AuthorityBinding> getAuthorityBindingList(){
         if(authorityBindingList != null){
-            authorityBindingList = new ArrayList<AuthorityBinding>();
+            authorityBindingList = new ArrayList<>();
         }else{
             return authorityBindingList;
         }
@@ -168,6 +170,7 @@ public class AuthenticationStatement extends AuthenticationStatementType
         return authorityBindingList;
     }        
 
+    @Override
     public String getSubjectLocalityIPAddress() {
         if(super.getSubjectLocality() != null){
             return super.getSubjectLocality().getIPAddress();
@@ -175,6 +178,7 @@ public class AuthenticationStatement extends AuthenticationStatementType
         return null;
     }
 
+    @Override
     public String getSubjectLocalityDNSAddress() {
         if(super.getSubjectLocality() != null){
             return super.getSubjectLocality().getDNSAddress();
@@ -182,6 +186,7 @@ public class AuthenticationStatement extends AuthenticationStatementType
         return null;
     }
 
+    @Override
     public Subject getSubject() {
         return (Subject)super.getSubject();
     }

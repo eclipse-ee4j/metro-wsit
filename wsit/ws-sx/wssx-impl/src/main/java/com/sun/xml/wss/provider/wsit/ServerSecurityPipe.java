@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -69,9 +69,10 @@ public class ServerSecurityPipe extends AbstractFilterPipeImpl {
     /**
      * This method is called once in server side and at most one in client side.
      */
-    public void preDestroy() {
+    @Override
+	public void preDestroy() {
 	helper.disable();
-        /**
+        /*
          Fix for bug 3932/4052
          */
         next.preDestroy(); 
@@ -80,11 +81,13 @@ public class ServerSecurityPipe extends AbstractFilterPipeImpl {
     /**
      * This is used in creating subsequent pipes.
      */
-    public Pipe copy(PipeCloner cloner) {
+    @Override
+	public Pipe copy(PipeCloner cloner) {
         return new ServerSecurityPipe(this, cloner);
     }
     
-    public Packet process(Packet request) {
+    @Override
+	public Packet process(Packet request) {
 
         if (isHttpBinding) {
             return next.process(request);
@@ -176,7 +179,8 @@ public class ServerSecurityPipe extends AbstractFilterPipeImpl {
 		    try {
 			response = (Packet)Subject.doAsPrivileged
 			    (clientSubject,new PrivilegedExceptionAction() {
-				public Object run() throws Exception {
+				@Override
+				public Object run() {
 				    // proceed to invoke the endpoint
 				    return next.process(validatedRequest);
 				}
@@ -226,7 +230,7 @@ public class ServerSecurityPipe extends AbstractFilterPipeImpl {
     // called when secureResponse is to be called 
     private Packet processResponse(PacketMessageInfo info,
 				   ServerAuthContext sAC,
-				   Subject serverSubject) throws Exception {
+				   Subject serverSubject) {
         
         AuthStatus status;
 

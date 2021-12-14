@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -67,7 +67,7 @@ public class SignedElements extends PolicyAssertion implements com.sun.xml.ws.se
     
     public void addTarget(String target) {
         if ( targetList == null ) {
-            targetList = new ArrayList<String>();
+            targetList = new ArrayList<>();
         }
         targetList.add(target);
     }
@@ -78,6 +78,7 @@ public class SignedElements extends PolicyAssertion implements com.sun.xml.ws.se
         }
     }
     
+    @Override
     public Iterator<String> getTargets() {
         populate();
         if ( targetList != null ) {
@@ -86,6 +87,7 @@ public class SignedElements extends PolicyAssertion implements com.sun.xml.ws.se
         return emptyList.iterator();
     }
     
+    @Override
     public AssertionFitness validate(boolean isServer) {
         return populate(isServer);
     }
@@ -101,7 +103,7 @@ public class SignedElements extends PolicyAssertion implements com.sun.xml.ws.se
                 
                 Iterator <PolicyAssertion> it = this.getNestedAssertionsIterator();
                 while( it.hasNext() ) {
-                    PolicyAssertion assertion = (PolicyAssertion) it.next();
+                    PolicyAssertion assertion = it.next();
                     if ( PolicyUtil.isXPath(assertion, spVersion)) {
                         addTarget(assertion.getValue());
                     }else{

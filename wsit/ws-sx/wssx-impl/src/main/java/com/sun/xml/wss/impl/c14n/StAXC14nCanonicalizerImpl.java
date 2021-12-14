@@ -63,20 +63,22 @@ public class StAXC14nCanonicalizerImpl extends BaseCanonicalizer implements XMLS
     }
     /**
      * This method has not effect when called.
-     * 
-     * @throws XMLStreamException
+     *
      */
-    public void close() throws XMLStreamException {
+    @Override
+    public void close() {
         //no-op
     }
     
     
-    public void flush() throws XMLStreamException {
+    @Override
+    public void flush() {
         //no-op
     }
     
     
     
+    @Override
     public javax.xml.namespace.NamespaceContext getNamespaceContext() {
         return namespaceContext;
     }
@@ -85,51 +87,56 @@ public class StAXC14nCanonicalizerImpl extends BaseCanonicalizer implements XMLS
         return nsContext;
     }
     
-    public String getPrefix(String namespaceURI) throws XMLStreamException {
+    @Override
+    public String getPrefix(String namespaceURI) {
         return nsContext.getPrefix(namespaceURI);
     }
     
     
+    @Override
     public Object getProperty(String str) throws IllegalArgumentException {
         //throw new UnsupportedOperationException();
         return null;
     }
     
     
-    public void setDefaultNamespace(String str) throws XMLStreamException {
+    @Override
+    public void setDefaultNamespace(String str) {
         nsContext.declarePrefix("",str);
     }
     
     
-    public void setNamespaceContext(javax.xml.namespace.NamespaceContext namespaceContext) throws XMLStreamException {
+    @Override
+    public void setNamespaceContext(javax.xml.namespace.NamespaceContext namespaceContext) {
         this.namespaceContext = namespaceContext;
     }
     
     
-    public void setPrefix(String str, String str1) throws XMLStreamException {
+    @Override
+    public void setPrefix(String str, String str1) {
         nsContext.declarePrefix(str,str1);
     }
     
     /**
      * Creates a DOM Atrribute @see org.w3c.dom.Node and associates it with the current DOM element @see org.w3c.dom.Node.
-     * 
-     * @param localName
-     * @param value
-     * @throws XMLStreamException
+     *
      */
+    @Override
     public void writeAttribute(String localName, String value) throws XMLStreamException {
         writeAttribute("","",localName,value);
     }
     
     
-    public void writeAttribute(String namespaceURI,String localName,String value)throws XMLStreamException {
+    @Override
+    public void writeAttribute(String namespaceURI, String localName, String value)throws XMLStreamException {
         String prefix = "";
         prefix = nsContext.getPrefix(namespaceURI);
         writeAttribute(prefix,"",localName,value);
     }
     
+    @Override
     @SuppressWarnings("unchecked")
-    public void writeAttribute(String prefix,String namespaceURI,String localName,String value)throws XMLStreamException {
+    public void writeAttribute(String prefix,String namespaceURI,String localName,String value) {
         StAXAttr attr = getAttribute();
         attr.setLocalName(localName);
         attr.setValue(value);
@@ -139,6 +146,7 @@ public class StAXC14nCanonicalizerImpl extends BaseCanonicalizer implements XMLS
     }
     
     
+    @Override
     public void writeCData(String data) throws XMLStreamException {
         try {
             closeStartTag();
@@ -149,6 +157,7 @@ public class StAXC14nCanonicalizerImpl extends BaseCanonicalizer implements XMLS
     }
     
     
+    @Override
     public void writeCharacters(String charData) throws XMLStreamException {
         try {
             closeStartTag();
@@ -159,6 +168,7 @@ public class StAXC14nCanonicalizerImpl extends BaseCanonicalizer implements XMLS
     }
     
     
+    @Override
     public void writeCharacters(char[] values, int param, int param2) throws XMLStreamException {
         try {
             closeStartTag();
@@ -169,16 +179,19 @@ public class StAXC14nCanonicalizerImpl extends BaseCanonicalizer implements XMLS
     }
     
     
-    public void writeComment(String str) throws XMLStreamException {
+    @Override
+    public void writeComment(String str) {
         
     }
     
     
-    public void writeDTD(String str) throws XMLStreamException {
+    @Override
+    public void writeDTD(String str) {
         throw new UnsupportedOperationException();
     }
     
     
+    @Override
     public void writeDefaultNamespace(String namespaceURI) throws XMLStreamException {
         _defURI = namespaceURI;
         writeNamespace("",namespaceURI);
@@ -186,10 +199,12 @@ public class StAXC14nCanonicalizerImpl extends BaseCanonicalizer implements XMLS
     }
     
     
+    @Override
     public void writeEmptyElement(String localName) throws XMLStreamException {
         writeEmptyElement("",localName,"");
     }
     
+    @Override
     public void writeEmptyElement(String namespaceURI, String localName) throws XMLStreamException {
         
         String prefix = nsContext.getPrefix(namespaceURI);
@@ -197,6 +212,7 @@ public class StAXC14nCanonicalizerImpl extends BaseCanonicalizer implements XMLS
     }
     
     
+    @Override
     public void writeEmptyElement(String prefix, String localName, String namespaceURI) throws XMLStreamException {
         closeStartTag();
         
@@ -230,6 +246,7 @@ public class StAXC14nCanonicalizerImpl extends BaseCanonicalizer implements XMLS
     }
     
     
+    @Override
     public void writeEndDocument() throws XMLStreamException {
         while(_depth > 0){
             writeEndElement();
@@ -237,6 +254,7 @@ public class StAXC14nCanonicalizerImpl extends BaseCanonicalizer implements XMLS
     }
     
     
+    @Override
     public void writeEndElement() throws XMLStreamException {
         //ElementName qname =  elementNames[--_depth];
         closeStartTag();
@@ -259,12 +277,14 @@ public class StAXC14nCanonicalizerImpl extends BaseCanonicalizer implements XMLS
     }
     
     
-    public void writeEntityRef(String str) throws XMLStreamException {
+    @Override
+    public void writeEntityRef(String str) {
         throw new UnsupportedOperationException();
     }
     
+    @Override
     @SuppressWarnings("unchecked")
-    public void writeNamespace(String prefix, String namespaceURI) throws XMLStreamException {
+    public void writeNamespace(String prefix, String namespaceURI) {
         String duri = nsContext.getURI(prefix);
         boolean add= false;
         if(duri == null || !duri.equals(namespaceURI)){
@@ -284,7 +304,8 @@ public class StAXC14nCanonicalizerImpl extends BaseCanonicalizer implements XMLS
     }
     
     
-    public void writeProcessingInstruction(String target) throws XMLStreamException {
+    @Override
+    public void writeProcessingInstruction(String target) {
         try {
             outputPItoWriter(target,"",_stream);
         } catch (IOException ex) {
@@ -293,7 +314,8 @@ public class StAXC14nCanonicalizerImpl extends BaseCanonicalizer implements XMLS
     }
     
     
-    public void writeProcessingInstruction(String target, String data) throws XMLStreamException {
+    @Override
+    public void writeProcessingInstruction(String target, String data) {
         try {
             outputPItoWriter(target,data,_stream);
         } catch (IOException ex) {
@@ -301,28 +323,34 @@ public class StAXC14nCanonicalizerImpl extends BaseCanonicalizer implements XMLS
         }
     }
     
-    public void writeStartDocument() throws XMLStreamException {
+    @Override
+    public void writeStartDocument() {
     }
     
     
-    public void writeStartDocument(String version) throws XMLStreamException {
+    @Override
+    public void writeStartDocument(String version) {
     }
     
     
-    public void writeStartDocument(String encoding, String version) throws XMLStreamException {
+    @Override
+    public void writeStartDocument(String encoding, String version) {
     }
     
     
+    @Override
     public void writeStartElement(String localName) throws XMLStreamException {
         writeStartElement("",localName,"");
     }
     
+    @Override
     public void writeStartElement(String namespaceURI, String localName) throws XMLStreamException {
         String prefix = nsContext.getPrefix(namespaceURI);
         writeStartElement(prefix,localName,namespaceURI);
     }
     
     
+    @Override
     public void writeStartElement(String prefix, String localName, String namespaceURI) throws XMLStreamException {
         
         closeStartTag();
@@ -361,7 +389,7 @@ public class StAXC14nCanonicalizerImpl extends BaseCanonicalizer implements XMLS
         }
     }
     
-    protected void closeStartTag() throws XMLStreamException{
+    protected void closeStartTag() {
         try{
             if(closeStartTag){
                 //Iterator itr =  _nsResult.iterator();

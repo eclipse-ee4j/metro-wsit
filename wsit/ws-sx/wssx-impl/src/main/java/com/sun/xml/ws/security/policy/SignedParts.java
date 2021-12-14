@@ -39,26 +39,26 @@ public interface SignedParts extends Target {
      *
      * @return true if the body is to be integrity protected.
      */
-    public boolean hasBody();
+    boolean hasBody();
     
     /**
      * 
      *  @return true if the attachments are to be integrity protected
      */
-    public boolean hasAttachments();
+    boolean hasAttachments();
     
     /**
      * 
      * @return the URI of transform to be applied on attachment, the default is
      *  Attachment-Complete-Transform
      */
-    public String attachmentProtectionType();
+    String attachmentProtectionType();
     
     /**
      * {@link java.util.Iterator } over list of Headers that identify targets in the SOAP header
      * to be integrity protected.
      * @return {@link java.util.Iterator }
      */
-    public Iterator  getHeaders();  
+    Iterator  getHeaders();
     
 }

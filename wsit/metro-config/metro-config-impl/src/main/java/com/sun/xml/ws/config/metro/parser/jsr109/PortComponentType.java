@@ -477,7 +477,7 @@ public class PortComponentType
      */
     public List<HandlerType> getHandler() {
         if (handler == null) {
-            handler = new ArrayList<HandlerType>();
+            handler = new ArrayList<>();
         }
         return this.handler;
     }
@@ -530,6 +530,7 @@ public class PortComponentType
         this.id = value;
     }
 
+    @Override
     public Locator sourceLocation() {
         return locator;
     }

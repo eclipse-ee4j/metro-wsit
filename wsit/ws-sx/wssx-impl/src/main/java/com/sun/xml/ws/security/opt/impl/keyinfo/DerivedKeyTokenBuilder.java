@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -52,8 +52,8 @@ public class DerivedKeyTokenBuilder extends TokenBuilder {
      * calculates the derived key and sets it in security header
      * reruens a BuilderResult with all token details set in it
      * @return BuilderResult
-     * @throws com.sun.xml.wss.XWSSecurityException
      */
+    @Override
     public BuilderResult process() throws XWSSecurityException {
         
         String algorithm = null;

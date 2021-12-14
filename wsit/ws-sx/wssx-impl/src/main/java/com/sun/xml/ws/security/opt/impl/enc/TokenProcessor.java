@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -94,7 +94,6 @@ public class TokenProcessor {
      * like data protecton key ..etc
      * process the keyBinding and populate BuilderResult with appropriate key and KeyInfo
      * @return BuilderResult
-     * @throws XWSSecurityException
      */
     public BuilderResult process() throws XWSSecurityException{
         
@@ -151,7 +150,7 @@ public class TokenProcessor {
             
             builder = new X509TokenBuilder(context,certificateBinding);
             BuilderResult xtbResult = builder.process();
-            KeyInfo ekKI  = (com.sun.xml.ws.security.opt.crypto.dsig.keyinfo.KeyInfo) xtbResult.getKeyInfo();
+            KeyInfo ekKI  = xtbResult.getKeyInfo();
             
             tmp = null;
             tmp = certificateBinding.getKeyAlgorithm();
@@ -207,7 +206,7 @@ public class TokenProcessor {
             builder = new SymmetricTokenBuilder(skb,context,dataEncAlgo,keyEncAlgo);
             BuilderResult skbResult = builder.process();
             this.dataEncKey = skbResult.getDataProtectionKey();
-            keyInfo = (com.sun.xml.ws.security.opt.crypto.dsig.keyinfo.KeyInfo)skbResult.getKeyInfo();
+            keyInfo = skbResult.getKeyInfo();
             return skbResult;
             
         }else if(PolicyTypeUtil.derivedTokenKeyBinding(keyBinding)){

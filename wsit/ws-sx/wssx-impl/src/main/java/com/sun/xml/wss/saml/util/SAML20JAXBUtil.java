@@ -39,7 +39,8 @@ public class SAML20JAXBUtil {
         try {
             //JAXB might access private class members by reflection so 
             //make it JAXBContext privileged
-            AccessController.doPrivileged(new PrivilegedExceptionAction<Object>() {
+            AccessController.doPrivileged(new PrivilegedExceptionAction<>() {
+                @Override
                 public Object run() throws Exception {
                     jaxbContext = JAXBContext.newInstance("com.sun.xml.wss.saml.internal.saml20.jaxb20");
                     return null;
@@ -57,7 +58,6 @@ public class SAML20JAXBUtil {
      * 
      * @param namespaces list of ":" separated namespaces to be used to create the JAXBContext
      * @return JAXBContext initialized with the namespaces
-     * @throws jakarta.xml.bind.JAXBException
      */
     public static JAXBContext getJAXBContext(String namespaces) throws JAXBException{
         jaxbContext = JAXBContext.newInstance("com.sun.xml.wss.saml.internal.saml20.jaxb20"

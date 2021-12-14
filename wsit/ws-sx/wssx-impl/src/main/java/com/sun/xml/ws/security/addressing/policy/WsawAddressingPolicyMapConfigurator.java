@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -54,11 +54,12 @@ public class WsawAddressingPolicyMapConfigurator implements PolicyMapConfigurato
     /**
      * Puts an addressing policy into the PolicyMap if the addressing feature was set.
      */
+    @Override
     public Collection<PolicySubject> update(final PolicyMap policyMap, final SEIModel model, final WSBinding wsBinding)
             throws PolicyException {
         LOGGER.entering(policyMap, model, wsBinding);
 
-        Collection<PolicySubject> subjects = new ArrayList<PolicySubject>();
+        Collection<PolicySubject> subjects = new ArrayList<>();
         if (policyMap != null) {
             final AddressingFeature addressingFeature = wsBinding.getFeature(AddressingFeature.class);
             if (LOGGER.isLoggable(Level.FINEST)) {
@@ -105,8 +106,8 @@ public class WsawAddressingPolicyMapConfigurator implements PolicyMapConfigurato
      * @return A policy that contains one policy assertion that corresponds to the given assertion name.
      */
     private Policy createWsawAddressingPolicy(final QName bindingName, final QName assertionName, final boolean isRequired) {
-        final ArrayList<AssertionSet> assertionSets = new ArrayList<AssertionSet>(1);
-        final ArrayList<PolicyAssertion> assertions = new ArrayList<PolicyAssertion>(1);
+        final ArrayList<AssertionSet> assertionSets = new ArrayList<>(1);
+        final ArrayList<PolicyAssertion> assertions = new ArrayList<>(1);
         final AssertionData addressingData =
                 AssertionData.createAssertionData(assertionName);
         if (!isRequired) {

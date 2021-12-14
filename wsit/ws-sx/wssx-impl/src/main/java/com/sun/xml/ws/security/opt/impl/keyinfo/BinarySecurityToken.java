@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -68,27 +68,33 @@ public class BinarySecurityToken implements com.sun.xml.ws.security.opt.api.keyi
         this.soapVersion = sv;
     }
     
+    @Override
     public String getValueType() {
         return bst.getValueType();
     }
     
+    @Override
     public String getEncodingType() {
         return bst.getEncodingType();
     }
     
+    @Override
     public String getId() {
         return bst.getId();
     }
     
+    @Override
     public void setId(String id) {
         bst.setId(id);
     }
     
+    @Override
     @NotNull
     public String getNamespaceURI() {
         return WSSE_NS;
     }
     
+    @Override
     @NotNull
     public String getLocalPart() {
         return WSSE_BINARY_SECURITY_TOKEN_LNAME;
@@ -96,8 +102,8 @@ public class BinarySecurityToken implements com.sun.xml.ws.security.opt.api.keyi
     /**
      * marshalls the BST element into the XMLStreamBuffer
      * @return XMLStreamReader
-     * @throws javax.xml.stream.XMLStreamException
      */
+    @Override
     public XMLStreamReader readHeader() throws XMLStreamException {
         XMLStreamBufferResult xbr = new XMLStreamBufferResult();
         JAXBElement<BinarySecurityTokenType> bstElem =
@@ -111,22 +117,22 @@ public class BinarySecurityToken implements com.sun.xml.ws.security.opt.api.keyi
         return xbr.getXMLStreamBuffer().readAsXMLStreamReader();
     }
     
-    public <T> T readAsJAXB(Unmarshaller unmarshaller) throws JAXBException {
+    public <T> T readAsJAXB(Unmarshaller unmarshaller) {
         throw new UnsupportedOperationException();
     }
     
-    public <T> T readAsJAXB(Bridge<T> bridge, BridgeContext context) throws JAXBException {
+    public <T> T readAsJAXB(Bridge<T> bridge, BridgeContext context) {
         throw new UnsupportedOperationException();
     }
     
-    public <T> T readAsJAXB(Bridge<T> bridge) throws JAXBException {
+    public <T> T readAsJAXB(Bridge<T> bridge) {
         throw new UnsupportedOperationException();
     }
     /**
      *  writes the binary security token to the XMLStreamWriter
      * @param streamWriter XMLStreamWriter
-     * @throws javax.xml.stream.XMLStreamException
      */
+    @Override
     public void writeTo(XMLStreamWriter streamWriter) throws XMLStreamException {
         JAXBElement<BinarySecurityTokenType> bstElem =
                 new ObjectFactory().createBinarySecurityToken(bst);
@@ -160,13 +166,14 @@ public class BinarySecurityToken implements com.sun.xml.ws.security.opt.api.keyi
         }
     }
     
-    public void writeTo(ContentHandler contentHandler, ErrorHandler errorHandler) throws SAXException {
+    public void writeTo(ContentHandler contentHandler, ErrorHandler errorHandler) {
         throw new UnsupportedOperationException();
     }
    /**
     * returns base64 decoded value of the binary securt token value
     * @return byte[]
     */
+    @Override
     public byte[] getTokenValue() {
         try {
             return Base64.decode(bst.getValue());
@@ -180,9 +187,11 @@ public class BinarySecurityToken implements com.sun.xml.ws.security.opt.api.keyi
         return JAXBUtil.createMarshaller(soapVersion);
     }
     
+    @Override
     public void writeTo(OutputStream os) {
     }
     
+    @Override
     public boolean refersToSecHdrWithId(String id) {
         return false;
     }
@@ -194,8 +203,8 @@ public class BinarySecurityToken implements com.sun.xml.ws.security.opt.api.keyi
      * writes the binary security token to the XMLStreamWriter
      * @param streamWriter javax.xml.stream.XMLStreamWriter
      * @param props HashMap
-     * @throws javax.xml.stream.XMLStreamException
      */
+    @Override
     @SuppressWarnings("unchecked")
     public void writeTo(javax.xml.stream.XMLStreamWriter streamWriter, HashMap props) throws javax.xml.stream.XMLStreamException {
         try{

@@ -151,13 +151,13 @@ public final class Communicator {
         this.container = container;
     }
 
-    public final Packet createRequestPacket(Object jaxbElement, String wsaAction, boolean expectReply) {
+    public Packet createRequestPacket(Object jaxbElement, String wsaAction, boolean expectReply) {
         Message message = Messages.create(jaxbContext, jaxbElement, soapVersion);
 
         return createRequestPacket(message, wsaAction, expectReply);
     }
 
-    public final Packet createRequestPacket(Message message, String wsaAction, boolean expectReply) {
+    public Packet createRequestPacket(Message message, String wsaAction, boolean expectReply) {
         if (destinationAddress == null) {
             throw new IllegalStateException("Destination address is not defined in this communicator instance");
         }
@@ -175,7 +175,7 @@ public final class Communicator {
         return packet;
     }
 
-    public final Packet createRequestPacket(Packet originalRequestPacket, Object jaxbElement, String wsaAction, boolean expectReply) {
+    public Packet createRequestPacket(Packet originalRequestPacket, Object jaxbElement, String wsaAction, boolean expectReply) {
         if (originalRequestPacket != null) { // server side request transferred as a response
             Packet request = createResponsePacket(originalRequestPacket, jaxbElement, wsaAction, false);
 
@@ -328,7 +328,7 @@ public final class Communicator {
      *
      * @return the updated {@link Packet} instance
      */
-    public final Packet setEmptyRequestMessage(Packet request, String wsaAction) {
+    public Packet setEmptyRequestMessage(Packet request, String wsaAction) {
         Message message = Messages.createEmpty(soapVersion);
         request.setMessage(message);
         AddressingUtils.fillRequestAddressingHeaders(
@@ -348,11 +348,8 @@ public final class Communicator {
      * Unlike {@link Packet#setMessage(Message)}, this method fills in the {@link Message}'s WS-Addressing headers
      * correctly, based on the provided request packet WS-Addressing headers.
      *
-     * @param request
-     * @param wsaAction
-     * @return
      */
-    public final Packet setEmptyResponseMessage(Packet response, Packet request, String wsaAction) {
+    public Packet setEmptyResponseMessage(Packet response, Packet request, String wsaAction) {
         Message message = Messages.createEmpty(soapVersion);
         response.setResponseMessage(request, message, addressingVersion, soapVersion, wsaAction);
         return response;
@@ -448,10 +445,12 @@ public final class Communicator {
         } else {
             fiberExecutor.start(request, new Fiber.CompletionCallback() {
 
+                @Override
                 public void onCompletion(Packet response) {
                     // do nothing
                 }
 
+                @Override
                 public void onCompletion(Throwable error) {
                     LOGGER.warning("Unexpected exception occured", error);
                 }

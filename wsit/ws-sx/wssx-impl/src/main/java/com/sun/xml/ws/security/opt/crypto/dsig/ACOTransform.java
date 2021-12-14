@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -39,7 +39,7 @@ public class ACOTransform extends TransformService {
     }
 
     @Override
-    public void init(TransformParameterSpec params) throws InvalidAlgorithmParameterException {
+    public void init(TransformParameterSpec params) {
 
     }
 
@@ -49,14 +49,16 @@ public class ACOTransform extends TransformService {
     }
 
     @Override
-    public void init(XMLStructure parent, XMLCryptoContext context) throws InvalidAlgorithmParameterException {
+    public void init(XMLStructure parent, XMLCryptoContext context) {
 
     }
 
+    @Override
     public AlgorithmParameterSpec getParameterSpec() {
         return null;
     }
 
+    @Override
     public Data transform(Data data, XMLCryptoContext context) throws TransformException {
         if (data instanceof AttachmentData) {
             ByteArrayOutputStream os = null;
@@ -65,6 +67,7 @@ public class ACOTransform extends TransformService {
         return null;
     }
 
+    @Override
     public Data transform(Data data, XMLCryptoContext context, OutputStream os) throws TransformException {
         if (data instanceof AttachmentData) {
             return canonicalize((AttachmentData) data, os);
@@ -72,6 +75,7 @@ public class ACOTransform extends TransformService {
         return null;
     }
 
+    @Override
     public boolean isFeatureSupported(String feature) {
         return false;
     }

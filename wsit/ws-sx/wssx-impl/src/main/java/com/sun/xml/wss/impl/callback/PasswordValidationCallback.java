@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -14,7 +14,7 @@
 
 package com.sun.xml.wss.impl.callback;
 
-import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 
 import javax.security.auth.callback.*;
@@ -83,7 +83,7 @@ public class PasswordValidationCallback extends XWSSCallback implements Callback
         return this.authenticator;
     }
 
-    public static interface Request {
+    public interface Request {
     }
 
     /**
@@ -222,13 +222,13 @@ public class PasswordValidationCallback extends XWSSCallback implements Callback
     /**
      * Interface for validating password.
      */
-    public static interface PasswordValidator {
+    public interface PasswordValidator {
         
         /**
          * @param request PasswordValidationRequest
          * @return true if password validation succeeds else false
          */
-        public boolean validate(Request request) throws PasswordValidationException;
+        boolean validate(Request request) throws PasswordValidationException;
     }
 
     /**
@@ -237,6 +237,7 @@ public class PasswordValidationCallback extends XWSSCallback implements Callback
      */
     public static class DigestPasswordValidator implements PasswordValidator {
 
+         @Override
          public boolean validate(Request request) throws PasswordValidationException {
 
              DigestPasswordRequest req = (DigestPasswordRequest)request;
@@ -262,13 +263,9 @@ public class PasswordValidationCallback extends XWSSCallback implements Callback
               }
               utf8String += passwd;
               byte[] utf8Bytes;
-              try {
-                  utf8Bytes = utf8String.getBytes("utf-8");
-              } catch (UnsupportedEncodingException uee) {
-                  throw new PasswordValidationException(uee);
-              }
+             utf8Bytes = utf8String.getBytes(StandardCharsets.UTF_8);
 
-              byte[] bytesToHash;
+             byte[] bytesToHash;
               if (decodedNonce != null) {
                   bytesToHash = new byte[utf8Bytes.length + decodedNonce.length];
                   for (int i = 0; i < decodedNonce.length; i++)

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -25,26 +25,29 @@ public class WSATGatewayRMTest extends TestCase {
         super(name);
     }
 
+    @Override
     public void setUp() throws Exception {
         super.setUp();
     }
 
+    @Override
     public void tearDown() throws Exception {
         super.tearDown();
     }
 
 
-    public void testHolder() throws Exception {
+    public void testHolder() {
         ;
     }
 
     // todo test passes and cleans up in the passing case but may not in faling case and so reactive after impl cleanup()
     public void xtestRecoverPendingBranches() throws Exception {
         WSATGatewayRM testWSATGatewayRM = new WSATGatewayRM("unittestserver"){
-  /** todo           String getTxLogDir() {
+  /* todo           String getTxLogDir() {
                  return ".";
              }
- */       };
+ */
+        };
         Xid[] xids = testWSATGatewayRM.recover(XAResource.TMSTARTRSCAN);
         Xid xid = new XidImpl(1234, new byte[]{'a','b','c'}, new byte[]{'1'}); //todo reuse of xid may not be best/accurate 
         BranchRecord branch = new BranchRecord(xid);
@@ -60,7 +63,7 @@ public class WSATGatewayRMTest extends TestCase {
         testWSATGatewayRM.rollback(xid);
     }
     
-    /**
+    /*
     public void testRegister() throws Exception {
         // need to stub  for registerResourceWithTM in create call here...
         WSATGatewayRM.setTM(new TestTransactionManager());
@@ -79,6 +82,6 @@ public class WSATGatewayRMTest extends TestCase {
         assertEquals("transactionStub.enlistedNamedResources.size()", transactionStub.enlistedNamedResources.size(), 1);
         assertEquals("transactionStub.enlistedResources.size()", transactionStub.enlistedResources.size(), 1);
     }
-     * */
+      */
     
 }

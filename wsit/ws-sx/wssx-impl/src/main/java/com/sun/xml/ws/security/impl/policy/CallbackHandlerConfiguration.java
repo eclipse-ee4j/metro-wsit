@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -37,10 +37,12 @@ public class CallbackHandlerConfiguration extends PolicyAssertion implements com
         super(name,nestedAssertions,nestedAlternative);
     }
     
+    @Override
     public Iterator<? extends PolicyAssertion> getCallbackHandlers() {
         return this.getParametersIterator();
     }
     
+    @Override
     public AssertionFitness validate(boolean isServer) {
         return populate(isServer);
     }
@@ -52,6 +54,7 @@ public class CallbackHandlerConfiguration extends PolicyAssertion implements com
         return fitness;
     }
 
+    @Override
     public String getTimestampTimeout() {
         if(this.getAttributes().containsKey(timestampTimeout)){
             return this.getAttributeValue(timestampTimeout);
@@ -59,12 +62,14 @@ public class CallbackHandlerConfiguration extends PolicyAssertion implements com
         return null;
     }
 
+    @Override
     public String getiterationsForPDK() {
         if(this.getAttributes().containsKey(iterationsForPDK)) {
             return this.getAttributeValue(iterationsForPDK);
         }
         return "0";
     }
+    @Override
     public String getUseXWSSCallbacks() {
         return this.getAttributeValue(useXWSSCallbacks);
     }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -126,7 +126,7 @@ public class CertificateRetriever {
         return null;
     }
 
-    public Certificate getServerKeyStore(WSEndpoint wse) throws IOException, XWSSecurityException {
+    public Certificate getServerKeyStore(WSEndpoint wse) throws IOException {
 
         QName keyStoreQName = new QName("http://schemas.sun.com/2006/03/wss/server", "KeyStore");
         setLocationPasswordAndAlias(keyStoreQName, wse);
@@ -320,9 +320,7 @@ public class CertificateRetriever {
                     }
                 }
             }
-        } catch (PolicyException ex) {            
-            throw new RuntimeException(ex);
-        } catch (IllegalArgumentException ex) {           
+        } catch (PolicyException | IllegalArgumentException ex) {
             throw new RuntimeException(ex);
         }
     }
@@ -347,9 +345,9 @@ public class CertificateRetriever {
                     callbackHandler = pa.getAttributeValue(new QName("callbackHandler"));
                     aliasSelector = pa.getAttributeValue(new QName("aliasSelector"));
 
-                    StringBuffer sb = null;
+                    StringBuilder sb = null;
                     if (location != null) {
-                        sb = new StringBuffer(location);
+                        sb = new StringBuilder(location);
                         if (location.startsWith("$WSIT")) {
                             String path = System.getProperty("WSIT_HOME");
                             sb.replace(0, 10, path);

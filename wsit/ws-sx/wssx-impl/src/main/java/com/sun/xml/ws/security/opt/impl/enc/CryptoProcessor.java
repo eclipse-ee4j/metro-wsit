@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -30,13 +30,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.crypto.BadPaddingException;
-import javax.crypto.ExemptionMechanism;
 import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.KeyGenerator;
 import javax.crypto.NoSuchPaddingException;
-import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
-import javax.crypto.spec.SecretKeySpec;
+
 import com.sun.xml.ws.security.opt.crypto.JAXBData;
 import com.sun.xml.ws.security.opt.crypto.StreamWriterData;
 import com.sun.xml.ws.security.opt.impl.util.OutputStreamWrapper;
@@ -71,21 +68,21 @@ public class CryptoProcessor {
     
     public CryptoProcessor(){}
     /** Creates a new instance of EncryptionProcessor */
-    public CryptoProcessor(int mode,String algo,Data ed,Key key) throws XWSSecurityException{
+    public CryptoProcessor(int mode,String algo,Data ed,Key key) {
         this.mode = mode;
         this.algorithm = algo;
         this.data = ed;
         this.key = key;
     }
     
-    public CryptoProcessor(int mode,String algo,Key dk,Key key) throws XWSSecurityException{
+    public CryptoProcessor(int mode,String algo,Key dk,Key key) {
         this.mode = mode;
         this.algorithm = algo;
         this.key = key;
         this.dk = dk;
     }
     
-    public CryptoProcessor(int mode,String algo,Key key) throws XWSSecurityException{
+    public CryptoProcessor(int mode,String algo,Key key) {
         this.mode = mode;
         this.algorithm = algo;
         this.key = key;
@@ -93,9 +90,6 @@ public class CryptoProcessor {
 
     /**
      * creates an instance of javax.crypto.Cipher class and inits it .
-     * @throws NoSuchAlgorithmException
-     * @throws NoSuchPaddingException
-     * @throws InvalidKeyException
      */
     protected void initCipher() throws NoSuchAlgorithmException,NoSuchPaddingException, InvalidKeyException{
         if ( cipher == null ) {
@@ -110,7 +104,6 @@ public class CryptoProcessor {
     /**
      * Convert algorithm URI to actual transformation (DES/CBC/PKCS5Padding)
      *
-     * @param algorithmURI
      * @return String representing transforms
      */
     protected String convertAlgURIToTransformation(String algorithmURI) {
@@ -123,13 +116,11 @@ public class CryptoProcessor {
     
     /**
      * encrypts outputStream
-     * @param outputStream
-     * @throws IOException
      */
     public void encrypt(OutputStream outputStream) throws IOException{
         if(mode == Cipher.ENCRYPT_MODE){
             encryptData(outputStream);
-        }else if(mode == cipher.WRAP_MODE){
+        }else if(mode == Cipher.WRAP_MODE){
             encryptKey(outputStream);
         }
     }
@@ -163,7 +154,6 @@ public class CryptoProcessor {
     /**
      * wraps the data encryption key to byte[] and writes it to output stream
      * @param outputStream OutputStream
-     * @throws IOException
      */
     public void encryptKey(OutputStream outputStream)throws IOException{
         try{
@@ -232,7 +222,6 @@ public class CryptoProcessor {
     /**
      * initialises the Cipher and encrypts the data  which is a OutputStream and writes the encrypted data into the data member
      * @param eos OutputStream
-     * @throws IOException
      */
     public void encryptData(OutputStream eos) throws IOException{
         try{
@@ -291,9 +280,6 @@ public class CryptoProcessor {
         } catch (InvalidKeyException ex) {
             logger.log(Level.SEVERE, LogStringsMessages.WSS_1906_INVALID_KEY_ERROR(), ex);
             throw new XWSSecurityRuntimeException("Unable to calculate cipher value as invalid key was provided", ex);
-        } catch(XMLStreamException xse){
-            logger.log(Level.SEVERE, LogStringsMessages.WSS_1910_ERROR_WRITING_NAMESPACES_CANONICALIZER(xse.getMessage()), xse);
-            throw new XWSSecurityRuntimeException("Unable to write namespaces to exclusive canonicalizer", xse);
         } catch (com.sun.xml.wss.XWSSecurityException ex) {
             logger.log(Level.SEVERE, LogStringsMessages.WSS_1911_ERROR_WRITING_CIPHERVALUE(ex.getMessage()), ex);
             throw new XWSSecurityRuntimeException("Unable to calculate cipher value ", ex);
@@ -304,7 +290,6 @@ public class CryptoProcessor {
      * @param encryptedKey byte[]
      * @param encAlgo String
      * @return Key
-     * @throws IOException
      */
     public Key decryptKey(byte[] encryptedKey, String encAlgo) throws IOException{
         
@@ -342,7 +327,6 @@ public class CryptoProcessor {
      * decrypts the given data which is of the form InputStream
      * @param is InputStream
      * @return InputStream
-     * @throws IOException
      */
     public InputStream decryptData(InputStream is) throws IOException{
         try {
@@ -380,7 +364,6 @@ public class CryptoProcessor {
      * decrypts the encryptedContent which a byte[]
      * @param encryptedContent byte[]
      * @return byte[]
-     * @throws IOException
      */
     public byte[] decryptData(byte[] encryptedContent) throws IOException{
         try {

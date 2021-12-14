@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -19,7 +19,6 @@ import com.sun.xml.wss.impl.MessageConstants;
 import javax.security.auth.callback.Callback;
 
 import java.security.cert.X509Certificate;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -45,7 +44,7 @@ public class CertificateValidationCallback extends XWSSCallback implements Callb
 
     public CertificateValidationCallback(X509Certificate certificate, Map context) {
         this.certificate = certificate;
-        this.runtimeProperties = (Map)context;
+        this.runtimeProperties = context;
     }
     
     public boolean getResult() {
@@ -85,14 +84,14 @@ public class CertificateValidationCallback extends XWSSCallback implements Callb
     }
 
 
-    public static interface CertificateValidator  {
+    public interface CertificateValidator  {
 
         /** 
          * Certificate validator.
          * @param certificate <code>java.security.cert.X509Certificate</code>
          * @return true if the certificate is valid else false
          */
-        public boolean validate(X509Certificate certificate)
+        boolean validate(X509Certificate certificate)
                 throws CertificateValidationException;
     }
 

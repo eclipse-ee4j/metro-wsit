@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -65,7 +65,6 @@ public class Conditions extends ConditionsType
      *        assertion is valid.
      * @param notOnOrAfter specifies the time instant at which the assertion
      *        has expired.
-     * @param condition
      * @param ar the <code>AudienceRestrictionCondition</code> to be
      *        added. Can be null, if no audience restriction.
      */
@@ -110,6 +109,7 @@ public class Conditions extends ConditionsType
             
     }
     
+   @Override
    public Date getNotBeforeDate(){
         try {
             if(notBeforeField != null){
@@ -124,6 +124,7 @@ public class Conditions extends ConditionsType
             return notBeforeField;
         }
         
+        @Override
         public Date getNotOnOrAfterDate(){
         try {
             if(notOnOrAfterField != null){
@@ -137,6 +138,7 @@ public class Conditions extends ConditionsType
         }
             return notOnOrAfterField;
         }
+        @Override
         @SuppressWarnings("unchecked")
         public List<Object> getConditions(){
             return (List<Object>)(Object) super.getConditionOrAudienceRestrictionOrOneTimeUse();

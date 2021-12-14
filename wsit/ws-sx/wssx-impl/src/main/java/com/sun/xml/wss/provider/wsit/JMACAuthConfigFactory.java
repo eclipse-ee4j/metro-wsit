@@ -122,7 +122,8 @@ public class JMACAuthConfigFactory extends AuthConfigFactory {
      * the factory shall terminate its search for a registered provider.
      *</ul>
      */
-    public AuthConfigProvider 
+    @Override
+    public AuthConfigProvider
             getConfigProvider(String layer, String appContext,
 	    RegistrationListener listener) {
 
@@ -164,7 +165,7 @@ public class JMACAuthConfigFactory extends AuthConfigFactory {
                     List<RegistrationListener> listeners =
                         id2RegisListenersMap.get(regisID);
                     if (listeners == null) {
-                        listeners = new ArrayList<RegistrationListener>();
+                        listeners = new ArrayList<>();
                         id2RegisListenersMap.put(regisID, listeners);
                     }
                     if (!listeners.contains(listener)) {
@@ -233,6 +234,7 @@ public class JMACAuthConfigFactory extends AuthConfigFactory {
      * @exception SecurityException if the caller does not have
      *		permission to register a provider at the factory.
      */
+    @Override
     @SuppressWarnings("unchecked")
     public String registerConfigProvider(String className,
 					 Map properties, 
@@ -245,8 +247,9 @@ public class JMACAuthConfigFactory extends AuthConfigFactory {
             layer,appContext,description,true);
     }
 
+    @Override
     public String registerConfigProvider(AuthConfigProvider provider,
-            String layer, String appContext, String description) {
+                                         String layer, String appContext, String description) {
 	return _register(provider,null,layer,appContext,description,false);
     }
 
@@ -265,6 +268,7 @@ public class JMACAuthConfigFactory extends AuthConfigFactory {
      *		permission to unregister the provider at the factory.
      *
      */
+    @Override
     public boolean removeRegistration(String registrationID) {
         return _unRegister(registrationID);
     }
@@ -290,8 +294,9 @@ public class JMACAuthConfigFactory extends AuthConfigFactory {
      *		permission to detach the listener from the factory.
      *
      */
+    @Override
     public String[] detachListener(RegistrationListener listener,
-            String layer, String appContext) {
+                                   String layer, String appContext) {
         String regisID = getRegistrationID(layer, appContext);
         wLock.lock();
         try {   
@@ -321,6 +326,7 @@ public class JMACAuthConfigFactory extends AuthConfigFactory {
      * it returns an empty array when their are no registrations at the 
      * factory for the identified provider.
      */
+    @Override
     public String[] getRegistrationIDs(AuthConfigProvider provider) {
         rLock.lock();
         try {
@@ -330,7 +336,7 @@ public class JMACAuthConfigFactory extends AuthConfigFactory {
             } else {
                 Collection<List<String>> collList = provider2IdsMap.values();
                 if (collList != null) {
-                    regisIDs = new HashSet<String>();
+                    regisIDs = new HashSet<>();
                     for (List<String> listIds : collList) {
                          if (listIds != null) {
                              regisIDs.addAll(listIds);
@@ -339,7 +345,7 @@ public class JMACAuthConfigFactory extends AuthConfigFactory {
                 }
             }
             return ((regisIDs != null)?
-                regisIDs.toArray(new String[regisIDs.size()]) :
+                regisIDs.toArray(new String[0]) :
                 new String[0]);
         } finally {
             rLock.unlock();
@@ -357,6 +363,7 @@ public class JMACAuthConfigFactory extends AuthConfigFactory {
      * registration. Null is returned when the registration identifier does
      * not correpond to an active registration
       */
+    @Override
     public RegistrationContext getRegistrationContext(String registrationID) {
         rLock.lock();
 	try {
@@ -377,6 +384,7 @@ public class JMACAuthConfigFactory extends AuthConfigFactory {
      * @exception SecurityException if the caller does not have permission
      *		to refresh the factory.
      */
+    @Override
     public void refresh() {
 	_loadFactory();
     }
@@ -391,7 +399,7 @@ public class JMACAuthConfigFactory extends AuthConfigFactory {
         entries.add(new EntryInfo(
             "com.sun.xml.wss.provider.wsit.WSITAuthConfigProvider", null));
         return entries;*/
-        List<EntryInfo> entries = new ArrayList<EntryInfo>(1);
+        List<EntryInfo> entries = new ArrayList<>(1);
         URL url = loadFromClasspath(AUTH_CONFIG_PROVIDER_PROP);
         if (url != null) {
             InputStream is = null;
@@ -455,7 +463,6 @@ public class JMACAuthConfigFactory extends AuthConfigFactory {
 
     /**
      * This API decomposes the given regisID into layer and appContext.
-     * @param regisID
      * @return a String array with layer and appContext
      */
     private static String[] decomposeRegisID(String regisID) {
@@ -505,7 +512,7 @@ public class JMACAuthConfigFactory extends AuthConfigFactory {
 		Constructor<AuthConfigProvider> constr =
 		    c.getConstructor(Map.class, AuthConfigFactory.class);
 		provider = constr.newInstance
-		    (new Object[] {properties, factory} );
+		    (properties, factory);
 	    } catch(Exception ex) {
                 if (logger.isLoggable(Level.FINE)) {
                     logger.log(Level.FINE,
@@ -550,7 +557,7 @@ public class JMACAuthConfigFactory extends AuthConfigFactory {
             }
             List<String> regisIDs = provider2IdsMap.get(provider);
             if (regisIDs == null) {
-                regisIDs = new ArrayList<String>();
+                regisIDs = new ArrayList<>();
                 provider2IdsMap.put(provider, regisIDs);
             }
             regisIDs.add(regisID);
@@ -623,11 +630,11 @@ public class JMACAuthConfigFactory extends AuthConfigFactory {
     private void _loadFactory() {
         wLock.lock();
 	try {
-	    id2ProviderMap = new HashMap<String, AuthConfigProvider>();
-	    id2RegisContextMap = new HashMap<String, RegistrationContext>();
+	    id2ProviderMap = new HashMap<>();
+	    id2RegisContextMap = new HashMap<>();
             id2RegisListenersMap =
-                new HashMap<String, List<RegistrationListener>>();
-            provider2IdsMap = new HashMap<AuthConfigProvider, List<String>>();
+                    new HashMap<>();
+            provider2IdsMap = new HashMap<>();
 	} finally {
 	    wLock.unlock();
 	}

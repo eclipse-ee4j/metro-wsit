@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -35,7 +35,7 @@ import org.w3c.dom.Element;
  */
 public class ClaimsImpl extends ClaimsType implements Claims {
 
-    List<Object> supportingInfo = new ArrayList<Object>();
+    List<Object> supportingInfo = new ArrayList<>();
     
     public ClaimsImpl() {
         // default constructor
@@ -45,7 +45,7 @@ public class ClaimsImpl extends ClaimsType implements Claims {
         setDialect(dialect);
     }
     
-    public ClaimsImpl(ClaimsType clType)throws WSTrustException{
+    public ClaimsImpl(ClaimsType clType) {
         setDialect(clType.getDialect());
         getAny().addAll(clType.getAny());
         getOtherAttributes().putAll(clType.getOtherAttributes());
@@ -61,6 +61,7 @@ public class ClaimsImpl extends ClaimsType implements Claims {
         }
     }
 
+    @Override
     public List<Object> getSupportingProperties() {
         return supportingInfo;
     }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -57,7 +57,7 @@ public class XWSSPolicyContainer {
         boolean encryptBeforeSign = false;        
         boolean seenEncryptPolicy = false;
         boolean seenSignPolicy = false;
-        List<SecurityPolicy> encPolicies = new ArrayList<SecurityPolicy>();
+        List<SecurityPolicy> encPolicies = new ArrayList<>();
 
         for (Object policy : msgPolicy.getPrimaryPolicies()) {
 
@@ -137,13 +137,13 @@ public class XWSSPolicyContainer {
         this.isServer = isServer;
         this.isIncoming = isIncoming;
         setMessageMode(isServer, isIncoming);
-        effectivePolicyList = new ArrayList<SecurityPolicy>();
+        effectivePolicyList = new ArrayList<>();
     }
     public XWSSPolicyContainer(boolean isServer,boolean isIncoming) {
         setMessageMode(isServer, isIncoming);
         this.isServer = isServer;
         this.isIncoming = isIncoming;
-        effectivePolicyList = new ArrayList<SecurityPolicy>();
+        effectivePolicyList = new ArrayList<>();
     }
     public void setMessageMode(boolean isServer, boolean isIncoming) {
         if ( isServer && isIncoming) {
@@ -169,7 +169,7 @@ public class XWSSPolicyContainer {
             return;
         }
         if ( policyList == null ) {
-            policyList = new ArrayList<SecurityPolicy>();
+            policyList = new ArrayList<>();
         }
         if ( isSupportingToken(secPolicy)) {
             switch (section) {
@@ -220,7 +220,6 @@ public class XWSSPolicyContainer {
         int pos = -1;
         for ( SecurityPolicy secPolicy : effectivePolicyList) {
             if ( isSupportingToken(secPolicy) || isTimestamp(secPolicy)) {
-                continue;
             } else {
                 pos = effectivePolicyList.indexOf(secPolicy);
                 break;
@@ -240,7 +239,6 @@ public class XWSSPolicyContainer {
         int pos = -1;
         for ( SecurityPolicy secPolicy : effectivePolicyList) {
             if ( !isSupportingToken(secPolicy)) {
-                continue;
             } else {
                 pos = effectivePolicyList.indexOf(secPolicy);
             }

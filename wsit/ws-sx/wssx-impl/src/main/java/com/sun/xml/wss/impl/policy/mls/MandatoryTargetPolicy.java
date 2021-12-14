@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -29,6 +29,7 @@ public class MandatoryTargetPolicy extends WSSPolicy {
      * 
      * @return clone
      */
+    @Override
     public Object clone() {
         MandatoryTargetPolicy mp = new MandatoryTargetPolicy();
         WSSPolicy wp = (WSSPolicy) getFeatureBinding();
@@ -41,9 +42,9 @@ public class MandatoryTargetPolicy extends WSSPolicy {
     
     /**
      * 
-     * @param policy 
      * @return true of policy is equal to this policy
      */
+    @Override
     public boolean equals(WSSPolicy policy) {
         if(policy.getType() == PolicyTypeUtil.MANDATORY_TARGET_POLICY_TYPE){
             WSSPolicy p1 = (WSSPolicy) policy.getFeatureBinding();
@@ -57,9 +58,9 @@ public class MandatoryTargetPolicy extends WSSPolicy {
     
     /**
      * 
-     * @param policy 
      * @return true if argument policy is equal to this policy ignoring targets
      */
+    @Override
     public boolean equalsIgnoreTargets(WSSPolicy policy) {
         throw new UnsupportedOperationException();
     }
@@ -68,19 +69,19 @@ public class MandatoryTargetPolicy extends WSSPolicy {
      * 
      * @return the type of the policy
      */
+    @Override
     public String getType() {
         return PolicyTypeUtil.MANDATORY_TARGET_POLICY_TYPE;
     }
     
     
     public static class FeatureBinding extends WSSPolicy {
-        private List<Target> targets = new ArrayList<Target>();
+        private List<Target> targets = new ArrayList<>();
         
         
         /**
          * adds the Target representing the Header element that must be present in the message.
          * Will by default set enforce flag on Target element to true.
-         * @param target 
          */
         public void addTargetBinding(Target target){
             targets.add(target);
@@ -99,6 +100,7 @@ public class MandatoryTargetPolicy extends WSSPolicy {
          * 
          * @return clone
          */
+        @Override
         public Object clone() {
             FeatureBinding binding = new FeatureBinding();
             for(Target t: targets){
@@ -109,9 +111,9 @@ public class MandatoryTargetPolicy extends WSSPolicy {
         
         /**
          * 
-         * @param policy 
          * @return true if this policy is equal to the argument policy
          */
+        @Override
         public boolean equals(WSSPolicy policy) {
             boolean retVal = false;
             if(policy.getType() == PolicyTypeUtil.MANDATORY_TARGET_FEATUREBINDING_TYPE){
@@ -128,9 +130,9 @@ public class MandatoryTargetPolicy extends WSSPolicy {
         
         /**
          * 
-         * @param policy 
          * @return true if this policy is equal to the argument policy ignoring targets
          */
+        @Override
         public boolean equalsIgnoreTargets(WSSPolicy policy) {
             throw new UnsupportedOperationException();
         }
@@ -139,6 +141,7 @@ public class MandatoryTargetPolicy extends WSSPolicy {
          * 
          * @return type of the policy
          */
+        @Override
         public String getType() {
             return PolicyTypeUtil.MANDATORY_TARGET_FEATUREBINDING_TYPE;
         }

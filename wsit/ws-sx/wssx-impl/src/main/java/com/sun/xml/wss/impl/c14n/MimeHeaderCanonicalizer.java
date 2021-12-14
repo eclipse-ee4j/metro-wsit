@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -14,6 +14,7 @@
 
 package com.sun.xml.wss.impl.c14n;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Vector;
 import java.util.Iterator;
 import java.util.StringTokenizer;
@@ -33,11 +34,13 @@ public class MimeHeaderCanonicalizer extends Canonicalizer {
     
     public MimeHeaderCanonicalizer() {}
     
-    public byte[] canonicalize(byte[] input) throws XWSSecurityException {
+    @Override
+    public byte[] canonicalize(byte[] input) {
         return null;
     }
     
-    public InputStream canonicalize(InputStream input,OutputStream outputStream)
+    @Override
+    public InputStream canonicalize(InputStream input, OutputStream outputStream)
     throws javax.xml.crypto.dsig.TransformException   {
         throw new UnsupportedOperationException();
     }
@@ -97,7 +100,7 @@ public class MimeHeaderCanonicalizer extends Canonicalizer {
         
         byte[] b = null;
         try {
-            b = _mh.getBytes("UTF-8");
+            b = _mh.getBytes(StandardCharsets.UTF_8);
         } catch (Exception e) {
             // log
             throw new XWSSecurityException(e);
@@ -135,7 +138,7 @@ public class MimeHeaderCanonicalizer extends Canonicalizer {
         if (input.charAt(0) == _QT.charAt(0) || input.charAt(input.length()-1) == _QT.charAt(0)) return input;
         
         // remove all CRLF sequences
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         
         for (int i=0; i<input.length(); i++) {
             char c = input.charAt(i);
@@ -166,7 +169,7 @@ public class MimeHeaderCanonicalizer extends Canonicalizer {
     private String unfoldWS(String input) {
         if (input.charAt(0) == _QT.charAt(0) || input.charAt(input.length()-1) == _QT.charAt(0)) return input;
         
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         for (int i=0; i<input.length(); i++) {
             if (input.charAt(i) == _WS.charAt(0) || input.charAt(i) == _HT.charAt(0)) {
                 sb.append(_WS.charAt(0));
@@ -205,7 +208,7 @@ public class MimeHeaderCanonicalizer extends Canonicalizer {
                 input = fs + _WS + bs;
                 
             } else {
-                if (input.substring(oc+1, cc).indexOf(_OC) == -1) {
+                if (!input.substring(oc + 1, cc).contains(_OC)) {
                     // encountered "..(..).."
                     input = fs + _WS + bs;
                 } else {
@@ -308,7 +311,7 @@ public class MimeHeaderCanonicalizer extends Canonicalizer {
     }
     
     private Vector makeParameterVector(String input) {
-        Vector<Object> v = new Vector<Object>();
+        Vector<Object> v = new Vector<>();
         
         StringTokenizer nzr = new StringTokenizer(input, _SC);
         while (nzr.hasMoreTokens()) {
@@ -392,7 +395,7 @@ public class MimeHeaderCanonicalizer extends Canonicalizer {
                 
                 // parameter continuation
                 String pn_i = pn.substring(0, ix).trim();
-                int curr = new Integer(pn.substring(ix+1).trim()).intValue();
+                int curr = Integer.parseInt(pn.substring(ix + 1).trim());
                 
                 if (pn_i.equalsIgnoreCase(pname)) {
                     if (curr != index+1) {
@@ -462,7 +465,7 @@ public class MimeHeaderCanonicalizer extends Canonicalizer {
     }
     
     private String unquoteInner(String input) {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         
         for (int i=0; i<input.length(); i++) {
             char c = input.charAt(i);
@@ -498,7 +501,7 @@ public class MimeHeaderCanonicalizer extends Canonicalizer {
     }
     
     private String quoteInner(String input) {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         
         for (int i=0; i < input.length(); i++) {
             char c = input.charAt(i);

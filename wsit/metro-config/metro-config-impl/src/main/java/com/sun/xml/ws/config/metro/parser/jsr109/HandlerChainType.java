@@ -179,7 +179,7 @@ public class HandlerChainType
      */
     public List<java.lang.String> getProtocolBindings() {
         if (protocolBindings == null) {
-            protocolBindings = new ArrayList<java.lang.String>();
+            protocolBindings = new ArrayList<>();
         }
         return this.protocolBindings;
     }
@@ -208,7 +208,7 @@ public class HandlerChainType
      */
     public List<HandlerType> getHandler() {
         if (handler == null) {
-            handler = new ArrayList<HandlerType>();
+            handler = new ArrayList<>();
         }
         return this.handler;
     }
@@ -237,6 +237,7 @@ public class HandlerChainType
         this.id = value;
     }
 
+    @Override
     public Locator sourceLocation() {
         return locator;
     }

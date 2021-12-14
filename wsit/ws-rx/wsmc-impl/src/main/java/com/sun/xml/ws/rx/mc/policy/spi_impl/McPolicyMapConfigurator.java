@@ -37,8 +37,9 @@ public class McPolicyMapConfigurator implements PolicyMapConfigurator {
 
     private static final Logger LOGGER = Logger.getLogger(McPolicyMapConfigurator.class);
 
+    @Override
     public Collection<PolicySubject> update(PolicyMap policyMap, SEIModel model, WSBinding wsBinding) throws PolicyException {
-        final Collection<PolicySubject> subjects = new LinkedList<PolicySubject>();
+        final Collection<PolicySubject> subjects = new LinkedList<>();
 
         try {
             LOGGER.entering(policyMap, model, wsBinding);
@@ -58,9 +59,7 @@ public class McPolicyMapConfigurator implements PolicyMapConfigurator {
      * @return A policy that contains one policy assertion that corresponds to the given assertion name.
      */
     private Policy createMakeConnectionPolicy(final QName bindingName) {
-        return Policy.createPolicy(null, bindingName.getLocalPart() + "_MCSupported_Policy", Arrays.asList(new AssertionSet[]{
-                    AssertionSet.createAssertionSet(Arrays.asList(new PolicyAssertion[]{new MakeConnectionSupportedAssertion()}))
-                }));
+        return Policy.createPolicy(null, bindingName.getLocalPart() + "_MCSupported_Policy", Arrays.asList(AssertionSet.createAssertionSet(Arrays.asList(new MakeConnectionSupportedAssertion()))));
     }
 
     private void updateMakeConnectionSettings(Collection<PolicySubject> subjects, WSBinding wsBinding, SEIModel model, PolicyMap policyMap) throws PolicyException, IllegalArgumentException {

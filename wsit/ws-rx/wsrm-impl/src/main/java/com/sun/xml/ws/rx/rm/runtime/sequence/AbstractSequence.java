@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -34,12 +34,6 @@ public abstract class AbstractSequence implements Sequence {
 
     /**
      * Initializes instance fields.
-     * 
-     * @param id sequence identifier
-     * 
-     * @param securityContextTokenId security context token identifier bound to this sequence
-     * 
-     * @param expirationTime sequence expiration time
      */
     @SuppressWarnings("LeakingThisInConstructor")
     AbstractSequence(@NotNull SequenceData data, @NotNull DeliveryQueueBuilder deliveryQueueBuilder, @NotNull TimeSynchronizer timeSynchronizer) {
@@ -55,18 +49,22 @@ public abstract class AbstractSequence implements Sequence {
         this.deliveryQueue = deliveryQueueBuilder.build();
     }
 
+    @Override
     public String getId() {
         return data.getSequenceId();
     }
 
+    @Override
     public String getBoundSecurityTokenReferenceId() {
         return data.getBoundSecurityTokenReferenceId();
     }
 
+    @Override
     public long getLastMessageNumber() {
         return data.getLastMessageNumber();
     }
 
+    @Override
     public List<AckRange> getAcknowledgedMessageNumbers() {
         List<Long> values = data.getLastMessageNumberWithUnackedMessageNumbers();
 
@@ -81,7 +79,7 @@ public abstract class AbstractSequence implements Sequence {
             return Arrays.asList(new AckRange(Sequence.MIN_MESSAGE_ID, lastMessageNumber));
         } else {
             // need to calculate ranges from the unacked indexes
-            List<AckRange> result = new LinkedList<Sequence.AckRange>();
+            List<AckRange> result = new LinkedList<>();
 
             long lastBottomAckRange = Sequence.MIN_MESSAGE_ID;
             for (long lastUnacked : unackedMessageNumbers) {
@@ -98,6 +96,7 @@ public abstract class AbstractSequence implements Sequence {
         }
     }
 
+    @Override
     public boolean isAcknowledged(long messageNumber) {
         boolean result = false;
         List<AckRange> listOfAckRange = getAcknowledgedMessageNumbers();
@@ -110,56 +109,69 @@ public abstract class AbstractSequence implements Sequence {
         return result;
     }
 
+    @Override
     public boolean hasUnacknowledgedMessages() {
         return !data.getUnackedMessageNumbers().isEmpty();
     }
 
+    @Override
     public State getState() {
         return data.getState();
     }
 
+    @Override
     public void setAckRequestedFlag() {
         data.setAckRequestedFlag(true);
     }
 
+    @Override
     public void clearAckRequestedFlag() {
         data.setAckRequestedFlag(false);
     }
 
+    @Override
     public boolean isAckRequested() {
         return data.getAckRequestedFlag();
     }
     
+    @Override
     public boolean isFailedOver(long messageNumber) {
         return data.isFailedOver(messageNumber);
     }
 
+    @Override
     public void updateLastAcknowledgementRequestTime() {
         data.setLastAcknowledgementRequestTime(timeSynchronizer.currentTimeInMillis());
     }
 
+    @Override
     public long getLastActivityTime() {
         return data.getLastActivityTime();
     }
 
+    @Override
     public boolean isStandaloneAcknowledgementRequestSchedulable(long delayPeriod) {
         return timeSynchronizer.currentTimeInMillis() - data.getLastAcknowledgementRequestTime() > delayPeriod && hasUnacknowledgedMessages();
     }
 
+    @Override
     public void close() {
         data.setState(State.CLOSED);
         deliveryQueue.close();
     }
 
+    @Override
     public boolean isClosed() {
         State currentStatus = data.getState();
         return currentStatus == State.CLOSING || currentStatus == State.CLOSED || currentStatus == State.TERMINATING;
     }
 
+    @Override
     public boolean isExpired() {
         return (data.getExpirationTime() == Sequence.NO_EXPIRY) ? false : timeSynchronizer.currentTimeInMillis() > data.getExpirationTime();
     }
 
+    @Override
     public void preDestroy() {
         data.setState(State.TERMINATING);
 
@@ -170,10 +182,12 @@ public abstract class AbstractSequence implements Sequence {
         return data;
     }
     
+    @Override
     public ApplicationMessage retrieveMessage(String correlationId) {
         return data.retrieveMessage(correlationId);
     }
 
+    @Override
     public DeliveryQueue getDeliveryQueue() {
         return deliveryQueue;
     }

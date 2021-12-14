@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -19,10 +19,6 @@ package com.sun.xml.wss.saml;
 
 import java.util.List;
 
-/**
- *
- * @author abhijit.das@Sun.COM
- */
 /**
  * The <code>AuthorizationDecisionStatement</code> element supplies a statement
  * by the issuer that the request for access by the specified subject to the
@@ -57,7 +53,7 @@ public interface AuthorizationDecisionStatement {
      * 
      * 
      */
-    public List<Action> getActionList();
+    List<Action> getActionList();
 
     /**
      * Gets the value of the evidence property.
@@ -65,7 +61,7 @@ public interface AuthorizationDecisionStatement {
      * @return object is {@link Evidence }
      *     
      */
-    public Evidence getEvidence();
+    Evidence getEvidence();
 
     /**
      * Gets the value of the decision property.
@@ -73,7 +69,7 @@ public interface AuthorizationDecisionStatement {
      * @return object is {@link java.lang.String }
      *     
      */
-    public String getDecisionValue();
+    String getDecisionValue();
 
     /**
      * Gets the value of the resource property.
@@ -81,7 +77,7 @@ public interface AuthorizationDecisionStatement {
      * @return object is {@link java.lang.String }
      *     
      */
-    public String getResource();
+    String getResource();
 
     /**
      * Gets the value of the subject property.
@@ -89,5 +85,5 @@ public interface AuthorizationDecisionStatement {
      * @return object is {@link Subject }
      *     
      */
-    public Subject getSubject();
+    Subject getSubject();
 }

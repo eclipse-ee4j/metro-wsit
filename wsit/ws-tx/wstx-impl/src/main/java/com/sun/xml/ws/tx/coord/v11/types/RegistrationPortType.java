@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -27,14 +27,13 @@ public interface RegistrationPortType {
 
     /**
      * 
-     * @param parameters
      * @return
      *     returns com.sun.xml.ws.tx.coord.v11.types.RegisterResponseType
      */
     @WebMethod(operationName = "RegisterOperation")
     @WebResult(name = "RegisterResponse", targetNamespace = "http://docs.oasis-open.org/ws-tx/wscoor/2006/06", partName = "parameters")
-    public RegisterResponseType registerOperation(
-        @WebParam(name = "Register", targetNamespace = "http://docs.oasis-open.org/ws-tx/wscoor/2006/06", partName = "parameters")
-        RegisterType parameters);
+    RegisterResponseType registerOperation(
+            @WebParam(name = "Register", targetNamespace = "http://docs.oasis-open.org/ws-tx/wscoor/2006/06", partName = "parameters")
+                    RegisterType parameters);
 
 }

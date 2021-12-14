@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -170,6 +170,7 @@ public final class InVmSequenceManager extends AbstractMOMRegistrationAware impl
     /**
      * {@inheritDoc}
      */
+    @Override
     public boolean persistent() {
         return false;
     }
@@ -177,6 +178,7 @@ public final class InVmSequenceManager extends AbstractMOMRegistrationAware impl
     /**
      * {@inheritDoc}
      */
+    @Override
     public String uniqueEndpointId() {
         return uniqueEndpointId;
     }
@@ -184,11 +186,12 @@ public final class InVmSequenceManager extends AbstractMOMRegistrationAware impl
     /**
      * {@inheritDoc}
      */
+    @Override
     public Map<String, Sequence> sequences() {
         try {
             dataLock.readLock().lock();
 
-            return new HashMap<String, Sequence>(sequences);
+            return new HashMap<>(sequences);
         } finally {
             dataLock.readLock().unlock();
         }
@@ -197,6 +200,7 @@ public final class InVmSequenceManager extends AbstractMOMRegistrationAware impl
     /**
      * {@inheritDoc}
      */
+    @Override
     public Map<String, String> boundSequences() {
         try {
             dataLock.readLock().lock();
@@ -210,6 +214,7 @@ public final class InVmSequenceManager extends AbstractMOMRegistrationAware impl
     /**
      * {@inheritDoc}
      */
+    @Override
     public long concurrentlyOpenedInboundSequencesCount() {
         return actualConcurrentInboundSequences.longValue();
     }
@@ -217,6 +222,7 @@ public final class InVmSequenceManager extends AbstractMOMRegistrationAware impl
     /**
      * {@inheritDoc}
      */
+    @Override
     public Sequence createOutboundSequence(String sequenceId, String strId, long expirationTime) throws DuplicateSequenceException {
         SequenceDataPojo sequenceDataPojo = new SequenceDataPojo(sequenceId, strId, expirationTime, false, sequenceDataBs);
         sequenceDataPojo.setState(Sequence.State.CREATED);
@@ -232,6 +238,7 @@ public final class InVmSequenceManager extends AbstractMOMRegistrationAware impl
     /**
      * {@inheritDoc}
      */
+    @Override
     public Sequence createInboundSequence(String sequenceId, String strId, long expirationTime) throws DuplicateSequenceException {
         final long actualSessions = actualConcurrentInboundSequences.incrementAndGet();
         if (maxConcurrentInboundSequences >= 0) {
@@ -255,6 +262,7 @@ public final class InVmSequenceManager extends AbstractMOMRegistrationAware impl
     /**
      * {@inheritDoc}
      */
+    @Override
     public String generateSequenceUID() {
         return "uuid:" + UUID.randomUUID();
     }
@@ -262,6 +270,7 @@ public final class InVmSequenceManager extends AbstractMOMRegistrationAware impl
     /**
      * {@inheritDoc}
      */
+    @Override
     public Sequence closeSequence(String sequenceId) throws UnknownSequenceException {
         Sequence sequence = getSequence(sequenceId);
         sequence.close();
@@ -271,6 +280,7 @@ public final class InVmSequenceManager extends AbstractMOMRegistrationAware impl
     /**
      * {@inheritDoc}
      */
+    @Override
     public Sequence getSequence(String sequenceId) throws UnknownSequenceException {
         if (sequenceId == null) {
             throw new UnknownSequenceException("[null-sequence-identifier]");
@@ -298,6 +308,7 @@ public final class InVmSequenceManager extends AbstractMOMRegistrationAware impl
     /**
      * {@inheritDoc}
      */
+    @Override
     public Sequence getInboundSequence(String sequenceId) throws UnknownSequenceException {
         final Sequence sequence = getSequence(sequenceId);
 
@@ -311,6 +322,7 @@ public final class InVmSequenceManager extends AbstractMOMRegistrationAware impl
     /**
      * {@inheritDoc}
      */
+    @Override
     public Sequence getOutboundSequence(String sequenceId) throws UnknownSequenceException {
         final Sequence sequence = getSequence(sequenceId);
 
@@ -324,6 +336,7 @@ public final class InVmSequenceManager extends AbstractMOMRegistrationAware impl
     /**
      * {@inheritDoc}
      */
+    @Override
     public boolean isValid(String sequenceId) {
         if (sequenceId == null) {
             return false;
@@ -364,6 +377,7 @@ public final class InVmSequenceManager extends AbstractMOMRegistrationAware impl
     /**
      * {@inheritDoc}
      */
+    @Override
     public Sequence terminateSequence(String sequenceId) throws UnknownSequenceException {
         Sequence sequence = tryTerminateSequence(sequenceId);
         if (sequence == null) {
@@ -376,6 +390,7 @@ public final class InVmSequenceManager extends AbstractMOMRegistrationAware impl
     /**
      * {@inheritDoc}
      */
+    @Override
     public void bindSequences(String referenceSequenceId, String boundSequenceId) throws UnknownSequenceException {
         try {
             dataLock.writeLock().lock();
@@ -396,6 +411,7 @@ public final class InVmSequenceManager extends AbstractMOMRegistrationAware impl
     /**
      * {@inheritDoc}
      */
+    @Override
     public Sequence getBoundSequence(String referenceSequenceId) throws UnknownSequenceException {
         try {
             dataLock.readLock().lock();
@@ -432,10 +448,12 @@ public final class InVmSequenceManager extends AbstractMOMRegistrationAware impl
     /**
      * {@inheritDoc}
      */
+    @Override
     public long currentTimeInMillis() {
         return System.currentTimeMillis();
     }
 
+    @Override
     public boolean onMaintenance() {
         LOGGER.entering();
         
@@ -487,6 +505,7 @@ public final class InVmSequenceManager extends AbstractMOMRegistrationAware impl
         return sequence.getState() == Sequence.State.TERMINATING;
     }
 
+    @Override
     public void invalidateCache() {
         this.sequences.invalidateCache();
         this.boundSequences.invalidateCache();
@@ -496,6 +515,7 @@ public final class InVmSequenceManager extends AbstractMOMRegistrationAware impl
         }
     }
 
+    @Override
     public void dispose() {
         if (this.disposed.compareAndSet(false, true)) {        
             this.sequences.close();
@@ -509,6 +529,7 @@ public final class InVmSequenceManager extends AbstractMOMRegistrationAware impl
         }
     }
 
+    @Override
     public AbstractSequence load(String key) {
         SequenceDataPojo state = HighAvailabilityProvider.loadFrom(sequenceDataBs, new StickyKey(key), null);
         if (LOGGER.isLoggable(Level.FINER)) {
@@ -541,6 +562,7 @@ public final class InVmSequenceManager extends AbstractMOMRegistrationAware impl
         return sequence;
     }
 
+    @Override
     public void save(String key, AbstractSequence sequence, boolean isNew) {
         SequenceData _data = sequence.getData();
         if (!(_data instanceof InVmSequenceData)) {
@@ -570,6 +592,7 @@ public final class InVmSequenceManager extends AbstractMOMRegistrationAware impl
         }
     }
 
+    @Override
     public void remove(String key) {
         HighAvailabilityProvider.removeFrom(sequenceDataBs, new StickyKey(key));
         if (LOGGER.isLoggable(Level.FINER)) {
@@ -577,6 +600,7 @@ public final class InVmSequenceManager extends AbstractMOMRegistrationAware impl
         }
     }
 
+    @Override
     public void close() {
         HighAvailabilityProvider.close(sequenceDataBs);
         if (LOGGER.isLoggable(Level.FINER)) {
@@ -584,6 +608,7 @@ public final class InVmSequenceManager extends AbstractMOMRegistrationAware impl
         }
     }
 
+    @Override
     public void destroy() {
         HighAvailabilityProvider.destroy(sequenceDataBs);
         if (LOGGER.isLoggable(Level.FINER)) {

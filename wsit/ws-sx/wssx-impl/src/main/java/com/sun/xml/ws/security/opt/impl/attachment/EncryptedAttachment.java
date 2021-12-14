@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -48,34 +48,42 @@ public class EncryptedAttachment implements Attachment {
         doEncryption();
     }
 
+    @Override
     public String getContentId() {
         return attachment.getContentId();
     }
 
+    @Override
     public String getContentType() {
         return MimeConstants.APPLICATION_OCTET_STREAM_TYPE;
     }
 
+    @Override
     public byte[] asByteArray() {
         return data;
     }
 
+    @Override
     public DataHandler asDataHandler() {
         return new DataSourceStreamingDataHandler(new ByteArrayDataSource(data, getContentType()));
     }
 
+    @Override
     public Source asSource() {
         return new StreamSource(asInputStream());
     }
 
+    @Override
     public InputStream asInputStream() {
         return new ByteArrayInputStream(data);
     }
 
+    @Override
     public void writeTo(OutputStream os) throws IOException {
         os.write(asByteArray());
     }
 
+    @Override
     public void writeTo(SOAPMessage saaj) throws SOAPException {
         AttachmentPart part = saaj.createAttachmentPart();
         part.setDataHandler(asDataHandler());

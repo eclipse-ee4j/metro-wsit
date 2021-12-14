@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -53,6 +53,7 @@ public class Issuer extends PolicyAssertion implements com.sun.xml.ws.security.p
         super(name,nestedAssertions,nestedAlternative);
     }
     
+    @Override
     public AssertionFitness validate(boolean isServer) {
         return populate(isServer);
     }
@@ -143,36 +144,43 @@ public class Issuer extends PolicyAssertion implements com.sun.xml.ws.security.p
         return fitness;
     }
     
+    @Override
     public Address getAddress() {
         populate();
-        return (Address) address;
+        return address;
     }
     
+    @Override
     public String getPortType(){
         populate();
         return portType;
     }
     
+    @Override
     public PolicyAssertion getReferenceParameters(){
         populate();
         return refParams;
     }
     
+    @Override
     public PolicyAssertion getReferenceProperties(){
         populate();
         return refProps;
     }
     
+    @Override
     public PolicyAssertion getServiceName(){
         populate();
         return serviceName;
     }
     
+    @Override
     public Element getIdentity(){
         populate();
         return identityEle;
     }
 
+    @Override
     public Address getMetadataAddress() {
         populate();
         return metadataAddress;

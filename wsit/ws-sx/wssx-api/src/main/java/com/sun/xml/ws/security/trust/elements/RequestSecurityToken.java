@@ -123,7 +123,7 @@ public interface RequestSecurityToken extends WSTrustElementBase, BaseSTSRequest
      
      SecondaryParameters getSecondaryParameters(); 
      
-     public List<Object> getExtensionElements();
+     List<Object> getExtensionElements();
      
      void setActAs(ActAs actAs);
 

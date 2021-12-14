@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -36,43 +36,53 @@ public class LocalIDManagerTest extends TestCase {
 
         private final DataSource ds = new DataSource() {
 
-            public Connection getConnection() throws SQLException {
+            @Override
+            public Connection getConnection() {
                 return dbInstance.getConnection();
             }
 
-            public Connection getConnection(String username, String password) throws SQLException {
+            @Override
+            public Connection getConnection(String username, String password) {
                 return dbInstance.getConnection();
             }
 
-            public PrintWriter getLogWriter() throws SQLException {
+            @Override
+            public PrintWriter getLogWriter() {
                 throw new UnsupportedOperationException("Not supported yet.");
             }
 
-            public void setLogWriter(PrintWriter out) throws SQLException {
+            @Override
+            public void setLogWriter(PrintWriter out) {
                 throw new UnsupportedOperationException("Not supported yet.");
             }
 
-            public void setLoginTimeout(int seconds) throws SQLException {
+            @Override
+            public void setLoginTimeout(int seconds) {
                 throw new UnsupportedOperationException("Not supported yet.");
             }
 
-            public int getLoginTimeout() throws SQLException {
+            @Override
+            public int getLoginTimeout() {
                 throw new UnsupportedOperationException("Not supported yet.");
             }
 
-            public <T> T unwrap(Class<T> iface) throws SQLException {
+            @Override
+            public <T> T unwrap(Class<T> iface) {
                 throw new UnsupportedOperationException("Not supported yet.");
             }
 
-            public boolean isWrapperFor(Class<?> iface) throws SQLException {
+            @Override
+            public boolean isWrapperFor(Class<?> iface) {
                 throw new UnsupportedOperationException("Not supported yet.");
             }
 
-            public Logger getParentLogger() throws SQLFeatureNotSupportedException {
+            @Override
+            public Logger getParentLogger() {
                 throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
             }
         };
 
+        @Override
         public DataSource getDataSource() throws PersistenceException {
             return ds;
         }
@@ -80,6 +90,7 @@ public class LocalIDManagerTest extends TestCase {
 
     private EmbeddedDerbyDbInstance dbInstance;
 
+    @Override
     public void setUp() {
         tearDown();
 
@@ -95,6 +106,7 @@ public class LocalIDManagerTest extends TestCase {
                 "CREATE_TIME BIGINT, SEQ_TERMINATE_TIME BIGINT, PRIMARY KEY (LOCAL_ID))");
     }
 
+    @Override
     public void tearDown() {
         if (dbInstance != null) {
             dbInstance.stop();
@@ -110,7 +122,7 @@ public class LocalIDManagerTest extends TestCase {
         runTest(InMemoryLocalIDManager.getInstance());
     }
     
-    private void runTest(LocalIDManager mgr) throws Exception {
+    private void runTest(LocalIDManager mgr) {
         // test createLocalID
         mgr.createLocalID("localid1", "seq1", 1);
         validateLocalID(mgr.getBoundMessage("localid1"), "seq1", 1);
@@ -122,7 +134,7 @@ public class LocalIDManagerTest extends TestCase {
         validateLocalID(mgr.getBoundMessage("localid3"), "seq3", 3);
         
         // test removeLocalIDs
-        List<String> toRemove = new ArrayList<String>();
+        List<String> toRemove = new ArrayList<>();
         mgr.removeLocalIDs(toRemove.iterator());
         validateLocalID(mgr.getBoundMessage("localid1"), "seq1", 1);
         validateLocalID(mgr.getBoundMessage("localid2"), "seq2", 2);
@@ -135,14 +147,14 @@ public class LocalIDManagerTest extends TestCase {
         assertNull(mgr.getBoundMessage("localid2"));
         validateLocalID(mgr.getBoundMessage("localid3"), "seq3", 3);
         
-        toRemove = new ArrayList<String>();
+        toRemove = new ArrayList<>();
         toRemove.add("localid3");
         mgr.removeLocalIDs(toRemove.iterator());
         assertNull(mgr.getBoundMessage("localid1"));
         assertNull(mgr.getBoundMessage("localid2"));
         assertNull(mgr.getBoundMessage("localid3"));
         
-        toRemove = new ArrayList<String>();
+        toRemove = new ArrayList<>();
         toRemove.add("localid4");
         mgr.removeLocalIDs(toRemove.iterator());
         assertNull(mgr.getBoundMessage("localid1"));

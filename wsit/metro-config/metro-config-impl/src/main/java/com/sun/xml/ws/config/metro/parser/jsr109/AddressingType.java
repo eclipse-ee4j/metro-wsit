@@ -164,6 +164,7 @@ public class AddressingType
         this.responses = value;
     }
 
+    @Override
     public Locator sourceLocation() {
         return locator;
     }

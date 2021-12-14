@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -50,7 +50,7 @@ public class ServiceChannelWSImplService
      */
     @WebEndpoint(name = "ServiceChannelWSImplPort")
     public ServiceChannelWSImpl getServiceChannelWSImplPort() {
-        return (ServiceChannelWSImpl)super.getPort(new QName("http://servicechannel.tcp.transport.ws.xml.sun.com/", "ServiceChannelWSImplPort"), ServiceChannelWSImpl.class);
+        return super.getPort(new QName("http://servicechannel.tcp.transport.ws.xml.sun.com/", "ServiceChannelWSImplPort"), ServiceChannelWSImpl.class);
     }
 
     /**
@@ -62,7 +62,7 @@ public class ServiceChannelWSImplService
      */
     @WebEndpoint(name = "ServiceChannelWSImplPort")
     public ServiceChannelWSImpl getServiceChannelWSImplPort(WebServiceFeature... features) {
-        return (ServiceChannelWSImpl)super.getPort(new QName("http://servicechannel.tcp.transport.ws.xml.sun.com/", "ServiceChannelWSImplPort"), ServiceChannelWSImpl.class, features);
+        return super.getPort(new QName("http://servicechannel.tcp.transport.ws.xml.sun.com/", "ServiceChannelWSImplPort"), ServiceChannelWSImpl.class, features);
     }
 
 }

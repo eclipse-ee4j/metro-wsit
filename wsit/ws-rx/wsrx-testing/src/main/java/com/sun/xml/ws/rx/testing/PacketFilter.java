@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -35,9 +35,9 @@ public abstract class PacketFilter {
      * is sent to the service.
      * 
      * @param request original request packet to be filtered
-     * 
+     *
      * @return filtered packet
-     * 
+     *
      * @exception java.lang.Exception any exception that may occur during processing.
      */
     public abstract Packet filterClientRequest(Packet request) throws Exception;
@@ -47,9 +47,9 @@ public abstract class PacketFilter {
      * is sent to the client.
      * 
      * @param response original response packet to be filtered
-     * 
+     *
      * @return filtered packet
-     * 
+     *
      * @exception java.lang.Exception any exception that may occur during processing.
      */
     public abstract Packet filterServerResponse(Packet response) throws Exception;
@@ -82,7 +82,7 @@ public abstract class PacketFilter {
      * 
      * @param packet packet to be checked for the RM message identifier
      * 
-     * @return RM sequence message identifier. May return {@link UNSPECIFIED} if there is no RM message identifier 
+     * @return RM sequence message identifier. May return {@link #UNSPECIFIED} if there is no RM message identifier
      * associated with this packet.
      */
     protected final long getMessageId(Packet packet) {

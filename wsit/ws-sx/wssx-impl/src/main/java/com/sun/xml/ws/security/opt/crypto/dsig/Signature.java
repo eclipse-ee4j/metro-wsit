@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -89,6 +89,7 @@ public class Signature extends com.sun.xml.security.core.dsig.SignatureType impl
 
     }
 
+    @Override
     public boolean validate(XMLValidateContext xMLValidateContext) throws XMLSignatureException {
 
         SignatureMethod sm; 
@@ -170,11 +171,13 @@ public class Signature extends com.sun.xml.security.core.dsig.SignatureType impl
         //return false; 
     } 
 
-    public List getObjects() { 
+    @Override
+    public List getObjects() {
         return null; 
     }
 
-    public void sign(XMLSignContext xMLSignContext) throws MarshalException, XMLSignatureException { 
+    @Override
+    public void sign(XMLSignContext xMLSignContext) throws MarshalException, XMLSignatureException {
         SignatureMethod sm; 
         if (xMLSignContext == null) { 
             throw new NullPointerException("signContext cannot be null"); 
@@ -262,27 +265,32 @@ public class Signature extends com.sun.xml.security.core.dsig.SignatureType impl
         }
     }
 
-    public KeySelectorResult getKeySelectorResult() { 
+    @Override
+    public KeySelectorResult getKeySelectorResult() {
         return null; 
     }
 
     
 
-    public boolean isFeatureSupported(String string) { 
+    @Override
+    public boolean isFeatureSupported(String string) {
         return false; 
     } 
     
+    @Override
     public SignatureValue getSignatureValue() {
         return signatureValue;
     }
 
 
+    @Override
     public SignedInfo getSignedInfo() {
         return this.signedInfo; 
     }
 
 
-    public KeyInfo getKeyInfo() { 
+    @Override
+    public KeyInfo getKeyInfo() {
         return keyInfo; 
     }
 

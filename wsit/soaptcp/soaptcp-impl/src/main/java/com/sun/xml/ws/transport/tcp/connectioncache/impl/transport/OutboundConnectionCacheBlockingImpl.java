@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -40,10 +40,12 @@ public final class OutboundConnectionCacheBlockingImpl<C extends Connection>
     private Map<ContactInfo<C>,CacheEntry<C>> entryMap ;
     private Map<C,ConnectionState<C>> connectionMap ;
     
+    @Override
     public int maxParallelConnections() {
         return maxParallelConnections ;
     }
     
+    @Override
     protected String thisClassName() {
         return "OutboundConnectionCacheBlockingImpl" ;
     }
@@ -106,11 +108,11 @@ public final class OutboundConnectionCacheBlockingImpl<C extends Connection>
     // This version handles normal shareable ContactInfo
     // (we also need to handle no share).
     private static final class CacheEntry<C extends Connection> {
-        final Queue<C> idleConnections = new LinkedBlockingQueue<C>() ;
+        final Queue<C> idleConnections = new LinkedBlockingQueue<>() ;
         final Collection<C> idleConnectionsView =
                 Collections.unmodifiableCollection( idleConnections ) ;
         
-        final Queue<C> busyConnections = new LinkedBlockingQueue<C>() ;
+        final Queue<C> busyConnections = new LinkedBlockingQueue<>() ;
         final Collection<C> busyConnectionsView =
                 Collections.unmodifiableCollection( busyConnections ) ;
         
@@ -131,15 +133,16 @@ public final class OutboundConnectionCacheBlockingImpl<C extends Connection>
         
         this.maxParallelConnections = maxParallelConnections ;
         
-        this.entryMap = new HashMap<ContactInfo<C>,CacheEntry<C>>() ;
-        this.connectionMap = new HashMap<C,ConnectionState<C>>() ;
+        this.entryMap = new HashMap<>() ;
+        this.connectionMap = new HashMap<>() ;
         
         if (debug()) {
             dprint(".constructor completed: " + cacheType );
         }
     }
     
-    public boolean canCreateNewConnection( ContactInfo<C> cinfo ) {
+    @Override
+    public boolean canCreateNewConnection(ContactInfo<C> cinfo ) {
         CacheEntry<C> entry = entryMap.get( cinfo ) ;
         if (entry == null)
             return true ;
@@ -159,7 +162,7 @@ public final class OutboundConnectionCacheBlockingImpl<C extends Connection>
     }
     
     private CacheEntry<C> getEntry( final ContactInfo<C> cinfo
-            ) throws IOException {
+            ) {
         
         if (debug()) {
             dprint( "->getEntry: " + cinfo ) ;
@@ -174,7 +177,7 @@ public final class OutboundConnectionCacheBlockingImpl<C extends Connection>
                             + " creating new CacheEntry" ) ;
                 }
                 
-                result = new CacheEntry<C>() ;
+                result = new CacheEntry<>() ;
                 entryMap.put( cinfo, result ) ;
             } else {
                 if (debug()) {
@@ -349,7 +352,8 @@ public final class OutboundConnectionCacheBlockingImpl<C extends Connection>
         }
     }
     
-    public synchronized C get( final ContactInfo<C> cinfo
+    @Override
+    public synchronized C get(final ContactInfo<C> cinfo
             ) throws IOException {
         
         return get( cinfo, null ) ;
@@ -368,7 +372,7 @@ public final class OutboundConnectionCacheBlockingImpl<C extends Connection>
                     dprint( ".getConnectionState: " + conn
                             + " creating new ConnectionState" + cs ) ;
                 
-                cs = new ConnectionState<C>( cinfo, entry, conn ) ;
+                cs = new ConnectionState<>(cinfo, entry, conn) ;
                 connectionMap.put( conn, cs ) ;
             } else {
                 if (debug())
@@ -383,8 +387,9 @@ public final class OutboundConnectionCacheBlockingImpl<C extends Connection>
         }
     }
     
-    public synchronized C get( final ContactInfo<C> cinfo,
-            final ConnectionFinder<C> finder ) throws IOException {
+    @Override
+    public synchronized C get(final ContactInfo<C> cinfo,
+                              final ConnectionFinder<C> finder ) throws IOException {
         
         if (debug()) {
             dprint( "->get: " + cinfo ) ;
@@ -486,8 +491,9 @@ public final class OutboundConnectionCacheBlockingImpl<C extends Connection>
         }
     }
     
-    public synchronized void release( final C conn,
-            final int numResponsesExpected ) {
+    @Override
+    public synchronized void release(final C conn,
+                                     final int numResponsesExpected ) {
         
         if (debug()) {
             dprint( "->release: " + conn
@@ -501,8 +507,7 @@ public final class OutboundConnectionCacheBlockingImpl<C extends Connection>
                 if (debug()) {
                     dprint( ".release: " + conn + " was closed" ) ;
                 }
-                
-                return ;
+
             } else {
                 cs.expectedResponseCount += numResponsesExpected ;
                 int numResp = cs.expectedResponseCount ;
@@ -565,7 +570,8 @@ public final class OutboundConnectionCacheBlockingImpl<C extends Connection>
     /** Decrement the number of expected responses.  When a connection is idle
      * and has no expected responses, it can be reclaimed.
      */
-    public synchronized void responseReceived( final C conn ) {
+    @Override
+    public synchronized void responseReceived(final C conn ) {
         if (debug()) {
             dprint( "->responseReceived: " + conn ) ;
         }
@@ -612,7 +618,8 @@ public final class OutboundConnectionCacheBlockingImpl<C extends Connection>
     /** Close a connection, regardless of whether the connection is busy
      * or not.
      */
-    public synchronized void close( final C conn ) {
+    @Override
+    public synchronized void close(final C conn ) {
         if (debug()) {
             dprint( "->close: " + conn ) ;
         }
@@ -658,14 +665,8 @@ public final class OutboundConnectionCacheBlockingImpl<C extends Connection>
                 
                 decrementTotalIdle() ;
             }
-            
-            try {
-                conn.close() ;
-            } catch (IOException exc) {
-                if (debug())
-                    dprint( ".close: " + conn + ": Caught IOException on close:"
-                            + exc ) ;
-            }
+
+            conn.close() ;
         } finally {
             if (debug()) {
                 dprintStatistics() ;

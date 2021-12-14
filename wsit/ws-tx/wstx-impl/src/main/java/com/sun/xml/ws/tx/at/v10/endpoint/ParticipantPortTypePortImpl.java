@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -35,34 +35,34 @@ public class ParticipantPortTypePortImpl
     }
 
     /**
-     * 
-     * @param parameters
+     *
      */
+    @Override
     public void prepare(Notification parameters) {
         Participant<Notification> proxy = getProxy();
         proxy.prepare(parameters);
     }
 
     /**
-     * 
-     * @param parameters
+     *
      */
+    @Override
     public void commit(Notification parameters) {
         Participant<Notification> proxy = getProxy();
         proxy.commit(parameters);
     }
 
     /**
-     * 
-     * @param parameters
+     *
      */
+    @Override
     public void rollback(Notification parameters) {
         Participant<Notification> proxy = getProxy();
         proxy.rollback(parameters);
     }
 
     protected Participant<Notification> getProxy() {
-        return new Participant<Notification>(m_context, WSATVersion.v10);
+        return new Participant<>(m_context, WSATVersion.v10);
     }public String toString() {
     return "v10ParticipantPortTypePortImpl hashcode:"+hashCode() + " getProxy():"+getProxy() +
             "m_context:"+m_context + "m_context.getMessageContext:"+m_context.getMessageContext();

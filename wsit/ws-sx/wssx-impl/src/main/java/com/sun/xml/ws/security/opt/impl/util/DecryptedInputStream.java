@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -42,9 +42,9 @@ public class DecryptedInputStream extends FilterInputStream{
         while(iter.hasNext()){
            Map.Entry<String, String> entry = iter.next();
            if(!"".equals(entry.getKey())){
-               startElement.append(" xmlns:"+entry.getKey()+"=\""+entry.getValue()+"\"");
+               startElement.append(" xmlns:").append(entry.getKey()).append("=\"").append(entry.getValue()).append("\"");
            } else{
-               startElement.append(" xmlns=\"" + entry.getValue()+"\"");
+               startElement.append(" xmlns=\"").append(entry.getValue()).append("\"");
            }
         }
         startElement.append(" >");
@@ -52,6 +52,7 @@ public class DecryptedInputStream extends FilterInputStream{
         startIS = new ByteArrayInputStream(startElem.getBytes());
     }
     
+    @Override
     public int read() throws IOException{
         int readVal = startIS.read();
         if(readVal != -1){
@@ -64,10 +65,12 @@ public class DecryptedInputStream extends FilterInputStream{
         return endIS.read();
     }
     
+    @Override
     public int read(byte [] b) throws IOException{
         return read(b,0,b.length-1);
     }
     
+    @Override
     public int read(byte[] b , int off, int len) throws IOException{
         if (b == null) {
 	    throw new NullPointerException();
@@ -95,6 +98,7 @@ public class DecryptedInputStream extends FilterInputStream{
         return i;
     }
     
+    @Override
     public long skip(long n) throws IOException {
         long remaining = n;
 	int nr;
@@ -119,14 +123,17 @@ public class DecryptedInputStream extends FilterInputStream{
 	return n - remaining;
     }
     
+    @Override
     public boolean markSupported() {
 	return false;
     }
     
+    @Override
     public synchronized void reset() throws IOException {
 	throw new IOException("mark/reset not supported");
     }
     
+    @Override
     public void close() throws IOException{
         startIS.close();
         in.close();

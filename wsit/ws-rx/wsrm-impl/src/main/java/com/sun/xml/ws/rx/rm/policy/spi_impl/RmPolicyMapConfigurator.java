@@ -29,8 +29,9 @@ public class RmPolicyMapConfigurator implements PolicyMapConfigurator {
 
     private static final Logger LOGGER = Logger.getLogger(RmPolicyMapConfigurator.class);
 
+    @Override
     public Collection<PolicySubject> update(PolicyMap policyMap, SEIModel model, WSBinding wsBinding) throws PolicyException {
-        final Collection<PolicySubject> subjects = new LinkedList<PolicySubject>();
+        final Collection<PolicySubject> subjects = new LinkedList<>();
 
         try {
             LOGGER.entering(policyMap, model, wsBinding);

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -32,8 +32,6 @@ public class ParsedElement {
      * does not work when you start adding e.g.
      * ParsedElement(String portComponentRefName, WebServiceFeature feature).
      *
-     * @param portComponentName
-     * @param feature
      */
     private ParsedElement(final String portComponentName, final String portComponentRefName,
             final String operationName, final boolean isInputMessage, final boolean isOutputMessage,

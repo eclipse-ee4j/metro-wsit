@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -31,5 +31,5 @@ public interface InvocationTransformer {
      * @param invocation original invocation to be transformed.
      * @return collection of invocations as a result of the transformation
      */
-    public Collection<Invocation> transform(Invocation invocation);
+    Collection<Invocation> transform(Invocation invocation);
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -50,6 +50,7 @@ public class XWSSTubelineAssemblerFactory extends TubelineAssemblerFactory {
             this.bindingId = bindingId;
         }
 
+        @Override
         @NotNull
         public Tube createClient(@NotNull ClientTubeAssemblerContext context) {
             
@@ -69,6 +70,7 @@ public class XWSSTubelineAssemblerFactory extends TubelineAssemblerFactory {
             return p;
         }
 
+        @Override
         @NotNull
         public Tube createServer(@NotNull ServerTubeAssemblerContext context) {
             Tube p = context.getTerminalTube();
@@ -104,15 +106,7 @@ public class XWSSTubelineAssemblerFactory extends TubelineAssemblerFactory {
                         boolean ret = ((Boolean)result).booleanValue();
                         return ret;
                     }
-                } catch (IllegalAccessException ex) {
-                    throw new WebServiceException(ex);
-                } catch (IllegalArgumentException ex) {
-                    throw new WebServiceException(ex);
-                } catch (InvocationTargetException ex) {
-                    throw new WebServiceException(ex);
-                } catch (NoSuchMethodException ex) {
-                    throw new WebServiceException(ex);
-                } catch (SecurityException ex) {
+                } catch (IllegalAccessException | SecurityException | NoSuchMethodException | InvocationTargetException | IllegalArgumentException ex) {
                     throw new WebServiceException(ex);
                 }
             }

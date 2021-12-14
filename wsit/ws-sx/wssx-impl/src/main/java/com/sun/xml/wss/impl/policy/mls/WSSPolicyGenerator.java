@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -39,8 +39,8 @@ public class WSSPolicyGenerator implements SecurityPolicyGenerator {
     /**
      * return a new concrete MLSPolicy instance
      * @return MLSPolicy
-     * @exception PolicyGenerationException
      */
+    @Override
     public MLSPolicy newMLSPolicy () throws PolicyGenerationException {
         throw new PolicyGenerationException ("Unsupported Operation");
     }      
@@ -48,7 +48,6 @@ public class WSSPolicyGenerator implements SecurityPolicyGenerator {
     /**
      * return a new TimestampPolicy instance
      * @return TimestampPolicy
-     * @exception PolicyGenerationException
      */
     public TimestampPolicy newTimestampPolicy () throws PolicyGenerationException {
         TimestampPolicy policy = new TimestampPolicy ();
@@ -61,7 +60,6 @@ public class WSSPolicyGenerator implements SecurityPolicyGenerator {
     /**
      * return a new SignaturePolicy instance
      * @return SignaturePolicy
-     * @exception PolicyGenerationException
      */
     public SignaturePolicy newSignaturePolicy () throws PolicyGenerationException {
         SignaturePolicy policy = new SignaturePolicy ();
@@ -74,7 +72,6 @@ public class WSSPolicyGenerator implements SecurityPolicyGenerator {
     /**
      * return a new EncryptionPolicy instance
      * @return EncryptionPolicy
-     * @exception PolicyGenerationException
      */
     public EncryptionPolicy newEncryptionPolicy () throws PolicyGenerationException {
         EncryptionPolicy policy = new EncryptionPolicy ();
@@ -87,7 +84,6 @@ public class WSSPolicyGenerator implements SecurityPolicyGenerator {
     /**
      * return a new AuthenticationTokenPolicy instance
      * @return AuthenticationTokenPolicy
-     * @exception PolicyGenerationException
      */
     public AuthenticationTokenPolicy newAuthenticationTokenPolicy () throws PolicyGenerationException {
         AuthenticationTokenPolicy policy = new AuthenticationTokenPolicy ();
@@ -100,8 +96,8 @@ public class WSSPolicyGenerator implements SecurityPolicyGenerator {
     /**
      * return a SecurityPolicy that represents a configuration
      * @return SecurityPolicy
-     * @exception PolicyGenerationException
      */
+    @Override
     public SecurityPolicy configuration () throws PolicyGenerationException {
         return configuration; 
     }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -226,7 +226,7 @@ public class ETHandler {
             
         }else{
             if(isEncryptedHeaders && "true".equals(context.getExtraneousProperty("EnableWSS11PolicySender"))){
-                ed = (SecurityHeaderElement) wsf.createEncryptedHeader(context.generateID(),context.generateID(),data,dataEncAlg,ki,key,contentOnly);
+                ed = wsf.createEncryptedHeader(context.generateID(),context.generateID(),data,dataEncAlg,ki,key,contentOnly);
                 ((NamespaceContextEx)context.getNamespaceContext()).addWSS11NS();
             } else{
                 ed = (SecurityHeaderElement) wsf.createEncryptedData(context.generateID(),data,dataEncAlg,ki,key,contentOnly);

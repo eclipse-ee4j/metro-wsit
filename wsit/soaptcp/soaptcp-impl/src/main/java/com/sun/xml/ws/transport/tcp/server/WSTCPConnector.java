@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -16,14 +16,14 @@ import java.io.IOException;
  * @author Alexey Stashok
  */
 public interface WSTCPConnector {
-    public void listen() throws IOException;
-    public String getHost();
-    public void setHost(String host);
-    public int getPort();
-    public void setPort(int port);
-    public TCPMessageListener getListener();
-    public void setListener(TCPMessageListener listener);
-    public void setFrameSize(int frameSize);
-    public int getFrameSize();
-    public void close();
+    void listen() throws IOException;
+    String getHost();
+    void setHost(String host);
+    int getPort();
+    void setPort(int port);
+    TCPMessageListener getListener();
+    void setListener(TCPMessageListener listener);
+    void setFrameSize(int frameSize);
+    int getFrameSize();
+    void close();
 }

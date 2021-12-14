@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -50,6 +50,7 @@ public class TargetResolverImpl implements TargetResolver {
         this.ctx = ctx;
     }
 
+    @Override
     public void resolveAndVerifyTargets(
             List<Target> actualTargets, List<Target> inferredTargets, WSSPolicy actualPolicy)
             throws XWSSecurityException {
@@ -114,7 +115,7 @@ public class TargetResolverImpl implements TargetResolver {
                 } else {
                     tokenList.delete(tokenList.lastIndexOf(","),tokenList.length());
                     throw new XWSSecurityException("Policy verification error:" +
-                            "Missing reference for one of { "+ tokenList.toString() + "}  for " + policyType);
+                            "Missing reference for one of { "+ tokenList + "}  for " + policyType);
                 }
             }
         }
@@ -261,7 +262,8 @@ public class TargetResolverImpl implements TargetResolver {
         return false;
     }
 
-    public boolean isTargetPresent(List<Target> actualTargets) throws XWSSecurityException {
+    @Override
+    public boolean isTargetPresent(List<Target> actualTargets) {
 
         for (Target actualTarget : actualTargets) {
             String targetInPolicy = getTargetValue(actualTarget);

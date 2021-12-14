@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -52,11 +52,13 @@ public class EncryptedParts extends PolicyAssertion implements com.sun.xml.ws.se
         this._body = true;
     }
     
+    @Override
     public boolean hasBody(){
         populate();
         return this._body;
     }
     
+    @Override
     public boolean hasAttachments(){
         populate();
         return this._attachments;
@@ -66,6 +68,7 @@ public class EncryptedParts extends PolicyAssertion implements com.sun.xml.ws.se
         throw new UnsupportedOperationException();
     }
     
+    @Override
     public Iterator getTargets() {
         populate();
         if(header == null){
@@ -78,6 +81,7 @@ public class EncryptedParts extends PolicyAssertion implements com.sun.xml.ws.se
     //        return Constants._EncryptedParts_QNAME;
     //    }
     
+    @Override
     public AssertionFitness validate(boolean isServer) {
         return populate(isServer);
     }
@@ -98,7 +102,7 @@ public class EncryptedParts extends PolicyAssertion implements com.sun.xml.ws.se
                         this._attachments = true;
                     } else {
                         if(header == null){
-                            header = new ArrayList<Header>();
+                            header = new ArrayList<>();
                         }
                         if(PolicyUtil.isHeader(assertion, spVersion)){
                             this.header.add((Header)assertion);
@@ -120,6 +124,7 @@ public class EncryptedParts extends PolicyAssertion implements com.sun.xml.ws.se
         throw new UnsupportedOperationException();
     }
     
+    @Override
     public void removeBody() {
         throw new UnsupportedOperationException();
     }

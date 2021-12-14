@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -68,12 +68,14 @@ public class UsernameToken extends PolicyAssertion implements com.sun.xml.ws.sec
         this.tokenType = type;
     }
     
+    @Override
     public String getType() {
         populate();
         return tokenType;
     }
     
     
+    @Override
     public String getTokenId() {
         return id;
     }
@@ -82,6 +84,7 @@ public class UsernameToken extends PolicyAssertion implements com.sun.xml.ws.sec
         this.id = _id;
     }
     
+    @Override
     public String getIncludeToken() {
         populate();
         return  includeToken;
@@ -93,35 +96,42 @@ public class UsernameToken extends PolicyAssertion implements com.sun.xml.ws.sec
         attrs.put(itQname,type);
     }
     
+    @Override
     public Issuer getIssuer() {
         populate();
         return issuer;
     }
     
+    @Override
     public IssuerName getIssuerName() {
         populate();
         return issuerName;
     }
     
+    @Override
     public Claims getClaims(){
         populate();
         return claims;
     }
     
+    @Override
     public AssertionFitness validate(boolean isServer) {
         return populate(isServer);
     }
     private void populate(){
         populate(false);
     }
+    @Override
     public boolean hasPassword(){
         return hasPassword;
     }
     
+    @Override
     public boolean useHashPassword(){
         return useHashPassword;
     }
     
+    @Override
     public boolean isRequireDerivedKeys() {
         populate();
         return reqDK;
@@ -185,22 +195,27 @@ public class UsernameToken extends PolicyAssertion implements com.sun.xml.ws.sec
         return fitness;
     }
     
-    public Object clone() throws CloneNotSupportedException  {
+    @Override
+    public Object clone() {
         throw new UnsupportedOperationException();
     }
 
+    @Override
     public SecurityPolicyVersion getSecurityPolicyVersion() {
         return spVersion;
     }
 
+    @Override
     public Set getTokenRefernceType() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    @Override
     public boolean useNonce() {
         return useNonce;
     }
 
+    @Override
     public boolean useCreated() {
         return useCreated;
     }

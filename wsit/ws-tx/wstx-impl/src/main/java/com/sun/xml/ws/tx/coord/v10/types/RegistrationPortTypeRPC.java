@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -28,14 +28,13 @@ public interface RegistrationPortTypeRPC {
 
     /**
      * 
-     * @param parameters
      * @return
      *     returns com.sun.xml.ws.tx.coord.v10.types.RegisterResponseType
      */
     @WebMethod(operationName = "RegisterOperation", action = "http://schemas.xmlsoap.org/ws/2004/10/wscoor/Register")
     @WebResult(name = "RegisterResponse", targetNamespace = "http://schemas.xmlsoap.org/ws/2004/10/wscoor", partName = "parameters")
-    public RegisterResponseType registerOperation(
-        @WebParam(name = "Register", targetNamespace = "http://schemas.xmlsoap.org/ws/2004/10/wscoor", partName = "parameters")
-        RegisterType parameters);
+    RegisterResponseType registerOperation(
+            @WebParam(name = "Register", targetNamespace = "http://schemas.xmlsoap.org/ws/2004/10/wscoor", partName = "parameters")
+                    RegisterType parameters);
 
 }

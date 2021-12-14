@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -41,8 +41,9 @@ public class OptimalTransportPolicyMapConfigurator implements PolicyMapConfigura
 
     private static final Logger LOGGER = Logger.getLogger(OptimalTransportPolicyMapConfigurator.class);
 
+    @Override
     public Collection<PolicySubject> update(PolicyMap policyMap, SEIModel model, WSBinding wsBinding) throws PolicyException {
-        final Collection<PolicySubject> subjects = new LinkedList<PolicySubject>();
+        final Collection<PolicySubject> subjects = new LinkedList<>();
 
         try {
             LOGGER.entering(policyMap, model, wsBinding);
@@ -92,9 +93,7 @@ public class OptimalTransportPolicyMapConfigurator implements PolicyMapConfigura
      * @return A policy that contains one policy assertion that corresponds to the given assertion name.
      */
     private Policy createOptimalTransportPolicy(final QName bindingName) {
-        return Policy.createPolicy(null, bindingName.getLocalPart() + "_OptimalTransport_Policy", Arrays.asList(new AssertionSet[]{
-                    AssertionSet.createAssertionSet(Arrays.asList(new PolicyAssertion[]{new OptimalTransportAssertion()}))
-                }));
+        return Policy.createPolicy(null, bindingName.getLocalPart() + "_OptimalTransport_Policy", Arrays.asList(AssertionSet.createAssertionSet(Arrays.asList(new OptimalTransportAssertion()))));
     }
 
     public static class OptimalTransportAssertion extends SimpleAssertion {

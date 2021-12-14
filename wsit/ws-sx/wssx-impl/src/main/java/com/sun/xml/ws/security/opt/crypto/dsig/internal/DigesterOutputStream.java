@@ -66,10 +66,12 @@ public class DigesterOutputStream extends OutputStream {
 	}
     }
 
+    @Override
     public void write(byte[] input) {
 	write(input, 0, input.length);
     }
     
+    @Override
     public void write(int input) {
 	if (buffer) {
 	    bos.write(input);
@@ -77,6 +79,7 @@ public class DigesterOutputStream extends OutputStream {
 	md.update((byte)input);
     }
     
+    @Override
     public void write(byte[] input, int offset, int len) {
 	if (buffer) {
 	    bos.write(input, offset, len);
@@ -84,7 +87,7 @@ public class DigesterOutputStream extends OutputStream {
 
         if (log.isLoggable(Level.FINER)) {
 	    log.log(Level.FINER, "Pre-digested input:");
-	    StringBuffer sb = new StringBuffer(len);
+	    StringBuilder sb = new StringBuilder(len);
             for (int i=offset; i<(offset+len); i++) {
 		sb.append((char) input[i]);
             }

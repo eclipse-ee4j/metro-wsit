@@ -37,11 +37,11 @@ public final class JaxbContextRepository {
     private static final Logger LOGGER = Logger.getLogger(JaxbContextRepository.class);
     //
     private Map<AddressingVersion, JAXBRIContext> jaxbContexts;
-    private ThreadLocal<Map<AddressingVersion, Unmarshaller>> threadLocalUnmarshallers = new ThreadLocal<Map<AddressingVersion, Unmarshaller>>() {
+    private ThreadLocal<Map<AddressingVersion, Unmarshaller>> threadLocalUnmarshallers = new ThreadLocal<>() {
 
         @Override
         protected Map<AddressingVersion, Unmarshaller> initialValue() {
-            Map<AddressingVersion, Unmarshaller> result = new HashMap<AddressingVersion, Unmarshaller>();
+            Map<AddressingVersion, Unmarshaller> result = new HashMap<>();
             for (Map.Entry<AddressingVersion, JAXBRIContext> entry : jaxbContexts.entrySet()) {
                 try {
                     result.put(entry.getKey(), entry.getValue().createUnmarshaller());
@@ -55,21 +55,21 @@ public final class JaxbContextRepository {
     };
 
     public JaxbContextRepository(Class<?>... classes) throws RxRuntimeException {
-        this.jaxbContexts = new HashMap<AddressingVersion, JAXBRIContext>();
+        this.jaxbContexts = new HashMap<>();
         for (AddressingVersion av : AddressingVersion.values()) {
             this.jaxbContexts.put(av, createContext(av, classes));
         }
     }
 
-    private static final JAXBRIContext createContext(AddressingVersion av, Class<?>... classes) throws RxRuntimeException {
-        /**
-         * We need to add all supported WS-A EndpointReference implementation classes to the array
-         * before we pass the array to the JAXBRIContext factory method.
+    private static JAXBRIContext createContext(AddressingVersion av, Class<?>... classes) throws RxRuntimeException {
+        /*
+          We need to add all supported WS-A EndpointReference implementation classes to the array
+          before we pass the array to the JAXBRIContext factory method.
          */
-        LinkedList<Class<?>> jaxbElementClasses = new LinkedList<Class<?>>(Arrays.asList(classes));
+        LinkedList<Class<?>> jaxbElementClasses = new LinkedList<>(Arrays.asList(classes));
         jaxbElementClasses.add(av.eprType.eprClass);
 
-        Map<Class, Class> eprClassReplacementMap = new HashMap<Class, Class>();
+        Map<Class, Class> eprClassReplacementMap = new HashMap<>();
         eprClassReplacementMap.put(EndpointReference.class, av.eprType.eprClass);
 
         try {

@@ -52,7 +52,7 @@ public class Identifier {
     @XmlSchemaType(name = "anyURI")
     protected String value;
     @XmlAnyAttribute
-    private Map<QName, String> otherAttributes = new HashMap<QName, String>();
+    private Map<QName, String> otherAttributes = new HashMap<>();
 
     public Identifier() {
         // empty

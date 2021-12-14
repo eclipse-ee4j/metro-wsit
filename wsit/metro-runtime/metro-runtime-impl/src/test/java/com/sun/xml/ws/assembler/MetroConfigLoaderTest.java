@@ -12,7 +12,6 @@ package com.sun.xml.ws.assembler;
 
 import com.sun.xml.ws.assembler.MetroConfigLoader;
 import com.sun.xml.ws.assembler.metro.impl.MetroTubelineAssemblerFactoryImpl;
-import com.sun.xml.ws.assembler.metro.impl.MetroTubelineAssemblerFactoryImpl;
 import com.sun.xml.ws.runtime.config.TubeFactoryConfig;
 import com.sun.xml.ws.runtime.config.TubeFactoryList;
 import junit.framework.TestCase;

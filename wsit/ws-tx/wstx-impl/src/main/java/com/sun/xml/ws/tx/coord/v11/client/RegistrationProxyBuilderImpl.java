@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -30,15 +30,18 @@ public class RegistrationProxyBuilderImpl extends RegistrationProxyBuilder{
         this.feature(new AddressingFeature());
     }
 
+    @Override
     public RegistrationIF<W3CEndpointReference, RegisterType,RegisterResponseType> build() {
         super.build();
         return new RegistrationProxyImpl();
     }
 
+    @Override
     protected String getDefaultCallbackAddress() {
         return WSATHelper.V11.getRegistrationRequesterAddress();
     }
 
+    @Override
     protected EndpointReferenceBuilder getEndpointReferenceBuilder() {
         return EndpointReferenceBuilder.W3C();
     }
@@ -53,14 +56,17 @@ public class RegistrationProxyBuilderImpl extends RegistrationProxyBuilder{
             port = service.getRegistrationCoordinatorPort(to,getEnabledFeatures());
         }
 
+         @Override
          public RegistrationCoordinatorPortType getDelegate(){
             return port;
         }
 
+        @Override
         public void asyncRegister(RegisterType parameters) {
             port.registerOperation(parameters);
         }
 
+        @Override
         public AddressingVersion getAddressingVersion() {
             return AddressingVersion.W3C;
         }

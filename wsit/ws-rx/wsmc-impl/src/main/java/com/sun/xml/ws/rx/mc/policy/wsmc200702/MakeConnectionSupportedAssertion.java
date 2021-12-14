@@ -20,9 +20,10 @@ import java.util.Collection;
 import javax.xml.namespace.QName;
 
 /**
+ * <pre>{@code
  * <wsmc:MCSupported ...>...</wsmc:MCSupported>
- */
-/**
+ * }</pre>
+ *
  * <p>
  * The MakeConnection policy assertion indicates that the MakeConnection protocol
  * (operation and the use of the MakeConnection URI template in EndpointReferences)
@@ -30,13 +31,13 @@ import javax.xml.namespace.QName;
  * </p>
  * <p>
  * This assertion has Endpoint Policy Subject
- * </p>
  *
  */
 public class MakeConnectionSupportedAssertion extends SimpleAssertion {
     public static final QName NAME = McAssertionNamespace.WSMC_200702.getQName("MCSupported");
 
     private static AssertionInstantiator instantiator = new AssertionInstantiator() {
+        @Override
         public PolicyAssertion newInstance(AssertionData data, Collection<PolicyAssertion> assertionParameters, AssertionSet nestedAlternative) {
             return new MakeConnectionSupportedAssertion(data, assertionParameters);
         }

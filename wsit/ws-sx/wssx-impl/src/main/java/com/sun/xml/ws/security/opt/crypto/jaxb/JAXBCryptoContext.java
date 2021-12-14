@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -44,6 +44,7 @@ public class JAXBCryptoContext implements javax.xml.crypto.XMLCryptoContext {
      * @return the base URI, or <code>null</code> if not specified
      * @see #setBaseURI(String)
      */
+    @Override
     public String getBaseURI() {
         return baseURI;
     }
@@ -57,6 +58,7 @@ public class JAXBCryptoContext implements javax.xml.crypto.XMLCryptoContext {
      *    2396 compliant
      * @see #getBaseURI
      */
+    @Override
     public void setBaseURI(String baseURI) {
         this.baseURI = baseURI;
     }
@@ -67,6 +69,7 @@ public class JAXBCryptoContext implements javax.xml.crypto.XMLCryptoContext {
      * @return the key selector, or <code>null</code> if not specified
      * @see #setKeySelector(KeySelector)
      */
+    @Override
     public KeySelector getKeySelector() {
         return keySelector;
     }
@@ -78,6 +81,7 @@ public class JAXBCryptoContext implements javax.xml.crypto.XMLCryptoContext {
      *    setting
      * @see #getKeySelector
      */
+    @Override
     public void setKeySelector(KeySelector keySelector) {
         this.keySelector = keySelector;
     }
@@ -90,6 +94,7 @@ public class JAXBCryptoContext implements javax.xml.crypto.XMLCryptoContext {
      *    specified
      * @see #setURIDereferencer(URIDereferencer)
      */
+    @Override
     public URIDereferencer getURIDereferencer() {
         return uriDereferencer;
     }
@@ -104,6 +109,7 @@ public class JAXBCryptoContext implements javax.xml.crypto.XMLCryptoContext {
      *    <code>null</code> to remove any current setting
      * @see #getURIDereferencer
      */
+    @Override
     public void setURIDereferencer(URIDereferencer uriDereferencer) {
         this.uriDereferencer = uriDereferencer;
     }
@@ -126,6 +132,7 @@ public class JAXBCryptoContext implements javax.xml.crypto.XMLCryptoContext {
      *    <code>null</code>
      * @see #putNamespacePrefix(String, String)
      */
+    @Override
     public String getNamespacePrefix(String namespaceURI, String defaultPrefix) {
         if ( namespacePrefix == null ) {
             return defaultPrefix;
@@ -155,6 +162,7 @@ public class JAXBCryptoContext implements javax.xml.crypto.XMLCryptoContext {
      *    <code>null</code>
      * @see #getNamespacePrefix(String, String)
      */
+    @Override
     @SuppressWarnings("unchecked")
     public String putNamespacePrefix(String namespaceURI, String prefix) {
         if ( namespaceURI == null ) {
@@ -190,6 +198,7 @@ public class JAXBCryptoContext implements javax.xml.crypto.XMLCryptoContext {
      *    been set.
      * @see #setDefaultNamespacePrefix(String)
      */
+    @Override
     public String getDefaultNamespacePrefix() {
         return defaultNamespacePrefix;
     }
@@ -204,6 +213,7 @@ public class JAXBCryptoContext implements javax.xml.crypto.XMLCryptoContext {
      *    (<code>""</code>) to bind no prefix.
      * @see #getDefaultNamespacePrefix
      */
+    @Override
     public void setDefaultNamespacePrefix(String defaultNamespacePrefix) {
         this.defaultNamespacePrefix = defaultNamespacePrefix;
     }
@@ -218,6 +228,7 @@ public class JAXBCryptoContext implements javax.xml.crypto.XMLCryptoContext {
      * @throws NullPointerException if <code>name</code> is <code>null</code>
      * @see #getProperty(String)
      */
+    @Override
     @SuppressWarnings("unchecked")
     public Object setProperty(String name, Object value) {
         if ( property == null ) {
@@ -235,6 +246,7 @@ public class JAXBCryptoContext implements javax.xml.crypto.XMLCryptoContext {
      * @throws NullPointerException if <code>name</code> is <code>null</code>
      * @see #setProperty(String, Object)
      */
+    @Override
     public Object getProperty(String name) {
         if ( property != null ) {
             return property.get(name);
@@ -260,6 +272,7 @@ public class JAXBCryptoContext implements javax.xml.crypto.XMLCryptoContext {
      *    <code>null</code> if there is no mapping for the key
      * @see #put(Object, Object)
      */
+    @Override
     public Object get(Object key) {
         if ( context != null ) {
             return context.get(key);
@@ -284,6 +297,7 @@ public class JAXBCryptoContext implements javax.xml.crypto.XMLCryptoContext {
      *    prevents it from being stored in this context
      * @see #get(Object)
      */
+    @Override
     @SuppressWarnings("unchecked")
     public Object put(Object key, Object value) {
         if ( context == null ) {

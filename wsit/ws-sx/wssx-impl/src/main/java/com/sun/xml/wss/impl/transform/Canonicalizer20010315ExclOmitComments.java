@@ -36,7 +36,6 @@ import org.w3c.dom.Node;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
@@ -133,9 +132,6 @@ public class Canonicalizer20010315ExclOmitComments {
     
     /**
      * Method engineCanonicalizeXPathNodeSet
-     * @param xpathNodeSet
-     * @param inclusiveNamespaces
-     * @throws CanonicalizationException
      */
     public void engineCanonicalizeXPathNodeSet(Set xpathNodeSet,
             String inclusiveNamespaces,java.io.OutputStream stream,XMLCryptoContext context) throws CanonicalizationException,URIReferenceException {
@@ -163,9 +159,6 @@ public class Canonicalizer20010315ExclOmitComments {
                 }
                 return null;
                 */
-                return;
-            } catch (UnsupportedEncodingException ex) {
-                throw new CanonicalizationException("empty", ex);
             } catch (IOException ex) {
                 throw new CanonicalizationException("empty", ex);
             }
@@ -177,8 +170,6 @@ public class Canonicalizer20010315ExclOmitComments {
     
     
     /**
-     * @param E
-     * @throws CanonicalizationException
      */
     @SuppressWarnings("unchecked")
     final Iterator handleAttributes(Element E, NameSpaceSymbTable ns,boolean isOutputElement)
@@ -227,7 +218,7 @@ public class Canonicalizer20010315ExclOmitComments {
             if (ns.addMapping(NName, NNodeValue,N)) {
                 //New definiton check if it is relative
                 if (C14nHelper.namespaceIsRelative(NNodeValue)) {
-                    Object exArgs[] = {E.getTagName(), NName,
+                    Object[] exArgs = {E.getTagName(), NName,
                             N.getNodeValue()};
                             throw new CanonicalizationException(
                                     "c14n.Canonicalizer.RelativeNamespace", exArgs);
@@ -317,10 +308,6 @@ public class Canonicalizer20010315ExclOmitComments {
      * Canoicalizes all the nodes included in the currentNode and contained in the
      * _xpathNodeSet field.
      *
-     * @param currentNode
-     * @param ns
-     * @throws CanonicalizationException
-     * @throws IOException
      */
     final void canonicalizeXPathNodeSet(Node currentNode, NameSpaceSymbTable ns )
     throws CanonicalizationException, IOException ,URIReferenceException{
@@ -451,8 +438,6 @@ public class Canonicalizer20010315ExclOmitComments {
     
     /**
      * Adds to ns the definitons from the parent elements of el
-     * @param el
-     * @param ns
      */
     @SuppressWarnings("unchecked")
     final static void getParentNameSpaces(Element el,NameSpaceSymbTable ns)  {
@@ -516,10 +501,6 @@ public class Canonicalizer20010315ExclOmitComments {
      * by the character reference <CODE>&amp;#xD;</CODE>)</LI>
      * </UL>
      *
-     * @param name
-     * @param value
-     * @param writer
-     * @throws IOException
      */
     static final void outputAttrToWriter(final String name, final String value, final OutputStream writer) throws IOException {
         writer.write(' ');
@@ -577,7 +558,6 @@ public class Canonicalizer20010315ExclOmitComments {
         char ch;
         if (/*(c >= 0x0001) &&*/ (c <= 0x007F)) {
             out.write(c);
-            return;
         } else if (c > 0x07FF) {
             ch=(char)(c>>>12);
             if (ch>0) {
@@ -587,8 +567,7 @@ public class Canonicalizer20010315ExclOmitComments {
             }
             out.write(0x80 | ((c >>>  6) & 0x3F));
             out.write(0x80 | ((c) & 0x3F));
-            return;
-            
+
         } else {
             ch=(char)(c>>>6);
             if (ch>0) {
@@ -597,7 +576,6 @@ public class Canonicalizer20010315ExclOmitComments {
                 out.write(0xC0);
             }
             out.write(0x80 | ((c) & 0x3F));
-            return;
         }
         
     }
@@ -610,7 +588,6 @@ public class Canonicalizer20010315ExclOmitComments {
             c=str.charAt(i++);
             if (/*(c >= 0x0001) &&*/ (c <= 0x007F)) {
                 out.write(c);
-                continue;
             } else if (c > 0x07FF) {
                 ch=(char)(c>>>12);
                 if (ch>0) {
@@ -620,7 +597,6 @@ public class Canonicalizer20010315ExclOmitComments {
                 }
                 out.write(0x80 | ((c >>>  6) & 0x3F));
                 out.write(0x80 | ((c) & 0x3F));
-                continue;
             } else {
                 ch=(char)(c>>>6);
                 if (ch>0) {
@@ -629,7 +605,6 @@ public class Canonicalizer20010315ExclOmitComments {
                     out.write(0xC0);
                 }
                 out.write(0x80 | ((c) & 0x3F));
-                continue;
             }
         }
         
@@ -637,9 +612,7 @@ public class Canonicalizer20010315ExclOmitComments {
     /**
      * Outputs a PI to the internal Writer.
      *
-     * @param currentPI
      * @param writer TODO
-     * @throws IOException
      */
     static final void outputPItoWriter(ProcessingInstruction currentPI, OutputStream writer) throws IOException {
         final int position = getPositionRelativeToDocumentElement(currentPI);
@@ -687,9 +660,7 @@ public class Canonicalizer20010315ExclOmitComments {
     /**
      * Method outputCommentToWriter
      *
-     * @param currentComment
      * @param writer TODO
-     * @throws IOException
      */
     static final void outputCommentToWriter(Comment currentComment, OutputStream writer) throws IOException {
         final int position = getPositionRelativeToDocumentElement(currentComment);
@@ -719,9 +690,7 @@ public class Canonicalizer20010315ExclOmitComments {
     /**
      * Outputs a Text of CDATA section to the internal Writer.
      *
-     * @param text
      * @param writer TODO
-     * @throws IOException
      */
     static final void outputTextToWriter(final String text, final OutputStream writer) throws IOException {
         outputTextToWriter(text, writer,false);
@@ -730,10 +699,8 @@ public class Canonicalizer20010315ExclOmitComments {
     /**
      * Outputs a Text of CDATA section to the internal Writer.
      *
-     * @param text
      * @param writer TODO
      * @param skipWhiteSpace S	   ::=   	(#x20 | #x9 | #xD | #xA)+
-     * @throws IOException
      */
     static final void outputTextToWriter(final String text, final OutputStream writer, boolean skipWhiteSpace) throws IOException {
         final int length = text.length();
@@ -777,7 +744,6 @@ public class Canonicalizer20010315ExclOmitComments {
                     break;
                 default :
                     writeCharToUtf8(c,writer);
-                    continue;
             }
         }
     }
@@ -811,12 +777,15 @@ public class Canonicalizer20010315ExclOmitComments {
         
         //Dereference SecurityTokenReference;
         DOMURIReference domReference = new DOMURIReference(){
+            @Override
             public Node getHere(){
                 return node;
             }
+            @Override
             public String getURI(){
                 return null;
             }
+            @Override
             public String getType(){
                 return null;
             }
@@ -848,7 +817,6 @@ public class Canonicalizer20010315ExclOmitComments {
         }catch(Exception ex){
             //log
         }
-        return;
     }
     
     final void printBinaryToken(Node currentNode, NameSpaceSymbTable ns )

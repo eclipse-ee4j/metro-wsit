@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -55,7 +55,8 @@ public class WSITServerAuthConfig implements ServerAuthConfig {
         this.wLock = rwLock.writeLock();
     }
 
-    public ServerAuthContext getAuthContext(String operation, Subject subject, Map rawMap) throws AuthException {
+    @Override
+    public ServerAuthContext getAuthContext(String operation, Subject subject, Map rawMap) {
         @SuppressWarnings("unchecked") Map<Object, Object> map = rawMap;
         PolicyMap pMap = (PolicyMap) map.get("POLICY");
         WSDLPort port = (WSDLPort) map.get("WSDL_MODEL");
@@ -113,10 +114,12 @@ public class WSITServerAuthConfig implements ServerAuthConfig {
         }
     }
 
+    @Override
     public String getMessageLayer() {
         return layer;
     }
 
+    @Override
     public String getAppContext() {
         return appContext;
     }
@@ -125,13 +128,16 @@ public class WSITServerAuthConfig implements ServerAuthConfig {
         return null;
     }
 
+    @Override
     public void refresh() {
     }
 
+    @Override
     public String getAuthContextID(MessageInfo messageInfo) {
         return null;
     }
 
+    @Override
     public boolean isProtected() {
         return true;
     }

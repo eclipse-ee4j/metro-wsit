@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -37,8 +37,8 @@ public class KerberosTokenBuilder extends TokenBuilder {
      /**
      *
      * @return  BuilderResult
-     * @throws com.sun.xml.wss.XWSSecurityException
-     */
+      */
+    @Override
     @SuppressWarnings("unchecked")
     public BuilderResult process() throws XWSSecurityException {
         /*String id = binding.getUUID();
@@ -78,7 +78,6 @@ public class KerberosTokenBuilder extends TokenBuilder {
     }
     /**
      * sets the include token policy reference type in the binding
-     * @throws com.sun.xml.wss.XWSSecurityException
      */
     @SuppressWarnings("static-access")
     private void setIncludeTokenPolicy() throws XWSSecurityException{

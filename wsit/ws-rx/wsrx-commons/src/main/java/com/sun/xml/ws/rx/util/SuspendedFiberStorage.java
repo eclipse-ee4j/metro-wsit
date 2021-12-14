@@ -48,7 +48,7 @@ public class SuspendedFiberStorage extends TimestampedCollection<String, Fiber> 
         }
 
         if (LOGGER.isLoggable(Level.FINER)) {
-            LOGGER.finer(String.format("Resuming fiber [ %s ] with a response", fiber.toString()));
+            LOGGER.finer(String.format("Resuming fiber [ %s ] with a response", fiber));
         }
 
         fiber.resume(response);
@@ -61,7 +61,7 @@ public class SuspendedFiberStorage extends TimestampedCollection<String, Fiber> 
         }
 
         if (LOGGER.isLoggable(Level.WARNING)) {
-            LOGGER.warning(String.format("Resuming fiber [ %s ] with an exception", fiber.toString()));
+            LOGGER.warning(String.format("Resuming fiber [ %s ] with an exception", fiber));
         }
 
         fiber.resume(error);

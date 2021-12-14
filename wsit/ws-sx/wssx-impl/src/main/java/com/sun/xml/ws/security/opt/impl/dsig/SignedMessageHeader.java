@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -68,6 +68,7 @@ public class SignedMessageHeader extends SignedMessagePart
      * 
      * @return the id of the SignedMessageHeader
      */
+    @Override
     public String getId() {
         if(header != null){
             return id;
@@ -79,6 +80,7 @@ public class SignedMessageHeader extends SignedMessagePart
     /**
      * Assign an id to the SignedMessageHeader
      */
+    @Override
     public void setId(final String id) {
         if(header != null){
             this.id = id;
@@ -91,6 +93,7 @@ public class SignedMessageHeader extends SignedMessagePart
      * 
      * @return the namespace of the underlying SOAP header or SecurityHeaderElement
      */
+    @Override
     @NotNull
     public String getNamespaceURI() {
         if(header != null){
@@ -104,6 +107,7 @@ public class SignedMessageHeader extends SignedMessagePart
      * 
      * @return The localname of the underlying SOAP Header or SecurityHeaderElement
      */
+    @Override
     @NotNull
     public String getLocalPart() {
         if(header != null){
@@ -117,6 +121,7 @@ public class SignedMessageHeader extends SignedMessagePart
      * 
      * @return The header as as XMLStreamReader
      */
+    @Override
     public javax.xml.stream.XMLStreamReader readHeader() throws javax.xml.stream.XMLStreamException {
         if(buffer == null){
           buffer = new MutableXMLStreamBuffer();
@@ -129,6 +134,7 @@ public class SignedMessageHeader extends SignedMessagePart
     /**
      * Write the header to the passed outputStream
      */
+    @Override
     public void writeTo(OutputStream os) {
         throw new UnsupportedOperationException("Not implemented yet");
     }
@@ -136,7 +142,8 @@ public class SignedMessageHeader extends SignedMessagePart
     /**
      * Write the header to an XMLStreamWriter
      */
-    public void writeTo(javax.xml.stream.XMLStreamWriter streamWriter) throws javax.xml.stream.XMLStreamException {                
+    @Override
+    public void writeTo(javax.xml.stream.XMLStreamWriter streamWriter) throws javax.xml.stream.XMLStreamException {
         if(header != null){
             XMLStreamFilterWithId xmlStreamFilterWithId = new XMLStreamFilterWithId(streamWriter, (NamespaceContextEx) context.getNamespaceContext(), id);
             header.writeTo(xmlStreamFilterWithId);
@@ -149,6 +156,7 @@ public class SignedMessageHeader extends SignedMessagePart
     /**
      * Write the header to an XMLStreamWriter
      */
+    @Override
     public void writeTo(javax.xml.stream.XMLStreamWriter streamWriter, final HashMap props) throws javax.xml.stream.XMLStreamException {
         /*Marshaller marshaller = getMarshaller();
         Iterator<String> itr = props.keySet().iterator();
@@ -165,6 +173,7 @@ public class SignedMessageHeader extends SignedMessagePart
         }
     }
     
+    @Override
     public void setDigestValue(final byte[] digestValue){
         this.digestValue = digestValue;
     }
@@ -173,6 +182,7 @@ public class SignedMessageHeader extends SignedMessagePart
      * 
      * @return The DigestValue of this Header
      */
+    @Override
     public byte[] getDigestValue() {
         return digestValue;
     }
@@ -183,6 +193,7 @@ public class SignedMessageHeader extends SignedMessagePart
      * @return true if the current SecurityHeaderElement has reference to the
      * SecurityHeaderElement with passed id
      */
+    @Override
     public boolean refersToSecHdrWithId(String id) {
         return she.refersToSecHdrWithId(id);
     }

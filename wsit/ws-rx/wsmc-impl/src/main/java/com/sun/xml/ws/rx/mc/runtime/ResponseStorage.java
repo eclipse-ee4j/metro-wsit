@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -50,6 +50,7 @@ final class ResponseStorage {
             }
         }
 
+        @Override
         public JaxwsMessage load(final String key) {
             final JaxwsMessageState state = HighAvailabilityProvider.loadFrom(messageStateStore, new StickyKey(key), null);
 
@@ -65,6 +66,7 @@ final class ResponseStorage {
             return message;
         }
 
+        @Override
         public void save(final String key, final JaxwsMessage value, final boolean isNew) {
             if (LOGGER.isLoggable(Level.FINER)) {
                 LOGGER.finer(loggerProlog + "Sending for replication pending message with a key [" + key + "]: " + value.toString() + ", isNew=" + isNew);
@@ -90,6 +92,7 @@ final class ResponseStorage {
             }
         }
 
+        @Override
         public void remove(String key) {
             HighAvailabilityProvider.removeFrom(messageStateStore, new StickyKey(key));
             if (LOGGER.isLoggable(Level.FINER)) {
@@ -97,6 +100,7 @@ final class ResponseStorage {
             }
         }
 
+        @Override
         public void close() {
             HighAvailabilityProvider.close(messageStateStore);
             if (LOGGER.isLoggable(Level.FINER)) {
@@ -104,6 +108,7 @@ final class ResponseStorage {
             }
         }
 
+        @Override
         public void destroy() {
             HighAvailabilityProvider.destroy(messageStateStore);
             if (LOGGER.isLoggable(Level.FINER)) {
@@ -125,13 +130,13 @@ final class ResponseStorage {
         if (HighAvailabilityProvider.INSTANCE.isHaEnvironmentConfigured()) {
             final BackingStoreFactory bsf = HighAvailabilityProvider.INSTANCE.getBackingStoreFactory(HighAvailabilityProvider.StoreType.IN_MEMORY);
 
-            responseIdentifiersManager = new StickyReplicationManager<String, PendingResponseIdentifiers>(
+            responseIdentifiersManager = new StickyReplicationManager<>(
                     endpointUid + "_MC_PENDING_MESSAGE_IDENTIFIERS_MAP_MANAGER",
                     HighAvailabilityProvider.INSTANCE.createBackingStore(
-                    bsf,
-                    endpointUid + "_MC_PENDING_MESSAGE_IDENTIFIERS_STORE",
-                    StickyKey.class,
-                    PendingResponseIdentifiers.class));
+                            bsf,
+                            endpointUid + "_MC_PENDING_MESSAGE_IDENTIFIERS_STORE",
+                            StickyKey.class,
+                            PendingResponseIdentifiers.class));
 
             responseManager = new PendingMessageDataReplicationManager(endpointUid);
         }

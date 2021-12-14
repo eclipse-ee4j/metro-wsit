@@ -159,6 +159,7 @@ public class ServiceImplBeanType
         this.id = value;
     }
 
+    @Override
     public Locator sourceLocation() {
         return locator;
     }

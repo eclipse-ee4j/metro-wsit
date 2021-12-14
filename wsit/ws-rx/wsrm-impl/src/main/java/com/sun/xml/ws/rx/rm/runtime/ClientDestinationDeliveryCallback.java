@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -24,9 +24,10 @@ class ClientDestinationDeliveryCallback implements Postman.Callback {
         this.rc = rc;
     }
 
+    @Override
     public void deliver(ApplicationMessage message) {
         if (message instanceof JaxwsApplicationMessage) {
-            deliver(JaxwsApplicationMessage.class.cast(message));
+            deliver((JaxwsApplicationMessage) message);
         } else {
             throw LOGGER.logSevereException(new RxRuntimeException(LocalizationMessages.WSRM_1141_UNEXPECTED_MESSAGE_CLASS(
                     message.getClass().getName(),
@@ -34,6 +35,7 @@ class ClientDestinationDeliveryCallback implements Postman.Callback {
         }
     }
     
+    @Override
     public RuntimeContext getRuntimeContext() {
         return rc;
     }

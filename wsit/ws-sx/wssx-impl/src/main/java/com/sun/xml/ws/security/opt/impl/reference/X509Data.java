@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -44,30 +44,37 @@ public class X509Data extends com.sun.xml.ws.security.opt.crypto.dsig.keyinfo.X5
         this.soapVersion = sv;
     }
     
+    @Override
     public String getType() {
         return SecurityTokenReference.X509DATA_ISSUERSERIAL;
     }
     
+    @Override
     public boolean refersToSecHdrWithId(final String id) {
         return false;
     }
     
+    @Override
     public String getId() {
         throw new UnsupportedOperationException("Id attribute not allowed for X509Data");
     }
     
+    @Override
     public void setId(final String id) {
         throw new UnsupportedOperationException("Id attribute not allowed for X509Data");
     }
     
+    @Override
     public String getNamespaceURI() {
         return MessageConstants.DSIG_NS;
     }
     
+    @Override
     public String getLocalPart() {
         return "X509Data".intern();
     }
     
+    @Override
     public XMLStreamReader readHeader() throws XMLStreamException {
         XMLStreamBufferResult xbr = new XMLStreamBufferResult();
         JAXBElement<com.sun.xml.ws.security.opt.crypto.dsig.keyinfo.X509Data>
@@ -81,6 +88,7 @@ public class X509Data extends com.sun.xml.ws.security.opt.crypto.dsig.keyinfo.X5
         return xbr.getXMLStreamBuffer().readAsXMLStreamReader();
     }
     
+    @Override
     public void writeTo(XMLStreamWriter streamWriter) throws XMLStreamException {
         JAXBElement<com.sun.xml.ws.security.opt.crypto.dsig.keyinfo.X509Data>
                 x509DataElem = new ObjectFactory().createX509Data(this);
@@ -100,6 +108,7 @@ public class X509Data extends com.sun.xml.ws.security.opt.crypto.dsig.keyinfo.X5
             throw new XMLStreamException(e);
         }
     }
+    @Override
     @SuppressWarnings("unchecked")
     public void writeTo(XMLStreamWriter streamWriter, HashMap props) throws XMLStreamException {
         try{
@@ -115,6 +124,7 @@ public class X509Data extends com.sun.xml.ws.security.opt.crypto.dsig.keyinfo.X5
         }
     }
     
+    @Override
     public void writeTo(OutputStream os) {
     }
     

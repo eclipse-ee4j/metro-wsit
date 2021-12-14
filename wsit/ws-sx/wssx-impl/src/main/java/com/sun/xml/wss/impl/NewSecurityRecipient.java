@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -266,7 +266,7 @@ public class NewSecurityRecipient {
         if (header == null) {
             if (policy != null) {
                 if (PolicyTypeUtil.messagePolicy(policy)) {
-                    if (!((MessagePolicy)policy).isEmpty()) {
+                    if (!policy.isEmpty()) {
                         log.log(Level.SEVERE, LogStringsMessages.WSS_0253_INVALID_MESSAGE());
                         throw new XWSSecurityException(
                                 "Message does not conform to configured policy: " +

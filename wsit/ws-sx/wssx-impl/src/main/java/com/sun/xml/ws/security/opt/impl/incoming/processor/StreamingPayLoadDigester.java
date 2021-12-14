@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -12,7 +12,6 @@ package com.sun.xml.ws.security.opt.impl.incoming.processor;
 
 import com.sun.xml.ws.security.opt.crypto.dsig.internal.DigesterOutputStream;
 import com.sun.xml.ws.security.opt.impl.util.StreamUtil;
-import com.sun.xml.wss.impl.MessageConstants;
 import com.sun.xml.wss.impl.c14n.StAXEXC14nCanonicalizerImpl;
 import com.sun.xml.wss.logging.LogDomainConstants;
 import java.io.ByteArrayOutputStream;
@@ -54,8 +53,8 @@ public class StreamingPayLoadDigester implements StreamFilter{
     /**
      * calculates the digest of the payload in a streaming fashion
      * @param xMLStreamReader XMLStreamReader
-     * @return
      */
+    @Override
     public boolean accept(XMLStreamReader xMLStreamReader) {
         try {
             if(!digestDone){

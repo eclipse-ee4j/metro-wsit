@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -40,18 +40,22 @@ final class RegistrationContextImpl implements RegistrationContext {
         this.isPersistent = ctx.isPersistent();
     }
     
+    @Override
     public String getMessageLayer() {
         return messageLayer;
     }
 
+    @Override
     public String getAppContext() {
         return appContext;
     }
 
+    @Override
     public String getDescription() {
         return description;
     }
 
+    @Override
     public boolean isPersistent() {
         return isPersistent;
     }

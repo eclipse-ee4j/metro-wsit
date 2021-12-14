@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -60,7 +60,7 @@ class MetroWsParser {
     private static final QName TCP_TRANSPORT_ELEMENT_NAME = new QName(CONFIG_NAMESPACE, "tcp-transport");
     private static final QName TUBELINE_ELEMENT_NAME = new QName(CONFIG_NAMESPACE, "tubeline");
 
-    private static final Map<QName, FeatureReader<?>> nameToReader = new HashMap<QName, FeatureReader<?>>();
+    private static final Map<QName, FeatureReader<?>> nameToReader = new HashMap<>();
 
     static {
         try {
@@ -109,7 +109,7 @@ class MetroWsParser {
     }
 
     protected List<ParsedElement> unmarshal(final XMLEventReader reader) throws WebServiceException {
-        final List<ParsedElement> configElements = new LinkedList<ParsedElement>();
+        final List<ParsedElement> configElements = new LinkedList<>();
         loop:
         while (reader.hasNext()) {
             try {
@@ -146,6 +146,7 @@ class MetroWsParser {
     private void unmarshalComponents(final List<ParsedElement> configElements, final XMLEventReader reader)
             throws WebServiceException {
         unmarshal(configElements, CONFIG_ROOT_ELEMENT, reader, new ElementParser() {
+            @Override
             public void parse(XMLEventReader reader) {
                 try {
                     final StartElement element = reader.peek().asStartElement();
@@ -185,6 +186,7 @@ class MetroWsParser {
     private void unmarshalPortComponent(final List<ParsedElement> configElements, final String componentName,
             final XMLEventReader reader) throws WebServiceException {
         unmarshal(configElements, PORT_COMPONENT_ELEMENT, reader, new ElementParser() {
+            @Override
             public void parse(XMLEventReader reader) {
                 try {
                     final StartElement element = reader.peek().asStartElement();
@@ -215,6 +217,7 @@ class MetroWsParser {
     private void unmarshalPortComponentRef(final List<ParsedElement> configElements, final String componentName,
             final XMLEventReader reader) throws WebServiceException {
         unmarshal(configElements, PORT_COMPONENT_REF_ELEMENT, reader, new ElementParser() {
+            @Override
             public void parse(XMLEventReader reader) {
                 try {
                     final StartElement element = reader.peek().asStartElement();
@@ -245,6 +248,7 @@ class MetroWsParser {
     private void unmarshalPortComponentOperation(final List<ParsedElement> configElements, final String componentName,
             final String operationName, final XMLEventReader reader) throws WebServiceException {
         unmarshal(configElements, OPERATION_ELEMENT, reader, new ElementParser() {
+            @Override
             public void parse(XMLEventReader reader) {
                 try {
                     final StartElement element = reader.peek().asStartElement();
@@ -285,6 +289,7 @@ class MetroWsParser {
     private void unmarshalPortComponentRefOperation(final List<ParsedElement> configElements, final String componentName,
             final String operationName, final XMLEventReader reader) throws WebServiceException {
         unmarshal(configElements, OPERATION_ELEMENT, reader, new ElementParser() {
+            @Override
             public void parse(XMLEventReader reader) {
                 try {
                     final StartElement element = reader.peek().asStartElement();
@@ -325,6 +330,7 @@ class MetroWsParser {
     private void unmarshalPortComponentInput(final List<ParsedElement> configElements, final String componentName,
             final String operationName, final XMLEventReader reader) throws WebServiceException {
         unmarshal(configElements, INPUT_ELEMENT, reader, new ElementParser() {
+            @Override
             public void parse(XMLEventReader reader) {
                 final WebServiceFeature feature = parseElement(reader);
                 configElements.add(ParsedElement.createPortComponentInputElement(
@@ -336,6 +342,7 @@ class MetroWsParser {
     private void unmarshalPortComponentOutput(final List<ParsedElement> configElements, final String componentName,
             final String operationName, final XMLEventReader reader) throws WebServiceException {
         unmarshal(configElements, OUTPUT_ELEMENT, reader, new ElementParser() {
+            @Override
             public void parse(XMLEventReader reader) {
                 final WebServiceFeature feature = parseElement(reader);
                 configElements.add(ParsedElement.createPortComponentOutputElement(
@@ -347,6 +354,7 @@ class MetroWsParser {
     private void unmarshalPortComponentFault(final List<ParsedElement> configElements, final String componentName,
             final String operationName, final String faultName, final XMLEventReader reader) throws WebServiceException {
         unmarshal(configElements, FAULT_ELEMENT, reader, new ElementParser() {
+            @Override
             public void parse(XMLEventReader reader) {
                 final WebServiceFeature feature = parseElement(reader);
                 configElements.add(ParsedElement.createPortComponentFaultElement(
@@ -358,6 +366,7 @@ class MetroWsParser {
     private void unmarshalPortComponentRefInput(final List<ParsedElement> configElements, final String componentName,
             final String operationName, final XMLEventReader reader) throws WebServiceException {
         unmarshal(configElements, INPUT_ELEMENT, reader, new ElementParser() {
+            @Override
             public void parse(XMLEventReader reader) {
                 final WebServiceFeature feature = parseElement(reader);
                 configElements.add(ParsedElement.createPortComponentRefInputElement(
@@ -369,6 +378,7 @@ class MetroWsParser {
     private void unmarshalPortComponentRefOutput(final List<ParsedElement> configElements, final String componentName,
             final String operationName, final XMLEventReader reader) throws WebServiceException {
         unmarshal(configElements, OUTPUT_ELEMENT, reader, new ElementParser() {
+            @Override
             public void parse(XMLEventReader reader) {
                 final WebServiceFeature feature = parseElement(reader);
                 configElements.add(ParsedElement.createPortComponentRefOutputElement(
@@ -380,6 +390,7 @@ class MetroWsParser {
     private void unmarshalPortComponentRefFault(final List<ParsedElement> configElements, final String componentName,
             final String operationName, final String faultName, final XMLEventReader reader) throws WebServiceException {
         unmarshal(configElements, FAULT_ELEMENT, reader, new ElementParser() {
+            @Override
             public void parse(XMLEventReader reader) {
                 final WebServiceFeature feature = parseElement(reader);
                 configElements.add(ParsedElement.createPortComponentRefFaultElement(
@@ -456,10 +467,6 @@ class MetroWsParser {
     /**
      * There is currently no CDATA in metro-webservices.xml allowed.
      *
-     * @param characters
-     * @param currentValueBuffer
-     * @return
-     * @throws WebServiceException
      */
     private StringBuilder processCharacters(final Characters characters,
             final StringBuilder currentValueBuffer) throws WebServiceException {

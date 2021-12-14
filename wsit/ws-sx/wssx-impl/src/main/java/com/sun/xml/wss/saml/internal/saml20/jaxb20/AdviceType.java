@@ -28,7 +28,6 @@ import jakarta.xml.bind.annotation.XmlElementRef;
 import jakarta.xml.bind.annotation.XmlElementRefs;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.XmlType;
-import org.w3c.dom.Element;
 
 
 /**
@@ -99,7 +98,7 @@ public class AdviceType {
      */
     public List<Object> getAssertionIDRefOrAssertionURIRefOrAssertion() {
         if (assertionIDRefOrAssertionURIRefOrAssertion == null) {
-            assertionIDRefOrAssertionURIRefOrAssertion = new ArrayList<Object>();
+            assertionIDRefOrAssertionURIRefOrAssertion = new ArrayList<>();
         }
         return this.assertionIDRefOrAssertionURIRefOrAssertion;
     }

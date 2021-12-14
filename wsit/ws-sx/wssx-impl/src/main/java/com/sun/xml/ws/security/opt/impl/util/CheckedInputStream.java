@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -39,6 +39,7 @@ public class CheckedInputStream extends FilterInputStream{
         }
     }
     
+    @Override
     public int read() throws IOException{
         if(read != -1){
             int tmp = read;
@@ -68,10 +69,12 @@ public class CheckedInputStream extends FilterInputStream{
         return super.read();
     }
     
-    public int read(byte [] b) throws IOException{        
+    @Override
+    public int read(byte [] b) throws IOException{
         return read(b,0,b.length);
     }
     
+    @Override
     public int read(byte[] b , int off, int len) throws IOException{
         if(read != -1){
             
@@ -110,6 +113,7 @@ public class CheckedInputStream extends FilterInputStream{
         }
         return super.read(b,off,len);
     }
+    @Override
     public long skip(long n) throws IOException {
         if(read != -1){
             read = -1;

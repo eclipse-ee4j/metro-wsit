@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -30,8 +30,6 @@ import com.sun.xml.wss.impl.policy.mls.*;
 import com.sun.xml.wss.impl.*;
 import com.sun.xml.wss.*;
 import com.sun.xml.wss.impl.misc.DefaultSecurityEnvironmentImpl;
-import com.sun.xml.wss.impl.filter.*;
-import com.sun.xml.wss.impl.WSSAssertion;
 import com.sun.xml.wss.impl.util.PolicyResourceLoader;
 import com.sun.xml.wss.impl.util.TestUtil;
 import com.sun.xml.wss.impl.AlgorithmSuite;
@@ -62,11 +60,13 @@ public class SignAllHeadersTest extends TestCase{
         super(testName);
     }
     
-    protected void setUp() throws Exception {
+    @Override
+    protected void setUp() {
     	
     }
                                                                                                                                                              
-    protected void tearDown() throws Exception {
+    @Override
+    protected void tearDown() {
     }
     
     public static Test suite() {
@@ -119,7 +119,7 @@ public class SignAllHeadersTest extends TestCase{
             com.sun.xml.ws.security.policy.WSSAssertion wssAssertionws = null;
             WSSAssertion wssAssertion = null;
             AssertionSet as = null;
-            Policy wssPolicy = new PolicyResourceLoader().loadPolicy("security/policy-binding2.xml");
+            Policy wssPolicy = PolicyResourceLoader.loadPolicy("security/policy-binding2.xml");
             Iterator<AssertionSet> i = wssPolicy.iterator();
             if(i.hasNext())
                 as = i.next();
@@ -167,7 +167,7 @@ public class SignAllHeadersTest extends TestCase{
        com.sun.xml.ws.security.policy.WSSAssertion wssAssertionws = null;
        WSSAssertion wssAssertion = null;
        AssertionSet as = null;
-       Policy wssPolicy = new PolicyResourceLoader().loadPolicy("security/policy-binding2.xml");
+       Policy wssPolicy = PolicyResourceLoader.loadPolicy("security/policy-binding2.xml");
        Iterator<AssertionSet> i = wssPolicy.iterator();
        if(i.hasNext())
            as = i.next();

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -20,7 +20,7 @@ import java.util.Map;
  */
 public class TCPTransportPrefixMapper implements PrefixMapper {
 
-    private static final Map<String, String> prefixMap = new HashMap<String, String>();
+    private static final Map<String, String> prefixMap = new HashMap<>();
 
     static {
         prefixMap.put(TCPConstants.TCPTRANSPORT_POLICY_NAMESPACE_URI, "soaptcpsvc");
@@ -28,6 +28,7 @@ public class TCPTransportPrefixMapper implements PrefixMapper {
         prefixMap.put(TCPConstants.TCPTRANSPORT_CONNECTION_MANAGEMENT_NAMESPACE_URI, "soaptcp");
     }
         
+    @Override
     public Map<String, String> getPrefixMap() {
         return prefixMap;
     }

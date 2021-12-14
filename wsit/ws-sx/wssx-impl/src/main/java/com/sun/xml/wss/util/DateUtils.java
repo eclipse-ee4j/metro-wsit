@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -156,7 +156,7 @@ public class DateUtils {
      *
      * @param strDate Date String.
      * @param idx index of the character.
-     * @returns the difference portion of a date string.
+     * @return the difference portion of a date string.
      * @throws ParseException if <code>strDate</code> is in an invalid format.
      */
     private static int[] getDiffTime(String strDate, int idx)

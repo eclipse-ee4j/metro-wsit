@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -58,7 +58,6 @@ public abstract class HarnessUtil {
     /**
      * @param fpContext com.sun.xml.wss.FilterProcessingContext
      *
-     * @throws com.sun.xml.wss.XWSSecurityException
      */
     @SuppressWarnings("unchecked")
     static void processWSSPolicy(FilterProcessingContext fpContext)
@@ -102,15 +101,14 @@ public abstract class HarnessUtil {
                 AuthenticationTokenFilter.processRSAToken(fpContext);
             }
         }else if(PolicyTypeUtil.isMandatoryTargetPolicy(policy)) {
-            return;
         } else {
             log.log(Level.SEVERE, LogStringsMessages.WSS_0801_ILLEGAL_SECURITYPOLICY());
             throw new XWSSecurityException("Invalid WSSPolicy Type");
         }
     }
     
-    /**
-     * @param fpContext com.sun.xml.wss.FilterProcessingContext
+    /*
+      @param fpContext com.sun.xml.wss.FilterProcessingContext
      *
      * @throws com.sun.xml.wss.XWSSecurityException
      */
@@ -237,7 +235,6 @@ public abstract class HarnessUtil {
     /**
      * @param fpContext com.sun.xml.wss.FilterProcessingContext
      *
-     * @throws com.sun.xml.wss.XWSSecurityException
      */
     static void processDeep(FilterProcessingContext fpContext)
     throws XWSSecurityException {
@@ -257,7 +254,6 @@ public abstract class HarnessUtil {
      *
      * @param context ProcessingContext
      *
-     * @throws XWSSecurityException
      */
     static void validateContext(ProcessingContext context)
     throws XWSSecurityException {

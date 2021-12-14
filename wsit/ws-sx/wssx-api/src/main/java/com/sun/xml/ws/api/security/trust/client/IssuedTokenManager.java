@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -24,8 +24,8 @@ import java.util.Map;
  * @author Jiandong Guo
  */
 public class IssuedTokenManager {
-    private final Map<String, IssuedTokenProvider> itpMap = new HashMap<String, IssuedTokenProvider>();
-    private final Map<String, String> itpClassMap = new HashMap<String, String>();
+    private final Map<String, IssuedTokenProvider> itpMap = new HashMap<>();
+    private final Map<String, String> itpClassMap = new HashMap<>();
     private static IssuedTokenManager manager = new IssuedTokenManager();
     
     /** Creates a new instance of IssuedTokenManager */
@@ -81,7 +81,7 @@ public class IssuedTokenManager {
     private IssuedTokenProvider getIssuedTokenProvider(String protocol) throws WSTrustException {
         IssuedTokenProvider itp = null;
         synchronized (itpMap){
-            itp = (IssuedTokenProvider)itpMap.get(protocol);
+            itp = itpMap.get(protocol);
             if (itp == null){
                 String type = itpClassMap.get(protocol);
                 if (type != null){
@@ -98,7 +98,7 @@ public class IssuedTokenManager {
                         if (clazz != null) {
                             @SuppressWarnings("unchecked")
                             Class<IssuedTokenProvider> typedClass = (Class<IssuedTokenProvider>)clazz;
-                            itp = (IssuedTokenProvider)typedClass.newInstance();
+                            itp = typedClass.newInstance();
                             itpMap.put(protocol, itp);
                         }
                     } catch (Exception e) {

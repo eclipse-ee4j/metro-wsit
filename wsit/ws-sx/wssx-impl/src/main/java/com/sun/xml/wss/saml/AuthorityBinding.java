@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -19,10 +19,6 @@ package com.sun.xml.wss.saml;
 
 import javax.xml.namespace.QName;
 
-/**
- *
- * @author abhijit.das@Sun.COM
- */
 /**
  * The <code>AuthorityBinding</code> element may be used to indicate
  * to a replying party receiving an <code>AuthenticationStatement</code> that
@@ -55,7 +51,7 @@ public interface AuthorityBinding {
      * @return object is {@link QName }
      *     
      */
-    public QName getAuthorityKind();
+    QName getAuthorityKind();
 
     /**
      * Gets the value of the binding property.
@@ -63,7 +59,7 @@ public interface AuthorityBinding {
      * @return object is {@link java.lang.String }
      *     
      */
-    public String getBinding();
+    String getBinding();
 
     /**
      * Gets the value of the location property.
@@ -71,5 +67,5 @@ public interface AuthorityBinding {
      * @return object is {@link java.lang.String }
      *     
      */
-    public String getLocation();
+    String getLocation();
 }

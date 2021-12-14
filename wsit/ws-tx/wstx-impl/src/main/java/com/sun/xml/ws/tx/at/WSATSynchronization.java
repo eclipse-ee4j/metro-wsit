@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -48,6 +48,7 @@ public class WSATSynchronization implements Synchronization {
         m_status = status;
     }
 
+    @Override
     public void beforeCompletion() {
         if (WSATHelper.isDebugEnabled()) LOGGER.info(LocalizationMessages.WSAT_4527_BEFORE_COMPLETION_ENTERED(m_epr.toString(), m_xid));
         try {
@@ -97,6 +98,7 @@ public class WSATSynchronization implements Synchronization {
         }
     }
 
+    @Override
     public void afterCompletion(int status) {
       if (WSATHelper.isDebugEnabled()) LOGGER.info(LocalizationMessages.WSAT_4537_AFTER_COMPLETION_STATUS(m_epr.toString(), m_xid, "" + status));
         //no-op
@@ -126,6 +128,7 @@ public class WSATSynchronization implements Synchronization {
      *
      * @throws Throwable he <code>Exception</code> raised by this method
      */
+    @Override
     protected void finalize() throws Throwable {
         super.finalize();
         if (!m_isRemovedFromMap) WSATHelper.getInstance().removeVolatileParticipant(m_xid);

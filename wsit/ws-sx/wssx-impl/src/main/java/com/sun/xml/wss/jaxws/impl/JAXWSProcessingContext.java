@@ -22,10 +22,10 @@ public interface JAXWSProcessingContext extends SecurityProcessingContext{
      * sets JAXWS Message representation.
      * @param message {@link com.sun.xml.ws.api.message.Message}
      */
-    public void setMessage(Message message);
+    void setMessage(Message message);
     /**
      * returns JAXWS Message if present else null.
      * @return return {@link com.sun.xml.ws.api.message.Message}  or null
      */
-    public Message getMessage();
+    Message getMessage();
 }

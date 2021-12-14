@@ -37,6 +37,7 @@ public class BufferedStreamWriter extends java.io.OutputStream {
         buf =new byte[size];
         this.cos = cos;
     }
+    @Override
     public void write(byte[] arg0)throws IOException {
         int newPos=pos+arg0.length;
         if (newPos>=size) {
@@ -48,6 +49,7 @@ public class BufferedStreamWriter extends java.io.OutputStream {
             pos=newPos;
         }
     }
+    @Override
     public void write(byte[] arg0, int arg1, int arg2)throws IOException {
         int newPos=pos+arg2;
         if (newPos>=size) {
@@ -59,6 +61,7 @@ public class BufferedStreamWriter extends java.io.OutputStream {
             pos=newPos;
         }
     }
+    @Override
     public void write(int arg0)throws IOException {
         if (pos>=size) {
             flush();
@@ -66,6 +69,7 @@ public class BufferedStreamWriter extends java.io.OutputStream {
         buf[pos++]=(byte)arg0;
     }
     
+    @Override
     public void flush() throws IOException {
         cos.write(buf,0,pos);
         pos = 0;

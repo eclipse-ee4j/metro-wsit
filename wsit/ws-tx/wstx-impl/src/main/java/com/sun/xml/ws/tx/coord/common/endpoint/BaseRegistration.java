@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -42,6 +42,7 @@ public abstract class BaseRegistration<T extends EndpointReference,K,P> implemen
         this.version = version;
     }
     
+    @Override
     public BaseRegisterResponseType<T,P> registerOperation(BaseRegisterType<T,K> parameters) {
         if (WSATHelper.isDebugEnabled())
             LOGGER.info(LocalizationMessages.WSAT_4504_REGISTER_OPERATION_ENTERED(parameters));
@@ -148,12 +149,7 @@ public abstract class BaseRegistration<T extends EndpointReference,K,P> implemen
     private void registerSynchronization(Xid xid, T epr) {
         LOGGER.info(LocalizationMessages.WSAT_4525_REGISTER_SYNCHRONIZATION(epr, xid));
         WSATSynchronization wsatXAResource = new WSATSynchronization(version, epr, xid);
-        try {
-            getTransactionServices().registerSynchronization(wsatXAResource, xid);
-        } catch (WSATException e) {
-            LOGGER.severe(LocalizationMessages.WSAT_4507_EXCEPTION_DURING_REGISTER_SYNCHRONIZATION(), e);
-            WSATFaultFactory.throwContextRefusedFault();
-        }
+        getTransactionServices().registerSynchronization(wsatXAResource, xid);
 
 
     }

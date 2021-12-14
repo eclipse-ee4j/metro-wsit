@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -141,7 +141,7 @@ public class WSITClientAuthContext extends WSITAuthContextBase
     private CallbackHandler handler = null;
     //***************AuthModule Instance**********
     WSITClientAuthModule authModule = null;  
-    private Hashtable<String, String> scPolicyIDtoSctIdMap = new Hashtable<String, String>();
+    private Hashtable<String, String> scPolicyIDtoSctIdMap = new Hashtable<>();
     protected WeakReference<WSITClientAuthConfig> authConfig;
     //protected WeakReference<Object> tubeOrPipe;
     protected int tubeOrPipeHashCode;
@@ -152,7 +152,7 @@ public class WSITClientAuthContext extends WSITAuthContextBase
     @SuppressWarnings("unchecked")
     public WSITClientAuthContext(String operation, Subject subject, Map<Object, Object> map, CallbackHandler callbackHandler) {
         super(map);
-        this.authConfig = new WeakReference<WSITClientAuthConfig>((WSITClientAuthConfig) map.get(PipeConstants.AUTH_CONFIG));
+        this.authConfig = new WeakReference<>((WSITClientAuthConfig) map.get(PipeConstants.AUTH_CONFIG));
         this.tubeOrPipeHashCode =(map.get(PipeConstants.SECURITY_PIPE)).hashCode();
         WSDLPortImpl wpi = (WSDLPortImpl) map.get("WSDL_MODEL");
         ClientTubeAssemblerContext context = (ClientTubeAssemblerContext) map.get(PipeConstants.WRAPPED_CONTEXT);
@@ -233,15 +233,11 @@ public class WSITClientAuthContext extends WSITAuthContextBase
         }
         //initialize the AuthModules and keep references to them
         authModule = new WSITClientAuthModule();
-        try {
-            authModule.initialize(null, null, null, map);
-        } catch (AuthException e) {
-            log.log(Level.SEVERE, LogStringsMessages.WSITPVD_0028_ERROR_INIT_AUTH_MODULE(), e);
-            throw new RuntimeException(LogStringsMessages.WSITPVD_0028_ERROR_INIT_AUTH_MODULE(), e);
-        }
-            }
+        authModule.initialize(null, null, null, map);
+    }
 
-    public AuthStatus secureRequest(MessageInfo messageInfo, Subject clientSubject) throws AuthException {
+    @Override
+    public AuthStatus secureRequest(MessageInfo messageInfo, Subject clientSubject) {
 
         try {
             try {
@@ -302,7 +298,7 @@ public class WSITClientAuthContext extends WSITAuthContextBase
         }
         if(isSCRenew(packet)){
             SCTokenConfiguration config = new DefaultSCTokenConfiguration(wsscVer.getNamespaceURI());
-            config.getOtherOptions().put("MessagePolicy", (MessagePolicy) ctx.getSecurityPolicy());
+            config.getOtherOptions().put("MessagePolicy", ctx.getSecurityPolicy());
             IssuedTokenContext itc =itm.createIssuedTokenContext(config, packet.endpointAddress.toString());                    
             try{
                 itm.renewIssuedToken(itc);
@@ -362,6 +358,7 @@ public class WSITClientAuthContext extends WSITAuthContextBase
         return packet;
     }
 
+    @Override
     @SuppressWarnings("unchecked")
     public AuthStatus validateResponse(
             MessageInfo messageInfo, Subject clientSubject, Subject serviceSubject) throws AuthException {
@@ -405,10 +402,10 @@ public class WSITClientAuthContext extends WSITAuthContextBase
             return AuthStatus.SUCCESS;
         } finally {
             HaContext.clear();
-        }
-    }
+        }    }
 
-    public void cleanSubject(MessageInfo messageInfo, Subject subject) throws AuthException {
+    @Override
+    public void cleanSubject(MessageInfo messageInfo, Subject subject) {
         cancelSecurityContextToken();
         authConfig.get().cleanupAuthContext(this.tubeOrPipeHashCode); 
         authConfig.clear();
@@ -516,7 +513,7 @@ public class WSITClientAuthContext extends WSITAuthContextBase
     }
 
     protected SOAPMessage verifyInboundMessage(SOAPMessage message, ProcessingContext ctx)
-            throws WssSoapFaultException, XWSSecurityException {
+            throws WssSoapFaultException {
         try {
             ctx.setSOAPMessage(message);
             if (debug) {
@@ -567,36 +564,43 @@ public class WSITClientAuthContext extends WSITAuthContextBase
         return recipient.validateMessage(context);
     }
 
+    @Override
     protected SecurityPolicyHolder addOutgoingMP(WSDLBoundOperation operation, Policy policy, PolicyAlternativeHolder ph) throws PolicyException {
         SecurityPolicyHolder sph = constructPolicyHolder(policy, false, false);
         ph.getOutMessagePolicyMap().put(operation, sph);
         return sph;
     }
 
+    @Override
     protected SecurityPolicyHolder addIncomingMP(WSDLBoundOperation operation, Policy policy, PolicyAlternativeHolder ph) throws PolicyException {
         SecurityPolicyHolder sph = constructPolicyHolder(policy, false, true);
         ph.getInMessagePolicyMap().put(operation, sph);
         return sph;
     }
 
+    @Override
     protected void addIncomingProtocolPolicy(Policy effectivePolicy, String protocol, PolicyAlternativeHolder ph) throws PolicyException {
         ph.getInProtocolPM().put(protocol, constructPolicyHolder(effectivePolicy, false, true, true));
     }
 
+    @Override
     protected void addOutgoingProtocolPolicy(Policy effectivePolicy, String protocol, PolicyAlternativeHolder ph) throws PolicyException {
         ph.getOutProtocolPM().put(protocol, constructPolicyHolder(effectivePolicy, false, false, false));
     }
 
+    @Override
     protected void addIncomingFaultPolicy(Policy effectivePolicy, SecurityPolicyHolder sph, WSDLFault fault) throws PolicyException {
         SecurityPolicyHolder faultPH = constructPolicyHolder(effectivePolicy, false, true);
         sph.addFaultPolicy(fault, faultPH);
     }
 
+    @Override
     protected void addOutgoingFaultPolicy(Policy effectivePolicy, SecurityPolicyHolder sph, WSDLFault fault) throws PolicyException {
         SecurityPolicyHolder faultPH = constructPolicyHolder(effectivePolicy, false, false);
         sph.addFaultPolicy(fault, faultPH);
     }
 
+    @Override
     protected String getAction(WSDLOperation operation, boolean inComming) {
         if (!inComming) {
             return operation.getInput().getAction();
@@ -605,8 +609,7 @@ public class WSITClientAuthContext extends WSITAuthContextBase
         }
     }
 
-     JAXBElement startSecureConversation(Packet packet)
-            throws WSSecureConversationException {
+     JAXBElement startSecureConversation(Packet packet) {
 
         List toks = getOutBoundSCP(packet.getMessage());
         if (toks.isEmpty()) {
@@ -622,7 +625,7 @@ public class WSITClientAuthContext extends WSITAuthContextBase
         //Note: Assuming only one SC assertion
         Token tok = (Token) toks.get(0);
         IssuedTokenContext ctx =
-                (IssuedTokenContext) issuedTokenContextMap.get(tok.getTokenId());
+                issuedTokenContextMap.get(tok.getTokenId());
 
         PolicyAssertion scClientAssertion = null;
         if (wsscConfig != null) {
@@ -640,10 +643,10 @@ public class WSITClientAuthContext extends WSITAuthContextBase
                 config.getOtherOptions().put(MessageConstants.WSIT_CLIENT_AUTHCONTEXT, this);
                 ctx =itm.createIssuedTokenContext(config, packet.endpointAddress.toString());
                 itm.getIssuedToken(ctx);
-                issuedTokenContextMap.put(((Token)tok).getTokenId(), ctx);
+                issuedTokenContextMap.put(tok.getTokenId(), ctx);
                 //PolicyID to sctID map
                 SCTokenConfiguration sctConfig = (SCTokenConfiguration)ctx.getSecurityPolicy().get(0);
-                scPolicyIDtoSctIdMap.put(((Token)tok).getTokenId(), sctConfig.getTokenId());
+                scPolicyIDtoSctIdMap.put(tok.getTokenId(), sctConfig.getTokenId());
             }catch(WSTrustException se){
                 log.log(Level.SEVERE, LogStringsMessages.WSITPVD_0052_ERROR_ISSUEDTOKEN_CREATION(), se);
                 throw new WebServiceException(LogStringsMessages.WSITPVD_0052_ERROR_ISSUEDTOKEN_CREATION(), se);
@@ -740,10 +743,10 @@ public class WSITClientAuthContext extends WSITAuthContextBase
                     config.getOtherOptions().put(MessageConstants.WSIT_CLIENT_AUTHCONTEXT, this);
                     IssuedTokenContext ctx =itm.createIssuedTokenContext(config, packet.endpointAddress.toString());
                     itm.getIssuedToken(ctx);
-                    issuedTokenContextMap.put(((Token)scToken).getTokenId(), ctx);
+                    issuedTokenContextMap.put(scToken.getTokenId(), ctx);
                     //PolicyID to sctID map
                     SCTokenConfiguration sctConfig = (SCTokenConfiguration)ctx.getSecurityPolicy().get(0);
-                    scPolicyIDtoSctIdMap.put(((Token)scToken).getTokenId(), sctConfig.getTokenId());
+                    scPolicyIDtoSctIdMap.put(scToken.getTokenId(), sctConfig.getTokenId());
                   }catch(WSTrustException se){
                     log.log(Level.SEVERE, LogStringsMessages.WSITPVD_0052_ERROR_ISSUEDTOKEN_CREATION(), se);
                     throw new WebServiceException(LogStringsMessages.WSITPVD_0052_ERROR_ISSUEDTOKEN_CREATION(), se);
@@ -757,7 +760,7 @@ public class WSITClientAuthContext extends WSITAuthContextBase
         while (keys.hasMoreElements()) {
             String id = (String) keys.nextElement();
             IssuedTokenContext ctx =
-                    (IssuedTokenContext) issuedTokenContextMap.get(id);
+                    issuedTokenContextMap.get(id);
 
             if (ctx.getSecurityToken() instanceof SecurityContextToken) {
                 try{
@@ -868,7 +871,7 @@ public class WSITClientAuthContext extends WSITAuthContextBase
     // service policy
     protected List<PolicyAssertion> getIssuedTokenPolicies(Packet packet, String scope) {
 
-        List<PolicyAssertion> ret = new ArrayList<PolicyAssertion>();
+        List<PolicyAssertion> ret = new ArrayList<>();
         for (PolicyAlternativeHolder p : this.policyAlternatives) {
 
             WSDLBoundOperation operation = null;
@@ -878,7 +881,7 @@ public class WSITClientAuthContext extends WSITAuthContextBase
                 operation = getOperation(packet.getMessage(), packet);
             }
 
-            SecurityPolicyHolder sph = (SecurityPolicyHolder) p.getOutMessagePolicyMap().get(operation);
+            SecurityPolicyHolder sph = p.getOutMessagePolicyMap().get(operation);
             if (sph != null) {
                 ret.addAll(sph.getIssuedTokens());
             }
@@ -914,7 +917,7 @@ public class WSITClientAuthContext extends WSITAuthContextBase
         Message message = packet.getMessage();
         for (PolicyAlternativeHolder p : this.policyAlternatives) {
             WSDLBoundOperation operation = message.getOperation(pipeConfig.getWSDLPort());
-            SecurityPolicyHolder sph = (SecurityPolicyHolder) p.getOutMessagePolicyMap().get(operation);
+            SecurityPolicyHolder sph = p.getOutMessagePolicyMap().get(operation);
             if (sph != null && sph.isIssuedTokenAsEncryptedSupportingToken()) {
                 MessagePolicy policy = sph.getMessagePolicy();
                 ArrayList list = policy.getPrimaryPolicies();
@@ -963,7 +966,7 @@ public class WSITClientAuthContext extends WSITAuthContextBase
 
      private void renewSCT(ProcessingContext ctx, Packet ret) {
          SCTokenConfiguration config = new DefaultSCTokenConfiguration(wsscVer.getNamespaceURI());
-         config.getOtherOptions().put("MessagePolicy", (MessagePolicy) ctx.getSecurityPolicy());
+         config.getOtherOptions().put("MessagePolicy", ctx.getSecurityPolicy());
             IssuedTokenContext itc = itm.createIssuedTokenContext(config, ret.endpointAddress.toString());
             try {
                 itm.renewIssuedToken(itc);

@@ -43,7 +43,7 @@ public enum McProtocolVersion {
     public final QName unsupportedSelectionFaultCode;
     public final QName missingSelectionFaultCode;
 
-    private McProtocolVersion(String protocolNamespaceUri, String policyNamespaceUri) {
+    McProtocolVersion(String protocolNamespaceUri, String policyNamespaceUri) {
         this.protocolNamespaceUri = protocolNamespaceUri;
         this.policyNamespaceUri = policyNamespaceUri;
 

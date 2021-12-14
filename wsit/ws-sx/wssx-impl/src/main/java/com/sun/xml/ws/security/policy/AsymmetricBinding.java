@@ -54,35 +54,35 @@ public interface AsymmetricBinding extends Binding{
      * returns Recipient token
      * @return {@link X509Token}
      */
-    public Token getRecipientToken();
+    Token getRecipientToken();
    
     /**
      * returns Recipient token
      * @return {@link X509Token}
      */
-    public Token getRecipientSignatureToken();
+    Token getRecipientSignatureToken();
 
      /**
      * returns Recipient token
      * @return {@link X509Token}
      */
-    public Token getRecipientEncryptionToken();
+     Token getRecipientEncryptionToken();
 
     /**
      * returns Initiator token
      * @return {@link X509Token}
      */
-    public Token getInitiatorToken();
+    Token getInitiatorToken();
 
     /**
      * returns Initiator token
      * @return {@link X509Token}
      */
-    public Token getInitiatorSignatureToken();
+    Token getInitiatorSignatureToken();
 
     /**
      * returns Initiator token
      * @return {@link X509Token}
      */
-    public Token getInitiatorEncryptionToken();
+    Token getInitiatorEncryptionToken();
 }

@@ -87,7 +87,7 @@ public class EncryptionPropertiesType {
      */
     public List<EncryptionPropertyType> getEncryptionProperty() {
         if (encryptionProperty == null) {
-            encryptionProperty = new ArrayList<EncryptionPropertyType>();
+            encryptionProperty = new ArrayList<>();
         }
         return this.encryptionProperty;
     }

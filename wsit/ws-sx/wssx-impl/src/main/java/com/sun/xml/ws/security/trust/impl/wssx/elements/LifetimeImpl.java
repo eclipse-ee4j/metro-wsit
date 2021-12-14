@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -14,12 +14,7 @@
 
 package com.sun.xml.ws.security.trust.impl.wssx.elements;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-
 import jakarta.xml.bind.JAXBContext;
-import jakarta.xml.bind.JAXBException;
-import jakarta.xml.bind.annotation.XmlRootElement;
 
 import com.sun.xml.ws.security.wsu10.AttributedDateTime;
 import com.sun.xml.ws.api.security.trust.WSTrustException;

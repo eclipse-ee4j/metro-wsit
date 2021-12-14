@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -19,9 +19,7 @@
 
 package com.sun.xml.wss.impl;
 
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -31,7 +29,6 @@ import javax.xml.crypto.dsig.DigestMethod;
 import jakarta.xml.soap.MessageFactory;
 import jakarta.xml.soap.SOAPBody;
 import jakarta.xml.soap.SOAPBodyElement;
-import jakarta.xml.soap.SOAPException;
 import jakarta.xml.soap.SOAPFactory;
 import jakarta.xml.soap.SOAPHeader;
 import jakarta.xml.soap.SOAPHeaderElement;
@@ -47,13 +44,10 @@ import org.w3c.dom.NodeList;
 import com.sun.xml.ws.policy.AssertionSet;
 import com.sun.xml.ws.policy.Policy;
 import com.sun.xml.ws.policy.PolicyAssertion;
-import com.sun.xml.ws.policy.PolicyException;
 import com.sun.xml.ws.security.policy.AlgorithmSuiteValue;
 import com.sun.xml.wss.SecurityEnvironment;
-import com.sun.xml.wss.XWSSecurityException;
 import com.sun.xml.wss.callback.PolicyCallbackHandler1;
 import com.sun.xml.wss.impl.misc.DefaultSecurityEnvironmentImpl;
-import com.sun.xml.wss.impl.policy.PolicyGenerationException;
 import com.sun.xml.wss.impl.policy.mls.AuthenticationTokenPolicy;
 import com.sun.xml.wss.impl.policy.mls.MessagePolicy;
 import com.sun.xml.wss.impl.policy.mls.SignaturePolicy;
@@ -79,10 +73,12 @@ public class SignC14Test extends TestCase {
 		super(testName);
 	}
 
-	protected void setUp() throws Exception {
+	@Override
+    protected void setUp() {
 	}
 
-	protected void tearDown() throws Exception {
+	@Override
+    protected void tearDown() {
 	}
 
 	public static Test suite() {
@@ -111,7 +107,7 @@ public class SignC14Test extends TestCase {
 	}
 
 	private static SOAPMessage reConstructSOAPMsg(SOAPMessage secMsg)
-			throws FileNotFoundException, IOException, SOAPException, Exception {
+			throws Exception {
 		// now persist the message and read-back
 		FileOutputStream sentFile = new FileOutputStream("golden.msg");
 		TestUtil.saveMimeHeaders(secMsg, "golden.mh");
@@ -125,8 +121,8 @@ public class SignC14Test extends TestCase {
 	}
 
 	private static SOAPMessage constructSOAPMsg(boolean withTransforms)
-			throws SOAPException, XWSSecurityException, PolicyException,
-			IOException, PolicyGenerationException, Exception {
+			throws
+            Exception {
 		// alg.setType(AlgorithmSuiteValue.Basic128);
 		alg = new AlgorithmSuite(
 				AlgorithmSuiteValue.Basic128.getDigAlgorithm(),
@@ -183,7 +179,7 @@ public class SignC14Test extends TestCase {
 		com.sun.xml.ws.security.policy.WSSAssertion wssAssertionws = null;
 		WSSAssertion wssAssertion = null;
 		AssertionSet as = null;
-		Policy wssPolicy = new PolicyResourceLoader()
+		Policy wssPolicy = PolicyResourceLoader
 				.loadPolicy("security/policy-binding2.xml");
 		Iterator<AssertionSet> i = wssPolicy.iterator();
 		if (i.hasNext())
@@ -237,7 +233,7 @@ public class SignC14Test extends TestCase {
 		com.sun.xml.ws.security.policy.WSSAssertion wssAssertionws = null;
 		WSSAssertion wssAssertion = null;
 		AssertionSet as = null;
-		Policy wssPolicy = new PolicyResourceLoader()
+		Policy wssPolicy = PolicyResourceLoader
 				.loadPolicy("security/policy-binding2.xml");
 		Iterator<AssertionSet> i = wssPolicy.iterator();
 		if (i.hasNext())

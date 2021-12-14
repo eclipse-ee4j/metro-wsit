@@ -40,10 +40,6 @@ import org.w3c.dom.TypeInfo;
 import org.w3c.dom.UserDataHandler;
 
 /**
- *
- * @author Mayank.Mishra@Sun.com
- */
-/**
  * Corresponds to Schema definition for EncryptedData. 
  * Schema definition for EncryptedData is as follows:
  * <p>
@@ -221,348 +217,433 @@ public class EncryptedHeaderBlock extends SOAPElementExtension implements SOAPEl
 //        return delegateElement.getAttributeValue(idAttributeName);
 //    }
 //
-    public SOAPElement getAsSoapElement() throws XWSSecurityException {
+    public SOAPElement getAsSoapElement() {
         return delegateElement;
     }
 
+    @Override
     public SOAPElement addChildElement(Name name) throws SOAPException {
         return delegateElement.addChildElement(name);
     }
 
+    @Override
     public SOAPElement addChildElement(String string) throws SOAPException {
         return delegateElement.addChildElement(string);
     }
 
+    @Override
     public SOAPElement addChildElement(String string, String string0) throws SOAPException {
         return delegateElement.addChildElement(string, string0);
     }
 
+    @Override
     public SOAPElement addChildElement(String string, String string0, String string1) throws SOAPException {
         return delegateElement.addChildElement(string, string0, string1);
     }
 
+    @Override
     public SOAPElement addChildElement(SOAPElement sOAPElement) throws SOAPException {
         return delegateElement.addChildElement(sOAPElement);
     }
 
+    @Override
     public void removeContents() {
         delegateElement.removeContents();
     }
 
+    @Override
     public SOAPElement addTextNode(String string) throws SOAPException {
         return delegateElement.addTextNode(string);
     }
 
+    @Override
     public SOAPElement addAttribute(Name name, String string) throws SOAPException {
         return delegateElement.addAttribute(name, string);
     }
 
+    @Override
     public SOAPElement addNamespaceDeclaration(String string, String string0) throws SOAPException {
         return delegateElement.addNamespaceDeclaration(string, string0);
     }
 
+    @Override
     public String getAttributeValue(Name name) {
         return delegateElement.getAttributeValue(name);
     }
 
+    @Override
     public Iterator getAllAttributes() {
         return delegateElement.getAllAttributes();
     }
 
+    @Override
     public Iterator getAllAttributesAsQNames() {
          return delegateElement.getAllAttributesAsQNames();
     }
 
+    @Override
     public String getNamespaceURI(String string) {
         return delegateElement.getNamespaceURI(string);
     }
 
+    @Override
     public Iterator getNamespacePrefixes() {
         return delegateElement.getNamespacePrefixes();
     }
 
+    @Override
     public Iterator getVisibleNamespacePrefixes() {
         return delegateElement.getVisibleNamespacePrefixes();
     }
 
+    @Override
     public Name getElementName() {
         return delegateElement.getElementName();
     }
 
+    @Override
     public boolean removeAttribute(Name name) {
         return delegateElement.removeAttribute(name);
     }
 
+    @Override
     public boolean removeNamespaceDeclaration(String string) {
         return delegateElement.removeNamespaceDeclaration(string);
     }
 
+    @Override
     public Iterator getChildElements() {
         return delegateElement.getChildElements();
     }
 
+    @Override
     public Iterator getChildElements(Name name) {
         return delegateElement.getChildElements(name);
     }
 
+    @Override
     public void setEncodingStyle(String string) throws SOAPException {
         delegateElement.setEncodingStyle(string);
     }
 
+    @Override
     public String getEncodingStyle() {
         return delegateElement.getEncodingStyle();
     }
 
+    @Override
     public String getValue() {
         return delegateElement.getValue();
     }
 
+    @Override
     public void setValue(String string) {
         delegateElement.setValue(string);
     }
 
+    @Override
     public void setParentElement(SOAPElement sOAPElement) throws SOAPException {
         delegateElement.setParentElement(sOAPElement);
     }
 
+    @Override
     public SOAPElement getParentElement() {
         return delegateElement.getParentElement();
     }
 
+    @Override
     public void detachNode() {
         delegateElement.detachNode();
     }
 
+    @Override
     public void recycleNode() {
         delegateElement.recycleNode();
     }
 
+    @Override
     public String getNodeName() {
         return delegateElement.getNodeName();
     }
 
+    @Override
     public String getNodeValue() throws DOMException {
         return delegateElement.getNodeValue();
     }
 
+    @Override
     public void setNodeValue(String nodeValue) throws DOMException {
         delegateElement.setNodeValue(nodeValue);                
     }
 
+    @Override
     public short getNodeType() {
         return delegateElement.getNodeType();
     }
 
+    @Override
     public Node getParentNode() {
         return delegateElement.getParentNode();
     }
 
+    @Override
     public NodeList getChildNodes() {
         return delegateElement.getChildNodes();
     }
 
+    @Override
     public Node getFirstChild() {
         return delegateElement.getFirstChild();
     }
 
+    @Override
     public Node getLastChild() {
         return delegateElement.getLastChild();
     }
 
+    @Override
     public Node getPreviousSibling() {
         return delegateElement.getPreviousSibling();
     }
 
+    @Override
     public Node getNextSibling() {
         return delegateElement.getNextSibling();
     }
 
+    @Override
     public NamedNodeMap getAttributes() {
         return delegateElement.getAttributes();
     }
 
+    @Override
     public Document getOwnerDocument() {
         return delegateElement.getOwnerDocument();
     }
 
+    @Override
     public Node insertBefore(Node newChild, Node refChild) throws DOMException {
         return delegateElement.insertBefore(newChild, refChild);
     }
 
+    @Override
     public Node replaceChild(Node newChild, Node oldChild) throws DOMException {
         return delegateElement.replaceChild(newChild, oldChild);
     }
 
+    @Override
     public Node removeChild(Node oldChild) throws DOMException {
         return delegateElement.removeChild(oldChild);
     }
 
+    @Override
     public Node appendChild(Node newChild) throws DOMException {
         return delegateElement.appendChild(newChild);
     }
 
+    @Override
     public boolean hasChildNodes() {
         return delegateElement.hasChildNodes();
         
     }
 
+    @Override
     public Node cloneNode(boolean deep) {
         return delegateElement.cloneNode(deep);
     }
 
+    @Override
     public void normalize() {
         delegateElement.normalize();
     }
 
+    @Override
     public boolean isSupported(String feature, String version) {
         return delegateElement.isSupported(feature, version);
     }
 
+    @Override
     public String getNamespaceURI() {
         return delegateElement.getNamespaceURI();
     }
 
+    @Override
     public String getPrefix() {
         return delegateElement.getPrefix();
     }
 
+    @Override
     public void setPrefix(String prefix) throws DOMException {
         delegateElement.setPrefix(prefix);
     }
 
+    @Override
     public String getLocalName() {
         return delegateElement.getLocalName();
     }
 
+    @Override
     public boolean hasAttributes() {
         return delegateElement.hasAttributes();
     }
 
+    @Override
     public String getBaseURI() {
         return delegateElement.getBaseURI();
     }
 
+    @Override
     public short compareDocumentPosition(Node other) throws DOMException {
         return delegateElement.compareDocumentPosition(other);
     }
 
+    @Override
     public String getTextContent() throws DOMException {
         return delegateElement.getTextContent();
     }
 
+    @Override
     public void setTextContent(String textContent) throws DOMException {
         delegateElement.setTextContent(textContent);
     }
 
+    @Override
     public boolean isSameNode(Node other) {
         return delegateElement.isSameNode(other);
     }
 
+    @Override
     public String lookupPrefix(String namespaceURI) {
         return delegateElement.lookupPrefix(namespaceURI);
     }
 
+    @Override
     public boolean isDefaultNamespace(String namespaceURI) {
         return delegateElement.isDefaultNamespace(namespaceURI);
     }
 
+    @Override
     public String lookupNamespaceURI(String prefix) {
         return delegateElement.lookupNamespaceURI(prefix);
     }
 
+    @Override
     public boolean isEqualNode(Node arg) {
         return delegateElement.isEqualNode(arg);
     }
 
+    @Override
     public Object getFeature(String feature, String version) {
         return delegateElement.getFeature(feature, version);
     }
 
+    @Override
     public Object setUserData(String key, Object data, UserDataHandler handler) {
         return delegateElement.setUserData(key, data, handler);
     }
 
+    @Override
     public Object getUserData(String key) {
         return delegateElement.getUserData(key);
     }
 
+    @Override
     public String getTagName() {
         return delegateElement.getTagName();
     }
 
+    @Override
     public String getAttribute(String name) {
         return delegateElement.getAttribute(name);
     }
 
+    @Override
     public void setAttribute(String name, String value) throws DOMException {
         delegateElement.setAttribute(name, value);                
     }
 
+    @Override
     public void removeAttribute(String name) throws DOMException {
         delegateElement.removeAttribute(name);
     }
 
+    @Override
     public Attr getAttributeNode(String name) {
         return delegateElement.getAttributeNode(name);
     }
 
+    @Override
     public Attr setAttributeNode(Attr newAttr) throws DOMException {
         return delegateElement.setAttributeNode(newAttr);
     }
 
+    @Override
     public Attr removeAttributeNode(Attr oldAttr) throws DOMException {
         return delegateElement.removeAttributeNode(oldAttr);
     }
 
+    @Override
     public NodeList getElementsByTagName(String name) {
         return delegateElement.getElementsByTagName(name);
     }
 
+    @Override
     public String getAttributeNS(String namespaceURI, String localName) throws DOMException {
         return delegateElement.getAttributeNS(namespaceURI, localName);
     }
 
+    @Override
     public void setAttributeNS(String namespaceURI, String qualifiedName, String value) throws DOMException {
        delegateElement.setAttributeNS(namespaceURI, qualifiedName, value); 
         
     }
 
+    @Override
     public void removeAttributeNS(String namespaceURI, String localName) throws DOMException {
         delegateElement.removeAttributeNS(namespaceURI, localName);
     }
 
+    @Override
     public Attr getAttributeNodeNS(String namespaceURI, String localName) throws DOMException {
         return delegateElement.getAttributeNodeNS(namespaceURI, localName);
     }
 
+    @Override
     public Attr setAttributeNodeNS(Attr newAttr) throws DOMException {
         return delegateElement.setAttributeNodeNS(newAttr);
     }
 
+    @Override
     public NodeList getElementsByTagNameNS(String namespaceURI, String localName) throws DOMException {
         return delegateElement.getElementsByTagNameNS(namespaceURI, localName);
     }
 
+    @Override
     public boolean hasAttribute(String name) {
         return delegateElement.hasAttribute(name);
     }
 
+    @Override
     public boolean hasAttributeNS(String namespaceURI, String localName) throws DOMException {
         return delegateElement.hasAttributeNS(namespaceURI, localName);
     }
 
+    @Override
     public TypeInfo getSchemaTypeInfo() {
         return delegateElement.getSchemaTypeInfo();
     }
 
+    @Override
     public void setIdAttribute(String name, boolean isId) throws DOMException {
         delegateElement.setIdAttribute(name, isId);
     }
 
+    @Override
     public void setIdAttributeNS(String namespaceURI, String localName, boolean isId) throws DOMException {
         delegateElement.setIdAttributeNS(namespaceURI, localName, isId);
     }
 
+    @Override
     public void setIdAttributeNode(Attr idAttr, boolean isId) throws DOMException {
         delegateElement.setIdAttributeNode(idAttr, isId);
     }

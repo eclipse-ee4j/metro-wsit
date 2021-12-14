@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -97,6 +97,7 @@ public class SecurityContextToken extends SecurityContextTokenType implements Se
         this.soapVersion = sv;
     }
     
+    @Override
     public URI getIdentifier() {
         return identifier;
     }
@@ -108,6 +109,7 @@ public class SecurityContextToken extends SecurityContextTokenType implements Se
         getAny().add(iElement);
     }
     
+    @Override
     public String getInstance() {
         return instance;
     }
@@ -124,14 +126,17 @@ public class SecurityContextToken extends SecurityContextTokenType implements Se
         
     }
     
+    @Override
     public String getWsuId(){
         return getId();
     }
     
+    @Override
     public String getType() {
         return SECURITY_CONTEXT_TOKEN;
     }
     
+    @Override
     public Object getTokenValue() {
         try {
             DocumentBuilderFactory dbf = WSITXMLFactory.createDocumentBuilderFactory(WSITXMLFactory.DISABLE_SECURE_PROCESSING);
@@ -140,7 +145,7 @@ public class SecurityContextToken extends SecurityContextTokenType implements Se
             Document doc = db.newDocument();
             
             jakarta.xml.bind.Marshaller marshaller = WSTrustElementFactory.getContext().createMarshaller();
-            JAXBElement<SecurityContextTokenType> tElement =  (new ObjectFactory()).createSecurityContextToken((SecurityContextTokenType)this);
+            JAXBElement<SecurityContextTokenType> tElement =  (new ObjectFactory()).createSecurityContextToken(this);
             marshaller.marshal(tElement, doc);
             return doc.getDocumentElement();
             
@@ -149,14 +154,17 @@ public class SecurityContextToken extends SecurityContextTokenType implements Se
         }
     }
     
+    @Override
     public List getExtElements() {
         return extElements;
     }
     
+    @Override
     public String getNamespaceURI() {
         return "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd";
     }
     
+    @Override
     public String getLocalPart() {
         return "SecurityContextToken";
     }
@@ -169,10 +177,12 @@ public class SecurityContextToken extends SecurityContextTokenType implements Se
         throw new UnsupportedOperationException();
     }
     
-    public javax.xml.stream.XMLStreamReader readHeader() throws javax.xml.stream.XMLStreamException {
+    @Override
+    public javax.xml.stream.XMLStreamReader readHeader() {
         throw new UnsupportedOperationException();
     }
     
+    @Override
     public void writeTo(OutputStream os) {
         try {
             JAXBElement<SecurityContextTokenType> sct =
@@ -185,9 +195,8 @@ public class SecurityContextToken extends SecurityContextTokenType implements Se
     }
     /**
      * writes the SecurityContextToken to the XMLStreamWriter
-     * @param streamWriter
-     * @throws javax.xml.stream.XMLStreamException
      */
+    @Override
     public void writeTo(javax.xml.stream.XMLStreamWriter streamWriter) throws javax.xml.stream.XMLStreamException {
         JAXBElement<SecurityContextTokenType> sct =
                   new com.sun.xml.ws.security.secconv.impl.bindings.ObjectFactory().createSecurityContextToken(this);
@@ -222,15 +231,14 @@ public class SecurityContextToken extends SecurityContextTokenType implements Se
         return JAXBUtil.createMarshaller(soapVersion);
     }
 
+    @Override
     public boolean refersToSecHdrWithId(String id) {
         return false;
     }
     /**
      * writes the SecurityContextToken to the XMLStreamWriter
-     * @param streamWriter
-     * @param props
-     * @throws javax.xml.stream.XMLStreamException
      */
+    @Override
     @SuppressWarnings("unchecked")
     public void writeTo(javax.xml.stream.XMLStreamWriter streamWriter, HashMap props) throws javax.xml.stream.XMLStreamException {
         try{

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -35,7 +35,7 @@ import jakarta.xml.ws.WebServiceException;
 public class JAXBUtil {
     public static final WSSNamespacePrefixMapper prefixMapper11 = new WSSNamespacePrefixMapper();
     public static final WSSNamespacePrefixMapper prefixMapper12 = new WSSNamespacePrefixMapper(true);
-    private static ThreadLocal<WeakReference<JAXBContext>> jc = new ThreadLocal<WeakReference<JAXBContext>>();
+    private static ThreadLocal<WeakReference<JAXBContext>> jc = new ThreadLocal<>();
 
     private static  JAXBContext jaxbContext;
     private static JAXBContext customjaxbContext;
@@ -55,6 +55,7 @@ public class JAXBUtil {
             //make it JAXBContext privileged
             AccessController.doPrivileged(new PrivilegedExceptionAction() {
 
+                @Override
                 public Object run() throws Exception {
                     customjaxbContext = JAXBContext.newInstance(
                             "com.sun.xml.ws.security.opt.crypto.dsig:com.sun.xml.ws.security.opt.crypto.dsig.keyinfo:com.sun.xml.security.core.dsig:com.sun.xml.security.core.xenc:" +
@@ -76,6 +77,7 @@ public class JAXBUtil {
             //JAXB might access private class members by reflection so
             //make it JAXBContext privileged
             AccessController.doPrivileged(new PrivilegedExceptionAction() {
+                @Override
                 public Object run() throws Exception {
                     jaxbContext = JAXBContext.newInstance(
                             "com.sun.xml.ws.security.opt.crypto.dsig:com.sun.xml.ws.security.opt.crypto.dsig.keyinfo:com.sun.xml.security.core.dsig:com.sun.xml.security.core.xenc:" +
@@ -114,7 +116,7 @@ public class JAXBUtil {
     }
 
     public static void setSEIJAXBContext(JAXBContext context){
-        jc.set(new WeakReference<JAXBContext>(context));
+        jc.set(new WeakReference<>(context));
     }
 
     public static JAXBContext getSEIJAXBContext(){

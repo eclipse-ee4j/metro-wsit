@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -47,7 +47,7 @@ public class ServiceChannelWSImpl {
     @Resource
     private WebServiceContext wsContext;
     
-    public void initiateSession() throws ServiceChannelException {
+    public void initiateSession() {
         final ChannelContext serviceChannelContext = getChannelContext();
         final ConnectionSession connectionSession = serviceChannelContext.getConnectionSession();
         logger.log(Level.FINE, MessagesMessages.WSTCP_1140_SOAPTCP_SESSION_OPEN(connectionSession.hashCode()));

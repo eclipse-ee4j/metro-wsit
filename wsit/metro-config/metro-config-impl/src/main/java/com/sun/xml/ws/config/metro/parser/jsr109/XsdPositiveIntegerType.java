@@ -125,6 +125,7 @@ public class XsdPositiveIntegerType
         this.id = value;
     }
 
+    @Override
     public Locator sourceLocation() {
         return locator;
     }

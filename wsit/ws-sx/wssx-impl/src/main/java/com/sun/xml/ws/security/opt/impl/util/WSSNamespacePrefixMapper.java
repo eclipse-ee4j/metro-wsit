@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -28,6 +28,7 @@ public class WSSNamespacePrefixMapper extends NamespacePrefixMapper{
         this.soap12 = soap12;
     }
     
+    @Override
     public String getPreferredPrefix(String namespaceUri, String suggestion, boolean requirePrefix) {
         if(MessageConstants.WSSE_NS.equals(namespaceUri)){
             return MessageConstants.WSSE_PREFIX;
@@ -64,10 +65,12 @@ public class WSSNamespacePrefixMapper extends NamespacePrefixMapper{
         return null;
     }
     
+    @Override
     public String[] getPreDeclaredNamespaceUris() {
         return new String[] { };
     }
     
+    @Override
     public String[] getContextualNamespaceDecls() {
         if(!soap12){
             return new String[] {MessageConstants.WSSE_PREFIX, MessageConstants.WSSE_NS,MessageConstants.WSSE11_PREFIX,

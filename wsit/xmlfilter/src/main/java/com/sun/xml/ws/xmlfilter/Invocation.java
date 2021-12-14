@@ -78,8 +78,6 @@ public final class Invocation {
      * @param batch queue of invocations to be executed on the targeted XmlStreamWriter.
      *        After successful invocation of the whole batch, the batch queue is fully
      *        consumed and empty.
-     * @throws java.lang.IllegalArgumentException
-     * @throws InvocationProcessingException
      */
     public static void executeBatch(final XMLStreamWriter target, Queue<Invocation> batch) throws InvocationProcessingException {
         for (Invocation invocation : batch) {
@@ -94,12 +92,12 @@ public final class Invocation {
     }
 
     /**
-     * Private constructor of the class used in the {@link createInvocation(Method, Object[])}
+     * Private constructor of the class used in the {@link #createInvocation(Method, Object[])}
      * factory method.
      *
      * @param method method represented by the new {@link Invocation} instance
      * @param type method type represented by the new {@link Invocation} instance
-     * @param args invocation arguments to be passed to the method when {@link #executeBatch()}
+     * @param args invocation arguments to be passed to the method when {@link #executeBatch(XMLStreamWriter, Queue)}
      *        method is invoked on the {@link Invocation} instance.
      *
      * @see XmlStreamWriterMethodType
@@ -167,12 +165,10 @@ public final class Invocation {
     public Object execute(final XMLStreamWriter target) throws InvocationProcessingException {
         try {
             return method.invoke(target, arguments);
-        } catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException | IllegalAccessException e) {
             throw LOGGER.logSevereException(new InvocationProcessingException(this, e));
         } catch (InvocationTargetException e) {
             throw LOGGER.logSevereException(new InvocationProcessingException(this, e.getCause()));
-        } catch (IllegalAccessException e) {
-            throw LOGGER.logSevereException(new InvocationProcessingException(this, e));
         }
     }
 
@@ -183,11 +179,10 @@ public final class Invocation {
      */
     @Override
     public String toString() {
-        final StringBuffer retValue = new StringBuffer(30);
-        retValue.append("invocation { method='").append(method.getName()).append("', args=").append(argsToString());
-        retValue.append('}');
+        String retValue = "invocation { method='" + method.getName() + "', args=" + argsToString() +
+                '}';
 
-        return retValue.toString();
+        return retValue;
     }
 
     /**
@@ -202,7 +197,7 @@ public final class Invocation {
             List<Object> argList = null;
             if (arguments != null && arguments.length > 0) {
                 if (arguments.length == 3 && "writeCharacters".equals(method.getName())) {
-                    argList = new ArrayList<Object>(3);
+                    argList = new ArrayList<>(3);
                     argList.add(new String((char[]) arguments[0]));
                     argList.add(arguments[1]);
                     argList.add(arguments[2]);

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -27,6 +27,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import javax.crypto.spec.SecretKeySpec;
+
+import com.sun.xml.wss.impl.policy.mls.KeyBindingBase;
 import jakarta.xml.bind.JAXBElement;
 import org.w3c.dom.Element;
 import com.sun.xml.wss.logging.impl.opt.token.LogStringsMessages;
@@ -48,8 +50,8 @@ public class IssuedTokenBuilder extends TokenBuilder {
     /**
      *
      * @return BuilderResult
-     * @throws com.sun.xml.wss.XWSSecurityException
      */
+    @Override
     @SuppressWarnings("unchecked")
     public BuilderResult process() throws XWSSecurityException {
         BuilderResult itkbResult = new BuilderResult();
@@ -111,10 +113,10 @@ public class IssuedTokenBuilder extends TokenBuilder {
             context.setExtraneousProperty(MessageConstants.STORED_SAML_KEYS, sentSamlKeys);
         }
         String itType = ikb.getIncludeToken();
-        boolean includeToken = (ikb.INCLUDE_ALWAYS.equals(itType) ||
-                                ikb.INCLUDE_ALWAYS_TO_RECIPIENT.equals(itType) ||
-                                ikb.INCLUDE_ALWAYS_VER2.equals(itType) ||
-                                ikb.INCLUDE_ALWAYS_TO_RECIPIENT_VER2.equals(itType)
+        boolean includeToken = (KeyBindingBase.INCLUDE_ALWAYS.equals(itType) ||
+                                KeyBindingBase.INCLUDE_ALWAYS_TO_RECIPIENT.equals(itType) ||
+                                KeyBindingBase.INCLUDE_ALWAYS_VER2.equals(itType) ||
+                                KeyBindingBase.INCLUDE_ALWAYS_TO_RECIPIENT_VER2.equals(itType)
                                 );
         
         if (includeToken) {

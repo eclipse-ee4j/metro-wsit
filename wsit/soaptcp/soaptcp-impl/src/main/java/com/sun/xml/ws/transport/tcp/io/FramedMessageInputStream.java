@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -22,6 +22,7 @@ import java.nio.ByteBuffer;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.SocketChannel;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -61,7 +62,7 @@ public final class FramedMessageInputStream extends InputStream implements LifeC
     private int channelId;
     private int contentId;
     private int messageId;
-    private final Map<Integer, String> contentProps = new HashMap<Integer, String>(8);
+    private final Map<Integer, String> contentProps = new HashMap<>(8);
     
     private boolean isReadingHeader;
     
@@ -148,6 +149,7 @@ public final class FramedMessageInputStream extends InputStream implements LifeC
     /**
      * Read the first byte from the wrapped <code>ByteBuffer</code>.
      */
+    @Override
     public int read() {
         if (!isDirectMode) {
             if (isLastFrame && frameBytesRead >= currentFrameDataSize) {
@@ -286,7 +288,7 @@ public final class FramedMessageInputStream extends InputStream implements LifeC
                 byte[] paramValueBytes = new byte[paramValueLen];
                 // Read parameter-value
                 DataInOutUtils.readFully(this, paramValueBytes);
-                final String paramValue = new String(paramValueBytes, TCPConstants.UTF8);
+                final String paramValue = new String(paramValueBytes, StandardCharsets.UTF_8);
                 contentProps.put(paramId, paramValue);
                 lowNeebleValue = 0;
             }
@@ -451,9 +453,11 @@ public final class FramedMessageInputStream extends InputStream implements LifeC
         receivedMessageLength = 0;
     }
     
+    @Override
     public void activate() {
     }
     
+    @Override
     public void passivate() {
         reset();
         setSocketChannel(null);
@@ -462,21 +466,20 @@ public final class FramedMessageInputStream extends InputStream implements LifeC
     
     @Override
     public String toString() {
-        final StringBuffer buffer = new StringBuffer(100);
-        buffer.append("ByteBuffer: ");
-        buffer.append(byteBuffer);
-        buffer.append(" FrameBytesRead: ");
-        buffer.append(frameBytesRead);
-        buffer.append(" CurrentFrameDataSize: ");
-        buffer.append(currentFrameDataSize);
-        buffer.append(" isLastFrame: ");
-        buffer.append(isLastFrame);
-        buffer.append(" isDirectMode: ");
-        buffer.append(isDirectMode);
-        buffer.append(" isReadingHeader: ");
-        buffer.append(isReadingHeader);
+        String buffer = "ByteBuffer: " +
+                byteBuffer +
+                " FrameBytesRead: " +
+                frameBytesRead +
+                " CurrentFrameDataSize: " +
+                currentFrameDataSize +
+                " isLastFrame: " +
+                isLastFrame +
+                " isDirectMode: " +
+                isDirectMode +
+                " isReadingHeader: " +
+                isReadingHeader;
         
-        return buffer.toString();
+        return buffer;
     }
 }
 

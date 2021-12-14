@@ -1,15 +1,11 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
  * http://www.eclipse.org/org/documents/edl-v10.php.
  *
  * SPDX-License-Identifier: BSD-3-Clause
- */
-
-/**
- * $Id: EncryptionFilter.java,v 1.2 2010-10-21 15:37:28 snajper Exp $
  */
 
 package com.sun.xml.wss.impl.filter;
@@ -92,7 +88,6 @@ public class EncryptionFilter {
     * @param context FilterProcessingContext
     * @param untBinding UsernameTokenBinding
     * @return binding UsernameTokenBinding
-    * @throws com.sun.xml.wss.XWSSecurityException
     */
     public static UsernameTokenBinding createUntBinding(FilterProcessingContext context,UsernameTokenBinding untBinding)
         throws XWSSecurityException {
@@ -115,8 +110,6 @@ public class EncryptionFilter {
             binding = UsernameTokenDataResolver.setSaltandIterationsforUsernameToken(opContext, unToken, encPolicy, binding);
         } catch (UnsupportedEncodingException ex) {
              throw new XWSSecurityException("error occurred while decoding the salt in username token",ex);
-        } catch(XWSSecurityException ex){
-             throw ex;
         }
         if (binding.getUseNonce() && unToken.getNonceValue() == null) {
             unToken.setNonce(binding.getNonce());
@@ -147,7 +140,6 @@ public class EncryptionFilter {
     /**
      * creates the correct key for each binding type and sets the binding in the context
      * @param context FilterProcessingContext
-     * @throws com.sun.xml.wss.XWSSecurityException
      */
     @SuppressWarnings("unchecked")
     public static void process(FilterProcessingContext context) throws XWSSecurityException {
@@ -155,7 +147,7 @@ public class EncryptionFilter {
         if (!context.isInboundMessage()) {
             
             EncryptionPolicy policy = (EncryptionPolicy)context.getSecurityPolicy();
-            EncryptionPolicy resolvedPolicy = (EncryptionPolicy)policy;
+            EncryptionPolicy resolvedPolicy = policy;
             
             boolean wss11Receiver = "true".equals(context.getExtraneousProperty("EnableWSS11PolicyReceiver"));
             boolean wss11Sender = "true".equals(context.getExtraneousProperty("EnableWSS11PolicySender"));
@@ -315,7 +307,7 @@ public class EncryptionFilter {
                 } else if (PolicyTypeUtil.samlTokenPolicy(keyBinding)) {
                     
                     //resolvedPolicy = (EncryptionPolicy)policy.clone();
-                    keyBinding =(WSSPolicy) ((EncryptionPolicy) policy).getKeyBinding();
+                    keyBinding =(WSSPolicy) policy.getKeyBinding();
                     
                     DynamicApplicationContext dynamicContext =
                             new DynamicApplicationContext(context.getPolicyContext());
@@ -348,7 +340,7 @@ public class EncryptionFilter {
                     }                 
                                         
                     policy.setKeyBinding(samlBinding);
-                    resolvedPolicy = (EncryptionPolicy)policy;
+                    resolvedPolicy = policy;
                 } else if (PolicyTypeUtil.secureConversationTokenKeyBinding(keyBinding)) {
                     // resolve the ProofKey here and set it into ProcessingContext
                     SecureConversationTokenKeyBinding sctBinding = (SecureConversationTokenKeyBinding)keyBinding;
@@ -437,7 +429,7 @@ public class EncryptionFilter {
             } else {
                 try {
                     //resolvedPolicy = (EncryptionPolicy)policy.clone();
-                    ((EncryptionPolicy)policy).isReadOnly(true);
+                    policy.isReadOnly(true);
                     
                     
                     DynamicApplicationContext dynamicContext =
@@ -469,7 +461,7 @@ public class EncryptionFilter {
                 EncryptionPolicy resolvedPolicy = null;
                 
                 try {
-                    ((EncryptionPolicy)policy).isReadOnly(true);
+                    policy.isReadOnly(true);
                     DynamicApplicationContext dynamicContext =
                             new DynamicApplicationContext(context.getPolicyContext());
                     
@@ -497,7 +489,6 @@ public class EncryptionFilter {
     /**
      * performs encryption processing
      * @param context FilterProcessingContext
-     * @throws com.sun.xml.wss.XWSSecurityException
      */
     private static void encrypt(com.sun.xml.wss.impl.FilterProcessingContext context)
     throws XWSSecurityException{

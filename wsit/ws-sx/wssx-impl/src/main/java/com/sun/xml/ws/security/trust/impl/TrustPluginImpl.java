@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -34,7 +34,6 @@ import com.sun.xml.ws.security.IssuedTokenContext;
 import com.sun.xml.ws.security.Token;
 import com.sun.xml.ws.security.trust.*;
 import com.sun.xml.ws.security.trust.elements.ActAs;
-import com.sun.xml.ws.security.trust.elements.BaseSTSResponse;
 import com.sun.xml.ws.security.trust.elements.BinarySecret;
 import com.sun.xml.ws.security.trust.elements.Entropy;
 import com.sun.xml.ws.security.trust.elements.Lifetime;
@@ -95,7 +94,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -125,6 +124,7 @@ public class TrustPluginImpl implements TrustPlugin {
         
     }
 
+    @Override
     public void process(IssuedTokenContext itc) throws WSTrustException{
         String signWith = null;
         String encryptWith = null;
@@ -141,9 +141,9 @@ public class TrustPluginImpl implements TrustPlugin {
         BaseSTSResponse result = null;
         try {
             final RequestSecurityToken request = createRequest(stsConfig, appliesTo, oboToken);
-             
+
             result = invokeRST(request, stsConfig);
-            
+
             final WSTrustClientContract contract = WSTrustFactory.createWSTrustClientContract();
             contract.handleRSTR(request, result, itc);
             KeyPair keyPair = (KeyPair)stsConfig.getOtherOptions().get(WSTrustConstants.USE_KEY_RSA_KEY_PAIR);
@@ -161,10 +161,6 @@ public class TrustPluginImpl implements TrustPlugin {
                 itc.setSignWith(signWith);
             }
 
-        } catch (RemoteException ex) {
-            log.log(Level.SEVERE,
-                    LogStringsMessages.WST_0016_PROBLEM_IT_CTX(stsURI, appliesTo), ex);
-            throw new WSTrustException(LogStringsMessages.WST_0016_PROBLEM_IT_CTX(stsURI, appliesTo), ex);
         } catch (URISyntaxException ex){
             log.log(Level.SEVERE,
                     LogStringsMessages.WST_0016_PROBLEM_IT_CTX(stsURI, appliesTo), ex);
@@ -172,6 +168,7 @@ public class TrustPluginImpl implements TrustPlugin {
         }
     }
 
+    @Override
     public void processValidate(IssuedTokenContext itc) throws WSTrustException{
         STSIssuedTokenConfiguration stsConfig = (STSIssuedTokenConfiguration)itc.getSecurityPolicy().get(0);
         String stsURI = stsConfig.getSTSEndpoint();
@@ -181,17 +178,11 @@ public class TrustPluginImpl implements TrustPlugin {
             throw new WebServiceException(LogStringsMessages.WST_0029_COULD_NOT_GET_STS_LOCATION(null));
         }
         BaseSTSResponse result = null;
-        try{
-            Token token = itc.getTarget();
-            final RequestSecurityToken request = createRequestForValidatation(stsConfig, token);
-            result = invokeRST(request, stsConfig);
-            final WSTrustClientContract contract = WSTrustFactory.createWSTrustClientContract();
-            contract.handleRSTR(request, result, itc);
-        }catch (RemoteException ex) {
-            log.log(Level.SEVERE,
-                    LogStringsMessages.WST_0016_PROBLEM_IT_CTX(stsURI, null), ex);
-            throw new WSTrustException(LogStringsMessages.WST_0016_PROBLEM_IT_CTX(stsURI, null), ex);
-        }
+        Token token = itc.getTarget();
+        final RequestSecurityToken request = createRequestForValidatation(stsConfig, token);
+        result = invokeRST(request, stsConfig);
+        final WSTrustClientContract contract = WSTrustFactory.createWSTrustClientContract();
+        contract.handleRSTR(request, result, itc);
     }
 
     private RequestSecurityToken createRequest(final STSIssuedTokenConfiguration stsConfig, final String appliesTo, final Token oboToken) throws URISyntaxException, WSTrustException, NumberFormatException{
@@ -443,7 +434,7 @@ public class TrustPluginImpl implements TrustPlugin {
     }
 
     @SuppressWarnings("unchecked")
-    private BaseSTSResponse invokeRST(final RequestSecurityToken request, STSIssuedTokenConfiguration stsConfig) throws RemoteException, WSTrustException {
+    private BaseSTSResponse invokeRST(final RequestSecurityToken request, STSIssuedTokenConfiguration stsConfig) throws WSTrustException {
         
         String stsURI = stsConfig.getSTSEndpoint();
         STSIssuedTokenConfiguration rtConfig = (STSIssuedTokenConfiguration)stsConfig.getOtherOptions().get("RunTimeConfig");
@@ -669,7 +660,7 @@ public class TrustPluginImpl implements TrustPlugin {
         }catch (KeyException ex){
             throw new WSTrustException("Unable to create key value", ex);
         }
-        List<KeyValue> kvs = new ArrayList<KeyValue>();
+        List<KeyValue> kvs = new ArrayList<>();
         kvs.add(kv);
         KeyInfo ki = kif.newKeyInfo(kvs);
         return ki;

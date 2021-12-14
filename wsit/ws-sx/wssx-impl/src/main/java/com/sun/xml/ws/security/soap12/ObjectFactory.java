@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -157,7 +157,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://www.w3.org/2003/05/soap-envelope", name = "Upgrade")
     public JAXBElement<UpgradeType> createUpgrade(UpgradeType value) {
-        return new JAXBElement<UpgradeType>(_Upgrade_QNAME, UpgradeType.class, null, value);
+        return new JAXBElement<>(_Upgrade_QNAME, UpgradeType.class, null, value);
     }
 
     /**
@@ -166,7 +166,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://www.w3.org/2003/05/soap-envelope", name = "NotUnderstood")
     public JAXBElement<NotUnderstoodType> createNotUnderstood(NotUnderstoodType value) {
-        return new JAXBElement<NotUnderstoodType>(_NotUnderstood_QNAME, NotUnderstoodType.class, null, value);
+        return new JAXBElement<>(_NotUnderstood_QNAME, NotUnderstoodType.class, null, value);
     }
 
     /**
@@ -175,7 +175,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://www.w3.org/2003/05/soap-envelope", name = "Body")
     public JAXBElement<Body> createBody(Body value) {
-        return new JAXBElement<Body>(_Body_QNAME, Body.class, null, value);
+        return new JAXBElement<>(_Body_QNAME, Body.class, null, value);
     }
 
     /**
@@ -184,7 +184,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://www.w3.org/2003/05/soap-envelope", name = "Header")
     public JAXBElement<Header> createHeader(Header value) {
-        return new JAXBElement<Header>(_Header_QNAME, Header.class, null, value);
+        return new JAXBElement<>(_Header_QNAME, Header.class, null, value);
     }
 
     /**
@@ -193,7 +193,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://www.w3.org/2003/05/soap-envelope", name = "Envelope")
     public JAXBElement<Envelope> createEnvelope(Envelope value) {
-        return new JAXBElement<Envelope>(_Envelope_QNAME, Envelope.class, null, value);
+        return new JAXBElement<>(_Envelope_QNAME, Envelope.class, null, value);
     }
 
     /**
@@ -202,7 +202,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://www.w3.org/2003/05/soap-envelope", name = "Fault")
     public JAXBElement<Fault> createFault(Fault value) {
-        return new JAXBElement<Fault>(_Fault_QNAME, Fault.class, null, value);
+        return new JAXBElement<>(_Fault_QNAME, Fault.class, null, value);
     }
 
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -21,7 +21,6 @@ import com.sun.xml.ws.api.security.trust.WSTrustException;
 import com.sun.xml.ws.api.security.trust.STSAttributeProvider;
 import com.sun.xml.ws.policy.impl.bindings.AppliesTo;
 import com.sun.xml.ws.security.SecurityContextToken;
-import com.sun.xml.ws.security.impl.policy.PolicyUtil;
 import com.sun.xml.ws.security.secconv.WSSCElementFactory;
 import com.sun.xml.ws.security.secconv.WSSCElementFactory13;
 import com.sun.xml.ws.security.secconv.WSSecureConversationException;
@@ -32,8 +31,6 @@ import com.sun.xml.ws.security.trust.WSTrustVersion;
 import com.sun.xml.ws.security.trust.elements.BaseSTSRequest;
 import com.sun.xml.ws.security.trust.elements.BaseSTSResponse;
 import com.sun.xml.ws.security.trust.elements.Lifetime;
-import com.sun.xml.ws.security.trust.elements.RequestSecurityToken;
-import com.sun.xml.ws.security.trust.elements.RequestSecurityTokenResponse;
 import com.sun.xml.ws.security.trust.elements.str.KeyIdentifier;
 import com.sun.xml.ws.security.trust.elements.str.SecurityTokenReference;
 import com.sun.xml.ws.security.trust.impl.elements.str.KeyIdentifierImpl;
@@ -82,7 +79,6 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import jakarta.xml.soap.SOAPFault;
 import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Document;
@@ -127,31 +123,31 @@ public class WSTrustUtil {
     }
     
    public static SecurityContextToken createSecurityContextToken(final WSTrustElementFactory wsscEleFac) throws WSSecureConversationException{
-       final String identifier = "urn:uuid:" + UUID.randomUUID().toString();
+       final String identifier = "urn:uuid:" + UUID.randomUUID();
        URI idURI;
        try{
            idURI = new URI(identifier);
        }catch (URISyntaxException ex){
            throw new WSSecureConversationException(ex.getMessage(), ex);
        }
-       final String wsuId = "uuid-" + UUID.randomUUID().toString();
+       final String wsuId = "uuid-" + UUID.randomUUID();
        if(wsscEleFac instanceof com.sun.xml.ws.security.secconv.WSSCElementFactory){
-           return ((WSSCElementFactory)wsscEleFac).createSecurityContextToken(idURI, null, wsuId);
+           return wsscEleFac.createSecurityContextToken(idURI, null, wsuId);
        }else if(wsscEleFac instanceof com.sun.xml.ws.security.secconv.WSSCElementFactory13){
-           return ((WSSCElementFactory13)wsscEleFac).createSecurityContextToken(idURI, null, wsuId);
+           return wsscEleFac.createSecurityContextToken(idURI, null, wsuId);
        }
        return null;
    }
    
    public static SecurityContextToken createSecurityContextToken(final WSSCElementFactory eleFac) throws WSSecureConversationException{
-       final String identifier = "urn:uuid:" + UUID.randomUUID().toString();
+       final String identifier = "urn:uuid:" + UUID.randomUUID();
        URI idURI;
        try{
            idURI = new URI(identifier);
        }catch (URISyntaxException ex){
            throw new WSSecureConversationException(ex.getMessage(), ex);
        }
-       final String wsuId = "uuid-" + UUID.randomUUID().toString();
+       final String wsuId = "uuid-" + UUID.randomUUID();
        
        return eleFac.createSecurityContextToken(idURI, null, wsuId);
    }
@@ -163,13 +159,13 @@ public class WSTrustUtil {
        }catch (URISyntaxException ex){
            throw new WSSecureConversationException(ex.getMessage(), ex);
        }
-       final String wsuId = "uuid-" + UUID.randomUUID().toString();
-       final String wsuInstance = "uuid-" + UUID.randomUUID().toString();
+       final String wsuId = "uuid-" + UUID.randomUUID();
+       final String wsuInstance = "uuid-" + UUID.randomUUID();
 
        if(wsscEleFac instanceof com.sun.xml.ws.security.secconv.WSSCElementFactory){
-           return ((WSSCElementFactory)wsscEleFac).createSecurityContextToken(idURI, wsuInstance, wsuId);
+           return wsscEleFac.createSecurityContextToken(idURI, wsuInstance, wsuId);
        }else if(wsscEleFac instanceof com.sun.xml.ws.security.secconv.WSSCElementFactory13){
-           return ((WSSCElementFactory13)wsscEleFac).createSecurityContextToken(idURI, wsuInstance, wsuId);
+           return wsscEleFac.createSecurityContextToken(idURI, wsuInstance, wsuId);
        }
        return null;       
    }
@@ -181,8 +177,8 @@ public class WSTrustUtil {
        }catch (URISyntaxException ex){
            throw new WSSecureConversationException(ex.getMessage(), ex);
        }
-       final String wsuId = "uuid-" + UUID.randomUUID().toString();
-       final String wsuInstance = "uuid-" + UUID.randomUUID().toString();
+       final String wsuId = "uuid-" + UUID.randomUUID();
+       final String wsuInstance = "uuid-" + UUID.randomUUID();
        
        return eleFac.createSecurityContextToken(idURI, wsuInstance, wsuId);
    }
@@ -208,7 +204,7 @@ public class WSTrustUtil {
    public static List<Object> parseAppliesTo(final AppliesTo appliesTo){
        final List<Object> list = appliesTo.getAny();
        EndpointReference epr = null;
-       List<Object> result = new ArrayList<Object>();
+       List<Object> result = new ArrayList<>();
        if (!list.isEmpty()){
             for (Object obj : list) {
                 if (obj instanceof EndpointReference){
@@ -478,7 +474,7 @@ public class WSTrustUtil {
         }
     }
 
-    private static Element createAttribute(Document doc, String samlNS, String samlPrefix, QName attrKey)throws Exception {
+    private static Element createAttribute(Document doc, String samlNS, String samlPrefix, QName attrKey) {
         Element attrEle = doc.createElementNS(samlNS, samlPrefix+":Attribute");
         attrEle.setAttribute("AttributeName", attrKey.getLocalPart());
         attrEle.setAttribute("AttributeNamespace", attrKey.getNamespaceURI());

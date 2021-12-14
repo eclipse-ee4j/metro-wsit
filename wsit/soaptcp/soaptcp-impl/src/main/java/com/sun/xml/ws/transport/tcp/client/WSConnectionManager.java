@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -40,6 +40,7 @@ import com.sun.xml.ws.transport.tcp.connectioncache.spi.transport.ContactInfo;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -61,7 +62,7 @@ public class WSConnectionManager implements ConnectionFinder<ConnectionSession>,
     private static final WSConnectionManager instance = new WSConnectionManager();
     
     // set of locked connections, which are in use
-    private final Map<ConnectionSession, Thread> lockedConnections = new WeakHashMap<ConnectionSession, Thread>();
+    private final Map<ConnectionSession, Thread> lockedConnections = new WeakHashMap<>();
     
     public static WSConnectionManager getInstance() {
         return instance;
@@ -89,7 +90,7 @@ public class WSConnectionManager implements ConnectionFinder<ConnectionSession>,
     
     public @NotNull ChannelContext openChannel(@NotNull final WSTCPURI uri,
             @NotNull final WSService wsService, @NotNull final WSBinding wsBinding, final @NotNull Codec defaultCodec) throws InterruptedException, IOException,
-    ServiceChannelException, VersionMismatchException {
+    ServiceChannelException {
         if (logger.isLoggable(Level.FINE)) {
             logger.log(Level.FINE, MessagesMessages.WSTCP_1030_CONNECTION_MANAGER_ENTER(uri, wsService.getServiceName(), wsBinding.getBindingID(), defaultCodec.getClass().getName()));
         }
@@ -119,16 +120,14 @@ public class WSConnectionManager implements ConnectionFinder<ConnectionSession>,
             lockConnection(connectionSession);
             serviceChannelWSImplPort.closeChannel(channelContext.getChannelId());
             connectionSession.deregisterChannel(channelContext);
-        } catch (SessionAbortedException e) {
-            // if session was closed before
-        } catch (InterruptedException e) {
-        } catch (ServiceChannelException e) {
+        } // if session was closed before
+        catch (InterruptedException e) {
         } finally {
             freeConnection(connectionSession);
         }
     }
     
-    public void lockConnection(@NotNull final ConnectionSession connectionSession) throws InterruptedException, SessionAbortedException {
+    public void lockConnection(@NotNull final ConnectionSession connectionSession) throws InterruptedException {
         synchronized(connectionSession) {
             do {
                 final Thread thread = lockedConnections.get(connectionSession);
@@ -197,7 +196,7 @@ public class WSConnectionManager implements ConnectionFinder<ConnectionSession>,
     @NotNull final WSService wsService,
     @NotNull final WSBinding wsBinding,
     final @NotNull Codec defaultCodec)
-    throws IOException, ServiceChannelException {
+    throws ServiceChannelException {
         if (logger.isLoggable(Level.FINEST)) {
             logger.log(Level.FINEST, MessagesMessages.WSTCP_1036_CONNECTION_MANAGER_DO_OPEN_CHANNEL_ENTER());
         }
@@ -210,8 +209,8 @@ public class WSConnectionManager implements ConnectionFinder<ConnectionSession>,
             logger.log(Level.FINEST, MessagesMessages.WSTCP_1037_CONNECTION_MANAGER_DO_OPEN_WS_CALL(targetWSURI, negotiatedContent.negotiatedMimeTypes, negotiatedContent.negotiatedParams));
         }
 
-        Holder<List<String>> negotiatedMimeTypesHolder = new Holder<List<String>>(negotiatedContent.negotiatedMimeTypes);
-        Holder<List<String>> negotiatedParamsHolder = new Holder<List<String>>(negotiatedContent.negotiatedParams);
+        Holder<List<String>> negotiatedMimeTypesHolder = new Holder<>(negotiatedContent.negotiatedMimeTypes);
+        Holder<List<String>> negotiatedParamsHolder = new Holder<>(negotiatedContent.negotiatedParams);
         final int channelId = serviceChannelWSImplPort.openChannel(targetWSURI.toString(),
                 negotiatedMimeTypesHolder,
                 negotiatedParamsHolder);
@@ -240,9 +239,10 @@ public class WSConnectionManager implements ConnectionFinder<ConnectionSession>,
         return (ServiceChannelWSImpl) connectionSession.getAttribute(TCPConstants.SERVICE_PIPELINE_ATTR_NAME);
     }
         
+    @Override
     public ConnectionSession find(final ContactInfo<ConnectionSession> contactInfo,
-            final Collection<ConnectionSession> idleConnections,
-            final Collection<ConnectionSession> busyConnections) throws IOException {
+                                  final Collection<ConnectionSession> idleConnections,
+                                  final Collection<ConnectionSession> busyConnections) {
         final WSTCPURI wsTCPURI = (WSTCPURI) contactInfo;
         ConnectionSession lru = null;
         for(ConnectionSession connectionSession : idleConnections) {
@@ -264,6 +264,7 @@ public class WSConnectionManager implements ConnectionFinder<ConnectionSession>,
         return lru;
     }
     
+    @Override
     public void notifySessionClose(ConnectionSession connectionSession) {
         if (logger.isLoggable(Level.FINE)) {
             logger.log(Level.FINE, MessagesMessages.WSTCP_1043_CONNECTION_MANAGER_NOTIFY_SESSION_CLOSE(connectionSession.getConnection()));
@@ -282,7 +283,7 @@ public class WSConnectionManager implements ConnectionFinder<ConnectionSession>,
         connection.setDirectMode(true);
         
         final OutputStream outputStream = connection.openOutputStream();
-        outputStream.write(TCPConstants.PROTOCOL_SCHEMA.getBytes("US-ASCII"));
+        outputStream.write(TCPConstants.PROTOCOL_SCHEMA.getBytes(StandardCharsets.US_ASCII));
         
         DataInOutUtils.writeInts4(outputStream, framingVersion.getMajor(),
                 framingVersion.getMinor(),

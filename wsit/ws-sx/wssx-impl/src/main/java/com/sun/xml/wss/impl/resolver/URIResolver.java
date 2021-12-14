@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -109,12 +109,8 @@ public class URIResolver extends ResourceResolverSpi {
    /**
     * Method engineResolve
     *
-    * @param uri
-    * @param baseURI
-    *
     * @return XMLSignatureInput
     *
-    * @throws ResourceResolverException
     */
    public XMLSignatureInput engineResolve(Attr uri, String baseURI)
           throws ResourceResolverException {
@@ -161,14 +157,7 @@ public class URIResolver extends ResourceResolverSpi {
          selectedElem = doc.getDocumentElement();
       } else {
          String id = uriNodeValue.substring(1);
-         try { 
-            selectedElem = getElementById(doc, id);
-         } catch (TransformerException e) {
-            log.log(Level.SEVERE,
-                    LogStringsMessages.WSS_0603_XPATHAPI_TRANSFORMER_EXCEPTION(e.getMessage()),
-                    e.getMessage());
-             throw new ResourceResolverException(e, uri.getValue(), baseUri, "empty");
-         }
+          selectedElem = getElementById(doc, id);
       }
 
       if (selectedElem == null) {
@@ -269,9 +258,6 @@ public class URIResolver extends ResourceResolverSpi {
    /**
     * Method engineCanResolve
     *
-    * @param uri
-    * @param baseURI
-    *
     * @return true if uri node can be resolved, false otherwise
     */
    public boolean engineCanResolve(Attr uri, String baseURI) {
@@ -326,17 +312,12 @@ public class URIResolver extends ResourceResolverSpi {
    /**
     * Looks up elements with wsu:Id or Id in xenc or dsig namespace
     *
-    * @param doc
-    * @param id
-    *
     * @return element
     *
-    * @throws TransformerException
     */
     private Element getElementById(
                     Document doc,
-                    String id) 
-                    throws TransformerException {
+                    String id) {
 
         Element  selement = doc.getElementById(id);
         if (selement != null) {
@@ -465,7 +446,6 @@ public class URIResolver extends ResourceResolverSpi {
     * @param node the node referenced by the -
     *             URI fragment. If null, returns -
     *             an empty set.
-    * @return 
     */
    private Set prepareNodeSet(Node node) {
 	Set nodeSet = new HashSet();
@@ -480,7 +460,7 @@ public class URIResolver extends ResourceResolverSpi {
     *
     * @param node the node to traverse
     * @param nodeSet the set of nodes traversed so far
-    * @param the previous sibling node
+    * @param prevSibling the previous sibling node
     */
    @SuppressWarnings("unchecked")
     private void nodeSetMinusCommentNodes(Node node, Set nodeSet,

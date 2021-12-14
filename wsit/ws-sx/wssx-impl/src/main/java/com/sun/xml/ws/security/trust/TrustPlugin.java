@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -20,6 +20,6 @@ import com.sun.xml.ws.api.security.trust.WSTrustException;
 
 
 public interface TrustPlugin {
-    public void process(IssuedTokenContext ctx) throws WSTrustException;
-    public void processValidate(IssuedTokenContext ctx) throws WSTrustException;
+    void process(IssuedTokenContext ctx) throws WSTrustException;
+    void processValidate(IssuedTokenContext ctx) throws WSTrustException;
 }

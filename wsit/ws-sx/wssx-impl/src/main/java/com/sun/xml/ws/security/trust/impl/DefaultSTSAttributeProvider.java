@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -36,15 +36,16 @@ import org.w3c.dom.Element;
  */
 public class DefaultSTSAttributeProvider implements STSAttributeProvider{
    
+    @Override
     public Map<QName, List<String>> getClaimedAttributes(final Subject subject, final String appliesTo, final String tokenType, final Claims claims){
         final Set<Principal> principals = subject.getPrincipals();
-        final Map<QName, List<String>> attrs = new HashMap<QName, List<String>>();
+        final Map<QName, List<String>> attrs = new HashMap<>();
         if (principals != null && !principals.isEmpty()){
             final Iterator iterator = principals.iterator();
             while (iterator.hasNext()){
                 final String name = principals.iterator().next().getName();
                 if (name != null){
-                    List<String> nameIds = new ArrayList<String>();
+                    List<String> nameIds = new ArrayList<>();
                     nameIds.add(name);
                     attrs.put(new QName("http://sun.com", NAME_IDENTIFIER), nameIds);
                     break;
@@ -98,7 +99,7 @@ public class DefaultSTSAttributeProvider implements STSAttributeProvider{
         if (attrs.size() < 2){
             // Set up a dumy attribute value
             final QName key = new QName("http://sun.com", "token-requestor");
-            List<String> tokenRequestor = new ArrayList<String>();
+            List<String> tokenRequestor = new ArrayList<>();
             tokenRequestor.add("authenticated");
             attrs.put(key, tokenRequestor);
         }
@@ -140,7 +141,7 @@ public class DefaultSTSAttributeProvider implements STSAttributeProvider{
                         String attrName = samlAttr.getName();
                         String attrNS = samlAttr.getNameFormat();
                         List<Object> samlAttrValues = samlAttr.getAttributes();
-                        List<String> attrValues = new ArrayList<String>();
+                        List<String> attrValues = new ArrayList<>();
                         for (Object samlAttrValue : samlAttrValues){
                             attrValues.add(((Element)samlAttrValue).getFirstChild().getNodeValue());
                         }
@@ -172,7 +173,7 @@ public class DefaultSTSAttributeProvider implements STSAttributeProvider{
         }
 
         String idName = isActAs ? "ActAs" : NAME_IDENTIFIER;
-        List<String> nameIds = new ArrayList<String>();
+        List<String> nameIds = new ArrayList<>();
         if (name != null){
             nameIds.add(name);
         }

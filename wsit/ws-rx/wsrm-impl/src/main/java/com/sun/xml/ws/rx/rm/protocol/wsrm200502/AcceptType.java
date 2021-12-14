@@ -33,9 +33,9 @@ public class AcceptType {
     @XmlElement(name = "AcksTo", namespace = "http://schemas.xmlsoap.org/ws/2005/02/rm")
     protected EndpointReference acksTo;
     @XmlAnyElement(lax = true)
-    protected List<Object> any = new ArrayList<Object>();
+    protected List<Object> any = new ArrayList<>();
     @XmlAnyAttribute
-    private Map<QName, String> otherAttributes = new HashMap<QName, String>();
+    private Map<QName, String> otherAttributes = new HashMap<>();
 
     /**
      * Gets the value of the acksTo property.
@@ -94,7 +94,7 @@ public class AcceptType {
      */
     public List<Object> getAny() {
         if (any == null) {
-            any = new ArrayList<Object>();
+            any = new ArrayList<>();
         }
         return this.any;
     }

@@ -64,7 +64,7 @@ public class GetMetadata {
     @XmlElement(name = "Identifier", namespace = "http://schemas.xmlsoap.org/ws/2004/09/mex")
     protected String identifier;
     @XmlAnyAttribute
-    private Map<QName, String> otherAttributes = new HashMap<QName, String>();
+    private Map<QName, String> otherAttributes = new HashMap<>();
 
     /**
      * Gets the value of the dialect property.

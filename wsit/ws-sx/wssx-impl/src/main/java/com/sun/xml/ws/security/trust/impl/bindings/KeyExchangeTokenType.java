@@ -24,8 +24,6 @@ import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlAnyElement;
 import jakarta.xml.bind.annotation.XmlType;
-import com.sun.xml.ws.security.trust.impl.bindings.KeyExchangeTokenType;
-import org.w3c.dom.Element;
 
 
 /**
@@ -81,7 +79,7 @@ public class KeyExchangeTokenType {
      */
     public List<Object> getAny() {
         if (any == null) {
-            any = new ArrayList<Object>();
+            any = new ArrayList<>();
         }
         return this.any;
     }

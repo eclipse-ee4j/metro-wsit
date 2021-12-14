@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -30,7 +30,7 @@ import static com.sun.xml.ws.security.impl.policy.Constants.SECURITY_POLICY_PACK
 public class SecurityPolicyAssertionCreator implements PolicyAssertionCreator{
     
     
-    private static HashSet<String> implementedAssertions = new HashSet<String>();
+    private static HashSet<String> implementedAssertions = new HashSet<>();
     private static final String [] nsSupportedList = new String[]{SecurityPolicyVersion.SECURITYPOLICY200507.namespaceUri,
            SecurityPolicyVersion.SECURITYPOLICY12NS.namespaceUri,
            "http://schemas.microsoft.com/ws/2005/07/securitypolicy",
@@ -122,6 +122,7 @@ public class SecurityPolicyAssertionCreator implements PolicyAssertionCreator{
     }
     
     
+    @Override
     public String[] getSupportedDomainNamespaceURIs() {
         return nsSupportedList;
     }
@@ -143,7 +144,8 @@ public class SecurityPolicyAssertionCreator implements PolicyAssertionCreator{
         }
     }
     
-    public PolicyAssertion createAssertion(AssertionData assertionData, Collection<PolicyAssertion> nestedAssertions, AssertionSet nestedAlternative,PolicyAssertionCreator policyAssertionCreator) throws AssertionCreationException {
+    @Override
+    public PolicyAssertion createAssertion(AssertionData assertionData, Collection<PolicyAssertion> nestedAssertions, AssertionSet nestedAlternative, PolicyAssertionCreator policyAssertionCreator) throws AssertionCreationException {
         String localName = assertionData.getName().getLocalPart();
         if(implementedAssertions.contains(localName)){
             Class cl=null;

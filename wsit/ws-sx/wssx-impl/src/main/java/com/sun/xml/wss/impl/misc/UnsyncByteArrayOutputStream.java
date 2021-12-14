@@ -40,6 +40,7 @@ public class UnsyncByteArrayOutputStream extends ByteArrayOutputStream {
         buf =new byte[size];
     }
     
+    @Override
     public void write(byte[] arg0) {
         int newPos=pos+arg0.length;
         if (newPos>size) {
@@ -48,6 +49,7 @@ public class UnsyncByteArrayOutputStream extends ByteArrayOutputStream {
         System.arraycopy(arg0,0,buf,pos,arg0.length);
         pos=newPos;
     }
+    @Override
     public void write(byte[] arg0, int arg1, int arg2) {
         int newPos=pos+arg2;
         if (newPos>size) {
@@ -56,25 +58,28 @@ public class UnsyncByteArrayOutputStream extends ByteArrayOutputStream {
         System.arraycopy(arg0,arg1,buf,pos,arg2);
         pos=newPos;
     }
+    @Override
     public void write(int arg0) {
         if (pos>=size) {
             expandSize();
         }
         buf[pos++]=(byte)arg0;
     }
+    @Override
     public byte[] toByteArray() {
-        byte result[]=new byte[pos];
+        byte[] result =new byte[pos];
         System.arraycopy(buf,0,result,0,pos);
         return result;
     }
     
+    @Override
     public void reset() {
         pos=0;
     }
     
     void expandSize() {
         int newSize=size<<2;
-        byte newBuf[]=new byte[newSize];
+        byte[] newBuf =new byte[newSize];
         System.arraycopy(buf,0,newBuf,0,pos);
         buf=newBuf;
         size=newSize;

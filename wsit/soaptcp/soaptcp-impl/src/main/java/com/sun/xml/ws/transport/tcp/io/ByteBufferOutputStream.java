@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -44,7 +44,8 @@ public class ByteBufferOutputStream extends OutputStream {
         return outputBuffer;
     }
     
-    public void write(final int data) throws IOException {
+    @Override
+    public void write(final int data) {
         if (outputBuffer.position() == outputBuffer.capacity() - 1) {
             final ByteBuffer tmpBuffer = ByteBufferFactory.allocateView(outputBuffer.capacity() * 2, USE_DIRECT_BUFFER);
             tmpBuffer.put(outputBuffer);
@@ -54,6 +55,7 @@ public class ByteBufferOutputStream extends OutputStream {
         outputBuffer.put((byte) data);
     }
 
+    @Override
     public void close() {
     }
 }

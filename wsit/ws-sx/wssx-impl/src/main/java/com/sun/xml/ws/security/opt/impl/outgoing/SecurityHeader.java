@@ -41,7 +41,7 @@ public class SecurityHeader {
     public static final int LAYOUT_LAX_TS_FIRST = 2;
     public static final int LAYOUT_LAX_TS_LAST = 3;
     
-    protected ArrayList<SecurityHeaderElement> secHeaderContent = new ArrayList<SecurityHeaderElement>();
+    protected ArrayList<SecurityHeaderElement> secHeaderContent = new ArrayList<>();
     protected int headerLayout = LAYOUT_STRICT;
     protected String soapVersion = MessageConstants.SOAP_1_1_NS;
     private boolean debug = false;
@@ -89,12 +89,14 @@ public class SecurityHeader {
         return new Iterator() {
             int idx = 0;
             Object next;
+            @Override
             public boolean hasNext() {
                 if(next==null)
                     fetch();
                 return next!=null;
             }
             
+            @Override
             public Object next() {
                 if(next==null) {
                     fetch();
@@ -119,6 +121,7 @@ public class SecurityHeader {
                 }
             }
             
+            @Override
             public void remove() {
                 throw new UnsupportedOperationException();
             }
@@ -271,7 +274,7 @@ public class SecurityHeader {
      * @param errorHandler
      *      The {@link ErrorHandler} that receives parsing errors.
      */
-    public void writeTo(ContentHandler contentHandler, ErrorHandler errorHandler) throws SAXException{
+    public void writeTo(ContentHandler contentHandler, ErrorHandler errorHandler) {
         throw new UnsupportedOperationException();
     }
 
@@ -327,8 +330,8 @@ public class SecurityHeader {
     }
     
     private void strict(){
-        ArrayList<SecurityHeaderElement> primaryElementList  = new ArrayList<SecurityHeaderElement> ();
-        ArrayList<SecurityHeaderElement> topElementList  = new ArrayList<SecurityHeaderElement> ();
+        ArrayList<SecurityHeaderElement> primaryElementList  = new ArrayList<>();
+        ArrayList<SecurityHeaderElement> topElementList  = new ArrayList<>();
         int len = secHeaderContent.size();
         print(secHeaderContent);
         
@@ -352,7 +355,7 @@ public class SecurityHeader {
         print(primaryElementList);
         primaryElementList = orderList(primaryElementList);
         
-        ArrayList<SecurityHeaderElement> tmpList =   new ArrayList<SecurityHeaderElement> ();
+        ArrayList<SecurityHeaderElement> tmpList = new ArrayList<>();
         for(int i=0;i<primaryElementList.size();i++){
             SecurityHeaderElement she = primaryElementList.get(i);
             if(she.getLocalPart() == MessageConstants.XENC_REFERENCE_LIST_LNAME ||
@@ -388,7 +391,7 @@ public class SecurityHeader {
     }
     
     private ArrayList<SecurityHeaderElement> orderList(ArrayList<SecurityHeaderElement> list){
-        ArrayList<SecurityHeaderElement> tmp = new ArrayList<SecurityHeaderElement>();
+        ArrayList<SecurityHeaderElement> tmp = new ArrayList<>();
         for(int i=0;i<list.size();i++){
             SecurityHeaderElement securityElementOne = list.get(i);
             
@@ -444,7 +447,7 @@ public class SecurityHeader {
     }
     private void movePrevHeader(SecurityHeaderElement toBeMoved, int index){
         int prevIndex = secHeaderContent.indexOf(toBeMoved);
-        SecurityHeaderElement prev = (SecurityHeaderElement)secHeaderContent.get(prevIndex-1);
+        SecurityHeaderElement prev = secHeaderContent.get(prevIndex-1);
         String prevId = prev.getId();
         secHeaderContent.remove(toBeMoved);
         secHeaderContent.add(index, toBeMoved);

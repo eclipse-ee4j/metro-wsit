@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -72,24 +72,29 @@ public class JAXBSignatureHeaderElement implements SecurityHeaderElement, Securi
         this.signContext = signctx;
     }
     
+    @Override
     public String getId() {
         return signature.getId();
     }
     
+    @Override
     public void setId(String id) {
         throw new  UnsupportedOperationException();
     }
     
     
+    @Override
     public String getNamespaceURI() {
         return  MessageConstants.DSIG_NS;
     }
     
     
+    @Override
     public String getLocalPart() {
         return MessageConstants.SIGNATURE_LNAME;
     }
     
+    @Override
     public javax.xml.stream.XMLStreamReader readHeader() throws XMLStreamException {
         XMLStreamBufferResult xbr = new XMLStreamBufferResult();
         try{
@@ -104,8 +109,8 @@ public class JAXBSignatureHeaderElement implements SecurityHeaderElement, Securi
     /**
      * writes the jaxb signature header element to an XMLStreamWriter
      * @param streamWriter javax.xml.stream.XMLStreamWriter
-     * @throws XMLStreamException
      */
+    @Override
     public void writeTo(javax.xml.stream.XMLStreamWriter streamWriter) throws XMLStreamException {
         try {
             // If writing to Zephyr, get output stream and use JAXB UTF-8 writer
@@ -114,7 +119,6 @@ public class JAXBSignatureHeaderElement implements SecurityHeaderElement, Securi
                 if (os != null) {
                     streamWriter.writeCharacters("");        // Force completion of open elems
                     getMarshaller().marshal(signature, os);
-                    return;
                 }
             }else if (streamWriter instanceof XMLStreamWriterEx) {
                 CustomStreamWriterImpl swi = new CustomStreamWriterImpl(streamWriter);
@@ -132,8 +136,8 @@ public class JAXBSignatureHeaderElement implements SecurityHeaderElement, Securi
     * writes the jaxb signature header element to an XMLStreamWriter
     * @param streamWriter javax.xml.stream.XMLStreamWriter
     * @param props HashMap
-    * @throws XMLStreamException
     */
+   @Override
    @SuppressWarnings("unchecked")
    public void writeTo(javax.xml.stream.XMLStreamWriter streamWriter,HashMap props) throws XMLStreamException {
         try{
@@ -175,6 +179,7 @@ public class JAXBSignatureHeaderElement implements SecurityHeaderElement, Securi
         throw new UnsupportedOperationException("Not yet implemented");
     }
     
+    @Override
     public void writeTo(OutputStream os) {
         throw new UnsupportedOperationException("Not yet implemented");
     }
@@ -183,12 +188,11 @@ public class JAXBSignatureHeaderElement implements SecurityHeaderElement, Securi
      * @param id String
      * @return boolean
      */
+    @Override
     public boolean refersToSecHdrWithId(final String id) {
-        
-        StringBuffer sb = new StringBuffer();
-        sb.append("#");
-        sb.append(id);
-        String refId = sb.toString();
+
+        String refId = "#" +
+                id;
         KeyInfo ki = signature.getKeyInfo();
         if(ki != null){
             List list = ki.getContent();
@@ -214,15 +218,12 @@ public class JAXBSignatureHeaderElement implements SecurityHeaderElement, Securi
     }
     /**
      * signs the data using the  signContext
-     * @throws XMLStreamException
      */
     public void sign()throws XMLStreamException{
         try{
             signature.sign(signContext);
-        }catch(MarshalException me){
+        }catch(MarshalException | XMLSignatureException me){
             throw new XMLStreamException(me);
-        }catch(XMLSignatureException xse){
-            throw new XMLStreamException(xse);
         }
     }
 }

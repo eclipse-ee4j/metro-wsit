@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2019 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -86,9 +86,9 @@ final class ClientTube extends AbstractFilterTubeImpl {
     ClientTube(RmConfiguration configuration, ClientTubelineAssemblyContext context) throws RxRuntimeException {
         super(context.getTubelineHead()); // cannot use context.getTubelineHead as McClientTube might have been created in RxTubeFactory
 
-        this.outboundSequenceId = new VolatileReference<String>(null);
-        this.processedLocalIDs = new VolatileReference<Set<String>>(null);
-        this.localIDManager = new VolatileReference<LocalIDManager>(null);
+        this.outboundSequenceId = new VolatileReference<>(null);
+        this.processedLocalIDs = new VolatileReference<>(null);
+        this.localIDManager = new VolatileReference<>(null);
 
         // the legacy way of getting the scInitiator, works for Metro SC impl
         SecureConversationInitiator scInitiator = context.getImplementation(SecureConversationInitiator.class);
@@ -276,7 +276,7 @@ final class ClientTube extends AbstractFilterTubeImpl {
                 }
                 // book keeping this localID for clean up 
                 if (processedLocalIDs.value == null) {
-                    processedLocalIDs.value = new HashSet<String>();
+                    processedLocalIDs.value = new HashSet<>();
                 }
                 processedLocalIDs.value.add(localID);
             }
@@ -292,11 +292,8 @@ final class ClientTube extends AbstractFilterTubeImpl {
                     }
                 });
             }
-        } catch (DuplicateMessageRegistrationException ex) {
+        } catch (DuplicateMessageRegistrationException | RxRuntimeException ex) {
             // TODO P2 duplicate message exception handling
-            LOGGER.logSevereException(ex);
-            return doThrow(ex);
-        } catch (RxRuntimeException ex) {
             LOGGER.logSevereException(ex);
             return doThrow(ex);
         } finally {
@@ -358,22 +355,23 @@ final class ClientTube extends AbstractFilterTubeImpl {
 
         return new ProtocolMessageHandler() {
 
-            Collection<String> SUPPORTED_WSA_ACTIONS = Collections.unmodifiableCollection(Arrays.asList(new String[]{
-                        rmVersion.ackRequestedAction,
-                        rmVersion.closeSequenceAction,
-                        // rmVersion.closeSequenceResponseAction,
-                        // rmVersion.createSequenceAction,
-                        // rmVersion.createSequenceResponseAction,
-                        // rmVersion.lastAction,
-                        rmVersion.sequenceAcknowledgementAction,
-                        rmVersion.terminateSequenceAction, // rmVersion.terminateSequenceResponseAction,
+            Collection<String> SUPPORTED_WSA_ACTIONS = Collections.unmodifiableCollection(Arrays.asList(rmVersion.ackRequestedAction,
+                    rmVersion.closeSequenceAction,
+                    // rmVersion.closeSequenceResponseAction,
+                    // rmVersion.createSequenceAction,
+                    // rmVersion.createSequenceResponseAction,
+                    // rmVersion.lastAction,
+                    rmVersion.sequenceAcknowledgementAction,
+                    rmVersion.terminateSequenceAction // rmVersion.terminateSequenceResponseAction,
                     // rmVersion.wsrmFaultAction
-                    }));
+            ));
 
+            @Override
             public Collection<String> getSuportedWsaActions() {
                 return SUPPORTED_WSA_ACTIONS;
             }
 
+            @Override
             public void processProtocolMessage(Packet protocolMessagePacket) {
                 if (rc.protocolHandler.containsProtocolMessage(protocolMessagePacket)) {
                     LOGGER.finer("Processing RM protocol response message.");
@@ -497,7 +495,7 @@ final class ClientTube extends AbstractFilterTubeImpl {
         }
     }
 
-    private void createSequences(Packet appRequest) throws RxRuntimeException, DuplicateSequenceException {
+    private void createSequences(Packet appRequest) throws RxRuntimeException {
         final CreateSequenceData.Builder csBuilder = CreateSequenceData.getBuilder(this.rmSourceReference.toSpec());
 
         try {
@@ -702,6 +700,7 @@ final class ClientTube extends AbstractFilterTubeImpl {
         final CountDownLatch doneSignal = new CountDownLatch(1);
         ScheduledFuture<?> taskHandle = rc.scheduledTaskManager.startTask(new Runnable() {
 
+            @Override
             public void run() {
                 try {
                     if (!rc.sequenceManager().getSequence(sequenceId).hasUnacknowledgedMessages()) {
@@ -734,6 +733,7 @@ final class ClientTube extends AbstractFilterTubeImpl {
         final CountDownLatch stateChangedSignal = new CountDownLatch(1);
         ScheduledFuture<?> taskHandle = rc.scheduledTaskManager.startTask(new Runnable() {
 
+            @Override
             public void run() {
                 try {
                     if (rc.sequenceManager().getSequence(sequenceId).getState() == waitForState) {

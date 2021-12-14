@@ -78,7 +78,7 @@ public class Faultreason {
      */
     public List<Reasontext> getText() {
         if (text == null) {
-            text = new ArrayList<Reasontext>();
+            text = new ArrayList<>();
         }
         return this.text;
     }

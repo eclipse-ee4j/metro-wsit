@@ -96,14 +96,17 @@ public class Subject extends SubjectType
     }
     
     
+    @Override
     public NameIdentifier getNameIdentifier(){
         return nameIdentifier;
     }
     
+    @Override
     public NameID getNameId(){
         return null;
     }
     
+    @Override
     public SubjectConfirmation getSubjectConfirmation(){
         return subjectConfirmation;
     }

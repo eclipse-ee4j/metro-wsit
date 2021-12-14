@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -20,17 +20,14 @@ public interface STRValidationHelper {
     /**
      * Get the active security token used by the specified packet for signing and encrypting the message.
      *   
-     * @param packet
      * @return The reference URI to the security token context
      */
-    public String getSecurityContextTokenId(Packet packet);
+    String getSecurityContextTokenId(Packet packet);
     
     /**
      * Get the security token reference URI from the specified wsse:SecurityTokenReference element.
      * 
-     * @param str
      * @return The reference URI to the SecurityTokenReference
-     * @throws Exception
      */
-    public String extractSecurityTokenId(SecurityTokenReferenceType str) throws Exception;
+    String extractSecurityTokenId(SecurityTokenReferenceType str) throws Exception;
 }

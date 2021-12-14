@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -34,22 +34,22 @@ public interface WSTrustClientContract {
     * Handle an RSTR returned by the Issuer and update Token information into the
     * IssuedTokenContext.
     */
-   public void handleRSTR(
+   void handleRSTR(
            BaseSTSRequest request, BaseSTSResponse response, IssuedTokenContext context) throws WSTrustException;
    
    /**
     * Handle an RSTR returned by the Issuer and Respond to the Challenge
     * 
     */
-   public BaseSTSResponse handleRSTRForNegotiatedExchange(
-           BaseSTSRequest rst, BaseSTSResponse rstr, IssuedTokenContext context) throws WSTrustException;
+   BaseSTSResponse handleRSTRForNegotiatedExchange(
+           BaseSTSRequest rst, BaseSTSResponse rstr, IssuedTokenContext context);
    
    /**
     * Create an RSTR for a client initiated IssuedTokenContext establishment, 
     * for example a Client Initiated WS-SecureConversation context.
     * 
     */
-   public BaseSTSResponse createRSTRForClientInitiatedIssuedTokenContext(AppliesTo scopes,IssuedTokenContext context) throws WSTrustException;
+   BaseSTSResponse createRSTRForClientInitiatedIssuedTokenContext(AppliesTo scopes, IssuedTokenContext context);
     
    /**
     * Contains Challenge

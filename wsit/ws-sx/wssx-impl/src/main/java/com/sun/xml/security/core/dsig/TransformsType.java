@@ -79,7 +79,7 @@ public class TransformsType {
      */
     public List<Transform> getTransform() {
         if (transform == null) {
-            transform = new ArrayList<Transform>();
+            transform = new ArrayList<>();
         }
         return this.transform;
     }

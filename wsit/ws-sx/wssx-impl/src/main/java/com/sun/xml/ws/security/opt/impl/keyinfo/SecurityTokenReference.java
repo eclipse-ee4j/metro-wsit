@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -23,7 +23,6 @@ import com.sun.xml.ws.security.opt.api.SecurityElementWriter;
 import com.sun.xml.ws.security.opt.api.reference.Reference;
 import com.sun.xml.ws.security.opt.api.SecurityHeaderElement;
 import com.sun.xml.ws.security.opt.impl.reference.X509Data;
-import com.sun.xml.ws.security.opt.impl.reference.X509IssuerSerial;
 import com.sun.xml.wss.impl.c14n.AttributeNS;
 
 import java.util.HashMap;
@@ -71,6 +70,7 @@ public class SecurityTokenReference extends SecurityTokenReferenceType
      * sets the reference element into the security token reference
      * @param ref Reference
      */
+    @Override
     public void setReference(Reference ref) {
         JAXBElement refElem = null;
         String type = ref.getType();
@@ -91,8 +91,8 @@ public class SecurityTokenReference extends SecurityTokenReferenceType
     }
     /**
      * gets the reference element from the security token reference
-     * @return
      */
+    @Override
     public Reference getReference() {
         List<Object> list = this.getAny();
         JAXBElement obj = (JAXBElement)list.get(0);
@@ -108,6 +108,7 @@ public class SecurityTokenReference extends SecurityTokenReferenceType
         return null;
     }
     
+    @Override
     public void setTokenType(String tokenType) {
         QName qname = new QName(MessageConstants.WSSE11_NS,
                   MessageConstants.TOKEN_TYPE_LNAME, MessageConstants.WSSE11_PREFIX);
@@ -115,6 +116,7 @@ public class SecurityTokenReference extends SecurityTokenReferenceType
         otherAttributes.put(qname, tokenType);
     }
     
+    @Override
     public String getTokenType() {
         QName qname = new QName(MessageConstants.WSSE11_NS,
                   MessageConstants.TOKEN_TYPE_LNAME, MessageConstants.WSSE11_PREFIX);
@@ -122,11 +124,13 @@ public class SecurityTokenReference extends SecurityTokenReferenceType
         return otherAttributes.get(qname);
     }
     
+    @Override
     public String getNamespaceURI() {
         return MessageConstants.WSSE_NS;
     }
     
     
+    @Override
     public String getLocalPart() {
         return MessageConstants.WSSE_SECURITY_TOKEN_REFERENCE_LNAME;
     }
@@ -144,6 +148,7 @@ public class SecurityTokenReference extends SecurityTokenReferenceType
         return otherAttributes.get(name);
     }
     
+    @Override
     public XMLStreamReader readHeader() throws XMLStreamException {
         XMLStreamBufferResult xbr = new XMLStreamBufferResult();
         JAXBElement<SecurityTokenReferenceType> strElem = new ObjectFactory().createSecurityTokenReference(this);
@@ -159,9 +164,8 @@ public class SecurityTokenReference extends SecurityTokenReferenceType
     
     /**
      * writes the SecurityTokenReference element to the XMLStreamWriter
-     * @param streamWriter
-     * @throws javax.xml.stream.XMLStreamException
      */
+    @Override
     public void writeTo(XMLStreamWriter streamWriter) throws XMLStreamException {
         JAXBElement<SecurityTokenReferenceType> strElem = new ObjectFactory().createSecurityTokenReference(this);
         try {
@@ -194,24 +198,23 @@ public class SecurityTokenReference extends SecurityTokenReferenceType
         return JAXBUtil.createMarshaller(sv);
     }
     
+    @Override
     public void writeTo(OutputStream os) {
         throw new UnsupportedOperationException();
     }
     /**
      * checks whether this element refers to the security header element with the given id
-     * @param id
-     * @return
      */
+    @Override
     public boolean refersToSecHdrWithId(String id) {
         List list = super.getAny();
         if(list.size() > 0){
             JAXBElement je = (JAXBElement) list.get(0);
             Object obj = je.getValue();
             if(obj instanceof DirectReference ){
-                StringBuffer sb = new StringBuffer();
-                sb.append("#");
-                sb.append(id);
-                return ((DirectReference)obj).getURI().equals(sb.toString());
+                String sb = "#" +
+                        id;
+                return ((DirectReference)obj).getURI().equals(sb);
             }else if(obj instanceof KeyIdentifier){
                 return ((KeyIdentifier)obj).refersToSecHdrWithId(id);
             }
@@ -220,10 +223,8 @@ public class SecurityTokenReference extends SecurityTokenReferenceType
     }
     /**
      * writes the SecurityTokenReference element to the XMLStreamWriter
-     * @param streamWriter
-     * @param props
-     * @throws javax.xml.stream.XMLStreamException
      */
+    @Override
     @SuppressWarnings("unchecked")
     public void writeTo(javax.xml.stream.XMLStreamWriter streamWriter, HashMap props) throws javax.xml.stream.XMLStreamException {
         try{
@@ -239,10 +240,12 @@ public class SecurityTokenReference extends SecurityTokenReferenceType
         }
     }
 
+    @Override
     public String getType() {
         return "SecurityTokenReference";
     }
 
+    @Override
     public Object getTokenValue() {
         return getReference();
     }

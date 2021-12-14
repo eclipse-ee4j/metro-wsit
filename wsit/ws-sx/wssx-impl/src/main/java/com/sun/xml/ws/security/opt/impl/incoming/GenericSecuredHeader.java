@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -26,13 +26,11 @@ import com.sun.xml.ws.security.opt.api.SecuredHeader;
 import com.sun.xml.wss.WSITXMLFactory;
 import com.sun.xml.wss.impl.MessageConstants;
 
-import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.Vector;
 import jakarta.xml.bind.Unmarshaller;
 
-import jakarta.xml.bind.attachment.AttachmentUnmarshaller;
 import jakarta.xml.soap.SOAPConstants;
 import jakarta.xml.soap.SOAPException;
 import jakarta.xml.soap.SOAPHeader;
@@ -68,7 +66,7 @@ public class GenericSecuredHeader extends AbstractHeaderImpl implements SecuredH
     private SOAPVersion soapVersion = null;
     //private boolean hasId = true;
     private Vector idValues = new Vector(2);
-    private HashMap<String, String> shNSDecls = new HashMap<String, String>();
+    private HashMap<String, String> shNSDecls = new HashMap<>();
     private HashMap<String, String> nsDecls = null;
     //private QName headerName = null;
     // never null. role or actor value
@@ -123,7 +121,7 @@ public class GenericSecuredHeader extends AbstractHeaderImpl implements SecuredH
     }
 
     private com.sun.istack.FinalArrayList<Attribute> processHeaderAttributes(XMLStreamReader reader) {
-        if (soapVersion == soapVersion.SOAP_11) {
+        if (soapVersion == SOAPVersion.SOAP_11) {
             return process11Header(reader);
         } else {
             return process12Header(reader);
@@ -133,9 +131,9 @@ public class GenericSecuredHeader extends AbstractHeaderImpl implements SecuredH
     private com.sun.istack.FinalArrayList<Attribute> process12Header(XMLStreamReader reader) {
         FinalArrayList<Attribute> atts = null;
         role = soapVersion.implicitRole;
-        nsDecls = new HashMap<String, String>();
+        nsDecls = new HashMap<>();
         //headerName = reader.getName();
-        nsDecls = new HashMap<String, String>();
+        nsDecls = new HashMap<>();
         if (reader.getNamespaceCount() > 0) {
             for (int i = 0; i < reader.getNamespaceCount(); i++) {
                 nsDecls.put(reader.getNamespacePrefix(i), reader.getNamespaceURI(i));
@@ -166,19 +164,19 @@ public class GenericSecuredHeader extends AbstractHeaderImpl implements SecuredH
             }
 
             if (atts == null) {
-                atts = new FinalArrayList<Attribute>();
+                atts = new FinalArrayList<>();
             }
             atts.add(new Attribute(nsURI, lName, value));
         }
         return atts;
     }
 
-    private final FinalArrayList<Attribute> process11Header(XMLStreamReader reader) {
+    private FinalArrayList<Attribute> process11Header(XMLStreamReader reader) {
         FinalArrayList<Attribute> atts = null;
 
         role = soapVersion.implicitRole;
         //headerName = reader.getName();
-        nsDecls = new HashMap<String, String>();
+        nsDecls = new HashMap<>();
         if (reader.getNamespaceCount() > 0) {
 
             for (int j = 0; j < reader.getNamespaceCount(); j++) {
@@ -212,7 +210,7 @@ public class GenericSecuredHeader extends AbstractHeaderImpl implements SecuredH
             }
 
             if (atts == null) {
-                atts = new FinalArrayList<Attribute>();
+                atts = new FinalArrayList<>();
             }
             atts.add(new Attribute(nsURI, lName, value));
         }
@@ -220,6 +218,7 @@ public class GenericSecuredHeader extends AbstractHeaderImpl implements SecuredH
         return atts;
     }
 
+    @Override
     public boolean hasID(String id) {
         return idValues.contains(id);
     }
@@ -246,14 +245,17 @@ public class GenericSecuredHeader extends AbstractHeaderImpl implements SecuredH
         return isRelay;
     }
 
+    @Override
     public String getNamespaceURI() {
         return namespaceURI;
     }
 
+    @Override
     public String getLocalPart() {
         return localName;
     }
 
+    @Override
     public String getAttribute(String nsUri, String localName) {
         if (attributes != null) {
             for (int i = attributes.size() - 1; i >= 0; i--) {
@@ -269,10 +271,12 @@ public class GenericSecuredHeader extends AbstractHeaderImpl implements SecuredH
     /**
      * Reads the header as a {@link XMLStreamReader}
      */
+    @Override
     public XMLStreamReader readHeader() throws XMLStreamException {
         return completeHeader.readAsXMLStreamReader();
     }
 
+    @Override
     public void writeTo(XMLStreamWriter w) throws XMLStreamException {
         try {
             // TODO what about in-scope namespaces
@@ -282,6 +286,7 @@ public class GenericSecuredHeader extends AbstractHeaderImpl implements SecuredH
         }
     }
 
+    @Override
     public void writeTo(SOAPMessage saaj) throws SOAPException {
         try {
             // TODO what about in-scope namespaces
@@ -304,6 +309,7 @@ public class GenericSecuredHeader extends AbstractHeaderImpl implements SecuredH
         }
     }
 
+    @Override
     public void writeTo(ContentHandler contentHandler, ErrorHandler errorHandler) throws SAXException {
         completeHeader.writeTo(contentHandler);
     }
@@ -332,8 +338,6 @@ public class GenericSecuredHeader extends AbstractHeaderImpl implements SecuredH
     public <T> T readAsJAXB(Unmarshaller um) throws jakarta.xml.bind.JAXBException {
         try {
             return (T) um.unmarshal(completeHeader.readAsXMLStreamReader());
-        } catch (XMLStreamException e) {
-            throw new JAXBException(e);
         } catch (Exception e) {
             throw new JAXBException(e);
         }
@@ -343,8 +347,6 @@ public class GenericSecuredHeader extends AbstractHeaderImpl implements SecuredH
     public <T> T readAsJAXB(org.glassfish.jaxb.runtime.api.Bridge<T> bridge) throws jakarta.xml.bind.JAXBException {
         try {
             return bridge.unmarshal(completeHeader.readAsXMLStreamReader());
-        } catch (XMLStreamException e) {
-            throw new JAXBException(e);
         } catch (Exception e) {
             throw new JAXBException(e);
         }
@@ -354,13 +356,12 @@ public class GenericSecuredHeader extends AbstractHeaderImpl implements SecuredH
     public <T> T readAsJAXB(com.sun.xml.ws.spi.db.XMLBridge<T> bridge) throws jakarta.xml.bind.JAXBException {
         try {
             return bridge.unmarshal(completeHeader.readAsXMLStreamReader(), null);
-        } catch (XMLStreamException e) {
-            throw new JAXBException(e);
         } catch (Exception e) {
             throw new JAXBException(e);
         }
     }
 
+    @Override
     public HashMap<String, String> getInscopeNSContext() {
         return nsDecls;
     }
@@ -385,6 +386,7 @@ public class GenericSecuredHeader extends AbstractHeaderImpl implements SecuredH
 
         boolean elementRead = false;
 
+        @Override
         @SuppressWarnings("unchecked")
         public boolean accept(XMLStreamReader reader) {
             if (reader.getEventType() == XMLStreamReader.END_ELEMENT) {

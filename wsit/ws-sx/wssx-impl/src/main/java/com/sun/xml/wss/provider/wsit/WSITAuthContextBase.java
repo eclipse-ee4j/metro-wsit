@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -148,7 +148,7 @@ public abstract class WSITAuthContextBase  {
     // Per-Proxy State for SecureConversation sessions
     // as well as IssuedTokenContext returned by invoking a Trust-Plugin
     // This map stores IssuedTokenContext against the Policy-Id
-    protected Hashtable<String, IssuedTokenContext> issuedTokenContextMap = new Hashtable<String, IssuedTokenContext>();
+    protected Hashtable<String, IssuedTokenContext> issuedTokenContextMap = new Hashtable<>();
     
     //*************STATIC(s)**************************************
     //protected static QName bsOperationName =
@@ -215,7 +215,7 @@ public abstract class WSITAuthContextBase  {
     //protected PolicyMap wsPolicyMap = null;
 
     protected List<PolicyAlternativeHolder> policyAlternatives =
-            new ArrayList<PolicyAlternativeHolder>();
+            new ArrayList<>();
 
     protected Policy bpMSP = null;
     //protected WSDLBoundOperation cachedOperation = null;
@@ -265,7 +265,7 @@ public abstract class WSITAuthContextBase  {
             //ISSUE_REQUEST_URI = new URI(WSTrustConstants.REQUEST_SECURITY_TOKEN_ISSUE_ACTION);
             //CANCEL_REQUEST_URI = new URI(WSTrustConstants.CANCEL_REQUEST);
             jaxbContext = WSTrustElementFactory.getContext();            
-            securityPolicyNamespaces = new ArrayList<String>();
+            securityPolicyNamespaces = new ArrayList<>();
             securityPolicyNamespaces.add(SecurityPolicyVersion.SECURITYPOLICY200507.namespaceUri);
             
         } catch (Exception e) {
@@ -355,7 +355,7 @@ public abstract class WSITAuthContextBase  {
 
             //This will be used for setting credentials like  spVersion.... etc for binding level policies
             if (endpointPolicy == null) {
-                ArrayList<Policy> policyList = new ArrayList<Policy>();
+                ArrayList<Policy> policyList = new ArrayList<>();
                 PolicyAlternativeHolder ph = new PolicyAlternativeHolder(null, spVersion, bpMSP);
                 alternatives.add(ph);
                 collectOperationAndMessageLevelPolicies(wsPolicyMap, null, policyList,ph);
@@ -364,12 +364,12 @@ public abstract class WSITAuthContextBase  {
 
             Iterator<AssertionSet> policiesIter = endpointPolicy.iterator();
             while (policiesIter.hasNext()) {
-                ArrayList<Policy> policyList = new ArrayList<Policy>();
+                ArrayList<Policy> policyList = new ArrayList<>();
                 AssertionSet ass = policiesIter.next();
                 PolicyAlternativeHolder ph = new PolicyAlternativeHolder(ass, spVersion, bpMSP);
                 alternatives.add(ph);
 
-                Collection<AssertionSet> coll = new ArrayList<AssertionSet>();
+                Collection<AssertionSet> coll = new ArrayList<>();
                 coll.add(ass);
                 Policy singleAlternative = Policy.createPolicy(
                         endpointPolicy.getNamespaceVersion(), endpointPolicy.getName(), endpointPolicy.getId(), coll);
@@ -451,7 +451,7 @@ public abstract class WSITAuthContextBase  {
                 }
 
                 Iterator faults = operation.getOperation().getFaults().iterator();
-                ArrayList<Policy> faultPL = new ArrayList<Policy>();
+                ArrayList<Policy> faultPL = new ArrayList<>();
                 if (singleAlternative != null) {
                     faultPL.add(singleAlternative);
                 }
@@ -673,7 +673,7 @@ public abstract class WSITAuthContextBase  {
     
 //TODO :: Refactor
     protected ArrayList<PolicyAssertion> getTokens(Policy policy){
-        ArrayList<PolicyAssertion> tokenList = new ArrayList<PolicyAssertion>();
+        ArrayList<PolicyAssertion> tokenList = new ArrayList<>();
         for(AssertionSet assertionSet : policy){
             for(PolicyAssertion assertion:assertionSet){
                 if(PolicyUtil.isAsymmetricBinding(assertion, spVersion)){
@@ -791,7 +791,7 @@ public abstract class WSITAuthContextBase  {
     
     protected Policy getEffectiveBootstrapPolicy(NestedPolicy bp)throws PolicyException{
         try {
-            ArrayList<Policy> pl = new ArrayList<Policy>();
+            ArrayList<Policy> pl = new ArrayList<>();
             pl.add(bp);
             Policy mbp = getMessageBootstrapPolicy();
             if ( mbp != null ) {
@@ -994,7 +994,7 @@ public abstract class WSITAuthContextBase  {
             RMPolicyResolver rr = new RMPolicyResolver(spVersion, rmVer, mcVer, encRMLifecycleMsg);
             Policy msgLevelPolicy = rr.getOperationLevelPolicy();
             PolicyMerger merger = PolicyMerger.getMerger();
-            ArrayList<Policy> pList = new ArrayList<Policy>(2);
+            ArrayList<Policy> pList = new ArrayList<>(2);
             pList.add(endpointPolicy);
             pList.add(msgLevelPolicy);
             Policy effectivePolicy = merger.merge(pList);
@@ -1008,7 +1008,7 @@ public abstract class WSITAuthContextBase  {
             Policy ep = pm.merge(pList);
             addIncomingProtocolPolicy(ep,"SC",ph);
             addOutgoingProtocolPolicy(ep,"SC", ph);
-             ArrayList<Policy> pList1 = new ArrayList<Policy>(2);
+             ArrayList<Policy> pList1 = new ArrayList<>(2);
             pList1.add(endpointPolicy);
             pList1.add(getSCCancelPolicy(encryptCancelPayload));
             PolicyMerger pm1 = PolicyMerger.getMerger();
@@ -1190,10 +1190,10 @@ public abstract class WSITAuthContextBase  {
             props.put(DefaultCallbackHandler.KEYSTORE_URL, store.getLocation());
         } else {
             //throw RuntimeException for now
-            /**
-             * log.log(Level.SEVERE,
-             * LogStringsMessages.WSITPVD_0014_KEYSTORE_URL_NULL_CONFIG_ASSERTION());
-             * throw new RuntimeException(LogStringsMessages.WSITPVD_0014_KEYSTORE_URL_NULL_CONFIG_ASSERTION());
+            /*
+              log.log(Level.SEVERE,
+              LogStringsMessages.WSITPVD_0014_KEYSTORE_URL_NULL_CONFIG_ASSERTION());
+              throw new RuntimeException(LogStringsMessages.WSITPVD_0014_KEYSTORE_URL_NULL_CONFIG_ASSERTION());
              */
         }
         
@@ -1206,10 +1206,10 @@ public abstract class WSITAuthContextBase  {
         if (store.getPassword() != null) {
             props.put(DefaultCallbackHandler.KEYSTORE_PASSWORD, new String(store.getPassword()));
         } else {
-            /** do not complain if keystore password not supplied
-             * log.log(Level.SEVERE,
-             * LogStringsMessages.WSITPVD_0015_KEYSTORE_PASSWORD_NULL_CONFIG_ASSERTION());
-             * throw new RuntimeException(LogStringsMessages.WSITPVD_0015_KEYSTORE_PASSWORD_NULL_CONFIG_ASSERTION() );
+            /* do not complain if keystore password not supplied
+              log.log(Level.SEVERE,
+              LogStringsMessages.WSITPVD_0015_KEYSTORE_PASSWORD_NULL_CONFIG_ASSERTION());
+              throw new RuntimeException(LogStringsMessages.WSITPVD_0015_KEYSTORE_PASSWORD_NULL_CONFIG_ASSERTION() );
              */
         }
         
@@ -1308,10 +1308,10 @@ TR/SCT"))) && this.bootStrapAlgoSuite != null){            ctx.setAlgorithmSuite
             props.put(DefaultCallbackHandler.TRUSTSTORE_URL, store.getLocation());
         } else {
             //throw RuntimeException for now
-            /**
-             * log.log(Level.SEVERE,
-             * LogStringsMessages.WSITPVD_0016_TRUSTSTORE_URL_NULL_CONFIG_ASSERTION());
-             * throw new RuntimeException(LogStringsMessages.WSITPVD_0016_TRUSTSTORE_URL_NULL_CONFIG_ASSERTION() );
+            /*
+              log.log(Level.SEVERE,
+              LogStringsMessages.WSITPVD_0016_TRUSTSTORE_URL_NULL_CONFIG_ASSERTION());
+              throw new RuntimeException(LogStringsMessages.WSITPVD_0016_TRUSTSTORE_URL_NULL_CONFIG_ASSERTION() );
              */
         }
         
@@ -1324,10 +1324,10 @@ TR/SCT"))) && this.bootStrapAlgoSuite != null){            ctx.setAlgorithmSuite
         if (store.getPassword() != null) {
             props.put(DefaultCallbackHandler.TRUSTSTORE_PASSWORD, new String(store.getPassword()));
         } else {
-            /** do not complain if truststore password is not supplied
-             * log.log(Level.SEVERE,
-             * LogStringsMessages.WSITPVD_0017_TRUSTSTORE_PASSWORD_NULL_CONFIG_ASSERTION());
-             * throw new RuntimeException(LogStringsMessages.WSITPVD_0017_TRUSTSTORE_PASSWORD_NULL_CONFIG_ASSERTION() );
+            /* do not complain if truststore password is not supplied
+              log.log(Level.SEVERE,
+              LogStringsMessages.WSITPVD_0017_TRUSTSTORE_PASSWORD_NULL_CONFIG_ASSERTION());
+              throw new RuntimeException(LogStringsMessages.WSITPVD_0017_TRUSTSTORE_PASSWORD_NULL_CONFIG_ASSERTION() );
              */
         }
         
@@ -1671,8 +1671,8 @@ TR/SCT"))) && this.bootStrapAlgoSuite != null){            ctx.setAlgorithmSuite
             //empty message policy
             return new MessagePolicy();
         }
-        SecurityPolicyHolder sph = 
-                (SecurityPolicyHolder) applicableAlternative.getOutMessagePolicyMap().get(operation);
+        SecurityPolicyHolder sph =
+                applicableAlternative.getOutMessagePolicyMap().get(operation);
         if(sph == null){
             return new MessagePolicy();
         }
@@ -1809,9 +1809,7 @@ TR/SCT"))) && this.bootStrapAlgoSuite != null){            ctx.setAlgorithmSuite
         } catch (ClassNotFoundException e) {
             // ignore
             
-        } catch(InstantiationException e) {
-            
-        } catch(IllegalAccessException ex) {
+        } catch(InstantiationException | IllegalAccessException e) {
             
         }
         log.log(Level.SEVERE,

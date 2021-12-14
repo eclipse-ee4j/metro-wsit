@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -13,8 +13,8 @@ package com.sun.xml.ws.tx.at.runtime;
 import com.sun.xml.ws.api.model.wsdl.WSDLBoundOperation;
 import com.sun.xml.ws.api.model.wsdl.WSDLPort;
 import com.sun.xml.ws.api.pipe.PipelineAssembler;
+import com.sun.xml.ws.api.pipe.ServerPipeAssemblerContext;
 import com.sun.xml.ws.api.pipe.Tube;
-import com.sun.xml.ws.api.tx.at.Transactional;
 import com.sun.xml.ws.assembler.dev.ClientTubelineAssemblyContext;
 import com.sun.xml.ws.assembler.dev.ServerTubelineAssemblyContext;
 import com.sun.xml.ws.assembler.dev.TubeFactory;
@@ -41,6 +41,7 @@ public final class AtTubeFactory implements TubeFactory {
      * @param context wsit client tubeline assembler context
      * @return new tail of the client-side tubeline
      */
+    @Override
     public Tube createTube(ClientTubelineAssemblyContext context) {
         final TransactionalFeature feature = context.getBinding().getFeature(TransactionalFeature.class);
         if (isWSATPolicyEnabled(context.getPolicyMap(), context.getWsdlPort(), false)
@@ -58,6 +59,7 @@ public final class AtTubeFactory implements TubeFactory {
      * @param context wsit service tubeline assembler context
      * @return new head of the service-side tubeline
      */
+    @Override
     public Tube createTube(ServerTubelineAssemblyContext context) {
         final TransactionalFeature feature = context.getEndpoint().getBinding().getFeature(TransactionalFeature.class);
         if (isWSATPolicyEnabled(context.getPolicyMap(), context.getWsdlPort(), true)

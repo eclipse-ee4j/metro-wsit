@@ -101,7 +101,7 @@ public class OpenChannel {
      */
     public List<String> getNegotiatedMimeTypes() {
         if (negotiatedMimeTypes == null) {
-            negotiatedMimeTypes = new ArrayList<String>();
+            negotiatedMimeTypes = new ArrayList<>();
         }
         return this.negotiatedMimeTypes;
     }
@@ -130,7 +130,7 @@ public class OpenChannel {
      */
     public List<String> getNegotiatedParams() {
         if (negotiatedParams == null) {
-            negotiatedParams = new ArrayList<String>();
+            negotiatedParams = new ArrayList<>();
         }
         return this.negotiatedParams;
     }

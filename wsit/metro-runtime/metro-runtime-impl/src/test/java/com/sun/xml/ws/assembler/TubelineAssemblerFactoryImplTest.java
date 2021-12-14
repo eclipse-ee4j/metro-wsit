@@ -10,8 +10,6 @@
 
 package com.sun.xml.ws.assembler;
 
-import com.sun.xml.ws.assembler.metro.impl.MetroClientTubelineAssemblyContextImpl;
-import com.sun.xml.ws.assembler.metro.impl.MetroTubelineAssemblerFactoryImpl;
 import com.sun.xml.ws.api.*;
 import com.sun.xml.ws.api.addressing.WSEndpointReference;
 import com.sun.xml.ws.api.client.WSPortInfo;
@@ -87,18 +85,19 @@ public class TubelineAssemblerFactoryImplTest extends TestCase {
         }
     }
 
-    private class TestResourceLoader extends ResourceLoader {
+    private static class TestResourceLoader extends ResourceLoader {
 
         @Override
-        public URL getResource(String resourceName) throws MalformedURLException {
+        public URL getResource(String resourceName) {
             return Thread.currentThread().getContextClassLoader().getResource(resourceName);
         }
         
     }
-    public void testAlternateConfigFileName() throws Exception {
+    public void testAlternateConfigFileName() {
         final BindingID bindingId = BindingID.SOAP11_HTTP;
         final  String ALTERNATE_FILE_NAME = "metro-config/alternate.xml";
         final Container container = new Container() {
+            @Override
             public <S> S getSPI(Class<S> spiType) {
                 if (spiType.isAssignableFrom(MetroConfigName.class)) {
                     return spiType.cast( new MetroConfigName()  {
@@ -115,7 +114,7 @@ public class TubelineAssemblerFactoryImplTest extends TestCase {
                         
                     });
                 } else if (spiType.isAssignableFrom(ResourceLoader.class)) {
-                    return spiType.cast( new TestResourceLoader());
+                    return spiType.cast(new TestResourceLoader());
                 }
                 return null;
             }   
@@ -132,7 +131,7 @@ public class TubelineAssemblerFactoryImplTest extends TestCase {
      * Test client creation with parameters that correspond to a dispatch client
      * with no wsit-client.xml and with no WSDL.
      */
-    public void testCreateDispatchClientNoConfig() throws Exception {
+    public void testCreateDispatchClientNoConfig() {
         final BindingID bindingId = BindingID.SOAP11_HTTP;
         final Container container = MockupMetroConfigLoader.createMockupContainer("metro-default.xml");
 
@@ -156,66 +155,82 @@ public class TubelineAssemblerFactoryImplTest extends TestCase {
 
         WSBindingProvider wsbp = new WSBindingProvider() {
 
+            @Override
             public void setOutboundHeaders(List<Header> headers) {
                 throw new UnsupportedOperationException("Not supported yet.");
             }
 
+            @Override
             public void setOutboundHeaders(Header... headers) {
                 throw new UnsupportedOperationException("Not supported yet.");
             }
 
+            @Override
             public void setOutboundHeaders(Object... headers) {
                 throw new UnsupportedOperationException("Not supported yet.");
             }
 
+            @Override
             public List<Header> getInboundHeaders() {
                 throw new UnsupportedOperationException("Not supported yet.");
             }
 
+            @Override
             public void setAddress(String address) {
                 throw new UnsupportedOperationException("Not supported yet.");
             }
 
+            @Override
             public WSEndpointReference getWSEndpointReference() {
                 throw new UnsupportedOperationException("Not supported yet.");
             }
 
+            @Override
             public WSPortInfo getPortInfo() {
                 return portInfo;
             }
 
+            @Override
             public Map<String, Object> getRequestContext() {
                 throw new UnsupportedOperationException("Not supported yet.");
             }
 
+            @Override
             public Map<String, Object> getResponseContext() {
                 throw new UnsupportedOperationException("Not supported yet.");
             }
 
+            @Override
             public Binding getBinding() {
                 return binding;
             }
 
+            @Override
             public EndpointReference getEndpointReference() {
                 throw new UnsupportedOperationException("Not supported yet.");
             }
 
+            @Override
             public <T extends EndpointReference> T getEndpointReference(Class<T> clazz) {
                 throw new UnsupportedOperationException("Not supported yet.");
             }
 
-            public void close() throws IOException {
+            @Override
+            public void close() {
                 throw new UnsupportedOperationException("Not supported yet.");
             }
 
+            @Override
             public ManagedObjectManager getManagedObjectManager() {
                 return null;
             }
 
+            @Override
             public Set<Component> getComponents() {
                 throw new UnsupportedOperationException("Not supported yet.");
             }
 
+            @Override
             public <S> S getSPI(Class<S> type) {
                 throw new UnsupportedOperationException("Not supported yet.");
             }
@@ -285,66 +300,82 @@ public class TubelineAssemblerFactoryImplTest extends TestCase {
 
         WSBindingProvider wsbp = new WSBindingProvider() {
 
+            @Override
             public void setOutboundHeaders(List<Header> headers) {
                 throw new UnsupportedOperationException("Not supported yet.");
             }
 
+            @Override
             public void setOutboundHeaders(Header... headers) {
                 throw new UnsupportedOperationException("Not supported yet.");
             }
 
+            @Override
             public void setOutboundHeaders(Object... headers) {
                 throw new UnsupportedOperationException("Not supported yet.");
             }
 
+            @Override
             public List<Header> getInboundHeaders() {
                 throw new UnsupportedOperationException("Not supported yet.");
             }
 
+            @Override
             public void setAddress(String address) {
                 throw new UnsupportedOperationException("Not supported yet.");
             }
 
+            @Override
             public WSEndpointReference getWSEndpointReference() {
                 throw new UnsupportedOperationException("Not supported yet.");
             }
 
+            @Override
             public WSPortInfo getPortInfo() {
                 return portInfo;
             }
 
+            @Override
             public Map<String, Object> getRequestContext() {
                 throw new UnsupportedOperationException("Not supported yet.");
             }
 
+            @Override
             public Map<String, Object> getResponseContext() {
                 throw new UnsupportedOperationException("Not supported yet.");
             }
 
+            @Override
             public Binding getBinding() {
                 return binding;
             }
 
+            @Override
             public EndpointReference getEndpointReference() {
                 throw new UnsupportedOperationException("Not supported yet.");
             }
 
+            @Override
             public <T extends EndpointReference> T getEndpointReference(Class<T> clazz) {
                 throw new UnsupportedOperationException("Not supported yet.");
             }
 
-            public void close() throws IOException {
+            @Override
+            public void close() {
                 throw new UnsupportedOperationException("Not supported yet.");
             }
 
+            @Override
             public ManagedObjectManager getManagedObjectManager() {
                 return null;
             }
 
+            @Override
             public Set<Component> getComponents() {
                 throw new UnsupportedOperationException("Not supported yet.");
             }
 
+            @Override
             public <S> S getSPI(Class<S> type) {
                 throw new UnsupportedOperationException("Not supported yet.");
             }

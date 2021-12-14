@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -69,9 +69,7 @@ public class DOMUtil {
             DocumentBuilder builder = dbf.newDocumentBuilder();
             try {
                 return builder.parse(inputStream);
-            } catch (SAXException e) {
-                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-            } catch (IOException e) {
+            } catch (SAXException | IOException e) {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             }
         } catch (ParserConfigurationException pce) {
@@ -85,8 +83,6 @@ public class DOMUtil {
     /**
      * Traverses a DOM node and writes out on a streaming writer.
      *
-     * @param node
-     * @param writer
      */
     public static void serializeNode(Element node, XMLStreamWriter writer) throws XMLStreamException {
         writeTagWithAttributes(node, writer);
@@ -241,7 +237,7 @@ public class DOMUtil {
 
     public static @NotNull
     List<Element> getChildElements(Node parent){
-        List<Element> elements = new ArrayList<Element>();
+        List<Element> elements = new ArrayList<>();
         for (Node n = parent.getFirstChild(); n != null; n = n.getNextSibling()) {
             if (n.getNodeType() == Node.ELEMENT_NODE) {
                 elements.add((Element)n);

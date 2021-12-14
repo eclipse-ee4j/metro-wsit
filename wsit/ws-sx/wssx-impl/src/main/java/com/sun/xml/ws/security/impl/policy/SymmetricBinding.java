@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -66,17 +66,20 @@ public class SymmetricBinding extends PolicyAssertion implements com.sun.xml.ws.
         spVersion = PolicyUtil.getSecurityPolicyVersion(nsUri);
     }            
     
-    public Token getEncryptionToken() {    
+    @Override
+    public Token getEncryptionToken() {
         populate();      
         return encryptionToken;    
     }          
     
-    public Token getSignatureToken() {  
+    @Override
+    public Token getSignatureToken() {
         populate();       
         return signatureToken;      
     }          
     
-    public Token getProtectionToken() { 
+    @Override
+    public Token getProtectionToken() {
         populate();  
         return protectionToken; 
     }          
@@ -85,7 +88,8 @@ public class SymmetricBinding extends PolicyAssertion implements com.sun.xml.ws.
         this.algSuite = algSuite;         
     }      
     
-    public AlgorithmSuite getAlgorithmSuite() { 
+    @Override
+    public AlgorithmSuite getAlgorithmSuite() {
         populate();      
         if(algSuite == null){         
             algSuite = new  com.sun.xml.ws.security.impl.policy.AlgorithmSuite();          
@@ -99,11 +103,13 @@ public class SymmetricBinding extends PolicyAssertion implements com.sun.xml.ws.
         includeTimestamp = value;            
     }                
     
-    public boolean isIncludeTimeStamp() {      
+    @Override
+    public boolean isIncludeTimeStamp() {
         populate();           
         return includeTimestamp;      
     }   
     
+    @Override
     public boolean isDisableTimestampSigning(){
         populate();
         return disableTimestampSigning;
@@ -113,6 +119,7 @@ public class SymmetricBinding extends PolicyAssertion implements com.sun.xml.ws.
         this.layout = layout;          
     }            
     
+    @Override
     public MessageLayout getLayout() {
         populate();         
         return layout;         
@@ -130,7 +137,8 @@ public class SymmetricBinding extends PolicyAssertion implements com.sun.xml.ws.
         protectionToken = token;    
     }               
     
-    public boolean isSignContent() { 
+    @Override
+    public boolean isSignContent() {
         populate();         
         return contentOnly;       
     }              
@@ -144,7 +152,8 @@ public class SymmetricBinding extends PolicyAssertion implements com.sun.xml.ws.
         this.protectionOrder = order;       
     }           
     
-    public String getProtectionOrder() {        
+    @Override
+    public String getProtectionOrder() {
         populate();         
         return protectionOrder;        
     }              
@@ -159,12 +168,14 @@ public class SymmetricBinding extends PolicyAssertion implements com.sun.xml.ws.
         this.protectSignature = value;     
     }               
     
-    public boolean getTokenProtection() {    
+    @Override
+    public boolean getTokenProtection() {
         populate();         
         return protectToken;    
     }              
     
-    public boolean getSignatureProtection() {    
+    @Override
+    public boolean getSignatureProtection() {
         populate();         
         return protectSignature;       
     }             
@@ -225,10 +236,12 @@ public class SymmetricBinding extends PolicyAssertion implements com.sun.xml.ws.
         return fitness;
     }           
     
-    public AssertionFitness validate(boolean isServer) {    
+    @Override
+    public AssertionFitness validate(boolean isServer) {
         return populate(isServer);       
     } 
 
+    @Override
     public SecurityPolicyVersion getSecurityPolicyVersion() {
         return spVersion;
     }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -79,42 +79,52 @@ public class SecondaryIssuedTokenParametersImpl implements SecondaryIssuedTokenP
         this.claims = claims;
     }
 
+    @Override
     public String getTokenType(){
         return this.tokenType;
     }
     
+    @Override
     public String getKeyType(){
         return this.keyType;
     }
     
+    @Override
     public long getKeySize(){
         return this.keySize;
     }
     
+    @Override
     public String getSignatureAlgorithm(){
         return this.signatureAlg;
     }
     
+    @Override
     public String getEncryptionAlgorithm(){
         return this.encAlg;
     }
     
+    @Override
     public String getCanonicalizationAlgorithm(){
         return this.canAlg;
     }
     
+    @Override
     public String getKeyWrapAlgorithm(){
         return this.keyWrapAlg;
     }
     
+    @Override
     public String getSignWith(){
         return signWith;
     }
     
+    @Override
     public String getEncryptWith(){
         return encryptWith;
     }
     
+    @Override
     public Claims getClaims(){
         return this.claims;
     }

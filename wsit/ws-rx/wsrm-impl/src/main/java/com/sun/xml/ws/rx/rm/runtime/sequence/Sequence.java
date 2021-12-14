@@ -33,12 +33,12 @@ import org.glassfish.gmbal.ManagedData;
 @Description("Reliable Messaging Sequence")
 public interface Sequence {
 
-    public static final long UNSPECIFIED_MESSAGE_ID = 0; // this MUST be 0 in order for AbstractSequence.createAckRanges() method to work properly
-    public static final long MIN_MESSAGE_ID = 1;
-    public static final long MAX_MESSAGE_ID = 9223372036854775807L;
-    public static final long NO_EXPIRY = -1;
+    long UNSPECIFIED_MESSAGE_ID = 0; // this MUST be 0 in order for AbstractSequence.createAckRanges() method to work properly
+    long MIN_MESSAGE_ID = 1;
+    long MAX_MESSAGE_ID = 9223372036854775807L;
+    long NO_EXPIRY = -1;
 
-    public static enum State {
+    enum State {
         // CREATING(10) not needed
 
         CREATED(15) {
@@ -91,7 +91,7 @@ public interface Sequence {
         };
         private int value;
 
-        private State(int value) {
+        State(int value) {
             this.value = value;
         }
 
@@ -114,7 +114,7 @@ public interface Sequence {
         abstract void verifyAcceptingAcknowledgement(String sequenceId, AbstractSoapFaultException.Code code);
     }
 
-    public static enum IncompleteSequenceBehavior {
+    enum IncompleteSequenceBehavior {
 
         /**
          * The default value which indicates that no acknowledged messages in the Sequence
@@ -138,10 +138,11 @@ public interface Sequence {
         }
     }
 
-    public static class AckRange {
+    class AckRange {
 
-        private static final Comparator<AckRange> COMPARATOR = new Comparator<AckRange>()  {
+        private static final Comparator<AckRange> COMPARATOR = new Comparator<>() {
 
+            @Override
             public int compare(AckRange range1, AckRange range2) {
                 if (range1.lower <= range2.lower) {
                     return -1;
@@ -158,7 +159,7 @@ public interface Sequence {
         }
         
         public List<Long> rangeValues() {
-            List<Long> values = new ArrayList<Long>();
+            List<Long> values = new ArrayList<>();
             for(long value = lower; value <= upper; value++) {
                 values.add(value);
             }
@@ -183,7 +184,7 @@ public interface Sequence {
      */
     @ManagedAttribute
     @Description("Unique sequence identifier")
-    public String getId();
+    String getId();
 
     /**
      * Provides information on the message number of the last message registered on this sequence
@@ -192,7 +193,7 @@ public interface Sequence {
      */
     @ManagedAttribute
     @Description("Last message identifier register on this sequence")
-    public long getLastMessageNumber();
+    long getLastMessageNumber();
 
     /**
      * Registers given message with the sequence
@@ -205,7 +206,7 @@ public interface Sequence {
      *
      * @exception AbstractSoapFaultException in a case the sequence is closed or terminated
      */
-    public void registerMessage(@NotNull ApplicationMessage message, boolean storeMessageFlag) throws DuplicateMessageRegistrationException, AbstractSoapFaultException;
+    void registerMessage(@NotNull ApplicationMessage message, boolean storeMessageFlag) throws DuplicateMessageRegistrationException, AbstractSoapFaultException;
 
     /**
      * Retrieves a message stored within the sequence under the provided {@code correlationId}
@@ -226,7 +227,6 @@ public interface Sequence {
      *
      * @return the message that is stored in the sequence if available, {@code null} otherwise.
      */
-    public 
     @Nullable
     ApplicationMessage retrieveMessage(@NotNull String correlationId);
 
@@ -237,7 +237,7 @@ public interface Sequence {
      *
      * @return delivery queue with a messages waiting for a delivery on this particular sequence
      */
-    public DeliveryQueue getDeliveryQueue();
+    DeliveryQueue getDeliveryQueue();
 
     /**
      * Marks given message numbers with the sequence as aknowledged
@@ -249,7 +249,7 @@ public interface Sequence {
      * 
      * @exception AbstractSoapFaultException in case the sequence is terminated
      */
-    public void acknowledgeMessageNumbers(List<AckRange> ranges) throws InvalidAcknowledgementException, AbstractSoapFaultException;
+    void acknowledgeMessageNumbers(List<AckRange> ranges) throws AbstractSoapFaultException;
 
     /**
      * Marks given message number with the sequence as aknowledged
@@ -258,7 +258,7 @@ public interface Sequence {
      *
      * @exception AbstractSoapFaultException in case the sequence is terminated
      */
-    public void acknowledgeMessageNumber(long messageNumber) throws AbstractSoapFaultException;
+    void acknowledgeMessageNumber(long messageNumber) throws AbstractSoapFaultException;
 
     /**
      * Determines whether a given message number is registered as 
@@ -269,21 +269,21 @@ public interface Sequence {
      * @return {@code true} if the message number is registered as received, unacknowledged
      *         and failed over, {@code false} otherwise 
      */
-    public boolean isFailedOver(long messageNumber);
+    boolean isFailedOver(long messageNumber);
 
     /**
      * Provides a collection of ranges of message numbers acknowledged with the sequence
      * 
      * @return collection of ranges of message numbers registered with the sequence
      */
-    public List<AckRange> getAcknowledgedMessageNumbers();
+    List<AckRange> getAcknowledgedMessageNumbers();
 
     /**
      * Is this message number acknowledged with the sequence?
      * @param messageNumber in a sequence
      * @return true if acknowledged, otherwise false
      */
-    public boolean isAcknowledged(long messageNumber);
+    boolean isAcknowledged(long messageNumber);
 
     /**
      * The method may be called to determine whether the sequence has some unacknowledged messages or not
@@ -292,7 +292,7 @@ public interface Sequence {
      */
     @ManagedAttribute
     @Description("True if the sequence has unacknowledged message identifiers")
-    public boolean hasUnacknowledgedMessages();
+    boolean hasUnacknowledgedMessages();
 
     /**
      * Provides information on the state of the message sequence
@@ -301,21 +301,21 @@ public interface Sequence {
      */
     @ManagedAttribute
     @Description("Runtime state of the sequence")
-    public State getState();
+    State getState();
 
     /**
      * This method should be called to set the AckRequested flag, which indicates 
      * a pending request for acknowledgement of all message identifiers registered 
      * with this sequence.
      */
-    public void setAckRequestedFlag();
+    void setAckRequestedFlag();
 
     /**
      * This method should be called to clear the AckRequested flag, which indicates 
      * that any pending requests for acknowledgement of all message identifiers registered 
      * with this sequence were satisfied.
      */
-    public void clearAckRequestedFlag();
+    void clearAckRequestedFlag();
 
     /**
      * Provides information on the actual AckRequested flag status
@@ -324,13 +324,13 @@ public interface Sequence {
      */
     @ManagedAttribute
     @Description("True if AckRequested flag set")
-    public boolean isAckRequested();
+    boolean isAckRequested();
 
     /**
      * Updates information on when was the last acknowledgement request for this sequence
      * sent to current time.
      */
-    public void updateLastAcknowledgementRequestTime();
+    void updateLastAcknowledgementRequestTime();
 
     /**
      * Determines whether a standalone acnowledgement request can be scheduled or not
@@ -347,7 +347,7 @@ public interface Sequence {
      *
      * @return {@code true} or {@code false} depending on whether
      */
-    public boolean isStandaloneAcknowledgementRequestSchedulable(long delayPeriod);
+    boolean isStandaloneAcknowledgementRequestSchedulable(long delayPeriod);
 
     /**
      * Provides information on a security session to which this sequence is bound to.
@@ -356,7 +356,7 @@ public interface Sequence {
      */
     @ManagedAttribute
     @Description("The security token reference identifier to which this sequence is bound")
-    public String getBoundSecurityTokenReferenceId();
+    String getBoundSecurityTokenReferenceId();
 
     /**
      * Closes the sequence. Subsequent calls to this method have no effect.
@@ -365,7 +365,7 @@ public interface Sequence {
      * result in a {@link IllegalStateException} being raised. It is however still possible to accept message identifier 
      * acknowledgements, as well as retrieve any other information on the sequence.
      */
-    public void close();
+    void close();
 
     /**
      * Provides information on the sequence closed status.
@@ -374,7 +374,7 @@ public interface Sequence {
      */
     @ManagedAttribute
     @Description("True if the sequence has been closed")
-    public boolean isClosed();
+    boolean isClosed();
 
     /**
      * Provides information on the sequence expiration status.
@@ -383,7 +383,7 @@ public interface Sequence {
      */
     @ManagedAttribute
     @Description("True if the sequence has expired")
-    public boolean isExpired();
+    boolean isExpired();
 
     /**
      * Provides information on the last activity time of this sequence. Following is the
@@ -403,10 +403,10 @@ public interface Sequence {
      */
     @ManagedAttribute
     @Description("Last activity time on the sequence in milliseconds")
-    public long getLastActivityTime();
+    long getLastActivityTime();
 
     /**
      * The method is called during the sequence termination to allow sequence object to release its allocated resources
      */
-    public void preDestroy();
+    void preDestroy();
 }

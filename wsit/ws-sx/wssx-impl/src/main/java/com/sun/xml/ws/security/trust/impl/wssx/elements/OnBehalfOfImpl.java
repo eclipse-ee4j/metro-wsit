@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -21,7 +21,6 @@ import com.sun.xml.ws.security.secext10.SecurityTokenReferenceType;
 import com.sun.xml.ws.security.trust.elements.OnBehalfOf;
 import com.sun.xml.ws.security.trust.impl.wssx.bindings.OnBehalfOfType;
 import jakarta.xml.bind.JAXBElement;
-import org.w3c.dom.Element;
 
 /**
  *
@@ -41,10 +40,12 @@ public class OnBehalfOfImpl extends OnBehalfOfType implements OnBehalfOf {
             this.setAny(ob);
         }
     }
+    @Override
     public EndpointReference getEndpointReference() {
         return epr;
     }
     
+    @Override
     public void setEndpointReference(final EndpointReference endpointReference) {
         epr = endpointReference;
        /* if (endpointReference != null) {
@@ -56,6 +57,7 @@ public class OnBehalfOfImpl extends OnBehalfOfType implements OnBehalfOf {
         str = null;
     }
     
+    @Override
     public void setSecurityTokenReference(final SecurityTokenReference ref) {
         str = ref;
         if (ref != null) {
@@ -66,6 +68,7 @@ public class OnBehalfOfImpl extends OnBehalfOfType implements OnBehalfOf {
         epr = null;
     }
     
+    @Override
     public SecurityTokenReference getSecurityTokenReference() {
         return str;
     }

@@ -22,27 +22,27 @@ import java.util.Map;
  */
 public interface WSTrustContract<K, V> {
 
-    public void init(STSConfiguration config);
+    void init(STSConfiguration config);
     
     /** Issue a Token */
-    public V issue(K rst, IssuedTokenContext context) throws WSTrustException;
+    V issue(K rst, IssuedTokenContext context) throws WSTrustException;
 
     /** Renew a Token */
-    public V renew(K rst, IssuedTokenContext context)
+    V renew(K rst, IssuedTokenContext context)
             throws WSTrustException;
 
     /** Cancel a Token */
-    public V cancel(K rst, IssuedTokenContext context, Map map)
-            throws WSTrustException;
+    V cancel(K rst, IssuedTokenContext context, Map map)
+            throws WSTrustException;;
 
     /** Validate a Token */
-    public V validate(K request, IssuedTokenContext context)
+    V validate(K request, IssuedTokenContext context)
             throws WSTrustException;
 
     /** 
      * handle an unsolicited RSTR like in the case of 
      * Client Initiated Secure Conversation.
      */
-    public void handleUnsolicited(V rstr, IssuedTokenContext context)
-           throws WSTrustException;
+    void handleUnsolicited(V rstr, IssuedTokenContext context)
+            throws WSTrustException;;
 }

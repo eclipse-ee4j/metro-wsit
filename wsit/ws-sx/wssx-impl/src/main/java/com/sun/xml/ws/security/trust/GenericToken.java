@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -79,6 +79,7 @@ public class GenericToken implements Token{
 
 
     
+    @Override
     public String getType(){
         if (tokenType != null) {
             if(log.isLoggable(Level.FINE)) {
@@ -90,6 +91,7 @@ public class GenericToken implements Token{
         return WSTrustConstants.OPAQUE_TYPE;
     }
     
+    @Override
     public Object getTokenValue(){
         return this.token;
     }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -19,7 +19,6 @@ import com.sun.xml.ws.security.policy.SecurityAssertionValidator;
 import com.sun.xml.ws.security.policy.SecurityPolicyVersion;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.UUID;
 import java.util.logging.Level;
 import javax.xml.namespace.QName;
 import static com.sun.xml.ws.security.impl.policy.Constants.*;
@@ -59,11 +58,13 @@ public class SpnegoContextToken extends PolicyAssertion implements com.sun.xml.w
     }
     
     
+    @Override
     public Issuer getIssuer() {
         populate();
         return this.issuer;
     }
     
+    @Override
     public boolean isRequireDerivedKeys() {
         populate();
         if (rdKey != null ) {
@@ -73,16 +74,19 @@ public class SpnegoContextToken extends PolicyAssertion implements com.sun.xml.w
     }
     
     
+    @Override
     public String getIncludeToken() {
         populate();
         return includeToken;
     }
     
     
+    @Override
     public String getTokenId() {
         return id;
     }
     
+    @Override
     public AssertionFitness validate(boolean isServer) {
         return populate(isServer);
     }
@@ -132,6 +136,7 @@ public class SpnegoContextToken extends PolicyAssertion implements com.sun.xml.w
         return fitness;
     }
 
+    @Override
     public SecurityPolicyVersion getSecurityPolicyVersion() {
         return spVersion;
     }

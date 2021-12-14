@@ -36,6 +36,7 @@ public class ClientAckRequesterTask implements DelayedTask {
         this.outboundSequenceId = outboundSequenceId;
     }
 
+    @Override
     public void run(DelayedTaskManager manager) {
         LOGGER.entering(outboundSequenceId);
         try {
@@ -83,6 +84,7 @@ public class ClientAckRequesterTask implements DelayedTask {
 
         rc.communicator.sendAsync(request, new Fiber.CompletionCallback() {
 
+            @Override
             public void onCompletion(Packet response) {
                 if (response == null || response.getMessage() == null) {
                     LOGGER.warning(LocalizationMessages.WSRM_1108_NULL_RESPONSE_FOR_ACK_REQUEST());
@@ -110,6 +112,7 @@ public class ClientAckRequesterTask implements DelayedTask {
                 }
             }
 
+            @Override
             public void onCompletion(Throwable error) {
                 LOGGER.warning(LocalizationMessages.WSRM_1127_UNEXPECTED_EXCEPTION_WHEN_SENDING_ACK_REQUEST(), error);
             }
@@ -124,6 +127,7 @@ public class ClientAckRequesterTask implements DelayedTask {
         return TimeUnit.MILLISECONDS;
     }
 
+    @Override
     public String getName() {
         return "client acknowledgement requester task";
     }

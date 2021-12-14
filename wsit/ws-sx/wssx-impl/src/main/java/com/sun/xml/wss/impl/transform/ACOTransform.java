@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -47,18 +47,22 @@ public class ACOTransform extends TransformService {
     public ACOTransform() {
     }
     
+    @Override
     public java.security.spec.AlgorithmParameterSpec getParameterSpec() {
         return null;
         
         //Revisit.
     }
     
-    public void init(javax.xml.crypto.dsig.spec.TransformParameterSpec transformParameterSpec) throws java.security.InvalidAlgorithmParameterException {
+    @Override
+    public void init(javax.xml.crypto.dsig.spec.TransformParameterSpec transformParameterSpec) {
     }
     
-    public void init(javax.xml.crypto.XMLStructure xMLStructure, javax.xml.crypto.XMLCryptoContext xMLCryptoContext) throws java.security.InvalidAlgorithmParameterException {
+    @Override
+    public void init(javax.xml.crypto.XMLStructure xMLStructure, javax.xml.crypto.XMLCryptoContext xMLCryptoContext) {
     }
     
+    @Override
     public void marshalParams(javax.xml.crypto.XMLStructure xMLStructure, javax.xml.crypto.XMLCryptoContext xMLCryptoContext) throws javax.xml.crypto.MarshalException {
         //no-op
     }
@@ -107,10 +111,12 @@ public class ACOTransform extends TransformService {
         }
     }
     
+    @Override
     public boolean isFeatureSupported(String str) {
         return false;
     }
     
+    @Override
     public javax.xml.crypto.Data transform(javax.xml.crypto.Data data, javax.xml.crypto.XMLCryptoContext xMLCryptoContext) throws javax.xml.crypto.dsig.TransformException {
         if(data instanceof OctetStreamData){
             return canonicalize((OctetStreamData)data);
@@ -121,6 +127,7 @@ public class ACOTransform extends TransformService {
         return null;
     }
     
+    @Override
     public javax.xml.crypto.Data transform(javax.xml.crypto.Data data, javax.xml.crypto.XMLCryptoContext xMLCryptoContext, java.io.OutputStream outputStream) throws javax.xml.crypto.dsig.TransformException {
         if(data instanceof AttachmentData){
             return canonicalize((AttachmentData)data,outputStream);

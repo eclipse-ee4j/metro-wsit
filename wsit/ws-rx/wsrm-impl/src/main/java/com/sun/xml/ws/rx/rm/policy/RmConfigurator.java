@@ -22,17 +22,17 @@ public interface RmConfigurator {
     /**
      * TODO javadoc
      */
-    public @NotNull QName getName();
+    @NotNull QName getName();
 
     /**
      * TODO javadoc
      */
-    public boolean isCompatibleWith(RmProtocolVersion version);
+    boolean isCompatibleWith(RmProtocolVersion version);
     
     /**
      * TODO javadoc
      */
-    public @NotNull ReliableMessagingFeatureBuilder update(@NotNull ReliableMessagingFeatureBuilder builder);
+    @NotNull ReliableMessagingFeatureBuilder update(@NotNull ReliableMessagingFeatureBuilder builder);
 
     // TODO need to solve the backwards translation but it should be via a static method
     //public PolicyAssertion createFrom(ReliableMessagingFeature feature);

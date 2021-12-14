@@ -135,7 +135,7 @@ public class HandlerType
      */
     public List<DescriptionType> getDescription() {
         if (description == null) {
-            description = new ArrayList<DescriptionType>();
+            description = new ArrayList<>();
         }
         return this.description;
     }
@@ -164,7 +164,7 @@ public class HandlerType
      */
     public List<DisplayNameType> getDisplayName() {
         if (displayName == null) {
-            displayName = new ArrayList<DisplayNameType>();
+            displayName = new ArrayList<>();
         }
         return this.displayName;
     }
@@ -193,7 +193,7 @@ public class HandlerType
      */
     public List<IconType> getIcon() {
         if (icon == null) {
-            icon = new ArrayList<IconType>();
+            icon = new ArrayList<>();
         }
         return this.icon;
     }
@@ -270,7 +270,7 @@ public class HandlerType
      */
     public List<ParamValueType> getInitParam() {
         if (initParam == null) {
-            initParam = new ArrayList<ParamValueType>();
+            initParam = new ArrayList<>();
         }
         return this.initParam;
     }
@@ -299,7 +299,7 @@ public class HandlerType
      */
     public List<XsdQNameType> getSoapHeader() {
         if (soapHeader == null) {
-            soapHeader = new ArrayList<XsdQNameType>();
+            soapHeader = new ArrayList<>();
         }
         return this.soapHeader;
     }
@@ -328,7 +328,7 @@ public class HandlerType
      */
     public List<com.sun.xml.ws.config.metro.parser.jsr109.String> getSoapRole() {
         if (soapRole == null) {
-            soapRole = new ArrayList<com.sun.xml.ws.config.metro.parser.jsr109.String>();
+            soapRole = new ArrayList<>();
         }
         return this.soapRole;
     }
@@ -357,7 +357,7 @@ public class HandlerType
      */
     public List<com.sun.xml.ws.config.metro.parser.jsr109.String> getPortName() {
         if (portName == null) {
-            portName = new ArrayList<com.sun.xml.ws.config.metro.parser.jsr109.String>();
+            portName = new ArrayList<>();
         }
         return this.portName;
     }
@@ -386,6 +386,7 @@ public class HandlerType
         this.id = value;
     }
 
+    @Override
     public Locator sourceLocation() {
         return locator;
     }

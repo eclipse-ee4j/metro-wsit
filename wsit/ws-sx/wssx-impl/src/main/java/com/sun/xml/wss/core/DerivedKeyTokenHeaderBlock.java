@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -45,9 +45,6 @@ public class DerivedKeyTokenHeaderBlock extends SecurityHeaderBlockImpl implemen
     
     /**
      *
-     * @param element
-     * @return
-     * @throws XWSSecurityException
      */
     public static SecurityHeaderBlock fromSoapElement(SOAPElement element)
     throws XWSSecurityException {
@@ -208,6 +205,7 @@ public class DerivedKeyTokenHeaderBlock extends SecurityHeaderBlockImpl implemen
         }
     }
     
+    @Override
     public SOAPElement getAsSoapElement() throws XWSSecurityException {
         if ( delegateElement != null )
             return delegateElement;
@@ -284,10 +282,12 @@ public class DerivedKeyTokenHeaderBlock extends SecurityHeaderBlockImpl implemen
         return securityTokenRefElement;
     }
 
+    @Override
     public String getType() {
         return MessageConstants.DERIVEDKEY_TOKEN_NS;
     }
                                                                                                                                     
+    @Override
     public Object getTokenValue() {
         return this;
     }

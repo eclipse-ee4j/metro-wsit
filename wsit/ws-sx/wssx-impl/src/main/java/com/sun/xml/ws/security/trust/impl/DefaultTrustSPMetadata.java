@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -25,7 +25,7 @@ public class DefaultTrustSPMetadata implements TrustSPMetadata{
     private String tokenType;
     private String keyType;
     private String certAlias;
-    private Map<String, Object> otherOptions = new HashMap<String, Object>();
+    private Map<String, Object> otherOptions = new HashMap<>();
         
     /** Creates a new instance of DefaultTrustSPMetedata */
     public DefaultTrustSPMetadata(String endpoint) {
@@ -36,6 +36,7 @@ public class DefaultTrustSPMetadata implements TrustSPMetadata{
         this.certAlias = certAlias;
     }
         
+    @Override
     public String getCertAlias(){
         return this.certAlias;
     }
@@ -44,6 +45,7 @@ public class DefaultTrustSPMetadata implements TrustSPMetadata{
         this.tokenType = tokenType;
     }
     
+     @Override
      public String getTokenType(){
         return this.tokenType;
     }
@@ -52,10 +54,12 @@ public class DefaultTrustSPMetadata implements TrustSPMetadata{
         this.keyType = keyType;
     }
     
+    @Override
     public String getKeyType(){
         return this.keyType;
     }
     
+    @Override
     public Map<String, Object> getOtherOptions(){
         return this.otherOptions;
     }

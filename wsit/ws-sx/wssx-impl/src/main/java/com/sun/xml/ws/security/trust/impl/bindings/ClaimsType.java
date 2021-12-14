@@ -29,8 +29,6 @@ import jakarta.xml.bind.annotation.XmlAnyElement;
 import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlType;
 import javax.xml.namespace.QName;
-import com.sun.xml.ws.security.trust.impl.bindings.ClaimsType;
-import org.w3c.dom.Element;
 
 
 /**
@@ -64,7 +62,7 @@ public class ClaimsType {
     @XmlAttribute(name = "Dialect")
     protected String dialect;
     @XmlAnyAttribute
-    private Map<QName, String> otherAttributes = new HashMap<QName, String>();
+    private Map<QName, String> otherAttributes = new HashMap<>();
 
     /**
      * Gets the value of the any property.
@@ -91,7 +89,7 @@ public class ClaimsType {
      */
     public List<Object> getAny() {
         if (any == null) {
-            any = new ArrayList<Object>();
+            any = new ArrayList<>();
         }
         return this.any;
     }

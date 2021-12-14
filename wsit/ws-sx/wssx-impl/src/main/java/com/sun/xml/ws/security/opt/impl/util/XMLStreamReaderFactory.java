@@ -41,7 +41,7 @@ public class XMLStreamReaderFactory {
     /**
      * Zephyr's stream reader for each thread.
      */
-    static final ThreadLocal<XMLStreamReader> xmlStreamReader = new ThreadLocal<XMLStreamReader>();
+    static final ThreadLocal<XMLStreamReader> xmlStreamReader = new ThreadLocal<>();
     
     static {
         // Use StAX pluggability layer to get factory instance

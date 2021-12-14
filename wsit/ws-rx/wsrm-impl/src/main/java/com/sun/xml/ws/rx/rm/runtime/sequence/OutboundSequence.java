@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -36,6 +36,7 @@ public final class OutboundSequence extends AbstractSequence {
         super(data, deliveryQueueBuilder, timeSynchronizer);
     }
 
+    @Override
     public void registerMessage(ApplicationMessage message, boolean storeMessageFlag) throws DuplicateMessageRegistrationException, AbstractSoapFaultException {
         this.getState().verifyAcceptingMessageRegistration(getId(), Code.Sender);
 
@@ -51,7 +52,7 @@ public final class OutboundSequence extends AbstractSequence {
         }
     }
 
-    private long generateNextMessageId() throws MessageNumberRolloverException, IllegalStateException, DuplicateMessageRegistrationException {
+    private long generateNextMessageId() throws MessageNumberRolloverException, IllegalStateException {
         long nextId = data.incrementAndGetLastMessageNumber(true);
 
         if (nextId > Sequence.MAX_MESSAGE_ID) {
@@ -61,11 +62,13 @@ public final class OutboundSequence extends AbstractSequence {
         return nextId;
     }
 
+    @Override
     public void acknowledgeMessageNumber(long messageId) {
         throw new UnsupportedOperationException(LocalizationMessages.WSRM_1101_UNSUPPORTED_OPERATION(this.getClass().getName()));
     }
 
-    public void acknowledgeMessageNumbers(List<AckRange> ranges) throws InvalidAcknowledgementException, AbstractSoapFaultException {
+    @Override
+    public void acknowledgeMessageNumbers(List<AckRange> ranges) throws AbstractSoapFaultException {
         this.getState().verifyAcceptingAcknowledgement(getId(), Code.Sender);
 
         if (ranges == null || ranges.isEmpty()) {

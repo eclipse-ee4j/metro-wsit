@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -31,14 +31,17 @@ public class ParticipantsImpl extends ParticipantsType implements Participants {
     public ParticipantsImpl(ParticipantsType psType){
         //ToDo
     }
+    @Override
     public List<Participant> getParticipants() {
         return null;
     }
 
+    @Override
     public Participant getPrimaryParticipant() {
         return (Participant)getPrimary();
     }
 
+    @Override
     public void setPrimaryParticipant(final Participant primary) {
         setPrimary((ParticipantType) primary);
     }

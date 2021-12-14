@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -25,7 +25,7 @@ import jakarta.xml.ws.WebServiceContext;
  */
 public class CoordinatorTest extends TestCase {
 
-   public void testAll() throws Exception {
+   public void testAll() {
       WebServiceContext context = null;
       final Xid m_xid = new XidStub(true);
       final WSATXAResourceStub wsatXAResourceStub = WSATXAResourceTest.createStubWSATXAResourceForXid(m_xid);

@@ -133,7 +133,6 @@ public class KeyInfoHeaderBlock  extends SecurityHeaderBlockImpl {
     /**
      * Method addKeyName.
      *
-     * @param keynameString
      */
     public void addKeyName(String keynameString) {
         delegateKeyInfo.addKeyName(keynameString);
@@ -143,7 +142,6 @@ public class KeyInfoHeaderBlock  extends SecurityHeaderBlockImpl {
     /**
      * Method addBinarySecret
      *
-     * @param binarySecret
      */
     public void addBinarySecret(SOAPElement binarySecret) {
         delegateKeyInfo.addUnknownElement(binarySecret);
@@ -153,7 +151,6 @@ public class KeyInfoHeaderBlock  extends SecurityHeaderBlockImpl {
     /**
      * Method add.
      *
-     * @param keyname
      */
     public void addKeyName(SOAPElement keyname) throws XWSSecurityException {
         try {
@@ -169,7 +166,6 @@ public class KeyInfoHeaderBlock  extends SecurityHeaderBlockImpl {
     /**
      * Method addKeyValue
      *
-     * @param pk
      */
     public void addKeyValue(PublicKey pk) {
         delegateKeyInfo.addKeyValue(pk);
@@ -179,7 +175,6 @@ public class KeyInfoHeaderBlock  extends SecurityHeaderBlockImpl {
     /**
      * Method addKeyValue
      *
-     * @param unknownKeyValueElement
      */
     public void addUnknownKeyValue(SOAPElement unknownKeyValueElement) {
         delegateKeyInfo.addKeyValue(unknownKeyValueElement);
@@ -189,7 +184,6 @@ public class KeyInfoHeaderBlock  extends SecurityHeaderBlockImpl {
     /**
      * Method add
      *
-     * @param dsakeyvalue
      */
     public void addDSAKeyValue(SOAPElement dsakeyvalue) 
         throws XWSSecurityException{
@@ -208,7 +202,6 @@ public class KeyInfoHeaderBlock  extends SecurityHeaderBlockImpl {
     /**
      * Method add
      *
-     * @param rsakeyvalue
      */
     public void addRSAKeyValue(SOAPElement rsakeyvalue) 
         throws XWSSecurityException{
@@ -227,7 +220,6 @@ public class KeyInfoHeaderBlock  extends SecurityHeaderBlockImpl {
     /**
      * Method addKeyValue
      *
-     * @param keyvalue
      */
     public void addKeyValue(SOAPElement keyvalue) 
         throws XWSSecurityException {
@@ -246,7 +238,6 @@ public class KeyInfoHeaderBlock  extends SecurityHeaderBlockImpl {
     /**
      * Method addMgmtData
      *
-     * @param mgmtdata
      */
     public void addMgmtData(String mgmtdata) {
         delegateKeyInfo.addMgmtData(mgmtdata);
@@ -256,7 +247,6 @@ public class KeyInfoHeaderBlock  extends SecurityHeaderBlockImpl {
     /**
      * Method add
      *
-     * @param mgmtdata
      */
     public void addMgmtData(SOAPElement mgmtdata)
         throws XWSSecurityException {
@@ -272,7 +262,6 @@ public class KeyInfoHeaderBlock  extends SecurityHeaderBlockImpl {
     /**
      * Method addPGPData
      *
-     * @param pgpdata
      */
     public void addPGPData(SOAPElement pgpdata)
         throws XWSSecurityException {
@@ -288,9 +277,6 @@ public class KeyInfoHeaderBlock  extends SecurityHeaderBlockImpl {
     /**
      * Method addRetrievalMethod
      *
-     * @param URI
-     * @param transforms
-     * @param type
      */
     public void addRetrievalMethod(String URI, Transforms transforms,
         String type) {
@@ -301,7 +287,6 @@ public class KeyInfoHeaderBlock  extends SecurityHeaderBlockImpl {
     /**
      * Method addRetrievalMethod
      *
-     * @param retrievalmethod
      */
     public void addRetrievalMethod(SOAPElement retrievalmethod)
         throws XWSSecurityException {
@@ -317,7 +302,6 @@ public class KeyInfoHeaderBlock  extends SecurityHeaderBlockImpl {
     /**
      * Method add
      *
-     * @param spkidata
      */
     public void addSPKIData(SOAPElement spkidata) throws XWSSecurityException {
         try {
@@ -332,8 +316,6 @@ public class KeyInfoHeaderBlock  extends SecurityHeaderBlockImpl {
     /**
      * Method addX509Data
      *
-     * @param x509data
-     * @throws XWSSecurityException
      */
     public void addX509Data(SOAPElement x509data) throws XWSSecurityException {
         try {
@@ -349,7 +331,6 @@ public class KeyInfoHeaderBlock  extends SecurityHeaderBlockImpl {
     /**
      * Method addUnknownElement
      *
-     * @param element
      */
     public void addUnknownElement(SOAPElement element) {
         delegateKeyInfo.addUnknownElement(element);
@@ -434,7 +415,6 @@ public class KeyInfoHeaderBlock  extends SecurityHeaderBlockImpl {
      * @param index
      * 0 is the lowest index
      *
-     * @throws XWSSecurityException
      */
     public SOAPElement getKeyName(int index) throws XWSSecurityException {
         try {
@@ -451,7 +431,6 @@ public class KeyInfoHeaderBlock  extends SecurityHeaderBlockImpl {
      * @param index
      * 0 is the lowest index 
      *
-     * @throws XWSSecurityException
      */
     public String getKeyNameString(int index) throws XWSSecurityException {
         try {
@@ -468,7 +447,6 @@ public class KeyInfoHeaderBlock  extends SecurityHeaderBlockImpl {
      * @param index
      * 0 is the lowest index
      *
-     * @throws XWSSecurityException
      */
     public SOAPElement getKeyValueElement(int index) throws XWSSecurityException {
         try {
@@ -484,7 +462,6 @@ public class KeyInfoHeaderBlock  extends SecurityHeaderBlockImpl {
      * @param index
      * 0 is the lowest index
      *
-     * @throws XWSSecurityException
      */
     public KeyValue getKeyValue(int index) throws XWSSecurityException {
         try {
@@ -503,7 +480,6 @@ public class KeyInfoHeaderBlock  extends SecurityHeaderBlockImpl {
      * @param index
      * 0 is the lowest index 
      *
-     * @throws XWSSecurityException
      */
     public SOAPElement getMgmtData(int index) throws XWSSecurityException {
         try {
@@ -519,7 +495,6 @@ public class KeyInfoHeaderBlock  extends SecurityHeaderBlockImpl {
      * @param index
      * 0 is the lowest index
      *
-     * @throws XWSSecurityException
      */
     public SOAPElement getPGPData(int index) throws XWSSecurityException {
         try {
@@ -535,7 +510,6 @@ public class KeyInfoHeaderBlock  extends SecurityHeaderBlockImpl {
      * @param index
      * 0 is the lowest index 
      *
-     * @throws XWSSecurityException
      */
     public SOAPElement getRetrievalMethod(int index)
            throws XWSSecurityException {
@@ -553,7 +527,6 @@ public class KeyInfoHeaderBlock  extends SecurityHeaderBlockImpl {
      * @param index
      * 0 is the lowest index 
      *
-     * @throws XWSSecurityException
      */
     public SOAPElement getSPKIData(int index) throws XWSSecurityException {
         try {
@@ -569,7 +542,6 @@ public class KeyInfoHeaderBlock  extends SecurityHeaderBlockImpl {
      * @param index
      * 0 is the lowest index
      *
-     * @throws XWSSecurityException
      */
     public SOAPElement getX509DataElement(int index) throws XWSSecurityException {
         try {
@@ -585,7 +557,6 @@ public class KeyInfoHeaderBlock  extends SecurityHeaderBlockImpl {
      * @param index
      * 0 is the lowest index
      *
-     * @throws XWSSecurityException
      */
     public X509Data getX509Data(int index) throws XWSSecurityException {
         try {
@@ -699,7 +670,6 @@ public class KeyInfoHeaderBlock  extends SecurityHeaderBlockImpl {
     /**
      * Method addSecurityTokenReference
      *
-     * @param reference
      */
     public void addSecurityTokenReference(SecurityTokenReference reference) 
         throws XWSSecurityException {
@@ -709,10 +679,6 @@ public class KeyInfoHeaderBlock  extends SecurityHeaderBlockImpl {
 
     /**
      * Method getSecurityTokenReference
-     *
-     * @param index
-     *
-     * @throws XWSSecurityException
      *
      * @return the index^th token reference element from the KeyInfo
      *         0 is the lowest index.
@@ -778,10 +744,8 @@ public class KeyInfoHeaderBlock  extends SecurityHeaderBlockImpl {
     /**
      * Method addEncryptedKey
      *
-     * @param reference
      */
-    public void addEncryptedKey(EncryptedKeyToken reference) 
-        throws XWSSecurityException {
+    public void addEncryptedKey(EncryptedKeyToken reference) {
         delegateKeyInfo.addUnknownElement(reference.getAsSoapElement());
         dirty = true;
     }
@@ -789,15 +753,10 @@ public class KeyInfoHeaderBlock  extends SecurityHeaderBlockImpl {
     /**
      * Method getEncryptedKey
      *
-     * @param index
-     *
-     * @throws XWSSecurityException
-     *
      * @return the index^th token reference element from the KeyInfo
      *         0 is the lowest index.
      */
-    public EncryptedKeyToken getEncryptedKey(int index)
-        throws XWSSecurityException {
+    public EncryptedKeyToken getEncryptedKey(int index) {
         org.w3c.dom.Element delegateElement = delegateKeyInfo.getElement();
         int res = 0;
         NodeList nl = delegateElement.getChildNodes();
@@ -930,6 +889,7 @@ public class KeyInfoHeaderBlock  extends SecurityHeaderBlockImpl {
      *
      * @return the id
      */
+    @Override
     public String getId() {
        return delegateKeyInfo.getId();
     }
@@ -959,6 +919,7 @@ public class KeyInfoHeaderBlock  extends SecurityHeaderBlockImpl {
      *     If owner soap document is not set.
      * @see #setDocument(Document)
      */
+    @Override
     public SOAPElement getAsSoapElement() throws XWSSecurityException {
         if (document == null) {
             throw new XWSSecurityException("Document not set");

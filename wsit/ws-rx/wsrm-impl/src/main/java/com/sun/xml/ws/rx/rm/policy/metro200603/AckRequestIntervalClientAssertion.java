@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -23,9 +23,10 @@ import java.util.Collection;
 import javax.xml.namespace.QName;
 
 /**
+ * <pre>{@code
  * <sunc:AckRequestInterval Milliseconds="..." />
- */
-/**
+ * }</pre>
+ *
  * Defines the suggested minimum time that the sender (RM Source) should allow to
  * elapse between sending consecutive Acknowledgement request messages to the
  * RM Destination.
@@ -37,6 +38,7 @@ public class AckRequestIntervalClientAssertion extends SimpleAssertion implement
     private static final QName MILLISECONDS_ATTRIBUTE_QNAME = new QName("", "Milliseconds");
 
     private static AssertionInstantiator instantiator = new AssertionInstantiator() {
+        @Override
         public PolicyAssertion newInstance(AssertionData data, Collection<PolicyAssertion> assertionParameters, AssertionSet nestedAlternative) {
             return new AckRequestIntervalClientAssertion(data, assertionParameters);
         }
@@ -58,11 +60,13 @@ public class AckRequestIntervalClientAssertion extends SimpleAssertion implement
         return interval;
     }
 
+    @Override
     public ReliableMessagingFeatureBuilder update(ReliableMessagingFeatureBuilder builder) {
         return builder.ackRequestTransmissionInterval(interval);
     }
 
 
+    @Override
     public boolean isCompatibleWith(RmProtocolVersion version) {
         return RmProtocolVersion.WSRM200502 == version;
     }

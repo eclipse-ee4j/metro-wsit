@@ -45,8 +45,8 @@ public class JAXBStructure implements javax.xml.crypto.XMLStructure {
     }
 
     /**
-     * @throws NullPointerException
      */
+    @Override
     public boolean isFeatureSupported(String feature) {
         if (feature == null) {
             throw new NullPointerException();

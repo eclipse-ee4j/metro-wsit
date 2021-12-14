@@ -63,17 +63,17 @@ public class SessionManagerImpl extends SessionManager {
      * Map of session id --> session
      */
     private Map<String, Session> sessionMap
-            = new HashMap<String, Session>();
+            = new HashMap<>();
     /**
      * Map of SecurityContextId --> IssuedTokenContext
      */
     private Map<String, IssuedTokenContext> issuedTokenContextMap
-            = new HashMap<String, IssuedTokenContext>();
+            = new HashMap<>();
     /**
      * Map of wsu:Instance --> SecurityContextTokenInfo
      */
     private Map<String, SecurityContextTokenInfo> securityContextTokenInfoMap
-            = new HashMap<String, SecurityContextTokenInfo>();
+            = new HashMap<>();
 
     private final BackingStore<StickyKey, HASecurityContextTokenInfo> sctBs;
     
@@ -105,6 +105,7 @@ public class SessionManagerImpl extends SessionManager {
      * @param key The Session key.
      * @return The Session with the given key.  <code>null</code> if none exists.
      */
+    @Override
     public Session  getSession(String key) {
         Session session = sessionMap.get(key);
         if (session == null && HighAvailabilityProvider.INSTANCE.isHaEnvironmentConfigured() && sctBs != null){
@@ -121,10 +122,12 @@ public class SessionManagerImpl extends SessionManager {
      *
      * @return The Set of keys.
      */
+    @Override
     public Set<String> keys() {
         return sessionMap.keySet();
     }
 
+    @Override
     protected Collection<Session> sessions() {
         return sessionMap.values();
     }
@@ -134,6 +137,7 @@ public class SessionManagerImpl extends SessionManager {
      *
      * @param key The key of the Session to be removed.
      */
+    @Override
     public void terminateSession(String key) {
         sessionMap.remove(key);
         if (HighAvailabilityProvider.INSTANCE.isHaEnvironmentConfigured() && sctBs != null){
@@ -151,6 +155,7 @@ public class SessionManagerImpl extends SessionManager {
      * class cannot be instantiated.
      * 
      */ 
+    @Override
     public  Session createSession(String key, Class clasz) {
         //Issue 17328 - clear expired sessions after timeout
         Properties props = getConfig();
@@ -171,12 +176,10 @@ public class SessionManagerImpl extends SessionManager {
         Session sess;
         try {
             sess = new Session(this, key, clasz.newInstance());
-        } catch (InstantiationException e) {
-            return null;
-        } catch (IllegalAccessException ee) {
+        } catch (InstantiationException | IllegalAccessException e) {
             return null;
         }
-        
+
         sessionMap.put(key, sess);
         return sess;
         
@@ -192,6 +195,7 @@ public class SessionManagerImpl extends SessionManager {
      * @return The new Session. 
      * 
      */ 
+    @Override
     public Session createSession(String key, Object obj) {
         Session session = new Session(this, key, Collections.synchronizedMap(new HashMap<String, String>()));
         sessionMap.put(key, session);
@@ -199,7 +203,8 @@ public class SessionManagerImpl extends SessionManager {
         return session;
     }
     
-    public Session createSession(String key, SecurityContextTokenInfo sctInfo) {  
+    @Override
+    public Session createSession(String key, SecurityContextTokenInfo sctInfo) {
         Session session = new Session(this, key, Collections.synchronizedMap(new HashMap<String, String>()));
         session.setSecurityInfo(sctInfo);
         sessionMap.put(key, session);
@@ -227,7 +232,8 @@ public class SessionManagerImpl extends SessionManager {
      * @return The new Session.
      * 
      */ 
-    public Session createSession(String key) {   
+    @Override
+    public Session createSession(String key) {
        return createSession(key, Collections.synchronizedMap(new HashMap<String, String>()));
     }
     
@@ -237,6 +243,7 @@ public class SessionManagerImpl extends SessionManager {
      *
      * @param key The key of the session to be saved
      */
+    @Override
     public void saveSession(String key) {
     }
 
@@ -247,6 +254,7 @@ public class SessionManagerImpl extends SessionManager {
      * @return IssuedTokenContext for security context key
      */
     
+    @Override
     public IssuedTokenContext getSecurityContext(String key, boolean checkExpiry){
         IssuedTokenContext ctx = issuedTokenContextMap.get(key);        
         if(ctx == null){
@@ -302,6 +310,7 @@ public class SessionManagerImpl extends SessionManager {
      * @param key The key of the security context to be stored
      * @param itctx The IssuedTokenContext to be stored
      */
+    @Override
     public void addSecurityContext(String key, IssuedTokenContext itctx){
         issuedTokenContextMap.put(key, itctx);
         SecurityContextTokenInfo sctInfo = itctx.getSecurityContextTokenInfo();
@@ -318,7 +327,7 @@ public class SessionManagerImpl extends SessionManager {
         String extId = null;
         String instance = null;
         byte[] secret = null;
-        Map<String, byte[]> secretMap = new HashMap<String, byte[]>();
+        Map<String, byte[]> secretMap = new HashMap<>();
         Date creationTime = null;
         Date expirationTime = null;
 
@@ -340,10 +349,12 @@ public class SessionManagerImpl extends SessionManager {
         }
 
     
+        @Override
         public String getIdentifier() {
             return identifier;
         }
     
+        @Override
         public void setIdentifier(final String identifier) {
             this.identifier = identifier;
         }
@@ -351,32 +362,39 @@ public class SessionManagerImpl extends SessionManager {
         /*
          * external Id corresponds to the wsu Id on the token.
          */
+        @Override
         public String getExternalId() {
             return extId;
         }
 
+        @Override
         public void setExternalId(final String externalId) {
             this.extId = externalId;
         }
     
+        @Override
         public String getInstance() {
             return instance;
         }
 
+        @Override
         public void setInstance(final String instance) {
             this.instance = instance;
         }
 
+        @Override
         public byte[] getSecret() {
             byte [] newSecret = new byte[secret.length];
             System.arraycopy(secret,0,newSecret,0,secret.length);
             return newSecret;
         }
 
+        @Override
         public byte[] getInstanceSecret(final String instance) {
             return secretMap.get(instance);
         }
 
+        @Override
         public void addInstance(final String instance, final byte[] key) {
             byte [] newKey = new byte[key.length];
             System.arraycopy(key,0,newKey,0,key.length);
@@ -387,26 +405,32 @@ public class SessionManagerImpl extends SessionManager {
             }
         }
     
+        @Override
         public Date getCreationTime() {
             return new Date(creationTime.getTime());
         }
 
+        @Override
         public void setCreationTime(final Date creationTime) {
             this.creationTime = new Date(creationTime.getTime());
         }
 
+        @Override
         public Date getExpirationTime() {
             return new Date(expirationTime.getTime());
         }
 
+        @Override
         public void setExpirationTime(final Date expirationTime) {
             this.expirationTime = new Date(expirationTime.getTime());
         }
 
+        @Override
         public Set getInstanceKeys() {
           return secretMap.keySet();
         }
     
+        @Override
         public IssuedTokenContext getIssuedTokenContext() {
 
             final IssuedTokenContext itc = new HAIssuedTokenContext();
@@ -418,6 +442,7 @@ public class SessionManagerImpl extends SessionManager {
             return itc;
         }
 
+        @Override
         public IssuedTokenContext getIssuedTokenContext(SecurityTokenReference reference) {
             return null;
         }
@@ -437,7 +462,7 @@ public class SessionManagerImpl extends SessionManager {
         Token associatedProofToken = null;
         Token secTokenReference = null;
         Token unAttachedSecTokenReference = null;
-        ArrayList<Object> securityPolicies = new ArrayList<Object>();
+        ArrayList<Object> securityPolicies = new ArrayList<>();
         Object otherPartyEntropy = null;
         Object selfEntropy = null;
         URI computedKeyAlgorithm;
@@ -460,90 +485,111 @@ public class SessionManagerImpl extends SessionManager {
         String tokenIssuer = null;
         Token target = null;
 
-        Map<String, Object> otherProps = new HashMap<String, Object>();
+        Map<String, Object> otherProps = new HashMap<>();
 
+        @Override
         public X509Certificate getRequestorCertificate() {
             return x509Certificate;
         }
 
+        @Override
         public void setRequestorCertificate(X509Certificate cert) {
             this.x509Certificate = cert;
         }
 
+        @Override
         public Subject getRequestorSubject(){
             return subject;
         }
 
+        @Override
         public void setRequestorSubject(Subject subject){
             this.subject = subject;
         }
 
+        @Override
         public String getRequestorUsername() {
             return username;
         }
 
+        @Override
         public void setRequestorUsername(String username) {
             this.username = username;
         }
 
 
+        @Override
         public void setSecurityToken(Token securityToken) {
             this.securityToken = securityToken;
         }
 
+        @Override
         public Token getSecurityToken() {
             return securityToken;
         }
 
+        @Override
         public void setAssociatedProofToken(Token associatedProofToken) {
             this.associatedProofToken = associatedProofToken;
         }
 
+        @Override
         public Token getAssociatedProofToken() {
             return associatedProofToken;
         }
 
+        @Override
         public Token getAttachedSecurityTokenReference() {
             return secTokenReference;
         }
 
+        @Override
         public void setAttachedSecurityTokenReference(Token secTokenReference) {
             this.secTokenReference = secTokenReference;
         }
 
+        @Override
         public Token getUnAttachedSecurityTokenReference() {
             return unAttachedSecTokenReference;
         }
 
+        @Override
         public void setUnAttachedSecurityTokenReference(Token secTokenReference) {
             this.unAttachedSecTokenReference = secTokenReference;
         }
 
+        @Override
         public ArrayList<Object> getSecurityPolicy() {
             return securityPolicies;
         }
 
+        @Override
         public void setOtherPartyEntropy(Object otherPartyEntropy) {
             this.otherPartyEntropy = otherPartyEntropy;
         }
 
+        @Override
         public Object getOtherPartyEntropy() {
             return otherPartyEntropy;
         }
 
-        public Key getDecipheredOtherPartyEntropy(Key privKey) throws XWSSecurityException {
+        @Override
+        public Key getDecipheredOtherPartyEntropy(Key privKey) {
             return null;
         }
 
+        @Override
         public void setSelfEntropy(Object selfEntropy) {
             this.selfEntropy = selfEntropy;
         }
 
+        @Override
         public Object getSelfEntropy() {
             return selfEntropy;
         }
 
 
+        @Override
         public URI getComputedKeyAlgorithmFromProofToken() {
             return computedKeyAlgorithm;
         }
@@ -552,42 +598,52 @@ public class SessionManagerImpl extends SessionManager {
             this.computedKeyAlgorithm = computedKeyAlgorithm;
         }
 
+        @Override
         public void setProofKey(byte[] key){
             this.proofKey = key;
         }
 
+        @Override
         public byte[] getProofKey() {
             return proofKey;
         }
 
+        @Override
         public void setProofKeyPair(KeyPair keys){
             this.proofKeyPair = keys;
         }
 
+        @Override
         public KeyPair getProofKeyPair(){
             return this.proofKeyPair;
         }
 
+        @Override
         public void setAuthnContextClass(String authType){
             this.authType = authType;
         }
 
+        @Override
         public String getAuthnContextClass(){
             return this.authType;
         }
 
+        @Override
         public Date getCreationTime() {
             return creationTime;
         }
 
+        @Override
         public Date getExpirationTime() {
             return expiryTime;
         }
 
+        @Override
         public void setCreationTime(Date date) {
             creationTime = date;
         }
 
+        @Override
         public void  setExpirationTime(Date date) {
             expiryTime = date;
         }
@@ -595,6 +651,7 @@ public class SessionManagerImpl extends SessionManager {
         /**
          * set the endpointaddress
          */
+        @Override
         public void  setEndpointAddress(String endPointAddress){
             this.endPointAddress = endPointAddress;
         }
@@ -602,102 +659,127 @@ public class SessionManagerImpl extends SessionManager {
         /**
          *get the endpoint address
          */
+        @Override
         public String getEndpointAddress(){
             return this.endPointAddress;
         }
 
+        @Override
         public void destroy() {
 
         }
 
+        @Override
         public SecurityContextTokenInfo getSecurityContextTokenInfo() {
             return sctInfo;
         }
 
+        @Override
         public void setSecurityContextTokenInfo(SecurityContextTokenInfo sctInfo) {
             this.sctInfo = sctInfo;
         }
 
+        @Override
         public Map<String, Object> getOtherProperties() {
             return this.otherProps;
         }
 
+        @Override
         public void setTokenType(String tokenType) {
             this.tokenType = tokenType;
         }
 
+        @Override
         public String getTokenType() {
             return tokenType;
         }
 
+        @Override
         public void setKeyType(String keyType) {
             this.keyType = keyType;
         }
 
+        @Override
         public String getKeyType() {
             return keyType;
         }
 
+        @Override
         public void setAppliesTo(String appliesTo) {
             this.endPointAddress = appliesTo;
         }
 
+        @Override
         public String getAppliesTo() {
             return endPointAddress;
         }
 
+        @Override
         public void setTokenIssuer(String issuer) {
             this.tokenIssuer = issuer;
         }
 
+        @Override
         public String getTokenIssuer() {
             return tokenIssuer;
         }
 
+        @Override
         public void setSignatureAlgorithm(String sigAlg){
             this.sigAlgorithm = sigAlg;
         }
 
+        @Override
         public String getSignatureAlgorithm(){
             return sigAlgorithm;
         }
 
+        @Override
         public void setEncryptionAlgorithm(String encAlg){
             this.encAlgorithm = encAlg;
         }
 
+        @Override
         public String getEncryptionAlgorithm(){
             return encAlgorithm;
         }
 
+        @Override
         public void setCanonicalizationAlgorithm(String canonAlg){
             this.canonicalizationAlgorithm = canonAlg;
         }
 
+        @Override
         public String getCanonicalizationAlgorithm(){
             return canonicalizationAlgorithm;
         }
 
+        @Override
         public void setSignWith(String signWithAlgo){
             this.signWith = signWithAlgo;
         }
 
+        @Override
         public String getSignWith(){
             return signWith;
         }    
 
+        @Override
         public void setEncryptWith(String encryptWithAlgo){
             this.encryptWith = encryptWithAlgo;
         }
 
+        @Override
         public String getEncryptWith(){
             return encryptWith;
         }
 
+        @Override
         public void setTarget(Token target) {
             this.target = target;
         }
 
+        @Override
         public Token getTarget() {
             return target;
         }

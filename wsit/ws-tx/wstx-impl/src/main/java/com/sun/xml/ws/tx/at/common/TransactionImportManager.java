@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -83,11 +83,7 @@ public class TransactionImportManager implements TransactionImportWrapper {
             try {
                 Object result = method.invoke(tmInstance, args);
                 return returnTypeCaster.cast(result);
-            } catch (IllegalAccessException ex) {
-                throw new RuntimeException(ex);
-            } catch (IllegalArgumentException ex) {
-                throw new RuntimeException(ex);
-            } catch (InvocationTargetException ex) {
+            } catch (IllegalAccessException | InvocationTargetException | IllegalArgumentException ex) {
                 throw new RuntimeException(ex);
             }
         }
@@ -116,28 +112,28 @@ public class TransactionImportManager implements TransactionImportWrapper {
     private TransactionImportManager(TransactionManager tm) {
         javaeeTM = tm;
 
-        this.recreate = new MethodInfo<Void>(
+        this.recreate = new MethodInfo<>(
                 "recreate",
                 new Class<?>[]{Xid.class, long.class},
                 void.class);
-        this.release = new MethodInfo<Void>(
+        this.release = new MethodInfo<>(
                 "release",
                 new Class<?>[]{Xid.class},
                 void.class);
-        this.getXATerminator = new MethodInfo<XATerminator>(
+        this.getXATerminator = new MethodInfo<>(
                 "getXATerminator",
                 new Class<?>[]{},
                 XATerminator.class);
-        this.getTransactionRemainingTimeout = new MethodInfo<Integer>(
+        this.getTransactionRemainingTimeout = new MethodInfo<>(
                 "getTransactionRemainingTimeout",
                 new Class<?>[]{},
                 int.class,
                 Integer.class);
-        this.getTxLogLocation = new MethodInfo<String>(
+        this.getTxLogLocation = new MethodInfo<>(
                 "getTxLogLocation",
                 new Class<?>[]{},
                 String.class);
-        registerRecoveryResourceHandler = new MethodInfo<Void>(
+        registerRecoveryResourceHandler = new MethodInfo<>(
                 "registerRecoveryResourceHandler",
                 new Class<?>[]{XAResource.class},
                 void.class);
@@ -182,6 +178,7 @@ public class TransactionImportManager implements TransactionImportWrapper {
     /**
      * ${@inheritDoc }
      */
+    @Override
     public void recreate(final Xid xid, final long timeout) {
         recreate.invoke(javaeeTM, xid, timeout);
     }
@@ -189,6 +186,7 @@ public class TransactionImportManager implements TransactionImportWrapper {
     /**
      * ${@inheritDoc }
      */
+    @Override
     public void release(final Xid xid) {
         release.invoke(javaeeTM, xid);
     }
@@ -196,6 +194,7 @@ public class TransactionImportManager implements TransactionImportWrapper {
     /**
      * ${@inheritDoc }
      */
+    @Override
     public XATerminator getXATerminator() {
         return getXATerminator.invoke(javaeeTM);
     }
@@ -203,7 +202,8 @@ public class TransactionImportManager implements TransactionImportWrapper {
     /**
      * ${@inheritDoc }
      */
-    public int getTransactionRemainingTimeout() throws SystemException {
+    @Override
+    public int getTransactionRemainingTimeout() {
         final String METHOD = "getTransactionRemainingTimeout";
         int result = 0;
         try {

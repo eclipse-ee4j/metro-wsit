@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -81,8 +81,7 @@ public class SecurityPolicyContainer implements SecurityPolicy {
      * @exception PolicyGenerationException
      */
     @SuppressWarnings("unchecked")
-    public Iterator getSecurityPolicies(StaticPolicyContext sCtx, DynamicPolicyContext dCtx)
-    throws PolicyGenerationException {
+    public Iterator getSecurityPolicies(StaticPolicyContext sCtx, DynamicPolicyContext dCtx) {
         ArrayList hs0 = (ArrayList)_ctx2PolicyMap.get(sCtx);
         
         ArrayList hs1 = new ArrayList();
@@ -114,6 +113,7 @@ public class SecurityPolicyContainer implements SecurityPolicy {
     /**
      * @return the type of the policy
      */
+    @Override
     public String getType() {
         return PolicyTypeUtil.SEC_POLICY_CONTAINER_TYPE;
     }

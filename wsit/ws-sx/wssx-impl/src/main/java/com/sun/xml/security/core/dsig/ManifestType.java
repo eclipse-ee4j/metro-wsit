@@ -88,7 +88,7 @@ public class ManifestType {
      */
     public List<ReferenceType> getReference() {
         if (reference == null) {
-            reference = new ArrayList<ReferenceType>();
+            reference = new ArrayList<>();
         }
         return this.reference;
     }
