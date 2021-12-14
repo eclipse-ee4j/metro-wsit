@@ -322,7 +322,8 @@ public class SessionManagerImpl extends SessionManager {
     }
     
     static class HASecurityContextTokenInfo implements SecurityContextTokenInfo{
-        
+
+        private static final long serialVersionUID = 1877856944264153552L;
         String identifier = null;
         String extId = null;
         String instance = null;

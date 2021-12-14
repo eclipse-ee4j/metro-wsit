@@ -98,7 +98,9 @@ public abstract class KeyIdentifierSPI {
        throws KeyIdentifierSPIException;
     
     protected static final class KeyIdentifierSPIException extends Exception {
-        
+
+        private static final long serialVersionUID = -9207910312279723431L;
+
         public KeyIdentifierSPIException(Exception ex) {
             this.initCause(ex);
         }

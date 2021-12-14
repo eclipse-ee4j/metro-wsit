@@ -40,8 +40,10 @@ public interface SAMLAssertionValidator {
         ;
 
         class SAMLValidationException extends Exception {
-                                                                                                                      
-        public SAMLValidationException(String message) {
+
+            private static final long serialVersionUID = -3676369249933497791L;
+
+            public SAMLValidationException(String message) {
             super(message);
         }
                                                                                                                       

@@ -1238,7 +1238,9 @@ attribute.getNamespaceURI().equals(MessageConstants.NAMESPACES_NS)) {
     public static final class WSSProvider extends Provider {
         private static final String INFO = "WSS_TRANSFORM " +
                 "(DOM WSS_TRANSFORM_PROVIDER)";
-         @SuppressWarnings("unchecked")
+        private static final long serialVersionUID = -6086707055770878680L;
+
+        @SuppressWarnings("unchecked")
         public WSSProvider() {
             /* We are the XMLDSig provider */
             super("WSS_TRANSFORM", 1.0, INFO);

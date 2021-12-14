@@ -301,6 +301,8 @@ public class PasswordValidationCallback extends XWSSCallback implements Callback
 
     public static class PasswordValidationException extends Exception {
 
+        private static final long serialVersionUID = 431043579458710413L;
+
         public PasswordValidationException(String message) {
             super(message);
         }

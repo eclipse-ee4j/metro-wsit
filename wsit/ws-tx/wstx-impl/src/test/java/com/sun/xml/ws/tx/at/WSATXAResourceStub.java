@@ -21,6 +21,7 @@ import jakarta.xml.ws.EndpointReference;
  * @author paulparkinson
  */
 public class WSATXAResourceStub extends WSATXAResource {
+    private static final long serialVersionUID = -7356253525810189180L;
     public int m_prepareReturn = XAResource.XA_OK;
     public String m_status;
 

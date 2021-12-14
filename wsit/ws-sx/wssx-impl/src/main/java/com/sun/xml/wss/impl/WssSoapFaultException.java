@@ -35,8 +35,9 @@ import jakarta.xml.soap.Detail;
 **/
 
 public class WssSoapFaultException extends java.lang.RuntimeException  {
-  
-  private QName faultcode;
+
+    private static final long serialVersionUID = -4650959130650330724L;
+    private QName faultcode;
   private String faultstring;
   private String faultactor;
   private Detail detail;

@@ -19,6 +19,7 @@ import org.glassfish.ha.store.api.HashableKey;
  */
 public class StickyKey implements HashableKey, Serializable {
 
+    private static final long serialVersionUID = 2295828085195381744L;
     final Serializable key;
     private final String hashKey;
 

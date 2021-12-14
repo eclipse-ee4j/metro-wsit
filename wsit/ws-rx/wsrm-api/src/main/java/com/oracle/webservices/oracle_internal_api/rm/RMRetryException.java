@@ -23,6 +23,7 @@ package com.oracle.webservices.oracle_internal_api.rm;
 public class RMRetryException
     extends Exception
 {
+    private static final long serialVersionUID = -7381285499489493236L;
 }
 
 // End of file.

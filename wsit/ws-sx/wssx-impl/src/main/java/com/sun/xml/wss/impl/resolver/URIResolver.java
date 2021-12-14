@@ -527,7 +527,9 @@ public class URIResolver extends ResourceResolverSpi {
         return engineCanResolve(rrc.attr, rrc.baseUri);
     }
 
-    private static final class URIResolverException extends Exception {};
+    private static final class URIResolverException extends Exception {
+        private static final long serialVersionUID = -509497777933987914L;
+    };
 
     private static final int ID_REFERENCE  = 0;
     private static final int CID_REFERENCE = 1;

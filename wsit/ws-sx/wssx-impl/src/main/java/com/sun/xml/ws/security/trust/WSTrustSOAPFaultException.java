@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -46,8 +46,8 @@ public class WSTrustSOAPFaultException extends RuntimeException {
     public static final String WS_TRUST_INVALID_SCOPE_FAULTSTRING = "The request scope is invalid or unsupported";
     public static final String WS_TRUST_RENEW_NEEDED_FAULTSTRING = "A renewable security token has expired";
     public static final String WS_TRUST_UNABLE_TO_RENEW_FAULTSTRING = "The requested renewal failed";
-    
-    
+    private static final long serialVersionUID = 6762407679210639144L;
+
 
     private final QName faultCode;
     private final String faultString;

@@ -24,7 +24,8 @@ import javax.transaction.xa.Xid;
  */
 public class BranchXidImpl implements Xid, Externalizable {
 
-  private Xid delegate;
+    private static final long serialVersionUID = -3135541493238305788L;
+    private Xid delegate;
   
   public BranchXidImpl() {
   }

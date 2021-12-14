@@ -98,6 +98,8 @@ public class CertificateValidationCallback extends XWSSCallback implements Callb
 
     public static class CertificateValidationException extends Exception {
 
+        private static final long serialVersionUID = 1348441196022761456L;
+
         public CertificateValidationException(String message) {
             super(message);
         }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -20,6 +20,8 @@ import jakarta.xml.soap.Detail;
  * @author Marek Potociar (marek.potociar at sun.com)
  */
 public class WsrmRequiredException extends AbstractSoapFaultException {
+
+    private static final long serialVersionUID = -5531849720054053271L;
 
     public WsrmRequiredException() {
         super("The RM Destination requires the use of WSRM.", "The RM Destination requires the use of WSRM.", true);
