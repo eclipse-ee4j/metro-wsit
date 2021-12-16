@@ -430,6 +430,7 @@
                         </manifest>
                     </archive>
                     <release>11</release>
+                    <quiet>true</quiet>
                     <notimestamp>true</notimestamp>
                     <detectOfflineLinks>false</detectOfflineLinks>
                     <minmemory>512m</minmemory>

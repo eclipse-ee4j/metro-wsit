@@ -11,9 +11,15 @@
 
 -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
+    <!--
+    ws-rt
+    ws-tools
+    wsit-api
+    wsit-impl
+    -->
     <parent>
         <groupId>org.glassfish.metro</groupId>
         <artifactId>bundles</artifactId>
@@ -66,108 +72,55 @@
                             <goal>unpack-dependencies</goal>
                         </goals>
                         <configuration>
-                            <includeGroupIds>com.sun.xml.messaging.saaj,com.sun.xml.ws,org.glassfish.metro,com.sun.xml.stream.buffer,net.java.dev.stax-utils</includeGroupIds>
+                            <includeGroupIds>
+                                com.sun.xml.messaging.saaj,com.sun.xml.ws,org.glassfish.metro,com.sun.xml.stream.buffer,net.java.dev.stax-utils
+                            </includeGroupIds>
                             <excludeArtifactIds>jaxws-eclipselink-plugin,sdo-eclipselink-plugin</excludeArtifactIds>
                             <includeScope>provided</includeScope>
                             <classifier>sources</classifier>
                             <excludeTransitive>true</excludeTransitive>
-                            <excludes>module-info.*,META-INF/jaxws-tubes-default.xml,META-INF/versions/**,META-INF/MANIFEST.MF,META-INF/LICENSE*,META-INF/NOTICE*,
-                                META-INF/services/com.sun.tools.ws.wscompile.Plugin,META-INF/services/com.sun.xml.ws.spi.db.BindingContextFactory,
-                                com/sun/xml/ws/util/version.properties,com/sun/tools/ws/version.properties</excludes>
+                            <excludes>
+                                module-info.*,META-INF/jaxws-tubes-default.xml,META-INF/versions/**,META-INF/MANIFEST.MF,META-INF/LICENSE*,META-INF/NOTICE*,
+                                META-INF/services/com.sun.tools.ws.wscompile.Plugin,META-INF/services/com.sun.xml.ws.*,
+                                com/sun/xml/ws/util/version.properties,com/sun/tools/ws/version.properties
+                            </excludes>
                             <outputDirectory>${dep.sources}</outputDirectory>
                         </configuration>
                     </execution>
                     <execution>
-                        <id>unpack-sources-mr</id>
+                        <id>unpack-sources-mr-9</id>
                         <phase>generate-sources</phase>
                         <goals>
                             <goal>unpack-dependencies</goal>
                         </goals>
                         <configuration>
-                            <includeGroupIds>com.sun.xml.messaging.saaj,com.sun.xml.ws,org.glassfish.metro,com.sun.xml.stream.buffer</includeGroupIds>
+                            <includeGroupIds>
+                                com.sun.xml.messaging.saaj,com.sun.xml.ws,org.glassfish.metro,com.sun.xml.stream.buffer,net.java.dev.stax-utils
+                            </includeGroupIds>
+                            <excludeArtifactIds>jaxws-eclipselink-plugin,sdo-eclipselink-plugin</excludeArtifactIds>
                             <includeScope>provided</includeScope>
                             <classifier>sources</classifier>
                             <excludeTransitive>true</excludeTransitive>
-                            <includes>META-INF/versions/9/**</includes>
-                            <outputDirectory>${dep.sources.mr}</outputDirectory>
+                            <includes>META-INF/versions/9</includes>
+                            <outputDirectory>${dep.sources}</outputDirectory>
                         </configuration>
                     </execution>
                     <execution>
-                        <id>unpack-old-jaxb</id>
+                        <id>unpack-sources-mr-11</id>
                         <phase>generate-sources</phase>
-                        <goals>
-                            <goal>unpack</goal>
-                        </goals>
-                        <configuration>
-                            <artifactItems>
-                                <artifactItem>
-                                    <groupId>jakarta.xml.bind</groupId>
-                                    <artifactId>jakarta.xml.bind-api</artifactId>
-                                    <version>2.3.3</version>
-                                    <classifier>sources</classifier>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>com.sun.activation</groupId>
-                                    <artifactId>jakarta.activation</artifactId>
-                                    <version>1.2.2</version>
-                                    <classifier>sources</classifier>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>org.jvnet.staxex</groupId>
-                                    <artifactId>stax-ex</artifactId>
-                                    <version>1.8.3</version>
-                                    <classifier>sources</classifier>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>com.sun.xml.bind</groupId>
-                                    <artifactId>jaxb-impl</artifactId>
-                                    <version>2.3.4</version>
-                                    <classifier>sources</classifier>
-                                </artifactItem>
-                            </artifactItems>
-                            <excludes>module-info.*,META-INF/versions/**,META-INF/MANIFEST.MF,META-INF/LICENSE*,META-INF/NOTICE*,META-INF/mailcap.default,pom.xml</excludes>
-                            <outputDirectory>${dep.sources.jaxb}</outputDirectory>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>unpack-old-jaxb-mr</id>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>unpack</goal>
-                        </goals>
-                        <configuration>
-                            <artifactItems>
-                                <artifactItem>
-                                    <groupId>jakarta.xml.bind</groupId>
-                                    <artifactId>jakarta.xml.bind-api</artifactId>
-                                    <version>2.3.3</version>
-                                    <classifier>sources</classifier>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>com.sun.xml.bind</groupId>
-                                    <artifactId>jaxb-impl</artifactId>
-                                    <version>2.3.4</version>
-                                    <classifier>sources</classifier>
-                                </artifactItem>
-                            </artifactItems>
-                            <includes>META-INF/versions/9/**</includes>
-                            <!-- don't worry about versioned files from istack -->
-                            <excludes>**/istack/**</excludes>
-                            <outputDirectory>${dep.sources.mr}</outputDirectory>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>unpack-classes</id>
-                        <phase>prepare-package</phase>
                         <goals>
                             <goal>unpack-dependencies</goal>
                         </goals>
                         <configuration>
-                            <includeGroupIds>org.apache.santuario,org.slf4j,commons-codec</includeGroupIds>
+                            <includeGroupIds>
+                                com.sun.xml.messaging.saaj,com.sun.xml.ws,org.glassfish.metro,com.sun.xml.stream.buffer,net.java.dev.stax-utils
+                            </includeGroupIds>
+                            <excludeArtifactIds>jaxws-eclipselink-plugin,sdo-eclipselink-plugin</excludeArtifactIds>
                             <includeScope>provided</includeScope>
+                            <classifier>sources</classifier>
                             <excludeTransitive>true</excludeTransitive>
-                            <excludes>module-info.*,META-INF/versions/**,META-INF/MANIFEST.MF</excludes>
-                            <outputDirectory>${project.build.outputDirectory}</outputDirectory>
+                            <includes>META-INF/versions/11</includes>
+                            <outputDirectory>${dep.sources}</outputDirectory>
                         </configuration>
                     </execution>
                 </executions>
@@ -176,20 +129,6 @@
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>build-helper-maven-plugin</artifactId>
                 <executions>
-                    <execution>
-                        <id>add-meta-inf-entries</id>
-                        <phase>generate-resources</phase>
-                        <goals>
-                            <goal>add-resource</goal>
-                        </goals>
-                        <configuration>
-                            <resources>
-                                <resource>
-                                    <directory>${project.build.directory}/generated-sources/resources</directory>
-                                </resource>
-                            </resources>
-                        </configuration>
-                    </execution>
                     <execution>
                         <id>add-resource</id>
                         <phase>generate-resources</phase>
@@ -200,12 +139,6 @@
                             <resources>
                                 <resource>
                                     <directory>${dep.sources}</directory>
-                                    <excludes>
-                                        <exclude>**/*.java</exclude>
-                                    </excludes>
-                                </resource>
-                                <resource>
-                                    <directory>${dep.sources.jaxb}</directory>
                                     <excludes>
                                         <exclude>**/*.java</exclude>
                                     </excludes>
@@ -225,62 +158,9 @@
                             </sources>
                         </configuration>
                     </execution>
-                    <execution>
-                        <id>add-mr-resource</id>
-                        <phase>prepare-package</phase>
-                        <goals>
-                            <goal>add-resource</goal>
-                        </goals>
-                        <configuration>
-                            <resources>
-                                <resource>
-                                    <directory>${dep.sources.mr}</directory>
-                                </resource>
-                            </resources>
-                        </configuration>
-                    </execution>
                 </executions>
             </plugin>
 
-            <plugin>
-                <groupId>com.sun.wts.tools.ant</groupId>
-                <artifactId>package-rename-task</artifactId>
-                <version>1.5.2</version>
-                <executions>
-                    <execution>
-                        <id>repackage-old-jaxb</id>
-                        <goals>
-                            <goal>rename</goal>
-                        </goals>
-                        <configuration>
-                            <srcDir>${dep.sources.jaxb}</srcDir>
-                            <patterns>
-                                <com.sun.activation>internal.com.sun.activation</com.sun.activation>
-                                <com.sun.istack>internal.com.sun.istack</com.sun.istack>
-                                <org.jvnet.staxex>internal.org.jvnet.staxex</org.jvnet.staxex>
-                            </patterns>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>default-compile-mr</id>
-                        <goals>
-                            <goal>compile</goal>
-                        </goals>
-                        <configuration>
-                            <compileSourceRoots>
-                                <compileSourceRoot>${dep.sources.mr}/META-INF/versions/9</compileSourceRoot>
-                            </compileSourceRoots>
-                            <outputDirectory>${project.build.outputDirectory}/META-INF/versions/9</outputDirectory>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
             <plugin>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>maven-bundle-plugin</artifactId>
@@ -295,22 +175,16 @@
                             <niceManifest>true</niceManifest>
                             <instructions>
                                 <Export-Package>
-                                    org.apache.xml.security.*,
-                                    org.apache.jcp.xml.dsig.internal.*,
-                                    !internal.*,
                                     !META-INF.*,
                                     *
                                 </Export-Package>
                                 <Import-Package>
-                                    com.ibm.security.util;resolution:=optional,
-                                    com.ibm.security.x509;resolution:=optional,
                                     com.sun.enterprise.webservice;resolution:=optional,
                                     com.sun.net.httpserver;resolution:=optional,
                                     com.sun.security.auth.callback;resolution:=optional,
                                     com.sun.security.jgss;resolution:=optional,
                                     com.sun.tools.jxc.ap;resolution:=optional,
                                     com.sun.tools.jxc.model.nav;resolution:=optional,
-                                    javax.xml.catalog;resolution:=optional,
                                     jdk.internal.misc;resolution:=optional,
                                     org.glassfish.pfl.tf.timer.spi;resolution:=optional,
                                     org.glassfish.webservice;resolution:=optional,
@@ -319,20 +193,15 @@
                                     sun.misc;resolution:=optional,
                                     sun.security.util;resolution:=optional,
                                     sun.security.x509;resolution:=optional,
-                                    !org.apache.xml.security.*,
-                                    !org.apache.jcp.xml.dsig.internal.*,
-                                    org.slf4j.*,
-                                    org.apache.commons.codec.*,
-                                    org.apache.xml.dtm*;resolution:=optional,
-                                    org.apache.xml.utils*;resolution:=optional,
-                                    org.apache.xpath*;resolution:=optional,
                                     *
                                 </Import-Package>
                                 <DynamicImport-Package>
-                                   org.glassfish.flashlight.provider,
-                                   org.glassfish.hk2.osgiresourcelocator
+                                    org.glassfish.flashlight.provider,
+                                    org.glassfish.hk2.osgiresourcelocator
                                 </DynamicImport-Package>
-                                <probe-provider-class-names>com.sun.xml.ws.transport.http.servlet.JAXWSRIDeploymentProbeProvider,com.sun.xml.ws.transport.http.servlet.JAXWSRIServletProbeProvider</probe-provider-class-names>
+                                <probe-provider-class-names>
+                                    com.sun.xml.ws.transport.http.servlet.JAXWSRIDeploymentProbeProvider,com.sun.xml.ws.transport.http.servlet.JAXWSRIServletProbeProvider
+                                </probe-provider-class-names>
                                 <_contract>!JavaServlet,*</_contract>
                             </instructions>
                         </configuration>
@@ -344,9 +213,6 @@
                 <configuration>
                     <archive>
                         <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
-                        <manifestEntries>
-                            <Multi-Release>true</Multi-Release>
-                        </manifestEntries>
                     </archive>
                 </configuration>
             </plugin>
@@ -356,39 +222,6 @@
                 <configuration>
                     <doclint>none</doclint>
                     <quiet>true</quiet>
-                    <excludePackageNames>*com.sun.xml.ws*:com.sun.tools.*:*javanet*:*test*:*ctc*:*glassfish*:*com.sun.istack.tools*:javax.xml.crypto.*:org.apache.xml.security.*:org.apache.jcp.xml.dsig.internal.*:org.apache.commons.*:com.sun.grizzly.*</excludePackageNames>
-                    <additionalDependencies>
-                        <dependency>
-                            <groupId>org.glassfish.hk2</groupId>
-                            <artifactId>hk2-api</artifactId>
-                            <version>2.5.0</version>
-                        </dependency>
-                        <dependency>
-                            <groupId>org.glassfish.grizzly</groupId>
-                            <artifactId>grizzly-framework</artifactId>
-                            <version>${grizzly.version}</version>
-                        </dependency>
-                        <dependency>
-                            <groupId>org.glassfish.grizzly</groupId>
-                            <artifactId>grizzly-portunif</artifactId>
-                            <version>${grizzly.version}</version>
-                        </dependency>
-                        <dependency>
-                            <groupId>org.apache.tomcat</groupId>
-                            <artifactId>tomcat-coyote</artifactId>
-                            <version>${tomcat.coyote.version}</version>
-                        </dependency>
-                        <dependency>
-                            <groupId>com.sun.org.apache.xml.internal</groupId>
-                            <artifactId>resolver</artifactId>
-                            <version>${resolver.version}</version>
-                        </dependency>
-                    </additionalDependencies>
-                    <sourceFileExcludes>
-                        <sourceFileExclude>META-INF/**</sourceFileExclude>
-                        <sourceFileExclude>org/glassfish/**</sourceFileExclude>
-                        <sourceFileExclude>org/jvnet/hk2/**</sourceFileExclude>
-                    </sourceFileExcludes>
                 </configuration>
             </plugin>
         </plugins>
@@ -396,38 +229,156 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.sun.xml.bind</groupId>
-            <artifactId>jaxb-osgi</artifactId>
-        </dependency>
-        <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>webservices-api-osgi</artifactId>
         </dependency>
         <dependency>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-osgi</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.sun.xml.messaging.saaj</groupId>
+            <artifactId>saaj-impl</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.sun.xml.ws</groupId>
+            <artifactId>jaxws-rt</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.sun.xml.ws</groupId>
+            <artifactId>jaxws-tools</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.glassfish.metro</groupId>
+            <artifactId>wsit-api</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jvnet.staxex</groupId>
+            <artifactId>stax-ex</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.sun.xml.stream.buffer</groupId>
+            <artifactId>streambuffer</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.sun.xml.fastinfoset</groupId>
+            <artifactId>FastInfoset</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>net.java.dev.stax-utils</groupId>
+            <artifactId>stax-utils</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.glassfish.metro</groupId>
+            <artifactId>wsit-impl</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>webservices-extra-jdk-packages</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>org.eclipse.angus</groupId>
+            <artifactId>angus-activation</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.eclipse.angus</groupId>
+            <artifactId>angus-mail</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
         <dependency>
             <groupId>com.fasterxml.woodstox</groupId>
             <artifactId>woodstox-core</artifactId>
+            <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>org.codehaus.woodstox</groupId>
             <artifactId>stax2-api</artifactId>
+            <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>org.jvnet.mimepull</groupId>
             <artifactId>mimepull</artifactId>
         </dependency>
+
         <dependency>
-            <groupId>com.sun.xml.ws</groupId>
-            <artifactId>jaxws-eclipselink-plugin</artifactId>
-            <optional>true</optional>
+            <groupId>org.apache.santuario</groupId>
+            <artifactId>xmlsec</artifactId>
         </dependency>
+
         <dependency>
-            <groupId>com.sun.xml.ws</groupId>
-            <artifactId>sdo-eclipselink-plugin</artifactId>
-            <optional>true</optional>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>webservices-extra-xmlsec</artifactId>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>
@@ -437,15 +388,27 @@
         <dependency>
             <groupId>org.glassfish.external</groupId>
             <artifactId>management-api</artifactId>
-            </dependency>
+        </dependency>
         <dependency>
             <groupId>org.glassfish.gmbal</groupId>
             <artifactId>gmbal</artifactId>
         </dependency>
+
         <dependency>
-            <groupId>com.sun.mail</groupId>
-            <artifactId>jakarta.mail</artifactId>
+            <groupId>jakarta.authentication</groupId>
+            <artifactId>jakarta.authentication-api</artifactId>
             <optional>true</optional>
+        </dependency>
+
+        <dependency>
+            <groupId>jakarta.ejb</groupId>
+            <artifactId>jakarta.ejb-api</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <dependency>
+            <groupId>jakarta.mail</groupId>
+            <artifactId>jakarta.mail-api</artifactId>
         </dependency>
 
         <dependency>
@@ -467,32 +430,33 @@
         </dependency>
 
         <dependency>
-            <groupId>com.sun.activation</groupId>
-            <artifactId>jakarta.activation</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>jakarta.annotation</groupId>
-            <artifactId>jakarta.annotation-api</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>jakarta.authentication</groupId>
-            <artifactId>jakarta.authentication-api</artifactId>
+            <groupId>com.sun.xml.ws</groupId>
+            <artifactId>jaxws-eclipselink-plugin</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>jakarta.xml.soap</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>jakarta.xml.ws</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
             <optional>true</optional>
         </dependency>
-
         <dependency>
-            <groupId>jakarta.ejb</groupId>
-            <artifactId>jakarta.ejb-api</artifactId>
-            <optional>true</optional>
-        </dependency>
-
-        <!-- To be removed after end of support for JDK 8 -->
-        <dependency>
-            <groupId>com.sun.org.apache.xml.internal</groupId>
-            <artifactId>resolver</artifactId>
-            <scope>provided</scope>
+            <groupId>com.sun.xml.ws</groupId>
+            <artifactId>sdo-eclipselink-plugin</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>jakarta.xml.soap</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>jakarta.xml.ws</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
             <optional>true</optional>
         </dependency>
 
@@ -523,78 +487,14 @@
             <scope>provided</scope>
             <optional>true</optional>
         </dependency>
-
-
-
-
-        <dependency>
-            <groupId>org.apache.santuario</groupId>
-            <artifactId>xmlsec</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>commons-codec</groupId>
-            <artifactId>commons-codec</artifactId>
-            <scope>provided</scope>
-        </dependency>
-
-
-
-
-        <dependency>
-            <groupId>com.sun.xml.messaging.saaj</groupId>
-            <artifactId>saaj-impl</artifactId>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>com.sun.xml.ws</groupId>
-            <artifactId>jaxws-rt</artifactId>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>com.sun.xml.ws</groupId>
-            <artifactId>jaxws-tools</artifactId>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.glassfish.metro</groupId>
-            <artifactId>wsit-api</artifactId>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.glassfish.metro</groupId>
-            <artifactId>wsit-impl</artifactId>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>com.sun.xml.stream.buffer</groupId>
-            <artifactId>streambuffer</artifactId>
-            <scope>provided</scope>
-        </dependency>
-
-            <dependency>
-                <groupId>net.java.dev.stax-utils</groupId>
-                <artifactId>stax-utils</artifactId>
-            <scope>provided</scope>
-            </dependency>
     </dependencies>
 
     <properties>
         <dep.sources>${project.build.directory}/generated-sources/dependencies</dep.sources>
-        <dep.sources.mr>${project.build.directory}/generated-sources/dependencies-mr</dep.sources.mr>
-        <dep.sources.jaxb>${project.build.directory}/generated-sources/dependencies-jaxb</dep.sources.jaxb>
         <build.id>${scmBranch}-${buildNumber}; ${timestamp}</build.id>
-        <build.version>Eclipse Metro/${project.version} (${build.id}) JAXWS-RI/${jaxws.ri.version} JAXWS-API/${jaxws-api.version} JAXB-RI/${jaxb.version} JAXB-API/${xml.bind-api.version}</build.version>
+        <build.version>Eclipse Metro/${project.version} (${build.id}) JAXWS-RI/${jaxws.ri.version}
+            JAXWS-API/${jaxws-api.version} JAXB-RI/${jaxb.version} JAXB-API/${xml.bind-api.version}
+        </build.version>
         <jacoco.skip>true</jacoco.skip>
         <mf.dir>${project.build.outputDirectory}</mf.dir>
     </properties>

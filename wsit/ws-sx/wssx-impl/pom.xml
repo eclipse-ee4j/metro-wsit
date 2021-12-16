@@ -88,18 +88,8 @@
         </dependency>
 
         <dependency>
-            <groupId>com.sun.activation</groupId>
-            <artifactId>jakarta.activation</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>jakarta.authentication</groupId>
             <artifactId>jakarta.authentication-api</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.sun.mail</groupId>
-            <artifactId>jakarta.mail</artifactId>
         </dependency>
 
         <dependency>
@@ -176,9 +166,9 @@
 
         <!-- santuario requires old "javax" jaxb runtime -->
         <dependency>
-            <groupId>com.sun.xml.bind</groupId>
-            <artifactId>jaxb-impl</artifactId>
-            <version>2.3.4</version>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>webservices-extra-xmlsec</artifactId>
+            <version>${project.version}</version>
         </dependency>
 
         <!-- Test scope -->
