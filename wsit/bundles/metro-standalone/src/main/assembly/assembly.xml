@@ -47,11 +47,16 @@
             <directoryMode>0755</directoryMode>
 
             <includes>
+                <include>jakarta.annotation:jakarta.annotation-api</include>
                 <include>${project.groupId}:webservices-api</include>
                 <include>${project.groupId}:webservices-extra</include>
                 <include>${project.groupId}:webservices-rt</include>
                 <include>${project.groupId}:webservices-tools</include>
                 <include>${project.groupId}:wstx-services</include>
+                <include>com.fasterxml.woodstox:woodstox-core</include>
+                <include>org.codehaus.woodstox:stax2-api</include>
+                <include>${project.groupId}:webservices-extra-xmlsec</include>
+                <include>org.apache.santuario:xmlsec</include>
             </includes>
         </dependencySet>
         <dependencySet>
@@ -79,8 +84,6 @@
                 <include>${project.groupId}:webservices-api-osgi</include>
                 <include>${project.groupId}:webservices-extra-jdk-packages</include>
                 <include>${project.groupId}:webservices-osgi</include>
-                <include>com.fasterxml.woodstox:woodstox-core</include>
-                <include>org.codehaus.woodstox:stax2-api</include>
             </includes>
         </dependencySet>
     </dependencySets>

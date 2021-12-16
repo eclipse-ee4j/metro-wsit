@@ -30,69 +30,22 @@
 
     <build>
         <plugins>
-            <plugin> <!-- want to unpack sources from individual modules -->
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
                 <executions>
                     <execution>
                         <id>unpack-sources</id>
-                        <phase>prepare-package</phase>
+                        <phase>generate-sources</phase>
                         <goals>
-                            <goal>unpack</goal>
+                            <goal>unpack-dependencies</goal>
                         </goals>
                         <configuration>
-                            <excludes>module-info*,pom.xml</excludes>
-                            <artifactItems>
-<!--                                <artifactItem>
-                                    <groupId>jakarta.annotation</groupId>
-                                    <artifactId>jakarta.annotation-api</artifactId>
-                                    <classifier>sources</classifier>
-                                    <overWrite>false</overWrite>
-                                    <outputDirectory>${dep.sources}</outputDirectory>
-                                </artifactItem>-->
-                                <artifactItem>
-                                    <groupId>jakarta.jws</groupId>
-                                    <artifactId>jakarta.jws-api</artifactId>
-                                    <classifier>sources</classifier>
-                                    <overWrite>false</overWrite>
-                                    <outputDirectory>${dep.sources}</outputDirectory>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>jakarta.xml.soap</groupId>
-                                    <artifactId>jakarta.xml.soap-api</artifactId>
-                                    <classifier>sources</classifier>
-                                    <overWrite>false</overWrite>
-                                    <outputDirectory>${dep.sources}</outputDirectory>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>jakarta.xml.bind</groupId>
-                                    <artifactId>jakarta.xml.bind-api</artifactId>
-                                    <classifier>sources</classifier>
-                                    <overWrite>false</overWrite>
-                                    <outputDirectory>${dep.sources}</outputDirectory>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>jakarta.xml.ws</groupId>
-                                    <artifactId>jakarta.xml.ws-api</artifactId>
-                                    <classifier>sources</classifier>
-                                    <overWrite>false</overWrite>
-                                    <outputDirectory>${dep.sources}</outputDirectory>
-                                </artifactItem>
-<!--                                <artifactItem>
-                                    <groupId>jakarta.transaction</groupId>
-                                    <artifactId>jakarta.transaction-api</artifactId>
-                                    <classifier>sources</classifier>
-                                    <overWrite>false</overWrite>
-                                    <outputDirectory>${dep.sources}</outputDirectory>
-                                </artifactItem>-->
-                                <artifactItem>
-                                    <groupId>com.sun.activation</groupId>
-                                    <artifactId>jakarta.activation</artifactId>
-                                    <classifier>sources</classifier>
-                                    <overWrite>false</overWrite>
-                                    <outputDirectory>${dep.sources}</outputDirectory>
-                                </artifactItem>
-                            </artifactItems>
+                            <includeScope>provided</includeScope>
+                            <classifier>sources</classifier>
+                            <excludeTransitive>true</excludeTransitive>
+                            <excludes>module-info.*,META-INF/versions/**, META-INF/MANIFEST.MF,META-INF/LICENSE*,META-INF/NOTICE*</excludes>
+                            <outputDirectory>${dep.sources}</outputDirectory>
                         </configuration>
                     </execution>
                 </executions>
@@ -102,7 +55,25 @@
                 <artifactId>build-helper-maven-plugin</artifactId>
                 <executions>
                     <execution>
-                        <phase>prepare-package</phase>
+                        <id>add-resource</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>add-resource</goal>
+                        </goals>
+                        <configuration>
+                            <resources>
+                                <resource>
+                                    <directory>${dep.sources}</directory>
+                                    <excludes>
+                                        <exclude>**/*.java</exclude>
+                                    </excludes>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>add-source</id>
+                        <phase>generate-sources</phase>
                         <goals>
                             <goal>add-source</goal>
                         </goals>
@@ -116,68 +87,8 @@
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>shade</goal>
-                        </goals>
-                        <configuration>
-                            <filters>
-                                <filter>
-                                    <artifact>*:*</artifact>
-                                    <excludes>
-                                        <exclude>module-info*</exclude>
-                                    </excludes>
-                                </filter>
-                            </filters>
-                            <artifactSet>
-                                <includes>
-                                    <include>jakarta.xml.ws:jakarta.xml.ws-api</include>
-                                    <include>jakarta.xml.bind:jakarta.xml.bind-api</include>
-                                    <include>jakarta.xml.soap:jakarta.xml.soap-api</include>
-                                    <include>jakarta.jws:jakarta.jws-api</include>
-                                    <!--<include>jakarta.annotation:jakarta.annotation-api</include>-->
-                                    <!--<include>jakarta.transaction:jakarta.transaction-api</include>-->
-                                    <include>com.sun.activation:jakarta.activation</include>
-                                </includes>
-                            </artifactSet>
-                            <createSourcesJar>false</createSourcesJar>
-                            <promoteTransitiveDependencies>true</promoteTransitiveDependencies>
-                            <dependencyReducedPomLocation>${project.build.directory}/dependency-reduced-pom.xml</dependencyReducedPomLocation>
-                            <transformers>
-                                <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
-                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <manifestEntries>
-                                        <Multi-Release>true</Multi-Release>
-                                    </manifestEntries>
-                                </transformer>
-                            </transformers>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <configuration>
-                    <additionalDependencies>
-<!--                        <dependency>
-                            <groupId>jakarta.enterprise</groupId>
-                            <artifactId>jakarta.enterprise.cdi-api</artifactId>
-                            <version>3.0.0-M2</version>
-                        </dependency>
-                        <dependency>
-                            <groupId>jakarta.interceptor</groupId>
-                            <artifactId>jakarta.interceptor-api</artifactId>
-                            <version>2.0.0-RC2</version>
-                        </dependency>-->
-                    </additionalDependencies>
-                    <sourceFileExcludes>
-                        <sourceFileExclude>META-INF/**</sourceFileExclude>
-                        <sourceFileExclude>com/**</sourceFileExclude>
-                    </sourceFileExcludes>
                     <tags>
                         <tag>
                             <name>specdefault</name>
@@ -198,46 +109,35 @@
     </build>
 
     <dependencies>
-        <!-- Shaded dependencies -->
-<!--        <dependency>
+        <dependency>
             <groupId>jakarta.annotation</groupId>
             <artifactId>jakarta.annotation-api</artifactId>
-            <scope>provided</scope>
-        </dependency>-->
+        </dependency>
+
         <dependency>
             <groupId>jakarta.xml.ws</groupId>
             <artifactId>jakarta.xml.ws-api</artifactId>
-            <optional>true</optional>
-            <!--<scope>provided</scope>-->
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>jakarta.xml.bind</groupId>
             <artifactId>jakarta.xml.bind-api</artifactId>
-            <optional>true</optional>
-            <!--<scope>provided</scope>-->
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>jakarta.xml.soap</groupId>
             <artifactId>jakarta.xml.soap-api</artifactId>
-            <optional>true</optional>
-            <!--<scope>provided</scope>-->
-        </dependency>
-        <dependency>
-            <groupId>jakarta.jws</groupId>
-            <artifactId>jakarta.jws-api</artifactId>
-            <optional>true</optional>
-            <!--<scope>provided</scope>-->
-        </dependency>
-<!--        <dependency>
-            <groupId>jakarta.transaction</groupId>
-            <artifactId>jakarta.transaction-api</artifactId>
             <scope>provided</scope>
-        </dependency>-->
+        </dependency>
         <dependency>
-            <groupId>com.sun.activation</groupId>
-            <artifactId>jakarta.activation</artifactId>
-            <optional>true</optional>
-            <!--<scope>provided</scope>-->
+            <groupId>jakarta.activation</groupId>
+            <artifactId>jakarta.activation-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.mail</groupId>
+            <artifactId>jakarta.mail-api</artifactId>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
     <properties>

@@ -126,8 +126,8 @@
         </dependency>
 
         <dependency>
-            <groupId>com.sun.activation</groupId>
-            <artifactId>jakarta.activation</artifactId>
+            <groupId>jakarta.activation</groupId>
+            <artifactId>jakarta.activation-api</artifactId>
         </dependency>
 
         <dependency>
@@ -147,13 +147,8 @@
         </dependency>
 
         <dependency>
-            <groupId>jakarta.jws</groupId>
-            <artifactId>jakarta.jws-api</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.sun.mail</groupId>
-            <artifactId>jakarta.mail</artifactId>
+            <groupId>jakarta.mail</groupId>
+            <artifactId>jakarta.mail-api</artifactId>
         </dependency>
 
         <dependency>
@@ -268,9 +263,9 @@
 
         <!-- santuario requires old "javax" jaxb runtime -->
         <dependency>
-            <groupId>com.sun.xml.bind</groupId>
-            <artifactId>jaxb-impl</artifactId>
-            <version>2.3.4</version>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>webservices-extra-xmlsec</artifactId>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>
@@ -290,19 +285,6 @@
             <artifactId>tomcat-coyote</artifactId>
             <optional>true</optional>
         </dependency>
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

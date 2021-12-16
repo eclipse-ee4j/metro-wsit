@@ -46,6 +46,11 @@
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
+                <artifactId>webservices-extra-xmlsec</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
                 <artifactId>webservices-rt</artifactId>
                 <version>${project.version}</version>
             </dependency>

@@ -34,20 +34,21 @@
         <transaction-api.version>2.0.0</transaction-api.version>
         <interceptor-api.version>2.0.0</interceptor-api.version>
         <cdi-api.version>3.0.0</cdi-api.version>
-        <inject-api.version>2.0.0</inject-api.version>
+        <inject-api.version>2.0.1.MR</inject-api.version>
         <el-api.version>4.0.0</el-api.version>
 
         <!-- CQ: #22139 -->
         <santuario.version>2.1.7</santuario.version>
         <!-- CQ: #22187 -->
-        <slf4j-api.version>1.7.30</slf4j-api.version>
+        <slf4j-api.version>1.7.32</slf4j-api.version>
         <!-- CQ: #22186 -->
-        <commons-codec.version>1.13</commons-codec.version>
+        <commons-codec.version>1.15</commons-codec.version>
 
         <!-- CQ: #18393 -->
         <stax-utils.version>20070216</stax-utils.version>
 
-        <grizzly.version>3.0.0</grizzly.version>
+        <hk2.version>3.0.2</hk2.version>
+        <grizzly.version>3.0.1</grizzly.version>
         <tomcat.coyote.version>10.0.0</tomcat.coyote.version>
 
         <junit.version>4.13.2</junit.version>
@@ -118,6 +119,13 @@
                 <groupId>org.apache.santuario</groupId>
                 <artifactId>xmlsec</artifactId>
                 <version>${santuario.version}</version>
+                <exclusions>
+                    <!-- depends on jaxb2 which we are repackaging with other deps -->
+                    <exclusion>
+                        <groupId>*</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>commons-codec</groupId>
@@ -137,6 +145,16 @@
             </dependency>
             <dependency>
                 <groupId>org.glassfish.grizzly</groupId>
+                <artifactId>grizzly-http-server</artifactId>
+                <version>${grizzly.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish.grizzly</groupId>
+                <artifactId>grizzly-http-servlet</artifactId>
+                <version>${grizzly.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish.grizzly</groupId>
                 <artifactId>grizzly-websockets</artifactId>
                 <version>${grizzly.version}</version>
             </dependency>
@@ -147,16 +165,12 @@
             </dependency>
 
             <dependency>
-                <groupId>org.glassfish.metro</groupId>
-                <artifactId>keyidspi-ibm-impl</artifactId>
-                <version>1.1</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>*</groupId>
-                        <artifactId>*</artifactId>
-                    </exclusion>
-                </exclusions>
+                <groupId>org.glassfish.hk2</groupId>
+                <artifactId>hk2</artifactId>
+                <version>${hk2.version}</version>
+                <optional>true</optional>
             </dependency>
+
             <dependency>
                 <groupId>net.java.dev.stax-utils</groupId>
                 <artifactId>stax-utils</artifactId>

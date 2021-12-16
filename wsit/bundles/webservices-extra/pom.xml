@@ -31,104 +31,23 @@
 
     <build>
         <plugins>
-            <plugin> <!-- want to unpack sources from individual modules -->
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
                 <executions>
                     <execution>
                         <id>unpack-sources</id>
-                        <phase>prepare-package</phase>
+                        <phase>generate-sources</phase>
                         <goals>
-                            <goal>unpack</goal>
+                            <goal>unpack-dependencies</goal>
                         </goals>
                         <configuration>
-                            <artifactItems>
-<!--                                <artifactItem>
-                                    <groupId>org.glassfish.grizzly</groupId>
-                                    <artifactId>grizzly-framework</artifactId>
-                                    <classifier>sources</classifier>
-                                    <overWrite>false</overWrite>
-                                    <outputDirectory>${dep.sources}</outputDirectory>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>org.glassfish.grizzly</groupId>
-                                    <artifactId>grizzly-websockets</artifactId>
-                                    <classifier>sources</classifier>
-                                    <overWrite>false</overWrite>
-                                    <outputDirectory>${dep.sources}</outputDirectory>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>org.glassfish.grizzly</groupId>
-                                    <artifactId>grizzly-portunif</artifactId>
-                                    <classifier>sources</classifier>
-                                    <overWrite>false</overWrite>
-                                    <outputDirectory>${dep.sources}</outputDirectory>
-                                </artifactItem>-->
-                                <artifactItem>
-                                    <groupId>jakarta.authentication</groupId>
-                                    <artifactId>jakarta.authentication-api</artifactId>
-                                    <classifier>sources</classifier>
-                                    <overWrite>false</overWrite>
-                                    <outputDirectory>${dep.sources}</outputDirectory>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>jakarta.annotation</groupId>
-                                    <artifactId>jakarta.annotation-api</artifactId>
-                                    <classifier>sources</classifier>
-                                    <overWrite>false</overWrite>
-                                    <outputDirectory>${dep.sources}</outputDirectory>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>jakarta.ejb</groupId>
-                                    <artifactId>jakarta.ejb-api</artifactId>
-                                    <classifier>sources</classifier>
-                                    <overWrite>false</overWrite>
-                                    <outputDirectory>${dep.sources}</outputDirectory>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>jakarta.transaction</groupId>
-                                    <artifactId>jakarta.transaction-api</artifactId>
-                                    <classifier>sources</classifier>
-                                    <overWrite>false</overWrite>
-                                    <outputDirectory>${dep.sources}</outputDirectory>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>jakarta.resource</groupId>
-                                    <artifactId>jakarta.resource-api</artifactId>
-                                    <classifier>sources</classifier>
-                                    <overWrite>false</overWrite>
-                                    <outputDirectory>${dep.sources}</outputDirectory>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>jakarta.interceptor</groupId>
-                                    <artifactId>jakarta.interceptor-api</artifactId>
-                                    <classifier>sources</classifier>
-                                    <overWrite>false</overWrite>
-                                    <outputDirectory>${dep.sources}</outputDirectory>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>jakarta.inject</groupId>
-                                    <artifactId>jakarta.inject-api</artifactId>
-                                    <classifier>sources</classifier>
-                                    <overWrite>false</overWrite>
-                                    <outputDirectory>${dep.sources}</outputDirectory>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>jakarta.enterprise</groupId>
-                                    <artifactId>jakarta.enterprise.cdi-api</artifactId>
-                                    <classifier>sources</classifier>
-                                    <overWrite>false</overWrite>
-                                    <outputDirectory>${dep.sources}</outputDirectory>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>com.sun.mail</groupId>
-                                    <artifactId>jakarta.mail</artifactId>
-                                    <classifier>sources</classifier>
-                                    <overWrite>false</overWrite>
-                                    <outputDirectory>${dep.sources}</outputDirectory>
-                                </artifactItem>
-                            </artifactItems>
-                            <excludes>META-INF/gfprobe-provider.xml,annotations,doc-files,doc-files/**,module-info.java</excludes>
+                            <includeScope>provided</includeScope>
+                            <classifier>sources</classifier>
+                            <excludeTransitive>true</excludeTransitive>
+                            <excludes>module-info.*,META-INF/versions/**, META-INF/MANIFEST.MF,META-INF/LICENSE*,META-INF/NOTICE*,
+                                META-INF/gfprobe-provider.xml,annotations,doc-files,doc-files/**</excludes>
+                            <outputDirectory>${dep.sources}</outputDirectory>
                         </configuration>
                     </execution>
                 </executions>
@@ -138,7 +57,25 @@
                 <artifactId>build-helper-maven-plugin</artifactId>
                 <executions>
                     <execution>
-                        <phase>prepare-package</phase>
+                        <id>add-resource</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>add-resource</goal>
+                        </goals>
+                        <configuration>
+                            <resources>
+                                <resource>
+                                    <directory>${dep.sources}</directory>
+                                    <excludes>
+                                        <exclude>**/*.java</exclude>
+                                    </excludes>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>add-source</id>
+                        <phase>generate-sources</phase>
                         <goals>
                             <goal>add-source</goal>
                         </goals>
@@ -146,53 +83,6 @@
                             <sources>
                                 <source>${dep.sources}</source>
                             </sources>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>shade</goal>
-                        </goals>
-                        <configuration>
-                            <artifactSet>
-                                <includes>
-                                    <include>org.glassfish.grizzly:grizzly-framework</include>
-                                    <include>org.glassfish.grizzly:grizzly-websockets</include>
-                                    <include>org.glassfish.grizzly:grizzly-portunif</include>
-                                    <include>jakarta.authentication:jakarta.authentication-api</include>
-                                    <include>jakarta.annotation:jakarta.annotation-api</include>
-                                    <include>jakarta.ejb:jakarta.ejb-api</include>
-                                    <include>jakarta.transaction:jakarta.transaction-api</include>
-                                    <include>jakarta.enterprise:jakarta.enterprise.cdi-api</include>
-                                    <include>jakarta.interceptor:jakarta.interceptor-api</include>
-                                    <include>jakarta.inject:jakarta.inject-api</include>
-                                    <include>jakarta.resource:jakarta.resource-api</include>
-                                    <include>com.sun.mail:jakarta.mail</include>
-                                </includes>
-                            </artifactSet>
-                            <filters>
-                                <filter>
-                                    <artifact>*:*</artifact>
-                                    <excludes>
-                                        <exclude>META-INF/gfprobe-provider.xml</exclude>
-<!--                                        <exclude>com/sun/grizzly/**</exclude>
-                                        <exclude>com/sun/org/**</exclude>
-                                        <exclude>org/**</exclude>-->
-                                    </excludes>
-                                </filter>
-                            </filters>
-                            <createSourcesJar>false</createSourcesJar>
-                            <promoteTransitiveDependencies>true</promoteTransitiveDependencies>
-                            <dependencyReducedPomLocation>${project.build.directory}/dependency-reduced-pom.xml</dependencyReducedPomLocation>
-                            <transformers>
-                                <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
-                            </transformers>
                         </configuration>
                     </execution>
                 </executions>
@@ -213,70 +103,72 @@
         <dependency>
             <groupId>org.glassfish.grizzly</groupId>
             <artifactId>grizzly-framework</artifactId>
-            <optional>true</optional>
-            <!--<scope>provided</scope>-->
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.grizzly</groupId>
+            <artifactId>grizzly-http-server</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.grizzly</groupId>
+            <artifactId>grizzly-http-servlet</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.glassfish.grizzly</groupId>
             <artifactId>grizzly-websockets</artifactId>
-            <optional>true</optional>
-            <!--<scope>provided</scope>-->
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.glassfish.grizzly</groupId>
             <artifactId>grizzly-portunif</artifactId>
-            <optional>true</optional>
-            <!--<scope>provided</scope>-->
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>jakarta.authentication</groupId>
             <artifactId>jakarta.authentication-api</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>jakarta.annotation</groupId>
-            <artifactId>jakarta.annotation-api</artifactId>
-            <optional>true</optional>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>jakarta.ejb</groupId>
             <artifactId>jakarta.ejb-api</artifactId>
-            <optional>true</optional>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>jakarta.transaction</groupId>
             <artifactId>jakarta.transaction-api</artifactId>
-            <optional>true</optional>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>jakarta.enterprise</groupId>
             <artifactId>jakarta.enterprise.cdi-api</artifactId>
-            <optional>true</optional>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>jakarta.interceptor</groupId>
             <artifactId>jakarta.interceptor-api</artifactId>
-            <optional>true</optional>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>jakarta.inject</groupId>
             <artifactId>jakarta.inject-api</artifactId>
-            <optional>true</optional>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>jakarta.resource</groupId>
             <artifactId>jakarta.resource-api</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>com.sun.mail</groupId>
-            <artifactId>jakarta.mail</artifactId>
-            <optional>true</optional>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>jakarta.servlet</groupId>
             <artifactId>jakarta.servlet-api</artifactId>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.tomcat</groupId>
+            <artifactId>tomcat-coyote</artifactId>
+            <optional>true</optional>
         </dependency>
     </dependencies>
     <properties>
