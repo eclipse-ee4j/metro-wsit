@@ -207,7 +207,8 @@ public final class WSATRuntimeConfig {
         void afterRecovery(boolean success, boolean delegated, String instance);
     }
 
-    public static class WSATRecoveryEventListener implements RecoveryEventListener {
+    //do NOT make this static
+    public class WSATRecoveryEventListener implements RecoveryEventListener {
 
         @Override
         public void beforeRecovery(boolean delegated, String instance) {
