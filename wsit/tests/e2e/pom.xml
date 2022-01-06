@@ -142,7 +142,7 @@
             <id>test-local-image</id>
             <activation>
                 <property>
-                    <name>!wsit.hudson.url</name>
+                    <name>!ws.localImage</name>
                 </property>
             </activation>
             <dependencies>
