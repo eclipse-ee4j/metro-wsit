@@ -115,7 +115,7 @@
                         </goals>
                         <configuration>
                             <outputDirectory>${extensions.dir}</outputDirectory>
-                            <includeArtifactIds>jakarta.servlet-api,jakarta.annotation-api,webservices-extra-xmlsec,xmlsec</includeArtifactIds>
+                            <includeArtifactIds>jakarta.servlet-api</includeArtifactIds>
                         </configuration>
                     </execution>
                 </executions>

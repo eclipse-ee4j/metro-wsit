@@ -10,7 +10,7 @@
 
 -->
 
-<descriptor transport="http" uses="skip-lwhs">
+<descriptor transport="http" uses="skip-lwhs skip-embeddedTomcat">
   <description>This is SC5 test </description>
   <client href ="test.bsh"/>
   <service basedir="./server">
