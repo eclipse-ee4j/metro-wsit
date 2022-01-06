@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2021 Contributors to the Eclipse Foundation
+# Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
 #
 # This program and the accompanying materials are made available under the
 # terms of the Eclipse Public License v. 2.0 which is available at
@@ -16,7 +16,7 @@ on: [push, pull_request]
 
 jobs:
   build:
-    name: Test on JDK ${{ matrix.java_version }}
+    name: Build on JDK ${{ matrix.java_version }}
     runs-on: ubuntu-latest
     outputs:
       jdk: ${{ steps.build.outputs.jdk }}
@@ -62,7 +62,7 @@ jobs:
         test_suite:
           #          - IN_VM (runs as part of the build)
           - TOMCAT
-    name: Tests ${{ matrix.test_suite }}
+    name: Tests on ${{ matrix.test_suite }}
     runs-on: ubuntu-latest
     steps:
       - name: Set up JDK
