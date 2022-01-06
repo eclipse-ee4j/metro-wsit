@@ -12,28 +12,77 @@
 
 name: Metro WSIT
 
-on:
-  pull_request:
-  push:
+on: [push, pull_request]
 
 jobs:
   build:
-    name: Test on JDK ${{ matrix.java_version }} 
+    name: Test on JDK ${{ matrix.java_version }}
     runs-on: ubuntu-latest
-
+    outputs:
+      jdk: ${{ steps.build.outputs.jdk }}
     strategy:
       matrix:
-        java_version: [ 11, 17-ea ]
+        java_version: [ 17 ]
 
     steps:
-    - name: Checkout for build
-      uses: actions/checkout@v2.3.4
-      with:
-        fetch-depth: 0
-    - name: Set up JDK
-      uses: actions/setup-java@v2
-      with:
-        distribution: 'zulu'
-        java-version: ${{ matrix.java_version }}
-    - name: Verify
-      run: cd wsit && mvn -B -V -U -C -Dalltests=true -Pstaging,oss-release clean verify org.glassfish.copyright:glassfish-copyright-maven-plugin:check -Dgpg.skip=true
+      - name: Cancel previous runs of this workflow
+        uses: styfle/cancel-workflow-action@0.9.1
+        with:
+          all_but_latest: true
+          access_token: ${{ github.token }}
+      - name: Checkout for build
+        uses: actions/checkout@v2.3.4
+        with:
+          fetch-depth: 0
+      - name: Set up JDK
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'zulu'
+          java-version: ${{ matrix.java_version }}
+          cache: maven
+      - name: Verify
+        id: build
+        run: |
+          cd wsit
+          mvn -B -V -U -C -Dalltests=true -Pstaging,oss-release clean verify org.glassfish.copyright:glassfish-copyright-maven-plugin:check -Dgpg.skip=true
+          cd ..
+          echo "::set-output name=jdk::${{ matrix.java_version }}"
+      - name: Upload binary image
+        uses: actions/upload-artifact@v2
+        if: success()
+        with:
+          name: metro.zip
+          path: wsit/bundles/metro-standalone/target/metro.zip
+
+  test:
+    needs: build
+    strategy:
+      fail-fast: false
+      matrix:
+        test_suite:
+          #          - IN_VM (runs as part of the build)
+          - TOMCAT
+    name: Tests ${{ matrix.test_suite }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up JDK
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'zulu'
+          java-version: ${{ needs.build.outputs.jdk }}
+      - name: Checkout tests
+        uses: actions/checkout@v2.3.4
+        with:
+          fetch-depth: 0
+      - name: Download binaries
+        uses: actions/download-artifact@v2
+        with:
+          name: metro.zip
+      - name: Test
+        run: |
+          export ROOT=`pwd`
+          unzip -q -d image metro.zip
+          wget -q -O tomcat.zip https://dlcdn.apache.org/tomcat/tomcat-10/v10.1.0-M8/bin/apache-tomcat-10.1.0-M8.zip
+          unzip -q tomcat.zip
+          cd wsit
+          mvn -B -V -U -C -am -Dalltests=true -Dgpg.skip=true -Pstaging,oss-release clean verify -pl :wsit-tests-e2e -Dtomcat.home=$ROOT/apache-tomcat-10.1.0-M8 -Dws.transport=${{ matrix.test_suite }} -Dws.localImage=$ROOT/image
