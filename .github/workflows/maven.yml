@@ -65,16 +65,16 @@ jobs:
     name: Tests on ${{ matrix.test_suite }}
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout tests
+        uses: actions/checkout@v2.3.4
+        with:
+          fetch-depth: 0
       - name: Set up JDK
         uses: actions/setup-java@v2
         with:
           distribution: 'zulu'
           java-version: ${{ needs.build.outputs.jdk }}
           cache: maven
-      - name: Checkout tests
-        uses: actions/checkout@v2.3.4
-        with:
-          fetch-depth: 0
       - name: Download binaries
         uses: actions/download-artifact@v2
         with:
