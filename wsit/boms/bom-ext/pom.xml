@@ -29,13 +29,13 @@
 
     <properties>
         <authentication-api.version>2.0.0</authentication-api.version>
-        <connector-api.version>2.0.0</connector-api.version>
+        <connector-api.version>2.1.0-RC1</connector-api.version>
         <ejb-api.version>4.0.0</ejb-api.version>
-        <transaction-api.version>2.0.0</transaction-api.version>
-        <interceptor-api.version>2.0.0</interceptor-api.version>
-        <cdi-api.version>3.0.0</cdi-api.version>
+        <transaction-api.version>2.0.1-RC1</transaction-api.version>
+        <interceptor-api.version>2.1.0</interceptor-api.version>
+        <cdi-api.version>4.0.0</cdi-api.version>
         <inject-api.version>2.0.1.MR</inject-api.version>
-        <el-api.version>4.0.0</el-api.version>
+        <el-api.version>5.0.0</el-api.version>
 
         <!-- CQ: #22139 -->
         <santuario.version>2.1.7</santuario.version>
@@ -49,7 +49,7 @@
 
         <hk2.version>3.0.2</hk2.version>
         <grizzly.version>3.0.1</grizzly.version>
-        <tomcat.coyote.version>10.0.0</tomcat.coyote.version>
+        <tomcat.coyote.version>10.1.0-M10</tomcat.coyote.version>
 
         <junit.version>4.13.2</junit.version>
 
