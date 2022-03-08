@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -34,7 +35,7 @@ public class ClientPipeCreator extends ClientPipelineHook {
     @Override
     public Pipe createSecurityPipe(PolicyMap map, 
             ClientPipeAssemblerContext ctxt, Pipe tail) {
-        HashMap<Object, Object> propBag = new HashMap<>();
+        HashMap<String, Object> propBag = new HashMap<>();
         propBag.put(PipeConstants.POLICY, map);
         propBag.put(PipeConstants.WSDL_MODEL, ctxt.getWsdlModel());
         propBag.put(PipeConstants.SERVICE, ctxt.getService());
@@ -50,7 +51,7 @@ public class ClientPipeCreator extends ClientPipelineHook {
     
     @Override
     public @NotNull Tube createSecurityTube(ClientTubelineAssemblyContext context) {
-        HashMap<Object, Object> propBag = new HashMap<>();
+        HashMap<String, Object> propBag = new HashMap<>();
         propBag.put(PipeConstants.POLICY, context.getPolicyMap());
         propBag.put(PipeConstants.WSDL_MODEL, context.getWrappedContext().getWsdlModel());
         propBag.put(PipeConstants.SERVICE, context.getService());

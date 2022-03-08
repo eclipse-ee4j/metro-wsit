@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -10,6 +11,7 @@
 
 package com.sun.xml.wss.provider.wsit;
 
+import com.sun.xml.wss.impl.misc.SecurityUtil;
 import com.sun.xml.wss.provider.wsit.logging.LogDomainConstants;
 import com.sun.xml.wss.provider.wsit.logging.LogStringsMessages;
 import java.io.ByteArrayOutputStream;
@@ -33,13 +35,16 @@ import java.util.logging.Logger;
 import jakarta.security.auth.message.config.AuthConfigFactory;
 import jakarta.security.auth.message.config.AuthConfigProvider;
 import jakarta.security.auth.message.config.RegistrationListener;
+import jakarta.security.auth.message.module.ServerAuthModule;
 import jakarta.xml.ws.WebServiceException;
-    
+
 /**
  * This class implements methods in the abstract class AuthConfigFactory.
  * @author  Shing Wai Chan
  */
 public class JMACAuthConfigFactory extends AuthConfigFactory {
+
+    private static final String CONTEXT_REGISTRATION_ID = "com.sun.xml.wss.provider.wsit.contextRegistrationId";
 
     private static Logger logger =Logger.getLogger(
             LogDomainConstants.WSIT_PVD_DOMAIN,
@@ -235,23 +240,70 @@ public class JMACAuthConfigFactory extends AuthConfigFactory {
      *		permission to register a provider at the factory.
      */
     @Override
-    @SuppressWarnings("unchecked")
     public String registerConfigProvider(String className,
-					 Map properties, 
-					 String layer, String appContext, 
-					 String description) { 
+					 Map<String, String> properties,
+					 String layer, String appContext,
+					 String description) {
         //XXX do we need doPrivilege here
-        AuthConfigProvider provider =
-            _constructProvider(className, properties, null);
-        return _register(provider,properties,
-            layer,appContext,description,true);
+        AuthConfigProvider provider = _constructProvider(className, properties, null);
+        return _register(provider, properties, layer, appContext, description, true);
     }
 
     @Override
     public String registerConfigProvider(AuthConfigProvider provider,
-                                         String layer, String appContext, String description) {
-	return _register(provider,null,layer,appContext,description,false);
+        String layer, String appContext, String description) {
+        return _register(provider, null, layer, appContext, description, false);
     }
+
+
+    @Override
+    public String registerServerAuthModule(ServerAuthModule serverAuthModule, Object context) {
+        if (context instanceof RegistrationContext) {
+            RegistrationContext ctx = (RegistrationContext) context;
+            SAMConfigProvider provider = new SAMConfigProvider(serverAuthModule);
+            return registerConfigProvider(provider, ctx.getMessageLayer(), ctx.getAppContext(), ctx.getDescription());
+        }
+        final Class<?> contextClass = SecurityUtil.findServletContextClass();
+        if (contextClass == null) {
+            return null;
+        }
+        if (contextClass.isInstance(context)) {
+            // don't put to imports as this class is supported but not required
+            jakarta.servlet.ServletContext servletContext = (jakarta.servlet.ServletContext) context;
+            String registrationId = registerConfigProvider(
+                    new SAMConfigProvider(serverAuthModule),
+                    "HttpServlet",
+                    servletContext.getVirtualServerName() + " " + servletContext.getContextPath(),
+                    "SAMConfigProvider for " + serverAuthModule.getClass()
+            );
+            servletContext.setAttribute(CONTEXT_REGISTRATION_ID, registrationId);
+            return registrationId;
+        }
+        return null;
+    }
+
+
+    @Override
+    public void removeServerAuthModule(Object context) {
+        if (context instanceof RegistrationContext) {
+            RegistrationContext ctx = (RegistrationContext) context;
+            String registrationId = getRegistrationID(ctx.getMessageLayer(), ctx.getAppContext());
+            removeRegistration(registrationId);
+            return;
+        }
+        final Class<?> contextClass = SecurityUtil.findServletContextClass();
+        if (contextClass == null) {
+            return;
+        }
+        // don't put to imports as this class is supported but not required
+        jakarta.servlet.ServletContext servletContext = (jakarta.servlet.ServletContext) context;
+        String registrationId = (String) servletContext.getAttribute(CONTEXT_REGISTRATION_ID);
+        if (registrationId == null) {
+            return;
+        }
+        removeRegistration(registrationId);
+    }
+
 
     /**
      * Remove the identified provider registration from the factory
@@ -498,10 +550,9 @@ public class JMACAuthConfigFactory extends AuthConfigFactory {
         return new String[] { layer, appContext };
     }
 
-    @SuppressWarnings("unchecked")
-    private AuthConfigProvider _constructProvider
-    (String className, Map properties, AuthConfigFactory factory) {
-        //XXX do we need doPrivilege here
+
+    private AuthConfigProvider _constructProvider(String className, Map<String, String> properties, AuthConfigFactory factory) {
+        // XXX do we need doPrivilege here
         AuthConfigProvider provider = null;
 	if (className != null) {
 	    try {

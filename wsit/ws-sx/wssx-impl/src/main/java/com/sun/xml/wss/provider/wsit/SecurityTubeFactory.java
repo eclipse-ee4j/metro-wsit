@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -16,7 +17,6 @@ import com.sun.xml.ws.api.model.wsdl.WSDLBoundOperation;
 import com.sun.xml.ws.api.model.wsdl.WSDLPort;
 import com.sun.xml.ws.api.pipe.*;
 import com.sun.xml.ws.api.pipe.helper.PipeAdapter;
-import com.sun.xml.ws.api.server.Container;
 import com.sun.xml.ws.api.server.WSEndpoint;
 import com.sun.xml.ws.assembler.dev.ClientTubelineAssemblyContext;
 import com.sun.xml.ws.assembler.dev.ServerTubelineAssemblyContext;
@@ -45,7 +45,6 @@ import com.sun.xml.wss.impl.misc.SecurityUtil;
 import com.sun.xml.wss.jaxws.impl.SecurityClientTube;
 import com.sun.xml.wss.jaxws.impl.SecurityServerTube;
 import com.sun.xml.wss.provider.wsit.logging.LogDomainConstants;
-import com.sun.xml.wss.provider.wsit.logging.LogStringsMessages;
 import com.sun.xml.xwss.XWSSClientTube;
 import com.sun.xml.xwss.XWSSServerTube;
 
@@ -71,7 +70,6 @@ public final class SecurityTubeFactory implements TubeFactory, TubelineAssemblyC
         LogDomainConstants.WSIT_PVD_DOMAIN,
         LogDomainConstants.WSIT_PVD_DOMAIN_BUNDLE);
 
-    private static final String SERVLET_CONTEXT_CLASSNAME = "jakarta.servlet.ServletContext";
     //Added for Security Pipe Unification with JSR 196 on GlassFish
     private static final String ENDPOINT = "ENDPOINT";
     private static final String NEXT_PIPE = "NEXT_PIPE";
@@ -89,8 +87,8 @@ public final class SecurityTubeFactory implements TubeFactory, TubelineAssemblyC
        if(maxNonceAge == MessageConstants.MAX_NONCE_AGE){ //if max nonce age is not set in domain.xml
            String maxNAge = System.getProperty("MAX_NONCE_AGE");
            maxNonceAge = (maxNAge != null) ? Long.parseLong(maxNAge) : MessageConstants.MAX_NONCE_AGE ;
-       } 
-    }    
+       }
+    }
 
     @Override
     public void prepareContext(ClientTubelineAssemblyContext context) throws WebServiceException {
@@ -399,17 +397,7 @@ public final class SecurityTubeFactory implements TubeFactory, TubelineAssemblyC
         QName serviceQName = context.getEndpoint().getServiceName();
         //TODO: not sure which of the two above will give the service name as specified in DD
         String serviceLocalName = serviceQName.getLocalPart();
-        Container container = context.getEndpoint().getContainer();
-
-        Object ctxt = null;
-        if (container != null) {
-            try {
-                final Class<?> contextClass = Class.forName(SERVLET_CONTEXT_CLASSNAME);
-                ctxt = container.getSPI(contextClass);
-            } catch (ClassNotFoundException e) {
-                log.log(Level.WARNING, LogStringsMessages.WSITPVD_0066_SERVLET_CONTEXT_NOTFOUND(), e);
-            }
-        }
+        Object ctxt = SecurityUtil.getServletContext(context.getEndpoint());
         String serverName = "server";
         if (ctxt != null) {
 

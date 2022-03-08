@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -47,7 +48,7 @@ public class ClientSecurityPipe extends AbstractFilterPipeImpl
             LogDomainConstants.WSIT_PVD_DOMAIN,
             LogDomainConstants.WSIT_PVD_DOMAIN_BUNDLE);
 
-    public ClientSecurityPipe(Map<Object, Object> props, Pipe next) {
+    public ClientSecurityPipe(Map<String, Object> props, Pipe next) {
 
         super(next);
 	props.put(PipeConstants.SECURITY_PIPE,this);
@@ -218,7 +219,7 @@ public class ClientSecurityPipe extends AbstractFilterPipeImpl
 
 	    // put MessageInfo in properties map, since MessageInfo 
 	    // is not passed to getAuthContext, key idicates function
-	    HashMap<Object, Object> map = new HashMap<>();
+	    HashMap<String, Object> map = new HashMap<>();
 	    map.put(PipeConstants.SECURITY_TOKEN,info);
 
 	    helper.getSessionToken(map,info,clientSubject);

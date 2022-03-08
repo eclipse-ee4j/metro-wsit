@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -39,7 +40,7 @@ public class ServerPipeCreator extends ServerPipelineHook {
     public Pipe createSecurityPipe(PolicyMap map, SEIModel sei,
             WSDLPort port, WSEndpoint owner, Pipe tail) {
 
-        HashMap<Object, Object> props = new HashMap<>();
+        HashMap<String, Object> props = new HashMap<>();
 
         boolean httpBinding = BindingID.XML_HTTP.equals(owner.getBinding().getBindingId());
         props.put(PipeConstants.POLICY, map);
@@ -56,7 +57,7 @@ public class ServerPipeCreator extends ServerPipelineHook {
     @NotNull
     Tube createSecurityTube(ServerTubelineAssemblyContext context) {
 
-        HashMap<Object, Object> props = new HashMap<>();
+        HashMap<String, Object> props = new HashMap<>();
         boolean httpBinding = BindingID.XML_HTTP.equals(context.getEndpoint().getBinding().getBindingId());
         props.put(PipeConstants.POLICY, context.getPolicyMap());
         props.put(PipeConstants.SEI_MODEL, context.getSEIModel());

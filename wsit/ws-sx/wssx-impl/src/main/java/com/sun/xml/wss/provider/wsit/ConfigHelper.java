@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -61,12 +62,12 @@ public abstract class ConfigHelper /*implements RegistrationListener*/ {
 	
     protected String layer;
     protected String appCtxt;
-    protected Map<Object, Object> map;
+    protected Map<String, Object> map;
     protected CallbackHandler cbh;
     protected AuthConfigRegistrationWrapper listenerWrapper = null;
 
     protected void init(String layer, String appContext,
-            Map<Object, Object> map, CallbackHandler cbh) {
+            Map<String, Object> map, CallbackHandler cbh) {
 
         factory = AuthConfigFactory.getFactory();
 	this.layer = layer;

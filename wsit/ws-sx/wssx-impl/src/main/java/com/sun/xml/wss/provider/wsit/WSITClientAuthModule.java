@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -50,9 +51,7 @@ public class WSITClientAuthModule implements ClientAuthModule {
         LogDomainConstants.WSIT_PVD_DOMAIN,
         LogDomainConstants.WSIT_PVD_DOMAIN_BUNDLE);
     
-    private Class[] supported = new Class[2];
-    protected static final String DEBUG = "debug";
-    private boolean debug= false;
+    private final Class<?>[] supported = new Class[2];
     
     /** Creates a new instance of WSITClientAuthModule */
     public WSITClientAuthModule() {
@@ -64,9 +63,7 @@ public class WSITClientAuthModule implements ClientAuthModule {
     public void initialize(MessagePolicy requestPolicy,
                            MessagePolicy responsePolicy,
                            CallbackHandler handler,
-                           Map options) {
-        String bg = (String)options.get(DEBUG);
-        if (bg !=null && bg.equals("true")) debug = true;
+                           Map<String, Object> options) {
     }
 
     @Override

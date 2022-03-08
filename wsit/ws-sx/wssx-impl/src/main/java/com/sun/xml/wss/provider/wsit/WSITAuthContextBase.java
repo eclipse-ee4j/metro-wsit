@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -78,7 +79,6 @@ import com.sun.xml.ws.security.policy.Token;
 
 
 import jakarta.xml.bind.JAXBContext;
-//import jakarta.xml.bind.Unmarshaller;
 
 import com.sun.xml.wss.impl.MessageConstants;
 import com.sun.xml.wss.impl.misc.DefaultCallbackHandler;
@@ -89,7 +89,6 @@ import com.sun.xml.ws.security.policy.CallbackHandlerConfiguration;
 import com.sun.xml.ws.security.policy.Validator;
 import com.sun.xml.ws.security.policy.ValidatorConfiguration;
 import com.sun.xml.ws.security.policy.WSSAssertion;
-//import com.sun.xml.wss.impl.OperationResolver;
 
 import java.util.Properties;
 
@@ -274,7 +273,7 @@ public abstract class WSITAuthContextBase  {
     }    
     
     /** Creates a new instance of WSITAuthContextBase */
-    public WSITAuthContextBase(Map<Object, Object> map) {
+    public WSITAuthContextBase(Map<String, Object> map) {
         this.nextPipe = (Pipe)map.get("NEXT_PIPE");
         this.nextTube = (Tube)map.get("NEXT_TUBE");
         PolicyMap wsPolicyMap = (PolicyMap)map.get("POLICY");

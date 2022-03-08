@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -22,7 +23,6 @@ import com.sun.xml.ws.api.pipe.TubelineAssembler;
 import com.sun.xml.ws.api.pipe.TubelineAssemblerFactory;
 import com.sun.xml.ws.api.server.WSEndpoint;
 import com.sun.xml.wss.impl.misc.SecurityUtil;
-import com.sun.xml.ws.api.server.Container;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URL;
@@ -35,7 +35,6 @@ import jakarta.xml.ws.WebServiceException;
  */
 public class XWSSTubelineAssemblerFactory extends TubelineAssemblerFactory {
 
-    private static final String SERVLET_CONTEXT_CLASSNAME = "jakarta.servlet.ServletContext";
     private static final String addrVersionClass = "com.sun.xml.ws.api.addressing.AddressingVersion";
     private static final boolean disable;
 
@@ -139,27 +138,16 @@ public class XWSSTubelineAssemblerFactory extends TubelineAssemblerFactory {
             QName serviceQName = context.getEndpoint().getServiceName();
             //TODO: not sure which of the two above will give the service name as specified in DD
             String serviceLocalName = serviceQName.getLocalPart();
-            Container container = context.getEndpoint().getContainer();
             
-            Object ctxt = null;
-            if (container != null) {
-                try {
-                    final Class<?> contextClass = Class.forName(SERVLET_CONTEXT_CLASSNAME);
-                    ctxt = container.getSPI(contextClass);
-                } catch (ClassNotFoundException e) {
-                    //log here at FINE Level : that the ServletContext was not found
-                }
-            }
+            Object ctxt = SecurityUtil.getServletContext(context.getEndpoint());
             String serverName = "server";
             if (ctxt != null) {
                 String serverConfig = "/WEB-INF/" + serverName + "_" + "security_config.xml";
                 URL url =  SecurityUtil.loadFromContext(serverConfig, ctxt);
-                
                 if (url == null) {
                     serverConfig = "/WEB-INF/" + serviceLocalName + "_" + "security_config.xml";
                     url = SecurityUtil.loadFromContext(serverConfig, ctxt);
                 }
-                
                 if (url != null) {
                     return true;
                 }
@@ -172,7 +160,6 @@ public class XWSSTubelineAssemblerFactory extends TubelineAssemblerFactory {
                     serverConfig = "META-INF/" + serviceLocalName + "_" + "security_config.xml";
                     url = SecurityUtil.loadFromClasspath(serverConfig);
                 }
-                
                 if (url != null) {
                     return true;
                 }

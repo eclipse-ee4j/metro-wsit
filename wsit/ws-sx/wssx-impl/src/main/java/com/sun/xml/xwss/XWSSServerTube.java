@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -36,8 +37,6 @@ import com.sun.xml.wss.impl.config.DeclarativeSecurityConfiguration;
 import com.sun.xml.wss.impl.configuration.StaticApplicationContext;
 import com.sun.xml.wss.impl.misc.SecurityUtil;
 import com.sun.xml.wss.impl.policy.SecurityPolicy;
-import com.sun.xml.xwss.SecurityConfiguration;
-import com.sun.xml.ws.api.server.Container;
 
 import java.io.InputStream;
 import java.net.URL;
@@ -80,7 +79,6 @@ public class XWSSServerTube extends AbstractFilterTubeImpl {
     protected static final String FALSE = "false";
     protected static final String CONTEXT_WSDL_OPERATION =
             "com.sun.xml.ws.wsdl.operation";
-    private static final String SERVLET_CONTEXT_CLASSNAME = "jakarta.servlet.ServletContext";
     
     /** Creates a new instance of XWSSServerPipe */
     public XWSSServerTube(WSEndpoint epoint, WSDLPort prt, Tube nextTube) {
@@ -139,19 +137,7 @@ public class XWSSServerTube extends AbstractFilterTubeImpl {
     private URL getServerConfig() {
         QName serviceQName = endPoint.getServiceName();
         String serviceName = serviceQName.getLocalPart();
-        
-        
-        Container container = endPoint.getContainer();
-        
-        Object ctxt = null;
-        if (container != null) {
-            try {
-                final Class<?> contextClass = Class.forName(SERVLET_CONTEXT_CLASSNAME);
-                ctxt = container.getSPI(contextClass);
-            } catch (ClassNotFoundException e) {
-                //log here at FINE Level : that the ServletContext was not found
-            }
-        }
+        Object ctxt = SecurityUtil.getServletContext(endPoint);
         String serverName = "server";
         URL url = null;
         if (ctxt != null) {

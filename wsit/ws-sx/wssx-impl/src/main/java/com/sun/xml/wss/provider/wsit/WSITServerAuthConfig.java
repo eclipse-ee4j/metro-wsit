@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -23,7 +24,6 @@ import com.sun.xml.ws.policy.PolicyMap;
 import java.util.Map;
 import javax.security.auth.Subject;
 import javax.security.auth.callback.CallbackHandler;
-import jakarta.security.auth.message.AuthException;
 import jakarta.security.auth.message.MessageInfo;
 import jakarta.security.auth.message.config.ServerAuthConfig;
 import jakarta.security.auth.message.config.ServerAuthContext;
@@ -56,8 +56,7 @@ public class WSITServerAuthConfig implements ServerAuthConfig {
     }
 
     @Override
-    public ServerAuthContext getAuthContext(String operation, Subject subject, Map rawMap) {
-        @SuppressWarnings("unchecked") Map<Object, Object> map = rawMap;
+    public ServerAuthContext getAuthContext(String operation, Subject subject, Map<String, Object> map) {
         PolicyMap pMap = (PolicyMap) map.get("POLICY");
         WSDLPort port = (WSDLPort) map.get("WSDL_MODEL");
         if (pMap == null || pMap.isEmpty()) {
