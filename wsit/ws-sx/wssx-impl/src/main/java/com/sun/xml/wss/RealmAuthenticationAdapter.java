@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -24,13 +25,10 @@ import javax.security.auth.Subject;
  * The SPI implementation class needs to 
  * specified as a META-INF/services entry with name "com.sun.xml.xwss.RealmAuthenticator". 
  * A default implementation of this SPI is returned if no entry is configured.
- *
- * 
  */
 public abstract class RealmAuthenticationAdapter {
 
     public static final String UsernameAuthenticator = "com.sun.xml.xwss.RealmAuthenticator";
-    private static final String SERVLET_CONTEXT_CLASSNAME = "jakarta.servlet.ServletContext";
     // Prefixing with META-INF/ instead of /META-INF/. /META-INF/ is working fine
     // when loading from a JAR file but not when loading from a plain directory.
     private static final String JAR_PREFIX = "META-INF/";

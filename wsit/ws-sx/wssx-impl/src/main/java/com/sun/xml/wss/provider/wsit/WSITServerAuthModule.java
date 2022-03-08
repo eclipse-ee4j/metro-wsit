@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -49,11 +50,8 @@ public class WSITServerAuthModule implements ServerAuthModule {
         Logger.getLogger(
         LogDomainConstants.WSIT_PVD_DOMAIN,
         LogDomainConstants.WSIT_PVD_DOMAIN_BUNDLE);
-    
-    Class[] supported = new Class[2];
-    boolean debug = false;
-    protected static final String DEBUG = "debug";
-    
+    private Class<?>[] supported = new Class[2];
+
     /** Creates a new instance of WSITServerAuthModule */
     public WSITServerAuthModule() {
         supported[0] = SOAPMessage.class;
@@ -61,17 +59,13 @@ public class WSITServerAuthModule implements ServerAuthModule {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public void initialize(MessagePolicy requestPolicy,
-	       MessagePolicy responsePolicy,
-	       CallbackHandler handler,
-	       Map options) {
-        String bg = (String)options.get(DEBUG);
-        if (bg !=null && bg.equals("true")) debug = true;
+    public void initialize(MessagePolicy requestPolicy, MessagePolicy responsePolicy, CallbackHandler handler,
+        Map<String, Object> options) {
     }
 
+
     @Override
-    public Class[] getSupportedMessageTypes() {
+    public Class<?>[] getSupportedMessageTypes() {
         return supported;
     }
 

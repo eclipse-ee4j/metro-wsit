@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -25,7 +26,6 @@ import com.sun.xml.ws.security.secconv.WSSecureConversationException;
 import java.util.Map;
 import javax.security.auth.Subject;
 import javax.security.auth.callback.CallbackHandler;
-import jakarta.security.auth.message.AuthException;
 import jakarta.security.auth.message.MessageInfo;
 import jakarta.security.auth.message.config.ClientAuthConfig;
 import jakarta.security.auth.message.config.ClientAuthContext;
@@ -69,9 +69,7 @@ public class WSITClientAuthConfig implements ClientAuthConfig {
     }
 
     @Override
-    public ClientAuthContext getAuthContext(String operation, Subject subject, Map rawMap) {
-        @SuppressWarnings("unchecked") Map<Object, Object> map = rawMap;
-
+    public ClientAuthContext getAuthContext(String operation, Subject subject, Map<String, Object> map) {
         PolicyMap pMap = (PolicyMap) map.get("POLICY");
         WSDLPort port = (WSDLPort) map.get("WSDL_MODEL");
         Object tubeOrPipe = map.get(PipeConstants.SECURITY_PIPE);
@@ -167,8 +165,7 @@ public class WSITClientAuthConfig implements ClientAuthConfig {
         return this.tubetoClientAuthContextHash.remove( hashCode);
     }
 
-    @SuppressWarnings("unchecked")
-    private JAXBElement startSecureConversation(Map map, WSITClientAuthContext clientAuthContext) {
+    private JAXBElement startSecureConversation(Map<String, Object> map, WSITClientAuthContext clientAuthContext) {
         //check if we need to start secure conversation
         JAXBElement ret = null;
         try {

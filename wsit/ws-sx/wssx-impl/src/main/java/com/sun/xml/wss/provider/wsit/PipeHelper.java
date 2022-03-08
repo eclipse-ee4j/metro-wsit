@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -58,7 +59,7 @@ public class PipeHelper extends ConfigHelper {
     private Class secCntxt = null;
     private SecurityContext context = null;
     
-    public PipeHelper(String layer, Map<Object, Object> map, CallbackHandler cbh) {
+    public PipeHelper(String layer, Map<String, Object> map, CallbackHandler cbh) {
         init(layer, getAppCtxt(map), map, cbh);
 
 	this.seiModel = (SEIModel) map.get(PipeConstants.SEI_MODEL);
@@ -146,7 +147,7 @@ public class PipeHelper extends ConfigHelper {
         return s;
     }
 
-    public void getSessionToken(Map<Object, Object> m, 
+    public void getSessionToken(Map<String, Object> m,
 				MessageInfo info, 
 				Subject s) throws AuthException {
 	ClientAuthConfig c = (ClientAuthConfig) getAuthConfig(false);    
@@ -218,10 +219,9 @@ public class PipeHelper extends ConfigHelper {
     }
     
     
-    private static String getAppCtxt(Map map) {
+    private static String getAppCtxt(Map<String, Object> map) {
         String rvalue = null;
-        WSEndpoint wse = 
-            (WSEndpoint) map.get(PipeConstants.ENDPOINT);
+        WSEndpoint wse = (WSEndpoint) map.get(PipeConstants.ENDPOINT);
         Container container = (Container)map.get(PipeConstants.CONTAINER);
         // endpoint
         if (wse != null) {
@@ -253,7 +253,7 @@ public class PipeHelper extends ConfigHelper {
     }
 
     @SuppressWarnings("unchecked")
-    private static void addModel(MessageInfo info, Map<Object, Object> map) {
+    private static void addModel(MessageInfo info, Map<String, Object> map) {
         Object model = map.get(PipeConstants.WSDL_MODEL);
         if (model != null) {
             info.getMap().put(PipeConstants.WSDL_MODEL,model);

@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -50,7 +51,6 @@ import com.sun.xml.ws.security.opt.impl.JAXBFilterProcessingContext;
 import com.sun.xml.ws.security.policy.Token;
 import com.sun.xml.ws.security.policy.IssuedToken;
 import com.sun.xml.ws.security.policy.SecureConversationToken;
-import com.sun.xml.ws.security.secconv.WSSecureConversationException;
 import com.sun.xml.ws.security.secconv.impl.client.DefaultSCTokenConfiguration;
 import com.sun.xml.ws.security.trust.GenericToken;
 import com.sun.xml.ws.security.trust.STSIssuedTokenFeature;
@@ -150,7 +150,7 @@ public class WSITClientAuthContext extends WSITAuthContextBase
     
     /** Creates a new instance of WSITClientAuthContext */
     @SuppressWarnings("unchecked")
-    public WSITClientAuthContext(String operation, Subject subject, Map<Object, Object> map, CallbackHandler callbackHandler) {
+    public WSITClientAuthContext(String operation, Subject subject, Map<String, Object> map, CallbackHandler callbackHandler) {
         super(map);
         this.authConfig = new WeakReference<>((WSITClientAuthConfig) map.get(PipeConstants.AUTH_CONFIG));
         this.tubeOrPipeHashCode =(map.get(PipeConstants.SECURITY_PIPE)).hashCode();
@@ -253,8 +253,7 @@ public class WSITClientAuthContext extends WSITAuthContextBase
                 }
 
                 //set the isTrustProperty into MessageInfo
-                @SuppressWarnings("unchecked")
-                Map<Object, Object> msgInfoMap = messageInfo.getMap();
+                Map<String, Object> msgInfoMap = messageInfo.getMap();
                 msgInfoMap.put("IS_TRUST_MSG", Boolean.valueOf(isTrustMsg));
 
                 // keep the message

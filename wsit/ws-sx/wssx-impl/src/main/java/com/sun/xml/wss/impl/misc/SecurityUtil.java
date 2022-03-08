@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -55,8 +56,8 @@ import com.sun.xml.ws.api.SOAPVersion;
 import com.sun.xml.ws.api.security.secconv.client.SCTokenConfiguration;
 import com.sun.xml.ws.api.security.trust.WSTrustException;
 import com.sun.xml.ws.api.security.trust.client.IssuedTokenManager;
-
-
+import com.sun.xml.ws.api.server.Container;
+import com.sun.xml.ws.api.server.WSEndpoint;
 import com.sun.xml.ws.security.impl.IssuedTokenContextImpl;
 import com.sun.xml.ws.security.IssuedTokenContext;
 import com.sun.xml.wss.core.SecurityContextTokenImpl;
@@ -66,6 +67,9 @@ import com.sun.xml.wss.impl.policy.mls.IssuedTokenKeyBinding;
 import com.sun.xml.ws.security.SecurityTokenReference;
 
 import org.w3c.dom.Node;
+
+import static com.sun.xml.wss.provider.wsit.logging.LogStringsMessages.WSITPVD_0066_SERVLET_CONTEXT_NOTFOUND;
+
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Document;
@@ -627,6 +631,49 @@ public class SecurityUtil {
      */
     public static URL loadFromContext(final String configFileName, final Object context) {
         return ReflectionUtil.invoke(context, "getResource", URL.class, configFileName);
+    }
+
+
+    /**
+     * @param endpoint
+     * @return null or the ServletContext instance bound to this endpoint
+     */
+    public static Object getServletContext(final WSEndpoint<?> endpoint) {
+        Container container = endpoint.getContainer();
+        if (container == null) {
+            return null;
+        }
+        final Class<?> contextClass = findServletContextClass();
+        if (contextClass == null) {
+            log.log(Level.WARNING, WSITPVD_0066_SERVLET_CONTEXT_NOTFOUND());
+            return null;
+        }
+        return container.getSPI(contextClass);
+    }
+
+
+    /**
+     * Tries to load the ServletContext class by the thread's context loader
+     * or by the loader which was used to load this class.
+     *
+     * @return ServletContext class or null
+     */
+    public static Class<?> findServletContextClass() {
+        String className = "jakarta.servlet.ServletContext";
+        ClassLoader loader = Thread.currentThread().getContextClassLoader();
+        if (loader != null) {
+            try {
+                return loader.loadClass(className);
+            } catch (ClassNotFoundException e) {
+                // ignore
+            }
+        }
+        loader = SecurityUtil.class.getClassLoader();
+        try {
+            return loader.loadClass(className);
+        } catch (ClassNotFoundException e) {
+            return null;
+        }
     }
     
     /**

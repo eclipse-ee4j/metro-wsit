@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -54,6 +55,7 @@ import com.sun.xml.ws.security.impl.IssuedTokenContextImpl;
 import com.sun.xml.ws.security.opt.impl.util.SOAPUtil;
 import com.sun.xml.ws.security.secconv.WSSecureConversationException;
 import com.sun.xml.wss.impl.misc.DefaultSecurityEnvironmentImpl;
+import com.sun.xml.wss.impl.misc.SecurityUtil;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
@@ -863,39 +865,16 @@ public class SecurityServerTube extends SecurityTubeBase {
         }
     }
 
-    @SuppressWarnings("unchecked")
     private RealmAuthenticationAdapter getRealmAuthenticationAdapter(WSEndpoint wSEndpoint) {
-        String className = "jakarta.servlet.ServletContext";
-        Class ret = null;
-        ClassLoader loader = Thread.currentThread().getContextClassLoader();
-        if (loader != null) {
-            try {
-                ret = loader.loadClass(className);
-            } catch (ClassNotFoundException e) {
-                return null;
-            }
-        }
-        if (ret == null) {
-            // if context classloader didnt work, try this
-            loader = this.getClass().getClassLoader();
-            try {
-                ret = loader.loadClass(className);
-            } catch (ClassNotFoundException e) {
-                return null;
-            }
-        }
-        if (ret != null) {
-            Object obj = wSEndpoint.getContainer().getSPI(ret);
-            if (obj != null) {
-                return RealmAuthenticationAdapter.newInstance(obj);
-            }
+        Object obj = SecurityUtil.getServletContext(wSEndpoint);
+        if (obj != null) {
+            return RealmAuthenticationAdapter.newInstance(obj);
         }
         return null;
     }
 
     //doing this here becuase doing inside keyselector of optimized security would
     //mean doing it twice (if SCT was used for sign and encrypt) which can impact performance
-    @SuppressWarnings("unchecked")
     private void updateSCBootstrapCredentials(Packet packet, ProcessingContext ctx) {
         SecurityContextToken sct =
                 (SecurityContextToken) packet.invocationProperties.get(MessageConstants.INCOMING_SCT);

@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -66,6 +67,7 @@ import com.sun.xml.wss.impl.XWSSecurityRuntimeException;
 import com.sun.xml.wss.impl.filter.DumpFilter;
 import com.sun.xml.wss.impl.misc.DefaultCallbackHandler;
 import com.sun.xml.wss.impl.misc.DefaultSecurityEnvironmentImpl;
+import com.sun.xml.wss.impl.misc.SecurityUtil;
 import com.sun.xml.wss.impl.misc.WSITProviderSecurityEnvironment;
 import com.sun.xml.wss.impl.policy.mls.MessagePolicy;
 import com.sun.xml.wss.jaxws.impl.Constants;
@@ -77,11 +79,9 @@ import java.util.Properties;
 import java.util.Set;
 import javax.security.auth.Subject;
 import javax.security.auth.callback.CallbackHandler;
-import jakarta.security.auth.message.AuthException;
 import jakarta.security.auth.message.AuthStatus;
 import jakarta.security.auth.message.MessageInfo;
 import jakarta.security.auth.message.config.ServerAuthContext;
-//import jakarta.servlet.ServletContext;
 import javax.xml.namespace.QName;
 import jakarta.xml.soap.SOAPException;
 import jakarta.xml.soap.SOAPMessage;
@@ -124,8 +124,7 @@ public class WSITServerAuthContext extends WSITAuthContextBase implements Server
     static final String PIPE_HELPER = "PIPE_HELPER";
     
     /** Creates a new instance of WSITServerAuthContext */
-    @SuppressWarnings("unchecked")
-    public WSITServerAuthContext(String operation, Subject subject, Map<Object, Object> map, CallbackHandler callbackHandler) {
+    public WSITServerAuthContext(String operation, Subject subject, Map<String, Object> map, CallbackHandler callbackHandler) {
         super(map);
         //this.operation = operation;
         //this.subject = subject;
@@ -258,7 +257,6 @@ public class WSITServerAuthContext extends WSITAuthContextBase implements Server
     }
     
     @Override
-    @SuppressWarnings("unchecked")
     public AuthStatus secureResponse(MessageInfo messageInfo, Subject serviceSubject) {
         // Add addressing headers to trust message
         
@@ -294,7 +292,7 @@ public class WSITServerAuthContext extends WSITAuthContextBase implements Server
         NonceManager.deleteInstance(endPoint.get());
     }
     
-    public Packet validateRequest(Packet packet, Subject clientSubject, Subject serviceSubject, Map<Object, Object> sharedState)
+    public Packet validateRequest(Packet packet, Subject clientSubject, Subject serviceSubject, Map<String, Object> sharedState)
     throws XWSSecurityException {
         
         Message msg = packet.getInternalMessage();
@@ -466,8 +464,7 @@ public class WSITServerAuthContext extends WSITAuthContextBase implements Server
         return retPacket;
     }
     
-    @SuppressWarnings("unchecked")
-    public Packet secureResponse(Packet retPacket, Subject serviceSubject, Map sharedState) {
+    public Packet secureResponse(Packet retPacket, Subject serviceSubject, Map<String, Object> sharedState) {
         
         boolean isSCIssueMessage = (sharedState.get("IS_SC_ISSUE") != null) ? true : false;
         boolean isSCCancelMessage =(sharedState.get("IS_SC_CANCEL") != null) ? true : false;
@@ -612,7 +609,6 @@ public class WSITServerAuthContext extends WSITAuthContextBase implements Server
             }
             ctx.setSecurityEnvironment(secEnv);
             ctx.isInboundMessage(false);          
-            @SuppressWarnings("unchecked")
             Map<Object, Object> extProps = ctx.getExtraneousProperties();
             extProps.put(WSITServerAuthContext.WSDLPORT,pipeConfig.getWSDLPort());
         } catch (XWSSecurityException e) {
@@ -892,37 +888,14 @@ public class WSITServerAuthContext extends WSITAuthContextBase implements Server
         }
     }
     
-    @SuppressWarnings("unchecked")
     private RealmAuthenticationAdapter getRealmAuthenticationAdapter(WSEndpoint wSEndpoint) {
-        String className = "jakarta.servlet.ServletContext";
-        Class ret = null;
-        ClassLoader loader = Thread.currentThread().getContextClassLoader();
-        if (loader != null) {
-            try {
-                ret = loader.loadClass(className);
-            } catch (ClassNotFoundException e) {
-                return null;
-            }
+        Object obj = SecurityUtil.getServletContext(wSEndpoint);
+        if (obj == null) {
+            return null;
         }
-        if (ret == null) {
-            // if context classloader didnt work, try this
-            loader = this.getClass().getClassLoader();
-            try {
-                ret = loader.loadClass(className);
-            } catch (ClassNotFoundException e) {
-                return null;
-            }
-        }
-        if (ret != null) {
-            Object obj = wSEndpoint.getContainer().getSPI(ret);
-            if (obj != null) {
-                return RealmAuthenticationAdapter.newInstance(obj);
-            }
-        }
-        return null;
+        return RealmAuthenticationAdapter.newInstance(obj);
     }   
     
-    @SuppressWarnings("unchecked")
     private void updateSCSessionInfo(Packet packet) {
         SecurityContextToken sct =
                 (SecurityContextToken)packet.invocationProperties.get(MessageConstants.INCOMING_SCT);

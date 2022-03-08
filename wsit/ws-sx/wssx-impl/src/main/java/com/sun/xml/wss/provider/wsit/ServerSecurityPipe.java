@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -45,15 +46,14 @@ public class ServerSecurityPipe extends AbstractFilterPipeImpl {
 
     private PipeHelper helper;
 
-    public ServerSecurityPipe(Map<Object, Object> props, final Pipe next, 
-			     boolean isHttpBinding) {
+    public ServerSecurityPipe(Map<String, Object> props, final Pipe next, boolean isHttpBinding) {
         super(next);
-
-	props.put(PipeConstants.SECURITY_PIPE,this);
-	this.helper = new PipeHelper(PipeConstants.SOAP_LAYER,props,null);
+        props.put(PipeConstants.SECURITY_PIPE, this);
+        this.helper = new PipeHelper(PipeConstants.SOAP_LAYER, props, null);
         this.isHttpBinding = isHttpBinding;
-    }    
-    
+    }
+
+
     protected ServerSecurityPipe(ServerSecurityPipe that,
             PipeCloner cloner) {
 

@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -56,7 +57,7 @@ public class WSITAuthConfigProvider implements AuthConfigProvider {
     private ReentrantReadWriteLock.WriteLock wLock;
     
     /** Creates a new instance of WSITAuthConfigProvider */
-    public WSITAuthConfigProvider(Map props, AuthConfigFactory factory) {
+    public WSITAuthConfigProvider(Map<String, String> props, AuthConfigFactory factory) {
         //properties = props;
         //this.factory = factory;
         if (factory != null) {

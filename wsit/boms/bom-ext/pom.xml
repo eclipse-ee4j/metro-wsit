@@ -28,7 +28,7 @@
     <description>Metro Web Services Stack Dependency POM for Metro-CS</description>
 
     <properties>
-        <authentication-api.version>2.0.0</authentication-api.version>
+        <authentication-api.version>3.0.0-RC2</authentication-api.version>
         <connector-api.version>2.1.0-RC1</connector-api.version>
         <ejb-api.version>4.0.0</ejb-api.version>
         <transaction-api.version>2.0.1-RC1</transaction-api.version>

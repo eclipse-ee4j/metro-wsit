@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -60,7 +61,7 @@ public class ClientSecurityTube extends AbstractFilterTubeImpl implements Secure
         super(nextTube);  
     }
     
-    public ClientSecurityTube(Map<Object, Object> props, Tube next) {
+    public ClientSecurityTube(Map<String, Object> props, Tube next) {
 
         super(next);
         props.put(PipeConstants.SECURITY_PIPE, this);
@@ -249,7 +250,7 @@ public class ClientSecurityTube extends AbstractFilterTubeImpl implements Secure
 	    Subject clientSubject = getClientSubject(packet);
 	    // put MessageInfo in properties map, since MessageInfo 
 	    // is not passed to getAuthContext, key idicates function
-	    HashMap<Object, Object> map = new HashMap<>();
+	    HashMap<String, Object> map = new HashMap<>();
 	    map.put(PipeConstants.SECURITY_TOKEN,info);
 	    helper.getSessionToken(map,info,clientSubject);
 	    // helper returns token in map of msgInfo, using same key

@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -47,8 +48,8 @@ public class ServerSecurityTube extends AbstractFilterTubeImpl {
     private ServerAuthContext sAC = null;
     private PacketMessageInfo info = null;
     private WSEndpoint wsEndpoint = null;
-    @SuppressWarnings("unchecked")
-    public ServerSecurityTube(Map<Object, Object> props, final Tube next, boolean isHttpBinding) {
+
+    public ServerSecurityTube(Map<String, Object> props, final Tube next, boolean isHttpBinding) {
         super(next);
         props.put(PipeConstants.SECURITY_PIPE, this);
         this.helper = new PipeHelper(PipeConstants.SOAP_LAYER, props, null);
@@ -56,7 +57,6 @@ public class ServerSecurityTube extends AbstractFilterTubeImpl {
         this.wsEndpoint = (WSEndpoint) props.get(PipeConstants.ENDPOINT);
 
         //Registers IdentityComponent if either cs is not null        
-        
     }
 
     protected ServerSecurityTube(ServerSecurityTube that, TubeCloner cloner) {
