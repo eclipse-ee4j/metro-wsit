@@ -39,12 +39,13 @@ import com.sun.xml.ws.util.ServiceConfigurationError;
 import com.sun.xml.ws.util.ServiceFinder;
 import com.sun.xml.wss.NonceManager;
 import com.sun.xml.wss.impl.MessageConstants;
-import com.sun.xml.wss.impl.XWSSecurityRuntimeException;
 import com.sun.xml.wss.impl.config.SecurityConfigProvider;
 import com.sun.xml.wss.impl.misc.SecurityUtil;
 import com.sun.xml.wss.jaxws.impl.SecurityClientTube;
 import com.sun.xml.wss.jaxws.impl.SecurityServerTube;
 import com.sun.xml.wss.provider.wsit.logging.LogDomainConstants;
+import com.sun.xml.wss.util.ServletContextUtil;
+import com.sun.xml.wss.util.WSSServletContextFacade;
 import com.sun.xml.xwss.XWSSClientTube;
 import com.sun.xml.xwss.XWSSServerTube;
 
@@ -112,11 +113,11 @@ public final class SecurityTubeFactory implements TubeFactory, TubelineAssemblyC
 
         //TEMP: uncomment this ServerPipelineHook hook = context.getEndpoint().getContainer().getSPI(ServerPipelineHook.class);
         ServerPipelineHook[] hooks = getServerTubeLineHooks();
-        ServerPipelineHook hook = null;       
+        ServerPipelineHook hook = null;
         if (hooks != null && hooks.length > 0 && hooks[0] instanceof com.sun.xml.wss.provider.wsit.ServerPipeCreator) {
             //we let it override GF defaults
             hook = hooks[0];
-            //set the Factory to JMACAuthConfigFactory if it is not already set to 
+            //set the Factory to JMACAuthConfigFactory if it is not already set to
             //something else.
             initializeJMAC();
         } else {
@@ -393,40 +394,30 @@ public final class SecurityTubeFactory implements TubeFactory, TubelineAssemblyC
     }
 
     private boolean isSecurityConfigPresent(ServerTubelineAssemblyContext context) {
-
         QName serviceQName = context.getEndpoint().getServiceName();
         //TODO: not sure which of the two above will give the service name as specified in DD
         String serviceLocalName = serviceQName.getLocalPart();
-        Object ctxt = SecurityUtil.getServletContext(context.getEndpoint());
+        WSSServletContextFacade ctxt = ServletContextUtil.getServletContextFacade(context.getEndpoint());
         String serverName = "server";
         if (ctxt != null) {
-
-            try {
-                String serverConfig = "/WEB-INF/" + serverName + "_" + "security_config.xml";
-                URL url = SecurityUtil.loadFromContext(serverConfig, ctxt);
-
-                if (url == null) {
-                    serverConfig = "/WEB-INF/" + serviceLocalName + "_" + "security_config.xml";
-                    url = SecurityUtil.loadFromContext(serverConfig, ctxt);
-                }
-
-                if (url != null) {
-                    return true;
-                }
-            } catch (XWSSecurityRuntimeException ex) {
-                //loadFromContext could throw IllegalAccessException on some containers
-                return false;
+            String serverConfig = "/WEB-INF/" + serverName + "_security_config.xml";
+            URL url = ctxt.getResource(serverConfig);
+            if (url == null) {
+                serverConfig = "/WEB-INF/" + serviceLocalName + "_security_config.xml";
+                url = ctxt.getResource(serverConfig);
+            }
+            if (url != null) {
+                return true;
             }
         } else {
             //this could be an EJB or JDK6 endpoint
             //so let us try to locate the config from META-INF classpath
-            String serverConfig = "META-INF/" + serverName + "_" + "security_config.xml";
+            String serverConfig = "META-INF/" + serverName + "_security_config.xml";
             URL url = SecurityUtil.loadFromClasspath(serverConfig);
             if (url == null) {
-                serverConfig = "META-INF/" + serviceLocalName + "_" + "security_config.xml";
+                serverConfig = "META-INF/" + serviceLocalName + "_security_config.xml";
                 url = SecurityUtil.loadFromClasspath(serverConfig);
             }
-
             if (url != null) {
                 return true;
             }

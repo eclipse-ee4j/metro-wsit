@@ -55,7 +55,6 @@ import com.sun.xml.ws.security.impl.IssuedTokenContextImpl;
 import com.sun.xml.ws.security.opt.impl.util.SOAPUtil;
 import com.sun.xml.ws.security.secconv.WSSecureConversationException;
 import com.sun.xml.wss.impl.misc.DefaultSecurityEnvironmentImpl;
-import com.sun.xml.wss.impl.misc.SecurityUtil;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
@@ -100,6 +99,8 @@ import com.sun.xml.wss.jaxws.impl.logging.LogStringsMessages;
 import com.sun.xml.wss.provider.wsit.PipeConstants;
 import com.sun.xml.wss.provider.wsit.PolicyAlternativeHolder;
 import com.sun.xml.wss.provider.wsit.PolicyResolverFactory;
+import com.sun.xml.wss.util.ServletContextUtil;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -835,16 +836,15 @@ public class SecurityServerTube extends SecurityTubeBase {
     }
 
     private CallbackHandler configureServerHandler(Set<PolicyAssertion> configAssertions, Properties props) {
-        //Properties props = new Properties();
-        CallbackHandlerFeature cbFeature =
-                tubeConfig.getBinding().getFeature(CallbackHandlerFeature.class);
+        CallbackHandlerFeature cbFeature = tubeConfig.getBinding().getFeature(CallbackHandlerFeature.class);
         if (cbFeature != null) {
             return cbFeature.getHandler();
         }
         String ret = populateConfigProperties(configAssertions, props);
         try {
             if (ret != null) {
-                Object obj = loadClass(ret).newInstance();
+                @SuppressWarnings("unchecked")
+                Object obj = loadClass(ret).getDeclaredConstructor().newInstance();
                 if (!(obj instanceof CallbackHandler)) {
                     log.log(Level.SEVERE,
                             LogStringsMessages.WSSTUBE_0033_INVALID_CALLBACK_HANDLER_CLASS(ret));
@@ -853,11 +853,9 @@ public class SecurityServerTube extends SecurityTubeBase {
                 }
                 return (CallbackHandler) obj;
             }
-            // ServletContext context =
-            //         ((ServerPipeConfiguration)pipeConfig).getEndpoint().getContainer().getSPI(ServletContext.class);
-            RealmAuthenticationAdapter adapter = getRealmAuthenticationAdapter(((ServerTubeConfiguration) tubeConfig).getEndpoint());
+            RealmAuthenticationAdapter adapter = getRealmAuthenticationAdapter(
+                ((ServerTubeConfiguration) tubeConfig).getEndpoint());
             return new DefaultCallbackHandler("server", props, adapter);
-        //return new DefaultCallbackHandler("server", props);
         } catch (Exception e) {
             log.log(Level.SEVERE,
                     LogStringsMessages.WSSTUBE_0032_ERROR_CONFIGURE_SERVER_HANDLER(), e);
@@ -866,11 +864,8 @@ public class SecurityServerTube extends SecurityTubeBase {
     }
 
     private RealmAuthenticationAdapter getRealmAuthenticationAdapter(WSEndpoint wSEndpoint) {
-        Object obj = SecurityUtil.getServletContext(wSEndpoint);
-        if (obj != null) {
-            return RealmAuthenticationAdapter.newInstance(obj);
-        }
-        return null;
+        Object obj = ServletContextUtil.getServletContextFacade(wSEndpoint);
+        return obj == null ? null : RealmAuthenticationAdapter.newInstance(obj);
     }
 
     //doing this here becuase doing inside keyselector of optimized security would
