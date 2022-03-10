@@ -23,6 +23,9 @@ import com.sun.xml.ws.api.pipe.TubelineAssembler;
 import com.sun.xml.ws.api.pipe.TubelineAssemblerFactory;
 import com.sun.xml.ws.api.server.WSEndpoint;
 import com.sun.xml.wss.impl.misc.SecurityUtil;
+import com.sun.xml.wss.util.ServletContextUtil;
+import com.sun.xml.wss.util.WSSServletContextFacade;
+
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URL;
@@ -134,19 +137,17 @@ public class XWSSTubelineAssemblerFactory extends TubelineAssemblerFactory {
         }
         
         private static boolean isSecurityConfigPresent(ServerTubeAssemblerContext context) {
-            
             QName serviceQName = context.getEndpoint().getServiceName();
             //TODO: not sure which of the two above will give the service name as specified in DD
             String serviceLocalName = serviceQName.getLocalPart();
-            
-            Object ctxt = SecurityUtil.getServletContext(context.getEndpoint());
+            WSSServletContextFacade ctxt = ServletContextUtil.getServletContextFacade(context.getEndpoint());
             String serverName = "server";
             if (ctxt != null) {
-                String serverConfig = "/WEB-INF/" + serverName + "_" + "security_config.xml";
-                URL url =  SecurityUtil.loadFromContext(serverConfig, ctxt);
+                String serverConfig = "/WEB-INF/" + serverName + "_security_config.xml";
+                URL url = ctxt.getResource(serverConfig);
                 if (url == null) {
-                    serverConfig = "/WEB-INF/" + serviceLocalName + "_" + "security_config.xml";
-                    url = SecurityUtil.loadFromContext(serverConfig, ctxt);
+                    serverConfig = "/WEB-INF/" + serviceLocalName + "_security_config.xml";
+                    url = ctxt.getResource(serverConfig);
                 }
                 if (url != null) {
                     return true;
@@ -154,10 +155,10 @@ public class XWSSTubelineAssemblerFactory extends TubelineAssemblerFactory {
             } else {
                 //this could be an EJB or JDK6 endpoint
                 //so let us try to locate the config from META-INF classpath
-                String serverConfig = "META-INF/" + serverName + "_" + "security_config.xml";
+                String serverConfig = "META-INF/" + serverName + "_security_config.xml";
                 URL url = SecurityUtil.loadFromClasspath(serverConfig);
                 if (url == null) {
-                    serverConfig = "META-INF/" + serviceLocalName + "_" + "security_config.xml";
+                    serverConfig = "META-INF/" + serviceLocalName + "_security_config.xml";
                     url = SecurityUtil.loadFromClasspath(serverConfig);
                 }
                 if (url != null) {

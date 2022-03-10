@@ -31,7 +31,6 @@ import java.util.Map;
 import java.util.WeakHashMap;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import javax.security.auth.callback.CallbackHandler;
-import jakarta.security.auth.message.AuthException;
 import jakarta.security.auth.message.config.AuthConfigFactory;
 import jakarta.security.auth.message.config.AuthConfigProvider;
 import jakarta.security.auth.message.config.ClientAuthConfig;
@@ -44,40 +43,31 @@ import jakarta.xml.ws.WebServiceException;
  */
 public class WSITAuthConfigProvider implements AuthConfigProvider {
 
-    //Map properties = null;    
-    String description = "WSIT AuthConfigProvider";
-    
-    //ClientAuthConfig clientConfig = null;
-    //ServerAuthConfig serverConfig = null;
-    WeakHashMap clientConfigMap = new WeakHashMap();
-    WeakHashMap serverConfigMap = new WeakHashMap();
-    
-    private ReentrantReadWriteLock rwLock;
-    private ReentrantReadWriteLock.ReadLock rLock;
-    private ReentrantReadWriteLock.WriteLock wLock;
-    
+    private final WeakHashMap<String, ClientAuthConfig> clientConfigMap = new WeakHashMap<>();
+    private final WeakHashMap<String, ServerAuthConfig> serverConfigMap = new WeakHashMap<>();
+
+    private final ReentrantReadWriteLock rwLock;
+    private final ReentrantReadWriteLock.ReadLock rLock;
+    private final ReentrantReadWriteLock.WriteLock wLock;
+
     /** Creates a new instance of WSITAuthConfigProvider */
     public WSITAuthConfigProvider(Map<String, String> props, AuthConfigFactory factory) {
-        //properties = props;
-        //this.factory = factory;
         if (factory != null) {
-            factory.registerConfigProvider(this, "SOAP", null,description);
+            factory.registerConfigProvider(this, "SOAP", null, "WSIT AuthConfigProvider");
         }
         this.rwLock = new ReentrantReadWriteLock(true);
         this.rLock = rwLock.readLock();
-        this.wLock = rwLock.writeLock(); 
+        this.wLock = rwLock.writeLock();
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public  ClientAuthConfig getClientAuthConfig(String layer, String appContext, CallbackHandler callbackHandler) {
-        
-        ClientAuthConfig clientConfig = null;
+        ClientAuthConfig clientConfig;
         this.rLock.lock();
         try {
-            clientConfig = (ClientAuthConfig)this.clientConfigMap.get(appContext);
+            clientConfig = this.clientConfigMap.get(appContext);
             if (clientConfig != null) {
-                    return clientConfig;
+                return clientConfig;
             }
         } finally {
             this.rLock.unlock();
@@ -86,49 +76,42 @@ public class WSITAuthConfigProvider implements AuthConfigProvider {
         // or you will encounter dealock
         this.wLock.lock();
         try {
-            // recheck the precondition, since the rlock was released.
-            if (clientConfig == null) {
-                clientConfig = new WSITClientAuthConfig(layer, appContext, callbackHandler);
-                this.clientConfigMap.put(appContext, clientConfig);
-            }
+            clientConfig = new WSITClientAuthConfig(layer, appContext, callbackHandler);
+            this.clientConfigMap.put(appContext, clientConfig);
             return clientConfig;
         } finally {
             this.wLock.unlock();
         }
     }
-    
+
     @Override
-    @SuppressWarnings("unchecked")
     public  ServerAuthConfig getServerAuthConfig(String layer, String appContext, CallbackHandler callbackHandler) {
-        ServerAuthConfig serverConfig = null;
+        ServerAuthConfig serverConfig;
         this.rLock.lock();
-         try {
-             serverConfig = (ServerAuthConfig)this.serverConfigMap.get(appContext);
-             if (serverConfig != null) {
-                 return serverConfig;
-             }
-         } finally {
-             this.rLock.unlock();
-         }
+        try {
+            serverConfig = this.serverConfigMap.get(appContext);
+            if (serverConfig != null) {
+                return serverConfig;
+            }
+        } finally {
+            this.rLock.unlock();
+        }
         // make sure you don't hold the rlock when you request the wlock
         // or you will encounter dealock
-         this.wLock.lock();
-         try {
-             // recheck the precondition, since the rlock was released.
-             if (serverConfig == null) {
-                 serverConfig = new WSITServerAuthConfig(layer, appContext, callbackHandler);
-                 this.serverConfigMap.put(appContext,serverConfig);
-             }
-             return serverConfig;
-         } finally {
-             this.wLock.unlock();
-         }
+        this.wLock.lock();
+        try {
+            serverConfig = new WSITServerAuthConfig(layer, appContext, callbackHandler);
+            this.serverConfigMap.put(appContext,serverConfig);
+            return serverConfig;
+        } finally {
+            this.wLock.unlock();
+        }
     }
 
     @Override
     public void refresh() {
     }
-    
+
     /**
      * Checks to see whether WS-Security is enabled or not.
      *
@@ -136,56 +119,61 @@ public class WSITAuthConfigProvider implements AuthConfigProvider {
      * @param wsdlPort wsdl:port
      * @return true if Security is enabled, false otherwise
      */
-    
+
     public static boolean isSecurityEnabled(PolicyMap policyMap, WSDLPort wsdlPort) {
-        if (policyMap == null || wsdlPort == null)
+        if (policyMap == null || wsdlPort == null) {
             return false;
-        
+        }
+
         try {
             PolicyMapKey endpointKey = PolicyMap.createWsdlEndpointScopeKey(wsdlPort.getOwner().getName(),
                     wsdlPort.getName());
             Policy policy = policyMap.getEndpointEffectivePolicy(endpointKey);
-            
-            if ((policy != null) && 
+
+            if ((policy != null) &&
                     (policy.contains(SecurityPolicyVersion.SECURITYPOLICY200507.namespaceUri) ||
                         policy.contains(SecurityPolicyVersion.SECURITYPOLICY12NS.namespaceUri)||
                         policy.contains(SecurityPolicyVersion.SECURITYPOLICY200512.namespaceUri))) {
                 return true;
             }
-            
+
             for (WSDLBoundOperation wbo : wsdlPort.getBinding().getBindingOperations()) {
                 PolicyMapKey operationKey = PolicyMap.createWsdlOperationScopeKey(wsdlPort.getOwner().getName(),
                         wsdlPort.getName(),
                         wbo.getName());
                 policy = policyMap.getOperationEffectivePolicy(operationKey);
-                if ((policy != null) && 
+                if ((policy != null) &&
                        (policy.contains(SecurityPolicyVersion.SECURITYPOLICY200507.namespaceUri) ||
-                            policy.contains(SecurityPolicyVersion.SECURITYPOLICY12NS.namespaceUri)))
+                            policy.contains(SecurityPolicyVersion.SECURITYPOLICY12NS.namespaceUri))) {
                     return true;
-                
+                }
+
                 policy = policyMap.getInputMessageEffectivePolicy(operationKey);
-                if ((policy != null) && 
+                if ((policy != null) &&
                         (policy.contains(SecurityPolicyVersion.SECURITYPOLICY200507.namespaceUri) ||
-                            policy.contains(SecurityPolicyVersion.SECURITYPOLICY12NS.namespaceUri)))
+                            policy.contains(SecurityPolicyVersion.SECURITYPOLICY12NS.namespaceUri))) {
                     return true;
-                
+                }
+
                 policy = policyMap.getOutputMessageEffectivePolicy(operationKey);
-                if ((policy != null) && 
+                if ((policy != null) &&
                         (policy.contains(SecurityPolicyVersion.SECURITYPOLICY200507.namespaceUri) ||
-                            policy.contains(SecurityPolicyVersion.SECURITYPOLICY12NS.namespaceUri)))
+                            policy.contains(SecurityPolicyVersion.SECURITYPOLICY12NS.namespaceUri))) {
                     return true;
-                
+                }
+
                 policy = policyMap.getFaultMessageEffectivePolicy(operationKey);
-                if ((policy != null) && 
+                if ((policy != null) &&
                         (policy.contains(SecurityPolicyVersion.SECURITYPOLICY200507.namespaceUri) ||
-                            policy.contains(SecurityPolicyVersion.SECURITYPOLICY12NS.namespaceUri)))
+                            policy.contains(SecurityPolicyVersion.SECURITYPOLICY12NS.namespaceUri))) {
                     return true;
+                }
             }
         } catch (PolicyException e) {
             throw new WebServiceException(e);
         }
-        
+
         return false;
     }
-    
+
 }

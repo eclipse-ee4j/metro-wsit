@@ -37,6 +37,8 @@ import com.sun.xml.wss.impl.config.DeclarativeSecurityConfiguration;
 import com.sun.xml.wss.impl.configuration.StaticApplicationContext;
 import com.sun.xml.wss.impl.misc.SecurityUtil;
 import com.sun.xml.wss.impl.policy.SecurityPolicy;
+import com.sun.xml.wss.util.ServletContextUtil;
+import com.sun.xml.wss.util.WSSServletContextFacade;
 
 import java.io.InputStream;
 import java.net.URL;
@@ -58,28 +60,26 @@ import org.w3c.dom.NodeList;
 
 /**
  *
- * 
+ *
  */
 public class XWSSServerTube extends AbstractFilterTubeImpl {
 
-    private WSEndpoint endPoint;
-    private WSDLPort port;
-    
-    private SecurityConfiguration config = null;
-    
-    protected  SOAPFactory soapFactory = null;
-    protected  MessageFactory messageFactory = null;
-    protected SOAPVersion soapVersion = null;
-    protected boolean isSOAP12 = false;
-    
-    protected static final String FAILURE =
-            "com.sun.xml.ws.shd.failure";
-    
+    protected static final String FAILURE = "com.sun.xml.ws.shd.failure";
     protected static final String TRUE = "true";
     protected static final String FALSE = "false";
-    protected static final String CONTEXT_WSDL_OPERATION =
-            "com.sun.xml.ws.wsdl.operation";
-    
+    protected static final String CONTEXT_WSDL_OPERATION = "com.sun.xml.ws.wsdl.operation";
+
+    private final WSEndpoint endPoint;
+    private final WSDLPort port;
+
+    private SecurityConfiguration config;
+
+    protected SOAPFactory soapFactory;
+    protected MessageFactory messageFactory;
+    protected SOAPVersion soapVersion;
+    protected boolean isSOAP12;
+
+
     /** Creates a new instance of XWSSServerPipe */
     public XWSSServerTube(WSEndpoint epoint, WSDLPort prt, Tube nextTube) {
         super(nextTube);
@@ -95,13 +95,13 @@ public class XWSSServerTube extends AbstractFilterTubeImpl {
         soapFactory = soapVersion.saajSoapFactory;
         messageFactory = soapVersion.saajMessageFactory;
     }
-    
+
     public XWSSServerTube(XWSSServerTube that, TubeCloner cloner) {
-        
+
         super(that,cloner);
         this.endPoint = that.endPoint;
         this.port = that.port;
-        
+
         this.soapFactory = that.soapFactory;
         this.messageFactory = that.messageFactory;
         this.soapVersion = that.soapVersion;
@@ -114,88 +114,86 @@ public class XWSSServerTube extends AbstractFilterTubeImpl {
     public void preDestroy() {
     }
 
-     
+
     private InputStream getServerConfigStream() {
         QName serviceQName = endPoint.getServiceName();
         String serviceName = serviceQName.getLocalPart();
-         
+
         String serverConfig = "/WEB-INF/" + serviceName + "_" + "security_config.xml";
         ServletContext context = endPoint.getContainer().getSPI(ServletContext.class);
         if(context == null) {
             return null;
         }
         InputStream in = context.getResourceAsStream(serverConfig);
-        
+
         if (in == null) {
             serverConfig = "/WEB-INF/" + "server" + "_" + "security_config.xml";
             in = context.getResourceAsStream(serverConfig);
         }
-        
+
         return in;
     }
-    
+
     private URL getServerConfig() {
         QName serviceQName = endPoint.getServiceName();
         String serviceName = serviceQName.getLocalPart();
-        Object ctxt = SecurityUtil.getServletContext(endPoint);
+        WSSServletContextFacade ctxt = ServletContextUtil.getServletContextFacade(endPoint);
         String serverName = "server";
         URL url = null;
         if (ctxt != null) {
-            String serverConfig = "/WEB-INF/" + serverName + "_" + "security_config.xml";
-            url =  SecurityUtil.loadFromContext(serverConfig, ctxt);
+            String serverConfig = "/WEB-INF/" + serverName + "_security_config.xml";
+            url = ctxt.getResource(serverConfig);
             if (url == null) {
-                serverConfig = "/WEB-INF/" + serviceName + "_" + "security_config.xml";
-                url = SecurityUtil.loadFromContext(serverConfig, ctxt);
+                serverConfig = "/WEB-INF/" + serviceName + "_security_config.xml";
+                url = ctxt.getResource(serverConfig);
             }
-            
             if (url != null) {
                 return url;
             }
         } else {
             //this could be an EJB or JDK6 endpoint
             //so let us try to locate the config from META-INF classpath
-            String serverConfig = "META-INF/" + serverName + "_" + "security_config.xml";
+            String serverConfig = "META-INF/" + serverName + "_security_config.xml";
             url = SecurityUtil.loadFromClasspath(serverConfig);
             if (url == null) {
-                serverConfig = "META-INF/" + serviceName + "_" + "security_config.xml";
+                serverConfig = "META-INF/" + serviceName + "_security_config.xml";
                 url = SecurityUtil.loadFromClasspath(serverConfig);
             }
-            
             if (url != null) {
                 return url;
             }
         }
         return null;
     }
-     
-    
+
+
      private static final String ENCRYPTED_BODY_QNAME =
             "{" + MessageConstants.XENC_NS + "}" + MessageConstants.ENCRYPTED_DATA_LNAME;
-    
+
     // server side incoming request handling hook
     public Packet validateRequest(Packet packet)
     throws Exception {
-        
+
         if (config == null) {
             return  packet;
         }
-        
+
         ProcessingContext context = null;
         SOAPMessage message =  packet.getMessage().readAsSOAPMessage();
         try {
-            
+
             StaticApplicationContext sContext =
                     new StaticApplicationContext(getPolicyContext(packet));
-            
+
             context = new ProcessingContextImpl(packet.invocationProperties);
-            
+
             context.setSOAPMessage(message);
-            
+
             String operation = getOperationName(message);
-            
+
             ApplicationSecurityConfiguration _sConfig =
                     config.getSecurityConfiguration();
-            
+
             if (operation.equals(ENCRYPTED_BODY_QNAME) &&
                     _sConfig.hasOperationPolicies()) {
                 // get enclosing port level configuration
@@ -206,7 +204,7 @@ public class XWSSServerTube extends AbstractFilterTubeImpl {
                 ApplicationSecurityConfiguration appconfig =
                         (ApplicationSecurityConfiguration)
                         _sConfig.getSecurityPolicies(sContext).next();
-                
+
                 if (appconfig != null) {
                     context.setPolicyContext(sContext);
                     context.setSecurityPolicy(appconfig);
@@ -215,7 +213,7 @@ public class XWSSServerTube extends AbstractFilterTubeImpl {
                             (ApplicationSecurityConfiguration) _sConfig.
                             getAllTopLevelApplicationSecurityConfigurations().
                             iterator().next();
-                    
+
                     //sContext.setPortIdentifier ("");
                     context.setPolicyContext(sContext);
                     context.setSecurityPolicy(config0);
@@ -225,9 +223,9 @@ public class XWSSServerTube extends AbstractFilterTubeImpl {
                 packet.invocationProperties.put(CONTEXT_WSDL_OPERATION, operation);
                 SecurityPolicy policy =
                         _sConfig.getSecurityConfiguration(sContext);
-                
+
                 context.setPolicyContext(sContext);
-                
+
                 if (PolicyTypeUtil.declarativeSecurityConfiguration(policy)) {
                     context.setSecurityPolicy(
                             ((DeclarativeSecurityConfiguration)policy).
@@ -236,86 +234,87 @@ public class XWSSServerTube extends AbstractFilterTubeImpl {
                     context.setSecurityPolicy(policy);
                 }
             }
-            
+
             context.setSecurityEnvironment(config.getSecurityEnvironment());
             context.isInboundMessage(true);
-            
+
             if (_sConfig.retainSecurityHeader()) {
                 context.retainSecurityHeader(true);
             }
-            
+
             if (_sConfig.resetMustUnderstand()) {
                 context.resetMustUnderstand(true);
             }
-            
+
             SecurityRecipient.validateMessage(context);
             String operationName = getOperationName(message);
-            
+
             packet.invocationProperties.put(CONTEXT_WSDL_OPERATION, operationName);
             packet.setMessage(Messages.create(context.getSOAPMessage()));
             /* TODO, how to change this
             if (packet.invocationProperties.get("javax.security.auth.Subject") != null) {
-                packet.invocationProperties.("javax.security.auth.Subject",MessageContext.Scope.APPLICATION); 
+                packet.invocationProperties.("javax.security.auth.Subject",MessageContext.Scope.APPLICATION);
             }*/
             return packet;
-            
+
         } catch (com.sun.xml.wss.impl.WssSoapFaultException soapFaultException) {
-            
+
             packet.invocationProperties.put(FAILURE, TRUE);
             addFault(soapFaultException,message,isSOAP12);
             packet.setMessage(Messages.create(message));
             return packet;
-            
+
         } catch (com.sun.xml.wss.XWSSecurityException xwse) {
             QName qname = null;
-            
-            if (xwse.getCause() instanceof PolicyViolationException)
+
+            if (xwse.getCause() instanceof PolicyViolationException) {
                 qname = MessageConstants.WSSE_RECEIVER_POLICY_VIOLATION;
-            else
+            } else {
                 qname = MessageConstants.WSSE_FAILED_AUTHENTICATION;
-            
+            }
+
             com.sun.xml.wss.impl.WssSoapFaultException wsfe =
                     SecurableSoapMessage.newSOAPFaultException(
                     qname, xwse.getMessage(), xwse);
-            
+
             //TODO: MISSING-LOG
             packet.invocationProperties.put(FAILURE, TRUE);
             addFault(wsfe,message,isSOAP12);
             packet.setMessage(Messages.create(message));
-            
+
             return packet;
         }
-        
+
     }
-    
+
     // server side response writing hook
     public Packet secureResponse(Packet packet)
     throws Exception {
-       
+
         if (config == null) {
             return packet;
         }
         try {
             ProcessingContext context = new ProcessingContextImpl(packet.invocationProperties);
-           
+
             String operation =
                     (String)packet.invocationProperties.get(CONTEXT_WSDL_OPERATION);
             StaticApplicationContext sContext =
                     new StaticApplicationContext(getPolicyContext(packet));
             sContext.setOperationIdentifier(operation);
-            
+
             ApplicationSecurityConfiguration _sConfig =
                     config.getSecurityConfiguration();
-            
+
             SecurityPolicy policy = _sConfig.getSecurityConfiguration(sContext);
             context.setPolicyContext(sContext);
-            
+
             if (PolicyTypeUtil.declarativeSecurityConfiguration(policy)) {
                 context.setSecurityPolicy(((DeclarativeSecurityConfiguration)policy).senderSettings());
             } else {
                 context.setSecurityPolicy(policy);
             }
-            
+
             context.setSecurityEnvironment(config.getSecurityEnvironment());
             context.isInboundMessage(false);
             context.setSOAPMessage(packet.getMessage().readAsSOAPMessage());
@@ -337,33 +336,33 @@ public class XWSSServerTube extends AbstractFilterTubeImpl {
             return packet;
         }
     }
-    
+
     private StaticApplicationContext getPolicyContext(Packet packet) {
         // assumed to contain single nested container
         ApplicationSecurityConfiguration appconfig =
                 config.getSecurityConfiguration();
-        
+
         StaticApplicationContext iContext =
                 (StaticApplicationContext)appconfig.getAllContexts().next();
         StaticApplicationContext sContext =
                 new StaticApplicationContext(iContext);
-        
+
         QName portQname = null;
         if (port != null) {
             portQname = port.getName();
-        } 
+        }
         String prt = null;
-        
+
         if (portQname == null) {
             prt = "";
         } else {
             prt = portQname.toString();
         }
-        
+
         sContext.setPortIdentifier(prt);
         return sContext;
     }
-    
+
     public void addFault(
             com.sun.xml.wss.impl.WssSoapFaultException sfe,SOAPMessage soapMessage,boolean isSOAP12)
                throws SOAPException{
@@ -372,7 +371,7 @@ public class XWSSServerTube extends AbstractFilterTubeImpl {
         soapMessage.removeAllAttachments();
         QName faultCode = sfe.getFaultCode();
         Name faultCodeName = null;
-        
+
         if(faultCode == null){
             faultCode = new QName(SOAPConstants.URI_NS_SOAP_ENVELOPE,"Client");
         }
@@ -388,9 +387,9 @@ public class XWSSServerTube extends AbstractFilterTubeImpl {
             node.getParentNode().removeChild(node);
         }
     }
-    
+
     protected SOAPFault getSOAPFault(WssSoapFaultException sfe) {
-        
+
         SOAPFault fault = null;
         try {
             if (isSOAP12) {
@@ -404,15 +403,15 @@ public class XWSSServerTube extends AbstractFilterTubeImpl {
         }
         return fault;
     }
-    
+
     public SOAPFaultException getSOAPFaultException(
             WssSoapFaultException sfe, boolean isSOAP12) {
-        
+
         SOAPFault fault = null;
         try {
             if (isSOAP12) {
                 fault = soapFactory.createFault(sfe.getFaultString(),SOAPConstants.SOAP_SENDER_FAULT);
-                
+
                 fault.appendFaultSubcode(sfe.getFaultCode());
             } else {
                 fault = soapFactory.createFault(sfe.getFaultString(), sfe.getFaultCode());
@@ -428,24 +427,27 @@ public class XWSSServerTube extends AbstractFilterTubeImpl {
         Node node = null;
         String key = null;
         SOAPBody body = null;
-        
-        if (message != null)
+
+        if (message != null) {
             body = message.getSOAPBody();
-        else
+        } else {
             throw new XWSSecurityException(
                     "SOAPMessage in message context is null");
-        
-        if (body != null)
+        }
+
+        if (body != null) {
             node = body.getFirstChild();
-        else
+        } else {
             throw new XWSSecurityException(
                     "No body element identifying an operation is found");
-        
+        }
+
         StringBuilder tmp = new StringBuilder("");
         String operation = "";
-        
-        for (; node != null; node = node.getNextSibling())
+
+        for (; node != null; node = node.getNextSibling()) {
             tmp.append("{").append(node.getNamespaceURI()).append("}").append(node.getLocalName()).append(":");
+        }
         operation = tmp.toString();
         if(operation.length()> 0){
             return operation.substring(0, operation.length()-1);
@@ -456,25 +458,25 @@ public class XWSSServerTube extends AbstractFilterTubeImpl {
 
     @Override
     public AbstractTubeImpl copy(TubeCloner cloner) {
-        return new XWSSServerTube(this, cloner); 
+        return new XWSSServerTube(this, cloner);
     }
-    
+
     @Override
     public NextAction processRequest(Packet packet){
         try {
             Packet ret = validateRequest(packet);
             if (TRUE.equals(ret.invocationProperties.get(FAILURE))) {
                 return  doReturnWith(ret);
-            }            
+            }
             return doInvoke(super.next, ret);
         } catch (Throwable t) {
             if (!(t instanceof WebServiceException)) {
                 t = new WebServiceException(t);
             }
             return doThrow(t);
-        }        
+        }
     }
-     
+
     @Override
     public NextAction processResponse(Packet ret) {
         try{
@@ -490,7 +492,7 @@ public class XWSSServerTube extends AbstractFilterTubeImpl {
             }
             return doThrow(t);
         }
-         
+
     }
-    
+
 }

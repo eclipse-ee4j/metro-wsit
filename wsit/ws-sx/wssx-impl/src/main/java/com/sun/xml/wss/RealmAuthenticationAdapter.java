@@ -14,6 +14,9 @@ package com.sun.xml.wss;
 import com.sun.xml.wss.impl.XWSSecurityRuntimeException;
 import com.sun.xml.wss.impl.misc.DefaultRealmAuthenticationAdapter;
 import com.sun.xml.wss.impl.misc.SecurityUtil;
+import com.sun.xml.wss.util.ServletContextUtil;
+import com.sun.xml.wss.util.WSSServletContextFacade;
+
 import java.net.URL;
 import java.util.Map;
 import javax.security.auth.Subject;
@@ -29,9 +32,6 @@ import javax.security.auth.Subject;
 public abstract class RealmAuthenticationAdapter {
 
     public static final String UsernameAuthenticator = "com.sun.xml.xwss.RealmAuthenticator";
-    // Prefixing with META-INF/ instead of /META-INF/. /META-INF/ is working fine
-    // when loading from a JAR file but not when loading from a plain directory.
-    private static final String JAR_PREFIX = "META-INF/";
 
     /** Creates a new instance of RealmAuthenticator */
     protected RealmAuthenticationAdapter() {
@@ -97,25 +97,19 @@ public abstract class RealmAuthenticationAdapter {
      * @return a new instance of the RealmAuthenticationAdapter
      */
     public static RealmAuthenticationAdapter newInstance(Object context) {
-        RealmAuthenticationAdapter adapter = null;
-        URL url = null;
-
-        if (context == null) {
+        final WSSServletContextFacade ctxt = ServletContextUtil.wrap(context);
+        final URL url;
+        if (ctxt == null) {
             url = SecurityUtil.loadFromClasspath("META-INF/services/" + UsernameAuthenticator);
         } else {
-            url = SecurityUtil.loadFromContext("/META-INF/services/" + UsernameAuthenticator, context);
+            url = ctxt.getResource("/META-INF/services/" + UsernameAuthenticator);
         }
-        
         if (url != null) {
             Object obj = SecurityUtil.loadSPIClass(url, UsernameAuthenticator);
-            if ((obj != null) && !(obj instanceof RealmAuthenticationAdapter)) {
+            if (obj != null && !(obj instanceof RealmAuthenticationAdapter)) {
                 throw new XWSSecurityRuntimeException("Class :" + obj.getClass().getName() + " is not a valid RealmAuthenticationProvider");
             }
-            adapter = (RealmAuthenticationAdapter) obj;
-        }
-
-        if (adapter != null) {
-            return adapter;
+            return (RealmAuthenticationAdapter) obj;
         }
         return new DefaultRealmAuthenticationAdapter();
     }

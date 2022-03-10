@@ -37,6 +37,7 @@ import jakarta.xml.soap.SOAPElement;
 import com.sun.xml.wss.XWSSecurityException;
 import com.sun.xml.wss.impl.MessageConstants;
 import com.sun.xml.wss.logging.LogDomainConstants;
+import com.sun.xml.wss.logging.impl.crypto.LogStringsMessages;
 
 import java.util.Random;
 import java.util.Hashtable;
@@ -56,8 +57,6 @@ import com.sun.xml.ws.api.SOAPVersion;
 import com.sun.xml.ws.api.security.secconv.client.SCTokenConfiguration;
 import com.sun.xml.ws.api.security.trust.WSTrustException;
 import com.sun.xml.ws.api.security.trust.client.IssuedTokenManager;
-import com.sun.xml.ws.api.server.Container;
-import com.sun.xml.ws.api.server.WSEndpoint;
 import com.sun.xml.ws.security.impl.IssuedTokenContextImpl;
 import com.sun.xml.ws.security.IssuedTokenContext;
 import com.sun.xml.wss.core.SecurityContextTokenImpl;
@@ -67,9 +66,6 @@ import com.sun.xml.wss.impl.policy.mls.IssuedTokenKeyBinding;
 import com.sun.xml.ws.security.SecurityTokenReference;
 
 import org.w3c.dom.Node;
-
-import static com.sun.xml.wss.provider.wsit.logging.LogStringsMessages.WSITPVD_0066_SERVLET_CONTEXT_NOTFOUND;
-
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Document;
@@ -91,7 +87,6 @@ import com.sun.xml.ws.security.trust.GenericToken;
 import com.sun.xml.ws.security.trust.WSTrustElementFactory;
 import com.sun.xml.wss.impl.XWSSecurityRuntimeException;
 import com.sun.xml.wss.impl.policy.MLSPolicy;
-import com.sun.xml.wss.logging.impl.crypto.LogStringsMessages;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -621,62 +616,6 @@ public class SecurityUtil {
     }
     
     /**
-     * Returns a URL pointing to the given config file. The file name is
-     * looked up as a resource from a ServletContext.
-     *
-     * May return null if the file can not be found.
-     *
-     * @param configFileName The name of the file resource
-     * @param context A ServletContext object. May not be null.
-     */
-    public static URL loadFromContext(final String configFileName, final Object context) {
-        return ReflectionUtil.invoke(context, "getResource", URL.class, configFileName);
-    }
-
-
-    /**
-     * @param endpoint
-     * @return null or the ServletContext instance bound to this endpoint
-     */
-    public static Object getServletContext(final WSEndpoint<?> endpoint) {
-        Container container = endpoint.getContainer();
-        if (container == null) {
-            return null;
-        }
-        final Class<?> contextClass = findServletContextClass();
-        if (contextClass == null) {
-            log.log(Level.WARNING, WSITPVD_0066_SERVLET_CONTEXT_NOTFOUND());
-            return null;
-        }
-        return container.getSPI(contextClass);
-    }
-
-
-    /**
-     * Tries to load the ServletContext class by the thread's context loader
-     * or by the loader which was used to load this class.
-     *
-     * @return ServletContext class or null
-     */
-    public static Class<?> findServletContextClass() {
-        String className = "jakarta.servlet.ServletContext";
-        ClassLoader loader = Thread.currentThread().getContextClassLoader();
-        if (loader != null) {
-            try {
-                return loader.loadClass(className);
-            } catch (ClassNotFoundException e) {
-                // ignore
-            }
-        }
-        loader = SecurityUtil.class.getClassLoader();
-        try {
-            return loader.loadClass(className);
-        } catch (ClassNotFoundException e) {
-            return null;
-        }
-    }
-    
-    /**
      * Returns a URL pointing to the given config file. The file is looked up as
      * a resource on the classpath.
      *
@@ -820,10 +759,10 @@ public class SecurityUtil {
         try {
             ret = Long.parseLong(lng);
         }catch (Exception e) {
-            log.log(Level.SEVERE, com.sun.xml.wss.logging.LogStringsMessages.WSS_0719_ERROR_GETTING_LONG_VALUE());
+            log.log(Level.SEVERE, LogStringsMessages.WSS_0719_ERROR_GETTING_LONG_VALUE());
             throw new XWSSecurityException(e);
         }
-        return ret; 
+        return ret;
     }
     public static String getKeyAlgo(String algo) {
         if (algo != null && algo.equals(MessageConstants.RSA_SHA256)) {

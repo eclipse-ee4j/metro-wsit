@@ -67,11 +67,12 @@ import com.sun.xml.wss.impl.XWSSecurityRuntimeException;
 import com.sun.xml.wss.impl.filter.DumpFilter;
 import com.sun.xml.wss.impl.misc.DefaultCallbackHandler;
 import com.sun.xml.wss.impl.misc.DefaultSecurityEnvironmentImpl;
-import com.sun.xml.wss.impl.misc.SecurityUtil;
 import com.sun.xml.wss.impl.misc.WSITProviderSecurityEnvironment;
 import com.sun.xml.wss.impl.policy.mls.MessagePolicy;
 import com.sun.xml.wss.jaxws.impl.Constants;
 import com.sun.xml.wss.provider.wsit.logging.LogStringsMessages;
+import com.sun.xml.wss.util.ServletContextUtil;
+
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -100,29 +101,29 @@ import jakarta.xml.ws.soap.SOAPFaultException;
  * @author kumar jayanti
  */
 public class WSITServerAuthContext extends WSITAuthContextBase implements ServerAuthContext {
-    
-    protected static final String TRUE="true";
+
+    protected static final String TRUE = "true";
     static final String SERVICE_ENDPOINT = "SERVICE_ENDPOINT";
     //****************Class Variables***************
-    private SessionManager sessionManager= null;
-    
-    
+    private final SessionManager sessionManager;
+
+
     //******************Instance Variables*********
-    private Set trustConfig = null;
-    private Set wsscConfig = null;
-    private CallbackHandler handler = null;
-    
+    private Set trustConfig;
+    private Set wsscConfig;
+    private CallbackHandler handler;
+
     //****************Variables passed to Context CTOR********
     //String operation = null;
     //Subject subject = null;
     //Map map = null;
-    WeakReference<WSEndpoint> endPoint =  null;
-    
+    final WeakReference<WSEndpoint> endPoint;
+
     //***************AuthModule Instance**********
-    WSITServerAuthModule  authModule = null;
-    
+    private final WSITServerAuthModule authModule;
+
     static final String PIPE_HELPER = "PIPE_HELPER";
-    
+
     /** Creates a new instance of WSITServerAuthContext */
     public WSITServerAuthContext(String operation, Subject subject, Map<String, Object> map, CallbackHandler callbackHandler) {
         super(map);
@@ -134,14 +135,14 @@ public class WSITServerAuthContext extends WSITAuthContextBase implements Server
         if (!this.getInBoundSCP(null).isEmpty()|| !this.getOutBoundSCP(null).isEmpty()){
                 isSC = true;
         }
-        
+
 
         //need to merge config assertions from all alternatives
         //because we do not know which alternative the req uses
         //and so if username comes we need to have usersupplied validator
         //and if SAML comes we need the userspecified SAML validator
         Set configAssertions = null;
-        for (PolicyAlternativeHolder p : policyAlternatives) {           
+        for (PolicyAlternativeHolder p : policyAlternatives) {
             Iterator it = p.getInMessagePolicyMap().values().iterator();
             while (it.hasNext()) {
                 SecurityPolicyHolder holder = (SecurityPolicyHolder) it.next();
@@ -164,9 +165,9 @@ public class WSITServerAuthContext extends WSITAuthContextBase implements Server
         }
         String isGF = System.getProperty("com.sun.aas.installRoot");
         Properties props = new Properties();
-        if (isGF != null) {            
+        if (isGF != null) {
             try {
-                
+
                 populateConfigProperties(configAssertions, props);
                 String jmacHandler = props.getProperty(DefaultCallbackHandler.JMAC_CALLBACK_HANDLER);
                 if (jmacHandler != null) {
@@ -175,9 +176,9 @@ public class WSITServerAuthContext extends WSITAuthContextBase implements Server
                     handler = callbackHandler;
                 }
                 if (handler == null) {
-                   handler = loadGFHandler(false, jmacHandler); 
+                   handler = loadGFHandler(false, jmacHandler);
                 }
-                
+
                 secEnv = new WSITProviderSecurityEnvironment(handler, map, props);
             }catch (XWSSecurityException ex) {
                 log.log(Level.SEVERE,
@@ -189,7 +190,7 @@ public class WSITServerAuthContext extends WSITAuthContextBase implements Server
             //This will handle Non-GF containers where no config assertions
             // are required in the WSDL. Ex. UsernamePassword validation
             // with Default Realm Authentication
-           
+
             handler = configureServerHandler(configAssertions, props);
             String jmacHandler = props.getProperty(DefaultCallbackHandler.JMAC_CALLBACK_HANDLER);
             if (jmacHandler != null) {
@@ -206,17 +207,16 @@ public class WSITServerAuthContext extends WSITAuthContextBase implements Server
                 secEnv = new DefaultSecurityEnvironmentImpl(handler, props);
             }
         }
-        
+
         sessionManager = SessionManager.getSessionManager(endPoint.get(), isSC, props);
-        
+
         //initialize the AuthModules and keep references to them
         authModule = new WSITServerAuthModule();
-        authModule.initialize(null, null, null,map);
+        authModule.initialize(null, null, null, null);
 
     }
-    
+
     @Override
-    @SuppressWarnings("unchecked")
     public AuthStatus validateRequest(MessageInfo messageInfo, Subject clientSubject, Subject serviceSubject) {
         try {
             Packet packet = getRequestPacket(messageInfo);
@@ -255,11 +255,11 @@ public class WSITServerAuthContext extends WSITAuthContextBase implements Server
             HaContext.clear();
         }
     }
-    
+
     @Override
     public AuthStatus secureResponse(MessageInfo messageInfo, Subject serviceSubject) {
         // Add addressing headers to trust message
-        
+
         //TODO: this is the one that came from nextPipe.process
         //TODO: replace this with call to packetMessageInfo.getResponsePacket
 
@@ -284,32 +284,31 @@ public class WSITServerAuthContext extends WSITAuthContextBase implements Server
             HaContext.clear();
         }
     }
-    
+
     @Override
     public void cleanSubject(MessageInfo messageInfo, Subject subject) {
         issuedTokenContextMap.clear();
         SessionManager.removeSessionManager(endPoint.get());
         NonceManager.deleteInstance(endPoint.get());
     }
-    
+
     public Packet validateRequest(Packet packet, Subject clientSubject, Subject serviceSubject, Map<String, Object> sharedState)
     throws XWSSecurityException {
-        
+
         Message msg = packet.getInternalMessage();
-        
+
         boolean isSCIssueMessage = false;
         boolean isSCCancelMessage = false;
-        boolean isTrustMessage = false;
         String msgId = null;
         String action = null;
-        
+
         boolean thereWasAFault = false;
-        
+
         //Do Security Processing for Incoming Message
-        
+
         //---------------INBOUND SECURITY VERIFICATION----------
         ProcessingContext ctx = initializeInboundProcessingContext(packet);
-        
+
         //update the client subject passed to the AuthModule itself.
         ctx.setExtraneousProperty(MessageConstants.AUTH_SUBJECT, clientSubject);
         PolicyResolver pr = PolicyResolverFactory.createPolicyResolver(policyAlternatives,
@@ -337,21 +336,21 @@ public class WSITServerAuthContext extends WSITAuthContextBase implements Server
             thereWasAFault = true;
             SOAPFaultException sfe = SOAPUtil.getSOAPFaultException(xwse, soapFactory, soapVersion);
             msg = Messages.create(sfe, soapVersion);
-            
+
         } catch (XWSSecurityRuntimeException xwse) {
             log.log(Level.SEVERE,
                     LogStringsMessages.WSITPVD_0035_ERROR_VERIFY_INBOUND_MSG(), xwse);
             thereWasAFault = true;
               SOAPFaultException sfe = SOAPUtil.getSOAPFaultException(xwse, soapFactory, soapVersion);
             msg = Messages.create(sfe, soapVersion);
-            
+
         }  catch (WebServiceException xwse) {
             log.log(Level.SEVERE,
                     LogStringsMessages.WSITPVD_0035_ERROR_VERIFY_INBOUND_MSG(), xwse);
             thereWasAFault = true;
             SOAPFaultException sfe = SOAPUtil.getSOAPFaultException(xwse, soapFactory, soapVersion);
             msg = Messages.create(sfe, soapVersion);
-            
+
         } catch (WSSecureConversationRuntimeException wsre){
             log.log(Level.SEVERE,
                     LogStringsMessages.WSITPVD_0035_ERROR_VERIFY_INBOUND_MSG(), wsre);
@@ -377,7 +376,7 @@ public class WSITServerAuthContext extends WSITAuthContextBase implements Server
             SOAPFaultException sfe = SOAPUtil.getSOAPFaultException(ex, soapFactory, soapVersion);
             msg = Messages.create(sfe, soapVersion);
         }
-        
+
         if (thereWasAFault) {
             sharedState.put("THERE_WAS_A_FAULT", Boolean.valueOf(thereWasAFault));
             if (this.isAddressingEnabled()) {
@@ -392,9 +391,9 @@ public class WSITServerAuthContext extends WSITAuthContextBase implements Server
                 return packet;
             }
         }
-        
+
         packet.setMessage(msg);
-        
+
         if (isAddressingEnabled()) {
             action = getAction(packet);
             if (wsscVer.getSCTRequestAction().equals(action) || wsscVer.getSCTRenewRequestAction().equals(action)) {
@@ -409,25 +408,24 @@ public class WSITServerAuthContext extends WSITAuthContextBase implements Server
                 sharedState.put("IS_SC_CANCEL", TRUE);
             } else if (wsTrustVer.getIssueRequestAction().equals(action)||
                        wsTrustVer.getValidateRequestAction().equals(action)) {
-                isTrustMessage = true;
                 sharedState.put("IS_TRUST_MESSAGE", TRUE);
                 sharedState.put("TRUST_REQUEST_ACTION", action);
                 //packet.getMessage().getHeaders().getTo(addVer, pipeConfig.getBinding().getSOAPVersion());
-                
+
                 if(trustConfig != null){
                     packet.invocationProperties.put(
                             com.sun.xml.ws.security.impl.policy.Constants.SUN_TRUST_SERVER_SECURITY_POLICY_NS,trustConfig.iterator());
                 }
-                
+
                 //set the SecurityEnvironment
                 packet.invocationProperties.put(WSTrustConstants.SECURITY_ENVIRONMENT, secEnv);
                 packet.invocationProperties.put(WSTrustConstants.WST_VERSION, this.wsTrustVer);
                 IssuedTokenContext ictx = ((ProcessingContextImpl)ctx).getTrustContext();
-                if(ictx != null && ictx.getAuthnContextClass() != null){                    
+                if(ictx != null && ictx.getAuthnContextClass() != null){
                     packet.invocationProperties.put(WSTrustConstants.AUTHN_CONTEXT_CLASS, ictx.getAuthnContextClass());
-                }                
+                }
             }
-            
+
             if (isSCIssueMessage){
                 List<PolicyAssertion> policies = getInBoundSCP(packet.getMessage());
                 if(!policies.isEmpty()) {
@@ -435,7 +433,7 @@ public class WSITServerAuthContext extends WSITAuthContextBase implements Server
                 }
             }
         }
-        
+
         if(!isSCIssueMessage ){
             WSDLBoundOperation cachedOperation = cacheOperation(msg, packet);
             if(cachedOperation == null){
@@ -445,11 +443,11 @@ public class WSITServerAuthContext extends WSITAuthContextBase implements Server
                 }
             }
         }
-        
+
         sharedState.put("VALIDATE_REQ_PACKET", packet);
-        
+
         Packet retPacket = null;
-        
+
         if (isSCIssueMessage || isSCCancelMessage) {
             //-------put application message on hold and invoke SC contract--------
             retPacket = invokeSecureConversationContract(
@@ -460,24 +458,24 @@ public class WSITServerAuthContext extends WSITAuthContextBase implements Server
              updateSCSessionInfo(packet);
             retPacket = packet;
         }
-        
+
         return retPacket;
     }
-    
+
     public Packet secureResponse(Packet retPacket, Subject serviceSubject, Map<String, Object> sharedState) {
-        
+
         boolean isSCIssueMessage = (sharedState.get("IS_SC_ISSUE") != null) ? true : false;
         boolean isSCCancelMessage =(sharedState.get("IS_SC_CANCEL") != null) ? true : false;
         boolean isTrustMessage =(sharedState.get("IS_TRUST_MESSAGE") != null) ? true: false;
-        
+
         Packet packet = (Packet)sharedState.get("VALIDATE_REQ_PACKET");
         Boolean thereWasAFaultSTR = (Boolean)sharedState.get("THERE_WAS_A_FAULT");
         boolean thereWasAFault =  (thereWasAFaultSTR != null) ? thereWasAFaultSTR.booleanValue(): false;
-        
+
         if (thereWasAFault) {
             return retPacket;
         }
-        
+
         /* TODO:this piece of code present since payload should be read once*/
         if (!optimized) {
             try{
@@ -488,14 +486,14 @@ public class WSITServerAuthContext extends WSITAuthContextBase implements Server
                 throw new WebServiceException(ex);
             }
         }
-        
+
         //---------------OUTBOUND SECURITY PROCESSING----------
         ProcessingContext ctx = initializeOutgoingProcessingContext(retPacket, isSCIssueMessage);
         ctx.setExtraneousProperty("SessionManager", sessionManager);
         Message msg = retPacket.getMessage();
-        
+
         try{
-            
+
             if (ctx.getSecurityPolicy() != null && ((MessagePolicy)ctx.getSecurityPolicy()).size() >0) {
                 if(!optimized) {
                     SOAPMessage soapMessage = msg.readAsSOAPMessage();
@@ -523,7 +521,7 @@ public class WSITServerAuthContext extends WSITAuthContextBase implements Server
         retPacket.setMessage(msg);
         return retPacket;
     }
-    
+
     protected SOAPMessage verifyInboundMessage(SOAPMessage message, ProcessingContext ctx)
     throws WssSoapFaultException, XWSSecurityException {
         if (debug) {
@@ -533,8 +531,8 @@ public class WSITServerAuthContext extends WSITAuthContextBase implements Server
         NewSecurityRecipient.validateMessage(ctx);
         return ctx.getSOAPMessage();
     }
-    
-    
+
+
     protected Message verifyInboundMessage(Message message, ProcessingContext ctx) throws XWSSecurityException{
         JAXBFilterProcessingContext  context = (JAXBFilterProcessingContext)ctx;
         //  context.setJAXWSMessage(message, soapVersion);
@@ -588,7 +586,7 @@ public class WSITServerAuthContext extends WSITAuthContextBase implements Server
             }else {
                 policy = getOutgoingXWSSecurityPolicy(packet, isSCMessage);
             }
-            
+
             if (debug && policy != null) {
                 policy.dumpMessages(true);
             }
@@ -608,9 +606,9 @@ public class WSITServerAuthContext extends WSITAuthContextBase implements Server
                 ctx.setAlgorithmSuite(getAlgoSuite(getBindingAlgorithmSuite(packet)));
             }
             ctx.setSecurityEnvironment(secEnv);
-            ctx.isInboundMessage(false);          
+            ctx.isInboundMessage(false);
             Map<Object, Object> extProps = ctx.getExtraneousProperties();
-            extProps.put(WSITServerAuthContext.WSDLPORT,pipeConfig.getWSDLPort());
+            extProps.put(WSITAuthContextBase.WSDLPORT,pipeConfig.getWSDLPort());
         } catch (XWSSecurityException e) {
             log.log(
                     Level.SEVERE, LogStringsMessages.WSITPVD_0006_PROBLEM_INIT_OUT_PROC_CONTEXT(), e);
@@ -619,7 +617,7 @@ public class WSITServerAuthContext extends WSITAuthContextBase implements Server
         }
         return ctx;
     }
-    
+
     private void removeContext(final Packet packet) {
         SecurityContextToken sct = (SecurityContextToken)packet.invocationProperties.get(MessageConstants.INCOMING_SCT);
         if (sct != null){
@@ -630,7 +628,7 @@ public class WSITServerAuthContext extends WSITAuthContextBase implements Server
             }
         }
     }
-    
+
     @Override
     protected MessagePolicy getOutgoingXWSSecurityPolicy(
             Packet packet, boolean isSCMessage) {
@@ -639,7 +637,7 @@ public class WSITServerAuthContext extends WSITAuthContextBase implements Server
             return getOutgoingXWSBootstrapPolicy(scToken);
         }
         //Message message = packet.getMessage();
-        
+
         MessagePolicy mp = null;
         PolicyAlternativeHolder applicableAlternative =
                     resolveAlternative(packet,isSCMessage);
@@ -653,13 +651,13 @@ public class WSITServerAuthContext extends WSITAuthContextBase implements Server
             //empty message policy
             return new MessagePolicy();
         }
-        
+
         if(isTrustMessage(packet)){
             //TODO: no runtime updates of variables: store this in Map of MessageInfo
             wsdlOperation = getWSDLOpFromAction(packet,false);
             cacheOperation(wsdlOperation, packet);
         }
-        
+
         SecurityPolicyHolder sph = applicableAlternative.getOutMessagePolicyMap().get(wsdlOperation);
         if(sph == null){
             return new MessagePolicy();
@@ -667,11 +665,10 @@ public class WSITServerAuthContext extends WSITAuthContextBase implements Server
         mp = sph.getMessagePolicy();
         return mp;
     }
-    
+
     protected MessagePolicy getOutgoingFaultPolicy(Packet packet) {
         WSDLBoundOperation cachedOp = cachedOperation(packet);
-        PolicyAlternativeHolder applicableAlternative =
-                    resolveAlternative(packet,false);
+        PolicyAlternativeHolder applicableAlternative = resolveAlternative(packet, false);
         if(cachedOp != null){
             WSDLOperation wsdlOperation = cachedOp.getOperation();
             QName faultDetail = packet.getMessage().getFirstDetailEntryName();
@@ -689,72 +686,65 @@ public class WSITServerAuthContext extends WSITAuthContextBase implements Server
             return faultPolicy;
         }
         return null;
-        
+
     }
-    
-    
+
+
     private CallbackHandler configureServerHandler(Set configAssertions, Properties props) {
-        //Properties props = new Properties();
         String ret = populateConfigProperties(configAssertions, props);
         try {
-            if (ret != null) {
-                Class hdlr = loadClass(ret);
-                Object obj = hdlr.newInstance();
-                if (!(obj instanceof CallbackHandler)) {
-                    log.log(Level.SEVERE,
-                            LogStringsMessages.WSITPVD_0031_INVALID_CALLBACK_HANDLER_CLASS(ret));
-                    throw new RuntimeException(
-                            LogStringsMessages.WSITPVD_0031_INVALID_CALLBACK_HANDLER_CLASS(ret));
-                }
-                return (CallbackHandler)obj;
-            } else {
-                //ServletContext context = endPoint.getContainer().getSPI(ServletContext.class);
+            if (ret == null) {
                 RealmAuthenticationAdapter adapter = this.getRealmAuthenticationAdapter(endPoint.get());
                 return new DefaultCallbackHandler("server", props, adapter);
             }
-        }catch (Exception e) {
-            log.log(Level.SEVERE,
-                    LogStringsMessages.WSITPVD_0043_ERROR_CONFIGURE_SERVER_HANDLER(), e);
-            throw new RuntimeException(
-                    LogStringsMessages.WSITPVD_0043_ERROR_CONFIGURE_SERVER_HANDLER(), e);
+            Class<?> hdlr = loadClass(ret);
+            Object obj = hdlr.getDeclaredConstructor().newInstance();
+            if (obj instanceof CallbackHandler) {
+                return (CallbackHandler) obj;
+            }
+            log.log(Level.SEVERE, LogStringsMessages.WSITPVD_0031_INVALID_CALLBACK_HANDLER_CLASS(ret));
+            throw new RuntimeException(LogStringsMessages.WSITPVD_0031_INVALID_CALLBACK_HANDLER_CLASS(ret));
+        } catch (Exception e) {
+            log.log(Level.SEVERE, LogStringsMessages.WSITPVD_0043_ERROR_CONFIGURE_SERVER_HANDLER(), e);
+            throw new RuntimeException(LogStringsMessages.WSITPVD_0043_ERROR_CONFIGURE_SERVER_HANDLER(), e);
         }
     }
-    
+
     @Override
     protected boolean bindingHasIssuedTokenPolicy() {
         return hasIssuedTokens;
     }
-    
+
     @Override
     protected boolean bindingHasSecureConversationPolicy() {
         return hasSecureConversation;
     }
-    
+
     @Override
     protected boolean bindingHasRMPolicy() {
         return hasReliableMessaging;
     }
-    
+
     // The packet has the Message with RST/SCT inside it
     // TODO: Need to inspect if it is really a Issue or a Cancel
     private Packet invokeSecureConversationContract(Packet packet, ProcessingContext ctx, boolean isSCTIssue) {
-        
+
         IssuedTokenContext ictx = new IssuedTokenContextImpl();
         ictx.getOtherProperties().put("SessionManager", sessionManager);
         Message msg = packet.getMessage();
         Message retMsg = null;
         String retAction = null;
-        
+
         try {
-            
+
             // Set the requestor authenticated Subject in the IssuedTokenContext
             Subject subject = SubjectAccessor.getRequesterSubject(ctx);
             ictx.setRequestorSubject(subject);
-                        
+
             WSTrustElementFactory wsscEleFac = WSTrustElementFactory.newInstance(wsscVer);
             JAXBElement rstEle = msg.readPayloadAsJAXB(WSTrustElementFactory.getContext(wsTrustVer).createUnmarshaller());
             BaseSTSRequest rst = wsscEleFac.createRSTFrom(rstEle);
-            
+
             URI requestType = ((RequestSecurityToken)rst).getRequestType();
             BaseSTSResponse rstr = null;
             WSSCContract scContract = WSSCFactory.newWSSCContract(wsscVer);
@@ -766,7 +756,7 @@ public class WSITServerAuthContext extends WSITAuthContextBase implements Server
                 retAction = wsscVer.getSCTResponseAction();
                 SecurityContextToken sct = (SecurityContextToken)ictx.getSecurityToken();
                 String sctId = sct.getIdentifier().toString();
-                
+
                 Session session = sessionManager.getSession(sctId);
                 if (session == null) {
                     log.log(Level.SEVERE,
@@ -774,19 +764,19 @@ public class WSITServerAuthContext extends WSITAuthContextBase implements Server
                     throw new WSSecureConversationException(
                             LogStringsMessages.WSITPVD_0044_ERROR_SESSION_CREATION());
                 }
-                
+
                 // Put it here for RM to pick up
                 packet.invocationProperties.put(
                         Session.SESSION_ID_KEY, sctId);
-                
+
                 packet.invocationProperties.put(
                         Session.SESSION_KEY, session.getUserData());
-                
+
                 //IssuedTokenContext itctx = session.getSecurityInfo().getIssuedTokenContext();
                 //add the subject of requestor
                 //itctx.setRequestorSubject(ictx.getRequestorSubject());
                 //((ProcessingContextImpl)ctx).getIssuedTokenContextMap().put(sctId, itctx);
-                
+
             } else if (requestType.toString().equals(wsTrustVer.getRenewRequestTypeURI())) {
                 List<PolicyAssertion> policies = getOutBoundSCP(packet.getMessage());
                 retAction = wsscVer.getSCTRenewResponseAction();
@@ -800,11 +790,11 @@ public class WSITServerAuthContext extends WSITAuthContextBase implements Server
                 throw new UnsupportedOperationException(
                         LogStringsMessages.WSITPVD_0045_UNSUPPORTED_OPERATION_EXCEPTION(requestType));
             }
-            
+
             // construct the complete message here containing the RSTR and the
-            // correct Action headers if any and return the message.     
+            // correct Action headers if any and return the message.
             retMsg = Messages.create(WSTrustElementFactory.getContext(wsTrustVer).createMarshaller(), wsscEleFac.toJAXBElement(rstr), soapVersion);
-            
+
         } catch (jakarta.xml.bind.JAXBException ex) {
             log.log(Level.SEVERE, LogStringsMessages.WSITPVD_0001_PROBLEM_MAR_UNMAR(), ex);
             throw new RuntimeException(LogStringsMessages.WSITPVD_0001_PROBLEM_MAR_UNMAR(), ex);
@@ -815,70 +805,70 @@ public class WSITServerAuthContext extends WSITAuthContextBase implements Server
             log.log(Level.SEVERE, LogStringsMessages.WSITPVD_0046_ERROR_INVOKE_SC_CONTRACT(), ex);
             throw new RuntimeException(LogStringsMessages.WSITPVD_0046_ERROR_INVOKE_SC_CONTRACT(), ex);
         }
-        
-        
+
+
         //SecurityContextToken sct = (SecurityContextToken)ictx.getSecurityToken();
         //String sctId = sct.getIdentifier().toString();
         //((ProcessingContextImpl)ctx).getIssuedTokenContextMap().put(sctId, ictx);
-        
+
         Packet retPacket = addAddressingHeaders(packet, retMsg, retAction);
         if (isSCTIssue){
             List<PolicyAssertion> policies = getOutBoundSCP(packet.getMessage());
-            
+
             if(!policies.isEmpty()) {
                 retPacket.invocationProperties.put(SC_ASSERTION, policies.get(0));
             }
         }
-        
+
         return retPacket;
     }
-    
-    
+
+
     private Packet addAddressingHeaders(Packet packet, Message retMsg, String action){
         Packet retPacket = packet.createServerResponse(retMsg, addVer, soapVersion, action);
-        
+
         retPacket.proxy = packet.proxy;
         retPacket.invocationProperties.putAll(packet.invocationProperties);
-        
+
         return retPacket;
     }
-   
+
     @Override
     protected SecurityPolicyHolder addOutgoingMP(WSDLBoundOperation operation, Policy policy, PolicyAlternativeHolder ph)throws PolicyException{
         SecurityPolicyHolder sph = constructPolicyHolder(policy,true,true);
         ph.getInMessagePolicyMap().put(operation,sph);
         return sph;
     }
-    
+
     @Override
     protected SecurityPolicyHolder addIncomingMP(WSDLBoundOperation operation, Policy policy, PolicyAlternativeHolder ph)throws PolicyException{
         SecurityPolicyHolder sph = constructPolicyHolder(policy,true,false);
         ph.getOutMessagePolicyMap().put(operation,sph);
         return sph;
     }
-    
+
     @Override
     protected void addIncomingProtocolPolicy(Policy effectivePolicy, String protocol, PolicyAlternativeHolder ph)throws PolicyException{
         ph.getOutProtocolPM().put(protocol,constructPolicyHolder(effectivePolicy, true, false, true));
     }
-    
+
     @Override
     protected void addOutgoingProtocolPolicy(Policy effectivePolicy, String protocol, PolicyAlternativeHolder ph)throws PolicyException{
         ph.getInProtocolPM().put(protocol,constructPolicyHolder(effectivePolicy, true, true, false));
     }
-    
+
     @Override
     protected void addIncomingFaultPolicy(Policy effectivePolicy, SecurityPolicyHolder sph, WSDLFault fault)throws PolicyException{
         SecurityPolicyHolder faultPH = constructPolicyHolder(effectivePolicy,true,false);
         sph.addFaultPolicy(fault,faultPH);
     }
-    
+
     @Override
     protected void addOutgoingFaultPolicy(Policy effectivePolicy, SecurityPolicyHolder sph, WSDLFault fault)throws PolicyException{
         SecurityPolicyHolder faultPH = constructPolicyHolder(effectivePolicy,true,true);
         sph.addFaultPolicy(fault,faultPH);
     }
-    
+
     @Override
     protected String getAction(WSDLOperation operation, boolean inComming){
         if(inComming){
@@ -887,22 +877,19 @@ public class WSITServerAuthContext extends WSITAuthContextBase implements Server
             return operation.getOutput().getAction();
         }
     }
-    
+
     private RealmAuthenticationAdapter getRealmAuthenticationAdapter(WSEndpoint wSEndpoint) {
-        Object obj = SecurityUtil.getServletContext(wSEndpoint);
-        if (obj == null) {
-            return null;
-        }
-        return RealmAuthenticationAdapter.newInstance(obj);
-    }   
-    
+        Object obj = ServletContextUtil.getServletContextFacade(wSEndpoint);
+        return obj == null ? null : RealmAuthenticationAdapter.newInstance(obj);
+    }
+
     private void updateSCSessionInfo(Packet packet) {
         SecurityContextToken sct =
                 (SecurityContextToken)packet.invocationProperties.get(MessageConstants.INCOMING_SCT);
         if (sct != null) {
-            // get the secure session id 
+            // get the secure session id
             String sessionId = sct.getIdentifier().toString();
-            
+
             // put the secure session id the the message context
             packet.invocationProperties.put(Session.SESSION_ID_KEY, sessionId);
             packet.invocationProperties.put(Session.SESSION_KEY, sessionManager.getSession(sessionId).getUserData());

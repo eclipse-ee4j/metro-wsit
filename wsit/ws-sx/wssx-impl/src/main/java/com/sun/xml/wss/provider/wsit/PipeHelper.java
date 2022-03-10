@@ -51,18 +51,18 @@ public class PipeHelper extends ConfigHelper {
 //    private static AuditManager auditManager =
 //            AuditManagerFactory.getAuditManagerInstance();
 //
-//    protected static final LocalStringManagerImpl localStrings = 
+//    protected static final LocalStringManagerImpl localStrings =
 //        new LocalStringManagerImpl(PipeConstants.class);
-    private SEIModel seiModel;
-    private SOAPVersion soapVersion;
+    private final SEIModel seiModel;
+    private final SOAPVersion soapVersion;
     private static final String SECURITY_CONTEXT_PROP="META-INF/services/com.sun.xml.ws.security.spi.SecurityContext";
-    private Class secCntxt = null;
-    private SecurityContext context = null;
-    
+    private Class<?> secCntxt;
+    private SecurityContext context;
+
     public PipeHelper(String layer, Map<String, Object> map, CallbackHandler cbh) {
         init(layer, getAppCtxt(map), map, cbh);
 
-	this.seiModel = (SEIModel) map.get(PipeConstants.SEI_MODEL);
+        this.seiModel = (SEIModel) map.get(PipeConstants.SEI_MODEL);
         WSBinding binding = (WSBinding)map.get(PipeConstants.BINDING);
         if (binding == null) {
             WSEndpoint endPoint = (WSEndpoint)map.get(PipeConstants.ENDPOINT);
@@ -71,8 +71,8 @@ public class PipeHelper extends ConfigHelper {
             }
         }
         this.soapVersion = (binding != null) ? binding.getSOAPVersion(): SOAPVersion.SOAP_11;
-        
-         URL url = loadFromClasspath(SECURITY_CONTEXT_PROP);
+
+        URL url = loadFromClasspath(SECURITY_CONTEXT_PROP);
         if (url != null) {
             InputStream is = null;
             try {
@@ -85,9 +85,9 @@ public class PipeHelper extends ConfigHelper {
                 }
                 String className = os.toString();
                 secCntxt = Class.forName(className, true, Thread.currentThread().getContextClassLoader());
-                 if (secCntxt != null) {
-                     context = (SecurityContext) secCntxt.newInstance();
-                 }
+                if (secCntxt != null) {
+                    context = (SecurityContext) secCntxt.getDeclaredConstructor().newInstance();
+                }
             } catch (Exception e) {
                 throw new WebServiceException(e);
             } finally {
@@ -101,28 +101,28 @@ public class PipeHelper extends ConfigHelper {
    }
 
     @Override
-    public ClientAuthContext getClientAuthContext(MessageInfo info, Subject s) 
-    throws AuthException {
-	ClientAuthConfig c = (ClientAuthConfig)getAuthConfig(false);
-	if (c != null) {
+    public ClientAuthContext getClientAuthContext(MessageInfo info, Subject s)
+        throws AuthException {
+        ClientAuthConfig c = (ClientAuthConfig)getAuthConfig(false);
+        if (c != null) {
             addModel(info, map);
-	    return c.getAuthContext(c.getAuthContextID(info),s,map);
-	}
-	return null;
+            return c.getAuthContext(c.getAuthContextID(info),s,map);
+        }
+        return null;
     }
 
     @Override
-    public ServerAuthContext getServerAuthContext(MessageInfo info, Subject s) 
-    throws AuthException {
-	ServerAuthConfig c = (ServerAuthConfig)getAuthConfig(true);
-	if (c != null) {
+    public ServerAuthContext getServerAuthContext(MessageInfo info, Subject s)
+        throws AuthException {
+        ServerAuthConfig c = (ServerAuthConfig)getAuthConfig(true);
+        if (c != null) {
             addModel(info, map);
-	    return c.getAuthContext(c.getAuthContextID(info),s,map);
-	}
-	return null;
+            return c.getAuthContext(c.getAuthContextID(info),s,map);
+        }
+        return null;
     }
 
-     public static URL loadFromClasspath(final String configFileName) {
+    public static URL loadFromClasspath(final String configFileName) {
         final ClassLoader loader = Thread.currentThread().getContextClassLoader();
         if (loader == null) {
             return ClassLoader.getSystemResource(configFileName);
@@ -130,7 +130,7 @@ public class PipeHelper extends ConfigHelper {
             return loader.getResource(configFileName);
         }
     }
-     
+
     public Subject getClientSubject() {
 
         Subject s = null;
@@ -148,77 +148,77 @@ public class PipeHelper extends ConfigHelper {
     }
 
     public void getSessionToken(Map<String, Object> m,
-				MessageInfo info, 
+				MessageInfo info,
 				Subject s) throws AuthException {
-	ClientAuthConfig c = (ClientAuthConfig) getAuthConfig(false);    
-	if (c != null) {
-	    m.putAll(map);
+        ClientAuthConfig c = (ClientAuthConfig) getAuthConfig(false);
+        if (c != null) {
+            m.putAll(map);
             addModel(info, map);
-	    c.getAuthContext(c.getAuthContextID(info),s,m);
-	}
+            c.getAuthContext(c.getAuthContextID(info),s,m);
+        }
     }
 
-   	
-    public Object getModelName() { 
- 	WSDLPort wsdlModel = (WSDLPort) getProperty(PipeConstants.WSDL_MODEL);
- 	return (wsdlModel == null ? "unknown" : wsdlModel.getName());
+
+    public Object getModelName() {
+        WSDLPort wsdlModel = (WSDLPort) getProperty(PipeConstants.WSDL_MODEL);
+        return (wsdlModel == null ? "unknown" : wsdlModel.getName());
     }
-  
+
     // always returns response with embedded fault
     //public static Packet makeFaultResponse(Packet response, Throwable t) {
     public Packet makeFaultResponse(Packet response, Throwable t) {
-	// wrap throwable in WebServiceException, if necessary
-	if (!(t instanceof WebServiceException)) {
-	    t = new WebServiceException(t);
-	}
- 	if (response == null) {
- 	    response = new Packet();
-  	} 
-	// try to create fault in provided response packet, if an exception
-	// is thrown, create new packet, and create fault in it.
-	try {
-	    return response.createResponse(Messages.create(t, this.soapVersion));
-	} catch (Exception e) {
-	    response = new Packet();
-	}
- 	return response.createResponse(Messages.create(t, this.soapVersion));
+        // wrap throwable in WebServiceException, if necessary
+        if (!(t instanceof WebServiceException)) {
+            t = new WebServiceException(t);
+        }
+        if (response == null) {
+            response = new Packet();
+        }
+        // try to create fault in provided response packet, if an exception
+        // is thrown, create new packet, and create fault in it.
+        try {
+            return response.createResponse(Messages.create(t, this.soapVersion));
+        } catch (Exception e) {
+            response = new Packet();
+        }
+        return response.createResponse(Messages.create(t, this.soapVersion));
     }
-    
-    public boolean isTwoWay(boolean twoWayIsDefault, Packet request) { 
- 	boolean twoWay = twoWayIsDefault;
- 	Message m = request.getMessage();
- 	if (m != null) {
-	    WSDLPort wsdlModel =
-		(WSDLPort) getProperty(PipeConstants.WSDL_MODEL);
-	    if (wsdlModel != null) {
-		twoWay = (m.isOneWay(wsdlModel) ? false : true);
-	    }
-	}
- 	return twoWay;
+
+    public boolean isTwoWay(boolean twoWayIsDefault, Packet request) {
+        boolean twoWay = twoWayIsDefault;
+        Message m = request.getMessage();
+        if (m != null) {
+            WSDLPort wsdlModel =
+                (WSDLPort) getProperty(PipeConstants.WSDL_MODEL);
+            if (wsdlModel != null) {
+                twoWay = (m.isOneWay(wsdlModel) ? false : true);
+            }
+        }
+        return twoWay;
     }
- 
+
     // returns empty response if request is determined to be one-way
-    public Packet getFaultResponse(Packet request, Packet response, 
-	Throwable t) {
-	boolean twoWay = true;
-	try {
-	    twoWay = isTwoWay(true,request);
-	} catch (Exception e) {
-	    // exception is consumed, and twoWay is assumed
- 	} 
-	if (twoWay) {
-	    return makeFaultResponse(response,t);
- 	} else {
-	    return new Packet();
-	}
+    public Packet getFaultResponse(Packet request, Packet response,
+        Throwable t) {
+        boolean twoWay = true;
+        try {
+            twoWay = isTwoWay(true,request);
+        } catch (Exception e) {
+            // exception is consumed, and twoWay is assumed
+        }
+        if (twoWay) {
+            return makeFaultResponse(response,t);
+        } else {
+            return new Packet();
+        }
     }
- 
+
     @Override
     public void disable() {
-	listenerWrapper.disableWithRefCount();
+        listenerWrapper.disableWithRefCount();
     }
-    
-    
+
+
     private static String getAppCtxt(Map<String, Object> map) {
         String rvalue = null;
         WSEndpoint wse = (WSEndpoint) map.get(PipeConstants.ENDPOINT);
@@ -246,8 +246,8 @@ public class PipeHelper extends ConfigHelper {
             WSService service = (WSService)map.get(PipeConstants.SERVICE);
             if (service != null) {
                 rvalue = service.getServiceName().toString();
-            } 
-            
+            }
+
         }
         return rvalue;
     }
@@ -263,11 +263,11 @@ public class PipeHelper extends ConfigHelper {
          //TODO: FIXME
         return "localhost";
     }
-     
+
     private static String getEndpointURI(WSEndpoint wse) {
         return wse.getPort().getAddress().getURI().toASCIIString();
     }
-    
+
      public void authorize(Packet request) {
 
         // SecurityContext constructor should set initiator to

@@ -11,9 +11,11 @@
 
 package com.sun.xml.wss.provider.wsit;
 
-import com.sun.xml.wss.impl.misc.SecurityUtil;
 import com.sun.xml.wss.provider.wsit.logging.LogDomainConstants;
 import com.sun.xml.wss.provider.wsit.logging.LogStringsMessages;
+import com.sun.xml.wss.util.ServletContextUtil;
+import com.sun.xml.wss.util.WSSServletContextFacade;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -46,12 +48,12 @@ public class JMACAuthConfigFactory extends AuthConfigFactory {
 
     private static final String CONTEXT_REGISTRATION_ID = "com.sun.xml.wss.provider.wsit.contextRegistrationId";
 
-    private static Logger logger =Logger.getLogger(
+    private static Logger logger = Logger.getLogger(
             LogDomainConstants.WSIT_PVD_DOMAIN,
             LogDomainConstants.WSIT_PVD_DOMAIN_BUNDLE);
 
 
-    // locks are used to protect existence of maps 
+    // locks are used to protect existence of maps
     // not concurrent access within maps
     private static final  String AUTH_CONFIG_PROVIDER_PROP="META-INF/services/jakarta.security.auth.message.config.AuthConfigProvider";
     private static ReadWriteLock rwLock;
@@ -62,58 +64,57 @@ public class JMACAuthConfigFactory extends AuthConfigFactory {
     private static Map<String, RegistrationContext> id2RegisContextMap;
     private static Map<String, List<RegistrationListener>> id2RegisListenersMap;
     private static Map<AuthConfigProvider, List<String>> provider2IdsMap;
-    
+
     private static final String CONF_FILE_NAME = "auth.conf";
-    private static  RegStoreFileParser regStore;
+    private static RegStoreFileParser regStore;
     private ClassLoader loader;
     static {
-	rwLock = new ReentrantReadWriteLock(true);
-	rLock = rwLock.readLock();
-	wLock = rwLock.writeLock();   
+        rwLock = new ReentrantReadWriteLock(true);
+        rLock = rwLock.readLock();
+        wLock = rwLock.writeLock();
     }
 
     // XXX read declarative persistent repository construct an
     // register AuthConfigProviders as appropriate.
     public JMACAuthConfigFactory(ClassLoader loader) {
         this.loader = loader;
-        regStore = new RegStoreFileParser(System.getProperty("user.dir"),
-              CONF_FILE_NAME, false);
-	_loadFactory();
+        regStore = new RegStoreFileParser(System.getProperty("user.dir"), CONF_FILE_NAME, false);
+        _loadFactory();
     }
 
     /**
      * Get a registered AuthConfigProvider from the factory.
      *
-     * Get the provider of ServerAuthConfig and/or 
-     * ClientAuthConfig objects registered for the identified message 
+     * Get the provider of ServerAuthConfig and/or
+     * ClientAuthConfig objects registered for the identified message
      * layer and application context.
      *
      * @param layer a String identifying the message layer
      *		for which the registered AuthConfigProvider is
      *          to be returned. This argument may be null.
      *
-     * @param appContext a String that identifys the application messaging 
+     * @param appContext a String that identifys the application messaging
      *          context for which the registered AuthConfigProvider
      *          is to be returned. This argument may be null.
      *
-     * @param listener the RegistrationListener whose 
-     *          <code>notify</code> method is to be invoked 
-     *          if the corresponding registration is unregistered or 
+     * @param listener the RegistrationListener whose
+     *          <code>notify</code> method is to be invoked
+     *          if the corresponding registration is unregistered or
      *          replaced. The value of this argument may be null.
      *
-     * @return the implementation of the AuthConfigProvider interface 
+     * @return the implementation of the AuthConfigProvider interface
      *          registered at the factory for the layer and appContext
      *          or null if no AuthConfigProvider is selected.
      *
      * <p>All factories shall employ the following precedence rules to select
-     * the registered AuthConfigProvider that matches the layer and appContext 
+     * the registered AuthConfigProvider that matches the layer and appContext
      * arguments:
      *<ul>
-     * <li> The provider that is specifically registered for both the 
-     * corresponding message layer and appContext 
+     * <li> The provider that is specifically registered for both the
+     * corresponding message layer and appContext
      * shall be selected.
      * <li> if no provider is selected according to the preceding rule,
-     * the provider specifically registered for the 
+     * the provider specifically registered for the
      * corresponding appContext and for all message layers
      * shall be selected.
      * <li> if no provider is selected according to the preceding rules,
@@ -121,34 +122,32 @@ public class JMACAuthConfigFactory extends AuthConfigFactory {
      * corresponding message layer and for all appContexts
      * shall be selected.
      * <li> if no provider is selected according to the preceding rules,
-     * the provider registered for all message layers and for all 
+     * the provider registered for all message layers and for all
      * appContexts shall be selected.
      * <li> if no provider is selected according to the preceding rules,
      * the factory shall terminate its search for a registered provider.
      *</ul>
      */
     @Override
-    public AuthConfigProvider
-            getConfigProvider(String layer, String appContext,
-	    RegistrationListener listener) {
+    public AuthConfigProvider getConfigProvider(String layer, String appContext, RegistrationListener listener) {
 
-	AuthConfigProvider provider = null;
+        AuthConfigProvider provider = null;
         String regisID = getRegistrationID(layer, appContext);
         rLock.lock();
-	try {
-	    provider = id2ProviderMap.get(regisID);
+        try {
+            provider = id2ProviderMap.get(regisID);
             if (provider == null) {
                 provider = id2ProviderMap.get(getRegistrationID(null, appContext));
             }
-	    if (provider == null) {
-		provider = id2ProviderMap.get(getRegistrationID(layer, null));
-	    }
-	    if (provider == null) {
-		provider = id2ProviderMap.get(getRegistrationID(null, null));
-	    }
-	} finally {
-	    rLock.unlock();
-	}
+            if (provider == null) {
+                provider = id2ProviderMap.get(getRegistrationID(layer, null));
+            }
+            if (provider == null) {
+                provider = id2ProviderMap.get(getRegistrationID(null, null));
+            }
+        } finally {
+            rLock.unlock();
+        }
 
         if (listener != null) {
             // do this check first to try to optimize the multiple thread env
@@ -185,37 +184,37 @@ public class JMACAuthConfigFactory extends AuthConfigFactory {
     }
 
     /**
-     * Registers within the factory, a provider 
-     * of ServerAuthConfig and/or ClientAuthConfig objects for a 
+     * Registers within the factory, a provider
+     * of ServerAuthConfig and/or ClientAuthConfig objects for a
      * message layer and application context identifier.
-     * 
-     * <P>At most one registration may exist within the factory for a 
-     * given combination of message layer 
+     *
+     * <P>At most one registration may exist within the factory for a
+     * given combination of message layer
      * and appContext. Any pre-existing
-     * registration with identical values for layer and appContext is replaced 
+     * registration with identical values for layer and appContext is replaced
      * by a subsequent registration. When replacement occurs, the registration
      * identifier, layer, and appContext identifier remain unchanged,
-     * and the AuthConfigProvider (with initialization properties) and 
-     * description are replaced. 
+     * and the AuthConfigProvider (with initialization properties) and
+     * description are replaced.
      *
      *<p>Within the lifetime of its Java process, a factory must assign unique
-     * registration identifiers to registrations, and must never 
-     * assign a previously used registration identifier to a registration 
-     * whose message layer and or appContext identifier differ from 
+     * registration identifiers to registrations, and must never
+     * assign a previously used registration identifier to a registration
+     * whose message layer and or appContext identifier differ from
      * the previous use.
-     * 
+     *
      * <p>Programmatic registrations performed via this method must update
-     * (according to the replacement rules described above), the persistent 
-     * declarative representation of provider registrations employed by the 
+     * (according to the replacement rules described above), the persistent
+     * declarative representation of provider registrations employed by the
      * factory constructor.
      *
      * @param className the fully qualified name of an AuthConfigProvider
      *          implementation class. This argument must not be null.
      *
-     * @param properties a Map object containing the initialization 
+     * @param properties a Map object containing the initialization
      *          properties to be passed to the provider constructor.
-     *          This argument may be null. When this argument is not null, 
-     *          all the values and keys occuring in the Map must be of 
+     *          This argument may be null. When this argument is not null,
+     *          all the values and keys occuring in the Map must be of
      *          type String.
      *
      * @param layer a String identifying the message layer
@@ -226,14 +225,14 @@ public class JMACAuthConfigFactory extends AuthConfigFactory {
      * @param appContext a String value that may be used by a runtime
      *          to request a configuration object from this provider.
      *          A null value may be passed as an argument for this parameter,
-     *          in which case, the provider is registered for all 
+     *          in which case, the provider is registered for all
      *          configuration ids (at the indicated layers).
      *
      * @param description a text String descripting the provider.
      *          this value may be null.
      *
-     * @return a String identifier assigned by 
-     *          the factory to the provider registration, and that may be 
+     * @return a String identifier assigned by
+     *          the factory to the provider registration, and that may be
      *          used to remove the registration from the provider.
      *
      * @exception SecurityException if the caller does not have
@@ -263,23 +262,18 @@ public class JMACAuthConfigFactory extends AuthConfigFactory {
             SAMConfigProvider provider = new SAMConfigProvider(serverAuthModule);
             return registerConfigProvider(provider, ctx.getMessageLayer(), ctx.getAppContext(), ctx.getDescription());
         }
-        final Class<?> contextClass = SecurityUtil.findServletContextClass();
-        if (contextClass == null) {
+        WSSServletContextFacade servletContextFacade = ServletContextUtil.wrap(context);
+        if (servletContextFacade == null) {
             return null;
         }
-        if (contextClass.isInstance(context)) {
-            // don't put to imports as this class is supported but not required
-            jakarta.servlet.ServletContext servletContext = (jakarta.servlet.ServletContext) context;
-            String registrationId = registerConfigProvider(
-                    new SAMConfigProvider(serverAuthModule),
-                    "HttpServlet",
-                    servletContext.getVirtualServerName() + " " + servletContext.getContextPath(),
-                    "SAMConfigProvider for " + serverAuthModule.getClass()
-            );
-            servletContext.setAttribute(CONTEXT_REGISTRATION_ID, registrationId);
-            return registrationId;
-        }
-        return null;
+        String registrationId = registerConfigProvider(
+                new SAMConfigProvider(serverAuthModule),
+                "HttpServlet",
+                servletContextFacade.getVirtualServerName() + " " + servletContextFacade.getContextPath(),
+                "SAMConfigProvider for " + serverAuthModule.getClass()
+        );
+        servletContextFacade.setStringAttribute(CONTEXT_REGISTRATION_ID, registrationId);
+        return registrationId;
     }
 
 
@@ -291,13 +285,13 @@ public class JMACAuthConfigFactory extends AuthConfigFactory {
             removeRegistration(registrationId);
             return;
         }
-        final Class<?> contextClass = SecurityUtil.findServletContextClass();
-        if (contextClass == null) {
+        WSSServletContextFacade servletContextFacade = ServletContextUtil.wrap(context);
+        if (servletContextFacade == null) {
             return;
         }
+
         // don't put to imports as this class is supported but not required
-        jakarta.servlet.ServletContext servletContext = (jakarta.servlet.ServletContext) context;
-        String registrationId = (String) servletContext.getAttribute(CONTEXT_REGISTRATION_ID);
+        String registrationId = servletContextFacade.getStringAttribute(CONTEXT_REGISTRATION_ID);
         if (registrationId == null) {
             return;
         }
@@ -312,7 +306,7 @@ public class JMACAuthConfigFactory extends AuthConfigFactory {
      * @param registrationID a String that identifies a provider registration
      *          at the factory
      *
-     * @return true if there was a registration with the specified identifier 
+     * @return true if there was a registration with the specified identifier
      *          and it was removed. Return false if the registraionID was
      *          invalid.
      *
@@ -337,9 +331,9 @@ public class JMACAuthConfigFactory extends AuthConfigFactory {
      * @param appContext a String value identifying the application contex
      *          or null.
      *
-     * @return an array of String values where each value identifies a 
+     * @return an array of String values where each value identifies a
      *          provider registration from which the listener was removed.
-     *          This method never returns null; it returns an empty array if 
+     *          This method never returns null; it returns an empty array if
      *          the listener was not removed from any registrations.
      *
      * @exception SecurityException if the caller does not have
@@ -347,25 +341,23 @@ public class JMACAuthConfigFactory extends AuthConfigFactory {
      *
      */
     @Override
-    public String[] detachListener(RegistrationListener listener,
-                                   String layer, String appContext) {
+    public String[] detachListener(RegistrationListener listener, String layer, String appContext) {
         String regisID = getRegistrationID(layer, appContext);
         wLock.lock();
-        try {   
+        try {
             RegistrationListener ler = null;
-            List<RegistrationListener> listeners =
-                id2RegisListenersMap.get(regisID);
+            List<RegistrationListener> listeners = id2RegisListenersMap.get(regisID);
             if (listeners != null && listeners.remove(listener)) {
-                   ler = listener;
+                ler = listener;
             }
-            return (ler != null)? new String[]{ regisID } : new String[0];
+            return (ler != null) ? new String[] {regisID} : new String[0];
         } finally {
             wLock.unlock();
         }
     }
 
     /**
-     * Get the registration identifiers for all registrations of the 
+     * Get the registration identifiers for all registrations of the
      * provider instance at the factory.
      *
      * @param provider the AuthConfigurationProvider whose registration
@@ -373,9 +365,9 @@ public class JMACAuthConfigFactory extends AuthConfigFactory {
      *          null, in which case, it indicates that the the id's of
      *          all active registration within the factory are returned.
      *
-     * @return an array of String values where each value identifies a 
+     * @return an array of String values where each value identifies a
      * provider registration at the factory. This method never returns null;
-     * it returns an empty array when their are no registrations at the 
+     * it returns an empty array when their are no registrations at the
      * factory for the identified provider.
      */
     @Override
@@ -390,19 +382,18 @@ public class JMACAuthConfigFactory extends AuthConfigFactory {
                 if (collList != null) {
                     regisIDs = new HashSet<>();
                     for (List<String> listIds : collList) {
-                         if (listIds != null) {
-                             regisIDs.addAll(listIds);
-                         }
+                        if (listIds != null) {
+                            regisIDs.addAll(listIds);
+                        }
                     }
                 }
             }
-            return ((regisIDs != null)?
-                regisIDs.toArray(new String[0]) :
-                new String[0]);
+            return regisIDs == null ? new String[0] : regisIDs.toArray(new String[0]);
         } finally {
             rLock.unlock();
         }
     }
+
 
     /**
      * Get the the registration context for the identified registration.
@@ -418,19 +409,19 @@ public class JMACAuthConfigFactory extends AuthConfigFactory {
     @Override
     public RegistrationContext getRegistrationContext(String registrationID) {
         rLock.lock();
-	try {
-	    return id2RegisContextMap.get(registrationID);
-	} finally {
-	    rLock.unlock();
-	}
+        try {
+            return id2RegisContextMap.get(registrationID);
+        } finally {
+            rLock.unlock();
+        }
     }
 
    /**
-     * Cause the factory to reprocess its persisent declarative 
-     * representation of provider registrations. 
+     * Cause the factory to reprocess its persisent declarative
+     * representation of provider registrations.
      *
-     * <p> A factory should only replace an existing registration when 
-     * a change of provider implementation class or initialization 
+     * <p> A factory should only replace an existing registration when
+     * a change of provider implementation class or initialization
      * properties has occured.
      *
      * @exception SecurityException if the caller does not have permission
@@ -438,25 +429,20 @@ public class JMACAuthConfigFactory extends AuthConfigFactory {
      */
     @Override
     public void refresh() {
-	_loadFactory();
+        _loadFactory();
     }
 
-    /*
+    /**
      * Contains the default providers used when none are
      * configured in a factory configuration file.
      */
     static List<EntryInfo> getDefaultProviders() {
-        /*
-        List<EntryInfo> entries = new ArrayList<EntryInfo>(2);
-        entries.add(new EntryInfo(
-            "com.sun.xml.wss.provider.wsit.WSITAuthConfigProvider", null));
-        return entries;*/
         List<EntryInfo> entries = new ArrayList<>(1);
         URL url = loadFromClasspath(AUTH_CONFIG_PROVIDER_PROP);
-        if (url != null) {
-            InputStream is = null;
-            try {
-                is = url.openStream();
+        if (url == null) {
+            entries.add(new EntryInfo("com.sun.xml.wss.provider.wsit.WSITAuthConfigProvider", null));
+        } else {
+            try (InputStream is = url.openStream()) {
                 ByteArrayOutputStream os = new ByteArrayOutputStream();
                 int val = is.read();
                 while (val != -1) {
@@ -465,52 +451,35 @@ public class JMACAuthConfigFactory extends AuthConfigFactory {
                 }
                 String classname = os.toString();
                 entries.add(new EntryInfo(classname, null));
-
             } catch (IOException ex) {
                 logger.log(Level.SEVERE, LogStringsMessages.WSITPVD_0062_ERROR_LOAD_DEFAULT_PROVIDERS(), ex);
                 throw new WebServiceException(ex);
-            } finally {
-                try {
-                    is.close();
-                } catch (IOException ex) {
-                    logger.log(Level.WARNING, LogStringsMessages.WSITPVD_0062_ERROR_LOAD_DEFAULT_PROVIDERS(), ex);
-                }
             }
-        } else {
-            entries.add(new EntryInfo(
-                    "com.sun.xml.wss.provider.wsit.WSITAuthConfigProvider", null));
         }
         return entries;
-        
     }
-    
-    public static URL loadFromClasspath(final String configFileName) {
+
+    private static URL loadFromClasspath(final String configFileName) {
         final ClassLoader loader = Thread.currentThread().getContextClassLoader();
         if (loader == null) {
             return ClassLoader.getSystemResource(configFileName);
-        } else {
-            return loader.getResource(configFileName);
         }
+        return loader.getResource(configFileName);
     }
-    
-    private static String getRegistrationID(String layer, String appContext) {
-        String regisID = null;
 
-        // __0                          (null, null)
-        // __1<appContext>              (null, appContext)
-        // __2<layer>                   (layer, null)
-        // __3<nn>_<layer><appContext>  (layer, appContext)
-        
-        if (layer != null) {
-            regisID = (appContext != null) ? 
-                "__3" + layer.length() + "_" + layer + appContext :
-                "__2" + layer;
-        } else {
-            regisID = (appContext != null) ?
-                "__1" + appContext :
-                "__0";
+    /**
+     * <pre>
+     * __0                          (null, null)
+     * __1[appContext]              (null, appContext)
+     * __2[layer]                   (layer, null)
+     * __3[nn]_[layer][appContext]  (layer, appContext)
+     * </pre>
+     */
+    private static String getRegistrationID(String layer, String appContext) {
+        if (layer == null) {
+            return appContext == null ? "__0" : "__1" + appContext;
         }
-        return regisID;
+        return appContext == null ? "__2" + layer : "__3" + layer.length() + "_" + layer + appContext;
     }
 
     /**
@@ -523,20 +492,18 @@ public class JMACAuthConfigFactory extends AuthConfigFactory {
         if (regisID.equals("__0")) {
             // null, null
         } else if (regisID.startsWith("__1")) {
-            appContext = (regisID.length() == 3)?
-                   "" : regisID.substring(3);
+            appContext = regisID.length() == 3 ? "" : regisID.substring(3);
         } else if (regisID.startsWith("__2")) {
-            layer = (regisID.length() == 3)?
-                   "" : regisID.substring(3);
+            layer = regisID.length() == 3 ? "" : regisID.substring(3);
         } else if (regisID.startsWith("__3")) {
             int ind = regisID.indexOf('_', 3);
             if (regisID.length() > 3 && ind > 0) {
                 String numberString = regisID.substring(3, ind);
                 int n;
                 try {
-                     n = Integer.parseInt(numberString);
-                } catch(Exception ex) {
-                     throw new IllegalArgumentException();
+                    n = Integer.parseInt(numberString);
+                } catch (Exception ex) {
+                    throw new IllegalArgumentException();
                 }
                 layer = regisID.substring(ind + 1, ind + 1 + n);
                 appContext = regisID.substring(ind + 1 + n);
@@ -547,62 +514,58 @@ public class JMACAuthConfigFactory extends AuthConfigFactory {
             throw new IllegalArgumentException();
         }
 
-        return new String[] { layer, appContext };
+        return new String[] {layer, appContext};
     }
 
 
     private AuthConfigProvider _constructProvider(String className, Map<String, String> properties, AuthConfigFactory factory) {
         // XXX do we need doPrivilege here
         AuthConfigProvider provider = null;
-	if (className != null) {
-	    try {
+        if (className != null) {
+            try {
                 if (loader == null) {
                     loader = Thread.currentThread().getContextClassLoader();
                 }
-		Class c = Class.forName(className, true, loader);
-		Constructor<AuthConfigProvider> constr =
-		    c.getConstructor(Map.class, AuthConfigFactory.class);
-		provider = constr.newInstance
-		    (properties, factory);
-	    } catch(Exception ex) {
+                Class c = Class.forName(className, true, loader);
+                Constructor<AuthConfigProvider> constr = c.getConstructor(Map.class, AuthConfigFactory.class);
+                provider = constr.newInstance(properties, factory);
+            } catch (Exception ex) {
                 if (logger.isLoggable(Level.FINE)) {
-                    logger.log(Level.FINE,
-                        "Cannot load AuthConfigProvider: " + className, ex); 
+                    logger.log(Level.FINE, "Cannot load AuthConfigProvider: " + className, ex);
                 } else if (logger.isLoggable(Level.WARNING)) {
                     logger.log(Level.WARNING,
                         LogStringsMessages.WSITPVD_0060_JMAC_JMAC_FACTORY_UNABLETO_LOAD_PROVIDER(className),
-                         new String [] { className, ex.toString() });
+                        new String[] {className, ex.toString()});
                 }
-	    }
-	}
-	return provider;
+            }
+        }
+        return provider;
     }
-     
+
     //XXX need to update persistent state and notify effected listeners
     private static String _register(AuthConfigProvider provider,
 				    Map<String, String> properties,
-				    String layer, 
-				    String appContext, 
-				    String description, 
+				    String layer,
+				    String appContext,
+				    String description,
 				    boolean persist) {
- 
-	String regisID = getRegistrationID(layer, appContext);
-	RegistrationContext rc = 
-	    new RegistrationContextImpl(layer,appContext,description,persist);
-	RegistrationContext prevRegisContext = null; 
+
+        String regisID = getRegistrationID(layer, appContext);
+        RegistrationContext rc = new RegistrationContextImpl(layer, appContext, description, persist);
+        RegistrationContext prevRegisContext = null;
         List<RegistrationListener> listeners = null;
         wLock.lock();
-	try {
-	    prevRegisContext = id2RegisContextMap.get(regisID);
+        try {
+            prevRegisContext = id2RegisContextMap.get(regisID);
             AuthConfigProvider prevProvider = id2ProviderMap.get(regisID);
-	    id2ProviderMap.put(regisID, provider);
-	    id2RegisContextMap.put(regisID, rc);
+            id2ProviderMap.put(regisID, provider);
+            id2RegisContextMap.put(regisID, rc);
 
             if (prevProvider != null) {
                 List<String> prevRegisIDs = provider2IdsMap.get(prevProvider);
                 prevRegisIDs.remove(regisID);
-                if ((!prevProvider.equals(provider)) &&
-                        prevRegisIDs.size() == 0) { // cleanup
+                if (!prevProvider.equals(provider) && prevRegisIDs.isEmpty()) {
+                    // cleanup
                     provider2IdsMap.remove(prevProvider);
                 }
             }
@@ -613,21 +576,21 @@ public class JMACAuthConfigFactory extends AuthConfigFactory {
             }
             regisIDs.add(regisID);
 
-            if ((provider != null && (!provider.equals(prevProvider))) ||
-                    (provider == null && prevProvider != null)) {
+            if ((provider != null && !provider.equals(prevProvider))
+                || (provider == null && prevProvider != null)) {
                 listeners = id2RegisListenersMap.get(regisID);
             }
-	} finally {
-	    wLock.unlock();
-	    if (persist) {
-		_storeRegistration(regisID, rc, provider,properties);
-	    } else if (prevRegisContext != null && prevRegisContext.isPersistent()) {
-		_deleteStoredRegistration(regisID, prevRegisContext);
-	    }
-	}
+        } finally {
+            wLock.unlock();
+            if (persist) {
+                _storeRegistration(regisID, rc, provider,properties);
+            } else if (prevRegisContext != null && prevRegisContext.isPersistent()) {
+                _deleteStoredRegistration(regisID, prevRegisContext);
+            }
+        }
 
         // outside wLock to prevent dead lock
-        if (listeners != null && listeners.size() > 0) {
+        if (listeners != null && !listeners.isEmpty()) {
             for (RegistrationListener listener : listeners) {
                 listener.notify(layer, appContext);
             }
@@ -638,14 +601,14 @@ public class JMACAuthConfigFactory extends AuthConfigFactory {
 
     //XXX need to update persistent state and notify effected listeners
     private static boolean _unRegister(String regisID) {
-	boolean rvalue = false;
-	RegistrationContext rc = null;;
+        boolean rvalue = false;
+        RegistrationContext rc = null;
         List<RegistrationListener> listeners = null;
         String[] dIds = decomposeRegisID(regisID);
         wLock.lock();
-	try {   
-	    rc = id2RegisContextMap.remove(regisID);
-	    AuthConfigProvider provider = id2ProviderMap.remove(regisID);
+        try {
+            rc = id2RegisContextMap.remove(regisID);
+            AuthConfigProvider provider = id2ProviderMap.remove(regisID);
             List<String> regisIDs = provider2IdsMap.get(provider);
             if (regisIDs != null) {
                 regisIDs.remove(regisID);
@@ -655,13 +618,13 @@ public class JMACAuthConfigFactory extends AuthConfigFactory {
             }
 
             listeners = id2RegisListenersMap.remove(regisID);
-	    rvalue = (provider != null);
-	} finally {
-	    wLock.unlock();
-	    if (rc != null && rc.isPersistent()) {
-		_deleteStoredRegistration(regisID, rc);
-	    }
-	}
+            rvalue = (provider != null);
+        } finally {
+            wLock.unlock();
+            if (rc != null && rc.isPersistent()) {
+                _deleteStoredRegistration(regisID, rc);
+            }
+        }
 
         // outside wLock to prevent dead lock
         if (listeners != null && listeners.size() > 0) {
@@ -675,60 +638,57 @@ public class JMACAuthConfigFactory extends AuthConfigFactory {
 
     // the following methods implement the factory's persistence layer
 
-    // XXX complete the implementations 
+    // XXX complete the implementations
     // XXX the WSIT and GF providers should not (ubtimately) be hardwired
 
     private void _loadFactory() {
         wLock.lock();
-	try {
-	    id2ProviderMap = new HashMap<>();
-	    id2RegisContextMap = new HashMap<>();
-            id2RegisListenersMap =
-                    new HashMap<>();
+        try {
+            id2ProviderMap = new HashMap<>();
+            id2RegisContextMap = new HashMap<>();
+            id2RegisListenersMap = new HashMap<>();
             provider2IdsMap = new HashMap<>();
-	} finally {
-	    wLock.unlock();
-	}
-	try {
+        } finally {
+            wLock.unlock();
+        }
+        try {
             for (EntryInfo info : regStore.getPersistedEntries()) {
                 if (info.isConstructorEntry()) {
-                    _constructProvider(info.getClassName(),
-                        info.getProperties(), this);
+                    _constructProvider(info.getClassName(), info.getProperties(), this);
                 } else {
                     for (RegistrationContext ctx : info.getRegContexts()) {
-                        registerConfigProvider(info.getClassName(),
+                        registerConfigProvider(
+                            info.getClassName(),
                             info.getProperties(), ctx.getMessageLayer(),
-                            ctx.getAppContext(), ctx.getDescription());
+                            ctx.getAppContext(), ctx.getDescription()
+                        );
                     }
                 }
             }
-	} catch (Exception e) {
+        } catch (Exception e) {
             if (logger.isLoggable(Level.WARNING)) {
                 logger.log(Level.WARNING,
                     LogStringsMessages.WSITPVD_0061_JMAC_AUTHCONFIG_LOADER_FAILURE());
             }
-	}
-
+        }
     }
 
-    private static void _storeRegistration(String regId,
-        RegistrationContext ctx, AuthConfigProvider p, Map<String, String> properties) {
-        
-	String className = null;
-	if (p != null) {
-	    className = p.getClass().getName();
-	}
+
+    private static void _storeRegistration(String regId, RegistrationContext ctx, AuthConfigProvider p,
+        Map<String, String> properties) {
+        String className = null;
+        if (p != null) {
+            className = p.getClass().getName();
+        }
         if (ctx.isPersistent()) {
             regStore.store(className, ctx, properties);
         }
     }
 
-    private static void _deleteStoredRegistration(String regId,
-        RegistrationContext ctx) {
-        
+
+    private static void _deleteStoredRegistration(String regId, RegistrationContext ctx) {
         if (ctx.isPersistent()) {
             regStore.delete(ctx);
         }
     }
-    
 }
