@@ -20,13 +20,13 @@ import java.nio.ByteBuffer;
  */
 public class ByteBufferOutputStream extends OutputStream {
     private static final boolean USE_DIRECT_BUFFER = false;
-    
+
     private ByteBuffer outputBuffer;
-    
+
     public ByteBufferOutputStream() {
         outputBuffer = ByteBufferFactory.allocateView(USE_DIRECT_BUFFER);
     }
-    
+
     public ByteBufferOutputStream(int initSize) {
         outputBuffer = ByteBufferFactory.allocateView(initSize, USE_DIRECT_BUFFER);
     }
@@ -38,12 +38,12 @@ public class ByteBufferOutputStream extends OutputStream {
     public void reset() {
         outputBuffer.clear();
     }
-    
+
     public ByteBuffer getByteBuffer() {
         outputBuffer.flip();
         return outputBuffer;
     }
-    
+
     @Override
     public void write(final int data) {
         if (outputBuffer.position() == outputBuffer.capacity() - 1) {
@@ -51,7 +51,7 @@ public class ByteBufferOutputStream extends OutputStream {
             tmpBuffer.put(outputBuffer);
             outputBuffer = tmpBuffer;
         }
-        
+
         outputBuffer.put((byte) data);
     }
 

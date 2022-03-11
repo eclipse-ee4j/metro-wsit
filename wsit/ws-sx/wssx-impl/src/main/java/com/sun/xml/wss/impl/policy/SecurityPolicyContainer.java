@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -25,11 +25,11 @@ import com.sun.xml.wss.impl.PolicyTypeUtil;
  * It Associates a StaticPolicyContext with a SecurityPolicy.
  */
 public class SecurityPolicyContainer implements SecurityPolicy {
-    
+
     protected HashMap _ctx2PolicyMap = new HashMap();
-    
+
     public SecurityPolicyContainer() {}
-    
+
     /**
      * Associate more than one SecurityPolicy with a StaticPolicyContext
      * @param ctx StaticPolicyContext
@@ -38,7 +38,7 @@ public class SecurityPolicyContainer implements SecurityPolicy {
     @SuppressWarnings("unchecked")
     public void setSecurityPolicy(StaticPolicyContext ctx, SecurityPolicy policy) {
         ArrayList al = (ArrayList)_ctx2PolicyMap.get(ctx);
-        
+
         if (al != null)
             al.add(policy);
         else {
@@ -47,7 +47,7 @@ public class SecurityPolicyContainer implements SecurityPolicy {
             _ctx2PolicyMap.put(ctx, al);
         }
     }
-    
+
     /**
      * Return an immutable collection of SecurityPolicies,
      *  association between policies are free to inference
@@ -57,12 +57,12 @@ public class SecurityPolicyContainer implements SecurityPolicy {
      */
     public Iterator getSecurityPolicies(StaticPolicyContext ctx) {
         ArrayList list = (ArrayList)_ctx2PolicyMap.get(ctx);
-        
+
         if (list != null)
             return list.iterator();
         return null;
     }
-    
+
     /**
      * Returns all keys (StaticPolicyContext)
      * @return Iterator on Key Set
@@ -70,7 +70,7 @@ public class SecurityPolicyContainer implements SecurityPolicy {
     public Iterator getAllContexts() {
         return _ctx2PolicyMap.keySet().iterator();
     }
-    
+
     /*
      * Composite SecurityPolicy instances are evaluated at runtime,
      * Throws PolicyGenerationException if evaluation is unsuccessful
@@ -83,13 +83,13 @@ public class SecurityPolicyContainer implements SecurityPolicy {
     @SuppressWarnings("unchecked")
     public Iterator getSecurityPolicies(StaticPolicyContext sCtx, DynamicPolicyContext dCtx) {
         ArrayList hs0 = (ArrayList)_ctx2PolicyMap.get(sCtx);
-        
+
         ArrayList hs1 = new ArrayList();
-        
+
         Iterator i = hs0.iterator();
         while (i.hasNext()) {
             Object obj = i.next();
-            
+
             /*if (obj instanceof PolicyComposer) {
                 PolicyComposer pc = (PolicyComposer)obj;
                 try {
@@ -106,10 +106,10 @@ public class SecurityPolicyContainer implements SecurityPolicy {
             } else*/
             hs1.add(obj);
         }
-        
+
         return hs1.iterator();
     }
-    
+
     /**
      * @return the type of the policy
      */
@@ -117,5 +117,5 @@ public class SecurityPolicyContainer implements SecurityPolicy {
     public String getType() {
         return PolicyTypeUtil.SEC_POLICY_CONTAINER_TYPE;
     }
-    
+
 }

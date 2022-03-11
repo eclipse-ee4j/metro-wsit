@@ -81,7 +81,7 @@ public class KeyNameStrategy extends KeyInfoStrategy {
     public String getAlias() {
         return keyName;
     }
-    
+
     public void setKeyName(String name){
         keyName = name;
     }

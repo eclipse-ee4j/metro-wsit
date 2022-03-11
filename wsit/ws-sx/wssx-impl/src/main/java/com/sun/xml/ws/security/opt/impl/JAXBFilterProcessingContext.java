@@ -52,13 +52,13 @@ public class JAXBFilterProcessingContext extends FilterProcessingContext{
      * JAX-WS representation of message
      **/
     SecuredMessage securedMessage = null;
-    
+
     SOAPVersion soapVersion = SOAPVersion.SOAP_11;
-    
+
     SecurityHeader secHeader = null;
-    
+
     private SecurityContext securityContext = null;
-    
+
     private Message message = null;
     private boolean isOneWay = false;
     private boolean isSAMLEK = false;
@@ -80,20 +80,20 @@ public class JAXBFilterProcessingContext extends FilterProcessingContext{
     public JAXBFilterProcessingContext() {
         bspContext = new BasicSecurityProfile();
     }
-    
+
     public JAXBFilterProcessingContext(ProcessingContext context) {
         //super(context);
         bspContext = new BasicSecurityProfile();
     }
-    
-    
+
+
     public JAXBFilterProcessingContext(Map invocationProps) {
         properties = invocationProps;
         bspContext = new BasicSecurityProfile();
     }
-    
-    
-    
+
+
+
     public JAXBFilterProcessingContext(String messageIdentifier,
             SecurityPolicy securityPolicy,
             Message message, SOAPVersion soapVersion)
@@ -105,11 +105,11 @@ public class JAXBFilterProcessingContext extends FilterProcessingContext{
         securedMessage.setRootElements(getNamespaceContext());
         bspContext = new BasicSecurityProfile();
     }
-    
+
     public SecuredMessage getSecuredMessage(){
         return securedMessage;
     }
-    
+
     public void isOneWayMessage(boolean value){
         this.isOneWay = value;
     }
@@ -128,56 +128,56 @@ public class JAXBFilterProcessingContext extends FilterProcessingContext{
         this.soapVersion = soapVersion;
         securedMessage.setRootElements(getNamespaceContext());
     }
-    
+
     public void setMessage(Message message){
         this.message = message;
     }
-    
+
     public Message getJAXWSMessage(){
         if(message != null)
             return message;
         else
             return new MessageWrapper(securedMessage,isOneWay);
     }
-    
+
     public SOAPVersion getSOAPVersion(){
         return soapVersion;
     }
-    
+
     public void setSOAPVersion(SOAPVersion sv){
         this.soapVersion = sv;
     }
-    
+
     public boolean isSOAP12(){
         return (soapVersion == SOAPVersion.SOAP_12) ? true : false;
     }
-    
+
     public SecurityHeader getSecurityHeader(){
         if(secHeader == null){
             secHeader = new WSSElementFactory(soapVersion).createSecurityHeader(getLayout() ,soapVersion.nsUri, mustUnderstandValue);
         }
         return secHeader;
     }
-    
+
     @Override
     protected SecurableSoapMessage getSecureMessage() {
         return null;
     }
-    
+
     @Override
     protected void setSecureMessage(SecurableSoapMessage msg) {
-        
+
     }
-    
+
     /**
      * set the SOAP Message into the ProcessingContext.
      * @param message SOAPMessage
      */
     @Override
     public void setSOAPMessage(SOAPMessage message) {
-        
+
     }
-    
+
     /**
      * @return the SOAPMessage from the context
      */
@@ -192,7 +192,7 @@ public class JAXBFilterProcessingContext extends FilterProcessingContext{
         return null;*/
         throw new UnsupportedOperationException();
     }
-    
+
     @Override
     public  void copy(ProcessingContext ctxx1, ProcessingContext ctxx2)
             throws XWSSecurityException {
@@ -205,20 +205,20 @@ public class JAXBFilterProcessingContext extends FilterProcessingContext{
             super.copy(ctxx1, ctxx2);
         }
     }
-    
+
     public synchronized  String generateID(){
         uid++;
         return "_" + uid;
     }
-    
+
     public SecurityContext getSecurityContext() {
         return securityContext;
     }
-    
+
     public void setSecurityContext(SecurityContext securityContext) {
         this.securityContext = securityContext;
     }
-    
+
     public NamespaceContextEx getNamespaceContext(){
         if (nsc == null) {
             if (soapVersion == SOAPVersion.SOAP_11) {
@@ -241,39 +241,39 @@ public class JAXBFilterProcessingContext extends FilterProcessingContext{
         }
         return nsc;
     }
-    
+
     public boolean isSAMLEK(){
         return this.isSAMLEK;
     }
-    
+
     public void isSAMLEK(boolean isSAMLEK){
         this.isSAMLEK = isSAMLEK;
     }
-    
+
     public AddressingVersion getAddressingVersion(){
         return addrVer;
     }
-    
+
     public void setAddressingVersion(AddressingVersion addrVer){
         this.addrVer = addrVer;
     }
-    
+
     public void setCurrentBuffer(XMLStreamBuffer buffer){
         this.xmlBuffer = buffer;
     }
-    
+
     public XMLStreamBuffer getCurrentBuffer(){
         return xmlBuffer;
     }
-    
+
     public void setSecure(boolean value){
         this.isSSL = value;
     }
-    
+
     public boolean isSecure(){
         return this.isSSL;
     }
-    
+
     public int getLayout(){
         MessagePolicy mp = (MessagePolicy)getSecurityPolicy();
         if(mp != null){
@@ -289,71 +289,71 @@ public class JAXBFilterProcessingContext extends FilterProcessingContext{
         }
         return 1;
     }
-    
+
     public void addToCurrentSecretMap(String ekId, Key key){
         currentSecretMap.put(ekId, key);
     }
-    
+
     public Key getCurrentSecretFromMap(String ekId){
         return currentSecretMap.get(ekId);
     }
-    
+
     public boolean getDisablePayloadBuffering(){
         return disablePayloadBuffering;
     }
-    
+
     public void setDisablePayloadBuffering(boolean value){
         this.disablePayloadBuffering = value;
     }
-    
+
     public boolean getDisableIncPrefix(){
         return disbaleIncPrefix;
     }
-    
+
     public void setDisableIncPrefix(boolean disableIncPrefix){
         this.disbaleIncPrefix = disableIncPrefix;
     }
-    
+
     public boolean getEncHeaderContent(){
         return encHeaderContent;
     }
-    
+
     public void setEncHeaderContent(boolean encHeaderContent){
         this.encHeaderContent = encHeaderContent;
     }
-    
+
     public void setBSP(boolean value){
         this.isBSP = value;
     }
-    
+
     public boolean isBSP(){
         return isBSP;
     }
-    
+
     public BasicSecurityProfile getBSPContext(){
         return bspContext;
     }
-    
+
     public Message getPVMessage(){
         return pvMsg;
     }
-    
+
     public void setPVMessage(Message msg){
         this.pvMsg = msg;
     }
-    
+
     public boolean isMissingTimestampAllowed(){
         return allowMissingTimestamp;
     }
-    
+
     public void setAllowMissingTimestamp(boolean allowMissingTimestamp){
         this.allowMissingTimestamp = allowMissingTimestamp;
     }
-    
+
     public boolean getMustUnderstandValue(){
         return this.mustUnderstandValue;
     }
-    
+
     public void setMustUnderstandValue(boolean muValue){
         this.mustUnderstandValue = muValue;
     }

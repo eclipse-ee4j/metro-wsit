@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -25,7 +25,7 @@ final class RegistrationContextImpl implements RegistrationContext {
 
     RegistrationContextImpl(String messageLayer, String appContext,
         String description, boolean persistent) {
-        
+
         this.messageLayer = messageLayer;
         this.appContext = appContext;
         this.description = description;
@@ -39,7 +39,7 @@ final class RegistrationContextImpl implements RegistrationContext {
         this.description = ctx.getDescription();
         this.isPersistent = ctx.isPersistent();
     }
-    
+
     @Override
     public String getMessageLayer() {
         return messageLayer;
@@ -59,7 +59,7 @@ final class RegistrationContextImpl implements RegistrationContext {
     public boolean isPersistent() {
         return isPersistent;
     }
- 
+
     public boolean equals(Object o) {
         if (o == null || !(o instanceof RegistrationContext)) {
             return false;

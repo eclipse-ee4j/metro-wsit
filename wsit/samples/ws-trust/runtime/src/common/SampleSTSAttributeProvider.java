@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -36,7 +36,7 @@ import org.w3c.dom.Element;
  */
 
 public class SampleSTSAttributeProvider implements STSAttributeProvider {
-    
+
     public Map<QName, List<String>> getClaimedAttributes(Subject subj, String appliesTo, String tokenType, Claims claims){
         String role = null;
         String id = null;
@@ -93,7 +93,7 @@ public class SampleSTSAttributeProvider implements STSAttributeProvider {
                 subject = ((AuthenticationStatement)s).getSubject();
             }
         }
-      
+
         if (nameID != null){
              //SAML 2.0 case
              id = nameID.getValue();
@@ -104,7 +104,7 @@ public class SampleSTSAttributeProvider implements STSAttributeProvider {
                 id = nameIdentifier.getValue();
             }
         }
-        
+
         // Create the attributes for new SAML Assertion
         Map<QName, List<String>> attrs = new HashMap<QName, List<String>>();
 
@@ -131,5 +131,5 @@ public class SampleSTSAttributeProvider implements STSAttributeProvider {
             }
         }
         return attrs;
-    }  
+    }
 }

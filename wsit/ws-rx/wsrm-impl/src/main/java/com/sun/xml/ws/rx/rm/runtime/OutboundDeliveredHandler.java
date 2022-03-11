@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -20,10 +20,10 @@ import com.sun.xml.ws.rx.rm.protocol.AcknowledgementData;
 import com.sun.xml.ws.rx.rm.runtime.sequence.Sequence.AckRange;
 
 /**
- * Handles OutboundDelivered object that comes with the application 
+ * Handles OutboundDelivered object that comes with the application
  * request message at the ClientTube. Provides methods that store,
  * retrieve and remove OutboundDelivered to/from a Map.
- * 
+ *
  */
 class OutboundDeliveredHandler {
     private static final Logger LOGGER = Logger.getLogger(OutboundDeliveredHandler.class);

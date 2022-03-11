@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -26,16 +26,16 @@ import com.sun.xml.wss.impl.policy.mls.AuthenticationTokenPolicy;
  *
  * @author K.Venugopal@sun.com
  */
-public class SignedEndorsingSupportingTokensProcessor extends EndorsingSupportingTokensProcessor {    
-    
+public class SignedEndorsingSupportingTokensProcessor extends EndorsingSupportingTokensProcessor {
+
 
     /** Creates a new instance of EndorsingSupportingTokensProcessor */
     public SignedEndorsingSupportingTokensProcessor(SupportingTokens st,TokenProcessor tokenProcessor,Binding binding,
             XWSSPolicyContainer container,SignaturePolicy sp,EncryptionPolicy ep,PolicyID pid) {
         super(st,tokenProcessor,binding,container,sp,ep,pid);
     }
-    
-    
+
+
     @Override
     protected void addToPrimarySignature(WSSPolicy policy, Token token) throws PolicyException{
         String includeToken = token.getIncludeToken();

@@ -32,39 +32,39 @@ public class Trust10 extends PolicyAssertion implements com.sun.xml.ws.security.
     private boolean populated = false;
     private AssertionFitness fitness = AssertionFitness.IS_VALID;
     private SecurityPolicyVersion spVersion;
-    
+
     /**
      * Creates a new instance of Trust10
      */
     public Trust10() {
         spVersion = SecurityPolicyVersion.SECURITYPOLICY200507;
     }
-    
-    
+
+
     public Trust10(AssertionData name,Collection<PolicyAssertion> nestedAssertions, AssertionSet nestedAlternative) {
         super(name,nestedAssertions,nestedAlternative);
         String nsUri = getName().getNamespaceURI();
         spVersion = PolicyUtil.getSecurityPolicyVersion(nsUri);
     }
-    
+
     public void addRequiredProperty(String requirement) {
         if(requiredProps == null){
             requiredProps = new HashSet<>();
         }
         requiredProps.add(requirement);
     }
-    
+
     @Override
     public Set getRequiredProperties() {
         populate();
         return requiredProps;
     }
-    
+
     @Override
     public String getType() {
         return version;
     }
-    
+
     @Override
     public AssertionFitness validate(boolean isServer) {
         return populate(isServer);
@@ -72,7 +72,7 @@ public class Trust10 extends PolicyAssertion implements com.sun.xml.ws.security.
     private void populate(){
         populate(false);
     }
-    
+
     private synchronized AssertionFitness populate(boolean isServer) {
         if(!populated){
             NestedPolicy policy = this.getNestedPolicy();
@@ -102,10 +102,10 @@ public class Trust10 extends PolicyAssertion implements com.sun.xml.ws.security.
                     }
                 }
             }
-            
+
             populated = true;
         }
         return fitness;
     }
-    
+
 }

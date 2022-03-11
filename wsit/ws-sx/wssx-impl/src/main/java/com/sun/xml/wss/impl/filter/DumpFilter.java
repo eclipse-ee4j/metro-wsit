@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -29,9 +29,9 @@ import java.util.logging.Logger;
  *
  */
 public class DumpFilter  {
-    
+
     private static  Level DEFAULT_LOG_LEVEL = Level.INFO;
-    
+
     private static final String lineSeparator = System.getProperty("line.separator");
 
     private static Logger log =  Logger.getLogger(LogDomainConstants.IMPL_FILTER_DOMAIN,
@@ -48,15 +48,15 @@ public class DumpFilter  {
         // Collect output in a byte[]
         baos = new ByteArrayOutputStream();
         dest = baos;
-        
+
         String label = "Sending Message";
-        
+
         if (context.isInboundMessage()) {
             label = "Received Message";
         }
-        
+
         String msg1 = "==== " + label + " Start ====" + lineSeparator;
-        
+
         try {
             TeeFilter teeFilter;
             teeFilter = new TeeFilter(dest, true);
@@ -67,12 +67,12 @@ public class DumpFilter  {
             LogStringsMessages.WSS_1411_UNABLETO_DUMP_SOAPMESSAGE(new Object[] { e.getMessage()}));
             throw new XWSSecurityException("Unable to dump SOAPMessage");
         }
-        
+
         String msg2 = "==== " + label + " End  ====" + lineSeparator;
 
-        byte[] bytes = baos.toByteArray();       
+        byte[] bytes = baos.toByteArray();
         String logMsg = msg1 + new String(bytes) + msg2;
         log.log(DEFAULT_LOG_LEVEL, logMsg);
     }
-    
+
 }

@@ -26,20 +26,20 @@ import javax.xml.stream.XMLStreamReader;
  * @author abhijit.das@Sun.com
  */
 public abstract class SAMLAssertionFactory {
-    
+
     /**
      * SAML Version 1.1 &amp; SAML Version 2.0
      */
     public static final String SAML1_1 = "Saml1.1";
     public static final String SAML2_0 = "Saml2.0";
     public static String SAML_VER_CHECK = null;
-    
-    
+
+
     protected SAMLAssertionFactory() {
         //do nothing
     }
-    
-    
+
+
     /**
      *
      * Create an instance of SAMLAssertionFactory.
@@ -57,8 +57,8 @@ public abstract class SAMLAssertionFactory {
             throw new XWSSecurityException("Unsupported SAML Version");
         }
     }
-    
-    
+
+
     /**
      * Creates an <code>Action</code> element.
      * @param namespace The attribute "namespace" of
@@ -66,7 +66,7 @@ public abstract class SAMLAssertionFactory {
      * @param action A String representing an action
      */
     public abstract Action createAction(String action, String namespace);
-    
+
     /**
      * Creates an <code>Advice</code> element.
      * @param assertionidreference A List of <code>AssertionIDReference</code>.
@@ -74,13 +74,13 @@ public abstract class SAMLAssertionFactory {
      * @param otherelement A List of any element defined as
      */
     public abstract Advice createAdvice(List assertionidreference, List assertion, List otherelement);
-    
+
     /**
      * Creates an <code>AnyType</code> element if the System property "com.sun.xml.wss.saml.binding.jaxb"
      * is set. Otherwise returns null.
      */
     public abstract AnyType createAnyType();
-    
+
     /**
      * Creates and return an Assertion from the data members: the
      * <code>assertionID</code>, the issuer, time when assertion issued,
@@ -120,7 +120,7 @@ public abstract class SAMLAssertionFactory {
             Conditions conditions,
             Advice advice,
             List statements,JAXBContext jcc) throws SAMLException;
-    
+
     /**
      * Creates and return an Assertion from the data members: the
      * <code>ID</code>, the issuer, time when assertion issued,
@@ -182,7 +182,7 @@ public abstract class SAMLAssertionFactory {
      * @param jcc JAXBContext to be used for marshaling and unmarshalling the assertions.
      * @exception SAMLException if there is an error in processing input.
      */
-     
+
     public abstract Assertion createAssertion(
             String ID,
             NameID issuer,
@@ -191,7 +191,7 @@ public abstract class SAMLAssertionFactory {
             Advice advice,
             Subject subject,
             List statements,JAXBContext jcc) throws SAMLException;
-    
+
     /**
      * Creates and returns an <code>Assertion</code> object from the given SAML <code>org.w3c.dom.Element</code>.
      *
@@ -202,7 +202,7 @@ public abstract class SAMLAssertionFactory {
      *            element definition.
      */
     public abstract Assertion createAssertion(org.w3c.dom.Element element) throws SAMLException;
-    
+
     /**
      * Creates and returns an <code>Assertion</code> object from the given SAML <code>XMLStreamReader</code>.
      *
@@ -213,7 +213,7 @@ public abstract class SAMLAssertionFactory {
      *            element definition.
      */
     public abstract Assertion createAssertion(XMLStreamReader reader) throws SAMLException;
-    
+
     /**
      * Creates and returns an <code>AssertionIDReference</code> object. AssertionID
      * will be generated automatically.
@@ -222,7 +222,7 @@ public abstract class SAMLAssertionFactory {
      * otherwise returns AssertionIDReference.
      */
     public abstract AssertionIDReference createAssertionIDReference();
-    
+
     /**
      * Creates and returns an <code>AssertionIDRef</code> object. AssertionID
      * will be generated automatically.
@@ -231,7 +231,7 @@ public abstract class SAMLAssertionFactory {
      * otherwise returns AssertionIDReference.
      */
     public abstract AssertionIDRef createAssertionIDRef();
-    
+
     /**
      * Creates and returns an <code>AssertionIDReference</code> object.
      *
@@ -241,7 +241,7 @@ public abstract class SAMLAssertionFactory {
      * otherwise returns AssertionIDReference.
      */
     public abstract AssertionIDReference createAssertionIDReference(String id);
-    
+
     /**
      * Creates and returns an <code>AssertionIDRef</code> object.
      *
@@ -251,7 +251,7 @@ public abstract class SAMLAssertionFactory {
      * otherwise returns AssertionIDReference.
      */
     public abstract AssertionIDRef createAssertionIDRef(String id);
-    
+
     /**
      * Constructs an instance of <code>Attribute</code>.
      *
@@ -262,12 +262,12 @@ public abstract class SAMLAssertionFactory {
      * @param values A List representing the <code>AttributeValue</code> object.
      */
     public abstract Attribute createAttribute(String name, String nameSpace, List values);
-    
+
     /**
      * Constructs an instance of <code>Attribute</code>.
      *
      * @param name A String representing <code>AttributeName</code> (the name
-     *        of the attribute).     
+     *        of the attribute).
      * @param values A List representing the <code>AttributeValue</code> object.
      */
     public abstract Attribute createAttribute(String name, List values);
@@ -279,8 +279,8 @@ public abstract class SAMLAssertionFactory {
      *        elements are interpreted.
      */
     public abstract AttributeDesignator createAttributeDesignator(String name, String nameSpace);
-    
-    
+
+
     /**
      *
      * Constructs an instance of <code>AttributeStatement</code>.
@@ -288,7 +288,7 @@ public abstract class SAMLAssertionFactory {
      * @param attr List of attributes
      */
     public abstract AttributeStatement createAttributeStatement(Subject subj, List attr);
-    
+
      /**
      *
      * Constructs an instance of <code>AttributeStatement</code>.
@@ -296,7 +296,7 @@ public abstract class SAMLAssertionFactory {
      * @param attr List of attributes
      */
     public abstract AttributeStatement createAttributeStatement(List attr);
-    
+
     /**
      * Constructs an instance of <code>AudienceRestrictionCondition</code>.
      * It takes in a <code>List</code> of audience for this
@@ -304,7 +304,7 @@ public abstract class SAMLAssertionFactory {
      * @param audience A List of audience to be included within this condition
      */
     public abstract AudienceRestrictionCondition createAudienceRestrictionCondition(List audience);
-    
+
      /**
      * Constructs an instance of <code>AudienceRestriction</code>.
      * It takes in a <code>List</code> of audience for this
@@ -312,7 +312,7 @@ public abstract class SAMLAssertionFactory {
      * @param audience A List of audience to be included within this condition
      */
     public abstract AudienceRestriction createAudienceRestriction(List audience);
-    
+
     /**
      * Constructs an instance of <code>AuthenticationStatement</code>.
      *
@@ -328,20 +328,20 @@ public abstract class SAMLAssertionFactory {
     public abstract AuthenticationStatement createAuthenticationStatement(
             String authMethod, GregorianCalendar authInstant, Subject subject,
             SubjectLocality subjectLocality, List authorityBinding);
-    
+
     /**
      * Constructs an instance of <code>AuthenticationStatement</code>.
-     *    
+     *
      * @param authInstant (optional) A GregorianCalendar object specifing the time at which the
-     *        authentication that took place. Pass null if not required.     
+     *        authentication that took place. Pass null if not required.
      * @param subjectLocality (optional) A <code>SubjectLocality</code> object. Pass <b>null</b> if not required.
      * @param authnContext (optional) A <code>AuthnContext</code> object. Pass <b>null</b> if not required.
      *        objects.
      */
     public abstract AuthnStatement createAuthnStatement(
-            GregorianCalendar authInstant, SubjectLocality subjectLocality, AuthnContext authnContext, 
+            GregorianCalendar authInstant, SubjectLocality subjectLocality, AuthnContext authnContext,
             String sessionIndex, GregorianCalendar sessionNotOnOrAfter);
-    
+
     /**
      *Constructs an instance of <code>AuthorityBinding</code>.
      *@param authKind A QName representing the type of SAML protocol queries
@@ -353,11 +353,11 @@ public abstract class SAMLAssertionFactory {
      *       protocol binding to use in  communicating with the authority.
      */
     public abstract AuthorityBinding createAuthorityBinding(QName authKind, String location, String binding);
-    
+
     public abstract AuthnContext createAuthnContext();
-    
+
     public abstract AuthnContext createAuthnContext(String authContextClassref, String authenticatingAuthority);
-    
+
     /**
      * Constructs an instance of <code>AuthorizationDecisionStatement</code>.
      *
@@ -373,10 +373,10 @@ public abstract class SAMLAssertionFactory {
      */
     public abstract AuthorizationDecisionStatement createAuthorizationDecisionStatement(
             Subject subject, String resource, String decision, List action, Evidence evidence);
-    
+
     /**
      * Constructs an instance of <code>AuthnDecisionStatement</code>.
-     *     
+     *
      * @param resource (required) A String identifying the resource to which
      *        access authorization is sought.
      * @param decision (required) The decision rendered by the issuer with
@@ -388,12 +388,12 @@ public abstract class SAMLAssertionFactory {
      */
     public abstract AuthnDecisionStatement createAuthnDecisionStatement(
             String resource, String decision, List action, Evidence evidence);
-    
+
     /**
      * Constructs an instance of default <code>Conditions</code> object.
      */
     public abstract Conditions createConditions();
-    
+
     /**
      * Constructs an instance of <code>Conditions</code>.
      *
@@ -410,7 +410,7 @@ public abstract class SAMLAssertionFactory {
             List condition,
             List arc,
             List doNotCacheCnd);
-    
+
     /**
      * Constructs an instance of <code>Conditions</code>.
      *
@@ -428,14 +428,14 @@ public abstract class SAMLAssertionFactory {
             List ar,
             List oneTimeUse,
             List proxyRestriction);
-    
+
     /**
      * Constructs an instance of <code>DoNotCacheCondition</code>
      */
     public abstract DoNotCacheCondition createDoNotCacheCondition();
-    
+
     public abstract OneTimeUse createOneTimeUse();
-    
+
     /**
      * Constructs an Evidence from a List of <code>Assertion</code> and
      * <code>AssertionIDReference</code> objects.
@@ -444,7 +444,7 @@ public abstract class SAMLAssertionFactory {
      * @param assertion List of <code>Assertion</code> objects.
      */
     public abstract Evidence createEvidence(List assertionIDRef, List assertion);
-    
+
     /**
      * Constructs a <code>NameQualifier</code> instance.
      *
@@ -456,7 +456,7 @@ public abstract class SAMLAssertionFactory {
      *        <code>Subject</code>. This optional, could be null.
      */
     public abstract NameIdentifier createNameIdentifier(String name, String nameQualifier, String format);
-    
+
     /**
      * Constructs a <code>NameID</code> instance.
      *
@@ -468,8 +468,8 @@ public abstract class SAMLAssertionFactory {
      *        <code>Subject</code>. This optional, could be null.
      */
     public abstract NameID createNameID(String name, String nameQualifier, String format);
-    
-    
+
+
     /**
      * Constructs a Subject object from a <code>NameIdentifier</code>
      * object and a <code>SubjectConfirmation</code> object.
@@ -478,7 +478,7 @@ public abstract class SAMLAssertionFactory {
      * @param subjectConfirmation <code>SubjectConfirmation</code> object.
      */
     public abstract Subject createSubject(NameIdentifier nameIdentifier, SubjectConfirmation subjectConfirmation);
-    
+
      /**
      * Constructs a Subject object from a <code>NameID</code>
      * object and a <code>SubjectConfirmation</code> object.
@@ -487,7 +487,7 @@ public abstract class SAMLAssertionFactory {
      * @param subjectConfirmation <code>SubjectConfirmation</code> object.
      */
     public abstract Subject createSubject(NameID nameID, SubjectConfirmation subjectConfirmation);
-    
+
     /**
      * Creates and returns a <code>SubjectConfirmation</code> object.
      *
@@ -497,7 +497,7 @@ public abstract class SAMLAssertionFactory {
      *        identifying common authentication protocols.
      */
     public abstract SubjectConfirmation createSubjectConfirmation(String confirmationMethod);
-    
+
     /**
      * Creates and returns a <code>SubjectConfirmation</code> object.
      *
@@ -508,11 +508,11 @@ public abstract class SAMLAssertionFactory {
      *        identifying common authentication protocols.
      */
     public abstract SubjectConfirmation createSubjectConfirmation(NameID nameID,String method);
-    
+
     public abstract SubjectConfirmation createSubjectConfirmation(
             List confirmationMethods,SubjectConfirmationData scd,KeyInfo keyInfo) throws SAMLException ;
-    
-    
+
+
     /**
      * Constructs a <code>SubjectConfirmation</code> instance.
      *
@@ -531,11 +531,11 @@ public abstract class SAMLAssertionFactory {
     public abstract SubjectConfirmation createSubjectConfirmation(
             List confirmationMethods, Element subjectConfirmationData,
             Element keyInfo) throws SAMLException;
-    
+
     /**
      * Constructs a <code>SubjectConfirmation</code> instance.
      *
-     * @param nameID <code>NameID</code> object.     
+     * @param nameID <code>NameID</code> object.
      * @param subjectConfirmationData Additional authentication information to
      *        be used by a specific authentication protocol. Can be passed as
      *        null if there is no <code>subjectConfirmationData</code> for the
@@ -550,11 +550,11 @@ public abstract class SAMLAssertionFactory {
     public abstract SubjectConfirmation createSubjectConfirmation(
             NameID nameID, SubjectConfirmationData subjectConfirmationData,
             String confirmationMethods) throws SAMLException;
-    
+
      /**
      * Constructs a <code>SubjectConfirmation</code> instance.
      *
-     * @param nameID <code>NameID</code> object.     
+     * @param nameID <code>NameID</code> object.
      * @param keyInfoConfirmationData Additional authentication information to
      *        be used by a specific authentication protocol. Can be passed as
      *        null if there is no <code>KeyInfoConfirmationData</code> for the
@@ -569,21 +569,21 @@ public abstract class SAMLAssertionFactory {
     public abstract SubjectConfirmation createSubjectConfirmation(
             NameID nameID, KeyInfoConfirmationData keyInfoConfirmationData,
             String confirmationMethods) throws SAMLException;
-    
+
     public abstract SubjectConfirmationData createSubjectConfirmationData(
             String address, String inResponseTo, GregorianCalendar notBefore,
             GregorianCalendar notOnOrAfter, String recipient, Element keyInfo) throws SAMLException;
     public abstract SubjectConfirmationData createSubjectConfirmationData(
             String address, String inResponseTo, GregorianCalendar notBefore,
             GregorianCalendar notOnOrAfter, String recipient, KeyInfo keyInfo);
-    
+
     public abstract KeyInfoConfirmationData createKeyInfoConfirmationData(Element keyInfo) throws SAMLException;
-    
+
     /**
      * Constructs a <code>SubjectLocality</code> instance.
      */
     public abstract SubjectLocality createSubjectLocality();
-    
+
     /**
      * Constructs an instance of <code>SubjectLocality</code>.
      *

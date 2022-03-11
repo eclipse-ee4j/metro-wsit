@@ -28,9 +28,9 @@ import javax.xml.namespace.QName;
 import javax.xml.stream.XMLStreamWriter;
 
 /**
- * SOAP/TCP invocation transformer, which is responsible to insert SOAP/TCP 'port' 
+ * SOAP/TCP invocation transformer, which is responsible to insert SOAP/TCP 'port'
  * attribute in a published WSDL
- * 
+ *
  * @author Alexey Stashok
  */
 public class PortAttributeInvocationTransformer implements InvocationTransformer {
@@ -38,11 +38,11 @@ public class PortAttributeInvocationTransformer implements InvocationTransformer
 
     private static final Logger logger = Logger.getLogger(
             com.sun.xml.ws.transport.tcp.util.TCPConstants.LoggingDomain + ".server");
-    
+
     private Collection<Invocation> invocationWrapper = new ArrayList<>(4);
-    
+
     private boolean isProcessingWSTCPAssertion;
-    
+
     private volatile Invocation addPortAttributeInvocation;
 
     /**
@@ -50,7 +50,7 @@ public class PortAttributeInvocationTransformer implements InvocationTransformer
      * WARNING: due to perf. reasons, method reuses the same Collection instance.
      * So call transform next time only if previously returned Collection is not required
      * any more.
-     * 
+     *
      * @return transformed invocations
      */
     @Override
@@ -70,7 +70,7 @@ public class PortAttributeInvocationTransformer implements InvocationTransformer
                 if (isProcessingWSTCPAssertion && isReplacePortAttribute(invocation)) {
                     try {
                         initializeAddPortAttributeIfRequired();
-                        if (addPortAttributeInvocation == null && 
+                        if (addPortAttributeInvocation == null &&
                                 WSTCPModule.getInstance().getPort() == -1) {
                             if (logger.isLoggable(Level.WARNING)) {
                                 logger.log(Level.WARNING,
@@ -79,11 +79,11 @@ public class PortAttributeInvocationTransformer implements InvocationTransformer
                         }
                     } catch(Exception e) {
                         if (logger.isLoggable(Level.WARNING)) {
-                            logger.log(Level.WARNING, 
+                            logger.log(Level.WARNING,
                                     MessagesMessages.WSTCP_1161_ADD_PORT_ATTR_INIT_FAIL(), e);
                         }
                     }
-                    
+
                     resultInvocation = addPortAttributeInvocation;
                 }
                 break;
@@ -95,19 +95,19 @@ public class PortAttributeInvocationTransformer implements InvocationTransformer
         if (resultInvocation != null) {
             invocationWrapper.add(resultInvocation);
         }
-        
+
         return invocationWrapper;
     }
 
     private void initializeAddPortAttributeIfRequired() throws Exception {
         int port;
-        if (addPortAttributeInvocation == null && 
+        if (addPortAttributeInvocation == null &&
                 (port = WSTCPModule.getInstance().getPort()) != -1) {
             synchronized(this) {
                 if (addPortAttributeInvocation == null) {
                     addPortAttributeInvocation = Invocation.createInvocation(
                             XMLStreamWriter.class.getMethod(
-                            XmlStreamWriterMethodType.WRITE_ATTRIBUTE.getMethodName(), 
+                            XmlStreamWriterMethodType.WRITE_ATTRIBUTE.getMethodName(),
                             String.class, String.class),
                             new Object[] {
                                 TCPConstants.TCPTRANSPORT_PORT_ATTRIBUTE.getLocalPart(),
@@ -122,8 +122,8 @@ public class PortAttributeInvocationTransformer implements InvocationTransformer
         AttributeInfo attr = XmlFilteringUtils.getAttributeNameToWrite(invocation, "");
         if (TCPConstants.TCPTRANSPORT_PORT_ATTRIBUTE.equals(attr.getName())) {
             if (RUNTIME_PORT_CHANGE_VALUE.equals(attr.getValue())) return true;
-            
-            
+
+
             String attrValue = attr.getValue();
             int portNumber = -1;
             if (attrValue != null) {
@@ -132,21 +132,21 @@ public class PortAttributeInvocationTransformer implements InvocationTransformer
                 } catch(NumberFormatException e) {
                 }
             }
-            
+
             if (portNumber > 0) return false;
-            
+
             if (logger.isLoggable(Level.WARNING)) {
                 logger.log(Level.WARNING, MessagesMessages.WSTCP_1160_PORT_ATTR_INVALID_VALUE(attrValue));
             }
-            
+
             return true;
         }
-        
+
         return false;
     }
-    
+
     private boolean startBuffering(final Invocation invocation) {
         final QName elementName = XmlFilteringUtils.getElementNameToWrite(invocation, "");
         return TCPConstants.TCPTRANSPORT_POLICY_ASSERTION.equals(elementName);
-    }    
+    }
 }

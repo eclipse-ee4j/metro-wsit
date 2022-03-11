@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -28,7 +28,7 @@ import javax.xml.namespace.QName;
  * }</pre>
  *
  * Defines a period of time after which an attempt to close a session would timeout.
- * 
+ *
  * @author Marek Potociar (marek.potociar at sun.com)
  */
 public class CloseTimeoutClientAssertion extends SimpleAssertion implements RmConfigurator {
@@ -41,19 +41,19 @@ public class CloseTimeoutClientAssertion extends SimpleAssertion implements RmCo
             return new CloseTimeoutClientAssertion(data, assertionParameters);
         }
     };
-    
+
     public static AssertionInstantiator getInstantiator() {
         return instantiator;
     }
 
     private final long timeout;
-    
+
     public CloseTimeoutClientAssertion(AssertionData data, Collection<? extends PolicyAssertion> assertionParameters) {
         super(data, assertionParameters);
-        
+
         timeout = Long.parseLong(data.getAttributeValue(MILLISECONDS_ATTRIBUTE_QNAME));
     }
-   
+
     public long getTimeout() {
         return timeout;
     }

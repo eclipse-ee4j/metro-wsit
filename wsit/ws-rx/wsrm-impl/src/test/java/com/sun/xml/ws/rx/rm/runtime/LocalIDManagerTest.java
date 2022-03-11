@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -99,7 +99,7 @@ public class LocalIDManagerTest extends TestCase {
         if (dbInstance.tableExists("RM_LOCALIDS")) {
             dbInstance.execute("DROP TABLE RM_LOCALIDS");
         }
-        
+
         dbInstance.execute(
                 "CREATE TABLE RM_LOCALIDS (LOCAL_ID VARCHAR(512) NOT NULL,"+
                 "SEQ_ID VARCHAR(256) NOT NULL, MSG_NUMBER BIGINT NOT NULL,"+
@@ -113,15 +113,15 @@ public class LocalIDManagerTest extends TestCase {
             dbInstance = null;
         }
     }
-    
+
     public void testJDBCLocalIDManager() throws Exception {
         runTest(new JDBCLocalIDManager(new UnitTestDerbyDataSourceProvider()));
     }
-    
+
     public void testInMemoryLocalIDManager() throws Exception {
         runTest(InMemoryLocalIDManager.getInstance());
     }
-    
+
     private void runTest(LocalIDManager mgr) {
         // test createLocalID
         mgr.createLocalID("localid1", "seq1", 1);
@@ -132,7 +132,7 @@ public class LocalIDManagerTest extends TestCase {
         validateLocalID(mgr.getBoundMessage("localid1"), "seq1", 1);
         validateLocalID(mgr.getBoundMessage("localid2"), "seq2", 2);
         validateLocalID(mgr.getBoundMessage("localid3"), "seq3", 3);
-        
+
         // test removeLocalIDs
         List<String> toRemove = new ArrayList<>();
         mgr.removeLocalIDs(toRemove.iterator());
@@ -146,21 +146,21 @@ public class LocalIDManagerTest extends TestCase {
         assertNull(mgr.getBoundMessage("localid1"));
         assertNull(mgr.getBoundMessage("localid2"));
         validateLocalID(mgr.getBoundMessage("localid3"), "seq3", 3);
-        
+
         toRemove = new ArrayList<>();
         toRemove.add("localid3");
         mgr.removeLocalIDs(toRemove.iterator());
         assertNull(mgr.getBoundMessage("localid1"));
         assertNull(mgr.getBoundMessage("localid2"));
         assertNull(mgr.getBoundMessage("localid3"));
-        
+
         toRemove = new ArrayList<>();
         toRemove.add("localid4");
         mgr.removeLocalIDs(toRemove.iterator());
         assertNull(mgr.getBoundMessage("localid1"));
         assertNull(mgr.getBoundMessage("localid2"));
         assertNull(mgr.getBoundMessage("localid3"));
-        
+
         // test markSequenceRemoval
         mgr.createLocalID("localida", "testSequence", 1);
         mgr.createLocalID("localidb", "testSequence", 2);
@@ -170,15 +170,15 @@ public class LocalIDManagerTest extends TestCase {
         validateLocalID(mgr.getBoundMessage("localida"), "testSequence", 1, true);
         validateLocalID(mgr.getBoundMessage("localidb"), "testSequence", 2, true);
     }
-    
-    private void validateLocalID(BoundMessage boundMessage, 
-            String expectedSequenceID, 
+
+    private void validateLocalID(BoundMessage boundMessage,
+            String expectedSequenceID,
             long expectedMessageNumber) {
         validateLocalID(boundMessage, expectedSequenceID, expectedMessageNumber, false);
     }
-    
-    private void validateLocalID(BoundMessage boundMessage, 
-            String expectedSequenceID, 
+
+    private void validateLocalID(BoundMessage boundMessage,
+            String expectedSequenceID,
             long expectedMessageNumber,
             boolean terminated) {
         System.out.println(boundMessage);

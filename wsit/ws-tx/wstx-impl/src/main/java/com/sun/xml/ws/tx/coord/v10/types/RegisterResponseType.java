@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -26,9 +26,9 @@ import com.sun.xml.ws.developer.MemberSubmissionEndpointReference;
 
 /**
  * <p>Java class for RegisterResponseType complex type.
- * 
+ *
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ *
  * <pre>{@code
  * <complexType name="RegisterResponseType">
  *   <complexContent>
@@ -42,8 +42,8 @@ import com.sun.xml.ws.developer.MemberSubmissionEndpointReference;
  *   </complexContent>
  * </complexType>
  * }</pre>
- * 
- * 
+ *
+ *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "RegisterResponseType", propOrder = {
@@ -61,11 +61,11 @@ public class RegisterResponseType {
 
     /**
      * Gets the value of the coordinatorProtocolService property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link MemberSubmissionEndpointReference }
-     *     
+     *
      */
     public MemberSubmissionEndpointReference getCoordinatorProtocolService() {
         return coordinatorProtocolService;
@@ -73,11 +73,11 @@ public class RegisterResponseType {
 
     /**
      * Sets the value of the coordinatorProtocolService property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link MemberSubmissionEndpointReference }
-     *     
+     *
      */
     public void setCoordinatorProtocolService(MemberSubmissionEndpointReference value) {
         this.coordinatorProtocolService = value;
@@ -85,26 +85,26 @@ public class RegisterResponseType {
 
     /**
      * Gets the value of the any property.
-     * 
+     *
      * <p>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
      * This is why there is not a <CODE>set</CODE> method for the any property.
-     * 
+     *
      * <p>
      * For example, to add a new item, do as follows:
      * <pre>{@code
      *    getAny().add(newItem);
      * }</pre>
-     * 
-     * 
+     *
+     *
      * <p>
      * Objects of the following type(s) are allowed in the list
      * {@link org.w3c.dom.Element }
      * {@link Object }
-     * 
-     * 
+     *
+     *
      */
     public List<Object> getAny() {
         if (any == null) {
@@ -115,15 +115,15 @@ public class RegisterResponseType {
 
     /**
      * Gets a map that contains attributes that aren't bound to any typed property on this class.
-     * 
+     *
      * <p>
-     * the map is keyed by the name of the attribute and 
+     * the map is keyed by the name of the attribute and
      * the value is the string value of the attribute.
-     * 
+     *
      * the map returned by this method is live, and you can add new attribute
      * by updating the map directly. Because of this design, there's no setter.
-     * 
-     * 
+     *
+     *
      * @return
      *     always non-null
      */

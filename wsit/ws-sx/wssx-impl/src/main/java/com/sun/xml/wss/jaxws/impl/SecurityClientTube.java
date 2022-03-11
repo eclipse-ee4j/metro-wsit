@@ -715,7 +715,7 @@ public class SecurityClientTube extends SecurityTubeBase implements SecureConver
         if (toks.isEmpty()) {
             return;
         }
-        //Note: Assuming only one Kerberos token assertion         
+        //Note: Assuming only one Kerberos token assertion
         KerberosContext krbContext = ctx.getSecurityEnvironment().doKerberosLogin();
 
         try {

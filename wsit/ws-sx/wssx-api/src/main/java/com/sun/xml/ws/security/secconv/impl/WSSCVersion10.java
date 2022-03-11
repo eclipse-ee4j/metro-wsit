@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -29,12 +29,12 @@ public class WSSCVersion10 extends WSSCVersion{
     public String getNamespaceURI(){
         return nsURI;
     }
-    
+
     @Override
     public String getSCTTokenTypeURI(){
         return nsURI + "/sct";
     }
-    
+
     @Override
     public String getDKTokenTypeURI(){
         return nsURI + "/dk";
@@ -48,13 +48,13 @@ public class WSSCVersion10 extends WSSCVersion{
     @Override
     public String getSCTResponseAction(){
         return trustNSURI + "/RSTR/SCT";
-    }    
+    }
 
     @Override
     public String getSCTRenewRequestAction(){
         return trustNSURI + "/RST/SCT/Renew";
     }
-    
+
     @Override
     public String getSCTRenewResponseAction(){
         return trustNSURI + "/RSTR/SCT/Renew";
@@ -69,5 +69,5 @@ public class WSSCVersion10 extends WSSCVersion{
     public String getSCTCancelResponseAction(){
         return trustNSURI + "/RSTR/SCT/Cancel";
     }
-                   
+
 }

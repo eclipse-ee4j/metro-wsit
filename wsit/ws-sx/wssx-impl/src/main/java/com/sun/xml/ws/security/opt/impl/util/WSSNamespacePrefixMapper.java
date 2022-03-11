@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -17,23 +17,23 @@ import com.sun.xml.wss.impl.MessageConstants;
  * @author K.Venugopal@sun.com
  */
 public class WSSNamespacePrefixMapper extends NamespacePrefixMapper{
-    
+
     private boolean soap12 = false;
     /** Creates a new instance of NamespacePrefixMapper */
     public WSSNamespacePrefixMapper() {
     }
-    
+
     /** Creates a new instance of NamespacePrefixMapper */
     public WSSNamespacePrefixMapper(boolean soap12) {
         this.soap12 = soap12;
     }
-    
+
     @Override
     public String getPreferredPrefix(String namespaceUri, String suggestion, boolean requirePrefix) {
         if(MessageConstants.WSSE_NS.equals(namespaceUri)){
             return MessageConstants.WSSE_PREFIX;
         }
-        
+
         if(MessageConstants.WSSE11_NS.equals(namespaceUri)){
             return MessageConstants.WSSE11_PREFIX;
         }
@@ -55,7 +55,7 @@ public class WSSNamespacePrefixMapper extends NamespacePrefixMapper{
         if(MessageConstants.SOAP_1_1_NS.equals(namespaceUri)){
             return "S";
         }
-        
+
         if(MessageConstants.SOAP_1_2_NS.equals(namespaceUri)){
             return "S";
         }
@@ -64,12 +64,12 @@ public class WSSNamespacePrefixMapper extends NamespacePrefixMapper{
         }
         return null;
     }
-    
+
     @Override
     public String[] getPreDeclaredNamespaceUris() {
         return new String[] { };
     }
-    
+
     @Override
     public String[] getContextualNamespaceDecls() {
         if(!soap12){
@@ -84,5 +84,5 @@ public class WSSNamespacePrefixMapper extends NamespacePrefixMapper{
             "S",MessageConstants.SOAP_1_2_NS};
         }
     }
-    
+
 }

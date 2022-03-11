@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -39,7 +39,7 @@ import javax.xml.namespace.QName;
 public class RmFlowControlAssertion extends ComplexAssertion implements RmConfigurator {
 
     public static final QName NAME = RmAssertionNamespace.MICROSOFT_200502.getQName("RmFlowControl");
-    //    
+    //
     private static final Logger LOGGER = Logger.getLogger(RmFlowControlAssertion.class);
     private static final QName BUFFER_SIZE_ASSERTION_QNAME = RmAssertionNamespace.MICROSOFT_200502.getQName("MaxReceiveBufferSize");
     private static final long DEFAULT_DESTINATION_BUFFER_QUOTA = 32;

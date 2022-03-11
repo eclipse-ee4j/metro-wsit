@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -33,44 +33,44 @@ import junit.framework.*;
  * @author Mayank.Mishra@SUN.com
  */
 public class SignedPartsTest extends TestCase {
-    
+
     public SignedPartsTest(String testName) {
         super(testName);
     }
-    
+
     @Override
     protected void setUp() {
     }
-    
+
     @Override
     protected void tearDown() {
     }
-    
+
     public static Test suite() {
         TestSuite suite = new TestSuite(SignedPartsTest.class);
-        
+
         return suite;
     }
-    
+
     private PolicySourceModel unmarshalPolicyResource(String resource) throws PolicyException, IOException {
         Reader reader = getResourceReader(resource);
         PolicySourceModel model = ModelUnmarshaller.getUnmarshaller().unmarshalModel(reader);
         reader.close();
         return model;
     }
-    
+
     private Reader getResourceReader(String resourceName) {
         return new InputStreamReader(Thread.currentThread().getContextClassLoader().getResourceAsStream(resourceName));
     }
-    
+
     public Policy unmarshalPolicy(String xmlFile)throws Exception{
         PolicySourceModel model =  unmarshalPolicyResource(
                 xmlFile);
         Policy mbp = ModelTranslator.getTranslator().translate(model);
         return mbp;
-        
+
     }
-    
+
     public boolean isHeaderPresent(QName expected , Iterator headers){
         while(headers.hasNext()){
             Header header = (Header) headers.next();
@@ -82,7 +82,7 @@ public class SignedPartsTest extends TestCase {
         }
         return false;
     }
-    
+
     public void testSignParts1()throws Exception {
         String fileName = "security/SignParts1.xml";
         Policy policy = unmarshalPolicy(fileName);
@@ -94,7 +94,7 @@ public class SignedPartsTest extends TestCase {
                 assertEquals("Invalid assertion","SignedParts",assertion.getName().getLocalPart());
                 SignedParts sp = (SignedParts)assertion;
                 assertEquals("Body not found ",true,sp.hasBody());
-                
+
                 assertTrue(isHeaderPresent(new QName("http://schemas.xmlsoap.org/ws/2004/08/addressing","To"),sp.getHeaders()));
                 assertTrue(isHeaderPresent(new QName("http://schemas.xmlsoap.org/ws/2004/08/addressing","From"),sp.getHeaders()));
                 assertTrue(isHeaderPresent(new QName("http://schemas.xmlsoap.org/ws/2004/08/addressing","FaultTo"),sp.getHeaders()));
@@ -107,8 +107,8 @@ public class SignedPartsTest extends TestCase {
             throw new Exception("No Assertions found!. Unmarshalling of "+fileName+"failed!");
         }
     }
-    
-    
+
+
     public void testSignParts2()throws Exception {
         String fileName = "security/SignParts2.xml";
         Policy policy = unmarshalPolicy(fileName);
@@ -126,7 +126,7 @@ public class SignedPartsTest extends TestCase {
             throw new Exception("No Assertions found!. Unmarshalling of "+fileName+"failed!");
         }
     }
-    
+
     public void testSignParts3()throws Exception {
         String fileName = "security/SignParts3.xml";
         Policy policy = unmarshalPolicy(fileName);
@@ -138,7 +138,7 @@ public class SignedPartsTest extends TestCase {
                 assertEquals("Invalid assertion","SignedParts",assertion.getName().getLocalPart());
                 SignedParts sp = (SignedParts)assertion;
                 assertEquals("Body should not be present ",false,sp.hasBody());
-                
+
                 assertTrue(isHeaderPresent(new QName("http://schemas.xmlsoap.org/ws/2004/08/addressing","To"),sp.getHeaders()));
                 assertTrue(isHeaderPresent(new QName("http://schemas.xmlsoap.org/ws/2004/08/addressing","From"),sp.getHeaders()));
                 assertTrue(isHeaderPresent(new QName("http://schemas.xmlsoap.org/ws/2004/08/addressing","FaultTo"),sp.getHeaders()));
@@ -151,7 +151,7 @@ public class SignedPartsTest extends TestCase {
             throw new Exception("No Assertions found!. Unmarshalling of "+fileName+"failed!");
         }
     }
-    
+
     public void testSignParts4()throws Exception {
         String fileName = "security/SignParts4.xml";
         try{
@@ -164,8 +164,8 @@ public class SignedPartsTest extends TestCase {
             }
         }
     }
-    
-    
+
+
     public void testSignParts5()throws Exception {
         String fileName = "security/SignParts5.xml";
         Policy policy = unmarshalPolicy(fileName);
@@ -177,7 +177,7 @@ public class SignedPartsTest extends TestCase {
                 assertEquals("Invalid assertion","SignedParts",assertion.getName().getLocalPart());
                 SignedParts sp = (SignedParts)assertion;
                 assertEquals("Body should not be present ",false,sp.hasBody());
-                
+
                 assertTrue(isHeaderPresent(new QName("http://schemas.xmlsoap.org/ws/2004/08/addressing",""),sp.getHeaders()));
                 assertTrue(isHeaderPresent(new QName("http://schemas.xmlsoap.org/ws/2004/08/addressing","FaultTo"),sp.getHeaders()));
                 assertTrue(isHeaderPresent(new QName("http://schemas.xmlsoap.org/ws/2004/08/addressing","ReplyTo"),sp.getHeaders()));
@@ -189,7 +189,7 @@ public class SignedPartsTest extends TestCase {
             throw new Exception("No Assertions found!. Unmarshalling of "+fileName+"failed!");
         }
     }
-    
+
     public void testSignParts6()throws Exception {
         String fileName = "security/SignParts6.xml";
         Policy policy = unmarshalPolicy(fileName);

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -54,7 +54,7 @@ public class XWSSPolicyContainer {
     }
 
     private void fixEncryptedTargetsInSignature(MessagePolicy msgPolicy,boolean isWSS11) {
-        boolean encryptBeforeSign = false;        
+        boolean encryptBeforeSign = false;
         boolean seenEncryptPolicy = false;
         boolean seenSignPolicy = false;
         List<SecurityPolicy> encPolicies = new ArrayList<>();
@@ -88,7 +88,7 @@ public class XWSSPolicyContainer {
                         for (int i = 0; i < targets.size(); i++) {
                             Target t = (Target) targets.get(i);
                             if (t.getType() == Target.TARGET_TYPE_VALUE_QNAME) {
-                                if (encPoliciesContain(t.getQName(), encPolicies)) {                                    
+                                if (encPoliciesContain(t.getQName(), encPolicies)) {
                                     if(isWSS11){
                                         if (!containsEncryptedHeader) {
                                             QName encHeaderQName = new QName("http://docs.oasis-open.org/wss/oasis-wss-wssecurity-secext-1.1.xsd", "EncryptedHeader");
@@ -105,7 +105,7 @@ public class XWSSPolicyContainer {
                                         } else {
                                             targets.remove(i);
                                         }
-                                    }                                    
+                                    }
                                 }
                             }
                         }
@@ -122,15 +122,15 @@ public class XWSSPolicyContainer {
         ServerIncomingPolicy,
         ServerOutgoingPolicy
     };
-    
+
     private Section section;
     private List<SecurityPolicy> policyList;
     private List<SecurityPolicy> effectivePolicyList;
     private MessageLayout mode;
     private int foundTimestamp = -1;
-    
+
     private boolean modified = false;
-    
+
     /** Creates a new instance of PolicyConverter */
     public XWSSPolicyContainer(MessageLayout mode, boolean isServer, boolean isIncoming) {
         this.mode = mode;
@@ -187,12 +187,12 @@ public class XWSSPolicyContainer {
             modified = false;
         }
         MessagePolicy msgPolicy = new MessagePolicy();
-        
+
         msgPolicy.appendAll(effectivePolicyList);
-        removeEmptyPrimaryPolicies(msgPolicy);        
-        fixEncryptedTargetsInSignature(msgPolicy,isWSS11);        
+        removeEmptyPrimaryPolicies(msgPolicy);
+        fixEncryptedTargetsInSignature(msgPolicy,isWSS11);
         return msgPolicy;
-        
+
     }
     private void removeEmptyPrimaryPolicies(MessagePolicy msgPolicy) {
         for ( Object policy : msgPolicy.getPrimaryPolicies() ) {
@@ -210,7 +210,7 @@ public class XWSSPolicyContainer {
             }
         }
     }
-    
+
     /**
      * Insert SecurityPolicy after supporting tokens.
      *
@@ -276,7 +276,7 @@ public class XWSSPolicyContainer {
             MLSPolicy binding = ((AuthenticationTokenPolicy)xwssPolicy).getFeatureBinding();
             if ( PolicyTypeUtil.usernameTokenPolicy(binding) ||
                     PolicyTypeUtil.samlTokenPolicy(binding) ||
-                    PolicyTypeUtil.x509CertificateBinding(binding) || 
+                    PolicyTypeUtil.x509CertificateBinding(binding) ||
                     PolicyTypeUtil.issuedTokenKeyBinding(binding)) {
                 return true;
             }
@@ -304,7 +304,7 @@ public class XWSSPolicyContainer {
                 prepend(xwssPolicy);
                 continue;
             }
-            
+
             if ( !isSupportingToken(xwssPolicy)) {
                 switch(section) {
                 case ClientIncomingPolicy:
@@ -322,8 +322,8 @@ public class XWSSPolicyContainer {
                 }
             } else if ( isSupportingToken(xwssPolicy) || isTimestamp(xwssPolicy)) {
                 prepend(xwssPolicy);
-                
-             
+
+
             }
         }
     }
@@ -335,7 +335,7 @@ public class XWSSPolicyContainer {
         for ( SecurityPolicy xwssPolicy : policyList ) {
             if ( isSupportingToken(xwssPolicy)) {
                 prepend(xwssPolicy);
-       
+
             } else if ( isTimestamp(xwssPolicy)) {
                 prepend(xwssPolicy);
             } else {
@@ -372,7 +372,7 @@ public class XWSSPolicyContainer {
                 break;
             }
         }
-        
+
     }
     /**
      * LaxTsLast mode.

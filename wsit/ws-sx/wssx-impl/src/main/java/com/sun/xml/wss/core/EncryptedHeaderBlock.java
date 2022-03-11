@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -40,7 +40,7 @@ import org.w3c.dom.TypeInfo;
 import org.w3c.dom.UserDataHandler;
 
 /**
- * Corresponds to Schema definition for EncryptedData. 
+ * Corresponds to Schema definition for EncryptedData.
  * Schema definition for EncryptedData is as follows:
  * <p>
  * <pre>{@code
@@ -59,20 +59,20 @@ import org.w3c.dom.UserDataHandler;
  * @author Mayank Mishra
  */
 public class EncryptedHeaderBlock extends SOAPElementExtension implements SOAPElement  {
-    
+
         private static Logger log =
         Logger.getLogger(
             LogDomainConstants.WSS_API_DOMAIN,
             LogDomainConstants.WSS_API_DOMAIN_BUNDLE);
-        
+
         protected SOAPElement delegateElement;
         private static SOAPFactory soapFactory;
-        
+
         private static final Name idAttributeName;
         //private Document ownerDoc;
-        
+
         private boolean bsp=false;
-        
+
     static
     {
         Name temp = null;
@@ -107,7 +107,7 @@ public class EncryptedHeaderBlock extends SOAPElementExtension implements SOAPEl
         }
         //ownerDoc = doc;
     }
-    
+
     /** Creates a new instance of EncryptedHeaderBlock */
     public EncryptedHeaderBlock(SOAPElement delegateElement) throws XWSSecurityException {
         setSOAPElement(delegateElement);
@@ -120,27 +120,27 @@ public class EncryptedHeaderBlock extends SOAPElementExtension implements SOAPEl
             addNamespaceDeclaration(
                 MessageConstants.WSSE11_PREFIX,
                 MessageConstants.WSSE11_NS);
-                        
+
         } catch (SOAPException e) {
             log.log(Level.SEVERE, "WSS0360.error.creating.ehb", e.getMessage());
             throw new XWSSecurityException(e);
         }
         //ownerDoc = delegateElement.getOwnerDocument();
     }
-    
+
     protected void setSOAPElement(SOAPElement delegateElement) {
         this.delegateElement = delegateElement;
     }
-    
+
     public void copyAttributes(final SecurableSoapMessage secureMsg, final SecurityHeader _secHeader) throws XWSSecurityException{
-                
+
         String SOAP_namespace = secureMsg.getEnvelope().getNamespaceURI();
         String SOAP_prefix = secureMsg.getEnvelope().getPrefix();
         String value_mustUnderstand= _secHeader.getAttributeNS(SOAP_namespace, "mustUnderstand");
         String value_S12_role= _secHeader.getAttributeNS(SOAP_namespace, "role");
         String value_S11_actor = _secHeader.getAttributeNS(SOAP_namespace, "actor");
         String value_S12_relay = _secHeader.getAttributeNS(SOAP_namespace, "relay");
-        
+
         if(value_mustUnderstand!=null && !value_mustUnderstand.equals("")){
             this.setAttributeNS(SOAP_namespace, SOAP_prefix+":mustUnderstand", value_mustUnderstand);
         }
@@ -154,7 +154,7 @@ public class EncryptedHeaderBlock extends SOAPElementExtension implements SOAPEl
             this.setAttributeNS(SOAP_namespace, SOAP_prefix+":relay", value_S12_relay);
         }
     }
-    
+
     protected void setWsuIdAttr(Element element, String wsuId) {
         element.setAttributeNS(
             MessageConstants.NAMESPACES_NS,
@@ -165,11 +165,11 @@ public class EncryptedHeaderBlock extends SOAPElementExtension implements SOAPEl
             MessageConstants.WSU_ID_QNAME,
             wsuId);
     }
-    
+
     protected static SOAPFactory getSoapFactory() {
         return soapFactory;
     }
-    
+
     /**
      * Returns null if id attr is not present
      */
@@ -184,7 +184,7 @@ public class EncryptedHeaderBlock extends SOAPElementExtension implements SOAPEl
         setAttribute("Id", id);
         setIdAttribute("Id", true);
     }
-    
+
         /**
      * Returns null if Type attr is not present
      */
@@ -212,7 +212,7 @@ public class EncryptedHeaderBlock extends SOAPElementExtension implements SOAPEl
     public void setMimeType(String mimeType) {
         setAttribute("MimeType", mimeType);
     }
-    
+
 //    public String getId() {
 //        return delegateElement.getAttributeValue(idAttributeName);
 //    }
@@ -373,7 +373,7 @@ public class EncryptedHeaderBlock extends SOAPElementExtension implements SOAPEl
 
     @Override
     public void setNodeValue(String nodeValue) throws DOMException {
-        delegateElement.setNodeValue(nodeValue);                
+        delegateElement.setNodeValue(nodeValue);
     }
 
     @Override
@@ -444,7 +444,7 @@ public class EncryptedHeaderBlock extends SOAPElementExtension implements SOAPEl
     @Override
     public boolean hasChildNodes() {
         return delegateElement.hasChildNodes();
-        
+
     }
 
     @Override
@@ -559,7 +559,7 @@ public class EncryptedHeaderBlock extends SOAPElementExtension implements SOAPEl
 
     @Override
     public void setAttribute(String name, String value) throws DOMException {
-        delegateElement.setAttribute(name, value);                
+        delegateElement.setAttribute(name, value);
     }
 
     @Override
@@ -594,8 +594,8 @@ public class EncryptedHeaderBlock extends SOAPElementExtension implements SOAPEl
 
     @Override
     public void setAttributeNS(String namespaceURI, String qualifiedName, String value) throws DOMException {
-       delegateElement.setAttributeNS(namespaceURI, qualifiedName, value); 
-        
+       delegateElement.setAttributeNS(namespaceURI, qualifiedName, value);
+
     }
 
     @Override
@@ -647,7 +647,7 @@ public class EncryptedHeaderBlock extends SOAPElementExtension implements SOAPEl
     public void setIdAttributeNode(Attr idAttr, boolean isId) throws DOMException {
         delegateElement.setIdAttributeNode(idAttr, isId);
     }
-    
+
     public void isBSP(boolean flag) {
         bsp = flag;
     }
@@ -655,5 +655,5 @@ public class EncryptedHeaderBlock extends SOAPElementExtension implements SOAPEl
     public boolean isBSP() {
         return bsp;
     }
-    
+
 }

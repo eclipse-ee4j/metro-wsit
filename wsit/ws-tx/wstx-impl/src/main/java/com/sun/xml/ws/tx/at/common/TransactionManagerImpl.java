@@ -47,7 +47,7 @@ public class TransactionManagerImpl implements TransactionManager, TransactionSy
     private static final String USER_TRANSACTION_JNDI_NAME = "java:comp/UserTransaction";
     //
     private static final TransactionManagerImpl singleton = new TransactionManagerImpl();
-    
+
     static public TransactionManagerImpl getInstance() {
         return singleton;
     }
@@ -83,7 +83,7 @@ public class TransactionManagerImpl implements TransactionManager, TransactionSy
     }
 
     public boolean isTransactionManagerAvailable() {
-        return javaeeTM != null; 
+        return javaeeTM != null;
     }
 
     @Override

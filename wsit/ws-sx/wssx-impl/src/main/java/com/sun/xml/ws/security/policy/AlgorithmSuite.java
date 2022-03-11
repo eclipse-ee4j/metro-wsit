@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -55,7 +55,7 @@ import java.util.Set;
  * @author K.Venugopal@sun.com
  */
 public interface AlgorithmSuite {
-    
+
     String INCLUSIVE14N="InclusiveC14N";
     String SOAP_NORMALIZATION10="SOAPNormalization10";
     String STR_TRANSFORM10="STRTransform10";
@@ -69,61 +69,61 @@ public interface AlgorithmSuite {
      * @return {@link AlgorithmSuiteValue}
      */
     AlgorithmSuiteValue getType();
-    
+
     /**
      * Property set containing INCLUSIVE14N,SOAP_NORMALIZATION10,STR_TRANSFORM10,XPATH10,XPATH_FILTER20
      * @return list identifying the properties
      */
     Set getAdditionalProps();
-    
-    
+
+
     /**
      * Gets the Digest algorithm identified by this AlgorithmSuite.
      * @return String
      */
     String getDigestAlgorithm();
-    
+
     /**
      * Gets the Encryption algorithm
      */
     String getEncryptionAlgorithm();
-    
+
     /**
      * Gets the Symmetric key signature algorithm
      */
     String getSymmetricKeySignatureAlgorithm();
-    
+
     /**
      * Gets the Asymmetric key signature algorithm
      */
     String getAsymmetricKeySignatureAlgorithm();
-    
+
     /**
      * Gets the Symmetric Key algorithm
      */
     String getSymmetricKeyAlgorithm();
-    
+
     /**
      * Get the Assymetric key algorithm
      */
     String getAsymmetricKeyAlgorithm();
-    
+
     /**
      * Gets the Signature key derivation algorithm
      */
     String getSignatureKDAlogrithm();
-    
+
     /**
      * Gets the Encryprion key derivation algorithm
      */
     String getEncryptionKDAlogrithm();
-    
-    
+
+
     /**
      * Gets minimum key length  for symmetric key algorithm.
      */
     int getMinSKLAlgorithm();
-    
+
     /*
      * Gets the computed key algorithm
      */

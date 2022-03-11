@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -56,7 +56,7 @@ import javax.xml.namespace.QName;
     "value"
 })
 public class AttributedString {
-  
+
     @XmlValue
     protected String value;
     @XmlAttribute(name = "Id", namespace = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd")
@@ -65,9 +65,9 @@ public class AttributedString {
     protected String id;
     @XmlAnyAttribute
     private Map<QName, String> otherAttributes = new HashMap<>();
-    
-  
-    
+
+
+
     /**
      * Gets the value of the id property.
      *
@@ -79,7 +79,7 @@ public class AttributedString {
     public String getId() {
         return id;
     }
-    
+
     /**
      * Sets the value of the id property.
      *
@@ -91,7 +91,7 @@ public class AttributedString {
     public void setId(String value) {
         this.id = value;
     }
-    
+
     /**
      * Gets a map that contains attributes that aren't bound to any typed property on this class.
      *
@@ -109,12 +109,12 @@ public class AttributedString {
     public Map<QName, String> getOtherAttributes() {
         return otherAttributes;
     }
- 
-    
+
+
      public void setValue(String value){
         this.value = value;
     }
-    
+
     public String getValue(){
         return this.value;
     }

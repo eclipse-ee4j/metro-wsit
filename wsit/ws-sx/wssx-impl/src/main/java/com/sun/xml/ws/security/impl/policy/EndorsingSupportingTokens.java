@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -23,12 +23,12 @@ import java.util.Collection;
  */
 
 public class EndorsingSupportingTokens extends SupportingTokens implements com.sun.xml.ws.security.policy.EndorsingSupportingTokens{
-    
+
     public EndorsingSupportingTokens() {
     }
-    
+
     public EndorsingSupportingTokens(AssertionData name,Collection<PolicyAssertion> nestedAssertions, AssertionSet nestedAlternative) {
         super(name,nestedAssertions,nestedAlternative);
     }
-   
+
 }

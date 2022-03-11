@@ -43,7 +43,7 @@ import java.util.Iterator;
  * @author Ashutosh.Shahi@sun.com
  */
 public class SignatureConfirmationFilter {
-    
+
     protected static final Logger log = Logger.getLogger(
             LogDomainConstants.FILTER_DOMAIN,
             LogDomainConstants.FILTER_DOMAIN_BUNDLE);
@@ -58,17 +58,17 @@ public class SignatureConfirmationFilter {
     * @param context FilterProcessingContext
      */
     public static void process(FilterProcessingContext context) throws XWSSecurityException{
-        
+
         if(!context.isInboundMessage()){
             //The message is outgoing message
             //Check for the property receivedSignValues in context.Extraneous properties
             //If it is not null, add a SignatureConfirmation Header for each of the values in the property
-            
+
             List scList = (ArrayList)context.getExtraneousProperty("receivedSignValues");
             //SignatureConfirmationPolicy policy = (SignatureConfirmationPolicy)context.getSecurityPolicy();
-            
+
             setSignConfirmValues(context, scList);
-            
+
         } else {
             // The message is incoming message
             // Take out all the SignatureConfirmation security headers, and check if each of the values is present
@@ -76,21 +76,21 @@ public class SignatureConfirmationFilter {
             // Also make sure that all the values in SignatureConfirmation are exhausted
 
             //SignatureConfirmationPolicy policy = (SignatureConfirmationPolicy)context.getSecurityPolicy();
-            
+
             SecurityHeader secHeader = context.getSecurableSoapMessage().findSecurityHeader();
             if(secHeader == null){
                log.log(Level.SEVERE, LogStringsMessages.WSS_1428_SIGNATURE_CONFIRMATION_ERROR());
                 throw new XWSSecurityException(
-                        "Message does not confirm to SignatureConfirmation Policy:" + 
+                        "Message does not confirm to SignatureConfirmation Policy:" +
                         "wsse11:SignatureConfirmation element not found in Header");
             }
-            
+
             Object temp = context.getExtraneousProperty("SignatureConfirmation");
             List scList = null;
             if(temp != null && temp instanceof ArrayList)
                 scList = (ArrayList)temp;
             if(scList != null){
-            
+
                 SignatureConfirmationHeaderBlock signConfirm = null;
                 SOAPElement sc = null;
                 try{
@@ -102,7 +102,7 @@ public class SignatureConfirmationFilter {
                     Iterator i = secHeader.getChildElements(name);
                     if(!i.hasNext()){
                         log.log(Level.SEVERE, LogStringsMessages.WSS_1428_SIGNATURE_CONFIRMATION_ERROR());
-                        throw new XWSSecurityException("Message does not confirm to Security Policy:" + 
+                        throw new XWSSecurityException("Message does not confirm to Security Policy:" +
                                 "wss11:SignatureConfirmation Element not found");
                     }
                     while(i.hasNext()){
@@ -113,7 +113,7 @@ public class SignatureConfirmationFilter {
                             log.log(Level.SEVERE, LogStringsMessages.WSS_1435_SIGNATURE_CONFIRMATION_VALIDATION_FAILURE(), xwsse);
                             throw SecurableSoapMessage.newSOAPFaultException(
                                 MessageConstants.WSSE_INVALID_SECURITY,
-                                "Failure in SignatureConfirmation validation\n" + 
+                                "Failure in SignatureConfirmation validation\n" +
                                 "Message is: " + xwsse.getMessage(),
                                 xwsse );
                         }
@@ -122,7 +122,7 @@ public class SignatureConfirmationFilter {
                         //Case when there was no Signature in sent message, the received message should have one
                         //SignatureConfirmation with no Value attribute
                         if(signValue == null){
-                            if(i.hasNext() || !scList.isEmpty()){                            
+                            if(i.hasNext() || !scList.isEmpty()){
                                 log.log(Level.SEVERE, LogStringsMessages.WSS_1435_SIGNATURE_CONFIRMATION_VALIDATION_FAILURE());
                                 throw new XWSSecurityException("Failure in SignatureConfirmation Validation");
                             }
@@ -134,7 +134,7 @@ public class SignatureConfirmationFilter {
                             throw new XWSSecurityException("Mismatch in SignatureConfirmation Element");
                         }
                     }
-                
+
                 } catch(SOAPException se){
                     throw new XWSSecurityException(se);
                 }
@@ -147,7 +147,7 @@ public class SignatureConfirmationFilter {
                     SignatureConfirmationPolicy policy = new SignatureConfirmationPolicy();
                     context.getInferredSecurityPolicy().append(policy);
                 }*/
-            }        
+            }
         }
     }
     /**
@@ -156,13 +156,13 @@ public class SignatureConfirmationFilter {
      * @param scList List
      */
     @SuppressWarnings("unchecked")
-    private static void setSignConfirmValues(com.sun.xml.wss.impl.FilterProcessingContext context, List scList) 
+    private static void setSignConfirmValues(com.sun.xml.wss.impl.FilterProcessingContext context, List scList)
             throws XWSSecurityException{
         if(scList != null){
             Iterator it = scList.iterator();
             if(context instanceof JAXBFilterProcessingContext){
                 JAXBFilterProcessingContext optContext = (JAXBFilterProcessingContext)context;
-                com.sun.xml.ws.security.opt.impl.outgoing.SecurityHeader secHeader = 
+                com.sun.xml.ws.security.opt.impl.outgoing.SecurityHeader secHeader =
                         optContext.getSecurityHeader();
                 ((NamespaceContextEx)optContext.getNamespaceContext()).addWSS11NS();
                 if(!it.hasNext()){
@@ -172,7 +172,7 @@ public class SignatureConfirmationFilter {
                     secHeader.add(scHeader);
                     optContext.getSignatureConfirmationIds().add(id);
                 }
-                
+
                 while(it.hasNext()){
                     byte[] signValue = (byte[])it.next();
                     String id = optContext.generateID();
@@ -195,15 +195,15 @@ public class SignatureConfirmationFilter {
 
                 while(it.hasNext()){
 
-                    String signValue = (String)it.next();     
+                    String signValue = (String)it.next();
                     String id = secureMessage.generateId();
                     SignatureConfirmationHeaderBlock signConfirm = new SignatureConfirmationHeaderBlock(id);
                     signConfirm.setSignatureValue(signValue);
                     secHeader.insertHeaderBlock(signConfirm);
                     context.getSignatureConfirmationIds().add(id);
-                }         
+                }
             }
         }
     }
-    
+
 }

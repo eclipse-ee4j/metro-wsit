@@ -40,12 +40,12 @@ import org.jvnet.staxex.XMLStreamWriterEx;
  * @author Ashutosh.Shahi@sun.com
  */
 public class JAXBSignatureHeaderElement implements SecurityHeaderElement, SecurityElementWriter {
-    
+
     /* true if this signature header element is canonicalized before*/
     private boolean isCanonicalized = false;
     /*canonicalized signature value - for future use*/
     private byte [] cs = null;
-    
+
     private Signature signature = null;
     private SOAPVersion soapVersion = SOAPVersion.SOAP_11;
     private Marshaller marshaller = null;
@@ -54,37 +54,37 @@ public class JAXBSignatureHeaderElement implements SecurityHeaderElement, Securi
     public JAXBSignatureHeaderElement(Signature signature,SOAPVersion soapVersion) {
         this.signature = signature;
         this.soapVersion = soapVersion;
-        
+
     }
-    
+
     public JAXBSignatureHeaderElement(Signature signature,SOAPVersion soapVersion,XMLSignContext signctx) {
         this.signature = signature;
         this.soapVersion = soapVersion;
         this.signContext = signctx;
     }
-    
+
     @Override
     public String getId() {
         return signature.getId();
     }
-    
+
     @Override
     public void setId(String id) {
         throw new  UnsupportedOperationException();
     }
-    
-    
+
+
     @Override
     public String getNamespaceURI() {
         return  MessageConstants.DSIG_NS;
     }
-    
-    
+
+
     @Override
     public String getLocalPart() {
         return MessageConstants.SIGNATURE_LNAME;
     }
-    
+
     @Override
     public javax.xml.stream.XMLStreamReader readHeader() throws XMLStreamException {
         XMLStreamBufferResult xbr = new XMLStreamBufferResult();
@@ -96,7 +96,7 @@ public class JAXBSignatureHeaderElement implements SecurityHeaderElement, Securi
         }
         return xbr.getXMLStreamBuffer().readAsXMLStreamReader();
     }
-    
+
     /**
      * writes the jaxb signature header element to an XMLStreamWriter
      * @param streamWriter javax.xml.stream.XMLStreamWriter
@@ -122,7 +122,7 @@ public class JAXBSignatureHeaderElement implements SecurityHeaderElement, Securi
             throw new XMLStreamException(e);
         }
     }
-    
+
    /**
     * writes the jaxb signature header element to an XMLStreamWriter
     * @param streamWriter javax.xml.stream.XMLStreamWriter
@@ -138,7 +138,7 @@ public class JAXBSignatureHeaderElement implements SecurityHeaderElement, Securi
                 Map.Entry<Object, Object> entry = itr.next();
                 marshaller.setProperty((String)entry.getKey(), entry.getValue());
             }
-            
+
             //writeTo(streamWriter);
             marshaller.marshal(signature,streamWriter);
         }catch(JAXBException jbe){
@@ -146,30 +146,30 @@ public class JAXBSignatureHeaderElement implements SecurityHeaderElement, Securi
             throw new XMLStreamException(jbe);
         }
     }
-    
-    
+
+
     public byte[] canonicalize(final String algorithm, final List<com.sun.xml.wss.impl.c14n.AttributeNS> namespaceDecls) {
         if(!isCanonicalized()){
             canonicalizeSignature();
         }
         return cs;
     }
-    
+
     public boolean isCanonicalized() {
         return isCanonicalized;
     }
-    
+
     private Marshaller getMarshaller() throws JAXBException{
         if(marshaller == null){
             marshaller = JAXBUtil.createMarshaller(soapVersion);
         }
         return marshaller;
     }
-    
+
     private void canonicalizeSignature() {
         throw new UnsupportedOperationException("Not yet implemented");
     }
-    
+
     @Override
     public void writeTo(OutputStream os) {
         throw new UnsupportedOperationException("Not yet implemented");
@@ -190,7 +190,7 @@ public class JAXBSignatureHeaderElement implements SecurityHeaderElement, Securi
             if(list.size() >0 ){
                 JAXBElement je = (JAXBElement) list.get(0);
                 Object data = je.getValue();
-                
+
                 if(data instanceof SecurityHeaderElement){
                     if(((SecurityHeaderElement)data).refersToSecHdrWithId(id)){
                         return true;

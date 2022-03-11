@@ -15,6 +15,6 @@ package com.sun.xml.ws.security.opt.crypto.jaxb;
  *
  */
 public class JAXBValidateContext extends com.sun.xml.ws.security.opt.crypto.jaxb.JAXBCryptoContext implements javax.xml.crypto.dsig.XMLValidateContext {
-    
-    
+
+
 }

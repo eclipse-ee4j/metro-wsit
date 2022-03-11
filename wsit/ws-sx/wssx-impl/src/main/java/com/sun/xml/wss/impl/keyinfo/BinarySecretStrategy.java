@@ -31,20 +31,20 @@ import java.util.logging.Logger;
  * @author Abhijit Das
  */
 public class BinarySecretStrategy extends KeyInfoStrategy {
-    
+
     private byte[] secret = null;
-    
+
     protected static final Logger log =
         Logger.getLogger(
             LogDomainConstants.WSS_API_DOMAIN,
             LogDomainConstants.WSS_API_DOMAIN_BUNDLE);
-    
+
     /**
      * Creates a new instance of BinarySecretStrategy
      */
     public BinarySecretStrategy() {
     }
-    
+
     public BinarySecretStrategy(byte[] secret) {
         this.secret = secret;
     }
@@ -75,9 +75,9 @@ public class BinarySecretStrategy extends KeyInfoStrategy {
     public String getAlias() {
         return Base64.encode(secret);
     }
-    
+
     public void setSecret(byte[] secret) {
         this.secret = secret;
     }
-    
+
 }

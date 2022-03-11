@@ -41,9 +41,9 @@ public class SamlToken extends PolicyAssertion implements com.sun.xml.ws.securit
     private Issuer issuer = null;
     private IssuerName issuerName = null;
     private Claims claims = null;
-    
+
     /** Creates a new instance of SamlToken */
-    
+
     public SamlToken(AssertionData name,Collection<PolicyAssertion> nestedAssertions, AssertionSet nestedAlternative) {
         super(name,nestedAssertions,nestedAlternative);
         id= PolicyUtil.randomUUID();
@@ -52,13 +52,13 @@ public class SamlToken extends PolicyAssertion implements com.sun.xml.ws.securit
         itQname = new QName(spVersion.namespaceUri, Constants.IncludeToken);
         includeTokenType = spVersion.includeTokenAlways;
     }
-    
+
     @Override
     public String getTokenType() {
         populate();
         return tokenType;
     }
-    
+
     @Override
     public Iterator getTokenRefernceType() {
         if ( tokenRefType != null ) {
@@ -67,7 +67,7 @@ public class SamlToken extends PolicyAssertion implements com.sun.xml.ws.securit
             return Collections.emptyList().iterator();
         }
     }
-    
+
     @Override
     public boolean isRequireDerivedKeys() {
         populate();
@@ -76,37 +76,37 @@ public class SamlToken extends PolicyAssertion implements com.sun.xml.ws.securit
         }
         return false;
     }
-    
+
     @Override
     public String getIncludeToken() {
         populate();
         return includeTokenType;
     }
-    
-    
+
+
     @Override
     public String getTokenId() {
         return id;
     }
-    
+
      @Override
      public Issuer getIssuer() {
         populate();
         return issuer;
     }
-    
+
     @Override
     public IssuerName getIssuerName() {
         populate();
         return issuerName;
     }
-    
+
     @Override
     public Claims getClaims(){
         populate();
         return claims;
     }
-    
+
     @Override
     public AssertionFitness validate(boolean isServer) {
         return populate(isServer);
@@ -114,9 +114,9 @@ public class SamlToken extends PolicyAssertion implements com.sun.xml.ws.securit
     private void populate(){
         populate(false);
     }
-    
+
     private synchronized AssertionFitness populate(boolean isServer) {
-        
+
         if(!populated){
             NestedPolicy policy = this.getNestedPolicy();
             if(this.getAttributeValue(itQname) != null){
@@ -131,7 +131,7 @@ public class SamlToken extends PolicyAssertion implements com.sun.xml.ws.securit
             }
             AssertionSet as = policy.getAssertionSet();
             Iterator<PolicyAssertion> paItr = as.iterator();
-            
+
             while(paItr.hasNext()){
                 PolicyAssertion assertion  = paItr.next();
                 if(PolicyUtil.isSamlTokenType(assertion, spVersion)){
@@ -158,7 +158,7 @@ public class SamlToken extends PolicyAssertion implements com.sun.xml.ws.securit
                         issuer = (Issuer)assertion;
                     } else if(PolicyUtil.isIssuerName(assertion, spVersion)){
                         issuerName = (IssuerName)assertion;
-                    } else if(PolicyUtil.isClaimsElement(assertion) && 
+                    } else if(PolicyUtil.isClaimsElement(assertion) &&
                             SecurityPolicyVersion.SECURITYPOLICY12NS.namespaceUri.equals(spVersion.namespaceUri) ){
                         claims = (Claims)assertion;
                     }
@@ -177,6 +177,6 @@ public class SamlToken extends PolicyAssertion implements com.sun.xml.ws.securit
     public SecurityPolicyVersion getSecurityPolicyVersion() {
         return spVersion;
     }
-    
-    
+
+
 }

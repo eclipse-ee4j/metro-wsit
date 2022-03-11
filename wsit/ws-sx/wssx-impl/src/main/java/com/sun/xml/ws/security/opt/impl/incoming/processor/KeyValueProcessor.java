@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -48,16 +48,16 @@ public class KeyValueProcessor {
     private static final int DSA_KEY_VALUE_ELEMENT = 7;
     private static final int MODULUS_ELEMENT = 8;
     private static final int EXPONENT_ELEMENT = 9;
-    
+
     private static final String RSA_KEY_VALUE = "RSAKeyValue";
     private static final String DSA_KEY_VALUE = "DSAKeyValue";
     private static final String ENCRYPTED_KEY = "EncryptedKey";
     private static final String KEY_VALUE = "KeyValue";
     private static final String EXPONENT = "Exponent";
-    private static final String MODULUS = "Modulus";    
-    
+    private static final String MODULUS = "Modulus";
+
     private XMLStreamWriter canonWriter = null;
-    
+
     /** Creates a new instance of KeyValueProcessor */
     public KeyValueProcessor(JAXBFilterProcessingContext pc,XMLStreamWriter writer) {
         //this.pc = pc;
@@ -71,7 +71,7 @@ public class KeyValueProcessor {
     public Key processKeyValue(XMLStreamReader reader)throws XMLStreamException,XWSSecurityException{
         boolean done = false;
         Key retKey = null;
-        
+
         while(!done && (reader.hasNext() && !_breaKeyValue(reader))){
             reader.next();
             int event = getKeyValueEventType(reader);
@@ -101,7 +101,7 @@ public class KeyValueProcessor {
         }
         return retKey;
     }
-    
+
     /**
      * gets the RSA KeyValue from the reader and returns the Key
      * @param reader XMLStreamReader
@@ -133,8 +133,8 @@ public class KeyValueProcessor {
                         }
                     }else {
                         sb = new StringBuilder();
-                        
-                        
+
+
                         while(reader.getEventType() == reader.CHARACTERS && reader.getEventType() != reader.END_ELEMENT){
                             charSeq = ((XMLStreamReaderEx)reader).getPCDATA();
                             for(int i=0;i<charSeq.length();i++){
@@ -156,7 +156,7 @@ public class KeyValueProcessor {
                             throw new XWSSecurityException(LogStringsMessages.WSS_1606_ERROR_RSAKEYINFO_BASE_64_DECODING("EXPONENT"));
                         }
                         modulus = new BigInteger(1,value);
-                        
+
                     }
                     break;
                 }
@@ -178,7 +178,7 @@ public class KeyValueProcessor {
                         }
                     }else {
                         sb = new StringBuilder();
-                        
+
                         while(reader.getEventType() == reader.CHARACTERS && reader.getEventType() != reader.END_ELEMENT){
                             charSeq = ((XMLStreamReaderEx)reader).getPCDATA();
                             for(int i=0;i<charSeq.length();i++){
@@ -223,49 +223,49 @@ public class KeyValueProcessor {
             logger.log(Level.SEVERE, LogStringsMessages.WSS_1607_ERROR_RSAPUBLIC_KEY(),ex);
             throw new XWSSecurityException(LogStringsMessages.WSS_1607_ERROR_RSAPUBLIC_KEY(), ex);
         }
-        
+
     }
-    
+
     private int getKeyValueEventType(XMLStreamReader reader) {
         if(reader.getEventType() == reader.START_ELEMENT){
             if(reader.getLocalName() == RSA_KEY_VALUE){
                 return RSA_KEY_VALUE_ELEMENT;
             }
-            
+
             if(reader.getLocalName() == DSA_KEY_VALUE){
                 return DSA_KEY_VALUE_ELEMENT;
             }
         }
         return -1;
     }
-    
+
     private int getRSAKVEventType(XMLStreamReader reader) {
         if(reader.getEventType() == reader.START_ELEMENT){
             if(reader.getLocalName() == MODULUS){
                 return MODULUS_ELEMENT;
             }
-            
+
             if(reader.getLocalName() == EXPONENT){
                 return EXPONENT_ELEMENT;
             }
         }
         return -1;
     }
-    
+
     private boolean isRSAKeyValue(XMLStreamReader reader) {
         if(reader.getLocalName() == RSA_KEY_VALUE){
             return true;
         }
         return false;
     }
-    
+
     private boolean isKeyValue(XMLStreamReader reader) {
         if(reader.getLocalName() == KEY_VALUE){
             return true;
         }
         return false;
     }
-    
+
     private boolean _breaKeyValue(XMLStreamReader reader)throws XMLStreamException{
         if(reader.getEventType() == XMLStreamReader.END_ELEMENT && isKeyValue(reader)){
             if(canonWriter != null){
@@ -275,7 +275,7 @@ public class KeyValueProcessor {
         }
         return false;
     }
-    
+
     private boolean _breakRSAKeyValue(XMLStreamReader reader)throws XMLStreamException{
         if(reader.getEventType() == XMLStreamReader.END_ELEMENT && isRSAKeyValue(reader)){
             if(canonWriter != null){
@@ -285,6 +285,6 @@ public class KeyValueProcessor {
         }
         return false;
     }
-    
-    
+
+
 }

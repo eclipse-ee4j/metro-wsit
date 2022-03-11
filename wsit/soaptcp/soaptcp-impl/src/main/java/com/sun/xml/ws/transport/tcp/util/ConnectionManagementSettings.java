@@ -17,21 +17,21 @@ import java.util.logging.Logger;
 
 /**
  * SOAP/TCP connection cache settings
- * 
+ *
  * @author Alexey Stashok
  */
-public class ConnectionManagementSettings {    
+public class ConnectionManagementSettings {
     private static final Logger logger = Logger.getLogger(
             com.sun.xml.ws.transport.tcp.util.TCPConstants.LoggingDomain);
-    
+
     private static final int DEFAULT_VALUE = -1;
 
     private int highWatermark = DEFAULT_VALUE;
     private int maxParallelConnections = DEFAULT_VALUE;
     private int numberToReclaim = DEFAULT_VALUE;
-    
+
     private static volatile ConnectionManagementSettingsHolder holder;
-    
+
     public static ConnectionManagementSettingsHolder getSettingsHolder() {
         if (holder == null) {
             synchronized(ConnectionManagementSettings.class) {
@@ -44,46 +44,46 @@ public class ConnectionManagementSettings {
         }
         return holder;
     }
-    
+
     public static void setSettingsHolder(ConnectionManagementSettingsHolder holder) {
         ConnectionManagementSettings.holder = holder;
     }
-    
+
     // Client side constructor (outbound connection cache)
-    public ConnectionManagementSettings(int highWatermark, 
+    public ConnectionManagementSettings(int highWatermark,
             int maxParallelConnections, int numberToReclaim) {
-        this.highWatermark = highWatermark != DEFAULT_VALUE ? 
+        this.highWatermark = highWatermark != DEFAULT_VALUE ?
             highWatermark : TCPConstants.HIGH_WATER_MARK_CLIENT;
-        this.maxParallelConnections = maxParallelConnections != DEFAULT_VALUE ? 
+        this.maxParallelConnections = maxParallelConnections != DEFAULT_VALUE ?
             maxParallelConnections : TCPConstants.MAX_PARALLEL_CONNECTIONS_CLIENT;
-        this.numberToReclaim = numberToReclaim != DEFAULT_VALUE ? 
+        this.numberToReclaim = numberToReclaim != DEFAULT_VALUE ?
             numberToReclaim : TCPConstants.NUMBER_TO_RECLAIM_CLIENT;
     }
-    
+
     // Server side constructor (inbound connection cache)
     public ConnectionManagementSettings(int highWatermark, int numberToReclaim) {
-        this.highWatermark = highWatermark != DEFAULT_VALUE ? 
+        this.highWatermark = highWatermark != DEFAULT_VALUE ?
             highWatermark : TCPConstants.HIGH_WATER_MARK_SERVER;
         this.maxParallelConnections = DEFAULT_VALUE;
-        this.numberToReclaim = numberToReclaim != DEFAULT_VALUE ? 
+        this.numberToReclaim = numberToReclaim != DEFAULT_VALUE ?
             numberToReclaim : TCPConstants.NUMBER_TO_RECLAIM_SERVER;
     }
 
     public int getHighWatermark() {
         return highWatermark;
     }
-    
+
     public int getMaxParallelConnections() {
         return maxParallelConnections;
     }
-    
+
     public int getNumberToReclaim() {
         return numberToReclaim;
     }
-        
+
     /**
      * Method tries to load default connection settings holder (Policy implementation)
-     * 
+     *
      * @return true, if policy based settings holder was initiated successfully,
      * false otherwise
      */
@@ -111,16 +111,16 @@ public class ConnectionManagementSettings {
         ConnectionManagementSettings getClientSettings();
         ConnectionManagementSettings getServerSettings();
     }
-    
+
     /**
      * SOAP/TCP connection cache settings holder.
      * Implements holder, which gets connection settings from system properties.
      */
-    private static class SystemPropsConnectionManagementSettingsHolder 
+    private static class SystemPropsConnectionManagementSettingsHolder
             implements ConnectionManagementSettingsHolder {
         private volatile ConnectionManagementSettings clientSettings;
         private volatile ConnectionManagementSettings serverSettings;
-        
+
         @Override
         public ConnectionManagementSettings getClientSettings() {
             if (clientSettings == null) {
@@ -130,7 +130,7 @@ public class ConnectionManagementSettings {
                     }
                 }
             }
-            
+
             return clientSettings;
         }
 
@@ -143,31 +143,31 @@ public class ConnectionManagementSettings {
                     }
                 }
             }
-            
+
             return serverSettings;
         }
-        
+
         private static ConnectionManagementSettings createSettings(boolean isClient) {
-            int highWatermark = Integer.getInteger(TCPConstants.HIGH_WATER_MARK, 
+            int highWatermark = Integer.getInteger(TCPConstants.HIGH_WATER_MARK,
                     DEFAULT_VALUE);
-            
+
             int maxParallelConnections = Integer.getInteger(
                     TCPConstants.MAX_PARALLEL_CONNECTIONS, DEFAULT_VALUE);
-            
-            int numberToReclaim = Integer.getInteger(TCPConstants.NUMBER_TO_RECLAIM, 
+
+            int numberToReclaim = Integer.getInteger(TCPConstants.NUMBER_TO_RECLAIM,
                     DEFAULT_VALUE);
-            
-            
+
+
             ConnectionManagementSettings settings = null;
             if (isClient) {
                 settings = new ConnectionManagementSettings(highWatermark,
                         maxParallelConnections, numberToReclaim);
             } else {
-                settings = new ConnectionManagementSettings(highWatermark, 
+                settings = new ConnectionManagementSettings(highWatermark,
                         numberToReclaim);
             }
-            
+
             return settings;
         }
-    }    
+    }
 }

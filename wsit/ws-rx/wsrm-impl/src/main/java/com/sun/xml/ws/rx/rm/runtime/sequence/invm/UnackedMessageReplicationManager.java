@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -65,24 +65,24 @@ final class UnackedMessageReplicationManager implements ReplicationManager<Strin
         if (LOGGER.isLoggable(Level.FINER)) {
             LOGGER.finer(loggerProlog + "Sending for replication unacked message with a key [" + key + "]: " + value.toString() + ", isNew=" + isNew);
         }
-        
+
         HaInfo haInfo = HaContext.currentHaInfo();
         if (haInfo != null) {
             if (LOGGER.isLoggable(Level.FINER)) {
                 LOGGER.finer(loggerProlog + "Existing HaInfo found, using it for unacked message state replication: " + HaContext.asString(haInfo));
             }
-            
+
             HaContext.udpateReplicaInstance(HighAvailabilityProvider.saveTo(unackedMesagesBs, new StickyKey(key, haInfo.getKey()), value, isNew));
         } else {
             final StickyKey stickyKey = new StickyKey(key);
             final String replicaId = HighAvailabilityProvider.saveTo(unackedMesagesBs, stickyKey, value, isNew);
-            
+
             haInfo = new HaInfo(stickyKey.getHashKey(), replicaId, false);
             HaContext.updateHaInfo(haInfo);
             if (LOGGER.isLoggable(Level.FINER)) {
                 LOGGER.finer(loggerProlog + "No HaInfo found, created new after unacked message state replication: " + HaContext.asString(haInfo));
             }
-        }                       
+        }
     }
 
     @Override

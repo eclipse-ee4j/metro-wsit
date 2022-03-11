@@ -89,7 +89,7 @@ public class WSATGatewayRM implements XAResource, WSATRuntimeConfig.RecoveryEven
    * Called during tube/web service init
    */
   public static synchronized WSATGatewayRM create() {
-    return create("server");    
+    return create("server");
   }
 
     /**
@@ -217,7 +217,7 @@ public class WSATGatewayRM implements XAResource, WSATRuntimeConfig.RecoveryEven
         if (resource!=null) return resource.getXid();
     }
     // enlist primary, read-only branch (ensures 2PC)
-    tx.enlistResource(new WSATNoOpXAResource()); 
+    tx.enlistResource(new WSATNoOpXAResource());
     synchronized(currentXidLock) {
       tx.enlistResource(new WSATGatewayRMPeerRecoveryDelegate());
       // this is again due to changing xid in GF
@@ -343,7 +343,7 @@ public class WSATGatewayRM implements XAResource, WSATRuntimeConfig.RecoveryEven
         try {
             recover(XAResource.TMSTARTRSCAN | XAResource.TMENDRSCAN);
         } catch (XAException e) {
-            e.printStackTrace();  
+            e.printStackTrace();
         }
     }
 
@@ -369,7 +369,7 @@ public class WSATGatewayRM implements XAResource, WSATRuntimeConfig.RecoveryEven
         if (isDelegated) {
       String delegatedtxlogdir = WSATGatewayRM.txlogdir + File.separator + ".." + File.separator + ".." +
                     File.separator + instance + File.separator + WSAT + File.separator;
-       debug("delegatedtxlogdir in recover is" + delegatedtxlogdir);           
+       debug("delegatedtxlogdir in recover is" + delegatedtxlogdir);
             String delegatedtxlogdirOutbound = delegatedtxlogdir + OUTBOUND + File.separator;
             String delegatedtxlogdirInbound = delegatedtxlogdir + INBOUND + File.separator;
             if (WSATHelper.isDebugEnabled()) debug("recover() for delegate flag=" + flag +
@@ -406,7 +406,7 @@ public class WSATGatewayRM implements XAResource, WSATRuntimeConfig.RecoveryEven
          debug("txlogdir is" + txlogdir);
          String wstxlogdir = txlogdir;
         File f = new File(txlogdir);
-        wstxlogdir = f.getParent(); 
+        wstxlogdir = f.getParent();
        debug("wstxlogdir is" + wstxlogdir);
         txlogdirInbound =
                 wstxlogdir + File.separator + WSAT + File.separator + INBOUND + File.separator;

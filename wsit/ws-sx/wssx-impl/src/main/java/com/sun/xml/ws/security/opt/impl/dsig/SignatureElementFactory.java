@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -78,15 +78,15 @@ import javax.xml.crypto.dsig.spec.TransformParameterSpec;
  * @author Ashutosh.Shahi@sun.com
  */
 public class SignatureElementFactory {
-    
+
     private static final Logger logger = Logger.getLogger(LogDomainConstants.IMPL_OPT_SIGNATURE_DOMAIN,
             LogDomainConstants.IMPL_OPT_SIGNATURE_DOMAIN_BUNDLE);
-    
+
     /** Creates a new instance of SignatureElementFactory */
     public SignatureElementFactory() {
-        
+
     }
-    
+
     /**
      *
      * @return XMLSignature
@@ -94,7 +94,7 @@ public class SignatureElementFactory {
     public XMLSignature constructSignature(SignedInfo signInfo,javax.xml.crypto.dsig.keyinfo.KeyInfo keyInfo, final String id){
         return getSignatureFactory().newXMLSignature(signInfo,keyInfo, null, id, null);
     }
-    
+
     /**
      *
      * @return XMLSignature
@@ -102,7 +102,7 @@ public class SignatureElementFactory {
     public XMLSignature constructSignature(SignedInfo signInfo,javax.xml.crypto.dsig.keyinfo.KeyInfo keyInfo){
         return getSignatureFactory().newXMLSignature(signInfo,keyInfo);
     }
-    
+
     public SignedInfo constructSignedInfo(JAXBFilterProcessingContext fpContext)
     throws NoSuchAlgorithmException, InvalidAlgorithmParameterException, XWSSecurityException{
         if(PolicyTypeUtil.signaturePolicy(fpContext.getSecurityPolicy())) {
@@ -121,7 +121,7 @@ public class SignatureElementFactory {
         SignaturePolicy signaturePolicy = (SignaturePolicy) fpContext.getSecurityPolicy();
         SignaturePolicy.FeatureBinding featureBinding = (SignaturePolicy.FeatureBinding)signaturePolicy.getFeatureBinding();
         MLSPolicy keyBinding = signaturePolicy.getKeyBinding();
-        
+
         XMLSignatureFactory signatureFactory = getSignatureFactory();
         String canonicalAlgo = featureBinding.getCanonicalizationAlgorithm();
         ArrayList targetList = featureBinding.getTargetBindings();
@@ -143,7 +143,7 @@ public class SignatureElementFactory {
         String algo = fpContext.getAlgorithmSuite().getSignatureAlgorithm();
 
          keyAlgo = SecurityUtil.getKeyAlgo(algo);
-        
+
         if(PolicyTypeUtil.usernameTokenBinding(keyBinding)){
             AuthenticationTokenPolicy.UsernameTokenBinding untBinding =
                     (AuthenticationTokenPolicy.UsernameTokenBinding)keyBinding;
@@ -184,7 +184,7 @@ public class SignatureElementFactory {
             }
         } else if (PolicyTypeUtil.issuedTokenKeyBinding(keyBinding)) {
             //TODO: verify if this is always correct
-            if(fpContext.getTrustContext() != null){                
+            if(fpContext.getTrustContext() != null){
                 keyAlgo = fpContext.getTrustContext().getSignWith();
             }
             if(keyAlgo == null){
@@ -196,7 +196,7 @@ public class SignatureElementFactory {
                 if(fpContext.getTrustContext().getSignWith() == null){
                     keyAlgo = MessageConstants.RSA_SHA1_SIGMETHOD;
                 }
-            }            
+            }
         }else if (PolicyTypeUtil.keyValueTokenBinding(keyBinding)) {
             keyAlgo = MessageConstants.RSA_SHA1_SIGMETHOD;
         }else{
@@ -218,15 +218,15 @@ public class SignatureElementFactory {
             List contentList = setInclusiveNamespaces((ExcC14NParameterSpec)spec);
             ((com.sun.xml.ws.security.opt.crypto.dsig.CanonicalizationMethod)canonicalMethod).setContent(contentList);
         }
-        
+
         SignatureMethod signatureMethod = signatureFactory.newSignatureMethod(keyAlgo, null);
         //Note : Signature algorithm parameters null for now , fix me.
         SignedInfo signedInfo = signatureFactory.newSignedInfo(canonicalMethod,signatureMethod,
                 generateReferenceList(cloneList, signatureFactory, fpContext, false), null);
         //Note : Id is now null
         return signedInfo;
-    }    
-    
+    }
+
     /**
      * creates an instance of JAXBSignatureFactory
      * @return XMLSignatureFactory
@@ -255,7 +255,7 @@ public class SignatureElementFactory {
         if(logger.isLoggable(Level.FINEST)) {
             logger.log(Level.FINEST, LogStringsMessages.WSS_1751_NUMBER_TARGETS_SIGNATURE(targetList.size()));
         }
-        
+
         while(iterator.hasNext()) {
             SignatureTarget signatureTarget = (SignatureTarget)iterator.next();
             String digestAlgo = signatureTarget.getDigestAlgorithm();
@@ -270,7 +270,7 @@ public class SignatureElementFactory {
                 logger.log(Level.SEVERE,"WSS1301.invalid.digest.algo",digestAlgo);
                 throw new XWSSecurityException(ex.getMessage());
             }
-            
+
             boolean exclTransformToBeAdded = false;
             ArrayList transforms = signatureTarget.getTransforms();
             ListIterator transformIterator = transforms.listIterator();
@@ -279,7 +279,7 @@ public class SignatureElementFactory {
                 SignatureTarget.Transform transformInfo = (SignatureTarget.Transform)transformIterator.next();
                 String transformAlgo = transformInfo.getTransform();
                 Transform transform = null;
-                
+
                 if(logger.isLoggable(Level.FINEST))
                     logger.log(Level.FINEST, "Transform Algorithm is "+transformAlgo);
                 if(Transform.XPATH.equals(transformAlgo)){
@@ -325,7 +325,7 @@ public class SignatureElementFactory {
                             String targetURI = signatureTarget.getValue();
                             ((com.sun.xml.ws.security.opt.crypto.dsig.Transform)transform).setReferenceId(targetURI);
                         }
-                        
+
                     } catch(Exception ex){
                         logger.log(Level.SEVERE,LogStringsMessages.WSS_1767_ERROR_CREATE_TRANSFORM_OBJECT(),ex);
                         throw new XWSSecurityException(ex.getMessage());
@@ -337,7 +337,7 @@ public class SignatureElementFactory {
                 } else {
                     transform = signatureFactory.newTransform(transformAlgo,(TransformParameterSpec)null);
                     //throw new XWSSecurityException(transformAlgo + " not supported as Signature transform");
-                    
+
                 }
                 if (!MessageConstants.TRANSFORM_C14N_EXCL_OMIT_COMMENTS.equalsIgnoreCase(transformAlgo)) {
                     // will add c14n transform in the end; later
@@ -356,19 +356,19 @@ public class SignatureElementFactory {
             SecuredMessage secMessage = fpContext.getSecuredMessage();
             //SecurityHeader secHeader = fpContext.getSecurityHeader();
             //boolean headersOnly = signatureTarget.isSOAPHeadersOnly();
-            
+
             if(signatureType.equals(SignatureTarget.TARGET_TYPE_VALUE_QNAME)){
-                
+
                 String expr = null;
                 List<SignedMessagePart> targets = new ArrayList<>();
-                
+
                 String targetValue = signatureTarget.getValue();
                 boolean optimized = false;
                 if(fpContext.getConfigType() == MessageConstants.SIGN_BODY ||
                         fpContext.getConfigType() == MessageConstants.SIGN_ENCRYPT_BODY){
                     optimized = true;
                 }
-                
+
                 if(targetValue.equals(SignatureTarget.BODY )){
                     Object body = secMessage.getBody();
                     if(body instanceof SignedMessagePart){
@@ -376,7 +376,7 @@ public class SignatureElementFactory {
                     } else if(body instanceof SecurityElement){
                         SignedMessagePart smp = new SignedMessagePart((SecurityElement)body);
                         targets.add(smp);
-                        
+
                     } else{
                         // replace SOAPBody with securityElement and add
                         // to targets
@@ -394,7 +394,7 @@ public class SignatureElementFactory {
                                 id = fpContext.generateID();
                                 soapBody.setBodyContentId(id);
                             }
-                            
+
                             SignedMessagePart smp = new SignedMessagePart(soapBody, contentOnly);
                             SOAPBody newBody =  new SOAPBody(smp,fpContext.getSOAPVersion());
                             newBody.setId(soapBody.getId());
@@ -430,7 +430,7 @@ public class SignatureElementFactory {
                         else
                             headers = secMessage.getHeaders(name.getNamespaceURI());
                     }
-                    
+
                     while(headers.hasNext()){
                         Object next = headers.next();
                         if(next instanceof SignedMessageHeader){
@@ -447,7 +447,7 @@ public class SignatureElementFactory {
                             targets.add(smh);
                         }
                     }
-                    
+
                     SecurityHeader sh = fpContext.getSecurityHeader();
                     headers = sh.getHeaders(name.getLocalPart(), name.getNamespaceURI());
                     while(headers.hasNext()){
@@ -463,7 +463,7 @@ public class SignatureElementFactory {
                         }
                     }
                 }
-                
+
                 if(targets.size() <= 0){
                     if(signatureTarget.getEnforce()){
                         throw new XWSSecurityException("SignatureTarget with URI "+signatureTarget.getValue()+
@@ -471,17 +471,17 @@ public class SignatureElementFactory {
                     } else
                         continue;
                 }
-                
+
                 if(logger.isLoggable(Level.FINEST)){
                     logger.log(Level.FINEST, "Number of nodes "+ targets.size());
                     logger.log(Level.FINEST, "+++++++++++++++END+++++++++++++++");
                 }
-                
+
                 HashMap elementCache = null;
                 if(fpContext != null ){
                     elementCache = fpContext.getElementCache();
                 }
-                
+
                 for(int i = 0; i < targets.size(); i++){
                     SignedMessagePart targetRef = targets.get(i);
                     ArrayList clonedTransformList = (ArrayList)transformList.clone();
@@ -504,7 +504,7 @@ public class SignatureElementFactory {
 //                        }
                         clonedTransformList.add(transform);
                     }
-                    
+
                     String id = targetRef.getId();
                     if (id == null || id.equals("")) {
                         id = fpContext.generateID();
@@ -515,12 +515,12 @@ public class SignatureElementFactory {
                             elementCache.put(id, targetRef);
                         }
                     }
-                    
+
                     if(logger.isLoggable(Level.FINEST))
                         logger.log(Level.FINEST, "SignedInfo val id "+id);
-                    
+
                     targetURI = "#"+id;
-                    
+
                     Reference reference = null;
                     reference = signatureFactory.newReference(targetURI,digestMethod,clonedTransformList,null,null);
                     references.add(reference);
@@ -528,7 +528,7 @@ public class SignatureElementFactory {
                 continue;
             } else if(SignatureTarget.TARGET_TYPE_VALUE_URI.equals(signatureType)){
                 targetURI = signatureTarget.getValue();
-                
+
                 if(targetURI == null){
                     targetURI="";
                 }
@@ -540,7 +540,7 @@ public class SignatureElementFactory {
                     }
                     com.sun.xml.ws.security.IssuedTokenContext ictx  = fpContext.getIssuedTokenContext(_uri);
                     com.sun.xml.ws.security.SecurityContextToken sct1 =(com.sun.xml.ws.security.SecurityContextToken)ictx.getSecurityToken();
-                    targetURI = sct1.getWsuId();                    
+                    targetURI = sct1.getWsuId();
                 }
                 if(MessageConstants.PROCESS_ALL_ATTACHMENTS.equals(targetURI)){
                     AttachmentSet as = secMessage.getAttachments();
@@ -550,7 +550,7 @@ public class SignatureElementFactory {
                     }
                     for(Attachment attachment : as){
                         String cid = "cid:" + attachment.getContentId();
-                        
+
                         Reference reference = signatureFactory.newReference(cid, digestMethod, transformList, null, null);
                         references.add(reference);
                     }
@@ -561,7 +561,7 @@ public class SignatureElementFactory {
                         if(targetURI.length() > 0 && targetURI.charAt(0)=='#'){
                             _uri = targetURI.substring(1);
                         }
-                        Object reqdPart = getPartFromId(fpContext, _uri);                 
+                        Object reqdPart = getPartFromId(fpContext, _uri);
                         if(reqdPart != null){
                             String transformAlgo  = MessageConstants.TRANSFORM_C14N_EXCL_OMIT_COMMENTS;
                             ExcC14NParameterSpec spec = null;
@@ -589,7 +589,7 @@ public class SignatureElementFactory {
                             String tmpUri = null;
                             if(header instanceof SignedMessageHeader){
                                 tmpUri = "#" + ((SignedMessageHeader)header).getId();
-                                
+
                             } else if(header instanceof SecurityHeaderElement){
                                 SecurityHeaderElement she = (SecurityHeaderElement)header;
                                 SignedMessageHeader smh = new SignedMessageHeader(she);
@@ -616,13 +616,13 @@ public class SignatureElementFactory {
                         }
                         continue;
                     }
-                    
+
                 }
             }
             Reference reference = null;
             reference = signatureFactory.newReference(targetURI,digestMethod,transformList,null,null);
             references.add(reference);
-            
+
         }
         if (references.isEmpty()) {
             logger.log(Level.WARNING, LogStringsMessages.WSS_1768_NO_SIGNEDPARTS());
@@ -646,11 +646,11 @@ public class SignatureElementFactory {
         contentList.add(je);
         return contentList;
     }
-    
+
     private SignedMessageHeader toSignedMessageHeader(Header header, JAXBFilterProcessingContext context) {
         return createSignedMessageHeader(header, context.generateID(), context);
     }
-    
+
     private SignedMessageHeader createSignedMessageHeader(com.sun.xml.ws.api.message.Header header, String string, JAXBFilterProcessingContext context) {
         return new SignedMessageHeader(header, string, context);
     }
@@ -683,5 +683,5 @@ public class SignatureElementFactory {
         }
         return null;
     }
-    
+
 }

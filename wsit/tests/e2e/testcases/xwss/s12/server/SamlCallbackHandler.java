@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -133,9 +133,9 @@ import org.apache.xml.security.keys.KeyInfo;
 
 public  class SamlCallbackHandler implements CallbackHandler {
 
-    
 
-    
+
+
 
     private String keyStoreURL;
 
@@ -143,7 +143,7 @@ public  class SamlCallbackHandler implements CallbackHandler {
 
     private String keyStoreType;
 
-    
+
 
     private String trustStoreURL;
 
@@ -151,23 +151,23 @@ public  class SamlCallbackHandler implements CallbackHandler {
 
     private String trustStoreType;
 
-    
+
 
     private KeyStore keyStore;
 
     private KeyStore trustStore;
 
-    
+
 
     private static final String fileSeparator = System.getProperty("file.separator");
 
-    
+
 
     private  UnsupportedCallbackException unsupported =
 
     new UnsupportedCallbackException(null, "Unsupported Callback Type Encountered");
 
-    
+
 
     private  static Element svAssertion = null;
 
@@ -177,33 +177,33 @@ public  class SamlCallbackHandler implements CallbackHandler {
 
     private  static Element hokAssertion20 = null;
 
-    
+
 
     public static final String holderOfKeyConfirmation =
 
     "urn:oasis:names:tc:SAML:1.0:cm:holder-of-key";
 
-    
+
 
     public static final String senderVouchesConfirmation =
 
     "urn:oasis:names:tc:SAML:1.0:cm:sender-vouches";
 
-    
+
 
     public static final String holderOfKeyConfirmation_saml20 =
 
     "urn:oasis:names:tc:SAML:2.0:cm:holder-of-key";
 
-    
+
 
     public static final String senderVouchesConfirmation_saml20 =
 
     "urn:oasis:names:tc:SAML:2.0:cm:sender-vouches";
 
-    
 
-	String home = null;
+
+    String home = null;
 
 
 
@@ -215,15 +215,15 @@ public  class SamlCallbackHandler implements CallbackHandler {
 
 
 
-			setContainerHome();
+            setContainerHome();
 
             String clientPropsFile = home + fileSeparator + "xws-security" + fileSeparator + "etc" + fileSeparator + "client-security-env.properties";
 
-   	        properties.load(new FileInputStream(clientPropsFile));
+               properties.load(new FileInputStream(clientPropsFile));
 
-                                                                                                                                                             
 
-                                                                                                                                                             
+
+
 
             this.keyStoreURL = home + properties.getProperty("keystore.url");
 
@@ -231,19 +231,19 @@ public  class SamlCallbackHandler implements CallbackHandler {
 
             this.keyStorePassword = properties.getProperty("keystore.password");
 
-                                                                                                                                                             
+
 
             this.trustStoreURL = home + properties.getProperty("truststore.url");
 
             this.trustStoreType = properties.getProperty("truststore.type");
 
-            this.trustStorePassword = properties.getProperty("truststore.password");         
+            this.trustStorePassword = properties.getProperty("truststore.password");
 
- 
+
 
             initKeyStore();
 
-            initTrustStore();			
+            initTrustStore();
 
         }catch(Exception e) {
 
@@ -253,7 +253,7 @@ public  class SamlCallbackHandler implements CallbackHandler {
 
         }
 
-        
+
 
     }
 
@@ -279,7 +279,7 @@ public  class SamlCallbackHandler implements CallbackHandler {
 
         }
 
-                                                                                                                                                             
+
 
     }
 
@@ -291,35 +291,35 @@ public  class SamlCallbackHandler implements CallbackHandler {
 
             if (callbacks[i] instanceof SAMLCallback) {
 
-				try{
+                try{
 
-					SAMLCallback samlCallback = (SAMLCallback)callbacks[i];
+                    SAMLCallback samlCallback = (SAMLCallback)callbacks[i];
 
-					if (samlCallback.getConfirmationMethod().equals(samlCallback.SV_ASSERTION_TYPE)){
+                    if (samlCallback.getConfirmationMethod().equals(samlCallback.SV_ASSERTION_TYPE)){
 
-						samlCallback.setAssertionElement(createSVSAMLAssertion());
+                        samlCallback.setAssertionElement(createSVSAMLAssertion());
 
-						svAssertion=samlCallback.getAssertionElement();
+                        svAssertion=samlCallback.getAssertionElement();
 
-					}else if (samlCallback.getConfirmationMethod().equals(samlCallback.HOK_ASSERTION_TYPE)){
+                    }else if (samlCallback.getConfirmationMethod().equals(samlCallback.HOK_ASSERTION_TYPE)){
 
-						//samlCallback.setAssertionElement(createHOKSAMLAssertion());
+                        //samlCallback.setAssertionElement(createHOKSAMLAssertion());
 
-						samlCallback.setAssertionElement(createHOKSAMLAssertion20());
+                        samlCallback.setAssertionElement(createHOKSAMLAssertion20());
 
-						hokAssertion=samlCallback.getAssertionElement();
+                        hokAssertion=samlCallback.getAssertionElement();
 
-					}else{
+                    }else{
 
-						throw new Exception("SAML Assertion Type is not matched.");
+                        throw new Exception("SAML Assertion Type is not matched.");
 
-					}
+                    }
 
-				}catch(Exception ex){
+                }catch(Exception ex){
 
-					ex.printStackTrace();
+                    ex.printStackTrace();
 
-				}
+                }
 
             } else {
 
@@ -331,7 +331,7 @@ public  class SamlCallbackHandler implements CallbackHandler {
 
     }
 
-    
+
 
     private static Element createSVSAMLAssertion() {
 
@@ -345,9 +345,9 @@ public  class SamlCallbackHandler implements CallbackHandler {
 
             String issuer = "CN=Assertion Issuer,OU=AI,O=Assertion Issuer,L=Waltham,ST=MA,C=US";
 
-            
 
-            
+
+
 
             GregorianCalendar c = new GregorianCalendar();
 
@@ -363,7 +363,7 @@ public  class SamlCallbackHandler implements CallbackHandler {
 
             GregorianCalendar before= (GregorianCalendar)c.clone();
 
-            
+
 
             c = new GregorianCalendar();
 
@@ -373,7 +373,7 @@ public  class SamlCallbackHandler implements CallbackHandler {
 
             GregorianCalendar after = (GregorianCalendar)c.clone();
 
-            
+
 
             GregorianCalendar issueInstant = new GregorianCalendar();
 
@@ -405,13 +405,13 @@ public  class SamlCallbackHandler implements CallbackHandler {
 
             factory.createSubjectConfirmation("urn:oasis:names:tc:SAML:1.0:cm:sender-vouches");
 
-           
 
- 
+
+
 
             Subject subj = factory.createSubject(nmId, scf);
 
-           
+
 
             List attributes = new LinkedList();
 
@@ -435,11 +435,11 @@ public  class SamlCallbackHandler implements CallbackHandler {
 
             factory.createAttributeStatement(subj, attributes));
 
-            
+
 
             Conditions conditions = factory.createConditions(before, after, null, null, null);
 
-            
+
 
             assertion = factory.createAssertion(assertionID, issuer, issueInstant,
 
@@ -469,9 +469,9 @@ public  class SamlCallbackHandler implements CallbackHandler {
 
             // create the assertion id
 
-            String aID = String.valueOf(System.currentTimeMillis());                        
+            String aID = String.valueOf(System.currentTimeMillis());
 
-            
+
 
             GregorianCalendar c = new GregorianCalendar();
 
@@ -487,7 +487,7 @@ public  class SamlCallbackHandler implements CallbackHandler {
 
             GregorianCalendar before= (GregorianCalendar)c.clone();
 
-            
+
 
             c = new GregorianCalendar();
 
@@ -497,7 +497,7 @@ public  class SamlCallbackHandler implements CallbackHandler {
 
             GregorianCalendar after = (GregorianCalendar)c.clone();
 
-            
+
 
             GregorianCalendar issueInstant = new GregorianCalendar();
 
@@ -519,17 +519,17 @@ public  class SamlCallbackHandler implements CallbackHandler {
 
             "urn:oasis:names:tc:SAML:2.0:nameid-format:X509SubjectName");
 
-                        
+
 
             SubjectConfirmation scf =
 
             factory.createSubjectConfirmation(nmId, "urn:oasis:names:tc:SAML:2.0:cm:sender-vouches");
 
-           
+
 
             Subject subj = factory.createSubject(nmId, scf);
 
-           
+
 
             List attributes = new LinkedList();
 
@@ -549,17 +549,17 @@ public  class SamlCallbackHandler implements CallbackHandler {
 
             factory.createAttributeStatement(attributes));
 
-            
+
 
             Conditions conditions = factory.createConditions(before, after, null, null, null, null);
 
-            
+
 
             assertion = factory.createAssertion(aID, nmId, issueInstant, conditions, null, subj, statements);
 
-            assertion.setVersion("2.0");            
+            assertion.setVersion("2.0");
 
- 
+
 
             return assertion.toElement(null);
 
@@ -571,21 +571,21 @@ public  class SamlCallbackHandler implements CallbackHandler {
 
     }
 
-    
+
 
     private  Element createHOKSAMLAssertion() {
 
-        
+
 
         Assertion assertion = null;
 
         try {
 
-                             
+
 
             SAMLAssertionFactory factory = SAMLAssertionFactory.newInstance(SAMLAssertionFactory.SAML1_1);
 
-                                                                                                
+
 
             // create the assertion id
 
@@ -593,9 +593,9 @@ public  class SamlCallbackHandler implements CallbackHandler {
 
             String issuer = "CN=Assertion Issuer,OU=AI,O=Assertion Issuer,L=Waltham,ST=MA,C=US";
 
-                                                                                                                             
 
-                                                                                                                             
+
+
 
             GregorianCalendar c = new GregorianCalendar();
 
@@ -605,13 +605,13 @@ public  class SamlCallbackHandler implements CallbackHandler {
 
             long offsetHours = 60*60*1000;
 
-                                                                                                                             
+
 
             c.setTimeInMillis(beforeTime - offsetHours);
 
             GregorianCalendar before= (GregorianCalendar)c.clone();
 
-                                                                                                                             
+
 
             c = new GregorianCalendar();
 
@@ -621,7 +621,7 @@ public  class SamlCallbackHandler implements CallbackHandler {
 
             GregorianCalendar after = (GregorianCalendar)c.clone();
 
-                                                                                                                             
+
 
             GregorianCalendar issueInstant = new GregorianCalendar();
 
@@ -637,7 +637,7 @@ public  class SamlCallbackHandler implements CallbackHandler {
 
             null, // not sure abt this value
 
-            "urn:oasis:names:tc:SAML:1.1:nameid-format:X509SubjectName");           
+            "urn:oasis:names:tc:SAML:1.1:nameid-format:X509SubjectName");
 
 
 
@@ -649,13 +649,13 @@ public  class SamlCallbackHandler implements CallbackHandler {
 
             getDefaultPrivKeyCert(request);
 
-            
+
 
             if ( request.getX509Certificate() == null ) {
 
                 throw new RuntimeException("Not able to resolve the Default Certificate");
 
-            }                                                                                                                 
+            }
 
             PublicKey pubKey = request.getX509Certificate().getPublicKey();
 
@@ -687,13 +687,13 @@ public  class SamlCallbackHandler implements CallbackHandler {
 
             factory.createSubjectConfirmation(subConfirmation, null, keyInfo.getElement());
 
-                                                                                                                             
 
-                                                                                                                             
+
+
 
             Subject subj = factory.createSubject(nmId, scf);
 
-                                                                                                                             
+
 
             List attributes = new LinkedList();
 
@@ -709,17 +709,17 @@ public  class SamlCallbackHandler implements CallbackHandler {
 
                 attributeValues));
 
-                                                                                                                             
+
 
             statements.add(
 
             factory.createAttributeStatement(subj, attributes));
 
-                                                                                                                             
+
 
             Conditions conditions = factory.createConditions(before, after, null, null, null);
 
-                                                                                                                             
+
 
             assertion = factory.createAssertion(assertionID, issuer, issueInstant,
 
@@ -729,7 +729,7 @@ public  class SamlCallbackHandler implements CallbackHandler {
 
             assertion.setMinorVersion(BigInteger.ONE);
 
- 
+
 
             return assertion.sign(pubKey, privKey);
 
@@ -741,23 +741,23 @@ public  class SamlCallbackHandler implements CallbackHandler {
 
         }
 
-	}
+    }
 
- 
+
 
     private  Element createHOKSAMLAssertion20() {
 
-        
+
 
         Assertion assertion = null;
 
         try {
 
-                             
+
 
             SAMLAssertionFactory factory = SAMLAssertionFactory.newInstance(SAMLAssertionFactory.SAML2_0);
 
-                                                                                                
+
 
             // create the assertion id
 
@@ -767,7 +767,7 @@ public  class SamlCallbackHandler implements CallbackHandler {
 
 
 
-			GregorianCalendar c = new GregorianCalendar();
+            GregorianCalendar c = new GregorianCalendar();
 
             long beforeTime = c.getTimeInMillis();
 
@@ -775,13 +775,13 @@ public  class SamlCallbackHandler implements CallbackHandler {
 
             long offsetHours = 60*60*1000;
 
-                                                                                                                             
+
 
             c.setTimeInMillis(beforeTime - offsetHours);
 
             GregorianCalendar before= (GregorianCalendar)c.clone();
 
-                                                                                                                             
+
 
             c = new GregorianCalendar();
 
@@ -791,7 +791,7 @@ public  class SamlCallbackHandler implements CallbackHandler {
 
             GregorianCalendar after = (GregorianCalendar)c.clone();
 
-                                                                                                                             
+
 
             GregorianCalendar issueInstant = new GregorianCalendar();
 
@@ -803,7 +803,7 @@ public  class SamlCallbackHandler implements CallbackHandler {
 
             null, // not sure abt this value
 
-            "urn:oasis:names:tc:SAML:2.0:nameid-format:X509SubjectName");           
+            "urn:oasis:names:tc:SAML:2.0:nameid-format:X509SubjectName");
 
 
 
@@ -811,17 +811,17 @@ public  class SamlCallbackHandler implements CallbackHandler {
 
             SignatureKeyCallback.DefaultPrivKeyCertRequest request =
 
-	            new SignatureKeyCallback.DefaultPrivKeyCertRequest();
+                new SignatureKeyCallback.DefaultPrivKeyCertRequest();
 
             getDefaultPrivKeyCert(request);
 
-            
+
 
             if ( request.getX509Certificate() == null ) {
 
                 throw new RuntimeException("Not able to resolve the Default Certificate");
 
-            }                                                                                                                 
+            }
 
             PublicKey pubKey = request.getX509Certificate().getPublicKey();
 
@@ -845,19 +845,19 @@ public  class SamlCallbackHandler implements CallbackHandler {
 
             subConfirmation.add(holderOfKeyConfirmation_saml20);
 
-			SubjectConfirmationData scd = factory.createSubjectConfirmationData(null, null, null, null, null, keyInfo.getElement());
+            SubjectConfirmationData scd = factory.createSubjectConfirmationData(null, null, null, null, null, keyInfo.getElement());
 
 
 
             SubjectConfirmation scf = factory.createSubjectConfirmation(nmId, scd, holderOfKeyConfirmation_saml20);
 
-                                                                                                                             
 
-                                                                                                                             
+
+
 
             Subject subj = factory.createSubject(nmId, scf);
 
-                                                                                                                             
+
 
             List attributes = new LinkedList();
 
@@ -871,23 +871,23 @@ public  class SamlCallbackHandler implements CallbackHandler {
 
                 attributeValues));
 
-                                                                                                                             
+
 
             statements.add(factory.createAttributeStatement(attributes));
 
-                                                                                                                             
+
 
             Conditions conditions = factory.createConditions(before, after, null, null, null, null);
 
-                                                                                                                             
+
 
             assertion = factory.createAssertion(assertionID, nmId, issueInstant,
 
-				            conditions, null, subj, statements);
+                            conditions, null, subj, statements);
 
             assertion.setVersion("2.0");
 
- 
+
 
             return assertion.sign(pubKey, privKey);
 
@@ -899,11 +899,11 @@ public  class SamlCallbackHandler implements CallbackHandler {
 
         }
 
-        
 
-    }  
 
-    
+    }
+
+
 
     private void initKeyStore() throws IOException {
 
@@ -921,7 +921,7 @@ public  class SamlCallbackHandler implements CallbackHandler {
 
     }
 
-    
+
 
     private void initTrustStore() throws IOException {
 
@@ -939,7 +939,7 @@ public  class SamlCallbackHandler implements CallbackHandler {
 
     }
 
-    
+
 
     private void getDefaultPrivKeyCert(
 
@@ -947,7 +947,7 @@ public  class SamlCallbackHandler implements CallbackHandler {
 
     throws IOException {
 
-        
+
 
         String uniqueAlias = null;
 
@@ -1009,11 +1009,11 @@ public  class SamlCallbackHandler implements CallbackHandler {
 
     }
 
-    
 
 
 
-    private PrivateKey getPrivateKeyFromKeyStore(PublicKey pk) 
+
+    private PrivateKey getPrivateKeyFromKeyStore(PublicKey pk)
 
         throws IOException {
 
@@ -1053,7 +1053,7 @@ public  class SamlCallbackHandler implements CallbackHandler {
 
 
 
-    private X509Certificate getCertificateFromKeyStore(PublicKey pk) 
+    private X509Certificate getCertificateFromKeyStore(PublicKey pk)
 
         throws IOException {
 
@@ -1095,7 +1095,7 @@ public  class SamlCallbackHandler implements CallbackHandler {
 
 
 
-    private X509Certificate getCertificateFromTrustStore(PublicKey pk) 
+    private X509Certificate getCertificateFromTrustStore(PublicKey pk)
 
         throws IOException {
 
@@ -1139,13 +1139,13 @@ public  class SamlCallbackHandler implements CallbackHandler {
 
     private class X509CertificateValidatorImpl implements CertificateValidationCallback.CertificateValidator {
 
-        
+
 
         public boolean validate(X509Certificate certificate)
 
         throws CertificateValidationCallback.CertificateValidationException {
 
-            
+
 
             if (isSelfCert(certificate)) {
 
@@ -1153,7 +1153,7 @@ public  class SamlCallbackHandler implements CallbackHandler {
 
             }
 
-            
+
 
             try {
 
@@ -1173,13 +1173,13 @@ public  class SamlCallbackHandler implements CallbackHandler {
 
             }
 
-            
+
 
             X509CertSelector certSelector = new X509CertSelector();
 
             certSelector.setCertificate(certificate);
 
-            
+
 
             PKIXBuilderParameters parameters;
 
@@ -1201,7 +1201,7 @@ public  class SamlCallbackHandler implements CallbackHandler {
 
             }
 
-            
+
 
             try {
 
@@ -1221,7 +1221,7 @@ public  class SamlCallbackHandler implements CallbackHandler {
 
         }
 
-        
+
 
         private boolean isSelfCert(X509Certificate cert)
 
@@ -1301,7 +1301,7 @@ public  class SamlCallbackHandler implements CallbackHandler {
 
             Date expired = null;
 
- 
+
 
             try {
 
@@ -1341,7 +1341,7 @@ public  class SamlCallbackHandler implements CallbackHandler {
 
             validateCreationTime(created, maxClockSkew, timestampFreshnessLimit);
 
-             
+
 
             // validate expiration time
 
@@ -1361,7 +1361,7 @@ public  class SamlCallbackHandler implements CallbackHandler {
 
         throws TimestampValidationCallback.TimestampValidationException {
 
-                
+
 
         Date currentTime =
 
@@ -1393,7 +1393,7 @@ public  class SamlCallbackHandler implements CallbackHandler {
 
         Date current = getFreshnessAndSkewAdjustedDate(maxClockSkew, timestampFreshnessLimit);
 
-            
+
 
         if (created.before(current)) {
 
@@ -1405,7 +1405,7 @@ public  class SamlCallbackHandler implements CallbackHandler {
 
         }
 
-            
+
 
         Date currentTime =
 
@@ -1441,13 +1441,13 @@ public  class SamlCallbackHandler implements CallbackHandler {
 
         long currentTime = beforeTime - offset;
 
-        
+
 
         long adjustedTime = currentTime - maxClockSkew - timestampFreshnessLimit;
 
         c.setTimeInMillis(adjustedTime);
 
-        
+
 
         return c.getTime();
 
@@ -1473,7 +1473,7 @@ public  class SamlCallbackHandler implements CallbackHandler {
 
         long currentTime = beforeTime - offset;
 
-        
+
 
         if (addSkew)
 
@@ -1483,7 +1483,7 @@ public  class SamlCallbackHandler implements CallbackHandler {
 
             currentTime = currentTime - maxClockSkew;
 
-        
+
 
         c.setTimeInMillis(currentTime);
 
@@ -1491,9 +1491,9 @@ public  class SamlCallbackHandler implements CallbackHandler {
 
     }
 
-    
 
-    
+
+
 
      private String getContainerHome() {
 

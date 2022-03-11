@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -14,10 +14,10 @@ import com.sun.xml.wss.impl.callback.PasswordValidationCallback;
 
 
 public class SampleUsernamePasswordValidator implements PasswordValidationCallback.PasswordValidator {
-                                                                                                                                                                                                       
+
         public boolean validate(PasswordValidationCallback.Request request)
             throws PasswordValidationCallback.PasswordValidationException {
-            System.out.println("Using configured PlainTextPasswordValidator................");                                                                                                        
+            System.out.println("Using configured PlainTextPasswordValidator................");
             PasswordValidationCallback.PlainTextPasswordRequest plainTextRequest =
                 (PasswordValidationCallback.PlainTextPasswordRequest) request;
             if ("Alice".equals(plainTextRequest.getUsername()) &&

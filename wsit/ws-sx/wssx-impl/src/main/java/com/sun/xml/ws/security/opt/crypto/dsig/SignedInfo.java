@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -33,49 +33,49 @@ public class SignedInfo extends com.sun.xml.security.core.dsig.SignedInfoType im
     /** Creates a new instance of SignedInfo */
     public SignedInfo() {
     }
-    
+
     @Override
     public List getReferences() {
         return reference;
     }
-    
+
     @Override
     public InputStream getCanonicalizedData() {
         return null;
     }
-    
+
     @Override
     public boolean isFeatureSupported(String string) {
         return false;
     }
-    
+
     @Override
     public SignatureMethod getSignatureMethod() {
         return signatureMethod;
     }
-    
+
     @Override
     public CanonicalizationMethod getCanonicalizationMethod() {
         return canonicalizationMethod;
     }
-    
+
     public void setReference(List<Reference> reference) {
         this.reference = reference;
     }
-    
+
     public byte [] getCanonicalizedSI(){
         //System.out.println("CanonSI is "+ new String(canonInfo));
         return canonInfo;
     }
-    
+
     public void setCanonicalizedSI(byte [] info){
         this.canonInfo = info;
     }
-    
+
     public XMLStreamReaderEx getSignedInfo() {
         return _streamSI;
     }
-    
+
     public void setSignedInfo(XMLStreamReaderEx _streamSI) {
         this._streamSI = _streamSI;
     }

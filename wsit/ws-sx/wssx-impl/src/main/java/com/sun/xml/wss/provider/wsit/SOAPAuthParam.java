@@ -34,7 +34,7 @@ import jakarta.xml.soap.SOAPMessage;
   * @version 1.12, 06/08/04
   */
 public class SOAPAuthParam implements AuthParam {
-    
+
     private HashMap<Object, Object> infoMap;
 
     private boolean requestInPacket;
@@ -42,7 +42,7 @@ public class SOAPAuthParam implements AuthParam {
 
     private SOAPMessage request;
     private SOAPMessage response;
-    
+
     private static Exception classLoadingException = checkForPacket();
 
     private static final String REQ_PACKET = "REQ_PACKET";
@@ -52,16 +52,16 @@ public class SOAPAuthParam implements AuthParam {
     private static boolean RESPONSE_PACKET = false;
 
     private static Exception checkForPacket() {
-	Exception rvalue = null;
-	try { 
-	    if (Class.forName("com.sun.xml.ws.api.message.Packet") != null &&
-		Class.forName("com.sun.xml.ws.api.message.Messages") != null) {
-	    } 
-	} catch (Exception e) {
-	    // silently disables packet support
-	    rvalue = e;
-	}
-	return rvalue;
+    Exception rvalue = null;
+    try {
+        if (Class.forName("com.sun.xml.ws.api.message.Packet") != null &&
+        Class.forName("com.sun.xml.ws.api.message.Messages") != null) {
+        }
+    } catch (Exception e) {
+        // silently disables packet support
+        rvalue = e;
+    }
+    return rvalue;
     }
 
      /**
@@ -71,11 +71,11 @@ public class SOAPAuthParam implements AuthParam {
       * @param response the SOAP response object, which may be null.
       */
      public SOAPAuthParam(SOAPMessage request, SOAPMessage response) {
-	 this.infoMap = null;
+     this.infoMap = null;
          this.request = request;
          this.response = response;
      }
-    
+
      /**
       * Create a SOAPAuthParam (using Packets)
       *
@@ -84,19 +84,19 @@ public class SOAPAuthParam implements AuthParam {
       * @param dummy int serves only to disambiguate constructors
       */
      public SOAPAuthParam(Object request, Object response, int dummy) {
-	 if (classLoadingException != null) {
-	     throw new RuntimeException(classLoadingException);
-	 } 
-	 if ((request == null || request instanceof Packet) &&
-	     (response == null || response instanceof Packet)) {
-	     this.infoMap = new HashMap<>();
-	     this.infoMap.put(REQ_PACKET,request);
-	     this.infoMap.put(RES_PACKET,response);
-	     this.requestInPacket = (request == null ? false : true);
-	     this.responseInPacket = (response == null ? false : true);
-	 } else {
-	     throw new RuntimeException("argument is not packet");
-	 }
+     if (classLoadingException != null) {
+         throw new RuntimeException(classLoadingException);
+     }
+     if ((request == null || request instanceof Packet) &&
+         (response == null || response instanceof Packet)) {
+         this.infoMap = new HashMap<>();
+         this.infoMap.put(REQ_PACKET,request);
+         this.infoMap.put(RES_PACKET,response);
+         this.requestInPacket = (request == null ? false : true);
+         this.responseInPacket = (response == null ? false : true);
+     } else {
+         throw new RuntimeException("argument is not packet");
+     }
 
      }
 
@@ -106,9 +106,9 @@ public class SOAPAuthParam implements AuthParam {
       * @return the SOAP request object, which may be null.
       */
      public Map<Object, Object> getMap() {
-	 if (this.infoMap == null) {
-	     this.infoMap = new HashMap<>();
-	 }
+     if (this.infoMap == null) {
+         this.infoMap = new HashMap<>();
+     }
          return this.infoMap;
      }
 
@@ -119,19 +119,19 @@ public class SOAPAuthParam implements AuthParam {
       */
      public SOAPMessage getRequest() {
 
-	 if (this.request == null) {
+     if (this.request == null) {
 
-	     Object p = getPacket(REQUEST_PACKET,true);
+         Object p = getPacket(REQUEST_PACKET,true);
 
-	     if (p != null && this.requestInPacket) {
+         if (p != null && this.requestInPacket) {
 
-		 // if packet is not null, get SOAP from packet
-		 // requestInPacket set to false as side-effect
-		 // since packet has been consumed.
+         // if packet is not null, get SOAP from packet
+         // requestInPacket set to false as side-effect
+         // since packet has been consumed.
 
-		 this.request = getSOAPFromPacket(REQUEST_PACKET,p);
-	     }
-	 }
+         this.request = getSOAPFromPacket(REQUEST_PACKET,p);
+         }
+     }
 
          return this.request;
      }
@@ -143,19 +143,19 @@ public class SOAPAuthParam implements AuthParam {
       */
      public SOAPMessage getResponse() {
 
-	 if (this.response == null) {
+     if (this.response == null) {
 
-	     Object p = getPacket(RESPONSE_PACKET,false);
+         Object p = getPacket(RESPONSE_PACKET,false);
 
-	     if (p != null && this.responseInPacket) {
+         if (p != null && this.responseInPacket) {
 
-		 // if packet is not null, get SOAP from packet
-		 // responseInPacket set to false as side-effect
-		 // since packet has been consumed.
+         // if packet is not null, get SOAP from packet
+         // responseInPacket set to false as side-effect
+         // since packet has been consumed.
 
-		 this.response = getSOAPFromPacket(RESPONSE_PACKET,p);
-	     }
-	 }
+         this.response = getSOAPFromPacket(RESPONSE_PACKET,p);
+         }
+     }
 
          return this.response;
      }
@@ -166,11 +166,11 @@ public class SOAPAuthParam implements AuthParam {
       * @param request the SOAP response object.
       */
      public void setRequest(SOAPMessage request) {
-	 Object p = getPacket(REQUEST_PACKET,false);
+     Object p = getPacket(REQUEST_PACKET,false);
          if (p != null) {
-	     this.requestInPacket = putSOAPInPacket(request,p);
-	 }
-	 this.request = request;
+         this.requestInPacket = putSOAPInPacket(request,p);
+     }
+     this.request = request;
      }
 
      /**
@@ -180,17 +180,17 @@ public class SOAPAuthParam implements AuthParam {
       */
      public void setResponse(SOAPMessage response) {
 
-	 // XXX previously, i.e. before wsit,
-	 // if a response had already been set (it is non-null),
-	 // this method would return with doing anything
-	 // The original response would not be overwritten.
-	 // that is no longer the case.
+     // XXX previously, i.e. before wsit,
+     // if a response had already been set (it is non-null),
+     // this method would return with doing anything
+     // The original response would not be overwritten.
+     // that is no longer the case.
 
-	 Object p = getPacket(RESPONSE_PACKET,false);
+     Object p = getPacket(RESPONSE_PACKET,false);
          if (p != null) {
-	     this.responseInPacket = putSOAPInPacket(response,p);
-	 }
-	 this.response = response;
+         this.responseInPacket = putSOAPInPacket(response,p);
+     }
+     this.response = response;
      }
 
      /**
@@ -199,10 +199,10 @@ public class SOAPAuthParam implements AuthParam {
       * @return the request Packet, which may be null.
       */
      public Object getRequestPacket() {
-	 if (classLoadingException != null) {
-	     throw new RuntimeException(classLoadingException);
-	 }
-	 return getPacket(REQUEST_PACKET,true);
+     if (classLoadingException != null) {
+         throw new RuntimeException(classLoadingException);
+     }
+     return getPacket(REQUEST_PACKET,true);
      }
 
      /**
@@ -211,10 +211,10 @@ public class SOAPAuthParam implements AuthParam {
       * @return the response Packet, which may be null.
       */
      public Object getResponsePacket() {
-	 if (classLoadingException != null) {
-	     throw new RuntimeException(classLoadingException);
-	 }
-	 return getPacket(RESPONSE_PACKET,true);
+     if (classLoadingException != null) {
+         throw new RuntimeException(classLoadingException);
+     }
+     return getPacket(RESPONSE_PACKET,true);
      }
 
      /**
@@ -225,16 +225,16 @@ public class SOAPAuthParam implements AuthParam {
       * @param p the request Packet
       */
      public void setRequestPacket(Object p) {
-	 if (classLoadingException != null) {
-	     throw new RuntimeException(classLoadingException);
-	 }
-	 if (p == null || p instanceof Packet) {
-	     getMap().put(REQ_PACKET,p);
-	     this.requestInPacket = (p == null ? false : true);
-	     this.request = null;
-	 } else {
-	     throw new RuntimeException("argument is not packet");
-	 }
+     if (classLoadingException != null) {
+         throw new RuntimeException(classLoadingException);
+     }
+     if (p == null || p instanceof Packet) {
+         getMap().put(REQ_PACKET,p);
+         this.requestInPacket = (p == null ? false : true);
+         this.request = null;
+     } else {
+         throw new RuntimeException("argument is not packet");
+     }
      }
 
      /**
@@ -245,16 +245,16 @@ public class SOAPAuthParam implements AuthParam {
       * @param p the response Packet
       */
      public void setResponsePacket(Object p) {
-	 if (classLoadingException != null) {
-	     throw new RuntimeException(classLoadingException);
-	 }
-	 if (p == null || p instanceof Packet) {
-	     getMap().put(RES_PACKET,p);
-	     this.responseInPacket = (p == null ? false : true);
-	     this.response = null;
-	 } else {
-	     throw new RuntimeException("argument is not packet");
-	 }
+     if (classLoadingException != null) {
+         throw new RuntimeException(classLoadingException);
+     }
+     if (p == null || p instanceof Packet) {
+         getMap().put(RES_PACKET,p);
+         this.responseInPacket = (p == null ? false : true);
+         this.response = null;
+     } else {
+         throw new RuntimeException("argument is not packet");
+     }
      }
 
      /**
@@ -264,84 +264,84 @@ public class SOAPAuthParam implements AuthParam {
       */
      private Object getPacket(boolean isRequestPacket, boolean putDesired) {
 
-	 Object p = (this.infoMap == null ? 
-		     null : this.infoMap.get
-		     (isRequestPacket ? REQ_PACKET : RES_PACKET));
+     Object p = (this.infoMap == null ?
+             null : this.infoMap.get
+             (isRequestPacket ? REQ_PACKET : RES_PACKET));
 
-	 if (putDesired) {
+     if (putDesired) {
 
-	     SOAPMessage m = (isRequestPacket ? this.request : this.response);
+         SOAPMessage m = (isRequestPacket ? this.request : this.response);
 
-	     if (p != null && m != null) {
+         if (p != null && m != null) {
 
-		 // if SOAP request message has been read from packet
-		 // we may need to set it back in the packet before
-		 // returning the revised packet
+         // if SOAP request message has been read from packet
+         // we may need to set it back in the packet before
+         // returning the revised packet
 
-		 if (isRequestPacket) {
-		     if (!this.requestInPacket) {
-			 this.requestInPacket = putSOAPInPacket(m,p);
-		     }
-		 } else {
-		     if (!this.responseInPacket) {
-			 this.responseInPacket = putSOAPInPacket(m,p);
-		     }
-		 }
-	     }
+         if (isRequestPacket) {
+             if (!this.requestInPacket) {
+             this.requestInPacket = putSOAPInPacket(m,p);
+             }
+         } else {
+             if (!this.responseInPacket) {
+             this.responseInPacket = putSOAPInPacket(m,p);
+             }
+         }
+         }
 
-	 }
-	 return p;
+     }
+     return p;
      }
 
      private SOAPMessage getSOAPFromPacket(boolean isRequestPacket,Object p) {
-	 if (classLoadingException != null) {
-	     throw new RuntimeException(classLoadingException);
-	 }
-	 SOAPMessage s = null;
-	 if (p instanceof Packet) {
-	     Message m = ((Packet) p).getMessage();	
-	     if (m != null) {
-		 try {
-		     s = m.readAsSOAPMessage();
-		 }catch (Exception e) {
-		     throw new RuntimeException(e);
-		 }
-	     } 
-	 }
+     if (classLoadingException != null) {
+         throw new RuntimeException(classLoadingException);
+     }
+     SOAPMessage s = null;
+     if (p instanceof Packet) {
+         Message m = ((Packet) p).getMessage();
+         if (m != null) {
+         try {
+             s = m.readAsSOAPMessage();
+         }catch (Exception e) {
+             throw new RuntimeException(e);
+         }
+         }
+     }
 
-	 if (s != null) {
-	     // System.out.println("SOAPAuthParam.getSOAPFromPacket:");
-	     // printSOAP(s);
-	     if (isRequestPacket) {
-		 this.requestInPacket = false;
-	     } else {
-		 this.responseInPacket = false;
-	     }
-	 }
-	 return s;
+     if (s != null) {
+         // System.out.println("SOAPAuthParam.getSOAPFromPacket:");
+         // printSOAP(s);
+         if (isRequestPacket) {
+         this.requestInPacket = false;
+         } else {
+         this.responseInPacket = false;
+         }
+     }
+     return s;
      }
 
      private boolean putSOAPInPacket(SOAPMessage m, Object p) {
-	 if (m == null) {
-	     ((Packet)p).setMessage(null);
-	 } else {
-	     Message msg = Messages.create(m);
-	     ((Packet)p).setMessage(msg);
-	 }
-	 return true;
+     if (m == null) {
+         ((Packet)p).setMessage(null);
+     } else {
+         Message msg = Messages.create(m);
+         ((Packet)p).setMessage(msg);
+     }
+     return true;
      }
 
      public static void printSOAP(SOAPMessage s) {
-	try {
-	    if (s != null) {
-		s.writeTo(System.out);
-		// System.out.println("\n");
-	    } else {
-		// System.out.println("SOAPMessage is empty");
-	    } 
-	} catch (Exception e) {
-	    // System.out.println("SOAPAuthParam.printSOAP exception!");
-	}
+    try {
+        if (s != null) {
+        s.writeTo(System.out);
+        // System.out.println("\n");
+        } else {
+        // System.out.println("SOAPMessage is empty");
+        }
+    } catch (Exception e) {
+        // System.out.println("SOAPAuthParam.printSOAP exception!");
+    }
      }
 
 

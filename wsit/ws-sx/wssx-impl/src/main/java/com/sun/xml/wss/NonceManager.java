@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -33,12 +33,12 @@ import java.util.logging.Logger;
  * This abstract class defines an SPI that Metro Application developers can implement, to handle custom
  * validation of Nonces used in conjunction with Password-Digest Authentication. A repeated nonce would
  * generally indicate a possible replay-attack.
- * 
+ *
  * The SPI implementation class needs to be
- * specified as a META-INF/services entry with name "com.sun.xml.xwss.NonceManager". 
+ * specified as a META-INF/services entry with name "com.sun.xml.xwss.NonceManager".
  * A default implementation of this SPI is returned if no entry is configured.
  *
- * 
+ *
  */
 @ManagedObject
 @Description("per-endpoint NonceManager")
@@ -63,7 +63,7 @@ public abstract class NonceManager extends AbstractMOMRegistrationAware {
     }
 
     /**
-     * 
+     *
      * @return the approximate maximum age for which a received nonce would be stored by the NonceManager
      */
     @ManagedAttribute
@@ -113,7 +113,7 @@ public abstract class NonceManager extends AbstractMOMRegistrationAware {
     }
 
     /**
-     * 
+     *
      * @param nonce the nonce to be validated
      * @param created the creation time of the nonce as indicated in the UsernameToken
      * @return true if the nonce is not a replay
@@ -122,9 +122,9 @@ public abstract class NonceManager extends AbstractMOMRegistrationAware {
     public abstract boolean validateNonce(String nonce, String created) throws NonceException;
 
     /**
-     * 
+     *
      * @param maxNonceAge the approximate maximum age for which a received nonce would be stored by the NonceManager
-     * @return the singleton instance of the configured NonceManager, calling getInstance with different maxNonceAge 
+     * @return the singleton instance of the configured NonceManager, calling getInstance with different maxNonceAge
      * will have no effect and will instead return the same NonceManager which was initialized first.
      */
     public static NonceManager getInstance(final long maxNonceAge, final WSEndpoint endpoint) {

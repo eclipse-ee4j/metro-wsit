@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -52,7 +52,7 @@ import com.sun.xml.wss.logging.impl.opt.signature.LogStringsMessages;
 public class SignatureProcessor {
     private static final Logger logger = Logger.getLogger(LogDomainConstants.IMPL_OPT_SIGNATURE_DOMAIN,
             LogDomainConstants.IMPL_OPT_SIGNATURE_DOMAIN_BUNDLE);
-    
+
     private JAXBContext _jaxbContext;
     StAXEXC14nCanonicalizerImpl _exc14nCanonicalizer = new StAXEXC14nCanonicalizerImpl();
     EXC14nStAXReaderBasedCanonicalizer _exc14nSBCanonicalizer;
@@ -60,35 +60,35 @@ public class SignatureProcessor {
     private Signature _rsaSignature;
     private Signature _dsaSignature;
     //private Signature _hmacSignature;
-    
+
     /**
      * Creates a new instance of SignatureProcessor
      */
     public SignatureProcessor() {
-        
+
     }
-    
+
     public void setJAXBContext(JAXBContext _jaxbContext) {
         this._jaxbContext = _jaxbContext;
     }
-    
+
     public JAXBContext getJAXBContext() {
         return _jaxbContext;
     }
-    
+
     public void setCryptoContext(XMLCryptoContext context){
         this.context = context;
     }
-    
+
     public byte []  performRSASign(Key privateKey,SignedInfo signedInfo, String signatureAlgo) throws InvalidKeyException{
         if (privateKey == null || signedInfo == null) {
             throw new NullPointerException();
         }
-        
+
         if (!(privateKey instanceof PrivateKey)) {
             throw new InvalidKeyException("key must be PrivateKey");
         }
-        
+
         if(_rsaSignature == null ){
             try {
                 _rsaSignature = Signature.getInstance(signatureAlgo);
@@ -97,17 +97,17 @@ public class SignatureProcessor {
                 throw new XWSSecurityRuntimeException(ex);
             }
         }
-        
+
         _rsaSignature.initSign((PrivateKey) privateKey);
-        
+
         SignerOutputStream signerOutputStream = new SignerOutputStream(_rsaSignature);
         Marshaller marshaller;
         try {
             marshaller = getMarshaller();
             _exc14nCanonicalizer.reset();
-            
+
             setNamespaceAndPrefixList();
-            
+
             _exc14nCanonicalizer.setStream(signerOutputStream);
             marshaller.marshal(signedInfo,_exc14nCanonicalizer);
             if(logger.isLoggable(Level.FINEST)){
@@ -120,25 +120,25 @@ public class SignatureProcessor {
         } catch (JAXBException ex) {
             throw new XWSSecurityRuntimeException(ex);
         }
-        
-        
+
+
         try {
             return _rsaSignature.sign();
-            
+
         } catch (SignatureException se) {
             // should never occur!
             throw new RuntimeException(se.getMessage());
         }
     }
-       
+
     public byte []  performHMACSign(Key key,SignedInfo signedInfo, int outputLength) throws InvalidKeyException{
-        
+
         if (key == null || signedInfo == null) {
             throw new NullPointerException();
         }
         HmacSHA1 hmac = new HmacSHA1();
         hmac.init(key, outputLength);
-        
+
         MacOutputStream macOutputStream = new MacOutputStream(hmac);
         Marshaller marshaller;
         try {
@@ -161,22 +161,22 @@ public class SignatureProcessor {
         }
         try {
             return hmac.sign();
-            
+
         } catch (SignatureException se) {
             // should never occur!
             throw new RuntimeException(se.getMessage());
         }
     }
-    
+
     public byte []  performDSASign(Key privateKey,SignedInfo signedInfo) throws InvalidKeyException{
         if (privateKey == null || signedInfo == null) {
             throw new NullPointerException();
         }
-        
+
         if (!(privateKey instanceof PrivateKey)) {
             throw new InvalidKeyException("key must be PrivateKey");
         }
-        
+
         if(_dsaSignature == null ){
             try {
                 _dsaSignature = Signature.getInstance("SHA1withDSA");
@@ -185,9 +185,9 @@ public class SignatureProcessor {
                 throw new XWSSecurityRuntimeException(ex);
             }
         }
-        
+
         _dsaSignature.initSign((PrivateKey) privateKey);
-        
+
         SignerOutputStream signerOutputStream = new SignerOutputStream(_dsaSignature);
         Marshaller marshaller;
         try {
@@ -199,43 +199,43 @@ public class SignatureProcessor {
         } catch (JAXBException ex) {
             throw new XWSSecurityRuntimeException(ex);
         }
-        
+
         try {
             return convertASN1toXMLDSIG(_dsaSignature.sign());
-            
+
         } catch (SignatureException | IOException se) {
             // should never occur!
             throw new RuntimeException(se.getMessage());
         }
     }
-    
-    
+
+
     private static byte[] convertASN1toXMLDSIG(byte[] asn1Bytes)
     throws IOException {
-        
+
         // THIS CODE IS COPIED FROM APACHE (see copyright at top of file)
         byte rLength = asn1Bytes[3];
         int i;
-        
+
         for (i = rLength; (i > 0) && (asn1Bytes[(4 + rLength) - i] == 0); i--);
-        
+
         byte sLength = asn1Bytes[5 + rLength];
         int j;
-        
+
         for (j = sLength;
         (j > 0) && (asn1Bytes[(6 + rLength + sLength) - j] == 0); j--);
-        
+
         if ((asn1Bytes[0] != 48) || (asn1Bytes[1] != asn1Bytes.length - 2)
         || (asn1Bytes[2] != 2) || (i > 20)
         || (asn1Bytes[4 + rLength] != 2) || (j > 20)) {
             throw new IOException("Invalid ASN.1 format of DSA signature");
         } else {
             byte[] xmldsigBytes = new byte[40];
-            
+
             System.arraycopy(asn1Bytes, (4+rLength)-i, xmldsigBytes, 20-i, i);
             System.arraycopy(asn1Bytes, (6+rLength+sLength)-j, xmldsigBytes,
                     40 - j, j);
-            
+
             return xmldsigBytes;
         }
     }
@@ -259,7 +259,7 @@ public class SignatureProcessor {
             if(_exc14nSBCanonicalizer == null){
                 _exc14nSBCanonicalizer = new EXC14nStAXReaderBasedCanonicalizer();
             }
-            
+
             NamespaceContextEx nsContext = signedInfo.getNamespaceContext();
             Iterator<NamespaceContextEx.Binding> itr = nsContext.iterator();
             ArrayList list = new ArrayList();
@@ -270,7 +270,7 @@ public class SignatureProcessor {
                 ans.setUri(binding.getNamespaceURI());
                 list.add(ans);
             }
-            
+
             _exc14nSBCanonicalizer.addParentNamespaces(list);
             try {
                 _exc14nSBCanonicalizer.canonicalize(signedInfo,sos,null);
@@ -293,7 +293,7 @@ public class SignatureProcessor {
             logger.log(Level.SEVERE, LogStringsMessages.WSS_1724_SIGTYPE_VERIFICATION_FAILED("SHA1withDSA"));
             throw new SignatureException(LogStringsMessages.WSS_1724_SIGTYPE_VERIFICATION_FAILED("SHA1withDSA"),ex);
         }
-        
+
     }
      @SuppressWarnings("unchecked")
     public boolean verifyHMACSignature(Key key,SignedInfo si,byte [] signatureValue,
@@ -303,7 +303,7 @@ public class SignatureProcessor {
         }
         HmacSHA1 hmac = new HmacSHA1();
         hmac.init(key, outputLength);
-        
+
         MacOutputStream mos = new MacOutputStream(hmac);
         if(si.getSignedInfo() != null){
             XMLStreamReaderEx signedInfo = si.getSignedInfo();
@@ -320,10 +320,10 @@ public class SignatureProcessor {
                 ans.setUri(binding.getNamespaceURI());
                 list.add(ans);
             }
-            
+
             _exc14nSBCanonicalizer.addParentNamespaces(list);
             _exc14nSBCanonicalizer.addParentNamespaces(list);
-            
+
             try {
                 _exc14nSBCanonicalizer.canonicalize(signedInfo,mos,null);
             } catch (XMLStreamException ex) {
@@ -340,7 +340,7 @@ public class SignatureProcessor {
     }
      @SuppressWarnings("unchecked")
     public boolean verifyRSASignature(Key publicKey,SignedInfo si,byte [] signatureValue,String signatureAlgo) throws InvalidKeyException, SignatureException{
-        
+
         if (!(publicKey instanceof PublicKey)) {
             throw new InvalidKeyException("key must be PublicKey");
         }
@@ -368,7 +368,7 @@ public class SignatureProcessor {
                 ans.setUri(binding.getNamespaceURI());
                 list.add(ans);
             }
-            
+
             //    _exc14nSBCanonicalizer.addParentNamespaces(list);
             _exc14nSBCanonicalizer.addParentNamespaces(list);
             try {
@@ -388,46 +388,46 @@ public class SignatureProcessor {
 
     private static byte[] convertXMLDSIGtoASN1(byte[] xmldsigBytes)
     throws IOException {
-        
+
         // THIS CODE IS COPIED FROM APACHE (see copyright at top of file)
         if (xmldsigBytes.length != 40) {
             throw new IOException("Invalid XMLDSIG format of DSA signature");
         }
-        
+
         int i;
-        
+
         for (i = 20; (i > 0) && (xmldsigBytes[20 - i] == 0); i--);
-        
+
         int j = i;
-        
+
         if (xmldsigBytes[20 - i] < 0) {
             j += 1;
         }
-        
+
         int k;
-        
+
         for (k = 20; (k > 0) && (xmldsigBytes[40 - k] == 0); k--);
-        
+
         int l = k;
-        
+
         if (xmldsigBytes[40 - k] < 0) {
             l += 1;
         }
-        
+
         byte[] asn1Bytes = new byte[6 + j + l];
-        
+
         asn1Bytes[0] = 48;
         asn1Bytes[1] = (byte) (4 + j + l);
         asn1Bytes[2] = 2;
         asn1Bytes[3] = (byte) j;
-        
+
         System.arraycopy(xmldsigBytes, 20 - i, asn1Bytes, (4 + j) - i, i);
-        
+
         asn1Bytes[4 + j] = 2;
         asn1Bytes[5 + j] = (byte) l;
-        
+
         System.arraycopy(xmldsigBytes, 40 - k, asn1Bytes, (6 + j + l) - k, k);
-        
+
         return asn1Bytes;
     }
 
@@ -442,9 +442,9 @@ public class SignatureProcessor {
         marshaller.setProperty(Marshaller.JAXB_FRAGMENT,true);
         return marshaller;
     }
-    
+
     private void setNamespaceAndPrefixList() {
-        
+
         NamespaceAndPrefixMapper nsMapper = (NamespaceAndPrefixMapper)context.get(NamespaceAndPrefixMapper.NS_PREFIX_MAPPER);
         if(nsMapper != null){
             NamespaceContextEx nc = nsMapper.getNamespaceContext();
@@ -457,5 +457,5 @@ public class SignatureProcessor {
             _exc14nCanonicalizer.setInclusivePrefixList(incList);
         }
     }
-    
+
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -42,30 +42,30 @@ public class AuthenticatorImpl extends AuthenticatorType implements Authenticato
     public AuthenticatorImpl() {
         // empty constructor
     }
-    
+
     public AuthenticatorImpl(AuthenticatorType aType) throws RuntimeException{
         //ToDo
     }
-    
+
     public AuthenticatorImpl(byte[] hash) {
         setRawCombinedHash(hash);
     }
-    
+
     @Override
     public byte[] getRawCombinedHash() {
         return getCombinedHash();
     }
-    
+
     @Override
     public final void setRawCombinedHash(final byte[] rawCombinedHash) {
         setCombinedHash(rawCombinedHash);
     }
-    
+
     @Override
     public String getTextCombinedHash() {
         return Base64.encode(getRawCombinedHash());
     }
-    
+
     @Override
     public void setTextCombinedHash(final String encodedCombinedHash) {
         try {
@@ -76,5 +76,5 @@ public class AuthenticatorImpl extends AuthenticatorType implements Authenticato
             throw new RuntimeException(LogStringsMessages.WST_0020_ERROR_DECODING(encodedCombinedHash) , de);
         }
     }
-    
+
 }

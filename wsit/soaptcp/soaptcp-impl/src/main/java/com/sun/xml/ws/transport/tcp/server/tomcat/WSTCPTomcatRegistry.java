@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -24,9 +24,9 @@ import java.util.List;
  */
 public class WSTCPTomcatRegistry extends WSTCPModule implements TCPMessageListener {
     private WSTCPDelegate delegate;
-    
+
     private int listeningPort = -1;
-    
+
     protected static void setInstance(WSTCPModule instance) {
         WSTCPModule.setInstance(instance);
     }
@@ -35,12 +35,12 @@ public class WSTCPTomcatRegistry extends WSTCPModule implements TCPMessageListen
         listeningPort = port;
         delegate = new WSTCPDelegate();
     }
-    
+
     @Override
     public int getPort() {
         return listeningPort;
     }
-    
+
     @Override
     public void onMessage(ChannelContext channelContext) throws IOException {
         delegate.onMessage(channelContext);

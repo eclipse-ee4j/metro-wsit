@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -28,12 +28,12 @@ import java.util.logging.Logger;
  * @author vbkumarjayanti
  */
 public class PolicyAlternativesVerifier implements PolicyVerifier {
-    private ProcessingContext ctx = null;   
-    
+    private ProcessingContext ctx = null;
+
     private static final  Logger log = Logger.getLogger(
             LogDomainConstants.WSS_API_DOMAIN,
             LogDomainConstants.WSS_API_DOMAIN_BUNDLE);
-    
+
     /** Creates a new instance of MessagePolicyVerifier */
     public PolicyAlternativesVerifier(ProcessingContext ctx, TargetResolver targetResolver) {
         this.ctx = ctx;
@@ -43,8 +43,8 @@ public class PolicyAlternativesVerifier implements PolicyVerifier {
     @Override
     public void verifyPolicy(SecurityPolicy recvdPolicy, SecurityPolicy configPolicy) throws PolicyViolationException {
         PolicyAlternatives confPolicies = (PolicyAlternatives)configPolicy;
-       
-        List<MessagePolicy> mps = confPolicies.getSecurityPolicy();        
+
+        List<MessagePolicy> mps = confPolicies.getSecurityPolicy();
         if (mps.size() == 1) {
             PolicyVerifier verifier = PolicyVerifierFactory.createVerifier(mps.get(0), ctx);
             verifier.verifyPolicy(recvdPolicy, mps.get(0));
@@ -52,7 +52,7 @@ public class PolicyAlternativesVerifier implements PolicyVerifier {
                 ctx.getExtraneousProperties().put(POLICY_ALTERNATIVE_ID,mps.get(0).getPolicyAlternativeId());
             }
         } else {
-           //do policy verification 
+           //do policy verification
            // try with an AlternativeSelector first
            //AlternativeSelector selector = new  DefaultAlternativeSelector();
            AlternativeSelector selector = findAlternativesSelector(mps);
@@ -75,7 +75,7 @@ public class PolicyAlternativesVerifier implements PolicyVerifier {
         }
 
     }
-    
+
     private AlternativeSelector findAlternativesSelector(List<MessagePolicy> alternatives) {
         ServiceLoader<AlternativeSelector> alternativeSelectorLoader = ServiceLoader.load(AlternativeSelector.class);
         //not clear from javadoc if null is returned ever or an RT exception thrown when it does not find

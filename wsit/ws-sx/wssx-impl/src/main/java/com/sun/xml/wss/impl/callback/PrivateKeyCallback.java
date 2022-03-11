@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -28,7 +28,7 @@ public class PrivateKeyCallback extends XWSSCallback implements Callback {
      * CallbackHandler Implementations may choose to ignore the keystore
      */
     private KeyStore keystore;
-    /** 
+    /**
      * The alias (identifier) for the required PrivateKey
      */
     private String   alias;
@@ -48,13 +48,13 @@ public class PrivateKeyCallback extends XWSSCallback implements Callback {
     public void setKeystore(KeyStore keystore) {
         this.keystore = keystore;
     }
-    
+
     public void setAlias(String alias) {
         this.alias = alias;
     }
-    
+
     public String getAlias() {
         return alias;
     }
-    
+
 }

@@ -133,12 +133,12 @@ public class StAXEXC14nCanonicalizerImpl extends StAXC14nCanonicalizerImpl  {
                 /*
                 if(_elementPrefix != null && _elementPrefix.length() >=0){
                     AttributeNS eDecl = exC14NContext.getNamespaceDeclaration(_elementPrefix);
-                    
+
                     if(eDecl !=null && !eDecl.isWritten()){
                         eDecl.setWritten(true);
                         _nsResult.add(eDecl);
                     }
-                    
+
                 }*/
                 if(visiblyUtilized.size() > 0){
                     Iterator prefixItr = visiblyUtilized.iterator();

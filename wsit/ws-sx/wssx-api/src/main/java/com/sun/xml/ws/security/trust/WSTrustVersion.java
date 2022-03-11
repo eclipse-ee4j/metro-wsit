@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -29,10 +29,10 @@ public abstract class WSTrustVersion {
         if (nsURI.equals(WS_TRUST_13.getNamespaceURI())){
             return WS_TRUST_13;
         }
-        
+
         return WS_TRUST_10;
     }
-    
+
     public abstract String getNamespaceURI();
 
     public abstract String getIssueRequestTypeURI();
@@ -41,13 +41,13 @@ public abstract class WSTrustVersion {
 
     public abstract String getCancelRequestTypeURI();
 
-    public abstract String getValidateRequestTypeURI();     
-    
+    public abstract String getValidateRequestTypeURI();
+
     public abstract String getValidateStatuesTokenType();
 
     public abstract String getKeyExchangeRequestTypeURI();
-    
-    public abstract String getPublicKeyTypeURI();        
+
+    public abstract String getPublicKeyTypeURI();
 
     public abstract String getSymmetricKeyTypeURI();
 
@@ -70,43 +70,43 @@ public abstract class WSTrustVersion {
     public abstract String getCancelResponseAction();
 
     public abstract String getCancelFinalResoponseAction();
-    
+
     public abstract String getValidateRequestAction();
 
     public abstract String getValidateResponseAction();
 
     public abstract String getValidateFinalResoponseAction();
-    
-    public String getFinalResponseAction(String reqAction){ 
+
+    public String getFinalResponseAction(String reqAction){
         if (reqAction.equals(getIssueRequestAction())){
             return getIssueFinalResoponseAction();
         }
-        
+
         if (reqAction.equals(getRenewRequestAction())){
             return getRenewFinalResoponseAction();
         }
-        
+
         if (reqAction.equals(getCancelRequestAction())){
             return getCancelFinalResoponseAction();
         }
-        
+
         if (reqAction.equals(getValidateRequestAction())){
             return getValidateFinalResoponseAction();
         }
-        
+
         return null;
     }
 
     public abstract String getCKPSHA1algorithmURI();
-    
+
     public abstract String getCKHASHalgorithmURI();
 
     public abstract String getAsymmetricKeyBinarySecretTypeURI();
 
     public abstract String getNonceBinarySecretTypeURI();
-    
+
     public abstract String getValidStatusCodeURI();
-    
+
     public abstract String getInvalidStatusCodeURI();
-    
+
 }

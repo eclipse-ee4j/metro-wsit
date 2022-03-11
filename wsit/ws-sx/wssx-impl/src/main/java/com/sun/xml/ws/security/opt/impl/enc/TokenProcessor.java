@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -53,7 +53,7 @@ import java.util.logging.Logger;
 public class TokenProcessor {
     private static final Logger logger = Logger.getLogger(LogDomainConstants.IMPL_OPT_CRYPTO_DOMAIN,
             LogDomainConstants.IMPL_OPT_CRYPTO_DOMAIN_BUNDLE);
-    
+
     private Key  dataEncKey = null;
     private Key dkEncKey = null;
     private WSSElementFactory elementFactory =null;
@@ -61,7 +61,7 @@ public class TokenProcessor {
     private JAXBFilterProcessingContext context = null;
     private EncryptionPolicy ep = null;
     private TokenBuilder builder = null;
-    
+
     private EncryptedKey ek = null;
     private KeyInfo keyInfo = null;
     /** Creates a new instance of TokenProcessor */
@@ -71,20 +71,20 @@ public class TokenProcessor {
         this.keyBinding = (WSSPolicy) ep.getKeyBinding();
         this.elementFactory =  new WSSElementFactory(context.getSOAPVersion());
     }
-    
-    
+
+
     public Key getDataEncKey(){
         return dataEncKey;
     }
-    
+
     public Key getKeyEncKey(){
         return dkEncKey;
     }
-    
+
     public EncryptedKey  getEncryptedKey(){
         return ek;
     }
-    
+
     public KeyInfo getKeyInfo(){
         return keyInfo;
     }
@@ -96,7 +96,7 @@ public class TokenProcessor {
      * @return BuilderResult
      */
     public BuilderResult process() throws XWSSecurityException{
-        
+
         String keyEncAlgo ="http://www.w3.org/2001/04/xmlenc#kw-aes256";
         //XMLCipher.RSA_v1dot5;
         String dataEncAlgo = MessageConstants.TRIPLE_DES_BLOCK_ENCRYPTION;
@@ -116,7 +116,7 @@ public class TokenProcessor {
         if(tmp != null && !"".equals(tmp)){
             dataEncAlgo = tmp;
         }
-        
+
         if (context.getAlgorithmSuite() != null) {
             keyEncAlgo = context.getAlgorithmSuite().getAsymmetricKeyAlgorithm();
         }
@@ -127,13 +127,13 @@ public class TokenProcessor {
                 context.setUsernameTokenBinding(null);
             }else {
                 untBinding = (AuthenticationTokenPolicy.UsernameTokenBinding)keyBinding;
-            }    
+            }
             this.dataEncKey = untBinding.getSecretKey();
             builder = new UsernameTokenBuilder(context, untBinding);
             BuilderResult untResult = builder.process();
             untResult.setDataProtectionKey(dataEncKey);
-            return untResult;            
-            
+            return untResult;
+
         } else if(PolicyTypeUtil.x509CertificateBinding(keyBinding)) {
             AuthenticationTokenPolicy.X509CertificateBinding certificateBinding = null;
             if ( context.getX509CertificateBinding() != null) {
@@ -142,22 +142,22 @@ public class TokenProcessor {
             } else {
                 certificateBinding  =(AuthenticationTokenPolicy.X509CertificateBinding)keyBinding;
             }
-            
+
             String x509TokenId = certificateBinding.getUUID();
             if(x509TokenId == null || x509TokenId.equals("")){
                 x509TokenId = context.generateID();
             }
-            
+
             builder = new X509TokenBuilder(context,certificateBinding);
             BuilderResult xtbResult = builder.process();
             KeyInfo ekKI  = xtbResult.getKeyInfo();
-            
+
             tmp = null;
             tmp = certificateBinding.getKeyAlgorithm();
             if(tmp != null && !tmp.equals("")){
                 keyEncAlgo = tmp;
             }
-            
+
             dataEncKey = SecurityUtil.generateSymmetricKey(dataEncAlgo);
             //ekRefList = true;
             dkEncKey = certificateBinding.getX509Certificate().getPublicKey();
@@ -165,7 +165,7 @@ public class TokenProcessor {
             ek = elementFactory.createEncryptedKey(ekId,keyEncAlgo,ekKI,dkEncKey,dataEncKey);
             context.getSecurityHeader().add((SecurityHeaderElement)ek);
             xtbResult.setKeyInfo(null);
-            
+
             DirectReference dr = elementFactory.createDirectReference();
             dr.setURI("#"+ekId);
             boolean wss11Sender = "true".equals(context.getExtraneousProperty("EnableWSS11PolicySender"));
@@ -174,13 +174,13 @@ public class TokenProcessor {
             }
             SecurityTokenReference str = elementFactory.createSecurityTokenReference(dr);
             keyInfo = elementFactory.createKeyInfo(str);
-            
+
             xtbResult.setKeyInfo(keyInfo);
             xtbResult.setEncryptedKey(ek);
             xtbResult.setDataProtectionKey(dataEncKey);
             xtbResult.setKeyProtectionKey(dkEncKey);
             return xtbResult;
-            
+
         } else if(PolicyTypeUtil.kerberosTokenBinding(keyBinding)){
             AuthenticationTokenPolicy.KerberosTokenBinding krbBinding = null;
             if(context.getKerberosTokenBinding() != null){
@@ -194,7 +194,7 @@ public class TokenProcessor {
             BuilderResult ktbResult = builder.process();
             ktbResult.setDataProtectionKey(dataEncKey);
             return ktbResult;
-            
+
         } else if (PolicyTypeUtil.symmetricKeyBinding(keyBinding)) {
             SymmetricKeyBinding skb = null;
             if (context.getSymmetricKeyBinding() != null) {
@@ -208,7 +208,7 @@ public class TokenProcessor {
             this.dataEncKey = skbResult.getDataProtectionKey();
             keyInfo = skbResult.getKeyInfo();
             return skbResult;
-            
+
         }else if(PolicyTypeUtil.derivedTokenKeyBinding(keyBinding)){
             DerivedTokenKeyBinding dtk = (DerivedTokenKeyBinding)keyBinding;
             ((NamespaceContextEx)context.getNamespaceContext()).addSCNS();
@@ -221,11 +221,11 @@ public class TokenProcessor {
             SCTBuilder sctBuilder = new SCTBuilder(context,(SecureConversationTokenKeyBinding)keyBinding);
             BuilderResult sctResult = sctBuilder.process();
             return sctResult;
-        }else if ( PolicyTypeUtil.issuedTokenKeyBinding(keyBinding)) {            
+        }else if ( PolicyTypeUtil.issuedTokenKeyBinding(keyBinding)) {
             IssuedTokenBuilder itb = new IssuedTokenBuilder(context,(IssuedTokenKeyBinding)keyBinding);
             BuilderResult itbResult = itb.process();
             return itbResult;
-        }else if (PolicyTypeUtil.samlTokenPolicy(keyBinding)) {            
+        }else if (PolicyTypeUtil.samlTokenPolicy(keyBinding)) {
             ((NamespaceContextEx)context.getNamespaceContext()).addSAMLNS();
             SamlTokenBuilder stb = new SamlTokenBuilder(context,(AuthenticationTokenPolicy.SAMLAssertionBinding)keyBinding,false);
             return stb.process();

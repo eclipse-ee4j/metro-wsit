@@ -15,15 +15,15 @@ package com.sun.xml.wss.impl.c14n;
  * @author K.Venugopal@sun.com
  */
 public class AttrSorter implements java.util.Comparator{
-    
+
     boolean namespaceSort = false;
-    
+
     /** Creates a new instance of AttrSorter */
     public AttrSorter (boolean namespaceSort) {
         this.namespaceSort = namespaceSort;
     }
-    
-    
+
+
     @Override
     public int compare (Object o1, Object o2) {
         if(namespaceSort){
@@ -32,7 +32,7 @@ public class AttrSorter implements java.util.Comparator{
             return sortAttributes (o1,o2);
         }
     }
-    
+
     //double check;
     protected int sortAttributes (Object object, Object object0) {
         Attribute attr = (Attribute)object;
@@ -47,15 +47,15 @@ public class AttrSorter implements java.util.Comparator{
         }
         return result;
     }
-    
+
     //double check;
     protected int sortNamespaces (Object object, Object object0) {
         AttributeNS attr = (AttributeNS)object;
         AttributeNS attr0 = (AttributeNS)object0;
         //assume namespace processing is on.
         String lN = attr.getPrefix ();
-        String lN0 = attr0.getPrefix ();     
+        String lN0 = attr0.getPrefix ();
         return lN.compareTo (lN0);
     }
-    
+
 }

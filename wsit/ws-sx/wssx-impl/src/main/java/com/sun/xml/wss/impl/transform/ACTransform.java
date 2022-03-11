@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -47,25 +47,25 @@ public class ACTransform extends TransformService {
     /** Creates a new instance of ACTranform */
     public ACTransform() {
     }
-    
+
     @Override
     public void init(javax.xml.crypto.dsig.spec.TransformParameterSpec transformParameterSpec) {
     }
-    
+
     @Override
     public void init(javax.xml.crypto.XMLStructure xMLStructure, javax.xml.crypto.XMLCryptoContext xMLCryptoContext) {
     }
-    
+
     @Override
     public java.security.spec.AlgorithmParameterSpec getParameterSpec() {
         return null;
     }
-    
-    
+
+
     @Override
     public void marshalParams(javax.xml.crypto.XMLStructure xMLStructure, javax.xml.crypto.XMLCryptoContext xMLCryptoContext) throws javax.xml.crypto.MarshalException {
     }
-    
+
     /*
     private Data canonicalize(OctetStreamData octetData,javax.xml.crypto.XMLCryptoContext xMLCryptoContext) throws Exception {
        Vector mimeHeaders = (Vector)xMLCryptoContext.getProperty(MessageConstants.ATTACHMENT_MIME_HEADERS);
@@ -86,7 +86,7 @@ public class ACTransform extends TransformService {
             // log me
             throw new XWSSecurityException(e);
         }
-     
+
         while(len > 0){
             try {
                 byteStream.write(data);
@@ -99,7 +99,7 @@ public class ACTransform extends TransformService {
         return new OctetStreamData(new ByteArrayInputStream(byteStream.toByteArray()));
     }
      */
-    
+
     private Data canonicalize(AttachmentData attachmentData,OutputStream outputStream) throws javax.xml.crypto.dsig.TransformException  {
         try{
             AttachmentPart attachment = attachmentData.getAttachmentPart();
@@ -130,12 +130,12 @@ public class ACTransform extends TransformService {
             throw new javax.xml.crypto.dsig.TransformException(ex.getMessage());
         }
     }
-    
+
     @Override
     public boolean isFeatureSupported(String str) {
         return false;
     }
-    
+
     @Override
     public javax.xml.crypto.Data transform(javax.xml.crypto.Data data, javax.xml.crypto.XMLCryptoContext xMLCryptoContext) throws javax.xml.crypto.dsig.TransformException {
         if(data instanceof AttachmentData){
@@ -153,7 +153,7 @@ public class ACTransform extends TransformService {
             throw new UnsupportedOperationException();
         }
     }
-    
+
     @Override
     public javax.xml.crypto.Data transform(javax.xml.crypto.Data data, javax.xml.crypto.XMLCryptoContext xMLCryptoContext, java.io.OutputStream outputStream) throws javax.xml.crypto.dsig.TransformException {
         if(data instanceof AttachmentData){
@@ -163,7 +163,7 @@ public class ACTransform extends TransformService {
             throw new UnsupportedOperationException();
         }
     }
-    
-    
-    
+
+
+
 }

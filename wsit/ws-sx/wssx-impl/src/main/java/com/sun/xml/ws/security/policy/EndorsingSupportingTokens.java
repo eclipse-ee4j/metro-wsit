@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -11,12 +11,12 @@
 package com.sun.xml.ws.security.policy;
 
 /**
- * Endorsing tokens sign the message signature, that is they sign the entire 
- * Signature element produced from the message signature and may optionally 
+ * Endorsing tokens sign the message signature, that is they sign the entire
+ * Signature element produced from the message signature and may optionally
  * include additional message parts to sign and/or encrypt
  * @author K.Venugopal@sun.com Abhijit.Das@Sun.COM
  */
 public interface EndorsingSupportingTokens extends SupportingTokens {
-    
-    
+
+
 }

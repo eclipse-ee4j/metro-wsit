@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -22,7 +22,7 @@ import com.sun.xml.wss.impl.policy.DynamicPolicyContext;
 /**
  * Represents a concrete SecurityPolicy identifier context resolved at runtime,
  * An XWS-Security <code>DynamicPolicyCallback</code> is passed an instance of
- * a <code>DynamicApplicationContext</code>. A callback Handler handling 
+ * a <code>DynamicApplicationContext</code>. A callback Handler handling
  * DynamicPolicyCallback can make use of information in this context
  * to dynamically determine the Security policy applicable for a request/response
  */
@@ -39,7 +39,7 @@ public class DynamicApplicationContext extends DynamicPolicyContext {
     public DynamicApplicationContext () {}
 
     /**
-     * Create a DynamicApplicationContext with an associated 
+     * Create a DynamicApplicationContext with an associated
      * StaticPolicyContext <code>context</code>
      * @param context the associated StaticPolicyContext
      */

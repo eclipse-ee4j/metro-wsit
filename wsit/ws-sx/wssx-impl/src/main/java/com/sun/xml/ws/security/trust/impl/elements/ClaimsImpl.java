@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -38,28 +38,28 @@ import java.util.ArrayList;
  * @author Manveen Kaur
  */
 public class ClaimsImpl extends ClaimsType implements Claims {
-    
+
     List<Object> supportingInfo = new ArrayList<>();
     private static final Logger log =
             Logger.getLogger(
             LogDomainConstants.TRUST_IMPL_DOMAIN,
             LogDomainConstants.TRUST_IMPL_DOMAIN_BUNDLE);
-     
-    
+
+
     public ClaimsImpl() {
         // default constructor
     }
-    
+
     public ClaimsImpl(String dialect) {
         setDialect(dialect);
     }
-    
+
     public ClaimsImpl(ClaimsType clType) {
         setDialect(clType.getDialect());
         getAny().addAll(clType.getAny());
         getOtherAttributes().putAll(clType.getOtherAttributes());
     }
-    
+
     public static ClaimsType fromElement(final org.w3c.dom.Element element)
     throws WSTrustException {
         try {
@@ -76,5 +76,5 @@ public class ClaimsImpl extends ClaimsType implements Claims {
     public List<Object> getSupportingProperties() {
         return supportingInfo;
     }
-    
+
 }

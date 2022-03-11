@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -29,20 +29,20 @@ public class StreamHeaderData implements StreamWriterData{
         nsContext = ns;
         this.contentOnly = contentOnly;
     }
-    
+
     @Override
     public NamespaceContextEx getNamespaceContext() {
         return nsContext;
     }
-    
+
     @Override
     public void write(javax.xml.stream.XMLStreamWriter writer) throws javax.xml.stream.XMLStreamException {
         if(contentOnly){
-            XMLStreamWriter fw;            
-            fw = new XMLStreamFilter(writer, (com.sun.xml.ws.security.opt.impl.util.NamespaceContextEx)nsContext);            
+            XMLStreamWriter fw;
+            fw = new XMLStreamFilter(writer, (com.sun.xml.ws.security.opt.impl.util.NamespaceContextEx)nsContext);
             data.writeTo(fw);
         }else{
             data.writeTo(writer);
         }
-    }    
+    }
 }

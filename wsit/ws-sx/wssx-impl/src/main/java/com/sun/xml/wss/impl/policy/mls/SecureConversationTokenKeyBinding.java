@@ -21,7 +21,7 @@ public class SecureConversationTokenKeyBinding extends KeyBindingBase {
     public SecureConversationTokenKeyBinding() {
         setPolicyIdentifier(PolicyTypeUtil.SECURE_CONVERSATION_TOKEN_KEY_BINDING);
     }
-    
+
     @Override
     public Object clone() {
         SecureConversationTokenKeyBinding itb = new SecureConversationTokenKeyBinding();
@@ -31,25 +31,25 @@ public class SecureConversationTokenKeyBinding extends KeyBindingBase {
         itb.setPolicyTokenFlag(this.policyTokenWasSet());
         return itb;
     }
-    
+
     @Override
     public boolean equals(WSSPolicy policy) {
         if ( !PolicyTypeUtil.secureConversationTokenKeyBinding(policy)) {
             return false;
         }
-        
+
         //TODO: Check the contents of IssuedTokenContext
         return true;
     }
-    
+
     @Override
     public boolean equalsIgnoreTargets(WSSPolicy policy) {
         return equals(policy);
     }
-    
+
     @Override
     public String getType() {
         return PolicyTypeUtil.SECURE_CONVERSATION_TOKEN_KEY_BINDING;
     }
-    
+
 }

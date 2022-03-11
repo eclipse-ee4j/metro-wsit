@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -63,21 +63,21 @@ import org.w3c.dom.NamedNodeMap;
 
 public class SAMLUtil {
     private static Logger logger = Logger.getLogger(LogDomainConstants.SAML_API_DOMAIN,
-            LogDomainConstants.SAML_API_DOMAIN_BUNDLE);      
-    
+            LogDomainConstants.SAML_API_DOMAIN_BUNDLE);
+
     public static Element locateSamlAssertion(String assertionId,Document soapDocument) {
-        
+
         //System.out.println("\n\n--------SOAP DOCUMENT : " + soapDocument + "--------\n\n");
-        
+
         NodeList nodeList = null;
-        
+
 //        try {
           nodeList = soapDocument.getElementsByTagNameNS(MessageConstants.SAML_v1_0_NS, MessageConstants.SAML_ASSERTION_LNAME);
           if((nodeList.item(0)) == null ){
               nodeList = soapDocument.getElementsByTagNameNS(MessageConstants.SAML_v2_0_NS,
                     MessageConstants.SAML_ASSERTION_LNAME);
           }
-        
+
         int nodeListLength = nodeList.getLength();
         if (nodeListLength == 0) {
                 logger.log(Level.SEVERE,LogStringsMessages.WSS_001_SAML_ASSERTION_NOT_FOUND(assertionId));
@@ -88,7 +88,7 @@ public class SAMLUtil {
             //throw new XWSSecurityException(
             //"No SAML Assertion found with  AssertionID:" + assertionId );
         }
-        
+
         for (int i=0; i<nodeListLength; i++) {
             Element assertion = (Element) nodeList.item(i);
             String  aId = assertion.getAttribute(MessageConstants.SAML_ASSERTIONID_LNAME);
@@ -105,21 +105,21 @@ public class SAMLUtil {
                 null);
         //throw new XWSSecurityException("Could not locate SAML assertion with AssertionId:" + assertionId);
     }
-    
+
     public static Element toElement(Node doc, Object element) throws XWSSecurityException{
         return toElement(doc, element, null);
     }
 
     public static Element toElement(Node doc, Object element,JAXBContext jcc) throws XWSSecurityException{
-        
+
         DOMResult result = null;
         Document document = null;
         //TODO : If DOC is SUPPLIED then this code is not working
         if ( doc != null) {
-            
+
             result = new DOMResult(doc);
         } else {
-            
+
             try {
                 DocumentBuilderFactory factory = WSITXMLFactory.createDocumentBuilderFactory(WSITXMLFactory.DISABLE_SECURE_PROCESSING);
                 DocumentBuilder builder = factory.newDocumentBuilder();
@@ -130,7 +130,7 @@ public class SAMLUtil {
             }
             result = new DOMResult(document);
         }
-        
+
         try {
             JAXBContext jc = jcc;
             if (jc == null) {
@@ -144,28 +144,28 @@ public class SAMLUtil {
                     jc = SAMLJAXBUtil.getJAXBContext();
                 }
             }
-            
+
             Marshaller m = jc.createMarshaller();
-            
+
             if (element == null){
                 if (logger.isLoggable(Level.FINE)) {
                     logger.log(Level.FINE,"Element is Null in SAMLUtil.toElement()");
                 }
             }
-            
+
             m.setProperty("org.glassfish.jaxb.namespacePrefixMapper", new WSSNamespacePrefixMapper());
             m.marshal(element, result);
-            
+
         } catch (Exception ex) {
             logger.log(Level.SEVERE,LogStringsMessages.WSS_003_FAILEDTO_MARSHAL(), ex);
-            throw new XWSSecurityException("Not able to Marshal " + element.getClass().getName() + 
+            throw new XWSSecurityException("Not able to Marshal " + element.getClass().getName() +
                 ", got exception: " + ex.getMessage());
         }
-        
+
         if ( doc != null) {
             //return ((Document)doc).getDocumentElement();
-            
-            
+
+
             if (doc.getNodeType() == Node.ELEMENT_NODE) {
                 if (doc.getFirstChild().getNamespaceURI().equals(MessageConstants.SAML_v2_0_NS)){
                     Element el = (Element)((Element)doc).getElementsByTagNameNS(MessageConstants.SAML_v2_0_NS, "Assertion").item(0);
@@ -183,25 +183,25 @@ public class SAMLUtil {
                     return el;
                 }
             }
-            
+
         } else {
             if (document.getFirstChild().getNamespaceURI().equals(MessageConstants.SAML_v2_0_NS)){
                 Element el = (Element)document.getElementsByTagNameNS(MessageConstants.SAML_v2_0_NS, "Assertion").item(0);
-                return el;            
+                return el;
             }else{
                 Element el = (Element)document.getElementsByTagNameNS(MessageConstants.SAML_v1_0_NS, "Assertion").item(0);
-                return el;            
+                return el;
             }
         }
     }
-    
+
     public static Element createSAMLAssertion(XMLStreamReader reader) throws XWSSecurityException,XMLStreamException{
         XMLOutputFactory xof = XMLOutputFactory.newInstance();
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();        
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
         MutableXMLStreamBuffer buffer = new MutableXMLStreamBuffer();
         StreamWriterBufferCreator bCreator = new StreamWriterBufferCreator(buffer);
-        Document doc = null;        
-        try{                                
+        Document doc = null;
+        try{
             XMLStreamWriter writer = xof.createXMLStreamWriter(baos);
             XMLStreamWriter writer_tmp = bCreator;
             while(!(XMLStreamReader.END_DOCUMENT == reader.getEventType())){
@@ -217,21 +217,21 @@ public class SAMLUtil {
             }
             DocumentBuilderFactory dbf = WSITXMLFactory.createDocumentBuilderFactory(WSITXMLFactory.DISABLE_SECURE_PROCESSING);
             dbf.setNamespaceAware(true);
-            DocumentBuilder db = dbf.newDocumentBuilder();            
+            DocumentBuilder db = dbf.newDocumentBuilder();
             doc = db.parse(new ByteArrayInputStream(baos.toByteArray()));
-            return  doc.getDocumentElement();    
+            return  doc.getDocumentElement();
         } catch(XMLStreamException xe){
             throw new XMLStreamException("Error occurred while trying to convert SAMLAssertion stream into DOM Element", xe);
         }catch(Exception xe){
             throw new XWSSecurityException("Error occurred while trying to convert SAMLAssertion stream into DOM Element", xe);
         }
-    }    
-    
+    }
+
     public static boolean validateTimeInConditionsStatement(Element samlAssertion) throws XWSSecurityException {
-     
+
         Date _notBefore=null;
         Date  _notOnOrAfter=null;
-        
+
         NodeList nl = samlAssertion.getElementsByTagNameNS(samlAssertion.getNamespaceURI(), "Conditions");
         Node conditionsElement = null;
         if (nl != null && nl.getLength() > 0) {
@@ -249,7 +249,7 @@ public class SAMLUtil {
         if (!(eltName.equals("Conditions")))  {
             throw new XWSSecurityException("Internal Error: LocalName of Conditions Element found to be :" + eltName) ;
         }
-        
+
         String dt = elt.getAttribute("NotBefore");
         if ((dt != null) && (!dt.equals("")))  {
             try {
@@ -257,7 +257,7 @@ public class SAMLUtil {
             } catch (ParseException pe) {
                throw new XWSSecurityException(pe);
             }
-                                                                                                                                                             
+
         }
         dt = elt.getAttribute("NotOnOrAfter");
         if ((dt != null) && (!dt.equals("")))  {
@@ -268,9 +268,9 @@ public class SAMLUtil {
                throw new XWSSecurityException(pe);
             }
         }
-        
+
         long someTime = System.currentTimeMillis();
-        
+
         if (_notBefore == null ) {
             if (_notOnOrAfter == null) {
                 return true;

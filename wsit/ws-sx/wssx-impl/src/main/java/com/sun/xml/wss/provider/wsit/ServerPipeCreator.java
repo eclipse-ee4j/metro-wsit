@@ -28,11 +28,11 @@ import com.sun.xml.ws.assembler.dev.ServerTubelineAssemblyContext;
 
 /**
  * This is used by JAXWSContainer to return proper 196 security and
- *  app server monitoring pipes to the StandAlonePipeAssembler and 
+ *  app server monitoring pipes to the StandAlonePipeAssembler and
  *  TangoPipeAssembler
  */
 public class ServerPipeCreator extends ServerPipelineHook {
-     
+
     public ServerPipeCreator(){
     }
 
@@ -51,9 +51,9 @@ public class ServerPipeCreator extends ServerPipelineHook {
         props.put(PipeConstants.CONTAINER, owner.getContainer());
         return new ServerSecurityPipe(props, tail, httpBinding);
     }
-   
+
     @Override
-    public 
+    public
     @NotNull
     Tube createSecurityTube(ServerTubelineAssemblyContext context) {
 

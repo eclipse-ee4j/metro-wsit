@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -30,11 +30,11 @@ import javax.xml.transform.stream.StreamSource;
  * @author Ashutosh.Shahi@sun.com
  */
 public class AttachmentImpl implements Attachment {
-    
+
     private final String contentId;
     private byte[] data;
     private final String mimeType;
-    
+
     public AttachmentImpl(@NotNull String contentId, byte[] data, String mimeType){
         this.contentId = contentId;
         this.data = data;

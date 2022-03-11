@@ -53,11 +53,11 @@ import com.sun.xml.wss.logging.LogStringsMessages;
 import org.w3c.dom.NodeList;
 
 public abstract class HarnessUtil {
-    
+
     private static Logger log = Logger.getLogger(
             LogDomainConstants.WSS_API_DOMAIN,
             LogDomainConstants.WSS_API_DOMAIN_BUNDLE);
-    
+
     /**
      * @param fpContext com.sun.xml.wss.FilterProcessingContext
      *
@@ -65,7 +65,7 @@ public abstract class HarnessUtil {
     @SuppressWarnings("unchecked")
     static void processWSSPolicy(FilterProcessingContext fpContext)
     throws XWSSecurityException {
-        
+
         WSSPolicy policy = (WSSPolicy) fpContext.getSecurityPolicy();
         if (PolicyTypeUtil.signaturePolicy(policy)) {
             SignatureFilter.process(fpContext);
@@ -85,11 +85,11 @@ public abstract class HarnessUtil {
                 if (!utb.isEndorsing()) {
                     AuthenticationTokenFilter.processUserNameToken(fpContext);
                 }
-            } else if (PolicyTypeUtil.samlTokenPolicy(authPolicy)) {                
+            } else if (PolicyTypeUtil.samlTokenPolicy(authPolicy)) {
                 AuthenticationTokenPolicy.SAMLAssertionBinding samlPolicy =
                     (AuthenticationTokenPolicy.SAMLAssertionBinding)authPolicy;
                 try{
-                    if (samlPolicy.getAssertionType() == 
+                    if (samlPolicy.getAssertionType() ==
                         AuthenticationTokenPolicy.SAMLAssertionBinding.SV_ASSERTION) {
                         AuthenticationTokenFilter.processSamlToken(fpContext);
                     }
@@ -98,9 +98,9 @@ public abstract class HarnessUtil {
                 }
             }else if (PolicyTypeUtil.x509CertificateBinding(authPolicy)) {
                 AuthenticationTokenFilter.processX509Token(fpContext);
-            }else if (PolicyTypeUtil.issuedTokenKeyBinding(authPolicy)) {                
+            }else if (PolicyTypeUtil.issuedTokenKeyBinding(authPolicy)) {
                 AuthenticationTokenFilter.processIssuedToken(fpContext);
-            }else if (PolicyTypeUtil.keyValueTokenBinding(authPolicy)) {                
+            }else if (PolicyTypeUtil.keyValueTokenBinding(authPolicy)) {
                 AuthenticationTokenFilter.processRSAToken(fpContext);
             }
         }else if(PolicyTypeUtil.isMandatoryTargetPolicy(policy)) {
@@ -109,7 +109,7 @@ public abstract class HarnessUtil {
             throw new XWSSecurityException("Invalid WSSPolicy Type");
         }
     }
-    
+
     /*
       @param fpContext com.sun.xml.wss.FilterProcessingContext
      *
@@ -117,22 +117,22 @@ public abstract class HarnessUtil {
      */
     /*static void processBooleanComposer(FilterProcessingContext fpContext)
     throws XWSSecurityException {
-     
+
         BooleanComposer bComposer = (BooleanComposer) fpContext.getSecurityPolicy();
-     
+
         int type = bComposer.getComposerType();
-     
+
         SecurityPolicy policyA = (SecurityPolicy) bComposer.getPolicyA();
         SecurityPolicy policyB = (SecurityPolicy) bComposer.getPolicyB();
-     
+
         if (type == BooleanComposer.OR) {
             fpContext.setSecurityPolicy(policyA);
             processDeep(fpContext);
-     
+
             if (fpContext.isPrimaryPolicyViolation()) {
                 fpContext.setSecurityPolicy(policyB);
                 processDeep(fpContext);
-     
+
                 if (fpContext.isPrimaryPolicyViolation()) {
                     String message =
                             "Policy: " + policyA.getClass().getName() + " OR " +
@@ -141,7 +141,7 @@ public abstract class HarnessUtil {
                     log.log(Level.SEVERE,
                             "WSS0802.securitypolicy.notsatisfied",
                             new Object[] {message});
-     
+
                             throw new XWSSecurityException(message, fpContext.getPVE());
                 }
             }
@@ -149,7 +149,7 @@ public abstract class HarnessUtil {
             if (type == BooleanComposer.AND_STRICT) {
             fpContext.setSecurityPolicy(policyA);
             processDeep(fpContext);
-     
+
             if (fpContext.isPrimaryPolicyViolation()) {
                 String message =
                         "Policy: " + policyA.getClass().getName() + " AND_STRICT " +
@@ -158,13 +158,13 @@ public abstract class HarnessUtil {
                 log.log(Level.SEVERE,
                         "WSS0802.securitypolicy.notsatisfied",
                         new Object[] {message});
-     
+
                         throw new XWSSecurityException(message, fpContext.getPVE());
             }
-     
+
             fpContext.setSecurityPolicy(policyB);
             processDeep(fpContext);
-     
+
             if (fpContext.isPrimaryPolicyViolation()) {
                 String message =
                         "Policy: " + policyA.getClass().getName() + " AND_STRICT " +
@@ -179,11 +179,11 @@ public abstract class HarnessUtil {
                 if (type == BooleanComposer.AND_FLEXIBLE) {
             fpContext.setSecurityPolicy(policyA);
             processDeep(fpContext);
-     
+
             if (fpContext.isPrimaryPolicyViolation()) {
                 fpContext.setSecurityPolicy(policyB);
                 processDeep(fpContext);
-     
+
                 if (fpContext.isPrimaryPolicyViolation()) {
                     String message =
                             "Policy: " + policyA.getClass().getName() +
@@ -196,10 +196,10 @@ public abstract class HarnessUtil {
                             throw new XWSSecurityException(
                                     message, fpContext.getPVE());
                 }
-     
+
                 fpContext.setSecurityPolicy(policyA);
                 processDeep(fpContext);
-     
+
                 if (fpContext.isPrimaryPolicyViolation()) {
                     String message =
                             "Policy: " + policyA.getClass().getName() +
@@ -209,17 +209,17 @@ public abstract class HarnessUtil {
                     log.log(Level.SEVERE,
                             "WSS0802.securitypolicy.notsatisfied",
                             new Object[] {message});
-     
+
                             throw new XWSSecurityException(
                                     message, fpContext.getPVE());
                 }
-     
+
                 return;
             }
-     
+
             fpContext.setSecurityPolicy(policyB);
             processDeep(fpContext);
-     
+
             if (fpContext.isPrimaryPolicyViolation()) {
                 String message =
                         "Policy: " + policyA.getClass().getName() +
@@ -229,12 +229,12 @@ public abstract class HarnessUtil {
                 log.log(Level.SEVERE,
                         "WSS0802.securitypolicy.notsatisfied",
                         new Object[] {message});
-     
+
                         throw new XWSSecurityException(message, fpContext.getPVE());
             }
                 }
     }*/
-    
+
     /**
      * @param fpContext com.sun.xml.wss.FilterProcessingContext
      *
@@ -251,7 +251,7 @@ public abstract class HarnessUtil {
             throw new XWSSecurityException("Invalid SecurityPolicy Type");
         }
     }
-    
+
     /**
      * Checks for required context parameters
      *
@@ -270,47 +270,47 @@ public abstract class HarnessUtil {
         SecurityPolicy policy = context.getSecurityPolicy();
         boolean isInboundMessage = context.isInboundMessage();
         StaticPolicyContext staticContext = context.getPolicyContext();
-        
+
         if (message == null && jaxWsMessage == null) {
             log.log(Level.SEVERE, LogStringsMessages.WSS_0803_SOAPMESSAGE_NOTSET());
             throw new XWSSecurityException(
                     "jakarta.xml.soap.SOAPMessage parameter not set in the ProcessingContext");
         }
-        
+
         if (handler == null) {
             log.log(Level.SEVERE, LogStringsMessages.WSS_0804_CALLBACK_HANDLER_NOTSET());
             throw new XWSSecurityException(
                     "SecurityEnvironment/javax.security.auth.callback.CallbackHandler implementation not set in the ProcessingContext");
         }
-        
+
         if (policy == null && !isInboundMessage) {
             if(log.isLoggable(Level.WARNING)){
             log.log(Level.WARNING, LogStringsMessages.WSS_0805_POLICY_NULL());
             }
         }
-        
+
         if (staticContext == null) {
             // log.log(Level.WARNING, "WSS0806.static.context.null");
         }
     }
-    
+
     /**
      * TODO: Handle doc-lit/non-wrap JAXRPC Mode
      * @param message SOAPMessage
      */
     static String resolvePolicyIdentifier(SOAPMessage message)
     throws XWSSecurityException {
-        
+
         Node firstChild = null;
         SOAPBody body = null;
-        
+
         try {
             body = message.getSOAPBody();
         } catch (SOAPException se) {
             log.log(Level.SEVERE, LogStringsMessages.WSS_0807_NO_BODY_ELEMENT(), se);
             throw new XWSSecurityException(se);
         }
-        
+
         if (body != null) {
             firstChild = body.getFirstChild();
         } else {
@@ -318,15 +318,15 @@ public abstract class HarnessUtil {
             throw new XWSSecurityException(
                     "No body element identifying an operation is found");
         }
-        
+
         String id =
                 firstChild != null ?
                     "{"+firstChild.getNamespaceURI()+"}"+firstChild.getLocalName() :
                     null;
-        
+
         return id;
     }
-    
+
     /*
      * @param current
      *
@@ -348,7 +348,7 @@ public abstract class HarnessUtil {
                 element.getLocalName().equals(MessageConstants.DERIVEDKEY_TOKEN_LNAME) ||
                 element.getLocalName().equals(MessageConstants.SECURITY_CONTEXT_TOKEN_LNAME));
     }
-    
+
     /*
      * @param current SOAPElement
      */
@@ -361,7 +361,7 @@ public abstract class HarnessUtil {
             node = node.getNextSibling();
         return (SOAPElement) node;
     }
-    
+
     /*
      * @param current SOAPElement
      */
@@ -371,7 +371,7 @@ public abstract class HarnessUtil {
             node = node.getPreviousSibling();
         return (SOAPElement) node;
     }
-    
+
     /*
      * @param message
      *
@@ -385,7 +385,7 @@ public abstract class HarnessUtil {
                 message,
                 xwsse);
     }
-    
+
    /*
     * make a DynamicPolicyCallback
     * @param callback the DynamicPolicyCallback object
@@ -393,10 +393,10 @@ public abstract class HarnessUtil {
     public static void makeDynamicPolicyCallback(DynamicPolicyCallback callback,
             CallbackHandler callbackHandler)
             throws XWSSecurityException {
-        
+
         if (callbackHandler == null)
             return;
-        
+
         try {
             Callback[] callbacks = new Callback[] { callback };
             callbackHandler.handle(callbacks);
@@ -407,5 +407,5 @@ public abstract class HarnessUtil {
             throw new XWSSecurityException(e);
         }
     }
-    
+
 }

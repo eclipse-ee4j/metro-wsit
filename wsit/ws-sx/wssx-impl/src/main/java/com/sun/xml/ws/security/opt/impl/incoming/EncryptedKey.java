@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -51,22 +51,22 @@ import com.sun.xml.wss.logging.LogDomainConstants;
 public class EncryptedKey implements SecurityHeaderElement, NamespaceContextInfo, SecurityElementWriter, PolicyBuilder{
     private static final Logger logger = Logger.getLogger(LogDomainConstants.IMPL_OPT_CRYPTO_DOMAIN,
             LogDomainConstants.IMPL_OPT_CRYPTO_DOMAIN_BUNDLE);
-    
+
     private static final String ENCRYPTION_METHOD = "EncryptionMethod".intern();
     private static final String REFERENCE_LIST = "ReferenceList".intern();
     private static final String CIPHER_DATA = "CipherData".intern();
     private static final String KEYINFO = "KeyInfo".intern();
     private static final String DIGEST_METHOD = "DigestMethod".intern();
     private static final String KEY_SIZE = "KeySize".intern();
-    
+
     private static final int KEYINFO_ELEMENT = 1;
     private static final int ENCRYPTIONMETHOD_ELEMENT = 2;
-    
+
     private static final int REFERENCE_LIST_ELEMENT = 4;
     private static final int CIPHER_DATA_ELEMENT = 5;
     private static final int KEY_SIZE_ELEMENT = 6;
     private static final int DIGEST_METHOD_ELEMENT = 7;
-    
+
     private String id = "";
     private String namespaceURI = "";
     private String localName = "";
@@ -76,12 +76,12 @@ public class EncryptedKey implements SecurityHeaderElement, NamespaceContextInfo
     private JAXBFilterProcessingContext pc = null;
     private Key dataEncKey = null;
     private ArrayList<String> pendingRefList = null;
-    
+
     private HashMap<String,String> nsDecls;
-    
+
     private CryptoProcessor cp = null;
     private CipherDataProcessor cdp = null;
-    
+
     private EncryptionPolicy encPolicy = null;
     private WSSPolicy inferredKB = null;
     private boolean ignoreEKSHA1 = false;
@@ -100,42 +100,42 @@ public class EncryptedKey implements SecurityHeaderElement, NamespaceContextInfo
         this.nsDecls = nsDecls;
         process(reader);
     }
-    
+
     @Override
     public boolean refersToSecHdrWithId(final String id) {
         throw new UnsupportedOperationException();
     }
-    
+
     @Override
     public String getId() {
         return id;
     }
-    
+
     @Override
     public void setId(final String id) {
         throw new UnsupportedOperationException();
     }
-    
+
     @Override
     public String getNamespaceURI() {
         return namespaceURI;
     }
-    
+
     @Override
     public String getLocalPart() {
         return localName;
     }
-    
+
     @Override
     public XMLStreamReader readHeader() {
         throw new UnsupportedOperationException();
     }
-    
+
     @Override
     public void writeTo(OutputStream os) {
         throw new UnsupportedOperationException();
     }
-    
+
     @Override
     public void writeTo(XMLStreamWriter streamWriter) {
         throw new UnsupportedOperationException();
@@ -143,7 +143,7 @@ public class EncryptedKey implements SecurityHeaderElement, NamespaceContextInfo
     @SuppressWarnings("unchecked")
     private void process(XMLStreamReader reader) throws XMLStreamException, XWSSecurityException{
         id = reader.getAttributeValue(null,"Id");
-        
+
         if(pc.isBSP()){
             String tmp = reader.getAttributeValue(null,"Recipient");
             if(tmp != null){
@@ -151,14 +151,14 @@ public class EncryptedKey implements SecurityHeaderElement, NamespaceContextInfo
                 logger.log(Level.SEVERE,com.sun.xml.wss.logging.LogStringsMessages.BSP_5602_ENCRYPTEDKEY_RECIPIENT(id));
                 throw new XWSSecurityException(com.sun.xml.wss.logging.LogStringsMessages.BSP_5602_ENCRYPTEDKEY_RECIPIENT(id));
             }
-            
+
             String mt = reader.getAttributeValue(null,"MimeType");
             if(mt != null){
                 //log BSP R5622
                 logger.log(Level.SEVERE,com.sun.xml.wss.logging.LogStringsMessages.BSP_5622_ENCRYPTEDKEY_MIMETYPE(id));
                 throw new XWSSecurityException(com.sun.xml.wss.logging.LogStringsMessages.BSP_5622_ENCRYPTEDKEY_MIMETYPE(id));
             }
-            
+
             String et = reader.getAttributeValue(null,"Encoding");
             if(et != null){
                 //log BSP R5623
@@ -168,7 +168,7 @@ public class EncryptedKey implements SecurityHeaderElement, NamespaceContextInfo
         }
         namespaceURI = reader.getNamespaceURI();
         localName = reader.getLocalName();
-        
+
         if(StreamUtil.moveToNextElement(reader)){
             int refElement = getEventType(reader);
             while(reader.getEventType() != reader.END_DOCUMENT){
@@ -217,7 +217,7 @@ public class EncryptedKey implements SecurityHeaderElement, NamespaceContextInfo
                             }
                         }
                         cp = new CryptoProcessor(Cipher.UNWRAP_MODE,encryptionMethod,keyEncKey);
-                        
+
                         break;
                     }
                     default :{
@@ -226,21 +226,21 @@ public class EncryptedKey implements SecurityHeaderElement, NamespaceContextInfo
                         }
                     }
                 }
-                
+
                 if(shouldBreak(reader)){
                     break;
                 }
                 if(reader.getEventType() == XMLStreamReader.START_ELEMENT){
                     if(getEventType(reader) == -1)
                         reader.next();
-                    
+
                 }else{
                     reader.next();
                 }
                 refElement = getEventType(reader);
             }
         }
-        
+
         if(pc.isBSP()){
             if(emPresent){
                 logger.log(Level.SEVERE,com.sun.xml.wss.logging.LogStringsMessages.BSP_5603_ENCRYPTEDKEY_ENCRYPTIONMEHOD(id));
@@ -248,7 +248,7 @@ public class EncryptedKey implements SecurityHeaderElement, NamespaceContextInfo
             }
         }
     }
-    
+
     private boolean shouldBreak(XMLStreamReader reader)throws XMLStreamException{
         if(StreamUtil._break(reader, "EncryptedKey", MessageConstants.XENC_NS)){
             return true;
@@ -258,14 +258,14 @@ public class EncryptedKey implements SecurityHeaderElement, NamespaceContextInfo
         }
         return false;
     }
-    
+
     private void processEncryptionMethod(XMLStreamReader reader) throws XMLStreamException,XWSSecurityException{
         encryptionMethod = reader.getAttributeValue(null,"Algorithm");
         if(encryptionMethod == null || encryptionMethod.length() == 0){
             logger.log(Level.SEVERE, LogStringsMessages.WSS_1925_EMPTY_ENCMETHOD_ED());
             throw new XWSSecurityException(LogStringsMessages.WSS_1925_EMPTY_ENCMETHOD_ED());
         }
-        
+
         while(reader.getEventType() != reader.END_DOCUMENT){
             int eventType = getEventType(reader);
             switch(eventType){
@@ -287,24 +287,24 @@ public class EncryptedKey implements SecurityHeaderElement, NamespaceContextInfo
             reader.next();
         }
     }
-    
+
     private int getEventType(XMLStreamReader reader){
         if(reader.getEventType() == XMLStreamReader.START_ELEMENT){
             if(reader.getLocalName() == ENCRYPTION_METHOD){
                 return ENCRYPTIONMETHOD_ELEMENT;
             }
-            
+
             if(reader.getLocalName() == CIPHER_DATA){
                 return CIPHER_DATA_ELEMENT;
             }
             if(reader.getLocalName() == REFERENCE_LIST){
                 return REFERENCE_LIST_ELEMENT;
             }
-            
+
             if(reader.getLocalName() == KEYINFO){
                 return KEYINFO_ELEMENT;
             }
-            
+
             if(reader.getLocalName() == DIGEST_METHOD){
                 return DIGEST_METHOD_ELEMENT;
             }
@@ -314,15 +314,15 @@ public class EncryptedKey implements SecurityHeaderElement, NamespaceContextInfo
         }
         return -1;
     }
-    
+
     public List<String> getReferenceList() {
         return referenceList;
     }
-    
+
     public List<String> getPendingReferenceList() {
         return pendingRefList;
     }
-    
+
     public Key getKey(String encAlgo) throws XWSSecurityException{
         if(dataEncKey == null){
             try {
@@ -340,25 +340,25 @@ public class EncryptedKey implements SecurityHeaderElement, NamespaceContextInfo
         }
         return dataEncKey;
     }
-    
+
     @Override
     public HashMap<String, String> getInscopeNSContext() {
         return nsDecls;
     }
-    
+
     @Override
     public void writeTo(javax.xml.stream.XMLStreamWriter streamWriter, HashMap props) {
         throw new UnsupportedOperationException();
     }
-    
+
     @Override
     public WSSPolicy getPolicy() {
         return encPolicy;
     }
-    
+
     public WSSPolicy getInferredKB(){
         return inferredKB;
     }
-    
+
 }
 

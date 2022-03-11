@@ -21,12 +21,12 @@ import com.sun.istack.logging.Logger;
  */
 public class PrivateElementFilteringStateMachine implements FilteringStateMachine {
     private static final Logger LOGGER = Logger.getLogger(PrivateElementFilteringStateMachine.class);
-    
+
     private int depth; // indicates the depth in which we are currently nested in the element that should be filtered out
     private boolean filteringOn; // indicates that currently processed elements will be filtered out.
-    
+
     private final QName[] filteredElements;
-    
+
     /** Creates a new instance of PrivateElementFilteringStateMachine */
     public PrivateElementFilteringStateMachine(final QName... filteredElements) {
         if (filteredElements == null) {
@@ -36,7 +36,7 @@ public class PrivateElementFilteringStateMachine implements FilteringStateMachin
             System.arraycopy(filteredElements, 0, this.filteredElements, 0, filteredElements.length);
         }
     }
-    
+
     @Override
     public ProcessingStateChange getStateChange(final Invocation invocation, final XMLStreamWriter writer) {
         LOGGER.entering(invocation);
@@ -72,23 +72,23 @@ public class PrivateElementFilteringStateMachine implements FilteringStateMachin
                 default:
                     break;
             }
-            
+
             return resultingState;
-            
+
         } finally {
             LOGGER.exiting(resultingState);
         }
     }
-    
+
     private boolean startFiltering(final Invocation invocation, final XMLStreamWriter writer) {
         final QName elementName = XmlFilteringUtils.getElementNameToWrite(invocation, XmlFilteringUtils.getDefaultNamespaceURI(writer));
-        
+
         for (QName filteredElement : filteredElements) {
             if (filteredElement.equals(elementName)) {
                 return true;
             }
         }
-        
+
         return false;
     }
 }

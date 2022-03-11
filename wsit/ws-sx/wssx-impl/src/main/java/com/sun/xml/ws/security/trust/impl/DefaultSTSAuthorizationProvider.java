@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -19,7 +19,7 @@ import javax.security.auth.Subject;
  * @author Jiandong Guo
  */
 public class DefaultSTSAuthorizationProvider implements STSAuthorizationProvider{
-    
+
      @Override
      public boolean isAuthorized(final Subject subject, final String appliesTo, final String tokenType, final String keyType){
         return true;

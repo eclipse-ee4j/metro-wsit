@@ -27,13 +27,13 @@ import com.sun.xml.ws.assembler.dev.ClientTubelineAssemblyContext;
  * to the StandAlonePipeAssembler and TangoPipeAssembler
  */
 public class ClientPipeCreator extends ClientPipelineHook {
-        
+
     public ClientPipeCreator(){
     }
 
-    
+
     @Override
-    public Pipe createSecurityPipe(PolicyMap map, 
+    public Pipe createSecurityPipe(PolicyMap map,
             ClientPipeAssemblerContext ctxt, Pipe tail) {
         HashMap<String, Object> propBag = new HashMap<>();
         propBag.put(PipeConstants.POLICY, map);
@@ -41,14 +41,14 @@ public class ClientPipeCreator extends ClientPipelineHook {
         propBag.put(PipeConstants.SERVICE, ctxt.getService());
         propBag.put(PipeConstants.BINDING, ctxt.getBinding());
         propBag.put(PipeConstants.ENDPOINT_ADDRESS, ctxt.getAddress());
-    	propBag.put(PipeConstants.NEXT_PIPE,tail);
+        propBag.put(PipeConstants.NEXT_PIPE,tail);
         propBag.put(PipeConstants.CONTAINER,ctxt.getContainer());
         propBag.put(PipeConstants.ASSEMBLER_CONTEXT, ctxt);
         ClientSecurityPipe ret = new ClientSecurityPipe(propBag, tail);
         return ret;
     }
-    
-    
+
+
     @Override
     public @NotNull Tube createSecurityTube(ClientTubelineAssemblyContext context) {
         HashMap<String, Object> propBag = new HashMap<>();
@@ -65,5 +65,5 @@ public class ClientPipeCreator extends ClientPipelineHook {
         ClientSecurityTube ret = new ClientSecurityTube(propBag, context.getTubelineHead());
         return ret;
     }
-    
+
 }

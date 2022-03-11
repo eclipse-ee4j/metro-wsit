@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -33,10 +33,10 @@ import com.sun.xml.wss.logging.impl.opt.signature.LogStringsMessages;
  * @author K.Venugopal@sun.com
  */
 public class StreamingPayLoadDigester implements StreamFilter{
-    
+
     private static final Logger logger = Logger.getLogger(LogDomainConstants.IMPL_OPT_SIGNATURE_DOMAIN,
             LogDomainConstants.IMPL_OPT_SIGNATURE_DOMAIN_BUNDLE);
-    
+
     private XMLStreamReader reader = null;
     private Reference ref = null;
     private StAXEXC14nCanonicalizerImpl canonicalizer = null;

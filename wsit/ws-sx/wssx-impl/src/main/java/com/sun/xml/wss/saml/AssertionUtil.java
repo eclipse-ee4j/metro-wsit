@@ -53,14 +53,14 @@ import jakarta.xml.bind.JAXBContext;
  */
 
 public class AssertionUtil {
-    
+
     private static Logger log = Logger.getLogger(LogDomainConstants.WSS_API_DOMAIN, LogDomainConstants.WSS_API_DOMAIN_BUNDLE);
-    
+
     /** Creates a new instance of AssertionUtil */
     private AssertionUtil(CallbackHandler callbackHandler) {
         //do nothing
     }
-    
+
     /**
      * Retrive the key from HOK SAML Assertion
      *
@@ -72,24 +72,24 @@ public class AssertionUtil {
      *
      */
     public static Key getSubjectConfirmationKey(Element assertion , CallbackHandler callbackHandler) throws XWSSecurityException {
-        
+
         NodeList nl1 = assertion.getElementsByTagName("SubjectConfirmation");
-                
+
         if ( nl1.getLength() == 0) {
             throw new XWSSecurityException("SAML Assertion does not contain a key");
         }
-        
+
         NodeList nl = ((Element)(nl1.item(0))).getElementsByTagNameNS(MessageConstants.DSIG_NS, "KeyInfo");
-        
+
         if ( nl.getLength() == 0) {
             throw new XWSSecurityException("SAML Assertion does not contain a key");
         }
-        
+
         try {
             Element keyInfoElem = (Element)nl.item(0);
-            
+
             KeyInfo keyInfo = new KeyInfo(keyInfoElem, null);
-            
+
             if (keyInfo.containsKeyValue()) {
                 return keyInfo.itemKeyValue(0).getPublicKey();
             } else if (keyInfo.containsX509Data()) {
@@ -104,11 +104,11 @@ public class AssertionUtil {
             throw new XWSSecurityException(e);
         }
     }
-    
+
     public static Key resolveX509Data(X509Data x509Data, CallbackHandler callbackHandler) throws XWSSecurityException {
         x509Data.getElement().normalize();
         X509Certificate cert =  null;
-        
+
         try {
             if (x509Data.containsCertificate()) {
                 cert = (x509Data.itemCertificate(0)).getX509Certificate();
@@ -117,41 +117,41 @@ public class AssertionUtil {
                 SignatureVerificationKeyCallback.X509CertificateRequest certRequest =
                         new SignatureVerificationKeyCallback.X509SubjectKeyIdentifierBasedRequest(keyIdentifier);
                 SignatureVerificationKeyCallback verifyKeyCallback = new SignatureVerificationKeyCallback(certRequest);
-                
+
                 Callback[] callbacks = new Callback[] {verifyKeyCallback};
                 try {
                     callbackHandler.handle(callbacks);
                 } catch (Exception e) {
                     throw new XWSSecurityException(e);
                 }
-                
+
                 cert = certRequest.getX509Certificate();
-                
+
                 if (cert == null) {
                     throw new XWSSecurityException("No Matching public key for " + Base64.encode(keyIdentifier) + " subject key identifier found");
                 }
             } else if (x509Data.containsIssuerSerial()) {
-                
+
                 String issuerName = x509Data.itemIssuerSerial(0).getIssuerName();
                 BigInteger serialNumber = x509Data.itemIssuerSerial(0).getSerialNumber();
-                
+
                 SignatureVerificationKeyCallback.X509CertificateRequest certRequest =
                         new SignatureVerificationKeyCallback.X509IssuerSerialBasedRequest(
                         issuerName,
                         serialNumber);
                 SignatureVerificationKeyCallback verifyKeyCallback =
                         new SignatureVerificationKeyCallback(certRequest);
-                
+
                 Callback[] callbacks = new Callback[] {verifyKeyCallback};
-                
+
                 try {
                     callbackHandler.handle(callbacks);
                 } catch (Exception e) {
                     throw new XWSSecurityException(e);
                 }
-                
+
                 cert = certRequest.getX509Certificate();
-                
+
                 if (cert == null) {
                     throw new XWSSecurityException(
                             "No Matching public key for serial number " + serialNumber + " and issuer name " + issuerName + " found");
@@ -160,15 +160,15 @@ public class AssertionUtil {
                 throw new XWSSecurityException(
                         "Unsupported child element of X509Data encountered");
             }
-            
+
             return cert.getPublicKey();
         } catch (Exception e) {
             throw new XWSSecurityException(e);
         }
     }
-    
+
     public static Key resolveEncryptedKey(EncryptedKey encryptedKey, CallbackHandler callbackHandler) throws XWSSecurityException {
-        
+
         //Get the private key to decrypt the encrypted key
         KeyInfo keyInfo = encryptedKey.getKeyInfo();
         KeyInfoHeaderBlock keyInfoHb = new KeyInfoHeaderBlock(keyInfo);
@@ -177,15 +177,15 @@ public class AssertionUtil {
             if (keyInfoHb.containsSecurityTokenReference()){
                 kek = processSecurityTokenReference(keyInfoHb, callbackHandler);
             } else if (keyInfoHb.containsKeyValue()) {
-               
+
                 SecurityEnvironment secEnv = new DefaultSecurityEnvironmentImpl(callbackHandler);
                 KeyValue keyValue = keyInfoHb.getKeyValue(0);
                 keyValue.getElement().normalize();
                 kek = secEnv.getPrivateKey(null, keyValue.getPublicKey(), false);
-                
+
             } else if (keyInfoHb.containsX509Data()) {
-                kek = processX509Data(keyInfoHb, callbackHandler);                
-            } 
+                kek = processX509Data(keyInfoHb, callbackHandler);
+            }
             else{
                 throw new XWSSecurityException("Unsupported Key Information");
             }
@@ -194,22 +194,22 @@ public class AssertionUtil {
             XMLCipher xmlCipher = XMLCipher.getInstance();
             xmlCipher.init(XMLCipher.UNWRAP_MODE, null);
             xmlCipher.setKEK(kek);
-        
-            return xmlCipher.decryptKey(encryptedKey, algorithmURI); 
+
+            return xmlCipher.decryptKey(encryptedKey, algorithmURI);
         } catch (Exception e) {
             throw new XWSSecurityException(e);
-        } 
-        
+        }
+
     }
-    
+
     private static Key processSecurityTokenReference(KeyInfoHeaderBlock keyInfo, CallbackHandler callbackHandler)throws XWSSecurityException {
         Key returnKey = null;
-        
+
         SecurityEnvironment secEnv = new DefaultSecurityEnvironmentImpl(callbackHandler);
-        
+
         SecurityTokenReference str = keyInfo.getSecurityTokenReference(0);
         ReferenceElement refElement = str.getReference();
-        
+
         if (refElement instanceof KeyIdentifier) {
             KeyIdentifier keyId = (KeyIdentifier)refElement;
             byte[] decodedValue = keyId.getDecodedReferenceValue().getBytes();
@@ -219,25 +219,25 @@ public class AssertionUtil {
             }  else if(MessageConstants.ThumbPrintIdentifier_NS.equals(keyId.getValueType())){
                 throw new XWSSecurityException("Unsupported KeyValueType :" + keyId.getValueType());
             }
-            
+
         } /*else if(refElement instanceof DirectReference){
             String uri = ((DirectReference) refElement).getURI();
-            
-            
+
+
         }*/ else if (refElement instanceof X509IssuerSerial) {
             BigInteger serialNumber = ((X509IssuerSerial) refElement).getSerialNumber();
             String issuerName = ((X509IssuerSerial) refElement).getIssuerName();
-            
+
             returnKey = secEnv.getPrivateKey(null, serialNumber, issuerName);
         }else {
             log.log(
-                    Level.SEVERE, "WSS0338.unsupported.reference.mechanism");     
+                    Level.SEVERE, "WSS0338.unsupported.reference.mechanism");
             throw new XWSSecurityException(
                     "Key reference mechanism not supported");
         }
         return returnKey;
     }
-    
+
     private static Key processX509Data(KeyInfoHeaderBlock keyInfo, CallbackHandler callbackHandler)throws XWSSecurityException {
         SecurityEnvironment secEnv = new DefaultSecurityEnvironmentImpl(callbackHandler);
         X509Data x509Data = keyInfo.getX509Data(0);
@@ -248,7 +248,7 @@ public class AssertionUtil {
                } else if (x509Data.containsSKI()) {
                     return secEnv.getPrivateKey(null, x509Data.itemSKI(0).getSKIBytes());
                 } else if (x509Data.containsIssuerSerial()) {
-                    return secEnv.getPrivateKey(null, 
+                    return secEnv.getPrivateKey(null,
                            x509Data.itemIssuerSerial(0).getSerialNumber(),
                            x509Data.itemIssuerSerial(0).getIssuerName());
                 } else {
@@ -257,13 +257,13 @@ public class AssertionUtil {
                             "Unsupported child element of X509Data encountered");
                 }
                 return secEnv.getPrivateKey(null, cert);
-                
+
             } catch (Exception e) {
             log.log(Level.SEVERE, "WSS0602.illegal.x509.data", e.getMessage());
             throw new XWSSecurityException(e);
         }
     }
-    
+
     public static Assertion fromElement(org.w3c.dom.Element element)
     throws SAMLException {
         try {
@@ -287,24 +287,24 @@ public class AssertionUtil {
             throw new SAMLException(ex);
         }
     }
-    
-    
+
+
     public static String getConfirmationMethod(Element assertion) {
         NodeList nl = null;
-        
+
         if (assertion.getAttributeNode("ID") != null){
-            nl = assertion.getElementsByTagNameNS(MessageConstants.SAML_v2_0_NS, "SubjectConfirmation");            
+            nl = assertion.getElementsByTagNameNS(MessageConstants.SAML_v2_0_NS, "SubjectConfirmation");
         }else{
             nl = assertion.getElementsByTagNameNS(MessageConstants.SAML_v1_0_NS, "ConfirmationMethod");
         }
         if ( nl.getLength() == 0)
             return null;
-        
+
         Element confirmationMethod = (Element)nl.item(0);
         try {
             if (assertion.getAttributeNode("ID") != null){
                 return confirmationMethod.getAttribute("Method");
-            }else{                
+            }else{
                 return confirmationMethod.getTextContent();
             }
         } catch (DOMException ex) {
@@ -312,7 +312,7 @@ public class AssertionUtil {
             return null;
         }
     }
-    
+
     private static NodeList skipAdviceValidation(Element assertion, NodeList nodeList){
         boolean keyPresent = false;
         int returnNodeIndex = 0;
@@ -331,30 +331,30 @@ public class AssertionUtil {
             return null;
         }
     }
-    
+
     public static Element getSubjectConfirmationKeyInfo(Element assertion)
     throws XWSSecurityException {
-        
+
         try {
             NodeList nl = null;
             NodeList nl1 = null;
-            
+
             if (assertion.getAttributeNode("ID") != null){
                 nl1 = assertion.getElementsByTagNameNS(MessageConstants.SAML_v2_0_NS, "SubjectConfirmationData");
             }else{
                 nl1 = assertion.getElementsByTagNameNS(MessageConstants.SAML_v1_0_NS, "SubjectConfirmation");
             }
-            
+
             if ( nl1.getLength() == 0) {
                 throw new XWSSecurityException("SAML Assertion does not contain a key");
             }
-            
+
             nl = skipAdviceValidation(assertion, nl1);
-            
+
             if ( nl == null || nl.getLength() == 0) {
                 throw new XWSSecurityException("SAML Assertion does not contain a key");
             }
-            
+
             //NodeList nl = assertion.getElementsByTagNameNS(MessageConstants.DSIG_NS, "KeyInfo");
             if ( nl.getLength() != 0) {
                 Element keyInfo = (Element)nl.item(0);

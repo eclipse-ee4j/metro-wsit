@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -27,20 +27,20 @@ public class DefaultNonceManager extends NonceManager {
 
     private static final boolean USE_DAEMON_THREAD = true;
     private static final Timer nonceCleanupTimer = new Timer(USE_DAEMON_THREAD);
-    
+
     // Nonce Cache
     private NonceCache nonceCache = null;
 
      /** logger */
     protected static final Logger log = Logger.getLogger(
             LogDomainConstants.WSS_API_DOMAIN, LogDomainConstants.WSS_API_DOMAIN_BUNDLE);
-    
+
     public DefaultNonceManager() {
     }
-    
+
     @ManagedAttribute // Only for monitoring
-    private NonceCache getNonceCache() { 
-        return nonceCache; 
+    private NonceCache getNonceCache() {
+        return nonceCache;
     }
 
     @Override
@@ -58,7 +58,7 @@ public class DefaultNonceManager extends NonceManager {
         }
         return nonceCache.validateAndCacheNonce(nonce, created);
     }
-    
+
     private synchronized void setNonceCacheCleanup() {
 
         if (!nonceCache.isScheduled()) {
@@ -72,7 +72,7 @@ public class DefaultNonceManager extends NonceManager {
             nonceCache.scheduled(true);
         }
     }
-    
+
     private synchronized void initNonceCache(long maxNonceAge) {
 
         if (nonceCache == null) {

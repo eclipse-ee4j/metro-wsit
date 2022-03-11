@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -38,7 +38,7 @@ import com.sun.xml.ws.security.Token;
 
 /**
  * An  X509 v3 certificate BinarySecurityToken.
- * 
+ *
  * @author Manveen Kaur
  * @author Edwin Goei
  */
@@ -54,21 +54,21 @@ public class X509SecurityToken extends BinarySecurityToken implements Token {
     public X509SecurityToken(
         Document document,
         X509Certificate cert,
-        String wsuId, String valueType) 
+        String wsuId, String valueType)
         throws SecurityTokenException {
-                         
+
         super(document, wsuId, valueType);
         this.cert = cert;
         //checkCertVersion();
     }
 
-    public X509SecurityToken(Document document, X509Certificate cert) 
+    public X509SecurityToken(Document document, X509Certificate cert)
         throws SecurityTokenException {
         super(document, null, MessageConstants.X509v3_NS);
         this.cert = cert;
         //checkCertVersion();
     }
-    
+
      public X509SecurityToken(Document document, X509Certificate cert, String valueType) throws SecurityTokenException {
             super(document, null, valueType);
 
@@ -76,7 +76,7 @@ public class X509SecurityToken extends BinarySecurityToken implements Token {
         //checkCertVersion();
     }
 
-    public X509SecurityToken(SOAPElement tokenElement, boolean isBSP) 
+    public X509SecurityToken(SOAPElement tokenElement, boolean isBSP)
         throws XWSSecurityException {
         super(tokenElement, isBSP);
         if (!(tokenElement.getLocalName().equals(
@@ -91,7 +91,7 @@ public class X509SecurityToken extends BinarySecurityToken implements Token {
 
    public X509SecurityToken(SOAPElement tokenElement) throws XWSSecurityException {
         this(tokenElement, false);
-    } 
+    }
 
     public X509Certificate getCertificate() throws XWSSecurityException {
 
@@ -102,7 +102,7 @@ public class X509SecurityToken extends BinarySecurityToken implements Token {
             try {
                 data = Base64.decode(encodedData);
             } catch (Base64DecodingException bde) {
-                log.log(Level.SEVERE, "WSS0301.unableto.decode.data"); 
+                log.log(Level.SEVERE, "WSS0301.unableto.decode.data");
                 throw new SecurityTokenException("Unable to decode data", bde);
             }
             try {
@@ -145,9 +145,9 @@ public class X509SecurityToken extends BinarySecurityToken implements Token {
 
     private void checkCertVersion() throws SecurityTokenException {
         if (cert.getVersion() != 3||cert.getVersion() !=1) {
-            log.log(Level.SEVERE, 
-                    "WSS0392.invalid.X509cert.version", 
-                    Integer.toString(cert.getVersion())); 
+            log.log(Level.SEVERE,
+                    "WSS0392.invalid.X509cert.version",
+                    Integer.toString(cert.getVersion()));
             throw new SecurityTokenException(
                 "Expected Version 1 or 3 Certificate, found Version " +
                 cert.getVersion());

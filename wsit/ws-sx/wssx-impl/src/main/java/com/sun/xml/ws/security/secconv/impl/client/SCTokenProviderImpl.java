@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -46,7 +46,7 @@ import java.util.logging.Logger;
  * @author Shyam Rao
  */
 public class SCTokenProviderImpl implements IssuedTokenProvider {
-    
+
     private final static WSSCPlugin scp = WSSCFactory.newSCPlugin();
     private static final Logger log =
             Logger.getLogger(
@@ -62,8 +62,8 @@ public class SCTokenProviderImpl implements IssuedTokenProvider {
      */
     private Map<String, SecurityContextTokenInfo> securityContextTokenMap
             = new HashMap<>();
-    private boolean tokenExpired = false;    
-    
+    private boolean tokenExpired = false;
+
     @Override
     public void issue(IssuedTokenContext ctx)throws WSTrustException{
         SCTokenConfiguration sctConfig = (SCTokenConfiguration)ctx.getSecurityPolicy().get(0);
@@ -78,7 +78,7 @@ public class SCTokenProviderImpl implements IssuedTokenProvider {
                     }
                     tokenExpired = true;
                     renew(ctx);
-                    tokenExpired = false;                    
+                    tokenExpired = false;
                     tmpCtx = issuedTokenContextMap.get(sctConfig.getTokenId());
                 }else{
                     throw new WSSecureConversationException(ex);
@@ -88,13 +88,13 @@ public class SCTokenProviderImpl implements IssuedTokenProvider {
                 ctx.setCreationTime(tmpCtx.getCreationTime());
                 ctx.setExpirationTime(tmpCtx.getExpirationTime());
                 ctx.setProofKey(tmpCtx.getProofKey());
-                ctx.setSecurityToken(tmpCtx.getSecurityToken());                
+                ctx.setSecurityToken(tmpCtx.getSecurityToken());
                 ctx.setAttachedSecurityTokenReference(tmpCtx.getAttachedSecurityTokenReference());
                 ctx.setUnAttachedSecurityTokenReference(tmpCtx.getUnAttachedSecurityTokenReference());
-                if(tmpCtx.getSecurityToken() != null && 
+                if(tmpCtx.getSecurityToken() != null &&
                         ((SecurityContextToken)tmpCtx.getSecurityToken()).getInstance() != null){
                     String sctInfoKey = ((SecurityContextToken)tmpCtx.getSecurityToken()).getIdentifier().toString()+"_"+
-                            ((SecurityContextToken)tmpCtx.getSecurityToken()).getInstance();                    
+                            ((SecurityContextToken)tmpCtx.getSecurityToken()).getInstance();
                     ctx.setSecurityContextTokenInfo(getSecurityContextTokenInfo(sctInfoKey));
                 }
             }else{
@@ -103,35 +103,35 @@ public class SCTokenProviderImpl implements IssuedTokenProvider {
         }else if(!sctConfig.isClientOutboundMessage()){
             ctx.getSecurityPolicy().clear();
         }else{
-            scp.process(ctx);            
+            scp.process(ctx);
             String sctId = ((SecurityContextToken)ctx.getSecurityToken()).getIdentifier().toString();
             sctConfig =  new DefaultSCTokenConfiguration((DefaultSCTokenConfiguration)sctConfig, sctId);
             ctx.getSecurityPolicy().clear();
             ctx.getSecurityPolicy().add(sctConfig);
             addSecurityContextToken(((SecurityContextToken)ctx.getSecurityToken()).getIdentifier().toString(), ctx);
-        }        
-    } 
-    
+        }
+    }
+
     @Override
     public void cancel(IssuedTokenContext ctx) {
         SCTokenConfiguration sctConfig = (SCTokenConfiguration)ctx.getSecurityPolicy().get(0);
-        if(issuedTokenContextMap.get(sctConfig.getTokenId()) != null ){              
-            scp.processCancellation(ctx);            
+        if(issuedTokenContextMap.get(sctConfig.getTokenId()) != null ){
+            scp.processCancellation(ctx);
             clearSessionCache(sctConfig.getTokenId(), ctx);
-        }            
+        }
     }
-        
+
     @Override
     public void renew(IssuedTokenContext ctx)throws WSTrustException{
         SCTokenConfiguration sctConfig = (SCTokenConfiguration)ctx.getSecurityPolicy().get(0);
         MessagePolicy msgPolicy = (MessagePolicy)sctConfig.getOtherOptions().get("MessagePolicy");
         if(issuedTokenContextMap.get(sctConfig.getTokenId()) != null ){
             ctx = issuedTokenContextMap.get(sctConfig.getTokenId());
-            SCTokenConfiguration origSCTConfig = (SCTokenConfiguration)ctx.getSecurityPolicy().get(0);            
+            SCTokenConfiguration origSCTConfig = (SCTokenConfiguration)ctx.getSecurityPolicy().get(0);
             if(this.tokenExpired && origSCTConfig.isRenewExpiredSCT()){
                 scp.processRenew(ctx);
                 String sctInfoKey = ((SecurityContextToken)ctx.getSecurityToken()).getIdentifier().toString()+"_"+
-                        ((SecurityContextToken)ctx.getSecurityToken()).getInstance();                
+                        ((SecurityContextToken)ctx.getSecurityToken()).getInstance();
                 addSecurityContextTokenInfo(sctInfoKey, ctx.getSecurityContextTokenInfo());
             }else{
                 throw new WSSecureConversationException("SecureConversation session for session Id:" + sctConfig.getTokenId() +"has expired.");
@@ -146,24 +146,24 @@ public class SCTokenProviderImpl implements IssuedTokenProvider {
             }catch(PolicyGenerationException e){
                 throw new WSTrustException(e.getMessage());
             }
-        }        
+        }
     }
-    
+
     @Override
     public void validate(IssuedTokenContext ctx) {
-        
+
     }
-    
+
     private void addSecurityContextToken(String key, IssuedTokenContext itctx){
         issuedTokenContextMap.put(key, itctx);
     }
-    
+
     private void addSecurityContextTokenInfo(String key, SecurityContextTokenInfo sctInfo){
         securityContextTokenMap.put(key, sctInfo);
     }
 
-    private void clearSessionCache(String sctId, IssuedTokenContext ctx){        
-        securityContextTokenMap.remove(sctId+"_"+ ((SecurityContextToken)ctx.getSecurityToken()).getInstance()); 
+    private void clearSessionCache(String sctId, IssuedTokenContext ctx){
+        securityContextTokenMap.remove(sctId+"_"+ ((SecurityContextToken)ctx.getSecurityToken()).getInstance());
         issuedTokenContextMap.remove(sctId);
     }
 
@@ -171,18 +171,18 @@ public class SCTokenProviderImpl implements IssuedTokenProvider {
      * Return the valid SecurityContext for matching key
      *
      * @param key The key of the security context to be looked
-     * @param expiryCheck indicates whether to check the token expiry or not, 
+     * @param expiryCheck indicates whether to check the token expiry or not,
      *                    As in case of renew we don't need to check token expiry
      * @return IssuedTokenContext for security context key
      */
-    
+
     private IssuedTokenContext getSecurityContextToken(String key, boolean expiryCheck) throws WSSecureConversationException{
-        IssuedTokenContext ctx = issuedTokenContextMap.get(key);                        
+        IssuedTokenContext ctx = issuedTokenContextMap.get(key);
 
         if (ctx != null && expiryCheck){
             SCTokenConfiguration sctConfig = (SCTokenConfiguration)ctx.getSecurityPolicy().get(0);
             String maxClockSkew  = (String)sctConfig.getOtherOptions().get(SCTokenConfiguration.MAX_CLOCK_SKEW);
-            
+
             // Expiry check of security context token
             Calendar c = new GregorianCalendar();
             long offset = c.get(Calendar.ZONE_OFFSET);
@@ -194,24 +194,24 @@ public class SCTokenProviderImpl implements IssuedTokenProvider {
             if (maxClockSkew != null){
                 currentTime = currentTime - Long.parseLong(maxClockSkew);
             }
-            
+
             c.setTimeInMillis(currentTime);
-            
+
             Date currentTimeInDateFormat = c.getTime();
            // if(!(currentTimeInDateFormat.after(ctx.getCreationTime())
               //  && currentTimeInDateFormat.before(ctx.getExpirationTime())))
             if(!currentTimeInDateFormat.before(ctx.getExpirationTime())){
                 throw new WSSecureConversationException("SecureConversation session for session Id: " + key +" has expired.");
-            }            
-        }        
+            }
+        }
         return ctx;
     }
-    
+
     private SecurityContextTokenInfo getSecurityContextTokenInfo(String key){
-        SecurityContextTokenInfo ctx = securityContextTokenMap.get(key);                               
+        SecurityContextTokenInfo ctx = securityContextTokenMap.get(key);
         return ctx;
     }
-    
+
     private void appendEndorsingSCTRenewPolicy(final MessagePolicy policy) throws PolicyGenerationException{
         SignaturePolicy sp = scp.getRenewSignaturePolicy();
         SignaturePolicy.FeatureBinding spFB = (SignaturePolicy.FeatureBinding)sp.getFeatureBinding();
@@ -257,7 +257,7 @@ public class SCTokenProviderImpl implements IssuedTokenProvider {
             policy.append(sp);
         }
     }
-    
+
     private void deleteRenewPolicy(final MessagePolicy policy){
         ArrayList list = policy.getPrimaryPolicies();
         Iterator i = list.iterator();

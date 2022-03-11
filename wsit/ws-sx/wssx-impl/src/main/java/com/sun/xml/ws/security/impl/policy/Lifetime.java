@@ -22,37 +22,37 @@ import java.util.logging.Level;
  * @author Abhijit Das
  */
 public class Lifetime extends PolicyAssertion implements com.sun.xml.ws.security.policy.Lifetime, SecurityAssertionValidator {
-    
+
     private String created;
     private String expires;
     private AssertionFitness fitness = AssertionFitness.IS_VALID;
     private boolean populated = false;
-    
+
     /** Creates a new instance of LifeTimeImpl */
     public Lifetime(AssertionData name,Collection<PolicyAssertion> nestedAssertions, AssertionSet nestedAlternative) {
         super(name,nestedAssertions,nestedAlternative);
     }
-    
+
     @Override
     public String getCreated() {
         populate();
         return created;
     }
-    
+
     public void setCreated(String created) {
         this.created = created;
     }
-    
+
     @Override
     public String getExpires() {
         populate();
         return expires;
     }
-    
+
     public void setExpires(String expires) {
         this.expires = expires;
     }
-    
+
     @Override
     public AssertionFitness validate(boolean isServer) {
         return populate(isServer);
@@ -60,7 +60,7 @@ public class Lifetime extends PolicyAssertion implements com.sun.xml.ws.security
     private void populate(){
         populate(false);
     }
-    
+
     private synchronized AssertionFitness populate(boolean isServer) {
         if(!populated){
             NestedPolicy policy = this.getNestedPolicy();

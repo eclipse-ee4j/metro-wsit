@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -21,5 +21,5 @@ import com.sun.xml.ws.security.trust.impl.bindings.KeyExchangeTokenType;
  * @author Manveen Kaur.
  */
 public class KeyExchangeTokenImpl extends KeyExchangeTokenType implements KeyExchangeToken {
-    
+
 }

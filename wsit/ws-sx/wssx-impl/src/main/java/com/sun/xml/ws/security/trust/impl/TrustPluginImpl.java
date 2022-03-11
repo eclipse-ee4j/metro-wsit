@@ -120,7 +120,7 @@ public class TrustPluginImpl implements TrustPlugin {
 
     /** Creates a new instance of TrustPluginImpl */
     public TrustPluginImpl() {
-        
+
     }
 
     @Override
@@ -307,14 +307,14 @@ public class TrustPluginImpl implements TrustPlugin {
             }
         }
 
-        /* 
+        /*
         if (encryptWith == null){
         encryptWith = stsConfig.getEncryptWith();
         if (encryptWith != null){
         rst.setEncryptWith(URI.create(encryptWith));
         }
         }
-        
+
         if (signWith == null){
         signWith = stsConfig.getSignWith();
         if (signWith != null){
@@ -415,7 +415,7 @@ public class TrustPluginImpl implements TrustPlugin {
 
         return rst;
     }
-    
+
     private RequestSecurityToken createRequestForValidatation(final STSIssuedTokenConfiguration stsConfig, final Token token){
         WSTrustVersion wstVer = WSTrustVersion.getInstance(stsConfig.getProtocol());
         WSTrustElementFactory fact = WSTrustElementFactory.newInstance(wstVer);
@@ -428,13 +428,13 @@ public class TrustPluginImpl implements TrustPlugin {
             ValidateTarget vt = fact.createValidateTarget(token);
             rst.setValidateTarget(vt);
         }
-        
+
         return rst;
     }
 
     @SuppressWarnings("unchecked")
     private BaseSTSResponse invokeRST(final RequestSecurityToken request, STSIssuedTokenConfiguration stsConfig) throws WSTrustException {
-        
+
         String stsURI = stsConfig.getSTSEndpoint();
         STSIssuedTokenConfiguration rtConfig = (STSIssuedTokenConfiguration)stsConfig.getOtherOptions().get("RunTimeConfig");
         Dispatch<Message> dispatch = null;
@@ -540,7 +540,7 @@ public class TrustPluginImpl implements TrustPlugin {
         }
         dispatch.getRequestContext().put(WSTrustConstants.IS_TRUST_MESSAGE, "true");
         dispatch.getRequestContext().put(WSTrustConstants.TRUST_ACTION, getAction(wstVer, request.getRequestType().toString()));
-        
+
         // Pass the keys and/or username, password to the message context
 //        String userName = (String) stsConfig.getOtherOptions().get(com.sun.xml.wss.XWSSConstants.USERNAME_PROPERTY);
 //        String password = (String) stsConfig.getOtherOptions().get(com.sun.xml.wss.XWSSConstants.PASSWORD_PROPERTY);
@@ -549,7 +549,7 @@ public class TrustPluginImpl implements TrustPlugin {
 //        }
 //        if (password != null){
 //            dispatch.getRequestContext().put(com.sun.xml.wss.XWSSConstants.PASSWORD_PROPERTY, password);
-//        }                
+//        }
 
 //        KeyPair keyPair = (KeyPair)stsConfig.getOtherOptions().get(WSTrustConstants.USE_KEY_RSA_KEY_PAIR);
 //        String id = (String)stsConfig.getOtherOptions().get(WSTrustConstants.USE_KEY_SIGNATURE_ID);
@@ -664,7 +664,7 @@ public class TrustPluginImpl implements TrustPlugin {
         KeyInfo ki = kif.newKeyInfo(kvs);
         return ki;
     }
-    
+
     private String getAction(WSTrustVersion wstVer, String requestType){
         if (wstVer.getIssueRequestTypeURI().equals(requestType)){
             return wstVer.getIssueRequestAction();
@@ -678,13 +678,13 @@ public class TrustPluginImpl implements TrustPlugin {
         if (wstVer.getCancelRequestTypeURI().equals(requestType)){
             return wstVer.getCancelRequestAction();
         }
-            
+
         return wstVer.getIssueRequestAction();
     }
-    
+
     private BaseSTSResponse parseRSTR(Source source, WSTrustVersion wstVer) throws WSTrustException{
         Element ele = null;
-        try{                                
+        try{
             DOMResult result = new DOMResult();
             Transformer tf = WSITXMLFactory.createTransformerFactory(WSITXMLFactory.DISABLE_SECURE_PROCESSING).newTransformer();
             tf.transform(source, result);
@@ -698,7 +698,7 @@ public class TrustPluginImpl implements TrustPlugin {
         }catch(Exception xe){
             throw new WSTrustException("Error occurred while trying to parse RSTR stream", xe);
         }
-        
+
         RequestedSecurityToken rdst = null;
         WSTrustElementFactory fact = WSTrustElementFactory.newInstance(wstVer);
         NodeList list = ele.getElementsByTagNameNS(ele.getNamespaceURI(), "RequestedSecurityToken");
@@ -744,7 +744,7 @@ public class TrustPluginImpl implements TrustPlugin {
                 throw new WSTrustException(ex.getMessage());
             }
             JAXBElement<BinarySecurityTokenType> bstElem = new com.sun.xml.ws.security.secext10.ObjectFactory().createBinarySecurityToken(bst);
-            
+
             // Cretae Identity element
             IdentityType idElem = new IdentityType();
             idElem.getDnsOrSpnOrUpn().add(bstElem);

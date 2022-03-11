@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -36,7 +36,7 @@ import javax.xml.stream.XMLStreamWriter;
 public class EnvelopedSignedMessageHeader implements SecurityHeaderElement,SecurityElementWriter{
     private Reference ref = null;
     private SecurityHeaderElement she = null;
-    private StAXEXC14nCanonicalizerImpl stAXC14n = null;    
+    private StAXEXC14nCanonicalizerImpl stAXC14n = null;
     private String id = "";
     private NamespaceContextEx nsContext = null;
     /** Creates a new instance of EnvelopedSignedMessageHeader */
@@ -47,41 +47,41 @@ public class EnvelopedSignedMessageHeader implements SecurityHeaderElement,Secur
         this.nsContext = nsContext;
         stAXC14n = new StAXEXC14nCanonicalizerImpl();
     }
-    
+
     @Override
     public boolean refersToSecHdrWithId(final String id) {
         throw new UnsupportedOperationException();
     }
-    
+
     @Override
     public String getId() {
         return id;
     }
-    
+
     @Override
     public void setId(final String id) {
     }
-    
+
     @Override
     public String getNamespaceURI() {
         return she.getNamespaceURI();
     }
-    
+
     @Override
     public String getLocalPart() {
         return she.getLocalPart();
     }
-    
+
     @Override
     public XMLStreamReader readHeader() {
         throw new UnsupportedOperationException();
     }
-    
+
     public byte[] canonicalize(final String algorithm, final List<AttributeNS> namespaceDecls) {
         throw new UnsupportedOperationException();
-        
+
     }
-    
+
     public boolean isCanonicalized() {
         throw new UnsupportedOperationException();
     }
@@ -94,7 +94,7 @@ public class EnvelopedSignedMessageHeader implements SecurityHeaderElement,Secur
         if(nsContext == null){
             throw new XMLStreamException("NamespaceContext is null in writeTo method");
         }
-        
+
         Iterator<NamespaceContextEx.Binding> itr = nsContext.iterator();
         stAXC14n.reset();
         while(itr.hasNext()){
@@ -121,9 +121,9 @@ public class EnvelopedSignedMessageHeader implements SecurityHeaderElement,Secur
     public void writeTo(XMLStreamWriter streamWriter, HashMap props) {
         throw new UnsupportedOperationException("Not implemented yet");
     }
-    
+
     /**
-     * 
+     *
      * @param os OutputStream
      */
     @Override

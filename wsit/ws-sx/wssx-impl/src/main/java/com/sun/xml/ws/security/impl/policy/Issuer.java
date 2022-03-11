@@ -33,17 +33,17 @@ public class Issuer extends PolicyAssertion implements com.sun.xml.ws.security.p
     private PolicyAssertion serviceName = null;
     private String portType = null;
     private Element identityEle = null;
-    
+
     /**
      * Creates a new instance of Issuer
      */
     public Issuer() {
     }
-    
+
     public Issuer(AssertionData name,Collection<PolicyAssertion> nestedAssertions, AssertionSet nestedAlternative) {
         super(name,nestedAssertions,nestedAlternative);
     }
-    
+
     @Override
     public AssertionFitness validate(boolean isServer) {
         return populate(isServer);
@@ -105,7 +105,7 @@ public class Issuer extends PolicyAssertion implements com.sun.xml.ws.security.p
     private void populate(){
         populate(false);
     }
-    
+
     private synchronized AssertionFitness populate(boolean isServer) {
         if(!populated){
             if ( this.hasNestedAssertions() ) {
@@ -134,37 +134,37 @@ public class Issuer extends PolicyAssertion implements com.sun.xml.ws.security.p
         }
         return fitness;
     }
-    
+
     @Override
     public Address getAddress() {
         populate();
         return address;
     }
-    
+
     @Override
     public String getPortType(){
         populate();
         return portType;
     }
-    
+
     @Override
     public PolicyAssertion getReferenceParameters(){
         populate();
         return refParams;
     }
-    
+
     @Override
     public PolicyAssertion getReferenceProperties(){
         populate();
         return refProps;
     }
-    
+
     @Override
     public PolicyAssertion getServiceName(){
         populate();
         return serviceName;
     }
-    
+
     @Override
     public Element getIdentity(){
         populate();

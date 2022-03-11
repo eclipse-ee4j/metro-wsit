@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -52,12 +52,12 @@ public class Action  extends com.sun.xml.wss.saml.internal.saml20.jaxb20.ActionT
         setValue(action);
         setNamespace(namespace);
     }
-    
+
     public Action(ActionType actionType) {
         setValue(actionType.getValue());
         setNamespace(actionType.getNamespace());
     }
-    
+
     @Override
     public String getValue(){
         return super.getValue();

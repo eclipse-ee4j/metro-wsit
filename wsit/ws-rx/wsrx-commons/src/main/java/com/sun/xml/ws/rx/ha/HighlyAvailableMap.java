@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -54,7 +54,7 @@ public final class HighlyAvailableMap<K extends Serializable, V> implements Map<
             // noop
             if (LOGGER.isLoggable(Level.FINER)) {
                 LOGGER.finer(loggerProlog + "save() method invoked for [key=" + key + ", value=" + value + ", isNew=" + isNew + "]");
-            }            
+            }
         }
 
         @Override
@@ -70,7 +70,7 @@ public final class HighlyAvailableMap<K extends Serializable, V> implements Map<
             // noop
             if (LOGGER.isLoggable(Level.FINER)) {
                 LOGGER.finer(loggerProlog + "close() invoked");
-            }            
+            }
         }
 
         @Override
@@ -78,7 +78,7 @@ public final class HighlyAvailableMap<K extends Serializable, V> implements Map<
             // noop
             if (LOGGER.isLoggable(Level.FINER)) {
                 LOGGER.finer(loggerProlog + "destroy() invoked");
-            }            
+            }
         }
     }
 
@@ -97,7 +97,7 @@ public final class HighlyAvailableMap<K extends Serializable, V> implements Map<
             final V data = HighAvailabilityProvider.loadFrom(backingStore, key, null);
             if (LOGGER.isLoggable(Level.FINER)) {
                 LOGGER.finer(loggerProlog + "loaded data for key [" + key + "]: " + data);
-            }            
+            }
             return data;
         }
 
@@ -105,7 +105,7 @@ public final class HighlyAvailableMap<K extends Serializable, V> implements Map<
         public void save(K key, V value, boolean isNew) {
             if (LOGGER.isLoggable(Level.FINER)) {
                 LOGGER.finer(loggerProlog + "sending for replication [key=" + key + ", value=" + value + ", isNew=" + isNew + "]");
-            }            
+            }
             HighAvailabilityProvider.saveTo(backingStore, key, value, isNew);
         }
 
@@ -121,7 +121,7 @@ public final class HighlyAvailableMap<K extends Serializable, V> implements Map<
         public void close() {
             if (LOGGER.isLoggable(Level.FINER)) {
                 LOGGER.finer(loggerProlog + "closing backing store");
-            }            
+            }
             HighAvailabilityProvider.close(backingStore);
         }
 
@@ -129,7 +129,7 @@ public final class HighlyAvailableMap<K extends Serializable, V> implements Map<
         public void destroy() {
             if (LOGGER.isLoggable(Level.FINER)) {
                 LOGGER.finer(loggerProlog + "destroying backing store");
-            }            
+            }
             HighAvailabilityProvider.destroy(backingStore);
         }
     }
@@ -149,7 +149,7 @@ public final class HighlyAvailableMap<K extends Serializable, V> implements Map<
             final V data = HighAvailabilityProvider.loadFrom(backingStore, new StickyKey(key), null);
             if (LOGGER.isLoggable(Level.FINER)) {
                 LOGGER.finer(loggerProlog + "loaded data for key [" + key + "]: " + data);
-            }                        
+            }
             return data;
         }
 
@@ -157,7 +157,7 @@ public final class HighlyAvailableMap<K extends Serializable, V> implements Map<
         public void save(final K key, final V value, final boolean isNew) {
             if (LOGGER.isLoggable(Level.FINER)) {
                 LOGGER.finer(loggerProlog + "sending for replication [key=" + key + ", value=" + value + ", isNew=" + isNew + "]");
-            }            
+            }
 
             HaInfo haInfo = HaContext.currentHaInfo();
             if (haInfo != null) {
@@ -168,7 +168,7 @@ public final class HighlyAvailableMap<K extends Serializable, V> implements Map<
             } else {
                 final StickyKey stickyKey = new StickyKey(key);
                 final String replicaId = HighAvailabilityProvider.saveTo(backingStore, stickyKey, value, isNew);
-                
+
                 haInfo = new HaInfo(stickyKey.getHashKey(), replicaId, false);
                 HaContext.updateHaInfo(haInfo);
                 if (LOGGER.isLoggable(Level.FINER)) {
@@ -189,7 +189,7 @@ public final class HighlyAvailableMap<K extends Serializable, V> implements Map<
         public void close() {
             if (LOGGER.isLoggable(Level.FINER)) {
                 LOGGER.finer(loggerProlog + "closing backing store");
-            }            
+            }
             HighAvailabilityProvider.close(backingStore);
         }
 
@@ -197,7 +197,7 @@ public final class HighlyAvailableMap<K extends Serializable, V> implements Map<
         public void destroy() {
             if (LOGGER.isLoggable(Level.FINER)) {
                 LOGGER.finer(loggerProlog + "destroying backing store");
-            }            
+            }
             HighAvailabilityProvider.destroy(backingStore);
         }
     }
@@ -206,7 +206,7 @@ public final class HighlyAvailableMap<K extends Serializable, V> implements Map<
     private final ReadWriteLock dataLock = new ReentrantReadWriteLock();
     private final ReplicationManager<K, V> replicationManager;
     private final String loggerProlog;
-    
+
     public static <K extends Serializable, V extends Serializable> HighlyAvailableMap<K, V> create(final String name, BackingStore<K, V> backingStore) {
         return new HighlyAvailableMap<>(name, new HashMap<>(), new SimpleReplicationManager<>(name + "_MANAGER", backingStore));
     }
@@ -219,7 +219,7 @@ public final class HighlyAvailableMap<K extends Serializable, V> implements Map<
         if (replicationManager == null) {
             replicationManager = new NoopReplicationManager<>(name + "_MANAGER");
         }
-        
+
         return new HighlyAvailableMap<>(name, new HashMap<>(), replicationManager);
     }
 
@@ -233,18 +233,18 @@ public final class HighlyAvailableMap<K extends Serializable, V> implements Map<
     public int size() {
         dataLock.readLock().lock();
         try {
-            
+
             return localMap.size();
         } finally {
             dataLock.readLock().unlock();
-        }        
+        }
     }
 
     @Override
     public boolean isEmpty() {
         dataLock.readLock().lock();
         try {
-            
+
             return localMap.isEmpty();
         } finally {
             dataLock.readLock().unlock();
@@ -258,7 +258,7 @@ public final class HighlyAvailableMap<K extends Serializable, V> implements Map<
 
         dataLock.readLock().lock();
         try {
-            
+
             if (localMap.containsKey(_key)) {
                 return true;
             }
@@ -266,7 +266,7 @@ public final class HighlyAvailableMap<K extends Serializable, V> implements Map<
             return tryLoad(_key) != null;
         } finally {
             dataLock.readLock().unlock();
-        }        
+        }
     }
 
     @Override
@@ -279,29 +279,29 @@ public final class HighlyAvailableMap<K extends Serializable, V> implements Map<
     public V get(Object key) {
         if (LOGGER.isLoggable(Level.FINER)) {
             LOGGER.finer(loggerProlog + "Retrieving data for key ["+ key + "]");
-        }                    
-        
+        }
+
         @SuppressWarnings("unchecked")
         K _key = (K) key;
-        
+
         dataLock.readLock().lock();
         try {
-            
+
             V value = localMap.get(_key);
             if (value != null) {
                 if (LOGGER.isLoggable(Level.FINER)) {
                     LOGGER.finer(loggerProlog + "Data for key ["+ key + "] found in a local cache: " + value);
-                }                    
+                }
                 return value;
             }
 
             if (LOGGER.isLoggable(Level.FINER)) {
                 LOGGER.finer(loggerProlog + "Data for key ["+ key + "] not found in the local cache - consulting replication manager");
-            }                            
+            }
             return tryLoad(_key);
         } finally {
             dataLock.readLock().unlock();
-        }        
+        }
     }
 
     @Override
@@ -309,19 +309,19 @@ public final class HighlyAvailableMap<K extends Serializable, V> implements Map<
         if (LOGGER.isLoggable(Level.FINER)) {
             LOGGER.finer(loggerProlog + "Storing data for key ["+ key + "]: " + value);
         }
-        
+
         dataLock.writeLock().lock();
         try {
             V oldValue = localMap.put(key, value);
             replicationManager.save(key, value, oldValue == null);
             if (LOGGER.isLoggable(Level.FINER)) {
                 LOGGER.finer(loggerProlog + "Old data replaced for key ["+ key + "]: " + oldValue);
-            }                    
+            }
 
             return oldValue;
         } finally {
             dataLock.writeLock().unlock();
-        }           
+        }
     }
 
     @Override
@@ -330,20 +330,20 @@ public final class HighlyAvailableMap<K extends Serializable, V> implements Map<
         K _key = (K) key;
 
         V oldValue = get(_key);
-        
+
         dataLock.writeLock().lock();
         try {
-            localMap.remove(_key);                                    
+            localMap.remove(_key);
             replicationManager.remove(_key);
             if (LOGGER.isLoggable(Level.FINER)) {
                 LOGGER.finer(loggerProlog + "Removing data for key ["+ key + "]: " + oldValue);
-            }                    
+            }
 
             return oldValue;
         } finally {
             dataLock.writeLock().unlock();
-        }   
-        
+        }
+
     }
 
     @Override
@@ -352,17 +352,17 @@ public final class HighlyAvailableMap<K extends Serializable, V> implements Map<
         try {
             for (Entry<? extends K, ? extends V> e : m.entrySet()) {
                 put(e.getKey(), e.getValue());
-            }            
+            }
         } finally {
             dataLock.writeLock().unlock();
-        }        
+        }
     }
 
     private V tryLoad(K key) {
         if (LOGGER.isLoggable(Level.FINER)) {
             LOGGER.finer(loggerProlog + "Using replication manager to load data for key ["+ key + "]");
-        }                    
-        
+        }
+
         dataLock.readLock().unlock();
         dataLock.writeLock().lock();
         try {
@@ -370,15 +370,15 @@ public final class HighlyAvailableMap<K extends Serializable, V> implements Map<
             if (value != null) {
                 return value;
             }
-            
-            value = replicationManager.load(key);            
+
+            value = replicationManager.load(key);
             if (value != null) {
                 localMap.put(key, value);
             }
-            
+
             if (LOGGER.isLoggable(Level.FINER)) {
                 LOGGER.finer(loggerProlog + "Replication manager returned data for key ["+ key + "]: " + value);
-            }                            
+            }
 
             return value;
         } finally {
@@ -392,89 +392,89 @@ public final class HighlyAvailableMap<K extends Serializable, V> implements Map<
         dataLock.writeLock().lock();
         try {
             for (K key : localMap.keySet()) {
-                replicationManager.remove(key);            
+                replicationManager.remove(key);
             }
 
             localMap.clear();
             if (LOGGER.isLoggable(Level.FINER)) {
                 LOGGER.finer(loggerProlog + "HA map cleared");
-            }                                
+            }
         } finally {
             dataLock.writeLock().unlock();
-        }        
+        }
     }
 
     @Override
     public Set<K> keySet() {
         dataLock.readLock().lock();
         try {
-            
+
             return localMap.keySet();
         } finally {
             dataLock.readLock().unlock();
-        }                
+        }
     }
 
     @Override
     public Collection<V> values() {
         dataLock.readLock().lock();
         try {
-            
+
             return localMap.values();
         } finally {
             dataLock.readLock().unlock();
-        }        
+        }
     }
 
     @Override
     public Set<Entry<K, V>> entrySet() {
         dataLock.readLock().lock();
         try {
-            
+
             return localMap.entrySet();
         } finally {
             dataLock.readLock().unlock();
-        }        
+        }
     }
 
     public Map<K, V> getLocalMapCopy() {
         dataLock.readLock().lock();
         try {
-            
+
             return new HashMap<>(localMap);
         } finally {
             dataLock.readLock().unlock();
-        }        
+        }
     }
 
     public void invalidateCache() {
         dataLock.writeLock().lock();
         try {
-            
+
             localMap.clear();
             if (LOGGER.isLoggable(Level.FINER)) {
                 LOGGER.finer(loggerProlog + "local cache invalidated");
-            }                    
+            }
         } finally {
             dataLock.writeLock().unlock();
-        }        
+        }
     }
 
     public ReplicationManager<K, V> getReplicationManager() {
         return replicationManager;
     }
 
-    public void close() {        
+    public void close() {
         replicationManager.close();
         if (LOGGER.isLoggable(Level.FINER)) {
             LOGGER.finer(loggerProlog + "HA map closed");
-        }            
+        }
     }
 
     public void destroy() {
         replicationManager.destroy();
         if (LOGGER.isLoggable(Level.FINER)) {
             LOGGER.finer(loggerProlog + "HA map destroyed");
-        }            
+        }
     }
 }

@@ -42,7 +42,7 @@ import org.w3c.dom.Element;
  * @author Jiandong Guo
  */
 public class DefaultSTSAttributeProvider implements STSAttributeProvider{
-   
+
     @Override
     public Map<QName, List<String>> getClaimedAttributes(final Subject subject, final String appliesTo, final String tokenType, final Claims claims){
         final Set<Principal> principals = subject.getPrincipals();
@@ -57,7 +57,7 @@ public class DefaultSTSAttributeProvider implements STSAttributeProvider{
                     attrs.put(new QName("http://sun.com", NAME_IDENTIFIER), nameIds);
                     break;
                 }
-            }       
+            }
         }else {
             //handle the case that the authentication token is SAML assertion
             Set<Object> set = subject.getPublicCredentials();
@@ -110,7 +110,7 @@ public class DefaultSTSAttributeProvider implements STSAttributeProvider{
             tokenRequestor.add("authenticated");
             attrs.put(key, tokenRequestor);
         }
-       
+
         return attrs;
     }
 

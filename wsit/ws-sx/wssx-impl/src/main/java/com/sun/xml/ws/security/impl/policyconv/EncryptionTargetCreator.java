@@ -21,7 +21,7 @@ import javax.xml.namespace.QName;
  * @author K.Venugopal@sun.com
  */
 public class EncryptionTargetCreator {
-    
+
     public AlgorithmSuite algorithmSuite;
     public boolean enforce = false;
     /** Creates a new instance of EncryptionTargetCreator */
@@ -29,7 +29,7 @@ public class EncryptionTargetCreator {
         this.algorithmSuite = algorithmSuite;
         this.enforce = enforce;
     }
-    
+
     public EncryptionTarget newQNameEncryptionTarget(QName targetValue){
         EncryptionTarget target = new EncryptionTarget();
         target.setEnforce(enforce);
@@ -44,7 +44,7 @@ public class EncryptionTargetCreator {
         }
         return target;
     }
-    
+
     public EncryptionTarget newXpathEncryptionTarget(String xpathTarget){
         EncryptionTarget target = new EncryptionTarget();
         target.setType(EncryptionTarget.TARGET_TYPE_VALUE_XPATH);
@@ -57,7 +57,7 @@ public class EncryptionTargetCreator {
         }
         return target;
     }
-    
+
     public EncryptionTarget newURIEncryptionTarget(String uri){
         EncryptionTarget target = new EncryptionTarget();
         target.setEnforce(enforce);
@@ -70,7 +70,7 @@ public class EncryptionTargetCreator {
         }
         return target;
     }
-    
+
     public void addAttachmentTransform(EncryptionTarget target, String transformURI){
         EncryptionTarget.Transform tr = target.newEncryptionTransform();
         tr.setTransform(transformURI);

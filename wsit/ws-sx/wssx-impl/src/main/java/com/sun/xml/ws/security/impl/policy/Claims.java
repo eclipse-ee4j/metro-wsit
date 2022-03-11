@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -51,7 +51,7 @@ public class Claims extends PolicyAssertion implements com.sun.xml.ws.security.p
         populate();
         return claimsBytes;
     }
-    
+
     @Override
     public Element getClaimsAsElement(){
         populate();
@@ -81,7 +81,7 @@ public class Claims extends PolicyAssertion implements com.sun.xml.ws.security.p
     private synchronized AssertionFitness populate(boolean b) {
         if (!populated) {
             claimsBytes = PolicyUtil.policyAssertionToBytes(this);
-            populated = true;  
+            populated = true;
         }
         return fitness;
     }

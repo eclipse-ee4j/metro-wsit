@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -37,9 +37,9 @@ import com.sun.xml.wss.impl.misc.SOAPElementExtension;
  * @author Vishal Mahajan
  */
 public abstract class ReferenceElement extends SOAPElementExtension implements SOAPElement {
-    
+
     protected SOAPElement delegateElement;
-    
+
     protected static final SOAPFactory soapFactory;
 
     static {
@@ -59,7 +59,7 @@ public abstract class ReferenceElement extends SOAPElementExtension implements S
     public SOAPElement getAsSoapElement() throws XWSSecurityException {
         return delegateElement;
     }
-    
+
     // Generated delegate methods
     @Override
     public SOAPElement addAttribute(Name arg0, String arg1)
@@ -419,7 +419,7 @@ public abstract class ReferenceElement extends SOAPElementExtension implements S
         return delegateElement.toString();
     }
 
-    
+
     // DOM L3 methods from org.w3c.dom.Node
     @Override
     public String getBaseURI() {
@@ -487,17 +487,17 @@ public abstract class ReferenceElement extends SOAPElementExtension implements S
     }
 
     // DOM L3 methods from org.w3c.dom.Element
-                                                                                                                                     
+
     @Override
     public void setIdAttribute(String name, boolean isId) throws DOMException {
         delegateElement.setIdAttribute(name, isId);
     }
-                                                                                                                                     
+
     @Override
     public void setIdAttributeNode(Attr idAttr, boolean isId) throws DOMException {
         delegateElement.setIdAttributeNode(idAttr, isId);
     }
-                                                                                                                                     
+
     @Override
     public void setIdAttributeNS(String namespaceURI, String localName, boolean isId) throws DOMException {
         delegateElement.setIdAttributeNS(namespaceURI, localName, isId);

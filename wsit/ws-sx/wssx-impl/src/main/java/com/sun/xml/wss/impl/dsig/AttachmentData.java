@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -20,7 +20,7 @@ import javax.xml.crypto.Data;
 import jakarta.xml.soap.AttachmentPart;
 
 /**
- * <B>Wrapper class to be used with XWSS attachment transform 
+ * <B>Wrapper class to be used with XWSS attachment transform
  * provider implementation.</B>
  * @author K.Venugopal@sun.com
  */
@@ -29,17 +29,17 @@ public class AttachmentData implements Data {
     /** Creates a new instance of AttachmentData */
     public AttachmentData() {
     }
-    
+
     /**
      *
-     */    
+     */
     public void setAttachmentPart(AttachmentPart attachment){
         this.attachment = attachment;
     }
-    
+
     /**
      *
-     */    
+     */
     public AttachmentPart getAttachmentPart(){
         return attachment;
     }

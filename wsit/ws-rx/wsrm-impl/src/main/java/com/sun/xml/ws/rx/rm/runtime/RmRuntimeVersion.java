@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -131,15 +131,15 @@ public enum RmRuntimeVersion {
     /**
      * Creates JAXB {@link Unmarshaller} that is able to unmarshall protocol elements for given WS-RM version.
      * <p>
-     * As JAXB unmarshallers are not thread-safe, this method should be used to create a new {@link Unmarshaller} 
+     * As JAXB unmarshallers are not thread-safe, this method should be used to create a new {@link Unmarshaller}
      * instance whenever there is a chance that the same instance might be invoked concurrently from multiple
-     * threads. On th other hand, it is prudent to cache or pool {@link Unmarshaller} instances if possible as 
+     * threads. On th other hand, it is prudent to cache or pool {@link Unmarshaller} instances if possible as
      * constructing a new {@link Unmarshaller} instance is rather expensive.
      * <p>
      * For additional information see this <a href="https://jaxb.dev.java.net/guide/Performance_and_thread_safety.html">blog entry</a>.
-     *  
+     *
      * @return created JAXB unmarshaller
-     * 
+     *
      * @exception RxRuntimeException in case the creation of unmarshaller failed
      */
     public Unmarshaller createUnmarshaller(AddressingVersion av) throws RxRuntimeException {
@@ -148,9 +148,9 @@ public enum RmRuntimeVersion {
 
     /**
      * Returns JAXB context that is intitialized based on a given addressing version.
-     * 
+     *
      * @param av addressing version used to initialize JAXB context
-     * 
+     *
      * @return JAXB context that is intitialized based on a given addressing version.
      */
     public JAXBRIContext getJaxbContext(AddressingVersion av) {
@@ -160,5 +160,5 @@ public enum RmRuntimeVersion {
     @Override
     public String toString() {
         return "RmRuntimeVersion{" + "protocolVersion=" + protocolVersion + '}';
-    }   
+    }
 }

@@ -57,14 +57,14 @@ import org.w3c.dom.Element;
 
 /**
  * processes diferent types of tokens like Username,X509,IssuedToken... etc
- * 
+ *
  */
 public class AuthenticationTokenFilter {
-    
+
     private static final Logger log = Logger.getLogger(
             LogDomainConstants.IMPL_FILTER_DOMAIN,
             LogDomainConstants.IMPL_FILTER_DOMAIN_BUNDLE);
-    
+
     /** if the message is incomming it gets Username Token from the meaage
      *  for outgoing it adds Username Token to the message
      *  @param context FilterProcessingContext
@@ -87,44 +87,44 @@ public class AuthenticationTokenFilter {
             ExportSamlAssertionFilter.process(context);
         }
     }
-    
+
     /**
      * adds the issued token to the message if the message is not an inbound message
      * @param context FilterProcessingContext
      */
     public static void processIssuedToken(FilterProcessingContext context) throws XWSSecurityException {
-        if (!context.isInboundMessage()) {            
+        if (!context.isInboundMessage()) {
             addIssuedTokenToMessage(context);
-        }        
+        }
     }
-    
+
     /**
      * gets the username token from the message and validates it
      * @param context FilterProcessingContext
      */
     private static void getUserNameTokenFromMessage(FilterProcessingContext context)
     throws XWSSecurityException{
-        
+
         SecurableSoapMessage secureMessage = context.getSecurableSoapMessage();
         SecurityHeader wsseSecurity = secureMessage.findSecurityHeader();
         UsernameToken token = null;
-        
+
         if(context.getMode() == FilterProcessingContext.ADHOC) {
             //AuthenticationTokenPolicy policy = (AuthenticationTokenPolicy)context.getSecurityPolicy();
             if ( context.makeDynamicPolicyCallback() ) {
                 try {
-                    
+
                     AuthenticationTokenPolicy policy =
                             ((AuthenticationTokenPolicy)context.getSecurityPolicy());
-                    
-                    
+
+
                     AuthenticationTokenPolicy.UsernameTokenBinding userNamePolicy =
                             (AuthenticationTokenPolicy.UsernameTokenBinding)policy.getFeatureBinding();
                     userNamePolicy.isReadOnly(true);
-                    
+
                     DynamicApplicationContext dynamicContext =
                             new DynamicApplicationContext(context.getPolicyContext());
-                    
+
                     dynamicContext.setMessageIdentifier(context.getMessageIdentifier());
                     dynamicContext.inBoundMessage(true);
                     DynamicPolicyCallback dynamicCallback =
@@ -132,7 +132,7 @@ public class AuthenticationTokenFilter {
                     ProcessingContext.copy(dynamicContext.getRuntimeProperties(), context.getExtraneousProperties());
                     HarnessUtil.makeDynamicPolicyCallback(dynamicCallback,
                             context.getSecurityEnvironment().getCallbackHandler());
-                    
+
                     policy.setFeatureBinding((AuthenticationTokenPolicy.UsernameTokenBinding)dynamicCallback.getSecurityPolicy());
                     //context.setSecurityPolicy(policy);
                 } catch (Exception e) {
@@ -141,7 +141,7 @@ public class AuthenticationTokenFilter {
                 }
             }
             AuthenticationTokenPolicy policy = (AuthenticationTokenPolicy)context.getSecurityPolicy();
-            
+
             NodeList nodeList = wsseSecurity.getElementsByTagNameNS(MessageConstants.WSSE_NS,
                     MessageConstants.USERNAME_TOKEN_LNAME);
             if(nodeList.getLength() <= 0){
@@ -157,13 +157,13 @@ public class AuthenticationTokenFilter {
                 token.isBSP(policy.isBSP());
             }
         }else{
-            
+
             if (context.getMode() == FilterProcessingContext.POSTHOC) {
                 log.log(Level.SEVERE, LogStringsMessages.WSS_1402_ERROR_POSTHOC());
                 throw new XWSSecurityException(
                         "Internal Error: Called UsernameTokenFilter in POSTHOC Mode");
             }
-            
+
             try{
                 token = new UsernameToken(wsseSecurity.getCurrentHeaderElement());
             } catch(XWSSecurityException ex) {
@@ -174,7 +174,7 @@ public class AuthenticationTokenFilter {
                         ex);
             }
         }
-        
+
         String username = token.getUsername();
         String password = token.getPassword();
         String passwordDigest = token.getPasswordDigest();
@@ -182,13 +182,13 @@ public class AuthenticationTokenFilter {
         String nonce = token.getNonce();
         String created = token.getCreated();
         boolean authenticated = false;
-        
+
         if (context.getMode() == FilterProcessingContext.ADHOC) {
-            
+
             AuthenticationTokenPolicy policy = (AuthenticationTokenPolicy)context.getSecurityPolicy();
             AuthenticationTokenPolicy.UsernameTokenBinding utBinding =
                     (AuthenticationTokenPolicy.UsernameTokenBinding)policy.getFeatureBinding();
-            
+
             // do policy checks
             if (utBinding.getDigestOn() && (passwordDigest == null)) {
                 log.log(Level.SEVERE, LogStringsMessages.WSS_1404_NOTMET_DIGESTED());
@@ -196,21 +196,21 @@ public class AuthenticationTokenFilter {
                         "Receiver Requirement for Digested " +
                         "Password has not been met");
             }
-            
+
             if (!utBinding.getDigestOn() && (passwordDigest != null)) {
                 log.log(Level.SEVERE, LogStringsMessages.WSS_1405_NOTMET_PLAINTEXT());
                 throw new XWSSecurityException(
                         "Receiver Requirement for Plain-Text " +
                         "Password has not been met, Received token has Password-Digest");
             }
-            
+
             if (utBinding.getUseNonce() && (nonce == null)) {
                 log.log(Level.SEVERE, LogStringsMessages.WSS_1406_NOTMET_NONCE());
                 throw new XWSSecurityException(
                         "Receiver Requirement for nonce " +
                         "has not been met");
             }
-            
+
             if (!utBinding.getUseNonce() && (nonce != null)) {
                 log.log(Level.SEVERE, LogStringsMessages.WSS_1407_NOTMET_NONONCE());
                 throw new XWSSecurityException(
@@ -228,7 +228,7 @@ public class AuthenticationTokenFilter {
             }
             context.getInferredSecurityPolicy().append(sp);
         }
-        
+
         try {
             if (MessageConstants.PASSWORD_TEXT_NS == passwordType) {
                 authenticated = context.getSecurityEnvironment().authenticateUser(context.getExtraneousProperties(), username, password);
@@ -236,7 +236,7 @@ public class AuthenticationTokenFilter {
                 authenticated = context.getSecurityEnvironment().authenticateUser(
                         context.getExtraneousProperties(), username, passwordDigest, nonce, created);
             }
-            
+
             if (!authenticated) {
                 log.log(Level.SEVERE, LogStringsMessages.WSS_1408_FAILED_SENDER_AUTHENTICATION());
                 XWSSecurityException xwse =
@@ -246,24 +246,24 @@ public class AuthenticationTokenFilter {
                         "Authentication of Username Password Token Failed",
                         xwse);
             }
-            
+
             if (log.isLoggable(Level.FINEST)) {
                 log.log(Level.FINEST, "Password Validated.....");
             }
-            
+
             long maxClockSkew = Timestamp.MAX_CLOCK_SKEW;
             long freshnessLmt = Timestamp.TIMESTAMP_FRESHNESS_LIMIT;
             long maxNonceAge =  UsernameToken.MAX_NONCE_AGE;
-            
+
             if (context.getMode() == FilterProcessingContext.ADHOC) {
-                
+
                 AuthenticationTokenPolicy authPolicy =
                         (AuthenticationTokenPolicy)context.getSecurityPolicy();
-                
+
                 AuthenticationTokenPolicy.UsernameTokenBinding policy =
                         (AuthenticationTokenPolicy.UsernameTokenBinding)
                         authPolicy.getFeatureBinding();
-                
+
                 if (created != null) {
                     TimestampPolicy tPolicy = (TimestampPolicy) policy.getFeatureBinding();
                     maxClockSkew = tPolicy.getMaxClockSkew();
@@ -271,16 +271,16 @@ public class AuthenticationTokenFilter {
                 }
                 maxNonceAge = policy.getMaxNonceAge();
             }
-            
+
             if (created != null) {
                 context.getSecurityEnvironment().validateCreationTime(
                         context.getExtraneousProperties(), created, maxClockSkew, freshnessLmt);
             }
-            
+
             if (log.isLoggable(Level.FINEST) && created!= null) {
                 log.log(Level.FINEST, "CreationTime Validated.....");
             }
-            
+
             if (nonce != null) {
                 try {
                     if (!context.getSecurityEnvironment().validateAndCacheNonce(context.getExtraneousProperties(),nonce, created, maxNonceAge)) {
@@ -301,7 +301,7 @@ public class AuthenticationTokenFilter {
                             ex);
                 }
             }
-            
+
         } catch (XWSSecurityException xwsse) {
             log.log(Level.SEVERE, LogStringsMessages.WSS_1408_FAILED_SENDER_AUTHENTICATION(), xwsse);
             throw SecurableSoapMessage.newSOAPFaultException(
@@ -309,13 +309,13 @@ public class AuthenticationTokenFilter {
                     xwsse.getMessage(),
                     xwsse);
         }
-        
+
         context.getSecurityEnvironment().updateOtherPartySubject(
                 DefaultSecurityEnvironmentImpl.getSubject(context),username, password);
-        
+
     }
-    
-    
+
+
     /**
      * sets the username and password in the usernametoken
      * @param context FilterProcessingContext
@@ -328,38 +328,38 @@ public class AuthenticationTokenFilter {
             FilterProcessingContext context,
             UsernameToken token, com.sun.xml.ws.security.opt.impl.tokens.UsernameToken unToken,
             AuthenticationTokenPolicy policy)throws XWSSecurityException {
-        
-       
+
+
         if(!context.makeDynamicPolicyCallback()) {
-            
+
          //AuthenticationTokenPolicy.UsernameTokenBinding userNamePolicy =  UsernameTokenDataResolver.setSaltandIterationsforUsernameToken(context, token, unToken, policy);
-        
+
             AuthenticationTokenPolicy.UsernameTokenBinding userNamePolicy =
             (AuthenticationTokenPolicy.UsernameTokenBinding)policy.getFeatureBinding();
             String userName = userNamePolicy.getUsername();
             String password = userNamePolicy.getPassword();
-            
+
             if (userName == null || "".equals(userName)) {
             userName = context.getSecurityEnvironment().getUsername(context.getExtraneousProperties());
             }
-            
+
             if (userName == null || "".equals(userName)) {
             log.log(Level.SEVERE, LogStringsMessages.WSS_1409_INVALID_USERNAME_TOKEN());
             throw new XWSSecurityException("Username has not been set");
             }
-            
+
             if(token != null)
             token.setUsername(userName);
             else
             unToken.setUsernameValue(userName);
-            
+
             if (!userNamePolicy.hasNoPassword() && (password == null || "".equals(password))) {
             password = context.getSecurityEnvironment().getPassword(context.getExtraneousProperties());
             }
             if(!userNamePolicy.hasNoPassword()){
             if (password == null) {
             log.log(Level.SEVERE, LogStringsMessages.WSS_1424_INVALID_USERNAME_TOKEN());
-            throw new XWSSecurityException("Password for the username has not been set"); 
+            throw new XWSSecurityException("Password for the username has not been set");
             }
             if(token != null)
             token.setPassword(password);
@@ -373,10 +373,10 @@ public class AuthenticationTokenFilter {
                 AuthenticationTokenPolicy.UsernameTokenBinding userNamePolicy =
                         (AuthenticationTokenPolicy.UsernameTokenBinding)policy.getFeatureBinding();
                 userNamePolicy.isReadOnly(true);
-                
+
                 DynamicApplicationContext dynamicContext =
                         new DynamicApplicationContext(context.getPolicyContext());
-                
+
                 dynamicContext.setMessageIdentifier(context.getMessageIdentifier());
                 dynamicContext.inBoundMessage(false);
                 DynamicPolicyCallback dynamicCallback =
@@ -384,11 +384,11 @@ public class AuthenticationTokenFilter {
                 ProcessingContext.copy(dynamicContext.getRuntimeProperties(), context.getExtraneousProperties());
                 HarnessUtil.makeDynamicPolicyCallback(dynamicCallback,
                         context.getSecurityEnvironment().getCallbackHandler());
-                
-                
+
+
                 AuthenticationTokenPolicy.UsernameTokenBinding resolvedPolicy =
                         (AuthenticationTokenPolicy.UsernameTokenBinding)dynamicCallback.getSecurityPolicy();
-                
+
                 if(token != null){
                     token.setUsername(resolvedPolicy.getUsername());
                     token.setPassword(resolvedPolicy.getPassword());
@@ -397,16 +397,16 @@ public class AuthenticationTokenFilter {
                     unToken.setPasswordValue(resolvedPolicy.getPassword());
                 }
                 return resolvedPolicy;
-                
+
             } catch (Exception e) {
               log.log(Level.SEVERE, LogStringsMessages.WSS_1403_IMPORT_USERNAME_TOKEN(), e);
                 throw new XWSSecurityException(e);
             }
         }
     }
-    
-    
-    
+
+
+
     /**
      * sets the parameters nonce,creationtime,...etc to the username token
      * adds this username token to the security header
@@ -421,32 +421,32 @@ public class AuthenticationTokenFilter {
             AuthenticationTokenPolicy authPolicy = (AuthenticationTokenPolicy)context.getSecurityPolicy();
             com.sun.xml.ws.security.opt.impl.tokens.UsernameToken unToken =
                     new com.sun.xml.ws.security.opt.impl.tokens.UsernameToken(opContext.getSOAPVersion());
-            
+
             AuthenticationTokenPolicy.UsernameTokenBinding policy =
                     resolveUserNameTokenData(opContext, null, unToken, authPolicy);
-            
+
             if(policy.getUseNonce()){
                 unToken.setNonce(policy.getNonce());
             }
             if(policy.getDigestOn()){
                 unToken.setDigestOn();
             }
-            
+
             if ( policy.getUseNonce() || policy.getDigestOn() || policy.getUseCreated()) {
                 String creationTime = "";
                 TimestampPolicy tPolicy = (TimestampPolicy) policy.getFeatureBinding();
                 creationTime = tPolicy.getCreationTime();
                 unToken.setCreationTime(creationTime);
             }
-            
-            
+
+
             if(policy.hasNoPassword()){
                 String creationTime = "";
                 TimestampPolicy tPolicy = (TimestampPolicy) policy.getFeatureBinding();
                 creationTime = tPolicy.getCreationTime();
                 unToken.setCreationTime(creationTime);
             }
-            
+
             String wsuId = policy.getUUID();
             if (wsuId != null && !wsuId.equals("")){
                 unToken.setId(wsuId);
@@ -455,27 +455,27 @@ public class AuthenticationTokenFilter {
         } else {
             SecurableSoapMessage secureMessage = context.getSecurableSoapMessage();
             SOAPPart soapPart = secureMessage.getSOAPPart();
-            
+
             AuthenticationTokenPolicy authPolicy = (AuthenticationTokenPolicy)context.getSecurityPolicy();
             UsernameToken token = new UsernameToken(soapPart, "");
-            
+
             AuthenticationTokenPolicy.UsernameTokenBinding policy =
                     resolveUserNameTokenData(context, token, null,authPolicy);
-            
+
             if(policy.getUseNonce()){
                 token.setNonce(policy.getNonce());
             }
             if(policy.getDigestOn()){
                 token.setDigestOn();
             }
-            
+
             if ( policy.getUseNonce() || policy.getDigestOn() || policy.getUseCreated()) {
                 String creationTime = "";
                 TimestampPolicy tPolicy = (TimestampPolicy) policy.getFeatureBinding();
                 creationTime = tPolicy.getCreationTime();
                 token.setCreationTime(creationTime);
             }
-            
+
             if(policy.hasNoPassword()){
                 String creationTime = "";
                 TimestampPolicy tPolicy = (TimestampPolicy) policy.getFeatureBinding();
@@ -490,8 +490,8 @@ public class AuthenticationTokenFilter {
             wsseSecurity.insertHeaderBlock(token);
         }
     }
-    
-    
+
+
     /**
      * gets the issued token and adds it to the security header
      * @param context FilterProcessingContext
@@ -514,14 +514,14 @@ public class AuthenticationTokenFilter {
             com.sun.xml.ws.security.opt.api.SecurityHeaderElement issuedTokenElement = null;
             GenericToken issuedToken = null;
             if(opContext.getTrustContext() == null){
-                String itPolicyId = itkb.getUUID();                
+                String itPolicyId = itkb.getUUID();
                 IssuedTokenContext ictx = opContext.getIssuedTokenContext(itPolicyId);
                 if (ictx != null) {
-                    opContext.setTrustContext(ictx);                    
+                    opContext.setTrustContext(ictx);
                     issuedToken = (GenericToken)ictx.getSecurityToken();
                 }
-            }            
-            
+            }
+
             if(issuedToken != null){
                 issuedTokenElement = issuedToken.getElement();
                 if(issuedTokenElement == null){
@@ -529,15 +529,15 @@ public class AuthenticationTokenFilter {
                     issuedTokenElement = new GSHeaderElement(element);
                     issuedTokenElement.setId(issuedToken.getId());
                 }
-            }            
+            }
             if (issuedToken != null && includeToken) {
                 if(opContext.getSecurityHeader().getChildElement(issuedTokenElement.getId()) == null){
                     secHeader.add(issuedTokenElement);
                 }
-            } 
-            
+            }
+
             if (null != itkb.getSTRID()) {
-                
+
                 String itId = issuedToken.getId();
                 WSSElementFactory elementFactory = new WSSElementFactory(opContext.getSOAPVersion());
                 com.sun.xml.ws.security.opt.impl.reference.KeyIdentifier ref = elementFactory.createKeyIdentifier();
@@ -548,7 +548,7 @@ public class AuthenticationTokenFilter {
                     if (MessageConstants.SAML_v1_0_NS.equals(issuedTokenNS)){
                         valueType = MessageConstants.WSSE_SAML_KEY_IDENTIFIER_VALUE_TYPE;
                     }
-                    
+
                     if (MessageConstants.SAML_v2_0_NS.equals(issuedTokenNS)){
                         valueType = MessageConstants.WSSE_SAML_v2_0_KEY_IDENTIFIER_VALUE_TYPE;
                     }
@@ -557,70 +557,70 @@ public class AuthenticationTokenFilter {
                 com.sun.xml.ws.security.opt.impl.keyinfo.SecurityTokenReference secTokRef = elementFactory.createSecurityTokenReference(ref);
                 String strId = itkb.getSTRID();
                 secTokRef.setId(strId);
-                
+
                 Data data = new SSEData(issuedTokenElement,false,opContext.getNamespaceContext());
                 opContext.getElementCache().put(strId,data);
                 secHeader.add(secTokRef);
             }
-            
+
         }else{
             SecurableSoapMessage secureMessage = context.getSecurableSoapMessage();
-            SOAPPart soapPart = secureMessage.getSOAPPart();            
+            SOAPPart soapPart = secureMessage.getSOAPPart();
             GenericToken issuedToken = null;
             if(context.getTrustContext() == null){
-                String itPolicyId = itkb.getUUID();                
+                String itPolicyId = itkb.getUUID();
                 IssuedTokenContext ictx = context.getIssuedTokenContext(itPolicyId);
                 if (ictx != null) {
-                    context.setTrustContext(ictx);                    
+                    context.setTrustContext(ictx);
                     issuedToken = (GenericToken)ictx.getSecurityToken();
                 }
-            }            
-                                        
+            }
+
             Element element = (Element)issuedToken.getTokenValue();
             SOAPElement tokenEle = XMLUtil.convertToSoapElement(soapPart, element);
             if(tokenEle != null && includeToken){
-                secureMessage.findOrCreateSecurityHeader().insertHeaderBlockElement(tokenEle);            
+                secureMessage.findOrCreateSecurityHeader().insertHeaderBlockElement(tokenEle);
             }
             context.setIssuedSAMLToken(tokenEle);
-            
+
             if (null != itkb.getSTRID()) {
                 String itId = issuedToken.getId();
                 SecurityTokenReference tokenRef = new SecurityTokenReference(secureMessage.getSOAPPart());
                 tokenRef.setWsuId(itkb.getSTRID());
-                
+
                 KeyIdentifierStrategy strat = new KeyIdentifierStrategy(itId);
                 strat.insertKey(tokenRef, context.getSecurableSoapMessage());
                 secureMessage.findOrCreateSecurityHeader().insertHeaderBlock(tokenRef);
             }
         }
     }
-    
+
     /**
      * processes the X509 token , if any
      * @param context FilterProcessingContext
      */
     public static void processX509Token(FilterProcessingContext context) throws XWSSecurityException {
-        
+
         if (context.isInboundMessage()) {
             return;
         }
-        
+
         AuthenticationTokenPolicy authPolicy =
                 (AuthenticationTokenPolicy)context.getSecurityPolicy();
         AuthenticationTokenPolicy.X509CertificateBinding policy =
                 (AuthenticationTokenPolicy.X509CertificateBinding)
                 authPolicy.getFeatureBinding();
-        
+
         X509Certificate cert = context.getSecurityEnvironment().
                 getDefaultCertificate(context.getExtraneousProperties());
         if (cert == null) {
             throw new XWSSecurityException("No default X509 certificate was provided");
         }
-        
+
         AuthenticationTokenPolicy.X509CertificateBinding policyClone = (AuthenticationTokenPolicy.X509CertificateBinding)policy.clone();
         policyClone.setX509Certificate(cert);
-        
-        
+
+
         if(context instanceof JAXBFilterProcessingContext){
             JAXBFilterProcessingContext opContext = (JAXBFilterProcessingContext)context;
             ((NamespaceContextEx)opContext.getNamespaceContext()).addWSSNS();
@@ -638,11 +638,11 @@ public class AuthenticationTokenFilter {
         //wsseSecurity.insertHeaderBlock(token);
     }
     /**
-     * processes the RSA token 
+     * processes the RSA token
      * @param context FilterProcessingContext
      */
     public static void processRSAToken(FilterProcessingContext context) {
-        
+
         if (context.isInboundMessage()) {
         }
     }

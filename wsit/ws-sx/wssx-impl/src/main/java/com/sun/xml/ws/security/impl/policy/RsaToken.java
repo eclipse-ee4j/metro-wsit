@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -26,24 +26,24 @@ import javax.xml.namespace.QName;
  * @author ashutosh.shahi@sun.com
  */
 public class RsaToken  extends PolicyAssertion implements com.sun.xml.ws.security.policy.RsaToken, Cloneable, SecurityAssertionValidator{
-    
+
     private AssertionFitness fitness = AssertionFitness.IS_VALID;
     private boolean populated = false;
     private SecurityPolicyVersion spVersion = SecurityPolicyVersion.SECURITYPOLICY200507;
     private final QName itQname;
     private String includeToken;
-    private String id = null;    
+    private String id = null;
     /** Creates a new instance of RsaToken */
     public RsaToken() {
         id= PolicyUtil.randomUUID();
         itQname = new QName(spVersion.namespaceUri, Constants.IncludeToken);
         includeToken = spVersion.includeTokenAlways;
     }
-    
+
     public RsaToken(AssertionData name,Collection<PolicyAssertion> nestedAssertions, AssertionSet nestedAlternative) {
         super(name,nestedAssertions,nestedAlternative);
         id= PolicyUtil.randomUUID();
-        
+
         String nsUri = getName().getNamespaceURI();
         if(Constants.MS_SP_NS.equals(nsUri)){
             spVersion = SecurityPolicyVersion.SECURITYPOLICY200507;
@@ -51,27 +51,27 @@ public class RsaToken  extends PolicyAssertion implements com.sun.xml.ws.securit
         itQname = new QName(spVersion.namespaceUri, Constants.IncludeToken);
         includeToken = spVersion.includeTokenAlways;
     }
-    
+
     @Override
     public SecurityAssertionValidator.AssertionFitness validate(boolean isServer) {
         return populate(isServer);
     }
-    
+
     @Override
     public String getIncludeToken() {
         populate();
         return includeToken;
     }
-    
+
     public void setIncludeToken(String type) {
         includeToken = type;
     }
-    
+
     @Override
     public String getTokenId() {
         return id;
     }
-    
+
     @Override
     public SecurityPolicyVersion getSecurityPolicyVersion() {
         return spVersion;
@@ -86,10 +86,10 @@ public class RsaToken  extends PolicyAssertion implements com.sun.xml.ws.securit
             if(this.getAttributeValue(itQname)!=null){
                 this.includeToken = this.getAttributeValue(itQname);
             }
-            
+
             populated = true;
         }
         return fitness;
     }
-    
+
 }

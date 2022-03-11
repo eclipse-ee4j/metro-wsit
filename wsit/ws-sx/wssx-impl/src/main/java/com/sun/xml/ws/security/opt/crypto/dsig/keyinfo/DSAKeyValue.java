@@ -18,9 +18,9 @@ import jakarta.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement(name="DSAKeyValue", namespace = "http://www.w3.org/2000/09/xmldsig#")
 public class DSAKeyValue extends com.sun.xml.security.core.dsig.DSAKeyValueType {
-    
+
     /** Creates a new instance of DSAKeyValue */
     public DSAKeyValue() {
     }
-    
+
 }

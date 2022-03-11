@@ -118,7 +118,7 @@ public class CertificateRetriever {
                 }
             }
             reader.next();
-        }       
+        }
         return null;
     }
 
@@ -168,7 +168,7 @@ public class CertificateRetriever {
         }
         return cs;
 
-    }    
+    }
 
     public X509Certificate constructCertificate(byte[] bstValue) {
         try {

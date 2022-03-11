@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -40,7 +40,7 @@ import jakarta.security.auth.message.MessageInfo;
 import jakarta.security.auth.message.MessagePolicy;
 import jakarta.security.auth.message.module.ServerAuthModule;
 
-public class ServerSecurityAuthModule extends WssProviderAuthModule 
+public class ServerSecurityAuthModule extends WssProviderAuthModule
                                       implements ServerAuthModule {
 
        public ServerSecurityAuthModule() {
@@ -51,7 +51,7 @@ public class ServerSecurityAuthModule extends WssProviderAuthModule
                                MessagePolicy responsePolicy,
                                CallbackHandler handler,
                                Map options) {
-            super.initialize(requestPolicy, responsePolicy, handler, options, false);  
+            super.initialize(requestPolicy, responsePolicy, handler, options, false);
        }
 
        @Override
@@ -67,15 +67,15 @@ public class ServerSecurityAuthModule extends WssProviderAuthModule
 
                  com.sun.xml.wss.impl.policy.mls.MessagePolicy receiverCnfg =
                  ((DeclarativeSecurityConfiguration)_policy).receiverSettings();
- 
+
                  context.setSecurityPolicy(receiverCnfg);
                  context.setSOAPMessage(AuthParamHelper.getRequest(param));
                  context.setSecurityEnvironment(_sEnvironment);
 
-                 SecurityRecipient.validateMessage(context); 
+                 SecurityRecipient.validateMessage(context);
 
                  populateSharedStateFromContext(param.getMap(), context);
- 
+
                  context.getSecurableSoapMessage().deleteSecurityHeader();
                  return AuthStatus.SUCCESS;
              } catch (XWSSecurityException xwsse) {
@@ -95,10 +95,10 @@ public class ServerSecurityAuthModule extends WssProviderAuthModule
 
                populateContextFromSharedState(context, param.getMap());
 
- 
+
                com.sun.xml.wss.impl.policy.mls.MessagePolicy senderCnfg =
                  ((DeclarativeSecurityConfiguration)_policy).senderSettings();
-              
+
                SOAPMessage msg = AuthParamHelper.getResponse(param);
                context.setSecurityPolicy(senderCnfg);
                context.setSOAPMessage(msg);
@@ -107,13 +107,13 @@ public class ServerSecurityAuthModule extends WssProviderAuthModule
                 if (optimize  != MessageConstants.NOT_OPTIMIZED  && isOptimized(msg)) {
                       context.setConfigType(optimize);
                 } else {
-		    try{
+            try{
                       msg.getSOAPBody();
                       msg.getSOAPHeader();
                       context.setConfigType(MessageConstants.NOT_OPTIMIZED);
-		    }catch(SOAPException ex){
-			throw new AuthException(ex.getMessage());
-		    }
+            }catch(SOAPException ex){
+            throw new AuthException(ex.getMessage());
+            }
                 }
 
                SecurityAnnotator.secureMessage(context);
@@ -152,9 +152,9 @@ public class ServerSecurityAuthModule extends WssProviderAuthModule
              Iterator pi = privateCredentials.iterator();
              while (pi.hasNext()) {
                 try {
-                    Destroyable dstroyable = 
+                    Destroyable dstroyable =
                                    (Destroyable)pi.next();
-                    dstroyable.destroy(); 
+                    dstroyable.destroy();
                 } catch (DestroyFailedException | ClassCastException dfe) {
                    // log
                 }
@@ -163,14 +163,14 @@ public class ServerSecurityAuthModule extends WssProviderAuthModule
              Iterator qi = publicCredentials.iterator();
              while (qi.hasNext()) {
               try {
-                    Destroyable dstroyable = 
+                    Destroyable dstroyable =
                                    (Destroyable)qi.next();
-                    dstroyable.destroy(); 
+                    dstroyable.destroy();
                 } catch (DestroyFailedException | ClassCastException dfe) {
                    // log
                 }
-             }       
-       }        
+             }
+       }
 
        private void populateContextFromSharedState(ProcessingContextImpl context, Map sharedState) {
            context.setExtraneousProperty(
@@ -190,7 +190,7 @@ public class ServerSecurityAuthModule extends WssProviderAuthModule
            sharedState.put(
                REQUESTER_KEYID, context.getExtraneousProperty(MessageConstants.REQUESTER_KEYID));
            sharedState.put(
-               REQUESTER_ISSUERNAME, 
+               REQUESTER_ISSUERNAME,
                    context.getExtraneousProperty(MessageConstants.REQUESTER_ISSUERNAME));
            sharedState.put(
                REQUESTER_SERIAL, context.getExtraneousProperty(MessageConstants.REQUESTER_SERIAL));

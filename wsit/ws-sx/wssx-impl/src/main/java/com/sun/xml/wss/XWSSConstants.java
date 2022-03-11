@@ -15,7 +15,7 @@ public interface XWSSConstants {
     /* Properties used for Programmatic Login */
     String USERNAME_PROPERTY = "username";
     String PASSWORD_PROPERTY = "password";
-    
+
     /* Properties for Programmatic Certificate and PrivateKey */
     String CERTIFICATE_PROPERTY = "certificate";
     String PRIVATEKEY_PROPERTY = "privatekey";

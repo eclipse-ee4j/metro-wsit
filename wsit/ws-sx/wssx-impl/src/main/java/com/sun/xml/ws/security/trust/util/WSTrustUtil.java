@@ -92,35 +92,35 @@ import org.w3c.dom.Text;
  * @author ws-trust-implementation-team
  */
 public class WSTrustUtil {
-    
+
     private WSTrustUtil(){
         //private constructor
     }
-    
+
     /**
      *create and return a SOAP 1.1 Fault corresponding to this exception
      */
     public static SOAPFault createSOAP11Fault(final WSTrustSOAPFaultException sfex){
-        
+
         throw new UnsupportedOperationException("To Do");
     }
-    
+
     /**
      *create and return a SOAP 1.2 Fault corresponding to this exception
      */
     public static SOAPFault createSOAP12Fault(final WSTrustSOAPFaultException sfex){
-        
+
         throw new UnsupportedOperationException("To Do");
     }
-    
-    public static byte[] generateRandomSecret(final int keySize) {        
+
+    public static byte[] generateRandomSecret(final int keySize) {
         // Create binary secret
         final SecureRandom random = new SecureRandom();
         final byte[] secret = new byte[(int)keySize];
         random.nextBytes(secret);
         return secret;
     }
-    
+
    public static SecurityContextToken createSecurityContextToken(final WSTrustElementFactory wsscEleFac) throws WSSecureConversationException{
        final String identifier = "urn:uuid:" + UUID.randomUUID();
        URI idURI;
@@ -137,7 +137,7 @@ public class WSTrustUtil {
        }
        return null;
    }
-   
+
    public static SecurityContextToken createSecurityContextToken(final WSSCElementFactory eleFac) throws WSSecureConversationException{
        final String identifier = "urn:uuid:" + UUID.randomUUID();
        URI idURI;
@@ -147,11 +147,11 @@ public class WSTrustUtil {
            throw new WSSecureConversationException(ex.getMessage(), ex);
        }
        final String wsuId = "uuid-" + UUID.randomUUID();
-       
+
        return eleFac.createSecurityContextToken(idURI, null, wsuId);
    }
-    
-   public static SecurityContextToken createSecurityContextToken(final WSTrustElementFactory wsscEleFac, final String identifier) throws WSSecureConversationException{       
+
+   public static SecurityContextToken createSecurityContextToken(final WSTrustElementFactory wsscEleFac, final String identifier) throws WSSecureConversationException{
        URI idURI;
        try{
            idURI = new URI(identifier);
@@ -166,10 +166,10 @@ public class WSTrustUtil {
        }else if(wsscEleFac instanceof com.sun.xml.ws.security.secconv.WSSCElementFactory13){
            return wsscEleFac.createSecurityContextToken(idURI, wsuInstance, wsuId);
        }
-       return null;       
+       return null;
    }
-   
-   public static SecurityContextToken createSecurityContextToken(final WSSCElementFactory eleFac, final String identifier) throws WSSecureConversationException{       
+
+   public static SecurityContextToken createSecurityContextToken(final WSSCElementFactory eleFac, final String identifier) throws WSSecureConversationException{
        URI idURI;
        try{
            idURI = new URI(identifier);
@@ -178,17 +178,17 @@ public class WSTrustUtil {
        }
        final String wsuId = "uuid-" + UUID.randomUUID();
        final String wsuInstance = "uuid-" + UUID.randomUUID();
-       
+
        return eleFac.createSecurityContextToken(idURI, wsuInstance, wsuId);
    }
-   
+
    public static SecurityTokenReference createSecurityTokenReference(final String id, final String valueType){
-       WSTrustElementFactory eleFac = WSTrustElementFactory.newInstance(); 
+       WSTrustElementFactory eleFac = WSTrustElementFactory.newInstance();
        final KeyIdentifier ref = eleFac.createKeyIdentifier(valueType, null);
         ref.setValue(id);
         return eleFac.createSecurityTokenReference(ref);
     }
-   
+
    public static AppliesTo createAppliesTo(final String appliesTo){
        final AttributedURI uri = new AttributedURI();
        uri.setValue(appliesTo);
@@ -196,10 +196,10 @@ public class WSTrustUtil {
        epr.setAddress(uri);
        final AppliesTo applTo = (new com.sun.xml.ws.policy.impl.bindings.ObjectFactory()).createAppliesTo();
        applTo.getAny().add((new com.sun.xml.ws.security.trust.impl.bindings.ObjectFactory()).createEndpointReference(epr));
-       
+
        return applTo;
    }
-   
+
    public static List<Object> parseAppliesTo(final AppliesTo appliesTo){
        final List<Object> list = appliesTo.getAny();
        EndpointReference epr = null;
@@ -209,13 +209,13 @@ public class WSTrustUtil {
                 if (obj instanceof EndpointReference){
                     epr = (EndpointReference)obj;
                 } else if (obj instanceof JAXBElement){
-                    final JAXBElement ele = (JAXBElement)obj;    
+                    final JAXBElement ele = (JAXBElement)obj;
                     final String local = ele.getName().getLocalPart();
                     if (local.equalsIgnoreCase("EndpointReference")) {
                         epr = (EndpointReference)ele.getValue();
                     }
                 }
-                
+
                 if (epr != null){
                     final AttributedURI uri = epr.getAddress();
                     if (uri != null){
@@ -248,7 +248,7 @@ public class WSTrustUtil {
         }
         return result;
    }
-   
+
    public static String getAppliesToURI(final AppliesTo appliesTo){
        final List list = appliesTo.getAny();
        EndpointReference epr = null;
@@ -258,13 +258,13 @@ public class WSTrustUtil {
                 if (obj instanceof EndpointReference){
                     epr = (EndpointReference)obj;
                 } else if (obj instanceof JAXBElement){
-                    final JAXBElement ele = (JAXBElement)obj;    
+                    final JAXBElement ele = (JAXBElement)obj;
                     final String local = ele.getName().getLocalPart();
                     if (local.equalsIgnoreCase("EndpointReference")) {
                         epr = (EndpointReference)ele.getValue();
                     }
                 }
-                
+
                 if (epr != null){
                     final AttributedURI uri = epr.getAddress();
                     if (uri != null){
@@ -275,20 +275,20 @@ public class WSTrustUtil {
         }
         return null;
     }
-       
+
     public static String createFriendlyPPID(String displayValue){
         //ToDo
         /*try{
             MessageDigest md = MessageDigest.getInstance("SHA1");
             byte[] hashId = md.digest(com.sun.xml.wss.impl.misc.Base64.decode(displayValue));
             StringBuffer sb = new StringBuffer();
-            
+
         }catch(Exception ex){
             return displayValue;
         }*/
         return displayValue;
     }
-    
+
     public static String elemToString(final BaseSTSResponse rstr, final WSTrustVersion wstVer){
         StringWriter writer = new StringWriter();
         try{
@@ -297,7 +297,7 @@ public class WSTrustUtil {
         }catch(Exception ex){
             ex.printStackTrace();
         }
-        
+
         return writer.toString();
     }
 
@@ -309,23 +309,23 @@ public class WSTrustUtil {
         }catch(Exception ex){
             ex.printStackTrace();
         }
-        
+
         return writer.toString();
-    }      
-    
+    }
+
     public static long getCurrentTimeWithOffset(){
         final Calendar cal = new GregorianCalendar();
         int offset = cal.get(Calendar.ZONE_OFFSET);
         if (cal.getTimeZone().inDaylightTime(cal.getTime())) {
             offset += cal.getTimeZone().getDSTSavings();
         }
-        
+
          // always send UTC/GMT time
          final long beforeTime = cal.getTimeInMillis();
-         
+
          return beforeTime - offset;
     }
-    
+
     public static Lifetime createLifetime(long currentTime, long lifespan, WSTrustVersion wstVer) {
         final SimpleDateFormat calendarFormatter
             = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'.'SSS'Z'", Locale.getDefault());
@@ -333,16 +333,16 @@ public class WSTrustUtil {
         synchronized (calendarFormatter) {
             calendarFormatter.setTimeZone(cal.getTimeZone());
             cal.setTimeInMillis(currentTime);
-            
+
             final AttributedDateTime created = new AttributedDateTime();
             created.setValue(calendarFormatter.format(cal.getTime()));
-            
+
             final AttributedDateTime expires = new AttributedDateTime();
             cal.setTimeInMillis(currentTime + lifespan);
             expires.setValue(calendarFormatter.format(cal.getTime()));
-            
+
             final Lifetime lifetime = WSTrustElementFactory.newInstance(wstVer).createLifetime(created, expires);
-            
+
             return lifetime;
         }
     }
@@ -350,7 +350,7 @@ public class WSTrustUtil {
     public static long getLifeSpan(Lifetime lifetime){
         final AttributedDateTime created = lifetime.getCreated();
         final AttributedDateTime expires = lifetime.getExpires();
-    
+
         return parseAttributedDateTime(expires).getTime() - parseAttributedDateTime(created).getTime();
     }
 
@@ -377,7 +377,7 @@ public class WSTrustUtil {
 
         return date;
     }
-    
+
     public static EncryptedKey encryptKey(final Document doc, final byte[] encryptedKey, final X509Certificate cert, final String keyWrapAlgorithm) throws Exception{
         final PublicKey pubKey = cert.getPublicKey();
         final XMLCipher cipher;
@@ -403,10 +403,10 @@ public class WSTrustUtil {
             keyinfo.add(x509data);
         }
         encKey.setKeyInfo(keyinfo);
-        
+
         return encKey;
     }
-    
+
     public static Assertion addSamlAttributes(Assertion assertion, Map<QName, List<String>> claimedAttrs)throws WSTrustException {
         try {
             String version = assertion.getVersion();
@@ -426,13 +426,13 @@ public class WSTrustUtil {
                 as = asList.item(0);
             }
             createAttributeStatement(as, claimedAttrs, samlNS, samlPrefix);
-               
+
             return  samlFac.createAssertion(assertionEle);
         }catch (Exception ex){
             throw new WSTrustException(ex.getMessage());
         }
     }
-    
+
     private static Node createAttributeStatement(Node as, Map<QName, List<String>> claimedAttrs, String samlNS, String samlPrefix)throws WSTrustException{
         try{
             Document doc = null;
@@ -466,7 +466,7 @@ public class WSTrustUtil {
                     as.appendChild(attrEle);
                 }
             }
-            
+
             return as;
         }catch (Exception ex){
             throw new WSTrustException(ex.getMessage());
@@ -486,7 +486,7 @@ public class WSTrustUtil {
 
     private static Element createActorAttribute(Document doc, String samlNS, String samlPrefix, String name)throws Exception {
         // Create Attribute of the form:
-        // <saml:Attribute AttributeName="actor" 
+        // <saml:Attribute AttributeName="actor"
         //          AttributeNamespace="http://schemas.xmlsoap.com/ws/2009/09/identity/claims">
         //      ...
         // </saml:Attribute>
@@ -496,7 +496,7 @@ public class WSTrustUtil {
 
         // Create inner Attribute of the form:
         // <saml:Attribute AttributeName="name"
-        //          AttributeNamespace="http://schemas.xmlsoap.org/ws/2005/05/identity/claims"       			                  AttributeNamespace="http://schemas.xmlsoap.org/ws/2005/05/identity/claims"    	                  xmlns:saml="urn:oasis:names:tc:SAML:1.0:assertion">
+        //          AttributeNamespace="http://schemas.xmlsoap.org/ws/2005/05/identity/claims"                                     AttributeNamespace="http://schemas.xmlsoap.org/ws/2005/05/identity/claims"                          xmlns:saml="urn:oasis:names:tc:SAML:1.0:assertion">
         //    <saml:AttributeValue>name</saml:AttributeValue>
         // </saml:Attribute>
         Element nameEle = createAttribute(doc, samlNS, samlPrefix, new QName("name", "http://schemas.xmlsoap.com/ws/2005/05/identity/claims"));

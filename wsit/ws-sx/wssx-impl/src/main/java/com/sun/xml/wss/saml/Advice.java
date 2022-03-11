@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -44,17 +44,17 @@ import java.util.List;
  */
 public interface Advice {
     /**
-     * Gets the value of the assertionIDReferenceOrAssertionOrAny property.         
-     * 
+     * Gets the value of the assertionIDReferenceOrAssertionOrAny property.
+     *
      * <p>
      * Objects of the following type(s) are in the list
      * {@link Assertion }
      * {@link java.lang.String }
      * {@link org.w3c.dom.Element }
      * {@link Object }
-     *      
+     *
      */
-    
+
     List<Object> getAdvice();
-    
+
 }

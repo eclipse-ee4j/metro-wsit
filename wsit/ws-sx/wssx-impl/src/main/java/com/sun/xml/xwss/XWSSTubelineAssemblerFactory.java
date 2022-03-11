@@ -34,7 +34,7 @@ import jakarta.xml.ws.WebServiceException;
 
 /**
  *
- * 
+ *
  */
 public class XWSSTubelineAssemblerFactory extends TubelineAssemblerFactory {
 
@@ -45,7 +45,7 @@ public class XWSSTubelineAssemblerFactory extends TubelineAssemblerFactory {
        disable = Boolean.getBoolean("DISABLE_XWSS_SECURITY");
     }
     private static class XWSSTubelineAssembler implements TubelineAssembler {
-        
+
         private final BindingID bindingId;
 
         XWSSTubelineAssembler(final BindingID bindingId) {
@@ -55,20 +55,20 @@ public class XWSSTubelineAssemblerFactory extends TubelineAssemblerFactory {
         @Override
         @NotNull
         public Tube createClient(@NotNull ClientTubeAssemblerContext context) {
-            
+
             Tube p = context.createTransportTube();
             if (isSecurityConfigPresent(context)) {
                 p = initializeXWSSClientTube(
                         context.getWsdlModel(), context.getService(), context.getBinding(), p);
             }
-            
+
             p = context.createClientMUTube(p);
             p = context.createHandlerTube(p);
             // check for WS-Addressing
             if (isAddressingEnabled(context.getWsdlModel(), context.getBinding())) {
                 p = context.createWsaTube(p);
             }
-            
+
             return p;
         }
 
@@ -79,7 +79,7 @@ public class XWSSTubelineAssemblerFactory extends TubelineAssemblerFactory {
             p = context.createHandlerTube(p);
             p = context.createServerMUTube(p);
             p = context.createMonitoringTube(p);
-            
+
             // check for WS-Addressing
             if (isAddressingEnabled( context.getWsdlModel(), context.getEndpoint().getBinding())) {
                 p = context.createWsaTube(p);
@@ -88,10 +88,10 @@ public class XWSSTubelineAssemblerFactory extends TubelineAssemblerFactory {
             if (isSecurityConfigPresent(context)) {
                 p = initializeXWSSServerTube(context.getEndpoint(), context.getWsdlModel(), p);
             }
-            
+
             return p;
         }
-        
+
          private boolean isAddressingEnabled(WSDLPort port, WSBinding binding) {
             //JAXWS 2.0 does not have AddressingVersion
             Class<?> clazz = null;
@@ -119,7 +119,7 @@ public class XWSSTubelineAssemblerFactory extends TubelineAssemblerFactory {
         }
 
         private static boolean isSecurityConfigPresent(ClientTubeAssemblerContext context) {
-            
+
             //look for XWSS 2.0 style config file in META-INF classpath
             String configUrl = "META-INF/client_security_config.xml";
             URL url = SecurityUtil.loadFromClasspath(configUrl);
@@ -135,7 +135,7 @@ public class XWSSTubelineAssemblerFactory extends TubelineAssemblerFactory {
             }
             return true;
         }
-        
+
         private static boolean isSecurityConfigPresent(ServerTubeAssemblerContext context) {
             QName serviceQName = context.getEndpoint().getServiceName();
             //TODO: not sure which of the two above will give the service name as specified in DD
@@ -167,18 +167,18 @@ public class XWSSTubelineAssemblerFactory extends TubelineAssemblerFactory {
             }
             return false;
         }
-        
+
         private static Tube initializeXWSSClientTube(WSDLPort prt, WSService svc, WSBinding bnd, Tube nextP) {
             Tube ret = new XWSSClientTube(prt,svc, bnd, nextP);
             return ret;
         }
-        
+
         private static Tube initializeXWSSServerTube(WSEndpoint epoint, WSDLPort prt, Tube nextP) {
             Tube ret = new XWSSServerTube(epoint, prt, nextP);
             return ret;
         }
     }
-    
+
     @Override
     public TubelineAssembler doCreate(BindingID bindingId) {
         return new XWSSTubelineAssembler(bindingId);

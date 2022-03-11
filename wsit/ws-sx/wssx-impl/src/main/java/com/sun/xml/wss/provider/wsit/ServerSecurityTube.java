@@ -56,13 +56,13 @@ public class ServerSecurityTube extends AbstractFilterTubeImpl {
         this.isHttpBinding = isHttpBinding;
         this.wsEndpoint = (WSEndpoint) props.get(PipeConstants.ENDPOINT);
 
-        //Registers IdentityComponent if either cs is not null        
+        //Registers IdentityComponent if either cs is not null
     }
 
     protected ServerSecurityTube(ServerSecurityTube that, TubeCloner cloner) {
 
         super(that, cloner);
-        // we can share the helper for all pipes so that the remove 
+        // we can share the helper for all pipes so that the remove
         // registration (in server side) can be done properly
         this.helper = that.helper;
         this.isHttpBinding = that.isHttpBinding;
@@ -108,8 +108,8 @@ public class ServerSecurityTube extends AbstractFilterTubeImpl {
             } else {
                 //throw new WebServiceException("Internal Error : Null ServerAuthContext");
                 //could be MEX case here
-	        validatedRequest = info.getRequestPacket();
-                //explicitly set status to SUCCESS here so we can send the request 
+            validatedRequest = info.getRequestPacket();
+                //explicitly set status to SUCCESS here so we can send the request
                 //could be a MEX endpoint for which SAC is null!.
                 status = AuthStatus.SUCCESS;
             }
@@ -132,7 +132,7 @@ public class ServerSecurityTube extends AbstractFilterTubeImpl {
                 return doInvoke(super.next, validatedRequest);
             } else {
                 final Tube nextTube = super.next;
-                final Packet valRequest = validatedRequest;                
+                final Packet valRequest = validatedRequest;
                 try {
                     return (NextAction) Subject.doAsPrivileged(clientSubject, new PrivilegedExceptionAction() {
 
@@ -189,7 +189,7 @@ public class ServerSecurityTube extends AbstractFilterTubeImpl {
         return doThrow(t);
     }
 
-    // called when secureResponse is to be called 
+    // called when secureResponse is to be called
     private Packet processResponse(PacketMessageInfo info,
             ServerAuthContext sAC,
             Subject serverSubject) {

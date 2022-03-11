@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -44,12 +44,12 @@ public class GSHeaderElement implements SecurityHeaderElement, SecurityElementWr
         this.element = el;
         this.soapVersion = sv;
     }
-    
+
     public GSHeaderElement(Object obj, SOAPVersion sv ){
         this.obj = obj;
         this.soapVersion = sv;
     }
-    
+
     public GSHeaderElement(Element obj, SOAPVersion sv ){
         this.domElement = obj;
         this.soapVersion = sv;
@@ -59,7 +59,7 @@ public class GSHeaderElement implements SecurityHeaderElement, SecurityElementWr
                 id = domElement.getAttribute("ID");
         }
     }
-    
+
     public GSHeaderElement(Element obj){
         this.domElement = obj;
         if(domElement.getLocalName() == MessageConstants.SAML_ASSERTION_LNAME ){
@@ -72,18 +72,18 @@ public class GSHeaderElement implements SecurityHeaderElement, SecurityElementWr
     public GSHeaderElement(XMLStreamBuffer buffer){
        this.buffer = buffer;
     }
-    
+
     @Override
     public String getId() {
         return id;
     }
-    
+
     @Override
     public void setId(String id) {
         this.id = id;
     }
-    
-    
+
+
     @Override
     public String getNamespaceURI() {
         if(element != null){
@@ -92,21 +92,21 @@ public class GSHeaderElement implements SecurityHeaderElement, SecurityElementWr
         if(domElement != null){
             return domElement.getNamespaceURI();
         }
-       
+
         return "";
     }
-    
-    
+
+
     @Override
     public String getLocalPart() {
         if(element != null){
             return element.getName().getLocalPart();
         }
-        
+
         if(domElement != null){
             return domElement.getLocalName();
         }
-        
+
          if(obj != null){
             if(obj instanceof ReferenceList){
                 return MessageConstants.XENC_REFERENCE_LIST_LNAME;
@@ -114,16 +114,16 @@ public class GSHeaderElement implements SecurityHeaderElement, SecurityElementWr
         }
         return "";
     }
-    
-    
-    
+
+
+
     @Override
     public javax.xml.stream.XMLStreamReader readHeader() {
         throw new UnsupportedOperationException();
     }
-    
-    
-    
+
+
+
     @Override
     public void writeTo(javax.xml.stream.XMLStreamWriter streamWriter) throws javax.xml.stream.XMLStreamException {
         try{
@@ -141,20 +141,20 @@ public class GSHeaderElement implements SecurityHeaderElement, SecurityElementWr
             throw new XWSSecurityRuntimeException(ex);
         }
     }
-    
+
     public void writeTo(jakarta.xml.soap.SOAPMessage saaj) throws jakarta.xml.soap.SOAPException {
         throw new UnsupportedOperationException();
     }
-    
-    
+
+
     public byte[] canonicalize(String algorithm, List<com.sun.xml.wss.impl.c14n.AttributeNS> namespaceDecls) {
         throw new UnsupportedOperationException();
     }
-    
+
     public boolean isCanonicalized() {
         throw new UnsupportedOperationException();
     }
-    
+
     @Override
     public void writeTo(OutputStream os) {
         try{
@@ -168,15 +168,15 @@ public class GSHeaderElement implements SecurityHeaderElement, SecurityElementWr
             throw new XWSSecurityRuntimeException(ex);
         }
     }
-    
+
     public String getAttribute(String nsUri, String localName) {
         throw new UnsupportedOperationException();
     }
-    
+
     public String getAttribute(QName name) {
         throw new UnsupportedOperationException();
     }
-    
+
     @Override
     public boolean refersToSecHdrWithId(String id) {
         String tmpId = "#"+id;
@@ -208,12 +208,12 @@ public class GSHeaderElement implements SecurityHeaderElement, SecurityElementWr
         }
         return false;
     }
-    
+
     @Override
     public void writeTo(javax.xml.stream.XMLStreamWriter streamWriter, HashMap props) throws javax.xml.stream.XMLStreamException {
         writeTo(streamWriter);
     }
-    
+
     private Marshaller getMarshaller() throws jakarta.xml.bind.JAXBException {
         return JAXBUtil.createMarshaller(soapVersion);
     }

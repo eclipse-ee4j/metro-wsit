@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -34,57 +34,57 @@ import javax.xml.datatype.DatatypeFactory;
  */
 public class Conditions extends ConditionsType
     implements com.sun.xml.wss.saml.Conditions {
-    
+
         private Date notBeforeField = null;
         private Date notOnOrAfterField = null;
-        
-	protected static final Logger log =
-		Logger.getLogger(
-			LogDomainConstants.WSS_API_DOMAIN,
-			LogDomainConstants.WSS_API_DOMAIN_BUNDLE);
 
-	/**
-	Constructor taking in nothing (SAML spec allows it)
-	*/
-	public Conditions() {
+    protected static final Logger log =
+        Logger.getLogger(
+            LogDomainConstants.WSS_API_DOMAIN,
+            LogDomainConstants.WSS_API_DOMAIN_BUNDLE);
+
+    /**
+    Constructor taking in nothing (SAML spec allows it)
+    */
+    public Conditions() {
             super();
-	}
+    }
 
         @SuppressWarnings("unchecked")
         private void setaudienceRestrictionConditionOrDoNotCacheConditionOrCondition(List condition ) {
             this.audienceRestrictionConditionOrDoNotCacheConditionOrCondition = condition;
         }
-        
-	/**
-	 * Constructs an instance of <code>Conditions</code>.
-	 *
-	 * @param notBefore specifies the earliest time instant at which the
-	 *        assertion is valid.
-	 * @param notOnOrAfter specifies the time instant at which the assertion
-	 *        has expired.
-	 * @param arc the <code>AudienceRestrictionCondition</code> to be
-	 *        added. Can be null, if no audience restriction.
+
+    /**
+     * Constructs an instance of <code>Conditions</code>.
+     *
+     * @param notBefore specifies the earliest time instant at which the
+     *        assertion is valid.
+     * @param notOnOrAfter specifies the time instant at which the assertion
+     *        has expired.
+     * @param arc the <code>AudienceRestrictionCondition</code> to be
+     *        added. Can be null, if no audience restriction.
      */
-	public Conditions(
-		GregorianCalendar notBefore,
-		GregorianCalendar notOnOrAfter,
-		List condition,
-		List arc,
-		List doNotCacheCnd)
-		{
-            
+    public Conditions(
+        GregorianCalendar notBefore,
+        GregorianCalendar notOnOrAfter,
+        List condition,
+        List arc,
+        List doNotCacheCnd)
+        {
+
             DatatypeFactory factory = null;
             try {
                 factory = DatatypeFactory.newInstance();
             } catch (DatatypeConfigurationException e) {
                 factory = null;
             }
-            
+
             if ( factory != null) {
             setNotBefore(factory.newXMLGregorianCalendar(notBefore));
             setNotOnOrAfter(factory.newXMLGregorianCalendar(notOnOrAfter));
             }
-            
+
             if ( condition != null) {
                 setaudienceRestrictionConditionOrDoNotCacheConditionOrCondition(condition);
             } else if ( arc != null) {
@@ -92,15 +92,15 @@ public class Conditions extends ConditionsType
             } else if ( doNotCacheCnd != null) {
                 setaudienceRestrictionConditionOrDoNotCacheConditionOrCondition(doNotCacheCnd);
             }
-	}
-         
-        public Conditions(ConditionsType cType){                                    
+    }
+
+        public Conditions(ConditionsType cType){
             setNotBefore(cType.getNotBefore());
-            setNotOnOrAfter(cType.getNotOnOrAfter());                        
+            setNotOnOrAfter(cType.getNotOnOrAfter());
             setaudienceRestrictionConditionOrDoNotCacheConditionOrCondition(
-                    cType.getAudienceRestrictionConditionOrDoNotCacheConditionOrCondition());            
-	}
-        
+                    cType.getAudienceRestrictionConditionOrDoNotCacheConditionOrCondition());
+    }
+
         @Override
         public Date getNotBeforeDate(){
         try {
@@ -115,7 +115,7 @@ public class Conditions extends ConditionsType
         }
             return notBeforeField;
         }
-        
+
         @Override
         public Date getNotOnOrAfterDate(){
         try {
@@ -135,24 +135,24 @@ public class Conditions extends ConditionsType
         public List<Object> getConditions(){
             return (List<Object>)(Object)super.getAudienceRestrictionConditionOrDoNotCacheConditionOrCondition();
         }
-	/**
-	 * Constructs a <code>Conditions</code> element from an existing XML block.
-	 *
-	 * @param element A <code>org.w3c.dom.Element</code> representing
-	 *        DOM tree for <code>Conditions</code> object
-	 * @exception SAMLException if it could not process the Element properly,
-	 *            implying that there is an error in the sender or in the
-	 *            element definition.
-	 */
-	public static ConditionsType fromElement(org.w3c.dom.Element element)
-		throws SAMLException {
+    /**
+     * Constructs a <code>Conditions</code> element from an existing XML block.
+     *
+     * @param element A <code>org.w3c.dom.Element</code> representing
+     *        DOM tree for <code>Conditions</code> object
+     * @exception SAMLException if it could not process the Element properly,
+     *            implying that there is an error in the sender or in the
+     *            element definition.
+     */
+    public static ConditionsType fromElement(org.w3c.dom.Element element)
+        throws SAMLException {
             try {
                 JAXBContext jc = SAMLJAXBUtil.getJAXBContext();
-                    
+
                 jakarta.xml.bind.Unmarshaller u = jc.createUnmarshaller();
             return (ConditionsType)u.unmarshal(element);
             } catch ( Exception ex) {
                 throw new SAMLException(ex.getMessage());
             }
-	}        
+    }
 }

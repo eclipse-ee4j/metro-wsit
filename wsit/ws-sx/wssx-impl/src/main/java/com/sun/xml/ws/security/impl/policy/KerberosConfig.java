@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -25,11 +25,11 @@ public class KerberosConfig extends PolicyAssertion implements com.sun.xml.ws.se
     private static QName loginModule = new QName("loginModule");
     private static QName servicePrincipal = new QName("servicePrincipal");
     private static QName credentialDelegation = new QName("credentialDelegation");
-    
+
     /** Creates a new instance of KerberosConfig */
     public KerberosConfig() {
     }
-    
+
     public KerberosConfig(AssertionData name,Collection<PolicyAssertion> nestedAssertions, AssertionSet nestedAlternative) {
         super(name,nestedAssertions,nestedAlternative);
     }
@@ -48,5 +48,5 @@ public class KerberosConfig extends PolicyAssertion implements com.sun.xml.ws.se
     public String getCredentialDelegation() {
         return this.getAttributeValue(credentialDelegation);
     }
-    
+
 }

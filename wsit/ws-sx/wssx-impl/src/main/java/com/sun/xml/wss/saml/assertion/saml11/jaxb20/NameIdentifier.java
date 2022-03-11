@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -29,7 +29,7 @@ import jakarta.xml.bind.JAXBContext;
  */
 public class NameIdentifier extends NameIdentifierType
     implements com.sun.xml.wss.saml.NameIdentifier {
-    
+
     protected static final Logger log = Logger.getLogger(
             LogDomainConstants.WSS_API_DOMAIN,
             LogDomainConstants.WSS_API_DOMAIN_BUNDLE);
@@ -49,7 +49,7 @@ public class NameIdentifier extends NameIdentifierType
         throws SAMLException {
         try {
             JAXBContext jc = SAMLJAXBUtil.getJAXBContext();
-                
+
             jakarta.xml.bind.Unmarshaller u = jc.createUnmarshaller();
             return (NameIdentifierType)u.unmarshal(element);
         } catch ( Exception ex) {
@@ -57,7 +57,7 @@ public class NameIdentifier extends NameIdentifierType
         }
     }
 
-    
+
     /**
      * Constructs a <code>NameQualifier</code> instance.
      *
@@ -72,32 +72,32 @@ public class NameIdentifier extends NameIdentifierType
         {
         if ( name != null)
             setValue(name);
-        
+
         if ( nameQualifier != null)
             setNameQualifier(nameQualifier);
-        
+
         if ( format != null)
             setFormat(format);
-    }       
-    
-    public NameIdentifier(NameIdentifierType nameIdType){        
+    }
+
+    public NameIdentifier(NameIdentifierType nameIdType){
         setValue(nameIdType.getValue());
         setNameQualifier(nameIdType.getNameQualifier());
         setFormat(nameIdType.getFormat());
     }
-       
+
     @Override
     public String getValue() {
         return super.getValue();
     }
-    
+
     @Override
     public String getFormat() {
         return super.getFormat();
     }
-        
+
     @Override
     public String getNameQualifier() {
         return super.getNameQualifier();
-    }    
+    }
 }

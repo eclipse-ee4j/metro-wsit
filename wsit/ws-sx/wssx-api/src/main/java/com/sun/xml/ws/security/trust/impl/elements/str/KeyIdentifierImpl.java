@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -23,8 +23,8 @@ import java.net.URI;
  * KeyIdentifier implementation
  */
 public class KeyIdentifierImpl extends KeyIdentifierType implements KeyIdentifier {
-    
-    
+
+
     public KeyIdentifierImpl() {
         // default c'tor
     }
@@ -33,22 +33,22 @@ public class KeyIdentifierImpl extends KeyIdentifierType implements KeyIdentifie
         setValueType(valueType);
         setEncodingType(encodingType);
     }
-    
+
     public KeyIdentifierImpl(final KeyIdentifierType kidType){
         this(kidType.getValueType(), kidType.getEncodingType());
         setValue(kidType.getValue());
     }
-    
+
     @Override
     public URI getValueTypeURI(){
         return URI.create(super.getValueType());
     }
-    
+
     @Override
     public URI getEncodingTypeURI (){
         return URI.create(super.getEncodingType());
     }
-    
+
     @Override
     public String getType(){
         return "KeyIdentifier";

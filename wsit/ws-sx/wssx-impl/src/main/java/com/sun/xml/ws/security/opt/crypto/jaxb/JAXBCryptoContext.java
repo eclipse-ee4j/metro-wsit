@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -25,15 +25,15 @@ import javax.xml.crypto.URIDereferencer;
  * @author Abhijit Das
  */
 public class JAXBCryptoContext implements javax.xml.crypto.XMLCryptoContext {
-    
+
     private String baseURI = null;
     private KeySelector keySelector = null;
     private URIDereferencer uriDereferencer = null;
-    private HashMap namespacePrefix = null; 
+    private HashMap namespacePrefix = null;
     private String defaultNamespacePrefix = null;
     private HashMap property = null;
     private HashMap context = null;
-    
+
     /** Creates a new instance of JAXBCryptoContext */
     public JAXBCryptoContext() {
     }
@@ -168,22 +168,22 @@ public class JAXBCryptoContext implements javax.xml.crypto.XMLCryptoContext {
         if ( namespaceURI == null ) {
             return null;
         }
-        
+
         if ( namespacePrefix == null ) {
             namespacePrefix = new HashMap();
         }
-        
+
         //Get the old prefix
         Object oldPrefix = namespacePrefix.get(namespaceURI);
-        
+
         if ( prefix == null && oldPrefix != null ) {
             //Remove the mapping and return the oldprefix
             return namespacePrefix.remove(namespaceURI).toString();
         }
-        
-        if ( prefix != "" ) 
+
+        if ( prefix != "" )
             namespacePrefix.put(namespaceURI, prefix);
-            
+
         if(oldPrefix != null)
             return oldPrefix.toString();
         return null;
@@ -303,8 +303,8 @@ public class JAXBCryptoContext implements javax.xml.crypto.XMLCryptoContext {
         if ( context == null ) {
             context = new HashMap();
         }
-        
+
         return context.put(key, value);
     }
-    
+
 }

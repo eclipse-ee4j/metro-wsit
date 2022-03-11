@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -30,7 +30,7 @@ public class XWSSecurityException extends Exception {
         super(message);
     }
 
-                                                                                                        
+
     /**
      * Constructor specifying the message string and a  nested exception
      * @param message the exception message string
@@ -39,7 +39,7 @@ public class XWSSecurityException extends Exception {
     public XWSSecurityException(String message, Throwable cause) {
         super(message, cause);
     }
-    
+
     /**
      * Constructor specifying a nested exception
      * @param cause the nested exception as a Throwable

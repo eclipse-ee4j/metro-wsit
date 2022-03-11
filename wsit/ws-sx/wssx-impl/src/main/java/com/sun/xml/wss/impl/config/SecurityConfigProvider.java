@@ -28,4 +28,4 @@ public enum SecurityConfigProvider {
     public void init(final long maxNonceAge) { this.maxNonceAge = maxNonceAge; }
 
     public long getMaxNonceAge() { return this.maxNonceAge; }
-} 
+}

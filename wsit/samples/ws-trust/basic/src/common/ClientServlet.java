@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -29,11 +29,11 @@ import jakarta.xml.ws.WebServiceRef;
 public class ClientServlet extends HttpServlet {
     @WebServiceRef(wsdlLocation = "http://localhost:8080/CalculatorApp/CalculatorWSService?wsdl")
     public CalculatorWSService service;
-    
+
     @Resource
     protected WebServiceContext context;
-    
-    /** 
+
+    /**
     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
     * @param request servlet request
     * @param response servlet response
@@ -56,7 +56,7 @@ public class ClientServlet extends HttpServlet {
                 claims.addClaimType(MyClaims.ROLE);
                 config.setClaims(claims);
                 int result = port.add(i, j);
-                
+
                 out.println("<br/>");
                 out.println("Result:");
                 out.println("" + i + " + " + j + " = " + result);
@@ -71,14 +71,14 @@ public class ClientServlet extends HttpServlet {
                 out.println("Result:");
                 out.println("" + i + " + " + j + " = " + result);
                 ((Closeable)port).close();
-            
-        } finally { 
+
+        } finally {
             out.close();
         }
-    } 
+    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /** 
+    /**
     * Handles the HTTP <code>GET</code> method.
     * @param request servlet request
     * @param response servlet response
@@ -87,9 +87,9 @@ public class ClientServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         processRequest(request, response);
-    } 
+    }
 
-    /** 
+    /**
     * Handles the HTTP <code>POST</code> method.
     * @param request servlet request
     * @param response servlet response
@@ -100,7 +100,7 @@ public class ClientServlet extends HttpServlet {
         processRequest(request, response);
     }
 
-    /** 
+    /**
     * Returns a short description of the servlet.
     */
     @Override

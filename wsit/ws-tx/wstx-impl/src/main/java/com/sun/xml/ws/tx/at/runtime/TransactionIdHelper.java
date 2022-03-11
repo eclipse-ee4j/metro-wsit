@@ -15,7 +15,7 @@ import javax.transaction.xa.Xid;
 
 /**
  * Helper class for converting between  Xids and WS-AT transaction Ids.
- * 
+ *
  */
 public abstract class TransactionIdHelper {
   private static TransactionIdHelper singleton;
@@ -23,10 +23,10 @@ public abstract class TransactionIdHelper {
   static {
       singleton = new TransactionIdHelperImpl();
   }
-  
+
   /**
    * Returns the TransactionIdHelper instance.
-   * 
+   *
    * @return the TransactionIdHelper instance.
    */
   public static TransactionIdHelper getInstance() {
@@ -35,7 +35,7 @@ public abstract class TransactionIdHelper {
 
   /**
    * Convert a  Xid to WS-AT Id format.
-   * 
+   *
    * @param xid
    *          A  Xid.
    * @return The transaction id in WS-AT format
@@ -44,7 +44,7 @@ public abstract class TransactionIdHelper {
 
   /**
    * Convert a WS-AT Id that was generated from a  Xid back into a Xid
-   * 
+   *
    * @param wsatid
    *          A -based WS-AT tid
    * @return A  Xid
@@ -53,7 +53,7 @@ public abstract class TransactionIdHelper {
 
   /**
    * Returns a foreign Xid that is mapped to the specified WS-AT transaction Id.
-   * 
+   *
    * @param tid
    *          A foreign WS-AT tid in string representation.
    * @return A foreign Xid that is mapped ot the tid.
@@ -63,7 +63,7 @@ public abstract class TransactionIdHelper {
   /**
    * Returns the foreign Xid that is mapped to the specified WS-AT transaction
    * Id.
-   * 
+   *
    * @param tid
    *          A foreign WS-AT tid.
    * @return The foreign Xid corresponding to the tid.
@@ -72,7 +72,7 @@ public abstract class TransactionIdHelper {
 
   /**
    * Returns the foreign WS-AT transaction Id that is mapped to the foreign Xid.
-   * 
+   *
    * @param xid
    *          A foreign Xid that was created from the foreign tid.
    * @return The foreign tid corresponding to the foreign Xid.
@@ -81,7 +81,7 @@ public abstract class TransactionIdHelper {
 
   /**
    * Removes the foreign WS-AT tid to Xid mapping
-   * 
+   *
    * @param tid
    *          A foreign WS-AT transaction Id.
    * @return The mapped foreign Xid, or null if no mapping exists
@@ -90,7 +90,7 @@ public abstract class TransactionIdHelper {
 
   /**
    * Removes the foreign WS-AT tid to Xid mapping
-   * 
+   *
    * @param xid
    *          A foreign Xid that is mapped to a foreign tid.
    * @return The mapped tid, or null if no mapping exists.

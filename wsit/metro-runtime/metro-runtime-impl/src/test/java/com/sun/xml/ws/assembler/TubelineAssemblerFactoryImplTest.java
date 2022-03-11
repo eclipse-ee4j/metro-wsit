@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -55,7 +55,7 @@ public class TubelineAssemblerFactoryImplTest extends TestCase {
 
     private static final String NAMESPACE = "http://service1.test.ws.xml.sun.com/";
     private static final URI ADDRESS_URL;
-    
+
 
     static {
         try {
@@ -91,7 +91,7 @@ public class TubelineAssemblerFactoryImplTest extends TestCase {
         public URL getResource(String resourceName) {
             return Thread.currentThread().getContextClassLoader().getResource(resourceName);
         }
-        
+
     }
     public void testAlternateConfigFileName() {
         final BindingID bindingId = BindingID.SOAP11_HTTP;
@@ -111,13 +111,13 @@ public class TubelineAssemblerFactoryImplTest extends TestCase {
                         public String getAppFileName() {
                             return ALTERNATE_FILE_NAME;
                         }
-                        
+
                     });
                 } else if (spiType.isAssignableFrom(ResourceLoader.class)) {
                     return spiType.cast(new TestResourceLoader());
                 }
                 return null;
-            }   
+            }
         };
         final ClientTubeAssemblerContext jaxwsContext = getClientContext(bindingId, container);
         MetroTubelineAssembler assembler = (MetroTubelineAssembler)getAssembler(bindingId);
@@ -125,7 +125,7 @@ public class TubelineAssemblerFactoryImplTest extends TestCase {
         MetroClientTubelineAssemblyContextImpl context = new MetroClientTubelineAssemblyContextImpl(jaxwsContext);
         Collection<TubeCreator> tubeCreators = tubelineAssemblyController.getTubeCreators(context);
         assertEquals(2, tubeCreators.size());
-        
+
     }
     /**
      * Test client creation with parameters that correspond to a dispatch client
@@ -382,7 +382,7 @@ public class TubelineAssemblerFactoryImplTest extends TestCase {
         };
 
         final ClientTubeAssemblerContext context = new ClientTubeAssemblerContext(
-                address, 
+                address,
                 port,
                 wsbp,
                 binding,

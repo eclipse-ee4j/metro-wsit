@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -38,7 +38,7 @@ public class X509SubjectKeyIdentifier extends KeyIdentifier {
     private String encodingType = MessageConstants.BASE64_ENCODING_NS;
 
     private String valueType = MessageConstants.X509SubjectKeyIdentifier_NS;
-    
+
     private X509Certificate cert = null;
 
     /**
@@ -52,7 +52,7 @@ public class X509SubjectKeyIdentifier extends KeyIdentifier {
         setAttribute("ValueType", valueType);
     }
 
-    public X509SubjectKeyIdentifier(SOAPElement element) 
+    public X509SubjectKeyIdentifier(SOAPElement element)
         throws XWSSecurityException {
         super(element);
     }
@@ -74,7 +74,7 @@ public class X509SubjectKeyIdentifier extends KeyIdentifier {
      * @return the SubjectKeyIdentifier from cert or null if cert does not
      *         contain one
      */
-    public static byte[] getSubjectKeyIdentifier(X509Certificate cert) 
+    public static byte[] getSubjectKeyIdentifier(X509Certificate cert)
        throws XWSSecurityException {
         KeyIdentifierSPI spi = KeyIdentifierSPI.getInstance();
         if (spi != null) {
@@ -87,12 +87,12 @@ public class X509SubjectKeyIdentifier extends KeyIdentifier {
         //todo : log here
         throw new XWSSecurityException("Could not locate SPI class for KeyIdentifierSPI");
     }
-    
+
     public void setCertificate(X509Certificate cert){
         this.cert = cert;
     }
- 
+
     public X509Certificate getCertificate(){
         return cert;
     }
-} 
+}

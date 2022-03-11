@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -29,7 +29,7 @@ public class SamlKeyIdentifier extends KeyIdentifier {
 
     /** Defaults */
     private String valueType = MessageConstants.WSSE_SAML_KEY_IDENTIFIER_VALUE_TYPE;
-        
+
 
     /**
      * Creates an "empty" KeyIdentifier element with default encoding type
@@ -43,9 +43,9 @@ public class SamlKeyIdentifier extends KeyIdentifier {
         if(nodeList.getLength() > 0){
               Node assertion = nodeList.item(0);
               if (assertion.getNamespaceURI() == MessageConstants.SAML_v2_0_NS) {
-                  vType = MessageConstants.WSSE_SAML_v2_0_KEY_IDENTIFIER_VALUE_TYPE;    
-              }              
-              
+                  vType = MessageConstants.WSSE_SAML_v2_0_KEY_IDENTIFIER_VALUE_TYPE;
+              }
+
         }
         // old behavior left for BackwardCompatibility reasons
         setAttribute("ValueType", vType);
@@ -55,4 +55,4 @@ public class SamlKeyIdentifier extends KeyIdentifier {
         super(element);
     }
 
-} 
+}

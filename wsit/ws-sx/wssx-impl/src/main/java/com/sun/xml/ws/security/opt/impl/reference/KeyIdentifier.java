@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -56,77 +56,77 @@ public class KeyIdentifier extends KeyIdentifierType
         SecurityHeaderElement, SecurityElementWriter {
 
     private SOAPVersion soapVersion = SOAPVersion.SOAP_11;
-    
+
     /** Creates a new instance of KeyIdentifier */
     public KeyIdentifier(SOAPVersion sv) {
         this.soapVersion = sv;
     }
-    
+
     /**
-     * 
+     *
      * @return the valueType attribute for KeyIdentifier
      */
     @Override
     public String getValueType() {
         return super.getValueType();
     }
-    
+
     /**
-     * 
+     *
      * @param valueType the valueType attribute for KeyIdentifier
      */
     @Override
     public void setValueType(final String valueType) {
         super.setValueType(valueType);
     }
-    
+
     /**
-     * 
+     *
      * @return the encodingType attribute
      */
     @Override
     public String getEncodingType() {
         return super.getEncodingType();
     }
-    
+
     /**
-     * 
+     *
      * @param value the encodingType attribute
      */
     @Override
     public void setEncodingType(final String value) {
         super.setEncodingType(value);
     }
-    
+
     /**
-     * 
+     *
      * @return the referenced value by this key identifier
      */
     @Override
     public String getReferenceValue() {
         return super.getValue();
     }
-    
+
     /**
-     * 
+     *
      * @param referenceValue the referenced value by this keyIdentifier
      */
     @Override
     public void setReferenceValue(final String referenceValue) {
         super.setValue(referenceValue);
     }
-    
+
     /**
-     * 
+     *
      * @return the reference type used
      */
     @Override
     public String getType() {
         return MessageConstants.KEY_INDETIFIER_TYPE;
     }
-    
+
     /**
-     * 
+     *
      * @return id attribute
      */
     @Override
@@ -135,7 +135,7 @@ public class KeyIdentifier extends KeyIdentifierType
         Map<QName, String> otherAttributes = this.getOtherAttributes();
         return otherAttributes.get(qname);
     }
-    
+
     /**
      *
      */
@@ -145,16 +145,16 @@ public class KeyIdentifier extends KeyIdentifierType
         Map<QName, String> otherAttributes = this.getOtherAttributes();
         otherAttributes.put(qname, id);
     }
-    
+
     /**
-     * 
+     *
      * @return namespace uri of Keyidentifier.
      */
     @Override
     public String getNamespaceURI() {
         return MessageConstants.WSSE_NS;
     }
-    
+
     /**
      * Gets the local name of this header element.
      *
@@ -165,33 +165,33 @@ public class KeyIdentifier extends KeyIdentifierType
     public String getLocalPart() {
         return "KeyIdentifier".intern();
     }
-    
-    
+
+
     public String getAttribute(@NotNull String nsUri, @NotNull String localName) {
         QName qname = new QName(nsUri, localName);
         Map<QName, String> otherAttributes = this.getOtherAttributes();
         return otherAttributes.get(qname);
     }
-    
-    
+
+
     public String getAttribute(@NotNull QName name) {
         Map<QName, String> otherAttributes = this.getOtherAttributes();
         return otherAttributes.get(name);
     }
-    
+
     @Override
     public XMLStreamReader readHeader() throws XMLStreamException {
         XMLStreamBufferResult xbr = new XMLStreamBufferResult();
         JAXBElement<KeyIdentifierType> keyIdentifierElem = new ObjectFactory().createKeyIdentifier(this);
         try{
             getMarshaller().marshal(keyIdentifierElem, xbr);
-            
+
         } catch(JAXBException je){
             throw new XMLStreamException(je);
         }
         return xbr.getXMLStreamBuffer().readAsXMLStreamReader();
     }
-    
+
     /**
      * Writes out the header.
      *
@@ -212,13 +212,13 @@ public class KeyIdentifier extends KeyIdentifierType
                     return;
                 }
             }
-            
+
             getMarshaller().marshal(keyIdentifierElem,streamWriter);
         } catch (JAXBException e) {
             throw new XMLStreamException(e);
         }
     }
-    
+
     /**
      *
      */
@@ -237,18 +237,18 @@ public class KeyIdentifier extends KeyIdentifierType
             throw new XMLStreamException(jbe);
         }
     }
-    
+
     private Marshaller getMarshaller() throws JAXBException{
         return JAXBUtil.createMarshaller(soapVersion);
     }
-    
+
     /**
      *
      */
     @Override
     public void writeTo(OutputStream os) {
     }
-    
+
     public void updateReferenceValue(byte[] kerberosToken) throws XWSSecurityException{
         if(getValueType() == MessageConstants.KERBEROS_v5_APREQ_IDENTIFIER){
             try {
@@ -259,8 +259,8 @@ public class KeyIdentifier extends KeyIdentifierType
         } else{
             throw new XWSSecurityException(getValueType() + " ValueType not supported for kerberos tokens");
         }
-    }    
-    
+    }
+
     public void updateReferenceValue(X509Certificate cert) throws XWSSecurityException{
         if(getValueType() == MessageConstants.ThumbPrintIdentifier_NS){
             try {
@@ -278,7 +278,7 @@ public class KeyIdentifier extends KeyIdentifierType
             setReferenceValue(Base64.encode(keyId));
         }
     }
-    
+
     /**
      *
      */

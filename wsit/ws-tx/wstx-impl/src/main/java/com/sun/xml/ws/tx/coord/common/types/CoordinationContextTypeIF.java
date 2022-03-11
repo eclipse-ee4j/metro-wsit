@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -18,9 +18,9 @@ import jakarta.xml.ws.EndpointReference;
 
 /**
  * <p>Java class for CoordinationContextType complex type.
- * 
+ *
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ *
  * <pre>{@code
  * <complexType name="CoordinationContextType">
  *   <complexContent>
@@ -42,88 +42,88 @@ import jakarta.xml.ws.EndpointReference;
  *   </complexContent>
  * </complexType>
  * }</pre>
- * 
- * 
+ *
+ *
  */
 public interface CoordinationContextTypeIF<T extends EndpointReference,E,I,C> {
 
     /**
      * Gets the value of the identifier property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link BaseIdentifier }
-     *     
+     *
      */
     BaseIdentifier<I> getIdentifier();
 
     /**
      * Sets the value of the identifier property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link BaseIdentifier }
-     *     
+     *
      */
     void setIdentifier(BaseIdentifier<I> value);
 
     /**
      * Gets the value of the expires property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link BaseExpires }
-     *     
+     *
      */
     BaseExpires<E> getExpires();
 
     /**
      * Sets the value of the expires property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link BaseExpires }
-     *     
+     *
      */
     void setExpires(BaseExpires<E> value);
 
     /**
      * Gets the value of the coordinationType property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     String getCoordinationType();
 
     /**
      * Sets the value of the coordinationType property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     void setCoordinationType(String value);
 
     /**
      * Gets the value of the registrationService property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link W3CEndpointReference }
-     *     
+     *
      */
     T  getRegistrationService();
 
     /**
      * Sets the value of the registrationService property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link W3CEndpointReference }
-     *     
+     *
      */
     void setRegistrationService(T value);
 

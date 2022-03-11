@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -70,7 +70,7 @@ public class DefaultSCTokenConfiguration extends SCTokenConfiguration{
         this(protocol);
         this.addRenewPolicy = addRenewPolicy;
     }
-    
+
     public DefaultSCTokenConfiguration(String protocol, SecureConversationToken scToken, final WSDLPort wsdlPort,
             final WSBinding binding, final Tube securityTube, final Packet packet, final AddressingVersion addVer, PolicyAssertion localToken, Tube nextTube) {
         this.protocol = protocol;
@@ -121,16 +121,16 @@ public class DefaultSCTokenConfiguration extends SCTokenConfiguration{
         parseAssertions(scToken, localToken);
     }
 
-    
-    public DefaultSCTokenConfiguration(DefaultSCTokenConfiguration that, String tokenId) { 
+
+    public DefaultSCTokenConfiguration(DefaultSCTokenConfiguration that, String tokenId) {
         this.protocol = that.protocol;
         this.scToken = that.scToken;
         this.wsdlPort = that.wsdlPort;
         this.wsBinding = that.wsBinding;
         this.clientSecurityTube = that.clientSecurityTube;
         this.packet = that.packet;
-        this.addVer = that.addVer;        
-        this.nextTube = that.nextTube;      
+        this.addVer = that.addVer;
+        this.nextTube = that.nextTube;
         this.tokenId = tokenId;
         this.checkTokenExpiry = that.checkTokenExpiry;
         this.clientOutboundMessage = that.clientOutboundMessage;
@@ -146,7 +146,7 @@ public class DefaultSCTokenConfiguration extends SCTokenConfiguration{
         this.scTokenTimeout = that.scTokenTimeout;
 
         this.getOtherOptions().putAll(that.getOtherOptions());
-        
+
     }
 
     private void parseAssertions(SecureConversationToken scToken, PolicyAssertion localToken){

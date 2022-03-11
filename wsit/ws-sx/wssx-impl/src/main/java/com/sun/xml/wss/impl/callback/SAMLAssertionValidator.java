@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -14,12 +14,12 @@ import org.w3c.dom.Element;
 import javax.xml.stream.XMLStreamReader;
 
 /**
- * 
+ *
  * @deprecated use the new extended SAMLValidator interface
- * An implementation of  the extended SAMLValidator interface 
- * can throw UnsupportedOperationException for methods defined in this 
+ * An implementation of  the extended SAMLValidator interface
+ * can throw UnsupportedOperationException for methods defined in this
  * base interface.
- *  
+ *
  */
 public interface SAMLAssertionValidator {
 
@@ -46,11 +46,11 @@ public interface SAMLAssertionValidator {
             public SAMLValidationException(String message) {
             super(message);
         }
-                                                                                                                      
+
         public SAMLValidationException(String message, Throwable cause) {
             super(message, cause);
         }
-                                                                                                                      
+
         public SAMLValidationException(Throwable cause) {
             super(cause);
         }

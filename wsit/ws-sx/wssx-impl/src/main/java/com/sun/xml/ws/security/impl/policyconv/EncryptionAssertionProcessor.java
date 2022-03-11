@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -24,9 +24,9 @@ import javax.xml.namespace.QName;
  *
  * @author K.Venugopal@sun.com
  */
-public class EncryptionAssertionProcessor {    
+public class EncryptionAssertionProcessor {
     private boolean bodyEncrypted = false;
-    private boolean encryptAttachments = false;    
+    private boolean encryptAttachments = false;
     private HashSet<Header> encryptedParts = new HashSet<>();
     //  private EncryptionTargetCreator etc =null;
     private EncryptionTargetCreator etCreator = null;
@@ -36,17 +36,17 @@ public class EncryptionAssertionProcessor {
         //this.enforce = enforce;
         this.etCreator = new EncryptionTargetCreator(algorithmSuite,enforce);
     }
-    
+
     public EncryptionTargetCreator getTargetCreator(){
         return etCreator;
     }
-    
+
     public void process(EncryptedParts encryptParts,EncryptionPolicy.FeatureBinding binding){
         if(SecurityPolicyUtil.isEncryptedPartsEmpty(encryptParts)){
             if(!bodyEncrypted){
                 EncryptionTarget target = etCreator.newQNameEncryptionTarget(EncryptionTarget.BODY_QNAME);
                 target.setContentOnly(true);
-                binding.addTargetBinding(target);              
+                binding.addTargetBinding(target);
                 bodyEncrypted = true;
             }
         }
@@ -56,17 +56,17 @@ public class EncryptionAssertionProcessor {
             if(!seenEncryptedParts(ht)){
                 EncryptionTarget target = etCreator.newQNameEncryptionTarget(new QName(ht.getURI(),ht.getLocalName()));
                 target.isSOAPHeadersOnly(true);
-                binding.addTargetBinding(target);               
+                binding.addTargetBinding(target);
             }
         }
-        
+
         if(encryptParts.hasBody() && !bodyEncrypted){
             EncryptionTarget target = etCreator.newQNameEncryptionTarget(EncryptionTarget.BODY_QNAME);
             target.setContentOnly(true);
-            binding.addTargetBinding(target);         
+            binding.addTargetBinding(target);
             bodyEncrypted = true;
         }
-        
+
         if(encryptParts.hasAttachments() && !encryptAttachments){
             EncryptionTarget target = etCreator.newURIEncryptionTarget(MessageConstants.PROCESS_ALL_ATTACHMENTS);
             target.setContentOnly(true);
@@ -75,17 +75,17 @@ public class EncryptionAssertionProcessor {
             encryptAttachments = true;
         }
     }
-    
+
     //TODO:merge multiple EncryptedElements
     public void process(EncryptedElements encryptedElements , EncryptionPolicy.FeatureBinding binding){
         Iterator<String> eeItr = encryptedElements.getTargets();
         while(eeItr.hasNext()){
             String xpathTarget = eeItr.next();
             EncryptionTarget target = etCreator.newXpathEncryptionTarget(xpathTarget);
-            binding.addTargetBinding(target);          
+            binding.addTargetBinding(target);
         }
     }
-    
+
     private boolean seenEncryptedParts(Header header){
         if(encryptedParts.contains(header)){
             return true;
@@ -93,9 +93,9 @@ public class EncryptionAssertionProcessor {
         encryptedParts.add(header);
         return false;
     }
-    
+
     public void process(QName targetName,EncryptionPolicy.FeatureBinding binding){
         EncryptionTarget target = etCreator.newQNameEncryptionTarget(targetName);
-        binding.addTargetBinding(target);      
+        binding.addTargetBinding(target);
     }
 }

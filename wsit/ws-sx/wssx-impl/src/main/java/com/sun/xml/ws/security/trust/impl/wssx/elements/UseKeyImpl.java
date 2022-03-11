@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -31,21 +31,21 @@ import org.w3c.dom.Element;
  * @author Manveen Kaur
  */
 public class UseKeyImpl extends UseKeyType implements UseKey {
-    
+
     private String targetType = null;
-    
+
     private SecurityTokenReference str = null;
     private Token token = null;
-    
+
     public UseKeyImpl(Token token) {
         setToken(token);
     }
-    
+
     public UseKeyImpl(SecurityTokenReference str) {
         setSecurityTokenReference(str);
         setTargetType(WSTrustConstants.STR_TYPE);
     }
-    
+
     public UseKeyImpl (UseKeyType ukType) {
         Object obj = ukType.getAny();
         if (obj instanceof JAXBElement){
@@ -54,15 +54,15 @@ public class UseKeyImpl extends UseKeyType implements UseKey {
             token = new GenericToken((Element)obj);
         }
     }
-    
+
     public String getTargetType() {
         return targetType;
     }
-    
+
     public void setTargetType(String ttype) {
         targetType = ttype;
     }
-    
+
     public void setSecurityTokenReference(SecurityTokenReference ref) {
         if (ref != null) {
             str = ref;
@@ -73,11 +73,11 @@ public class UseKeyImpl extends UseKeyType implements UseKey {
         setTargetType(WSTrustConstants.STR_TYPE);
         token = null;
     }
-    
+
     public SecurityTokenReference getSecurityTokenReference() {
         return str;
     }
-    
+
     @Override
     public void setToken(Token token) {
         if (token != null) {
@@ -87,17 +87,17 @@ public class UseKeyImpl extends UseKeyType implements UseKey {
         setTargetType(WSTrustConstants.TOKEN_TYPE);
         str = null;
     }
-    
+
     @Override
     public Token getToken() {
         return token;
     }
-    
+
     @Override
     public void setSignatureID(URI sigID) {
         setSig(sigID.toString());
     }
-    
+
     @Override
     public URI getSignatureID() {
         try {
@@ -106,5 +106,5 @@ public class UseKeyImpl extends UseKeyType implements UseKey {
             throw new RuntimeException("URI syntax invalid ", ue);
         }
     }
-    
+
 }

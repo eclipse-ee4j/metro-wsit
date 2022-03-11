@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -35,12 +35,12 @@ import jakarta.xml.bind.JAXBContext;
  */
 public class AuthorityBinding extends AuthorityBindingType
     implements com.sun.xml.wss.saml.AuthorityBinding {
-    
+
     protected static final Logger log = Logger.getLogger(
             LogDomainConstants.WSS_API_DOMAIN,
             LogDomainConstants.WSS_API_DOMAIN_BUNDLE);
 
- 
+
     /**
      * Constructs an <code>AuthorityBinding</code> element from an existing XML
      * block.
@@ -52,7 +52,7 @@ public class AuthorityBinding extends AuthorityBindingType
     public static AuthorityBindingType fromElement(Element element) throws SAMLException {
         try {
             JAXBContext jc = SAMLJAXBUtil.getJAXBContext();
-                    
+
             jakarta.xml.bind.Unmarshaller u = jc.createUnmarshaller();
             return (AuthorityBindingType)u.unmarshal(element);
         } catch ( Exception ex) {
@@ -78,13 +78,13 @@ public class AuthorityBinding extends AuthorityBindingType
         setLocation(location);
         setBinding(binding);
     }
-    
+
     public AuthorityBinding(AuthorityBindingType authBinType){
         setAuthorityKind(authBinType.getAuthorityKind());
         setLocation(authBinType.getLocation());
         setBinding(authBinType.getBinding());
     }
-    
+
     @Override
     public QName getAuthorityKind(){
         return super.getAuthorityKind();

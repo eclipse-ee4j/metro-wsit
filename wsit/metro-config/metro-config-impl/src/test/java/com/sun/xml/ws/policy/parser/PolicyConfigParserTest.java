@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -40,19 +40,19 @@ public class PolicyConfigParserTest extends TestCase {
     private static final String CLASSPATH_CONFIG_FILE_PATH = "test/unit/data";
     private static final String CONFIG_FILE_NAME = "wsit-test.xml";
     private static final String CLIENT_CONFIG_FILE_NAME = "wsit-client.xml";
-    
+
     public PolicyConfigParserTest(String testName) {
         super(testName);
     }
-    
+
     @Override
     protected void setUp() {
     }
-    
+
     @Override
     protected void tearDown() {
     }
-    
+
     public void testParseContainerNullWithoutConfig() {
         try {
             PolicyMap result = PolicyConfigParser.parse(null, null);
@@ -61,7 +61,7 @@ public class PolicyConfigParserTest extends TestCase {
             // Expected exception
         }
     }
-    
+
     public void testParseContainerWithoutContextWithoutConfig() {
         try {
             Container container = new MockContainer(null);
@@ -71,8 +71,8 @@ public class PolicyConfigParserTest extends TestCase {
             // Expected exception
         }
     }
-    
-    public void testParseContainerNullWithConfig() throws Exception {        
+
+    public void testParseContainerNullWithConfig() throws Exception {
         PolicyMap map = prepareTestFileAndLoadPolicyMap(TEST_FILE_PATH, CONFIG_FILE_PATH, CONFIG_FILE_NAME, "test", null);
         testLoadedMap(map);
     }
@@ -82,12 +82,12 @@ public class PolicyConfigParserTest extends TestCase {
         PolicyMap map = prepareTestFileAndLoadPolicyMap(TEST_FILE_PATH, CONFIG_FILE_PATH, CONFIG_FILE_NAME, "test", container);
         testLoadedMap(map);
     }
-    
+
     public void testParseContainerWithContext() {
         // TODO Need MockServletContext
     }
-    
-    public void testWsitXmlNotLoadedContainerNullWithConfig() throws Exception {        
+
+    public void testWsitXmlNotLoadedContainerNullWithConfig() throws Exception {
         PolicyMap map = prepareTestFileAndLoadPolicyMap(TEST_FILE_PATH, CONFIG_FILE_PATH, "wsit.xml", "test", null);
         assertNull(map);
     }
@@ -97,41 +97,41 @@ public class PolicyConfigParserTest extends TestCase {
         PolicyMap map = prepareTestFileAndLoadPolicyMap(TEST_FILE_PATH, CONFIG_FILE_PATH, "wsit.xml", "test", container);
         assertNull(map);
     }
-    
+
     public void testWsitXmlNotLoadedContainerWithContext() {
         // TODO Need MockServletContext
     }
-    
+
     public void testParseClientWithoutContextWithoutConfig() throws Exception {
         PolicyMap result = PolicyConfigParser.parse(PolicyConstants.CLIENT_CONFIGURATION_IDENTIFIER, null);
         assertNull(result);
     }
-    
-    public void testParseClientMetainfContainerNullWithConfig() throws Exception {        
+
+    public void testParseClientMetainfContainerNullWithConfig() throws Exception {
         PolicyMap map = prepareTestFileAndLoadPolicyMap(TEST_FILE_PATH, CONFIG_FILE_PATH, CLIENT_CONFIG_FILE_NAME, PolicyConstants.CLIENT_CONFIGURATION_IDENTIFIER, null);
         testLoadedMap(map);
     }
-    
+
     public void testParseClientMetainfWithoutContext() throws Exception {
         Container container = new MockContainer(null);
         PolicyMap map = prepareTestFileAndLoadPolicyMap(TEST_FILE_PATH, CONFIG_FILE_PATH, CLIENT_CONFIG_FILE_NAME, PolicyConstants.CLIENT_CONFIGURATION_IDENTIFIER, container);
         testLoadedMap(map);
     }
-    
-    public void testParseClientClasspathContainerNullWithConfig() throws Exception {        
+
+    public void testParseClientClasspathContainerNullWithConfig() throws Exception {
         PolicyMap map = prepareTestFileAndLoadPolicyMap(TEST_FILE_PATH, CLASSPATH_CONFIG_FILE_PATH, CLIENT_CONFIG_FILE_NAME, PolicyConstants.CLIENT_CONFIGURATION_IDENTIFIER, null);
         testLoadedMap(map);
     }
-    
+
     public void testParseClientClasspathWithoutContext() throws Exception {
         Container container = new MockContainer(null);
         PolicyMap map = prepareTestFileAndLoadPolicyMap(TEST_FILE_PATH, CLASSPATH_CONFIG_FILE_PATH, CLIENT_CONFIG_FILE_NAME, PolicyConstants.CLIENT_CONFIGURATION_IDENTIFIER, container);
         testLoadedMap(map);
     }
-    
+
     public void testParseURLNull() throws Exception {
         PolicyMap result = null;
-        
+
         try {
             result = PolicyConfigParser.parse(null, false);
             fail("Expected IllegalArgumentException");
@@ -139,7 +139,7 @@ public class PolicyConfigParserTest extends TestCase {
         }
         assertNull(result);
     }
-    
+
     public void testParseBufferMex() throws Exception {
         PolicyMap map = parseConfigFile("mex/mex.xml");
         PolicyMapKey key = PolicyMap.createWsdlEndpointScopeKey(new QName("http://schemas.xmlsoap.org/ws/2004/09/mex", "MetadataExchangeService"), new QName("http://schemas.xmlsoap.org/ws/2004/09/mex", "MetadataExchangePort"));
@@ -148,7 +148,7 @@ public class PolicyConfigParserTest extends TestCase {
         assertEquals("MEXPolicy", policy.getId());
     }
 
-    
+
     public void testParseBufferSimple() throws Exception {
         PolicyMap map = parseConfigFile("config/simple.wsdl");
         PolicyMapKey key = PolicyMap.createWsdlEndpointScopeKey(new QName("http://example.org/", "AddNumbersService"), new QName("http://example.org/", "AddNumbersPort"));
@@ -156,54 +156,54 @@ public class PolicyConfigParserTest extends TestCase {
         assertNotNull(policy);
         assertEquals("MutualCertificate10Sign_IPingService_policy", policy.getId());
     }
-    
+
     public void testParseBufferSingleImport() throws Exception {
         PolicyMap map = parseConfigFile("config/single-import.wsdl");
         assertNotNull(map);
-        
+
         PolicyMapKey key1 = PolicyMap.createWsdlEndpointScopeKey(new QName("http://example.org/", "AddNumbersService"),
                 new QName("http://example.org/", "AddNumbersPort"));
         Policy policy1 = map.getEndpointEffectivePolicy(key1);
         assertNotNull(policy1);
         assertEquals("MutualCertificate10Sign_IPingService_policy", policy1.getId());
-        
+
         PolicyMapKey key2 = PolicyMap.createWsdlEndpointScopeKey(new QName("http://example.net/", "AddNumbersService"),
                 new QName("http://example.net/", "AddNumbersPort"));
         Policy policy2 = map.getEndpointEffectivePolicy(key2);
         assertNotNull(policy2);
         assertEquals("MutualCertificate10Sign_IPingService_policy", policy2.getId());
     }
-    
+
     public void testParseBufferMultiImport() throws Exception {
         PolicyMap map = parseConfigFile("config/import.wsdl");
-        
+
         assertNotNull(map);
-        
+
         PolicyMapKey key1 = PolicyMap.createWsdlEndpointScopeKey(new QName("http://example.org/", "AddNumbersService"),
                 new QName("http://example.org/", "AddNumbersPort"));
         Policy policy1 = map.getEndpointEffectivePolicy(key1);
         assertNotNull(policy1);
         assertEquals("MutualCertificate10Sign_IPingService_policy", policy1.getId());
-        
+
         PolicyMapKey key2 = PolicyMap.createWsdlEndpointScopeKey(new QName("http://example.net/", "AddNumbersService"),
                 new QName("http://example.net/", "AddNumbersPort"));
         Policy policy2 = map.getEndpointEffectivePolicy(key2);
         assertNotNull(policy2);
         assertEquals("MutualCertificate10Sign_IPingService_policy", policy2.getId());
-        
+
         PolicyMapKey key3 = PolicyMap.createWsdlEndpointScopeKey(new QName("http://example.com/", "AddNumbersService"),
                 new QName("http://example.com/", "AddNumbersPort"));
         Policy policy3 = map.getEndpointEffectivePolicy(key3);
         assertNotNull(policy3);
         assertEquals("MutualCertificate10Sign_IPingService_policy", policy3.getId());
-        
+
         PolicyMapKey key4 = PolicyMap.createWsdlEndpointScopeKey(new QName("http://example.com/import3/", "AddNumbersService"),
                 new QName("http://example.com/import3/", "AddNumbersPort"));
         Policy policy4 = map.getEndpointEffectivePolicy(key4);
         assertNotNull(policy4);
         assertEquals("MutualCertificate10Sign_IPingService_policy", policy4.getId());
     }
-    
+
     public void testParseBufferCyclicImport() throws Exception {
         PolicyMap map = parseConfigFile("config/cyclic.wsdl");
         PolicyMapKey key = PolicyMap.createWsdlEndpointScopeKey(new QName("http://example.org/", "AddNumbersService"), new QName("http://example.org/", "AddNumbersPort"));
@@ -211,7 +211,7 @@ public class PolicyConfigParserTest extends TestCase {
         assertNotNull(policy);
         assertEquals("MutualCertificate10Sign_IPingService_policy", policy.getId());
     }
-    
+
     public void testParseBufferExternalReference() throws Exception {
         try {
             parseConfigFile("config/service.wsdl");
@@ -219,7 +219,7 @@ public class PolicyConfigParserTest extends TestCase {
         } catch (WebServiceException wse) {
         }
     }
-    
+
     public void testParseBufferExternalReferenceName() throws Exception {
         PolicyMap map = parseConfigFile("config/service-name.wsdl");
         PolicyMapKey key = PolicyMap.createWsdlEndpointScopeKey(new QName("http://example.org/AddNumbers/service", "AddNumbersService"), new QName("http://example.org/AddNumbers/service", "AddNumbersPort"));
@@ -227,7 +227,7 @@ public class PolicyConfigParserTest extends TestCase {
         assertNotNull(policy);
         assertEquals("http://example.org/AddNumbers/porttype#AddNumbersServicePolicy", policy.getName());
     }
-        
+
     public void testGetOperationEffectivePolicy() throws Exception {
         PolicyMap policyMap = PolicyConfigParser.parse(getResourceUrl("effective/all.wsdl"), true);
         Policy expectedPolicy1 = loadPolicy("effective/resultOperation.xml");
@@ -243,11 +243,11 @@ public class PolicyConfigParserTest extends TestCase {
                  + policy + "\nexpected policy 1 = " + expectedPolicy1 + "\n expected policy 2 = " + expectedPolicy2);
         }
         if (!policyEquals1 && !policyEquals2) {
-            fail("None of the expected policies matched. Computed policy = " + policy 
+            fail("None of the expected policies matched. Computed policy = " + policy
                  + "\nexpected policy 1 = " + expectedPolicy1 + "\n expected policy 2 = " + expectedPolicy2);
         }
     }
-    
+
     public void testGetInputMessageEffectivePolicy() throws Exception {
         PolicyMap policyMap = PolicyConfigParser.parse(getResourceUrl("effective/all.wsdl"), true);
         Policy expectedPolicy1 = loadPolicy("effective/resultInput.xml");
@@ -263,11 +263,11 @@ public class PolicyConfigParserTest extends TestCase {
                  + policy + "\nexpected policy 1 = " + expectedPolicy1 + "\n expected policy 2 = " + expectedPolicy2);
         }
         if (!policyEquals1 && !policyEquals2) {
-            fail("None of the expected policies matched. Computed policy = " + policy 
+            fail("None of the expected policies matched. Computed policy = " + policy
                  + "\nexpected policy 1 = " + expectedPolicy1 + "\n expected policy 2 = " + expectedPolicy2);
         }
     }
-    
+
     public void testGetFaultMessageEffectivePolicy() throws Exception {
         PolicyMap policyMap = PolicyConfigParser.parse(getResourceUrl("effective/all.wsdl"), true);
         Policy expectedPolicy1 = loadPolicy("effective/resultFault.xml");
@@ -283,11 +283,11 @@ public class PolicyConfigParserTest extends TestCase {
                  + policy + "\nexpected policy 1 = " + expectedPolicy1 + "\n expected policy 2 = " + expectedPolicy2);
         }
         if (!policyEquals1 && !policyEquals2) {
-            fail("None of the expected policies matched. Computed policy = " + policy 
+            fail("None of the expected policies matched. Computed policy = " + policy
                  + "\nexpected policy 1 = " + expectedPolicy1 + "\n expected policy 2 = " + expectedPolicy2);
         }
     }
-    
+
     public void testGetFaultMessageWithTwoServicesEffectivePolicy() throws Exception {
         PolicyMap policyMap = PolicyConfigParser.parse(getResourceUrl("effective/twoservices.wsdl"), true);
         Policy expectedPolicy1 = loadPolicy("effective/resultFault.xml");
@@ -303,7 +303,7 @@ public class PolicyConfigParserTest extends TestCase {
                  + policy + "\nexpected policy 1 = " + expectedPolicy1 + "\n expected policy 2 = " + expectedPolicy2);
         }
         if (!policyEquals1 && !policyEquals2) {
-            fail("None of the expected policies matched. Computed policy = " + policy 
+            fail("None of the expected policies matched. Computed policy = " + policy
                  + "\nexpected policy 1 = " + expectedPolicy1 + "\n expected policy 2 = " + expectedPolicy2);
         }
     }
@@ -327,16 +327,16 @@ public class PolicyConfigParserTest extends TestCase {
         try {
             File destDir = new File(destPath);
             destDir.mkdir();
-            
+
             // Create channel on the source
             source = new FileInputStream(sourceName).getChannel();
-            
+
             // Create channel on the destination
             dest = new FileOutputStream(destPath + File.separatorChar + destName).getChannel();
-            
+
             // Copy file contents from source to destination
             dest.transferFrom(source, 0, source.size());
-            
+
         } finally {
             // Close the channels
             if (source != null) {
@@ -362,21 +362,21 @@ public class PolicyConfigParserTest extends TestCase {
             wsitxml.delete();
         }
     }
-    
+
     private void testLoadedMap(PolicyMap map) throws PolicyException {
         PolicyMapKey key = PolicyMap.createWsdlEndpointScopeKey(new QName("http://example.org/", "AddNumbersService"), new QName("http://example.org/", "AddNumbersPort"));
         Policy policy = map.getEndpointEffectivePolicy(key);
         assertNotNull(policy);
-        assertEquals("MutualCertificate10Sign_IPingService_policy", policy.getId());        
+        assertEquals("MutualCertificate10Sign_IPingService_policy", policy.getId());
     }
-    
+
     static class MockContainer extends Container {
         private final Object spi;
-        
+
         public MockContainer(Object spi) {
             this.spi = spi;
         }
-        
+
         @Override
         public <T> T getSPI(Class<T> spiType) {
             if (spiType.isInstance(this.spi)) {
@@ -385,6 +385,6 @@ public class PolicyConfigParserTest extends TestCase {
                 return null;
             }
         }
-        
+
     }
 }

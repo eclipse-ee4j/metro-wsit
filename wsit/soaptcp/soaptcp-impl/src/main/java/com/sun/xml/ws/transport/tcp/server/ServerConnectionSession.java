@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -25,25 +25,25 @@ import java.util.Map;
 public final class ServerConnectionSession extends ConnectionSession {
     private Map<Integer, ChannelContext> channelId2context =
             new HashMap<>();
-    
+
     private int channelCounter;
-    
+
     public ServerConnectionSession(final Connection connection, final SessionCloseListener<ServerConnectionSession> sessionCloseListener) {
         super(connection, sessionCloseListener);
         channelCounter = 1;
         init();
     }
-    
+
     @Override
     public void registerChannel(@NotNull final ChannelContext context) {
         channelId2context.put(context.getChannelId(), context);
     }
-    
+
     @Override
     public @Nullable ChannelContext findWSServiceContextByChannelId(final int channelId) {
         return channelId2context.get(channelId);
     }
-    
+
     public void deregisterChannel(final int channelId) {
         channelId2context.remove(channelId);
     }
@@ -52,7 +52,7 @@ public final class ServerConnectionSession extends ConnectionSession {
     public void deregisterChannel(@NotNull final ChannelContext context) {
         deregisterChannel(context.getChannelId());
     }
-    
+
     @Override
     public void close() {
         super.close();
@@ -64,9 +64,9 @@ public final class ServerConnectionSession extends ConnectionSession {
     public int getChannelsAmount() {
         return channelId2context.size();
     }
-    
+
     public synchronized int getNextAvailChannelId() {
         return channelCounter++;
-    }    
+    }
 
 }

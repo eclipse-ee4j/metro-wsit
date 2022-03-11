@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -38,32 +38,32 @@ import javax.xml.transform.stream.StreamSource;
 public final class ServiceChannelWSDLGenerator {
 
     private static final String TCP_ENDPOINT_ADDRESS_STUB = TCPConstants.PROTOCOL_SCHEMA + "://CHANGED_BY_RUNTIME";
-    
+
     public static void main(final String[] args) throws Exception {
         final QName serviceName = WSEndpoint.getDefaultServiceName(ServiceChannelWSImpl.class);
         final QName portName = WSEndpoint.getDefaultPortName(serviceName, ServiceChannelWSImpl.class);
         final BindingID bindingId = BindingID.parse(ServiceChannelWSImpl.class);
         final WSBinding binding = bindingId.createBinding();
         final Collection<SDDocumentSource> docs = new ArrayList<>(0);
-        
+
         final WSEndpoint<?> endpoint = WSEndpoint.create(
                 ServiceChannelWSImpl.class, true,
                 null,
                 serviceName, portName, null, binding,
                 null, docs, (URL) null
                 );
-        
+
         final DocumentAddressResolver resolver = new DocumentAddressResolver() {
             @Override
             public String getRelativeAddressFor(SDDocument current, SDDocument referenced) {
                 if (current.isWSDL() && referenced.isSchema() && referenced.getURL().getProtocol().equals("file")) {
                     return referenced.getURL().getFile().substring(1);
                 }
-                
+
                 return referenced.getURL().toExternalForm();
             }
         };
-        
+
         final ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
         /* seems now transformer doesnt support "pretty-output",
@@ -72,11 +72,11 @@ public final class ServiceChannelWSDLGenerator {
                 TransformerFactory.newInstance();
         final Transformer transformer = tFactory.newTransformer();
         transformer.setOutputProperty(OutputKeys.INDENT,"yes");
-        
+
         for(final Iterator<SDDocument> it = endpoint.getServiceDefinition().iterator(); it.hasNext();) {
             final SDDocument document = it.next();
             baos.reset();
-            
+
             document.writeTo(new PortAddressResolver() {
                 @Override
                 public @Nullable String getAddressFor(QName serviceName, @NotNull String portName) {
@@ -84,7 +84,7 @@ public final class ServiceChannelWSDLGenerator {
                 }
             }, resolver, baos);
             final ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
-            
+
             final FileOutputStream fos = new FileOutputStream("./etc/" + document.getURL().getFile());
             final Source source = new StreamSource(bais);
             final StreamResult result = new StreamResult(fos);
@@ -92,7 +92,7 @@ public final class ServiceChannelWSDLGenerator {
             fos.close();
             bais.close();
         }
-        
+
         baos.close();
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -27,19 +27,19 @@ public final class WSTCPURI implements com.sun.xml.ws.transport.tcp.connectionca
     public String host;
     public int port;
     public String path;
-    
+
     // The TCP port, where connection will be established.
     // If -1 then port value will be used.
     public int customPort = -1;
 
     private String uri2string;
     private Map<String, String> params;
-    
+
     /**
      * This constructor should be used just by JAXB runtime
      */
     public WSTCPURI() {}
-    
+
     private WSTCPURI(String host, int port, String path, Map<String, String> params, String uri2string) {
         this.host = host;
         this.port = port;
@@ -47,15 +47,15 @@ public final class WSTCPURI implements com.sun.xml.ws.transport.tcp.connectionca
         this.params = params;
         this.uri2string = uri2string;
     }
-    
+
     public String getParameter(final String name) {
         if (params != null) {
             return params.get(name);
         }
-        
+
         return null;
     }
-    
+
     public static WSTCPURI parse(final String uri) {
         try {
             return parse(new URI(uri));
@@ -63,12 +63,12 @@ public final class WSTCPURI implements com.sun.xml.ws.transport.tcp.connectionca
             return null;
         }
     }
-    
+
     public static WSTCPURI parse(final URI uri) {
         final String path = uri.getPath();
         final String query = uri.getQuery();
         Map<String, String> params = null;
-        
+
         if (query != null && query.length() > 0) {
             final String[] paramsStr = query.split(";");
             params = new HashMap<>(paramsStr.length);
@@ -81,7 +81,7 @@ public final class WSTCPURI implements com.sun.xml.ws.transport.tcp.connectionca
                 }
             }
         }
-        
+
         return new WSTCPURI(uri.getHost(), uri.getPort(), path, params, uri.toASCIIString());
     }
 
@@ -100,15 +100,15 @@ public final class WSTCPURI implements com.sun.xml.ws.transport.tcp.connectionca
     public void setCustomPort(int customPort) {
         this.customPort = customPort;
     }
-    
+
     public int getEffectivePort() {
         if (customPort == -1) {
             return port;
         }
-        
+
         return customPort;
     }
-    
+
     @Override
     public String toString() {
         return uri2string;
@@ -125,10 +125,10 @@ public final class WSTCPURI implements com.sun.xml.ws.transport.tcp.connectionca
                 return basicResult && (customPort == toCmp.customPort);
             }
         }
-        
+
         return false;
     }
-    
+
     @Override
     public int hashCode() {
         return host.hashCode() + (port << 2) + customPort;
@@ -144,7 +144,7 @@ public final class WSTCPURI implements com.sun.xml.ws.transport.tcp.connectionca
             throw new IOException(MessagesMessages.WSTCP_0024_SERVICE_CHANNEL_EXCEPTION(e.getFaultInfo().getErrorCode(), e.getMessage()));
         }
     }
-    
+
     /**
      * Class is used to translate WSTCPURI to String and vice versa
      * This is used in JAXB serialization/deserialization
@@ -159,6 +159,6 @@ public final class WSTCPURI implements com.sun.xml.ws.transport.tcp.connectionca
         public WSTCPURI unmarshal(final String uri) {
             return WSTCPURI.parse(uri);
         }
-        
+
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -30,54 +30,54 @@ import junit.framework.*;
  * @author Mayank.Mishra@SUN.com
  */
 public class KerberosTokenTest extends TestCase {
-    
+
     public KerberosTokenTest(String testName) {
         super(testName);
     }
-    
+
     @Override
     protected void setUp() {
     }
-    
+
     @Override
     protected void tearDown() {
     }
-    
+
     public static Test suite() {
         TestSuite suite = new TestSuite(KerberosTokenTest.class);
-        
+
         return suite;
     }
-    
+
     private PolicySourceModel unmarshalPolicyResource(String resource) throws PolicyException, IOException {
         Reader reader = getResourceReader(resource);
         PolicySourceModel model = ModelUnmarshaller.getUnmarshaller().unmarshalModel(reader);
         reader.close();
         return model;
     }
-    
+
     private Reader getResourceReader(String resourceName) {
         return new InputStreamReader(Thread.currentThread().getContextClassLoader().getResourceAsStream(resourceName));
     }
-    
+
     public Policy unmarshalPolicy(String xmlFile)throws Exception{
         PolicySourceModel model =  unmarshalPolicyResource(
                 xmlFile);
         Policy mbp = ModelTranslator.getTranslator().translate(model);
         return mbp;
-        
+
     }
-    
-    
+
+
     public void testKerberosTokenAssertions() throws Exception{
         testKerberosTokenType("security/KerberosTokenAssertions1.xml", com.sun.xml.ws.security.impl.policy.KerberosToken.WSSKERBEROS_V5_AP_REQ_TOKEN11);
         testKerberosTokenType("security/KerberosTokenAssertions2.xml", com.sun.xml.ws.security.impl.policy.KerberosToken.WSSKERBEROS_GSS_V5_AP_REQ_TOKEN11);
         testKerberosTokenKeys();
         testKerberosTokenReference();
     }
-    
+
     public void testKerberosTokenType(String fileName, String TokenType) throws Exception{
-        
+
         Policy policy = unmarshalPolicy(fileName);
         Iterator <AssertionSet> itr = policy.iterator();
         if(itr.hasNext()) {
@@ -91,7 +91,7 @@ public class KerberosTokenTest extends TestCase {
             throw new Exception("No Assertions found!. Unmarshalling of "+fileName+" failed!");
         }
     }
-    
+
     public void testKerberosTokenKeys() throws Exception{
         String fileName = "security/KerberosTokenAssertions3.xml";
         Policy policy = unmarshalPolicy(fileName);
@@ -107,8 +107,8 @@ public class KerberosTokenTest extends TestCase {
             throw new Exception("No Assertions found!. Unmarshalling of "+fileName+" failed!");
         }
     }
-    
-    
+
+
     public void testKerberosTokenReference() throws Exception{
         String fileName = "security/KerberosTokenAssertions4.xml";
         Policy policy = unmarshalPolicy(fileName);
@@ -128,6 +128,6 @@ public class KerberosTokenTest extends TestCase {
             throw new Exception("No Assertions found!. Unmarshalling of "+fileName+" failed!");
         }
     }
-    
+
 
 }

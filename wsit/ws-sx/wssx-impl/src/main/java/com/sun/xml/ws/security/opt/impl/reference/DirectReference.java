@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -50,119 +50,119 @@ public class DirectReference extends ReferenceType
         SecurityHeaderElement, SecurityElementWriter {
 
     private SOAPVersion soapVersion = SOAPVersion.SOAP_11;
-    
+
     /** Creates a new instance of DirectReference */
     public DirectReference(SOAPVersion sv) {
         this.soapVersion = sv;
     }
-    
+
     /**
-     * 
+     *
      * @return the valueType attribute of direct reference
      */
     @Override
     public String getValueType() {
         return super.getValueType();
     }
-    
+
     /**
-     * 
+     *
      * @param valueType sets the valueType attribute
      */
     @Override
     public void setValueType(final String valueType) {
         super.setValueType(valueType);
     }
-    
+
     /**
-     * 
+     *
      * @return the URI attribute
      */
     @Override
     public String getURI() {
         return super.getURI();
     }
-    
+
     /**
-     * 
+     *
      * @param uri sets the uri attribute
      */
     @Override
     public void setURI(final String uri) {
         super.setURI(uri);
     }
-    
+
     /**
-     * 
+     *
      * @return the reference type used
      */
     @Override
     public String getType() {
         return MessageConstants.DIRECT_REFERENCE_TYPE;
     }
-    
+
     @Override
     public String getId() {
         QName qname = new QName(MessageConstants.WSU_NS, "Id", MessageConstants.WSU_PREFIX);
         Map<QName, String> otherAttributes = this.getOtherAttributes();
         return otherAttributes.get(qname);
     }
-    
+
     @Override
     public void setId(final String id) {
         QName qname = new QName(MessageConstants.WSU_NS, "Id", MessageConstants.WSU_PREFIX);
         Map<QName, String> otherAttributes = this.getOtherAttributes();
         otherAttributes.put(qname, id);
     }
-    
-    
+
+
     @Override
     public String getNamespaceURI() {
         return MessageConstants.WSSE_NS;
     }
-    
-    
+
+
     @Override
     public String getLocalPart() {
         return "Reference";
     }
-    
+
     public String setAttribute(@NotNull String nsUri, @NotNull String localName, @NotNull String value) {
         QName qname = new QName(nsUri, localName);
         Map<QName, String> otherAttributes = this.getOtherAttributes();
         return otherAttributes.put(qname, value);
     }
-    
+
     public String setAttribute(@NotNull QName name, @NotNull String value) {
         Map<QName, String> otherAttributes = this.getOtherAttributes();
         return otherAttributes.put(name, value);
     }
-    
+
     public String getAttribute(@NotNull String nsUri, @NotNull String localName) {
         QName qname = new QName(nsUri, localName);
         Map<QName, String> otherAttributes = this.getOtherAttributes();
         return otherAttributes.get(qname);
     }
-    
-    
+
+
     public String getAttribute(@NotNull QName name) {
         Map<QName, String> otherAttributes = this.getOtherAttributes();
         return otherAttributes.get(name);
     }
-    
+
     @Override
     public XMLStreamReader readHeader() throws XMLStreamException {
         XMLStreamBufferResult xbr = new XMLStreamBufferResult();
         JAXBElement<ReferenceType> deirectRefElem = new ObjectFactory().createReference(this);
         try{
             getMarshaller().marshal(deirectRefElem, xbr);
-            
+
         } catch(JAXBException je){
             throw new XMLStreamException(je);
         }
         return xbr.getXMLStreamBuffer().readAsXMLStreamReader();
     }
-    
+
     /**
      * Writes out the header.
      *
@@ -183,13 +183,13 @@ public class DirectReference extends ReferenceType
                     return;
                 }
             }
-            
+
             getMarshaller().marshal(deirectRefElem,streamWriter);
         } catch (JAXBException e) {
             throw new XMLStreamException(e);
         }
     }
-    
+
     /**
      *
      */
@@ -208,25 +208,25 @@ public class DirectReference extends ReferenceType
             throw new XMLStreamException(jbe);
         }
     }
-    
+
     private Marshaller getMarshaller() throws JAXBException{
         return JAXBUtil.createMarshaller(soapVersion);
     }
-    
+
     /**
      *
      */
     @Override
     public void writeTo(OutputStream os) {
     }
-    
+
     public List<String> getReferencedSecHeaderElements() {
         return Collections.emptyList();
     }
-    
+
     public void addReferencedSecHeaderElement(String id) {
     }
-    
+
     /**
      *
      */
@@ -234,5 +234,5 @@ public class DirectReference extends ReferenceType
     public boolean refersToSecHdrWithId(String id) {
         return false;
     }
-    
+
 }

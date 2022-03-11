@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1995, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2022 Oracle and/or its affiliates. All rights reserved.
  * Copyright 1995-2005 The Apache Software Foundation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -30,16 +30,16 @@ public class UnsyncByteArrayOutputStream extends ByteArrayOutputStream {
     //Findbugs shows this as a correctness issue.
     byte []buf=null;
     int pos =0;
-    
+
     public UnsyncByteArrayOutputStream() {
         buf =new byte[size];
     }
-    
+
     public UnsyncByteArrayOutputStream(int size) {
         this.size = size;
         buf =new byte[size];
     }
-    
+
     @Override
     public void write(byte[] arg0) {
         int newPos=pos+arg0.length;
@@ -71,12 +71,12 @@ public class UnsyncByteArrayOutputStream extends ByteArrayOutputStream {
         System.arraycopy(buf,0,result,0,pos);
         return result;
     }
-    
+
     @Override
     public void reset() {
         pos=0;
     }
-    
+
     void expandSize() {
         int newSize=size<<2;
         byte[] newBuf =new byte[newSize];
@@ -84,11 +84,11 @@ public class UnsyncByteArrayOutputStream extends ByteArrayOutputStream {
         buf=newBuf;
         size=newSize;
     }
-    
+
     public int getLength(){
         return pos;
     }
-    
+
     public byte[] getBytes(){
         return buf;
     }

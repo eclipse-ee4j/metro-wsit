@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -27,15 +27,15 @@ import jakarta.xml.bind.JAXBElement;
  * @author Manveen Kaur
  */
 public class OnBehalfOfImpl extends OnBehalfOfType implements OnBehalfOf {
-    
+
     private EndpointReference epr = null;
     private SecurityTokenReference str = null;
-    
+
     public OnBehalfOfImpl(Token oboToken){
         oboToken.getTokenValue();
         setAny(oboToken.getTokenValue());
     }
-    
+
     public OnBehalfOfImpl(OnBehalfOfType oboType){
         Object ob = oboType.getAny();
         if (ob != null){
@@ -46,7 +46,7 @@ public class OnBehalfOfImpl extends OnBehalfOfType implements OnBehalfOf {
     public EndpointReference getEndpointReference() {
         return epr;
     }
-    
+
     @Override
     public void setEndpointReference(final EndpointReference endpointReference) {
         epr = endpointReference;
@@ -58,7 +58,7 @@ public class OnBehalfOfImpl extends OnBehalfOfType implements OnBehalfOf {
         }*/
         str = null;
     }
-    
+
     @Override
     public void setSecurityTokenReference(final SecurityTokenReference ref) {
         str = ref;
@@ -69,10 +69,10 @@ public class OnBehalfOfImpl extends OnBehalfOfType implements OnBehalfOf {
         }
         epr = null;
     }
-    
+
     @Override
     public SecurityTokenReference getSecurityTokenReference() {
         return str;
     }
-    
+
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -42,7 +42,7 @@ public abstract class RxConfigurationBase implements RxConfiguration {
         this.soapVersion = soapVersion;
         this.addressingVersion = addressingVersion;
         this.requestResponseDetected = requestResponseDetected;
-	this.managedObjectManager = managedObjectManager;
+    this.managedObjectManager = managedObjectManager;
         this.haProvider = haProvider;
     }
 
@@ -73,7 +73,7 @@ public abstract class RxConfigurationBase implements RxConfiguration {
 
     @Override
     public ManagedObjectManager getManagedObjectManager() {
-	return managedObjectManager;
+    return managedObjectManager;
     }
 
     public HighAvailabilityProvider getHighAvailabilityProvider() {

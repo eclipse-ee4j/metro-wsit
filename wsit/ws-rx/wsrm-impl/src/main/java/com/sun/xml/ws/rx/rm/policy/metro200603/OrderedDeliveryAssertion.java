@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -50,14 +50,14 @@ import jakarta.xml.ws.WebServiceException;
  */
 public class OrderedDeliveryAssertion extends SimpleAssertion implements RmConfigurator {
     public static final QName NAME = RmAssertionNamespace.METRO_200603.getQName("Ordered");
-    
+
     private static AssertionInstantiator instantiator = new AssertionInstantiator() {
         @Override
         public PolicyAssertion newInstance(AssertionData data, Collection<PolicyAssertion> assertionParameters, AssertionSet nestedAlternative){
             return new OrderedDeliveryAssertion(data, assertionParameters);
         }
     };
-    
+
     public static AssertionInstantiator getInstantiator() {
         return instantiator;
     }

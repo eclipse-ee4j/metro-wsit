@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -23,8 +23,8 @@ package com.sun.xml.wss.saml;
  * is the new element in SAML 1.1, that allows an assertion party to express that
  * an assertion should not be cached by the relying party for future use. In another
  * word, such an assertion is meant only for "one-time" use by the relying party.
- * 
- * <p>The following schema fragment specifies the expected content contained within 
+ *
+ * <p>The following schema fragment specifies the expected content contained within
  * SAML DoNotCacheCondition element.
  * <pre>
  * &lt;complexType name="DoNotCacheConditionType"&gt;
@@ -36,5 +36,5 @@ package com.sun.xml.wss.saml;
  * </pre>
  */
 public interface OneTimeUse {
-    
+
 }

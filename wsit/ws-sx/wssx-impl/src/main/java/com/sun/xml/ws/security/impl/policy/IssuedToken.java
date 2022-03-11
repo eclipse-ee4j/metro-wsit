@@ -31,7 +31,7 @@ import com.sun.xml.ws.security.policy.SecurityAssertionValidator;
 
 
 public class IssuedToken extends PolicyAssertion implements  com.sun.xml.ws.security.policy.IssuedToken, SecurityAssertionValidator{
-    
+
     private boolean populated = false;
     private RequestSecurityTokenTemplate rstTemplate;
     private Issuer issuer = null;
@@ -44,7 +44,7 @@ public class IssuedToken extends PolicyAssertion implements  com.sun.xml.ws.secu
     private final QName itQname;
     private String includeToken;
     private Claims claims = null;
-    
+
     /**
      * Creates a new instance of IssuedToken
      */
@@ -53,7 +53,7 @@ public class IssuedToken extends PolicyAssertion implements  com.sun.xml.ws.secu
         itQname = new QName(spVersion.namespaceUri, Constants.IncludeToken);
         includeToken = spVersion.includeTokenAlways;
     }
-    
+
     public IssuedToken(AssertionData name,Collection<PolicyAssertion> nestedAssertions, AssertionSet nestedAlternative) {
         super(name,nestedAssertions,nestedAlternative);
         id= PolicyUtil.randomUUID();
@@ -62,59 +62,59 @@ public class IssuedToken extends PolicyAssertion implements  com.sun.xml.ws.secu
         itQname = new QName(spVersion.namespaceUri, Constants.IncludeToken);
         includeToken = spVersion.includeTokenAlways;
     }
-    
+
     @Override
     public RequestSecurityTokenTemplate getRequestSecurityTokenTemplate() {
         populate();
         return rstTemplate;
     }
-    
+
     @Override
     public Iterator getTokenRefernceType() {
         populate();
         return referenceType.iterator();
     }
-    
+
     @Override
     public String getIncludeToken() {
         populate();
         return includeToken;
     }
-    
+
     public void setIncludeToken(String type) {
         //includeToken = type;
         throw new UnsupportedOperationException();
     }
-    
+
     @Override
     public String getTokenId() {
         return id;
     }
-    
+
     @Override
     public Issuer getIssuer() {
         populate();
         return issuer;
     }
-    
+
     @Override
     public IssuerName getIssuerName() {
         populate();
         return issuerName;
-    }  
-    
+    }
+
     @Override
     public Claims getClaims(){
         populate();
         return claims;
     }
-    
+
     @Override
     public boolean isRequireDerivedKeys() {
         populate();
         return reqDK;
     }
-    
+
     @Override
     public AssertionFitness validate(boolean isServer) {
         return populate(isServer);
@@ -122,9 +122,9 @@ public class IssuedToken extends PolicyAssertion implements  com.sun.xml.ws.secu
     private void populate(){
         populate(false);
     }
-    
+
     private synchronized AssertionFitness populate(boolean isServer) {
-        
+
         if(!populated){
             if(this.getAttributeValue(itQname)!=null){
                 this.includeToken = this.getAttributeValue(itQname);
@@ -171,7 +171,7 @@ public class IssuedToken extends PolicyAssertion implements  com.sun.xml.ws.secu
                 return fitness;
             }
             Iterator<PolicyAssertion> ast = as.iterator();
-            
+
             while(ast.hasNext()){
                 PolicyAssertion assertion = ast.next();
                 if(referenceType == null){

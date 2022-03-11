@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -43,7 +43,7 @@ public abstract class AbstractSoapFaultException extends RxRuntimeException {
              @Override
              QName asQName(SOAPVersion sv) {
                 return sv.faultCodeServer;
-             }            
+             }
         };
 
         abstract QName asQName(SOAPVersion sv);
@@ -54,7 +54,7 @@ public abstract class AbstractSoapFaultException extends RxRuntimeException {
 
     protected AbstractSoapFaultException(String exceptionMessage, String faultReasonText, boolean mustTryToDeliver, Throwable cause) {
         super(exceptionMessage, cause);
-        
+
         this.faultReasonText = faultReasonText;
         this.mustTryTodeliver = mustTryToDeliver;
     }
@@ -148,7 +148,7 @@ public abstract class AbstractSoapFaultException extends RxRuntimeException {
 
         public DetailBuilder(RuntimeContext rc) {
             this.rc = rc;
-            
+
             try {
                 this.detail = rc.soapVersion.saajSoapFactory.createDetail();
             } catch (SOAPException ex) {

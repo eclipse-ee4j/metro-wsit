@@ -40,19 +40,19 @@ import org.w3c.dom.Element;
  */
 public class SubjectConfirmationData extends SubjectConfirmationDataType
         implements com.sun.xml.wss.saml.SubjectConfirmationData {
-    
+
     protected PublicKey keyInfoKeyValue = null;
     private Date notBeforeDate = null;
     private Date notOnOrAfterDate = null;
     protected static final Logger log = Logger.getLogger(
             LogDomainConstants.WSS_API_DOMAIN,
             LogDomainConstants.WSS_API_DOMAIN_BUNDLE);
-    
-    
+
+
     public SubjectConfirmationData(){
-        
+
     }
-                
+
     /**
      * Constructs a subject confirmation element from an existing
      * XML block.
@@ -64,14 +64,14 @@ public class SubjectConfirmationData extends SubjectConfirmationDataType
     throws SAMLException {
         try {
             JAXBContext jc = SAML20JAXBUtil.getJAXBContext();
-                    
+
             jakarta.xml.bind.Unmarshaller u = jc.createUnmarshaller();
             return (SubjectConfirmationDataType)u.unmarshal(element);
         } catch ( Exception ex) {
             throw new SAMLException(ex.getMessage());
         }
     }
-    
+
     /**
      * Constructs an <code>SubjectConfirmationData</code> instance.
      *
@@ -81,12 +81,12 @@ public class SubjectConfirmationData extends SubjectConfirmationDataType
      *            <code>confirmationMethods</code> is empty.
      */
     public SubjectConfirmationData(
-        String address, String inResponseTo, GregorianCalendar notBefore, 
+        String address, String inResponseTo, GregorianCalendar notBefore,
         GregorianCalendar notOnOrAfter, String recipient, Element keyInfo) throws SAMLException {
-        
+
         JAXBContext jc = null;
         jakarta.xml.bind.Unmarshaller u = null;
-        
+
         //Unmarshal to JAXB KeyInfo Object and set it
         try {
             jc = SAML20JAXBUtil.getJAXBContext();
@@ -94,7 +94,7 @@ public class SubjectConfirmationData extends SubjectConfirmationDataType
         } catch ( Exception ex) {
             throw new SAMLException(ex.getMessage());
         }
-        
+
 //        try {
 //            if ( keyInfo != null) {
 //                setKeyInfo((KeyInfoType)((JAXBElement)u.unmarshal(keyInfo)).getValue());
@@ -116,7 +116,7 @@ public class SubjectConfirmationData extends SubjectConfirmationDataType
                 //ignore
             }
         }
-        
+
         if ( notOnOrAfter != null) {
             try {
                 DatatypeFactory factory = DatatypeFactory.newInstance();
@@ -125,9 +125,9 @@ public class SubjectConfirmationData extends SubjectConfirmationDataType
                 //ignore
             }
         }
-        
-        setRecipient(recipient);        
-        
+
+        setRecipient(recipient);
+
         try {
             if (keyInfo != null) {
                 //this.getContent().add(keyInfo);
@@ -146,7 +146,7 @@ public class SubjectConfirmationData extends SubjectConfirmationDataType
         setNotOnOrAfter(subConfDataType.getNotOnOrAfter());
         setRecipient(subConfDataType.getRecipient());
     }
-    
+
     @Override
     public Date getNotBeforeDate() {
         if (notBeforeDate == null) {

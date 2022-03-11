@@ -15,15 +15,15 @@ package com.sun.xml.ws.security;
  * Question: Can we adapt all tokens to implement this interface
  */
 public interface Token {
-    
+
     /**
      * The type of the Token
      */
     String getType();
-    
+
     /**
      * The token Value
      */
     Object getTokenValue();
-    
+
 }

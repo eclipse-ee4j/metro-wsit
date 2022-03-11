@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -27,11 +27,11 @@ import com.sun.xml.ws.security.trust.elements.Lifetime;
  * @author Manveen Kaur
  */
 public class LifetimeImpl extends LifetimeType implements Lifetime {
-   
+
     public LifetimeImpl() {
         // default empty constructor
     }
-    
+
     public LifetimeImpl(AttributedDateTime created,  AttributedDateTime expires) {
         if (created != null) {
             setCreated(created);
@@ -40,11 +40,11 @@ public class LifetimeImpl extends LifetimeType implements Lifetime {
             setExpires(expires);
         }
     }
-    
+
     public LifetimeImpl(LifetimeType ltType){
         this(ltType.getCreated(), ltType.getExpires());
     }
-    
+
     /**
      * Constructs a <code>Lifetime</code> element from
      * an existing XML block.
@@ -67,5 +67,5 @@ public class LifetimeImpl extends LifetimeType implements Lifetime {
             throw new WSTrustException(ex.getMessage(), ex);
         }
     }
-    
+
 }

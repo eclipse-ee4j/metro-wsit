@@ -18,9 +18,9 @@ import jakarta.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement(name="RetrievalMethod", namespace = "http://www.w3.org/2000/09/xmldsig#")
 public class RetrievalMethod extends com.sun.xml.security.core.dsig.RetrievalMethodType {
-    
+
     /** Creates a new instance of RetrievalMethod */
     public RetrievalMethod() {
     }
-    
+
 }

@@ -24,7 +24,7 @@ public class MySTSIssuedTokenConfiguration extends DefaultSTSIssuedTokenConfigur
     private Claims claims = null;
 
     private String appliesTo = null;
-    
+
     public String getSTSEndpoint(){
         configure();
         return stsEndpoint;

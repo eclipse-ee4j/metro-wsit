@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -83,7 +83,7 @@ public class SignatureHeaderBlock  extends SecurityHeaderBlockImpl {
      */
     private Document document = null;
 
-    /** 
+    /**
      * parse and create the Signature element
      * @param elem the element representing an XML Signature
      * NOTE : this constructor assumes a fully initialized XML Signature
@@ -100,20 +100,20 @@ public class SignatureHeaderBlock  extends SecurityHeaderBlockImpl {
         } catch (Exception e) {
             // add log here
             log.log(
-                Level.SEVERE, 
+                Level.SEVERE,
                 "WSS0322.exception.creating.signatureblock",
-                e);    
+                e);
             throw new XWSSecurityException(e);
-        }       
+        }
     }
 
-    /** 
+    /**
      * constructor that takes Apache Signature
      * @param signature the XMLSignature from XML DSIG
-     * NOTE : No modifications are allowed on the signature, 
+     * NOTE : No modifications are allowed on the signature,
      * if a SIGN operation has already been performed on the argument
-     * signature. We can only get existing values. 
-     * For example appendObject() would throw an Exception. If 
+     * signature. We can only get existing values.
+     * For example appendObject() would throw an Exception. If
      * a KeyInfo was not present in the signature, then calling getKeyInfo()
      * will not append a KeyInfo child to the signature.
      */
@@ -133,27 +133,27 @@ public class SignatureHeaderBlock  extends SecurityHeaderBlockImpl {
      * which is RECOMMENDED by the spec. This method's main use is for creating
      * a new signature.
      *
-     * @param doc The OwnerDocument of signature 
+     * @param doc The OwnerDocument of signature
      * @param signatureMethodURI signature algorithm to use.
      */
-    public SignatureHeaderBlock(Document doc, String signatureMethodURI) 
+    public SignatureHeaderBlock(Document doc, String signatureMethodURI)
         throws XWSSecurityException {
         try {
             this.document = doc;
-            delegateSignature = 
+            delegateSignature =
                 new XMLSignature(
-                    doc, null, signatureMethodURI, 
-                    Canonicalizer.ALGO_ID_C14N_EXCL_OMIT_COMMENTS);     
+                    doc, null, signatureMethodURI,
+                    Canonicalizer.ALGO_ID_C14N_EXCL_OMIT_COMMENTS);
             dirty = true;
             setSOAPElement(getAsSoapElement());
         } catch (XMLSecurityException e) {
             log.log(
-                Level.SEVERE, 
+                Level.SEVERE,
                 "WSS0322.exception.creating.signatureblock",
-                e);    
+                e);
             throw new XWSSecurityException(e);
         }
-    } 
+    }
 
     /**
      * return the Apache XML Signature corresponding to this Block
@@ -165,16 +165,16 @@ public class SignatureHeaderBlock  extends SecurityHeaderBlockImpl {
 
 
     /**
-     * Digests all References in the SignedInfo, calculates the signature 
+     * Digests all References in the SignedInfo, calculates the signature
      * value and sets it in the SignatureValue Element.
      *
-     * @param signingKey the {@link java.security.PrivateKey} or 
+     * @param signingKey the {@link java.security.PrivateKey} or
      *     {@link javax.crypto.SecretKey} that is used to sign.
      */
 
      public void sign(Key signingKey) throws XWSSecurityException {
          try {
-             delegateSignature.sign(signingKey);         
+             delegateSignature.sign(signingKey);
              dirty = true;
          }catch (XMLSignatureException e) {
              log.log(Level.SEVERE, "WSS0323.exception.while.signing", e);
@@ -222,8 +222,8 @@ public class SignatureHeaderBlock  extends SecurityHeaderBlockImpl {
             return delegateSignature.getSignatureValue();
         } catch (XMLSignatureException e) {
             log.log(
-                Level.SEVERE, 
-                "WSS0324.exception.in.getting.signaturevalue", 
+                Level.SEVERE,
+                "WSS0324.exception.in.getting.signaturevalue",
                 e);
             throw new XWSSecurityException(e);
         }
@@ -244,8 +244,8 @@ public class SignatureHeaderBlock  extends SecurityHeaderBlockImpl {
             dirty = true;
         } catch (XMLSecurityException e) {
             log.log(
-                Level.SEVERE, 
-                "WSS0325.exception.adding.reference.to.signedinfo", 
+                Level.SEVERE,
+                "WSS0325.exception.adding.reference.to.signedinfo",
                 e);
             throw new XWSSecurityException(e);
         }
@@ -253,7 +253,7 @@ public class SignatureHeaderBlock  extends SecurityHeaderBlockImpl {
 
     /**
      * Adds a Reference with URI, transforms and Digest algorithm URI
-     * 
+     *
      * @param referenceURI URI according to the XML Signature specification.
      * @param trans List of transformations to be applied.
      * @param digestURI URI of the digest algorithm to be used.
@@ -266,19 +266,19 @@ public class SignatureHeaderBlock  extends SecurityHeaderBlockImpl {
             dirty = true;
         } catch (XMLSecurityException e) {
             log.log(
-                Level.SEVERE, 
-                "WSS0325.exception.adding.reference.to.signedinfo", 
+                Level.SEVERE,
+                "WSS0325.exception.adding.reference.to.signedinfo",
                 e);
             throw new XWSSecurityException(e);
         }
     }
-          
+
 
 
     /**
      * Add a Reference with full parameters to this Signature
      *
-     * @param referenceURI URI of the resource to be signed.Can be null in which     
+     * @param referenceURI URI of the resource to be signed.Can be null in which
      * case the dereferencing is application specific. Can be "" in which it's
      * the parent node (or parent document?). There can only be one "" in each
      * signature.
@@ -288,7 +288,7 @@ public class SignatureHeaderBlock  extends SecurityHeaderBlockImpl {
      * @param referenceType Optional mimetype for the URI
      */
     public void addSignedInfoReference(
-       String referenceURI, Transforms trans, String digestURI, 
+       String referenceURI, Transforms trans, String digestURI,
        String referenceId, String referenceType)
        throws XWSSecurityException {
         try {
@@ -297,27 +297,27 @@ public class SignatureHeaderBlock  extends SecurityHeaderBlockImpl {
             dirty = true;
         } catch (XMLSecurityException e) {
             log.log(
-                Level.SEVERE, 
-                "WSS0325.exception.adding.reference.to.signedinfo", 
+                Level.SEVERE,
+                "WSS0325.exception.adding.reference.to.signedinfo",
                 e);
             throw new XWSSecurityException(e);
         }
    }
 
     /**
-     * Extracts the public key from the certificate and verifies if the              
-     * signature is valid by re-digesting all References, comparing those            
-     * against the stored DigestValues and then checking to see if the               
+     * Extracts the public key from the certificate and verifies if the
+     * signature is valid by re-digesting all References, comparing those
+     * against the stored DigestValues and then checking to see if the
      * Signatures match on the SignedInfo.
      *
-     * @param cert Certificate that contains the public key part of the keypair      
+     * @param cert Certificate that contains the public key part of the keypair
      * that was used to sign.
      * @return true if the signature is valid, false otherwise
      */
     public boolean checkSignatureValue(X509Certificate cert)
            throws XWSSecurityException {
         try {
-            return delegateSignature.checkSignatureValue(cert);         
+            return delegateSignature.checkSignatureValue(cert);
         } catch (XMLSignatureException e) {
             log.log(Level.SEVERE, "WSS0326.exception.verifying.signature", e);
             throw new XWSSecurityException(e);
@@ -329,13 +329,13 @@ public class SignatureHeaderBlock  extends SecurityHeaderBlockImpl {
      * comparing those against the stored DigestValues and then checking to see
      * if the Signatures match on the SignedInfo.
      *
-     * @param pk {@link java.security.PublicKey} part of the keypair or              
+     * @param pk {@link java.security.PublicKey} part of the keypair or
      * {@link javax.crypto.SecretKey} that was used to sign
      * @return true if the signature is valid, false otherwise
      */
     public boolean checkSignatureValue(Key pk) throws XWSSecurityException {
         try {
-            return delegateSignature.checkSignatureValue(pk);         
+            return delegateSignature.checkSignatureValue(pk);
         }catch (XMLSignatureException e) {
             log.log(Level.SEVERE, "WSS0326.exception.verifying.signature", e);
             throw new XWSSecurityException(e);
@@ -356,7 +356,7 @@ public class SignatureHeaderBlock  extends SecurityHeaderBlockImpl {
     }
 
     /**
-     * Returns the <code>index</code>th <code>ds:Object</code> child of the 
+     * Returns the <code>index</code>th <code>ds:Object</code> child of the
      * signature or null if no such <code>ds:Object</code> element exists.
      *
      * @return the <code>index</code>th <code>ds:Object</code> child of the
@@ -448,9 +448,9 @@ public class SignatureHeaderBlock  extends SecurityHeaderBlockImpl {
        this.delegateSignature.addResourceResolver(resolver);
     }
 
-    public static SecurityHeaderBlock fromSoapElement(SOAPElement element) 
+    public static SecurityHeaderBlock fromSoapElement(SOAPElement element)
         throws XWSSecurityException {
-        return SecurityHeaderBlockImpl.fromSoapElement(element, 
+        return SecurityHeaderBlockImpl.fromSoapElement(element,
             SignatureHeaderBlock.class);
     }
 
@@ -465,11 +465,11 @@ public class SignatureHeaderBlock  extends SecurityHeaderBlockImpl {
             }
         } catch (Exception e) {
             log.log(
-                Level.SEVERE, 
-                "WSS0327.exception.converting.signature.tosoapelement", 
+                Level.SEVERE,
+                "WSS0327.exception.converting.signature.tosoapelement",
                 e);
             throw new XWSSecurityException(e);
         }
     }
-    
+
 }

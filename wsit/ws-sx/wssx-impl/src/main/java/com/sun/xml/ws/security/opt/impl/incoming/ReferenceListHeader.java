@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -33,16 +33,16 @@ public class ReferenceListHeader implements SecurityHeaderElement, SecurityEleme
 
     //private static String DATA_REFERENCE = "DataReference".intern();
     private static final int DATA_REFERENCE_ELEMENT = 1;
-    
+
     private String id = "";
     private String namespaceURI = "";
     private String localName = "";
     private JAXBFilterProcessingContext pc = null;
     private ArrayList<String> referenceList = null;
     private ArrayList<String> pendingRefList = null;
-    
+
     private EncryptionPolicy encPolicy = null;
-    
+
     /** Creates a new instance of ReferenceListHeader */
     public ReferenceListHeader(XMLStreamReader reader,JAXBFilterProcessingContext pc) throws XMLStreamException{
         this.pc = pc;
@@ -90,11 +90,11 @@ public class ReferenceListHeader implements SecurityHeaderElement, SecurityEleme
     public void writeTo(XMLStreamWriter streamWriter) {
         throw new UnsupportedOperationException();
     }
-   
+
     public List<String> getReferenceList() {
         return referenceList;
     }
-    
+
     public List<String> getPendingReferenceList() {
         return pendingRefList;
     }
@@ -103,7 +103,7 @@ public class ReferenceListHeader implements SecurityHeaderElement, SecurityEleme
         id = reader.getAttributeValue(null,"Id");
         namespaceURI = reader.getNamespaceURI();
         localName = reader.getLocalName();
-        
+
         ReferenceListProcessor rlp = new ReferenceListProcessor(encPolicy);
         rlp.process(reader);
         referenceList = rlp.getReferences();
@@ -119,5 +119,5 @@ public class ReferenceListHeader implements SecurityHeaderElement, SecurityEleme
     public WSSPolicy getPolicy() {
         return encPolicy;
     }
-    
+
 }

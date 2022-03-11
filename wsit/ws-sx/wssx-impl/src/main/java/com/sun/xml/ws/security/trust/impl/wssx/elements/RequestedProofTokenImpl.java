@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -42,7 +42,7 @@ public class RequestedProofTokenImpl extends RequestedProofTokenType implements 
     private URI computedKey;
     private BinarySecret secret;
     private SecurityTokenReference str;
-    
+
     public RequestedProofTokenImpl() {
         // empty constructor
     }
@@ -50,7 +50,7 @@ public class RequestedProofTokenImpl extends RequestedProofTokenType implements 
     public RequestedProofTokenImpl(String proofTokenType) {
         setProofTokenType(proofTokenType);
     }
-    
+
     public RequestedProofTokenImpl (RequestedProofTokenType rptType){
         JAXBElement obj = (JAXBElement)rptType.getAny();
         String local = obj.getName().getLocalPart();
@@ -59,15 +59,15 @@ public class RequestedProofTokenImpl extends RequestedProofTokenType implements 
                 setComputedKey(new URI((String)obj.getValue()));
             } catch (URISyntaxException ex){
                 throw new RuntimeException(ex);
-            } 
+            }
         }else if (local.equalsIgnoreCase("BinarySecret")){
             BinarySecretType bsType = (BinarySecretType)obj.getValue();
             setBinarySecret(new BinarySecretImpl(bsType));
         } else{
                 throw new UnsupportedOperationException("Unsupported requested proof token: " + local);
-        } 
+        }
     }
-    
+
     @Override
     public String getProofTokenType() {
         return tokenType;
@@ -80,65 +80,65 @@ public class RequestedProofTokenImpl extends RequestedProofTokenType implements 
             || proofTokenType.equalsIgnoreCase(RequestedProofToken.ENCRYPTED_KEY_TYPE)
             || proofTokenType.equalsIgnoreCase(RequestedProofToken.CUSTOM_TYPE)
             || proofTokenType.equalsIgnoreCase(RequestedProofToken.TOKEN_REF_TYPE)
-            )) 
+            ))
             // make this a WSTrustException?
         throw new RuntimeException("Invalid tokenType");
         tokenType = proofTokenType;
     }
-    
+
     @Override
     public void setSecurityTokenReference(SecurityTokenReference reference) {
         if (reference != null) {
-            str = reference;        
-            JAXBElement<SecurityTokenReferenceType> strElement=  
-                    (new com.sun.xml.ws.security.secext10.ObjectFactory()).createSecurityTokenReference((SecurityTokenReferenceType)reference); 
+            str = reference;
+            JAXBElement<SecurityTokenReferenceType> strElement=
+                    (new com.sun.xml.ws.security.secext10.ObjectFactory()).createSecurityTokenReference((SecurityTokenReferenceType)reference);
             setAny(strElement);
         }
         setProofTokenType(RequestedProofToken.TOKEN_REF_TYPE);
     }
-    
+
     @Override
     public SecurityTokenReference getSecurityTokenReference() {
         return str;
     }
-    
+
     @Override
     public void setComputedKey(URI computedKey) {
         if (computedKey != null) {
             String ckString = computedKey.toString();
-            if (!(ckString.equalsIgnoreCase(WSTrustVersion.WS_TRUST_13.getCKHASHalgorithmURI()) || 
+            if (!(ckString.equalsIgnoreCase(WSTrustVersion.WS_TRUST_13.getCKHASHalgorithmURI()) ||
                     (ckString.equalsIgnoreCase(WSTrustVersion.WS_TRUST_13.getCKPSHA1algorithmURI())))) {
                 throw new RuntimeException("Invalid computedKeyURI");
             }
-            this.computedKey = computedKey;         
-            JAXBElement<String> ckElement=  
-                    (new ObjectFactory()).createComputedKey(computedKey.toString()); 
+            this.computedKey = computedKey;
+            JAXBElement<String> ckElement=
+                    (new ObjectFactory()).createComputedKey(computedKey.toString());
             setAny(ckElement);
         }
         setProofTokenType(RequestedProofToken.COMPUTED_KEY_TYPE);
     }
-    
+
     @Override
     public URI getComputedKey() {
         return computedKey;
     }
-    
+
     @Override
     public void setBinarySecret(BinarySecret secret) {
        if (secret != null) {
-            this.secret = secret;        
-            JAXBElement<BinarySecretType> bsElement=  
-                    (new ObjectFactory()).createBinarySecret((BinarySecretType)secret); 
+            this.secret = secret;
+            JAXBElement<BinarySecretType> bsElement=
+                    (new ObjectFactory()).createBinarySecret((BinarySecretType)secret);
             setAny(bsElement);
         }
         setProofTokenType(RequestedProofToken.BINARY_SECRET_TYPE);
     }
-     
+
     @Override
     public BinarySecret getBinarySecret() {
         return secret;
     }
-    
+
     public static RequestedProofTokenType fromElement(org.w3c.dom.Element element)
         throws WSTrustException {
         try {

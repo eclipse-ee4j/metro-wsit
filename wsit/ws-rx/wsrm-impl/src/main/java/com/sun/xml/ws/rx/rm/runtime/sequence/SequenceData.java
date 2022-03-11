@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -35,7 +35,7 @@ public interface SequenceData {
     /**
      * Provides information on the last activity time of this sequence data instance. Following is the
      * list of operations invocation of which causes an update of last activity time:
-     * 
+     *
      * <ul>
      *   <li>{@link #attachMessageToUnackedMessageNumber(ApplicationMessage) }</li>
      *   <li>{@link #incrementAndGetLastMessageNumber(boolean) }</li>
@@ -69,7 +69,7 @@ public interface SequenceData {
     /**
      * Registers the message number as unacknowledged.
      * <p>
-     * If the value of {@code messageNumber} parameter is greater that the actual 
+     * If the value of {@code messageNumber} parameter is greater that the actual
      * last mesasge number, the last message number value is increased to the value of
      * {@code messageNumber} parameter. All message numbers lying between the original
      * and new value of last message number are automatically marked as unacknowldeged
@@ -90,7 +90,7 @@ public interface SequenceData {
      *
      */
     void markAsAcknowledged(long messageNumber);
-    
+
     boolean isFailedOver(long messageNumber);
 
     void attachMessageToUnackedMessageNumber(ApplicationMessage message);

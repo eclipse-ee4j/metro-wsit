@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -18,21 +18,21 @@ import java.security.SignatureException;
 
 /**
  * An implementation of the HMAC-SHA1 (RFC 2104)
- *  
+ *
  * @author Joyce Leung
  */
 
 public class HmacSHA1 {
-    
-    
+
+
     private static final int SHA1_BLOCK = 64;        // 512 bit block in SHA-1
     private byte[] key_opad;
-        
+
     //private boolean initialized = false;
     //private Key key;
     private MessageDigest digest;
     private int byte_length;
-    
+
     /**
      * Initialize with the key
      *
@@ -61,7 +61,7 @@ public class HmacSHA1 {
         }
         //initialized = true;
     }
-    
+
     /**
      * update the engine with data
      *
@@ -76,24 +76,24 @@ public class HmacSHA1 {
     public void update(byte[] data, int offset, int len) {
         this.digest.update(data, offset, len);
     }
-    
+
     /**
      * Signs the data
      */
     public byte[] sign() throws SignatureException {
-        
+
         if (byte_length == 0) {
             throw new SignatureException
-		("length should be -1 or greater than zero, but is " + byte_length);
+        ("length should be -1 or greater than zero, but is " + byte_length);
         }
-        
+
         byte[] value = this.digest.digest();
-        
+
         this.digest.reset();
         this.digest.update(this.key_opad);
         this.digest.update(value);
         byte[] result = this.digest.digest();
-        
+
         if (byte_length > 0 && result.length > byte_length) {
             byte[] truncated = new byte[byte_length];
             System.arraycopy(result, 0, truncated, 0, byte_length);
@@ -101,10 +101,10 @@ public class HmacSHA1 {
         }
         return result;
     }
-    
+
     /**
      * Verifies the signature
-     * 
+     *
      * @param signature the signature to be verified
      */
     public boolean verify(byte[] signature) throws SignatureException {

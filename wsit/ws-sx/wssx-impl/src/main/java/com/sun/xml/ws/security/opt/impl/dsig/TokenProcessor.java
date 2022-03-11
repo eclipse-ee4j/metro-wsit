@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -49,24 +49,24 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * 
- * TokenProcessor for Signature. Looks at the keyBinding and 
+ *
+ * TokenProcessor for Signature. Looks at the keyBinding and
  * polulates BuilderResult with appropriate key and KeyInfo
  * @author Ashutosh.Shahi@sun.com
  */
 
 public class TokenProcessor {
-    
+
     private static final Logger logger = Logger.getLogger(LogDomainConstants.IMPL_OPT_SIGNATURE_DOMAIN,
             LogDomainConstants.IMPL_OPT_SIGNATURE_DOMAIN_BUNDLE);
-    
+
     private Key  signingKey = null;
     //private KeyInfo siKI = null;
     private TokenBuilder builder = null;
     private WSSPolicy keyBinding = null;
     //private SignaturePolicy sp = null;
     private JAXBFilterProcessingContext context = null;
-    
+
     /**
      * Creates a new instance of TokenProcessor
      * @param sp SignaturePolicy
@@ -77,17 +77,17 @@ public class TokenProcessor {
         this.context = context;
         this.keyBinding = (WSSPolicy)sp.getKeyBinding();
     }
-    
+
     /**
      * process the keyBinding and populate BuilderResult with appropriate key and KeyInfo
      * @return <CODE>BuilderResult</CODE> populated with appropriate values
      */
     public BuilderResult process()
     throws XWSSecurityException{
-        
+
         String keyEncAlgo = XMLCipher.RSA_v1dot5;  //<--Harcoding of Algo
         String dataEncAlgo = MessageConstants.TRIPLE_DES_BLOCK_ENCRYPTION;
-        
+
         AlgorithmSuite algSuite = context.getAlgorithmSuite();
         String tmp = null;
         if(algSuite != null){
@@ -102,7 +102,7 @@ public class TokenProcessor {
         if(tmp != null && !"".equals(tmp)){
             dataEncAlgo = tmp;
         }
-        
+
         if (PolicyTypeUtil.usernameTokenBinding(keyBinding)) {
             AuthenticationTokenPolicy.UsernameTokenBinding usernameTokenBinding = null;
             if ( context.getusernameTokenBinding() != null ) {
@@ -110,13 +110,13 @@ public class TokenProcessor {
                 context.setUsernameTokenBinding(null);
             } else {
                 usernameTokenBinding =(AuthenticationTokenPolicy.UsernameTokenBinding)keyBinding;
-            }      
+            }
             signingKey = usernameTokenBinding.getSecretKey();
             builder = new UsernameTokenBuilder(context,usernameTokenBinding);
-            BuilderResult untResult = builder.process();            
+            BuilderResult untResult = builder.process();
             untResult.setDataProtectionKey(signingKey);
             return untResult;
-            
+
         } else if(PolicyTypeUtil.x509CertificateBinding(keyBinding)) {
             AuthenticationTokenPolicy.X509CertificateBinding certificateBinding = null;
             if ( context.getX509CertificateBinding() != null) {
@@ -125,13 +125,13 @@ public class TokenProcessor {
             } else {
                 certificateBinding  =(AuthenticationTokenPolicy.X509CertificateBinding)keyBinding;
             }
-            
+
             PrivateKeyBinding privKBinding  = (PrivateKeyBinding)certificateBinding.getKeyBinding();
             signingKey = privKBinding.getPrivateKey();
-            
+
             builder = new X509TokenBuilder(context,certificateBinding);
             BuilderResult xtbResult = builder.process();
-            
+
             xtbResult.setDataProtectionKey(signingKey);
             return xtbResult;
         } else if(PolicyTypeUtil.kerberosTokenBinding(keyBinding)){
@@ -142,12 +142,12 @@ public class TokenProcessor {
             } else{
                 krbBinding = (AuthenticationTokenPolicy.KerberosTokenBinding)keyBinding;
             }
-            
+
             signingKey = krbBinding.getSecretKey();
             builder = new KerberosTokenBuilder(context, krbBinding);
             BuilderResult ktbResult = builder.process();
             ktbResult.setDataProtectionKey(signingKey);
-            
+
             return ktbResult;
         } else if (PolicyTypeUtil.symmetricKeyBinding(keyBinding)) {
             SymmetricKeyBinding skb = null;
@@ -157,7 +157,7 @@ public class TokenProcessor {
             } else {
                 skb = (SymmetricKeyBinding)keyBinding;
             }
-            
+
             builder = new SymmetricTokenBuilder(skb, context, dataEncAlgo,keyEncAlgo);
             BuilderResult skbResult = builder.process();
             return skbResult;
@@ -181,15 +181,15 @@ public class TokenProcessor {
             SamlTokenBuilder stb = new SamlTokenBuilder(context,(AuthenticationTokenPolicy.SAMLAssertionBinding)keyBinding,true);
             return stb.process();
         } else if (PolicyTypeUtil.keyValueTokenBinding(keyBinding)) {
-            ((NamespaceContextEx)context.getNamespaceContext()).addSAMLNS();            
+            ((NamespaceContextEx)context.getNamespaceContext()).addSAMLNS();
             KeyValueTokenBuilder sctBuilder = new KeyValueTokenBuilder(context,(AuthenticationTokenPolicy.KeyValueTokenBinding)keyBinding);
             BuilderResult kvtResult = sctBuilder.process();
-            return kvtResult;            
+            return kvtResult;
          } else{
             logger.log(Level.SEVERE, LogStringsMessages.WSS_1703_UNSUPPORTED_KEYBINDING_SIGNATUREPOLICY(keyBinding));
             throw new UnsupportedOperationException("Unsupported Key Binding"+keyBinding);
-            
+
         }
     }
-    
+
 }

@@ -300,7 +300,7 @@ public class BranchRecord implements Externalizable {
   }
 
     static class RegisteredResource implements Externalizable {
-  	private static final long serialVersionUID = 601688150453719976L;
+      private static final long serialVersionUID = 601688150453719976L;
     private static final int STATE_ACTIVE = 1;
     private static final int STATE_PREPARED = 2;
     private static final int STATE_READONLY = 3;
@@ -500,7 +500,7 @@ public class BranchRecord implements Externalizable {
       resource.setXid(new XidImpl(resource.getXid()));
       new BranchXidImpl(resource.getXid()).writeExternal(out);
         try{
-            out.writeObject(resource);       
+            out.writeObject(resource);
         } catch(Exception e){
             e.printStackTrace();
         }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -19,14 +19,14 @@ import java.util.List;
  * @author K.Venugopal@sun.com
  */
 public class MandatoryTargetPolicy extends WSSPolicy {
-    
-    
+
+
     /** Creates a new instance of MandatoryTargetPolicy */
     public MandatoryTargetPolicy() {
     }
-    
+
     /**
-     * 
+     *
      * @return clone
      */
     @Override
@@ -39,9 +39,9 @@ public class MandatoryTargetPolicy extends WSSPolicy {
         }
         return mp;
     }
-    
+
     /**
-     * 
+     *
      * @return true of policy is equal to this policy
      */
     @Override
@@ -55,30 +55,30 @@ public class MandatoryTargetPolicy extends WSSPolicy {
         }
         return false;
     }
-    
+
     /**
-     * 
+     *
      * @return true if argument policy is equal to this policy ignoring targets
      */
     @Override
     public boolean equalsIgnoreTargets(WSSPolicy policy) {
         throw new UnsupportedOperationException();
     }
-    
+
     /**
-     * 
+     *
      * @return the type of the policy
      */
     @Override
     public String getType() {
         return PolicyTypeUtil.MANDATORY_TARGET_POLICY_TYPE;
     }
-    
-    
+
+
     public static class FeatureBinding extends WSSPolicy {
         private List<Target> targets = new ArrayList<>();
-        
-        
+
+
         /**
          * adds the Target representing the Header element that must be present in the message.
          * Will by default set enforce flag on Target element to true.
@@ -87,17 +87,17 @@ public class MandatoryTargetPolicy extends WSSPolicy {
             targets.add(target);
             target.setEnforce(true);
         }
-        
+
         /**
-         * 
+         *
          * @return list of Target elements
          */
         public List<Target> getTargetBindings(){
             return targets;
         }
-        
+
         /**
-         * 
+         *
          * @return clone
          */
         @Override
@@ -108,9 +108,9 @@ public class MandatoryTargetPolicy extends WSSPolicy {
             }
             return binding;
         }
-        
+
         /**
-         * 
+         *
          * @return true if this policy is equal to the argument policy
          */
         @Override
@@ -118,7 +118,7 @@ public class MandatoryTargetPolicy extends WSSPolicy {
             boolean retVal = false;
             if(policy.getType() == PolicyTypeUtil.MANDATORY_TARGET_FEATUREBINDING_TYPE){
                 List<Target> tList = ((MandatoryTargetPolicy.FeatureBinding)policy).getTargetBindings();
-                for(Target t: tList){ 
+                for(Target t: tList){
                     if(!targets.contains(t)){
                         break;
                     }
@@ -127,25 +127,25 @@ public class MandatoryTargetPolicy extends WSSPolicy {
             }
             return retVal;
         }
-        
+
         /**
-         * 
+         *
          * @return true if this policy is equal to the argument policy ignoring targets
          */
         @Override
         public boolean equalsIgnoreTargets(WSSPolicy policy) {
             throw new UnsupportedOperationException();
         }
-        
+
         /**
-         * 
+         *
          * @return type of the policy
          */
         @Override
         public String getType() {
             return PolicyTypeUtil.MANDATORY_TARGET_FEATUREBINDING_TYPE;
         }
-        
+
     }
-    
+
 }

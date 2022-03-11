@@ -113,33 +113,33 @@ import com.sun.xml.ws.security.trust.logging.LogDomainConstants;
 import com.sun.xml.ws.security.trust.logging.LogStringsMessages;
 
 public class SBIssuedSamlTokenContractImpl extends IssueSamlTokenContract{
-    
+
     //move to base class
     private static final String SAML_HOLDER_OF_KEY = "urn:oasis:names:tc:SAML:1.0:cm:holder-of-key";
     protected static final String PRINCIPAL = "principal";
     private SOAPVersion soapVersion = SOAPVersion.SOAP_11;
     WSSElementFactory wef = new WSSElementFactory(SOAPVersion.SOAP_11);//TODO:: Pick up proper SOAPVersion.
-    
+
     private static final Logger log =
             Logger.getLogger(
             LogDomainConstants.TRUST_IMPL_DOMAIN,
             LogDomainConstants.TRUST_IMPL_DOMAIN_BUNDLE);
-    
+
     /** Creates a new instance of SBIssuedSamlTokenContractImpl */
     public SBIssuedSamlTokenContractImpl(SOAPVersion soapVersion) {
         this.soapVersion = soapVersion;
     }
-    
+
     public SBIssuedSamlTokenContractImpl() {
         //constructor
     }
-    
+
     @Override
     public Token createSAMLAssertion(final String appliesTo, final String tokenType, final String keyType, final String assertionId, final String issuer, final Map<QName, List<String>> claimedAttrs, final IssuedTokenContext context) throws WSTrustException {
         Token token = null;
-        
+
         final CallbackHandler callbackHandler = stsConfig.getCallbackHandler();
-        
+
         try{
             NamespaceContextEx nsContext = null;
             if(soapVersion == SOAPVersion.SOAP_11){
@@ -154,10 +154,10 @@ public class SBIssuedSamlTokenContractImpl extends IssueSamlTokenContract{
             nsContext.addWSSNS();
             // Get the service certificate
             final X509Certificate serCert = getServiceCertificate(callbackHandler, stsConfig.getTrustSPMetadata(appliesTo), appliesTo);
-            
+
             // Create the KeyInfo for SubjectConfirmation
             final KeyInfo keyInfo = createKeyInfo(keyType, serCert, context);
-            
+
             // Create SAML assertion
             Assertion assertion = null;
             SAMLToken samlToken = null;
@@ -165,7 +165,7 @@ public class SBIssuedSamlTokenContractImpl extends IssueSamlTokenContract{
                     WSTrustConstants.SAML11_ASSERTION_TOKEN_TYPE.equals(tokenType)){
                 assertion = createSAML11Assertion(assertionId, issuer, appliesTo, keyInfo, claimedAttrs);
                 samlToken = new SAMLToken(assertion,SAMLJAXBUtil.getJAXBContext(),soapVersion);
-                
+
             } else if (WSTrustConstants.SAML20_ASSERTION_TOKEN_TYPE.equals(tokenType)){
                 assertion = createSAML20Assertion(assertionId, issuer, appliesTo, keyInfo, claimedAttrs);
                 samlToken = new SAMLToken(assertion,SAMLJAXBUtil.getJAXBContext(),soapVersion);
@@ -174,7 +174,7 @@ public class SBIssuedSamlTokenContractImpl extends IssueSamlTokenContract{
                         LogStringsMessages.WST_0031_UNSUPPORTED_TOKEN_TYPE(tokenType, appliesTo));
                 throw new WSTrustException(LogStringsMessages.WST_0031_UNSUPPORTED_TOKEN_TYPE(tokenType, appliesTo));
             }
-            
+
             // Get the STS's public and private key
             final SignatureKeyCallback.DefaultPrivKeyCertRequest request =
                     new SignatureKeyCallback.DefaultPrivKeyCertRequest();
@@ -182,28 +182,28 @@ public class SBIssuedSamlTokenContractImpl extends IssueSamlTokenContract{
             final Callback[] callbacks = {skc};
             callbackHandler.handle(callbacks);
             final PrivateKey stsPrivKey = request.getPrivateKey();
-            
+
             // Sign the assertion with STS's private key
             //Element signedAssertion = assertion.sign(request.getX509Certificate(), stsPrivKey);
             final SecurityHeaderElement signedAssertion = createSignature(request.getX509Certificate().getPublicKey(),stsPrivKey,samlToken,nsContext);
-            
+
             //jakarta.xml.bind.Unmarshaller u = eleFac.getContext().createUnmarshaller();
             //JAXBElement<AssertionType> aType = u.unmarshal(signedAssertion, AssertionType.class);
             //assertion =  new com.sun.xml.wss.saml.assertion.saml11.jaxb20.Assertion(aType.getValue());
             token = new GenericToken(signedAssertion);
-            
+
             if (stsConfig.getEncryptIssuedToken()){
                 final String id = "uuid-" + UUID.randomUUID();
                 final int keysizeInBytes = 32;
                 final byte[] skey = WSTrustUtil.generateRandomSecret(keysizeInBytes);
                 final Key key = new SecretKeySpec(skey, "AES");
-                
+
                 final KeyInfo encKeyInfo = new KeyInfo();
                 final EncryptedKey encKey = encryptKey(key, serCert);
                 encKeyInfo.getContent().add(encKey);
                 final EncryptedDataType edt = createEncryptedData(id,MessageConstants.AES_BLOCK_ENCRYPTION_256,encKeyInfo,false);
-                
-                
+
+
                 final JAXBEncryptedData jed = new JAXBEncryptedData(edt,new SSEData(signedAssertion,false,nsContext),soapVersion);
                 token = new GenericToken(jed);
             }else{
@@ -220,27 +220,27 @@ public class SBIssuedSamlTokenContractImpl extends IssueSamlTokenContract{
         }
         return token;
     }
-    
-    
-    
+
+
+
     private Assertion createSAML11Assertion(final String assertionId, final String issuer, final String appliesTo, final KeyInfo keyInfo, final Map<QName, List<String>> claimedAttrs) throws WSTrustException{
         Assertion assertion = null;
         try{
             final SAMLAssertionFactory samlFac = SAMLAssertionFactory.newInstance(SAMLAssertionFactory.SAML1_1);
-            
+
             final GregorianCalendar issuerInst = new GregorianCalendar();
             final GregorianCalendar notOnOrAfter = new GregorianCalendar();
             notOnOrAfter.add(Calendar.MILLISECOND, (int)stsConfig.getIssuedTokenTimeout());
-            
+
             final Conditions conditions =
                     samlFac.createConditions(issuerInst, notOnOrAfter, null, null, null);
             final Advice advice = samlFac.createAdvice(null, null, null);
-            
+
             final List<String>  confirmMethods = new ArrayList<>();
             confirmMethods.add(SAML_HOLDER_OF_KEY);
-            
+
             final SubjectConfirmation subjectConfirm = samlFac.createSubjectConfirmation(confirmMethods,null, keyInfo);
-            
+
             com.sun.xml.wss.saml.Subject subj = null;
             final List<Attribute> attrs = new ArrayList<>();
             final Set<Map.Entry<QName, List<String>>> entries = claimedAttrs.entrySet();
@@ -272,32 +272,32 @@ public class SBIssuedSamlTokenContractImpl extends IssueSamlTokenContract{
                     LogStringsMessages.WST_0032_ERROR_CREATING_SAML_ASSERTION(), ex);
             throw new WSTrustException(LogStringsMessages.WST_0032_ERROR_CREATING_SAML_ASSERTION(), ex);
         }
-        
+
         return assertion;
     }
-    
-    
-    
+
+
+
     private Assertion createSAML20Assertion(final String assertionId, final String issuer, final String appliesTo, final KeyInfo keyInfo, final Map<QName, List<String>> claimedAttrs) throws WSTrustException{
         Assertion assertion = null;
         try{
             final SAMLAssertionFactory samlFac = SAMLAssertionFactory.newInstance(SAMLAssertionFactory.SAML2_0);
-            
+
             // Create Conditions
             final GregorianCalendar issueInst = new GregorianCalendar();
             final GregorianCalendar notOnOrAfter = new GregorianCalendar();
             notOnOrAfter.add(Calendar.MILLISECOND, (int)stsConfig.getIssuedTokenTimeout());
-            
+
             final Conditions conditions = samlFac.createConditions(issueInst, notOnOrAfter, null, null, null, null);
-            
+
             // Create Subject
-            
+
             final SubjectConfirmationData subjComfData = samlFac.createSubjectConfirmationData(
                     null, null, issueInst, notOnOrAfter, appliesTo, keyInfo);
-            
+
             final SubjectConfirmation subConfirmation = samlFac.createSubjectConfirmation(
                     null, subjComfData, SAML_HOLDER_OF_KEY);
-            
+
             com.sun.xml.wss.saml.Subject subj = null;
             final List<Attribute> attrs = new ArrayList<>();
             final Set<Map.Entry<QName, List<String>>> entries = claimedAttrs.entrySet();
@@ -318,9 +318,9 @@ public class SBIssuedSamlTokenContractImpl extends IssueSamlTokenContract{
             final AttributeStatement statement = samlFac.createAttributeStatement(attrs);
             final List<AttributeStatement> statements = new ArrayList<>();
             statements.add(statement);
-            
+
             final NameID issuerID = samlFac.createNameID(issuer, null, null);
-            
+
             // Create Assertion
             assertion =
                     samlFac.createAssertion(assertionId, issuerID, issueInst, conditions, null, subj, statements);
@@ -333,10 +333,10 @@ public class SBIssuedSamlTokenContractImpl extends IssueSamlTokenContract{
                     LogStringsMessages.WST_0032_ERROR_CREATING_SAML_ASSERTION(), ex);
             throw new WSTrustException(LogStringsMessages.WST_0032_ERROR_CREATING_SAML_ASSERTION(), ex);
         }
-        
+
         return assertion;
     }
-    
+
     private KeyInfo createKeyInfo(final String keyType, final X509Certificate serCert, final IssuedTokenContext ctx)throws WSTrustException{
         final KeyInfo keyInfo = new KeyInfo();
         if (WSTrustConstants.SYMMETRIC_KEY.equals(keyType)){
@@ -354,7 +354,7 @@ public class SBIssuedSamlTokenContractImpl extends IssueSamlTokenContract{
                 keyInfo.getContent().add(secret);
             }
         }else if(WSTrustConstants.PUBLIC_KEY.equals(keyType)){
-            
+
             final X509Data x509Data = new X509Data();
             final Set certs = ctx.getRequestorSubject().getPublicCredentials();
             if(certs == null){
@@ -367,7 +367,7 @@ public class SBIssuedSamlTokenContractImpl extends IssueSamlTokenContract{
             for(Object o : certs){
                 if(o instanceof X509Certificate){
                     final X509Certificate clientCert = (X509Certificate)o;
-                    
+
                     JAXBElement<byte[]> certElement;
                     try {
                         certElement = dsigOF.createX509DataTypeX509Certificate(clientCert.getEncoded());
@@ -378,7 +378,7 @@ public class SBIssuedSamlTokenContractImpl extends IssueSamlTokenContract{
                     @SuppressWarnings("unchecked") final List<Object> x509DataContent = x509Data.getContent();
                     x509DataContent.add(certElement);
                     addedClientCert = true;
-                    
+
                 }
             }
             if(!addedClientCert){
@@ -388,10 +388,10 @@ public class SBIssuedSamlTokenContractImpl extends IssueSamlTokenContract{
             }
             keyInfo.getContent().add(x509Data);
         }
-        
+
         return keyInfo;
     }
-    
+
     private EncryptedKey encryptKey(final Key key, final X509Certificate cert) throws XWSSecurityException{
         KeyInfo keyInfo = null;
         final KeyIdentifier keyIdentifier = wef.createKeyIdentifier();
@@ -400,11 +400,11 @@ public class SBIssuedSamlTokenContractImpl extends IssueSamlTokenContract{
         keyIdentifier.setEncodingType(MessageConstants.BASE64_ENCODING_NS);
         final SecurityTokenReference str = wef.createSecurityTokenReference(keyIdentifier);
         keyInfo = wef.createKeyInfo((com.sun.xml.ws.security.opt.impl.keyinfo.SecurityTokenReference) str);
-        
+
         return wef.createEncryptedKey(null,MessageConstants.RSA_OAEP_KEY_TRANSPORT,keyInfo,cert.getPublicKey(),key);
     }
-    
-    
+
+
     //common method to be moved to Base Class
     private X509Certificate getServiceCertificate(final CallbackHandler callbackHandler, TrustSPMetadata spMd, String appliesTo)throws WSTrustException{
         // Get the service certificate
@@ -422,11 +422,11 @@ public class SBIssuedSamlTokenContractImpl extends IssueSamlTokenContract{
                     LogStringsMessages.WST_0033_UNABLE_GET_SERVICE_CERT(appliesTo), ex);
             throw new WSTrustException(LogStringsMessages.WST_0033_UNABLE_GET_SERVICE_CERT(appliesTo), ex);
         }
-        
+
         return req.getX509Certificate();
     }
-    
-    
+
+
     public EncryptedDataType createEncryptedData(final String id,final String dataEncAlgo,final KeyInfo keyInfo,final boolean contentOnly){
         final EncryptedDataType edt = new EncryptedDataType();
         if(contentOnly){
@@ -446,7 +446,7 @@ public class SBIssuedSamlTokenContractImpl extends IssueSamlTokenContract{
         }
         return edt;
     }
-    
+
     private SecurityHeaderElement createSignature(final PublicKey pubKey,final Key signingKey,final SAMLToken samlToken,final NamespaceContextEx nsContext)throws WSTrustException{
         final JAXBSignatureFactory signatureFactory = JAXBSignatureFactory.newInstance();
         final C14NMethodParameterSpec spec = null;
@@ -514,7 +514,7 @@ public class SBIssuedSamlTokenContractImpl extends IssueSamlTokenContract{
 //            throw new WSTrustException("Unable to create sign SAML Assertion",ex);
 //        }
     }
-    
+
     private static class DSigResolver implements URIDereferencer{
         public Data data = null;
         DSigResolver(Data data){
@@ -524,6 +524,6 @@ public class SBIssuedSamlTokenContractImpl extends IssueSamlTokenContract{
         public Data dereference(final URIReference uRIReference, final XMLCryptoContext xMLCryptoContext) throws URIReferenceException {
             return data;
         }
-        
+
     }
 }

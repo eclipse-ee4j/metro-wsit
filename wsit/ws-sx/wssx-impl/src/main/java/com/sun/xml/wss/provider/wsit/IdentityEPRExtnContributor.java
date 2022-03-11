@@ -100,7 +100,7 @@ public class IdentityEPRExtnContributor extends EndpointReferenceExtensionContri
                 log.log(Level.SEVERE, com.sun.xml.wss.logging.LogStringsMessages.WSS_0818_ERROR_PUTTING_CERTIFICATE_EPRIDENTITY(), ex);
                 throw new RuntimeException(ex);
             }
-        }       
+        }
 
         return new EPRExtension() {
 
@@ -147,7 +147,7 @@ public class IdentityEPRExtnContributor extends EndpointReferenceExtensionContri
         JAXBElement<IdentityType> idElem =
                 (new com.sun.xml.security.core.ai.ObjectFactory()).createIdentity(identityElem);
         try {
-            JAXBContext context = JAXBUtil.getCustomIdentityJAXBContext(); 
+            JAXBContext context = JAXBUtil.getCustomIdentityJAXBContext();
             Marshaller m = context.createMarshaller();
             m.setProperty("org.glassfish.jaxb.xmlDeclaration", false);
             m.marshal(idElem, xbr);

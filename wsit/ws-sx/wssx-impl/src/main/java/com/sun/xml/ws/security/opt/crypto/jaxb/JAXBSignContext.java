@@ -18,21 +18,21 @@ import java.security.Key;
  *
  */
 public class JAXBSignContext extends com.sun.xml.ws.security.opt.crypto.jaxb.JAXBCryptoContext implements javax.xml.crypto.dsig.XMLSignContext {
-    
+
     /**
      * Default constructor
      */
     public JAXBSignContext(){
-        
+
     }
-    
+
     public JAXBSignContext(Key signingKey){
         if (signingKey == null) {
             throw new NullPointerException("signingKey cannot be null");
         }
         setKeySelector(KeySelector.singletonKeySelector(signingKey));
     }
-    
+
     public JAXBSignContext(KeySelector ks){
         if (ks == null) {
             throw new NullPointerException("key selector cannot be null");

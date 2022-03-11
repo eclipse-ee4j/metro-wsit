@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -24,7 +24,7 @@ import junit.framework.*;
  * @author mayank
  */
 public class PolicySuite extends TestCase {
-    
+
     public PolicySuite(String testName) {
         super(testName);
     }
@@ -46,12 +46,12 @@ public class PolicySuite extends TestCase {
         suite.addTest(com.sun.xml.ws.security.impl.policy.EncryptedPartsTest.suite());
         suite.addTest(com.sun.xml.ws.security.impl.policy.EncryptedSupportingTokensTest.suite());
         suite.addTest(com.sun.xml.ws.security.impl.policy.EndorsingEncryptedSupportingTokensTest.suite());
-        suite.addTest(com.sun.xml.ws.security.impl.policy.EndorsingSupportingTokensTest.suite());   
-	suite.addTest(com.sun.xml.ws.security.impl.policy.HttpsTokenTest.suite());
-        suite.addTest(com.sun.xml.ws.security.impl.policy.IssuedTokenTest.suite());     
-        suite.addTest(com.sun.xml.ws.security.impl.policy.KerberosTokenTest.suite()); 
-        suite.addTest(com.sun.xml.ws.security.impl.policy.KeyValueTokenTest.suite()); 
-        suite.addTest(com.sun.xml.ws.security.impl.policy.RelTokenTest.suite());      
+        suite.addTest(com.sun.xml.ws.security.impl.policy.EndorsingSupportingTokensTest.suite());
+    suite.addTest(com.sun.xml.ws.security.impl.policy.HttpsTokenTest.suite());
+        suite.addTest(com.sun.xml.ws.security.impl.policy.IssuedTokenTest.suite());
+        suite.addTest(com.sun.xml.ws.security.impl.policy.KerberosTokenTest.suite());
+        suite.addTest(com.sun.xml.ws.security.impl.policy.KeyValueTokenTest.suite());
+        suite.addTest(com.sun.xml.ws.security.impl.policy.RelTokenTest.suite());
         suite.addTest(com.sun.xml.ws.security.impl.policy.SamlTokenTest.suite());
         suite.addTest(com.sun.xml.ws.security.impl.policy.SecureConversationTokenTest.suite());
         suite.addTest(com.sun.xml.ws.security.impl.policy.SecurityContextTokenTest.suite());
@@ -65,10 +65,10 @@ public class PolicySuite extends TestCase {
         suite.addTest(com.sun.xml.ws.security.impl.policy.SpnegoContextTokenTest.suite());
         suite.addTest(com.sun.xml.ws.security.impl.policy.SupportingTokensTest.suite());
         suite.addTest(com.sun.xml.ws.security.impl.policy.SymmetricBindingTest.suite());
-        suite.addTest(com.sun.xml.ws.security.impl.policy.TransportBindingTest.suite());  
-        suite.addTest(com.sun.xml.ws.security.impl.policy.UsernameTokenTest.suite());     
+        suite.addTest(com.sun.xml.ws.security.impl.policy.TransportBindingTest.suite());
+        suite.addTest(com.sun.xml.ws.security.impl.policy.UsernameTokenTest.suite());
         suite.addTest(com.sun.xml.ws.security.impl.policy.X509TokenTest.suite());
         return suite;
     }
-    
+
 }

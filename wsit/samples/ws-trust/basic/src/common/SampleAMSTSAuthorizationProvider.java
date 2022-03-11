@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -26,7 +26,7 @@ import com.sun.identity.policy.client.PolicyEvaluator;
 import com.sun.xml.ws.api.security.trust.STSAuthorizationProvider;
 
 public class SampleAMSTSAuthorizationProvider implements STSAuthorizationProvider {
-    
+
     private static Debug debug = Debug.getInstance("SampleAMSTSAuthorizationProvider");
 
     private static SSOToken getSSOToken(Subject subject)
@@ -35,10 +35,10 @@ public class SampleAMSTSAuthorizationProvider implements STSAuthorizationProvide
        // if (pc == null){
                 SubjectAccessor.getRequesterSubject().getPublicCredentials();
         //}
-        
+
         if (pc == null)
             System.out.println("No pc in the subject");
-        
+
         if (pc != null){
             if (pc == null){
                 pc = SubjectAccessor.getRequesterSubject().getPublicCredentials();
@@ -53,7 +53,7 @@ public class SampleAMSTSAuthorizationProvider implements STSAuthorizationProvide
         }
         return null;
     }
-    
+
     public boolean isAuthorized(Subject subject, String appliesTo, String tokenType, String keyType)
     {
         String serviceName = "iPlanetAMWebAgentService";
@@ -80,5 +80,5 @@ public class SampleAMSTSAuthorizationProvider implements STSAuthorizationProvide
         }
 
         return false;
-    }  
+    }
 }

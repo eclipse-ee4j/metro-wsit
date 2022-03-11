@@ -37,15 +37,15 @@ import java.util.Set;
  *
  * @author K.Venugopal@sun.com
  */
-public class HeaderWrapper implements com.sun.xml.ws.api.message.Header  {   
-    
+public class HeaderWrapper implements com.sun.xml.ws.api.message.Header  {
+
     private SecurityElement se;
     private com.sun.xml.ws.api.message.Header header = null;
     /** Creates a new instance of HeaderWrapper */
     public HeaderWrapper(SecurityHeader sh) {
         //this.sh = sh;
     }
-    
+
     public HeaderWrapper(SecurityElement se) {
         this.se = se;
         if(this.se instanceof SignedMessageHeader){
@@ -100,7 +100,7 @@ public class HeaderWrapper implements com.sun.xml.ws.api.message.Header  {
         }
         throw new UnsupportedOperationException();
     }
-    
+
     /**
      * Gets the value of the soap:role attribute (or soap:actor for SOAP 1.1).
      *
@@ -122,7 +122,7 @@ public class HeaderWrapper implements com.sun.xml.ws.api.message.Header  {
         }
         throw new UnsupportedOperationException();
     }
-    
+
     /**
      * True if this header is to be relayed if not processed.
      * For SOAP 1.1 messages, this method always return false.
@@ -147,7 +147,7 @@ public class HeaderWrapper implements com.sun.xml.ws.api.message.Header  {
         }
         throw new UnsupportedOperationException();
     }
-    
+
     /**
      * Gets the namespace URI of this header element.
      *
@@ -158,7 +158,7 @@ public class HeaderWrapper implements com.sun.xml.ws.api.message.Header  {
     public  String getNamespaceURI(){
         return se.getNamespaceURI();
     }
-    
+
     /**
      * Gets the local name of this header element.
      *
@@ -169,7 +169,7 @@ public class HeaderWrapper implements com.sun.xml.ws.api.message.Header  {
     public  String getLocalPart(){
         return se.getLocalPart();
     }
-    
+
     /**
      * Gets the attribute value on the header element.
      *
@@ -192,7 +192,7 @@ public class HeaderWrapper implements com.sun.xml.ws.api.message.Header  {
         }
         throw new UnsupportedOperationException();
     }
-    
+
     /**
      * Gets the attribute value on the header element.
      *
@@ -211,7 +211,7 @@ public class HeaderWrapper implements com.sun.xml.ws.api.message.Header  {
         }
         throw new UnsupportedOperationException();
     }
-    
+
     /**
      * Reads the header as a {@link XMLStreamReader}.
      *
@@ -247,9 +247,9 @@ public class HeaderWrapper implements com.sun.xml.ws.api.message.Header  {
         }
         throw new UnsupportedOperationException();
         //We should avoid such operations for Security operated headers.
-        
+
     }
-    
+
     /**
      * Reads the header as a JAXB object by using the given unmarshaller.
      */
@@ -273,7 +273,7 @@ public class HeaderWrapper implements com.sun.xml.ws.api.message.Header  {
         }
         throw new UnsupportedOperationException();
     }
-    
+
     /**
      * Writes out the header.
      *
@@ -285,7 +285,7 @@ public class HeaderWrapper implements com.sun.xml.ws.api.message.Header  {
     public void writeTo(XMLStreamWriter w) throws XMLStreamException{
         ((SecurityElementWriter)se).writeTo(w);
     }
-    
+
     /**
      * Writes out the header to the given SOAPMessage.
      *
@@ -302,7 +302,7 @@ public class HeaderWrapper implements com.sun.xml.ws.api.message.Header  {
     public void writeTo(SOAPMessage saaj) throws SOAPException{
         throw new UnsupportedOperationException("use writeTo(XMLStreamWriter w) ");
     }
-    
+
     /**
      * Writes out the header as SAX events.
      *
@@ -332,7 +332,7 @@ public class HeaderWrapper implements com.sun.xml.ws.api.message.Header  {
     public void writeTo(ContentHandler contentHandler, ErrorHandler errorHandler) {
         throw new UnsupportedOperationException("use writeTo(XMLStreamWriter w) ");
     }
-    
+
     @Override
     public String getStringContent(){
         if(header != null){
@@ -348,11 +348,11 @@ public class HeaderWrapper implements com.sun.xml.ws.api.message.Header  {
         throw new UnsupportedOperationException();
     }
 
-	@Override
+    @Override
     public <T> T readAsJAXB(XMLBridge<T> bridge) throws JAXBException {
         if(header != null){
             return header.readAsJAXB(bridge);
         }
         throw new UnsupportedOperationException();
-	}    
+    }
 }

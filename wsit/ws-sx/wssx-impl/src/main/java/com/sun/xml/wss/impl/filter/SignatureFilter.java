@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -88,11 +88,11 @@ import com.sun.xml.wss.logging.impl.filter.LogStringsMessages;
  *       call VerificationProcessor
  */
 public class SignatureFilter {
-    
+
     private static Logger log =  Logger.getLogger(
             LogDomainConstants.IMPL_FILTER_DOMAIN,
             LogDomainConstants.IMPL_FILTER_DOMAIN_BUNDLE);
-    
+
    /**
     * sets the username token in UsernameToken Binding,
     * creates secret key for signature and sets it in username token binding
@@ -152,12 +152,12 @@ public class SignatureFilter {
      */
      @SuppressWarnings("unchecked")
     public static void process(FilterProcessingContext context) throws XWSSecurityException {
-        
+
         if (!context.isInboundMessage()) {
-            
+
             WSSPolicy policy =(WSSPolicy) context.getSecurityPolicy();
             SignaturePolicy resolvedPolicy = (SignaturePolicy) policy;
-            
+
             if (!context.makeDynamicPolicyCallback()) {
 
                 WSSPolicy keyBinding = (WSSPolicy) policy.getKeyBinding();
@@ -177,7 +177,7 @@ public class SignatureFilter {
                 //SignaturePolicy.FeatureBinding featureBinding = (SignaturePolicy.FeatureBinding) policy.getFeatureBinding();
                 if (PolicyTypeUtil.usernameTokenBinding(keyBinding)) {
                     UsernameTokenBinding binding = createUntBinding(context,(UsernameTokenBinding)keyBinding,MessageConstants.VALUE_FOR_SIGNATURE);
-                    context.setUsernameTokenBinding(binding);                    
+                    context.setUsernameTokenBinding(binding);
                 }else if (PolicyTypeUtil.x509CertificateBinding(keyBinding)) {
                     try {
                         AuthenticationTokenPolicy.X509CertificateBinding binding = (AuthenticationTokenPolicy.X509CertificateBinding)keyBinding.clone();
@@ -187,21 +187,21 @@ public class SignatureFilter {
                             X509Certificate cert = context.getSecurityEnvironment().getCertificate(context.getExtraneousProperties(), certIdentifier, false);
                             binding.setX509Certificate(cert);
                         }else {
-                            
+
                             if(certIdentifier == null || "".equals(certIdentifier)) {
-                                
+
                                 WSSPolicy ckBinding = (WSSPolicy) binding.getKeyBinding();
-                                
+
                                 if (ckBinding == null) {
                                     ckBinding = (WSSPolicy)binding.newPrivateKeyBinding();
                                 }
-                                
+
                                 if (context.getSecurityEnvironment().getClass().getName().equals(
                                         "com.sun.xml.wss.impl.misc.DefaultSecurityEnvironmentImpl")) {
                                     SignatureKeyCallback.PrivKeyCertRequest request =
                                             ((DefaultSecurityEnvironmentImpl)context.getSecurityEnvironment()).
                                             getDefaultPrivKeyCertRequest(context.getExtraneousProperties());
-                                    
+
                                     binding.setX509Certificate(request.getX509Certificate());
                                     if(request.getX509Certificate() == null){
                                         log.log(Level.SEVERE, LogStringsMessages.WSS_1421_NO_DEFAULT_X_509_CERTIFICATE_PROVIDED());
@@ -220,29 +220,29 @@ public class SignatureFilter {
                                             context.getExtraneousProperties(), cert);
                                     ((PrivateKeyBinding) ckBinding).setPrivateKey(pk);
                                 }
-                                
+
                             } else {
-                                
+
                                 if (context.getSecurityEnvironment().getClass().getName().equals(
                                         "com.sun.xml.wss.impl.misc.DefaultSecurityEnvironmentImpl")) {
                                     SignatureKeyCallback.AliasPrivKeyCertRequest request =
                                             ((DefaultSecurityEnvironmentImpl)context.getSecurityEnvironment()).
                                             getAliasPrivKeyCertRequest(certIdentifier);
-                                    
+
                                     binding.setX509Certificate(request.getX509Certificate());
                                     if(request.getX509Certificate() == null){
                                         log.log(Level.SEVERE,LogStringsMessages.WSS_1421_NO_DEFAULT_X_509_CERTIFICATE_PROVIDED());
                                         throw new XWSSecurityException("No X509Certificate was provided");
                                     }
-                                    
+
                                     WSSPolicy ckBinding = (WSSPolicy) binding.getKeyBinding();
-                                    
+
                                     if (PolicyTypeUtil.privateKeyBinding(ckBinding)) {
                                         ((PrivateKeyBinding) ckBinding).setPrivateKey(request.getPrivateKey());
                                     } else {
                                         if (ckBinding == null) {
                                             // keyBinding un-defined
-                                            
+
                                             ((PrivateKeyBinding) binding.newPrivateKeyBinding()).
                                                     setPrivateKey(request.getPrivateKey());
                                         } else {
@@ -260,7 +260,7 @@ public class SignatureFilter {
                                     WSSPolicy ckBinding = (WSSPolicy) binding.getKeyBinding();
                                     PrivateKey key = context.getSecurityEnvironment().getPrivateKey(
                                             context.getExtraneousProperties(), certIdentifier);
-                                    
+
                                     if (PolicyTypeUtil.privateKeyBinding(ckBinding)) {
                                         ((PrivateKeyBinding) ckBinding).setPrivateKey(key);
                                     } else {
@@ -274,14 +274,14 @@ public class SignatureFilter {
                                                     "Unsupported KeyBinding for X509CertificateBinding");
                                         }
                                     }
-                                    
+
                                 }
                             }
-                            
+
                         }
-                        
+
                         context.setX509CertificateBinding(binding);
-                        
+
                     } catch (Exception e) {
                         log.log(Level.SEVERE, LogStringsMessages.WSS_1417_EXCEPTION_PROCESSING_SIGNATURE(new Object[] {e.getMessage()}));
                         throw new XWSSecurityException(e);
@@ -289,7 +289,7 @@ public class SignatureFilter {
                 } else if(PolicyTypeUtil.kerberosTokenBinding(keyBinding)) {
                     AuthenticationTokenPolicy.KerberosTokenBinding binding = (AuthenticationTokenPolicy.KerberosTokenBinding)keyBinding.clone();
                     String algorithm = binding.getKeyAlgorithm();
-                    
+
                     //String ktPolicyId = binding.getUUID();
                     String encodedRef = (String)context.getExtraneousProperty(MessageConstants.KERBEROS_SHA1_VALUE);
                     KerberosContext krbContext = null;
@@ -306,33 +306,33 @@ public class SignatureFilter {
                     if(krbContext != null){
                         byte[] kerberosToken = krbContext.getKerberosToken();
                         binding.setTokenValue(kerberosToken);
-                        
+
                         SecretKey sKey = krbContext.getSecretKey(SecurityUtil.getSecretKeyAlgorithm(dataEncAlgo));
                         binding.setSecretKey(sKey);
                     }else{
                         log.log(Level.SEVERE, LogStringsMessages.WSS_1423_KERBEROS_CONTEXT_NOTSET());
                         throw new XWSSecurityException("WSS1423.kerberos.context.notset");
                     }
-                    
+
                     context.setKerberosTokenBinding(binding);
                 } else if (PolicyTypeUtil.samlTokenPolicy(keyBinding)) {
                     //resolvedPolicy = (SignaturePolicy)policy.clone();
                     keyBinding =(WSSPolicy) policy.getKeyBinding();
                     AuthenticationTokenPolicy.SAMLAssertionBinding binding =
                             (AuthenticationTokenPolicy.SAMLAssertionBinding) keyBinding;
-                    if(binding.getAssertion() != null || binding.getAssertionReader() != null || 
+                    if(binding.getAssertion() != null || binding.getAssertionReader() != null ||
                             binding.getAuthorityBinding() != null){
                         binding.setAssertion((org.w3c.dom.Element)null);
                         binding.setAuthorityBinding(null);
                         binding.setAssertion((javax.xml.stream.XMLStreamReader)null);
                     }
-                    
+
                     binding.isReadOnly(true);
-                    
-                    
+
+
                     DynamicApplicationContext dynamicContext =
                             new DynamicApplicationContext(context.getPolicyContext());
-                    
+
                     dynamicContext.setMessageIdentifier(context.getMessageIdentifier());
                     dynamicContext.inBoundMessage(false);
                     AuthenticationTokenPolicy.SAMLAssertionBinding resolvedSAMLBinding =
@@ -351,13 +351,13 @@ public class SignatureFilter {
                                 "None of SAML Assertion, SAML AuthorityBinding information was set into " +
                                 " the Policy by the CallbackHandler");
                     }
-                    
+
                     policy.setKeyBinding(resolvedSAMLBinding);
-                    resolvedPolicy = (SignaturePolicy)policy;                  
-                    
+                    resolvedPolicy = (SignaturePolicy)policy;
+
                 }else if (PolicyTypeUtil.symmetricKeyBinding(keyBinding)) {
                     try {
-                        
+
                         String dataEncAlgo = null;
                         if (context.getAlgorithmSuite() != null) {
                             dataEncAlgo = context.getAlgorithmSuite().getEncryptionAlgorithm();
@@ -365,12 +365,12 @@ public class SignatureFilter {
                             dataEncAlgo = MessageConstants.DEFAULT_DATA_ENC_ALGO;
                             // warn about using default
                         }
-                        
+
                         SymmetricKeyBinding binding = (SymmetricKeyBinding)keyBinding.clone();
-                        
+
                         String keyIdentifier = binding.getKeyIdentifier();
                         SecretKey sKey = null;
-                        
+
                         WSSPolicy ckBinding = (WSSPolicy) binding.getKeyBinding();
                         boolean wss11Receiver = "true".equals(context.getExtraneousProperty("EnableWSS11PolicyReceiver"));
                         boolean wss11Sender = "true".equals(context.getExtraneousProperty("EnableWSS11PolicySender"));
@@ -402,7 +402,7 @@ public class SignatureFilter {
                                 log.log(Level.SEVERE, LogStringsMessages.WSS_1413_ERROR_EXTRACTING_CERTIFICATE(), e);
                                 throw new XWSSecurityException(e);
                             }
-                            
+
                         } else if(PolicyTypeUtil.kerberosTokenBinding(ckBinding)){
                             AuthenticationTokenPolicy.KerberosTokenBinding ckBindingClone =
                                     (AuthenticationTokenPolicy.KerberosTokenBinding)ckBinding;
@@ -415,7 +415,7 @@ public class SignatureFilter {
                             if(krbContext != null){
                                 byte[] kerberosToken = krbContext.getKerberosToken();
                                 ckBindingClone.setTokenValue(kerberosToken);
-                                
+
                                 sKey = krbContext.getSecretKey(SecurityUtil.getSecretKeyAlgorithm(dataEncAlgo));
                                 ckBindingClone.setSecretKey(sKey);
                             }else{
@@ -432,11 +432,11 @@ public class SignatureFilter {
                             } else if(sendEKSHA1){
                                 sKey = getReceivedSecret(context);
                             }else if(wss11Sender || wss10){
-                                
+
                                 sKey =  SecurityUtil.generateSymmetricKey(dataEncAlgo);
                             }
                         }
-                        
+
                         binding.setSecretKey(sKey);
                         context.setSymmetricKeyBinding(binding);
                     } catch (Exception e) {
@@ -447,14 +447,14 @@ public class SignatureFilter {
                 } else if (PolicyTypeUtil.issuedTokenKeyBinding(keyBinding)) {
                     IssuedTokenKeyBinding itkb = (IssuedTokenKeyBinding)keyBinding;
                     SecurityUtil.resolveIssuedToken(context, itkb);
-                    
+
                 } else if (PolicyTypeUtil.derivedTokenKeyBinding(keyBinding)) {
-                    
+
                     DerivedTokenKeyBinding dtk = (DerivedTokenKeyBinding)keyBinding.clone();
                     WSSPolicy originalKeyBinding = dtk.getOriginalKeyBinding();
-                    
+
                     if ( PolicyTypeUtil.symmetricKeyBinding(originalKeyBinding)) {
-                        
+
                         String dataEncAlgo = null;
                         if (context.getAlgorithmSuite() != null) {
                             dataEncAlgo = context.getAlgorithmSuite().getEncryptionAlgorithm();
@@ -462,14 +462,14 @@ public class SignatureFilter {
                             dataEncAlgo = MessageConstants.DEFAULT_DATA_ENC_ALGO;
                             // warn about using default
                         }
-                        
+
                         SymmetricKeyBinding symmBinding = (SymmetricKeyBinding)originalKeyBinding.clone();
                         SecretKey sKey = null;
                         boolean wss11Receiver = "true".equals(context.getExtraneousProperty("EnableWSS11PolicyReceiver"));
                         boolean wss11Sender = "true".equals(context.getExtraneousProperty("EnableWSS11PolicySender"));
                         boolean wss10 = !wss11Sender;
                         boolean sendEKSHA1 =  wss11Receiver && wss11Sender && (getReceivedSecret(context) != null);
-                        
+
                         WSSPolicy ckBinding = (WSSPolicy) originalKeyBinding.getKeyBinding();
                         if (PolicyTypeUtil.usernameTokenBinding(ckBinding)) {
                             try {
@@ -533,7 +533,7 @@ public class SignatureFilter {
                         IssuedTokenKeyBinding itkb = (IssuedTokenKeyBinding)originalKeyBinding;
                         SecurityUtil.resolveIssuedToken(context, itkb);
                     }
-                    
+
                 } else if (PolicyTypeUtil.secureConversationTokenKeyBinding(keyBinding)) {
                     // resolve the ProofKey here and set it into ProcessingContext
                     SecureConversationTokenKeyBinding sctBinding = (SecureConversationTokenKeyBinding)keyBinding;
@@ -548,11 +548,11 @@ public class SignatureFilter {
             } else {
                 //resolvedPolicy = (SignaturePolicy)policy.clone();
                 policy.isReadOnly(true);
-                
+
                 try {
                     DynamicApplicationContext dynamicContext =
                             new DynamicApplicationContext(context.getPolicyContext());
-                    
+
                     dynamicContext.setMessageIdentifier(context.getMessageIdentifier());
                     dynamicContext.inBoundMessage(false);
                     // TODO: set runtime context for making callback
@@ -562,28 +562,28 @@ public class SignatureFilter {
                     HarnessUtil.makeDynamicPolicyCallback(dynamicCallback,
                             context.getSecurityEnvironment().getCallbackHandler());
                     resolvedPolicy = (SignaturePolicy)dynamicCallback.getSecurityPolicy();
-                    
+
                 } catch (Exception e) {
                     log.log(Level.SEVERE, LogStringsMessages.WSS_1420_DYNAMIC_POLICY_SIGNATURE(new Object[] {e.getMessage()}));
                     throw new XWSSecurityException(e);
                 }
             }
-            
+
             context.setSecurityPolicy(resolvedPolicy);
-            
+
             sign(context);
-            
+
         } else {
-            
+
             if ( context.makeDynamicPolicyCallback()) {
                 WSSPolicy policy =(WSSPolicy) context.getSecurityPolicy();
                 SignaturePolicy resolvedPolicy = null;
                 policy.isReadOnly(true);
-                
+
                 try {
                     DynamicApplicationContext dynamicContext =
                             new DynamicApplicationContext(context.getPolicyContext());
-                    
+
                     dynamicContext.setMessageIdentifier(context.getMessageIdentifier());
                     dynamicContext.inBoundMessage(true);
                     // TODO: set runtime context for making callback
@@ -592,7 +592,7 @@ public class SignatureFilter {
                     ProcessingContext.copy(dynamicContext.getRuntimeProperties(), context.getExtraneousProperties());
                     HarnessUtil.makeDynamicPolicyCallback(dynamicCallback,
                             context.getSecurityEnvironment().getCallbackHandler());
-                    
+
                     resolvedPolicy = (SignaturePolicy)dynamicCallback.getSecurityPolicy();
                 } catch (Exception e) {
                     log.log(Level.SEVERE, LogStringsMessages.WSS_1420_DYNAMIC_POLICY_SIGNATURE(new Object[] {e.getMessage()}));
@@ -600,12 +600,12 @@ public class SignatureFilter {
                 }
                 context.setSecurityPolicy(resolvedPolicy);
             }
-            
+
             SignatureProcessor.verify(context);
         }
     }
     /**
-     * performs signature processing 
+     * performs signature processing
      * @param context com.sun.xml.wss.impl.FilterProcessingContext
      */
     private static void sign(com.sun.xml.wss.impl.FilterProcessingContext context)
@@ -614,7 +614,7 @@ public class SignatureFilter {
             com.sun.xml.ws.security.opt.impl.dsig.SignatureProcessor.sign((JAXBFilterProcessingContext)context);
         else
             SignatureProcessor.sign(context);
-        
+
     }
     /**
      * gets the secret key from the context which will be used for handling
@@ -627,5 +627,5 @@ public class SignatureFilter {
         sKey = (javax.crypto.SecretKey)context.getExtraneousProperty(MessageConstants.SECRET_KEY_VALUE);
         return sKey;
     }
-    
+
 }

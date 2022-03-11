@@ -16,11 +16,11 @@ import java.util.Collection ;
  * OutboundConnectionCache.get method.
  */
 public interface ConnectionFinder<C extends Connection> {
-    /** Method that searches idleConnections and busyConnections for 
+    /** Method that searches idleConnections and busyConnections for
      * the best connection.  May return null if no best connections
      * exists.  May create a new connection and return it.
      */
-    C find( ContactInfo<C> cinfo, Collection<C> idleConnections, 
-	Collection<C> busyConnections );
+    C find( ContactInfo<C> cinfo, Collection<C> idleConnections,
+    Collection<C> busyConnections );
 }
 

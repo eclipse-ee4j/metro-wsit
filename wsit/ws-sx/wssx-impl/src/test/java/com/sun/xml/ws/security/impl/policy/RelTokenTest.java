@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -30,55 +30,55 @@ import junit.framework.*;
  * @author Mayank.Mishra@sun.com
  */
 public class RelTokenTest extends TestCase {
-    
+
     public RelTokenTest(String testName) {
         super(testName);
     }
-    
+
     @Override
     protected void setUp() {
     }
-    
+
     @Override
     protected void tearDown() {
     }
-    
+
     public static Test suite() {
         TestSuite suite = new TestSuite(RelTokenTest.class);
-        
+
         return suite;
     }
-    
+
     private PolicySourceModel unmarshalPolicyResource(String resource) throws PolicyException, IOException {
         Reader reader = getResourceReader(resource);
         PolicySourceModel model = ModelUnmarshaller.getUnmarshaller().unmarshalModel(reader);
         reader.close();
         return model;
     }
-    
+
     private Reader getResourceReader(String resourceName) {
         return new InputStreamReader(Thread.currentThread().getContextClassLoader().getResourceAsStream(resourceName));
     }
-    
+
     public Policy unmarshalPolicy(String xmlFile)throws Exception{
         PolicySourceModel model =  unmarshalPolicyResource(
                 xmlFile);
         Policy mbp = ModelTranslator.getTranslator().translate(model);
         return mbp;
     }
-    
+
     public void testRelToken1()throws Exception{
         testRelToken_Keys_Reference("security/RelToken1.xml", "");
         testRelToken_Keys_Reference("security/RelToken2.xml", "RequireKeyIdentifierReference");
     }
-    
+
     public void testRelToken2() throws Exception{
         testRelTokenType("security/RelToken1.xml", com.sun.xml.ws.security.policy.RelToken.WSS_REL_V10_TOKEN10);
         testRelTokenType("security/RelToken2.xml", com.sun.xml.ws.security.policy.RelToken.WSS_REL_V20_TOKEN10);
         testRelTokenType("security/RelToken3.xml", com.sun.xml.ws.security.policy.RelToken.WSS_REL_V10_TOKEN11);
         testRelTokenType("security/RelToken4.xml", com.sun.xml.ws.security.policy.RelToken.WSS_REL_V20_TOKEN11);
     }
-    
+
     public void testRelToken_Keys_Reference(String fileName, String param) throws Exception {
         Policy policy = unmarshalPolicy(fileName);
         Iterator <AssertionSet> itr = policy.iterator();
@@ -100,7 +100,7 @@ public class RelTokenTest extends TestCase {
             throw new Exception("No Assertions found!. Unmarshalling of "+fileName+" failed!");
         }
     }
-    
+
     public void testRelTokenType(String fileName, String tokenType) throws Exception {
         Policy policy = unmarshalPolicy(fileName);
         Iterator <AssertionSet> itr = policy.iterator();
@@ -116,6 +116,6 @@ public class RelTokenTest extends TestCase {
             throw new Exception("No Assertions found!. Unmarshalling of "+fileName+" failed!");
         }
     }
-    
+
 
 }

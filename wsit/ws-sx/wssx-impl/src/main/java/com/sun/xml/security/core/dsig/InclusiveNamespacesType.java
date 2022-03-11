@@ -19,18 +19,18 @@ import jakarta.xml.bind.annotation.XmlAttribute;
 //@XmlRootElement(name="ReferenceType")
 //@XmlAccessorType(XmlAccessType.FIELD)
 public class InclusiveNamespacesType {
-    
+
     @XmlAttribute(name = "PrefixList", required = true)
     protected String prefixList;
-    
+
     /** Creates a new instance of InclusiveNamespaces */
     public InclusiveNamespacesType() {
     }
-    
+
     public String getPrefixList(){
         return this.prefixList;
     }
-    
+
     public void addToPrefixList(String prefix){
         if(prefixList == null){
             prefixList = prefix;
@@ -38,5 +38,5 @@ public class InclusiveNamespacesType {
             prefixList = prefixList.concat(" ").concat(prefix);
         }
     }
-    
+
 }

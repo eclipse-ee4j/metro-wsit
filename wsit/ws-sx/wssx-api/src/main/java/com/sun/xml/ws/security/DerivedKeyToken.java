@@ -25,7 +25,7 @@ public interface DerivedKeyToken extends Token {
     String DERIVED_KEY_TOKEN_TYPE="http://schemas.xmlsoap.org/ws/2005/02/sc/dk";
 
     String DEFAULT_DERIVED_KEY_TOKEN_ALGORITHM="http://schemas.xmlsoap.org/ws/2005/02/sc/dk/p_sha1";
-    
+
     String DEFAULT_DERIVEDKEYTOKEN_LABEL = "WS-SecureConversationWS-SecureConversation";
 
     URI getAlgorithm();
@@ -35,10 +35,10 @@ public interface DerivedKeyToken extends Token {
     long  getLength();
 
     long  getOffset();
-    
+
     long getGeneration();
-    
+
     String getLabel();
-    
+
     SecretKey generateSymmetricKey(String algorithm) throws InvalidKeyException, NoSuchAlgorithmException;
 }

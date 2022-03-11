@@ -27,41 +27,41 @@ import com.sun.xml.ws.security.policy.SecurityAssertionValidator;
 public class Wss11 extends PolicyAssertion implements com.sun.xml.ws.security.policy.WSSAssertion, SecurityAssertionValidator {
     private AssertionFitness fitness = AssertionFitness.IS_VALID;
     Set<String> requiredPropSet;
-    String version = "1.1";   
+    String version = "1.1";
     boolean populated = false;
     private SecurityPolicyVersion spVersion;
-    
+
     /**
      * Creates a new instance of WSSAssertion
      */
     public Wss11() {
         spVersion = SecurityPolicyVersion.SECURITYPOLICY200507;
     }
-    
+
     public Wss11(AssertionData name,Collection<PolicyAssertion> nestedAssertions, AssertionSet nestedAlternative) {
         super(name,nestedAssertions,nestedAlternative);
         String nsUri = getName().getNamespaceURI();
         spVersion = PolicyUtil.getSecurityPolicyVersion(nsUri);
     }
-    
+
     public void addRequiredProperty(String requirement) {
         if(requiredPropSet == null){
             requiredPropSet = new HashSet<>();
         }
         requiredPropSet.add(requirement);
     }
-    
+
     @Override
     public Set<String> getRequiredProperties() {
         populate();
         return requiredPropSet;
     }
-    
+
     @Override
     public String getType() {
         return version;
     }
-    
+
     @Override
     public AssertionFitness validate(boolean isServer) {
         return populate(isServer);
@@ -69,9 +69,9 @@ public class Wss11 extends PolicyAssertion implements com.sun.xml.ws.security.po
     private void populate(){
         populate(false);
     }
-    
+
     private synchronized AssertionFitness populate(boolean isServer) {
-        
+
         if(!populated){
             NestedPolicy policy = this.getNestedPolicy();
             if(policy == null){
@@ -82,7 +82,7 @@ public class Wss11 extends PolicyAssertion implements com.sun.xml.ws.security.po
                 return fitness;
             }
             AssertionSet as = policy.getAssertionSet();
-            
+
             for(PolicyAssertion pa : as){
                 if(PolicyUtil.isWSS11PolicyContent(pa, spVersion)){
                     addRequiredProperty(pa.getName().getLocalPart().intern());
@@ -92,8 +92,8 @@ public class Wss11 extends PolicyAssertion implements com.sun.xml.ws.security.po
                         fitness = AssertionFitness.HAS_UNKNOWN_ASSERTION;
                     }
                 }
-                
-                
+
+
             }
             populated = true;
         }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -28,21 +28,21 @@ import jakarta.xml.ws.soap.SOAPBinding;
  * @author Jakub Podlesak
  */
 @ServiceMode(value=Service.Mode.PAYLOAD)
-@WebServiceProvider(wsdlLocation="WEB-INF/wsdl/sts.wsdl", 
-        portName="ISecurityTokenService_Port", 
-        serviceName="SecurityTokenService", 
+@WebServiceProvider(wsdlLocation="WEB-INF/wsdl/sts.wsdl",
+        portName="ISecurityTokenService_Port",
+        serviceName="SecurityTokenService",
         targetNamespace="http://tempuri.org/")
-@BindingType(SOAPBinding.SOAP12HTTP_BINDING)        
+@BindingType(SOAPBinding.SOAP12HTTP_BINDING)
 public class STSImpl extends BaseSTSImpl implements Provider<Source> {
-    
+
     @Resource
     protected WebServiceContext context;
-    
+
     protected MessageContext getMessageContext() {
         MessageContext msgCtx = context.getMessageContext();
         return msgCtx;
     }
-    
+
     public Source invoke(final Source rstElem) {
         return super.invoke(rstElem);
     }

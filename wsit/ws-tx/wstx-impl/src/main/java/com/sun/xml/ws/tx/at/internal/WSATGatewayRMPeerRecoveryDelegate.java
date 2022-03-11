@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -62,7 +62,7 @@ public class WSATGatewayRMPeerRecoveryDelegate implements XAResource {
     public int prepare(Xid xid) throws XAException {
         return WSATGatewayRM.getInstance().prepare(xid);
     }
-    
+
     @Override
     public Xid[] recover(int i) throws XAException {
             return peerLogLocation==null?

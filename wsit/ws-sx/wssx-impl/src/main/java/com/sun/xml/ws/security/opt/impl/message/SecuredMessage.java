@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -37,7 +37,7 @@ import com.sun.xml.ws.api.message.Header;
  */
 public class SecuredMessage {
 
-    ArrayList headers;    
+    ArrayList headers;
     SOAPBody body = null;
     boolean isOneWay = false;
     SecurityElement securedBody = null;
@@ -68,7 +68,7 @@ public class SecuredMessage {
     public SOAPVersion getSOAPVersion() {
        return this.soapVersion;
     }
-    
+
     public ArrayList getHeaders() {
         return headers;
     }
@@ -296,7 +296,7 @@ public class SecuredMessage {
         }
         return attachments;
     }
-    
+
     public void setAttachments(AttachmentSet as){
         attachments = as;
     }
@@ -308,7 +308,7 @@ public class SecuredMessage {
             uri = uri.substring("cid:".length());
             attachment = attachments.get(uri);
         }
-        
+
         return attachment;
     }
 

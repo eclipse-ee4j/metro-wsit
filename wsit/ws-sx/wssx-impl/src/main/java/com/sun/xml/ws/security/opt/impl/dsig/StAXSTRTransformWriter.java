@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -38,11 +38,11 @@ import com.sun.xml.wss.logging.impl.opt.signature.LogStringsMessages;
 public class StAXSTRTransformWriter implements XMLStreamWriter,StreamWriterData{
     private static final Logger logger = Logger.getLogger(LogDomainConstants.IMPL_OPT_SIGNATURE_DOMAIN,
             LogDomainConstants.IMPL_OPT_SIGNATURE_DOMAIN_BUNDLE);
-    
+
     private XMLStreamWriter nextWriter = null;
     private boolean ignore = false;
     private boolean derefSAMLKeyIdentifier = false;
-    
+
     private Data data = null;
     private int index = 0;
     private NamespaceContextEx ns = null;
@@ -50,8 +50,8 @@ public class StAXSTRTransformWriter implements XMLStreamWriter,StreamWriterData{
     private boolean first = true;
     private String directReferenceValue = "";
     private XMLCryptoContext xMLCryptoContext;
-    private String strId = "";        
-    
+    private String strId = "";
+
     /** Creates a new instance of StAXEnvelopedTransformWriter */
     public StAXSTRTransformWriter(XMLStreamWriter writer,Data data,XMLCryptoContext xMLCryptoContext) {
         this.nextWriter = writer;
@@ -64,7 +64,7 @@ public class StAXSTRTransformWriter implements XMLStreamWriter,StreamWriterData{
         this.xMLCryptoContext = xMLCryptoContext;
         //filterContext = (JAXBFilterProcessingContext) xMLCryptoContext.get(MessageConstants.WSS_PROCESSING_CONTEXT);
     }
-    
+
     public StAXSTRTransformWriter(Data data,XMLCryptoContext xMLCryptoContext,String refId) {
         this.data = data;
         if(data instanceof JAXBData){
@@ -76,22 +76,22 @@ public class StAXSTRTransformWriter implements XMLStreamWriter,StreamWriterData{
         this.strId = refId;
         //filterContext = (JAXBFilterProcessingContext) xMLCryptoContext.get(MessageConstants.WSS_PROCESSING_CONTEXT);
     }
-    
+
     @Override
     public NamespaceContextEx getNamespaceContext() {
         return ns;
     }
-    
+
     @Override
     public void close() throws XMLStreamException {
         nextWriter.close();
     }
-    
+
     @Override
     public void flush() throws XMLStreamException {
         nextWriter.flush();
     }
-    
+
     @Override
     public void writeEndDocument() throws XMLStreamException {
         if(index >0){
@@ -102,11 +102,11 @@ public class StAXSTRTransformWriter implements XMLStreamWriter,StreamWriterData{
         }
         nextWriter.writeEndDocument();
     }
-    
+
     @Override
     public void writeEndElement() throws XMLStreamException {
-        if(index == 1 && !ignore ){            
-            nextWriter.writeEndElement();            
+        if(index == 1 && !ignore ){
+            nextWriter.writeEndElement();
         }
         if(index > 0){
             index --;
@@ -114,8 +114,8 @@ public class StAXSTRTransformWriter implements XMLStreamWriter,StreamWriterData{
         if(index == 0){
             if(ignore){
                 ignore = false;
-                derefernceSTR();                            
-                
+                derefernceSTR();
+
             }
             nextWriter.writeEndElement();
             if (derefSAMLKeyIdentifier){
@@ -127,14 +127,14 @@ public class StAXSTRTransformWriter implements XMLStreamWriter,StreamWriterData{
 
         }
     }
- 
+
     @Override
     public void writeStartDocument() throws XMLStreamException {
         if(!ignore){
             nextWriter.writeStartDocument();
         }
     }
-    
+
     @Override
     public void writeCharacters(char[] c, int index, int len) throws XMLStreamException {
         if(!ignore){
@@ -148,25 +148,25 @@ public class StAXSTRTransformWriter implements XMLStreamWriter,StreamWriterData{
             }
         }
     }
-    
+
     @Override
     public void setDefaultNamespace(String string) throws XMLStreamException {
         if(!ignore){
             nextWriter.setDefaultNamespace(string);
         }
     }
-    
+
     @Override
     public void writeCData(String string) throws XMLStreamException {
         if(!ignore){
             nextWriter.writeCData(string);
         }
     }
-    
+
     @Override
     public void writeCharacters(String string) throws XMLStreamException {
         if(!ignore){
-            nextWriter.writeCharacters(string);        
+            nextWriter.writeCharacters(string);
         }else{
             if(derefSAMLKeyIdentifier){
                 this.strId = string;
@@ -176,56 +176,56 @@ public class StAXSTRTransformWriter implements XMLStreamWriter,StreamWriterData{
             }
         }
     }
-    
+
     @Override
     public void writeComment(String string) throws XMLStreamException {
         if(!ignore){
             nextWriter.writeComment(string);
         }
     }
-    
+
     @Override
     public void writeDTD(String string) throws XMLStreamException {
         if(!ignore){
             nextWriter.writeDTD(string);
         }
     }
-    
+
     @Override
     public void writeDefaultNamespace(String string) throws XMLStreamException {
         if(!ignore){
             nextWriter.writeDefaultNamespace(string);
         }
     }
-    
+
     @Override
     public void writeEmptyElement(String string) throws XMLStreamException {
         if(!ignore){
             nextWriter.writeEmptyElement(string);
         }
     }
-    
+
     @Override
     public void writeEntityRef(String string) throws XMLStreamException {
         if(!ignore){
             nextWriter.writeEntityRef(string);
         }
     }
-    
+
     @Override
     public void writeProcessingInstruction(String string) throws XMLStreamException {
         if(!ignore){
             nextWriter.writeProcessingInstruction(string);
         }
     }
-    
+
     @Override
     public void writeStartDocument(String string) throws XMLStreamException {
         if(!ignore){
             nextWriter.writeStartDocument(string);
         }
     }
-    
+
     @Override
     public void writeStartElement(String string) throws XMLStreamException {
         if(!ignore){
@@ -233,75 +233,75 @@ public class StAXSTRTransformWriter implements XMLStreamWriter,StreamWriterData{
         }
         first = false;
     }
-    
+
     @Override
     public void setNamespaceContext(NamespaceContext namespaceContext) throws XMLStreamException {
         if(!ignore){
             nextWriter.setNamespaceContext(namespaceContext);
         }
     }
-    
+
     @Override
     public Object getProperty(String string) throws IllegalArgumentException {
         return nextWriter.getProperty(string);
     }
-    
+
     @Override
     public String getPrefix(String string) throws XMLStreamException {
         return nextWriter.getPrefix(string);
     }
-    
+
     @Override
     public void setPrefix(String string, String string0) throws XMLStreamException {
         if(!ignore){
             nextWriter.setPrefix(string,string0);
         }
     }
-    
+
     @Override
     public void writeAttribute(String localname, String value) throws XMLStreamException {
         if(!ignore){
-            nextWriter.writeAttribute(localname,value);            
+            nextWriter.writeAttribute(localname,value);
         }else{
             if(directReference){
                 if(localname == MessageConstants.WSSE_REFERENCE_ATTR_URI){
                     directReferenceValue = value;
                 }
             }else if(MessageConstants.WSSE_SAML_KEY_IDENTIFIER_VALUE_TYPE.equals(value) ||
-                            MessageConstants.WSSE_SAML_v2_0_KEY_IDENTIFIER_VALUE_TYPE.equals(value)){                    
-                    derefSAMLKeyIdentifier = true;                              
+                            MessageConstants.WSSE_SAML_v2_0_KEY_IDENTIFIER_VALUE_TYPE.equals(value)){
+                    derefSAMLKeyIdentifier = true;
             }
         }
     }
-    
+
     @Override
     public void writeEmptyElement(String string, String string0) throws XMLStreamException {
         if(!ignore){
             nextWriter.writeEmptyElement(string,string0);
         }
     }
-    
+
     @Override
     public void writeNamespace(String string, String string0) throws XMLStreamException {
         if(!ignore){
             nextWriter.writeNamespace(string,string0);
         }
     }
-    
+
     @Override
     public void writeProcessingInstruction(String string, String string0) throws XMLStreamException {
         if(!ignore){
             nextWriter.writeProcessingInstruction(string,string0);
         }
     }
-    
+
     @Override
     public void writeStartDocument(String string, String string0) throws XMLStreamException {
         if(!ignore){
             nextWriter.writeStartDocument(string,string0);
         }
     }
-    
+
     @Override
     public void writeStartElement(String namespaceURI, String localName)  throws XMLStreamException {
         if(!ignore){
@@ -316,7 +316,7 @@ public class StAXSTRTransformWriter implements XMLStreamWriter,StreamWriterData{
         }
         first = false;
     }
-    
+
     @Override
     public void writeAttribute(String uri, String localname, String value) throws XMLStreamException {
         if(!ignore){
@@ -329,14 +329,14 @@ public class StAXSTRTransformWriter implements XMLStreamWriter,StreamWriterData{
             }
         }
     }
-    
+
     @Override
     public void writeEmptyElement(String string, String string0, String string1) throws XMLStreamException {
         if(!ignore){
             nextWriter.writeEmptyElement(string,string0,string1);
         }
     }
-    
+
     @Override
     public void writeStartElement(String prefix, String localName, String namespaceURI)  throws XMLStreamException {
         if(!ignore){
@@ -350,32 +350,32 @@ public class StAXSTRTransformWriter implements XMLStreamWriter,StreamWriterData{
                 index ++;
                 directReference = true;
                 nextWriter.writeNamespace(prefix,namespaceURI);
-                return;            
+                return;
             }else if(first && localName == MessageConstants.KEYIDENTIFIER && namespaceURI == MessageConstants.WSSE_NS){
                 ignore = true;
-                index++;                
-                nextWriter.writeNamespace(prefix,namespaceURI);                
+                index++;
+                nextWriter.writeNamespace(prefix,namespaceURI);
             }else{
                 nextWriter.writeStartElement(prefix,localName,namespaceURI);
             }
-        }else{            
-            if(localName == MessageConstants.WSSE_REFERENCE_LNAME && namespaceURI == MessageConstants.WSSE_NS){                
+        }else{
+            if(localName == MessageConstants.WSSE_REFERENCE_LNAME && namespaceURI == MessageConstants.WSSE_NS){
                 index ++;
                 directReference = true;
-            }else if (localName == MessageConstants.KEYIDENTIFIER && namespaceURI == MessageConstants.WSSE_NS){                
+            }else if (localName == MessageConstants.KEYIDENTIFIER && namespaceURI == MessageConstants.WSSE_NS){
                 index ++;
-                nextWriter.writeNamespace(prefix, namespaceURI);                             
+                nextWriter.writeNamespace(prefix, namespaceURI);
             }else {
                 nextWriter.writeStartElement(prefix,localName,namespaceURI);
             }
         }
         first = false;
     }
- 
+
     @Override
     public void writeAttribute(String prefix, String uri, String localName, String value) throws XMLStreamException {
         if(!ignore){
-	    nextWriter.writeNamespace(prefix,uri);
+        nextWriter.writeNamespace(prefix,uri);
             nextWriter.writeAttribute(prefix,uri,localName,value);
         }else{
             if(directReference){
@@ -386,7 +386,7 @@ public class StAXSTRTransformWriter implements XMLStreamWriter,StreamWriterData{
         }
     }
     /**
-     *transforms the data using STR transform and writes it to the data 
+     *transforms the data using STR transform and writes it to the data
      * @param writer XMLStreamWriter
      */
     @Override
@@ -412,7 +412,7 @@ public class StAXSTRTransformWriter implements XMLStreamWriter,StreamWriterData{
             StreamWriterData swd = (StreamWriterData)data;
             NamespaceContextEx nc  = swd.getNamespaceContext();
             Iterator<NamespaceContextEx.Binding> itr = nc.iterator();
-            
+
             while(itr.hasNext()){
                 final NamespaceContextEx.Binding nd = itr.next();
                 nextWriter.writeNamespace(nd.getPrefix(),nd.getNamespaceURI());
@@ -436,7 +436,7 @@ public class StAXSTRTransformWriter implements XMLStreamWriter,StreamWriterData{
         }else {
             uri = "";
         }
-        
+
         URIReference ref = new URIReference() {
             @Override
             public String getType() {
@@ -447,14 +447,14 @@ public class StAXSTRTransformWriter implements XMLStreamWriter,StreamWriterData{
                 return uri;
             }
         };
-        
+
         try{
             token = deRef.dereference(ref,xMLCryptoContext);
         }catch(URIReferenceException ue){
             logger.log(Level.SEVERE, LogStringsMessages.WSS_1716_ERROR_DEREFERENCE_STR_TRANSFORM(),ue);
             throw new XMLStreamException("Error occurred while dereferencing STR-Transform's Reference Element", ue);
         }
-        
+
         if(token != null){
             if(token instanceof JAXBData){
                 try {
@@ -464,7 +464,7 @@ public class StAXSTRTransformWriter implements XMLStreamWriter,StreamWriterData{
                     throw new XMLStreamException("Error occurred while performing Enveloped Signature");
                 }
             }else if(token instanceof StreamWriterData){
-                ((StreamWriterData)token).write(this);                
+                ((StreamWriterData)token).write(this);
             }else if(token instanceof OctectStreamData){
                 ((OctectStreamData)token).write(this);
             }

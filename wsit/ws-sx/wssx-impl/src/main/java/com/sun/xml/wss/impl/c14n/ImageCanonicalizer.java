@@ -30,13 +30,13 @@ import java.util.logging.Level;
  * @author  XWS-Security Team
  */
 public class ImageCanonicalizer extends Canonicalizer {
-    
+
     public ImageCanonicalizer() {}
-    
+
     public ImageCanonicalizer(String charset) {
         super(charset);
     }
-    
+
     /*
      * RFC 3851 says - http://www.rfc-archive.org/getrfc.php?rfc=3851
      * Other than text types, most types
@@ -50,7 +50,7 @@ public class ImageCanonicalizer extends Canonicalizer {
     public byte[] canonicalize(byte[] input) {
         return input;
     }
-    
+
     @Override
     public InputStream canonicalize(InputStream input, OutputStream outputStream)
     throws javax.xml.crypto.dsig.TransformException  {
@@ -67,7 +67,7 @@ public class ImageCanonicalizer extends Canonicalizer {
                 }
             }
         }catch(Exception ex){
-            log.log(Level.SEVERE, "WSS1001.error.canonicalizing.image", 
+            log.log(Level.SEVERE, "WSS1001.error.canonicalizing.image",
                     new Object[] {ex.getMessage()});
             throw new javax.xml.crypto.dsig.TransformException(ex.getMessage());
         }

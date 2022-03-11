@@ -49,14 +49,14 @@ public class ExportSamlAssertionFilter {
     private static MutableXMLStreamBuffer buffer;
     private static String id;
     private static String version;
-    
+
     /* (non-Javadoc)
      */
     @SuppressWarnings("unchecked")
     public static void process(FilterProcessingContext context) throws XWSSecurityException {
-        
+
         //make a DynamicPolicyCallback to obtain the SAML assertion
-        
+
         boolean isOptimized = false;
         SecurableSoapMessage secureMessage = null;
         SecurityHeader securityHeader = null;
@@ -69,40 +69,40 @@ public class ExportSamlAssertionFilter {
             secureMessage = context.getSecurableSoapMessage();
             securityHeader = secureMessage.findOrCreateSecurityHeader();
         }
-        
+
         AuthenticationTokenPolicy policy =
                 (AuthenticationTokenPolicy)context.getSecurityPolicy();
         AuthenticationTokenPolicy.SAMLAssertionBinding samlPolicy =
                 (AuthenticationTokenPolicy.SAMLAssertionBinding)policy.getFeatureBinding();
-        
+
         if (samlPolicy.getIncludeToken() == KeyBindingBase.INCLUDE_ONCE) {
             throw new XWSSecurityException("Include Token ONCE not supported for SAMLToken Assertions");
         }
-        
+
         if (samlPolicy.getAssertionType() !=
                 AuthenticationTokenPolicy.SAMLAssertionBinding.SV_ASSERTION) {
             // should never be called this way
             throw new XWSSecurityException(
                     "Internal Error: ExportSamlAssertionFilter called for HOK assertion");
         }
-        
+
         //AuthenticationTokenPolicy policyClone = (AuthenticationTokenPolicy)policy.clone();
         samlPolicy =
                 (AuthenticationTokenPolicy.SAMLAssertionBinding)policy.getFeatureBinding();
         samlPolicy.isReadOnly(true);
-        
+
         DynamicApplicationContext dynamicContext =
                 new DynamicApplicationContext(context.getPolicyContext());
         dynamicContext.setMessageIdentifier(context.getMessageIdentifier());
         dynamicContext.inBoundMessage(false);
-        
+
         AuthenticationTokenPolicy.SAMLAssertionBinding resolvedPolicy =
                 context.getSecurityEnvironment().populateSAMLPolicy(context.getExtraneousProperties(), samlPolicy, dynamicContext);
-        
+
         Assertion _assertion = null;
         Element assertionElement = resolvedPolicy.getAssertion();
         Element _authorityBinding = resolvedPolicy.getAuthorityBinding();
-                
+
         if (assertionElement == null) {
             reader = resolvedPolicy.getAssertionReader();
             if (reader != null) {
@@ -118,7 +118,7 @@ public class ExportSamlAssertionFilter {
                     XMLStreamWriter writer_tmp = bCreator;
                     while (!(XMLStreamReader.END_DOCUMENT == reader.getEventType())) {
                        com.sun.xml.ws.security.opt.impl.util.StreamUtil.writeCurrentEvent(reader, writer_tmp);
-                       reader.next();                       
+                       reader.next();
                     }
                 } catch (XMLStreamException ex) {
                    throw new XWSSecurityException(ex);
@@ -146,13 +146,13 @@ public class ExportSamlAssertionFilter {
                 assertionElement = null;
             }
         }
-        
+
         if ((_assertion == null) && (_authorityBinding == null) && reader == null) {
             throw new XWSSecurityException(
                     "None of SAML Assertion,SAML Assertion Reader or  SAML AuthorityBinding information was set into " +
                     " the Policy by the CallbackHandler");
         }
-        
+
         //TODO: check that the Confirmation Method of the assertion is indeed SV
         if (_assertion != null){
             if(_assertion.getVersion() == null && _authorityBinding == null){
@@ -196,14 +196,14 @@ public class ExportSamlAssertionFilter {
             }
         } else if(reader != null) {
             she = new GSHeaderElement(buffer);
-            she.setId(id);  // set the ID again to bring it to top 
+            she.setId(id);  // set the ID again to bring it to top
             if (optSecHeader.getChildElement(she.getId()) == null) {
                 optSecHeader.add(she);
             } else {
                 return;
             }
         }
-        
+
         if (null != resolvedPolicy.getSTRID()) {
             //generate and export an STR into the Header with the given ID
             if ((_assertion == null) && (null == resolvedPolicy.getAssertionId()) && reader == null) {
@@ -211,7 +211,7 @@ public class ExportSamlAssertionFilter {
                         "None of SAML Assertion, SAML Assertion Reader or SAML Assertion Id information was set into " +
                         " the Policy by the CallbackHandler");
             }
-            
+
             String assertionId = resolvedPolicy.getAssertionId();
             if (_assertion != null) {
                 assertionId = _assertion.getAssertionID();
@@ -225,7 +225,7 @@ public class ExportSamlAssertionFilter {
                 if(_assertion != null && _assertion.getVersion() != null){
                     tokenRef.setTokenType(MessageConstants.WSSE_SAML_v2_0_TOKEN_TYPE);
                 } else {
-                    if (reader != null) {                        
+                    if (reader != null) {
                         if (version == "2.0") {
                             tokenRef.setTokenType(MessageConstants.WSSE_SAML_v2_0_TOKEN_TYPE);
                         } else {
@@ -235,11 +235,11 @@ public class ExportSamlAssertionFilter {
                         tokenRef.setTokenType(MessageConstants.WSSE_SAML_v1_1_TOKEN_TYPE);
                     }
                 }
-                
+
                 if (_authorityBinding != null) {
                     tokenRef.setSamlAuthorityBinding(_authorityBinding, secureMessage.getSOAPPart());
                 }
-                
+
                 KeyIdentifierStrategy strat = new KeyIdentifierStrategy(assertionId);
                 strat.insertKey(tokenRef, context.getSecurableSoapMessage());
                 securityHeader.insertHeaderBlock(tokenRef);
@@ -251,7 +251,7 @@ public class ExportSamlAssertionFilter {
                 if(_assertion != null && _assertion.getVersion() != null){
                     ref.setValueType(MessageConstants.WSSE_SAML_v2_0_KEY_IDENTIFIER_VALUE_TYPE);
                 } else{
-                    if (reader != null) {                        
+                    if (reader != null) {
                         if (version == "2.0") {
                             ref.setValueType(MessageConstants.WSSE_SAML_v2_0_KEY_IDENTIFIER_VALUE_TYPE);
                         } else {
@@ -269,7 +269,7 @@ public class ExportSamlAssertionFilter {
                     if(_assertion != null && _assertion.getVersion() != null){
                         secTokRef.setTokenType(MessageConstants.WSSE_SAML_v2_0_TOKEN_TYPE);
                     }else{
-                       if (reader != null) {                        
+                       if (reader != null) {
                         if (version == "2.0") {
                             secTokRef.setTokenType(MessageConstants.WSSE_SAML_v2_0_TOKEN_TYPE);
                         } else {
@@ -286,6 +286,6 @@ public class ExportSamlAssertionFilter {
                 optSecHeader.add(secTokRef);
             }
         }
-        
-    }    
+
+    }
 }

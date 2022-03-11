@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -45,14 +45,14 @@ public class SecurityContextImpl implements SecurityContext {
     }
     @Override
     public Subject getSubject() {
-        Subject s = null;        
+        Subject s = null;
         Object[] args = new Object[]{};
         try {
-            
+
             if(getCurrent == null || serverGenCred == null ||getSubject == null) {
                 return null;
             }
-            
+
             Object currentSC = getCurrent.invoke(null, args);
             if (currentSC == null) {
                 return null;
@@ -62,16 +62,16 @@ public class SecurityContextImpl implements SecurityContext {
                 s = (Subject)getSubject.invoke(currentSC, args);
             }
             return s;
-          
+
         } catch (IllegalAccessException | SecurityException | InvocationTargetException | IllegalArgumentException ex) {
             return null;
         }
     }
-    
+
     @Override
     public void setSubject(Subject subject) {
         //SecurityContext sC = new SecurityContext(s);
-	//SecurityContext.setCurrent(sC);
+    //SecurityContext.setCurrent(sC);
         Class[] params = null;
         Object[] args = null;
         try {

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -20,13 +20,13 @@ import com.sun.xml.wss.impl.c14n.CanonicalizerFactory;
 import com.sun.xml.wss.impl.resolver.AttachmentSignatureInput;
 
 import org.apache.xml.security.transforms.TransformSpi;
-import org.apache.xml.security.signature.XMLSignatureInput; 
+import org.apache.xml.security.signature.XMLSignatureInput;
 import org.apache.xml.security.transforms.TransformationException;
 
 public class AttachmentContentOnlyTransform extends TransformSpi {
 
    private static final String implementedTransformURI =
-          "http://docs.oasis-open.org/wss/2004/XX/" + 
+          "http://docs.oasis-open.org/wss/2004/XX/" +
           "oasis-2004XX-wss-swa-profile-1.0#Attachment-Content-Only-Transform";
 
    @Override
@@ -43,18 +43,18 @@ public class AttachmentContentOnlyTransform extends TransformSpi {
        } catch (Exception e) {
             // log
             throw new TransformationException(e.getMessage(), e);
-       }  
+       }
    }
 
    private byte[] _canonicalize(XMLSignatureInput input) throws Exception {
        byte[] inputContentBytes = input.getBytes();
-       //ContentType contentType = new ContentType(((AttachmentSignatureInput)input).getContentType()); 
+       //ContentType contentType = new ContentType(((AttachmentSignatureInput)input).getContentType());
 
-       Canonicalizer canonicalizer = 
+       Canonicalizer canonicalizer =
                              CanonicalizerFactory.
                                    getCanonicalizer(((AttachmentSignatureInput)input).getContentType());
 
-       return canonicalizer.canonicalize(inputContentBytes);    
+       return canonicalizer.canonicalize(inputContentBytes);
    }
 
    public boolean wantsOctetStream ()   { return true; }

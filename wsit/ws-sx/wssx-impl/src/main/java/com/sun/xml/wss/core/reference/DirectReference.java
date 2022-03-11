@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -67,9 +67,9 @@ public class DirectReference extends ReferenceElement {
                     "{"+element.getNamespaceURI()+"}"+element.getLocalName());
             throw new XWSSecurityException("Invalid DirectReference passed");
         }
- 
+
         if (isBSP && (getURI()==null)) {
-                throw new XWSSecurityException("Violation of BSP R3062" + 
+                throw new XWSSecurityException("Violation of BSP R3062" +
                         ": A wsse:Reference element in a SECURITY_TOKEN_REFERENCE MUST specify a URI attribute");
         }
     }
@@ -118,4 +118,4 @@ public class DirectReference extends ReferenceElement {
         //setAttributeNS(MessageConstants.WSSC_NS, MessageConstants.WSSC_PREFIX + ":Instance" , instance);
         setAttribute("ValueType", MessageConstants.SCT_VALUETYPE);
     }
-} 
+}

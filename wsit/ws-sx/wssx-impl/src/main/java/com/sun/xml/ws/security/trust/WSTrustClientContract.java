@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -29,35 +29,35 @@ import java.net.URI;
  * @author root
  */
 public interface WSTrustClientContract {
-   
+
    /**
     * Handle an RSTR returned by the Issuer and update Token information into the
     * IssuedTokenContext.
     */
    void handleRSTR(
            BaseSTSRequest request, BaseSTSResponse response, IssuedTokenContext context) throws WSTrustException;
-   
+
    /**
     * Handle an RSTR returned by the Issuer and Respond to the Challenge
-    * 
+    *
     */
    BaseSTSResponse handleRSTRForNegotiatedExchange(
            BaseSTSRequest rst, BaseSTSResponse rstr, IssuedTokenContext context);
-   
+
    /**
-    * Create an RSTR for a client initiated IssuedTokenContext establishment, 
+    * Create an RSTR for a client initiated IssuedTokenContext establishment,
     * for example a Client Initiated WS-SecureConversation context.
-    * 
+    *
     */
    BaseSTSResponse createRSTRForClientInitiatedIssuedTokenContext(AppliesTo scopes, IssuedTokenContext context);
-    
+
    /**
     * Contains Challenge
     * @return true if the RSTR contains a SignChallenge/BinaryExchange or
     *  some other custom challenge recognized by this implementation.
     */
    boolean containsChallenge(RequestSecurityTokenResponse rstr);
-   
+
    /**
     * Return the &lt;wst:ComputedKey&gt; URI if any inside the RSTR, null otherwise
     */

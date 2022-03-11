@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -30,60 +30,60 @@ public final class FramedMessageOutputStream extends OutputStream implements Lif
     private static final int MAX_GROW_SIZE = TCPSettings.getInstance().getOutputBufferGrowLimit();
     private static final int MAX_PAYLOAD_LENGTH_LENTGTH = calculatePayloadLengthLength(MAX_GROW_SIZE);
     private static final boolean IS_GROWABLE = TCPSettings.getInstance().isOutputBufferGrow();
-    
+
     private boolean useDirectBuffer;
-    
+
     private ByteBuffer outputBuffer;
-    
+
     private SocketChannel socketChannel;
     private int frameNumber;
     private int frameSize;
     private boolean isFlushLast;
-    
+
     // Fragment header attributes
     private int channelId;
     private int messageId;
     private int contentId;
     private Map<Integer, String> contentProps = new HashMap<>(8);
     private int payloadlengthLength;
-    
+
     /** is message framed or direct mode is used */
     private boolean isDirectMode;
     // ByteBuffer for channel_id and message_id, which present in all messages
     private final ByteBuffer headerBuffer;
-    
+
     private int frameMessageIdHighValue;
     private int frameMessageIdPosition;
-    
+
     /**
      * could be useful for debug reasons
      */
     private long sentMessageLength;
-    
+
     public FramedMessageOutputStream() {
         this(TCPConstants.DEFAULT_FRAME_SIZE, TCPConstants.DEFAULT_USE_DIRECT_BUFFER);
     }
-    
+
     public FramedMessageOutputStream(int frameSize) {
         this(frameSize, TCPConstants.DEFAULT_USE_DIRECT_BUFFER);
     }
-    
+
     public FramedMessageOutputStream(int frameSize, boolean useDirectBuffer) {
         this.useDirectBuffer = useDirectBuffer;
         headerBuffer = ByteBufferFactory.allocateView(frameSize, useDirectBuffer);
         setFrameSize(frameSize);
     }
-    
+
     public void setFrameSize(final int frameSize) {
         this.frameSize = frameSize;
         payloadlengthLength = calculatePayloadLengthLength(frameSize);
         outputBuffer = ByteBufferFactory.allocateView(frameSize, useDirectBuffer);
     }
-    
+
     public boolean isDirectMode() {
         return isDirectMode;
     }
-    
+
     public void setDirectMode(final boolean isDirectMode) {
         reset();
         this.isDirectMode = isDirectMode;
@@ -93,40 +93,40 @@ public final class FramedMessageOutputStream extends OutputStream implements Lif
             throw new IllegalStateException(e);
         }
     }
-    
+
     public void setSocketChannel(final SocketChannel socketChannel) {
         this.socketChannel = socketChannel;
     }
-    
+
     public void setChannelId(final int channelId) {
         this.channelId = channelId;
     }
-    
+
     public void setMessageId(final int messageId) {
         this.messageId = messageId;
     }
-    
+
     public void setContentId(final int contentId) {
         this.contentId = contentId;
     }
-    
+
     public void setContentProperty(int key, String value) {
         this.contentProps.put(key, value);
     }
-    
+
     public void addAllContentProperties(Map<Integer, String> properties) {
         this.contentProps.putAll(properties);
     }
-    
+
     @Override
     public void write(final int data) throws IOException {
         if (!outputBuffer.hasRemaining()) {
             flushFrame();
         }
-        
+
         outputBuffer.put((byte) data);
     }
-    
+
     @Override
     public void write(final byte[] data, int offset, int size) throws IOException {
         while(size > 0) {
@@ -139,12 +139,12 @@ public final class FramedMessageOutputStream extends OutputStream implements Lif
             }
         }
     }
-    
+
     public void flushLast() throws IOException {
         if (!isFlushLast) {
             outputBuffer.flip();
             isFlushLast = true;
-            
+
             flushBuffer();
             outputBuffer.clear();
         }
@@ -160,16 +160,16 @@ public final class FramedMessageOutputStream extends OutputStream implements Lif
 
             // Write message-id without counting with possible chunking
             int highValue = DataInOutUtils.writeInt4(headerBuffer, messageId, frameMessageIdHighValue, !isFrameWithParameters);
-            
+
             if (isFrameWithParameters) {
                 // If required - serialize frame content-id, content-parameters
                 // Write content-id
                 highValue = DataInOutUtils.writeInt4(headerBuffer, contentId, highValue, false);
-                
+
                 final int propsCount = contentProps.size();
                 // Write number-of-parameters
                 highValue = DataInOutUtils.writeInt4(headerBuffer, propsCount, highValue, propsCount == 0);
-                
+
                 for(Map.Entry<Integer, String> entry : contentProps.entrySet()) {
                     final String value = entry.getValue();
                     byte[] valueBytes = value.getBytes(StandardCharsets.UTF_8);
@@ -182,20 +182,20 @@ public final class FramedMessageOutputStream extends OutputStream implements Lif
                     highValue = 0;
                 }
             }
-            
+
             initOutputBuffer();
         }
     }
-    
+
     private void flushBuffer() throws IOException {
         if (!isDirectMode) {
             int approxHeaderSize = headerBuffer.position() + predictPayloadLengthLength();
             final int payloadLength = outputBuffer.remaining() - approxHeaderSize;
-            
+
             if (messageId == FrameType.MESSAGE) {
                 // If message will be chunked - update message-id
-                updateMessageIdIfRequired(frameMessageIdPosition, 
-                        frameMessageIdHighValue, 
+                updateMessageIdIfRequired(frameMessageIdPosition,
+                        frameMessageIdHighValue,
                         isFlushLast);
             }
 
@@ -218,7 +218,7 @@ public final class FramedMessageOutputStream extends OutputStream implements Lif
 
     private void updateMessageIdIfRequired(int frameMessageIdPosition,
             int frameMessageIdHighValue, boolean isLastFrame) {
-        
+
         int frameMessageId;
         if (isLastFrame) {
             if (frameNumber != 0) {
@@ -232,7 +232,7 @@ public final class FramedMessageOutputStream extends OutputStream implements Lif
         } else {
             frameMessageId = FrameType.MESSAGE_CHUNK;
         }
-        
+
         // merge message-id Integer4 data with next value
         if (frameMessageIdHighValue != 0) {
             // merge message-id as lower octet nibble
@@ -243,7 +243,7 @@ public final class FramedMessageOutputStream extends OutputStream implements Lif
             headerBuffer.put(frameMessageIdPosition, (byte) ((frameMessageId << 4) | (value & 0xF)));
         }
     }
-    
+
     public void reset() {
         outputBuffer.clear();
         headerBuffer.clear();
@@ -254,26 +254,26 @@ public final class FramedMessageOutputStream extends OutputStream implements Lif
         isFlushLast = false;
         sentMessageLength = 0;
     }
-    
+
     @Override
     public void activate() {
     }
-    
+
     @Override
     public void passivate() {
         reset();
         socketChannel = null;
     }
-    
+
     @Override
     public void close() {
     }
-    
+
     private void flushFrame() throws IOException {
         outputBuffer.flip();
         if (IS_GROWABLE && outputBuffer.capacity() < MAX_GROW_SIZE) {
             ByteBuffer newOutputByteBuffer = ByteBufferFactory.allocateView(
-                    Math.min(outputBuffer.capacity() * 2, MAX_GROW_SIZE), 
+                    Math.min(outputBuffer.capacity() * 2, MAX_GROW_SIZE),
                     useDirectBuffer);
             newOutputByteBuffer.put(outputBuffer);
             outputBuffer = newOutputByteBuffer;
@@ -282,16 +282,16 @@ public final class FramedMessageOutputStream extends OutputStream implements Lif
             buildHeader();
         }
     }
-    
+
     private void initOutputBuffer() {
         outputBuffer.clear();
         outputBuffer.position(headerBuffer.position() + predictPayloadLengthLength());
     }
-    
+
     private int predictPayloadLengthLength() {
         return IS_GROWABLE ? MAX_PAYLOAD_LENGTH_LENTGTH : payloadlengthLength;
     }
-    
+
     private static int calculatePayloadLengthLength(int frameSize) {
         return (int) Math.ceil(Math.log(frameSize) / Math.log(2) / 7);
     }

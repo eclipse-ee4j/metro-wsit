@@ -30,16 +30,16 @@ import java.util.logging.Level;
 public class ApplicationCanonicalizer extends Canonicalizer {
 
     public ApplicationCanonicalizer() {}
-    
+
     public ApplicationCanonicalizer(String charset) {
         super(charset);
     }
-    
+
     @Override
     public byte[] canonicalize(byte[] input) {
         return input;
     }
-    
+
     @Override
     public InputStream canonicalize(InputStream input, OutputStream outputStream)
     throws javax.xml.crypto.dsig.TransformException {
@@ -57,7 +57,7 @@ public class ApplicationCanonicalizer extends Canonicalizer {
             }
             return null;
         }catch(Exception ex){
-            log.log(Level.SEVERE, "WSS1000.error.canonicalizing", 
+            log.log(Level.SEVERE, "WSS1000.error.canonicalizing",
                     new Object[] {ex.getMessage()});
             throw new javax.xml.crypto.dsig.TransformException(ex.getMessage());
         }

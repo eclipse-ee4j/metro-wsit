@@ -78,9 +78,9 @@ final class ClientTube extends AbstractFilterTubeImpl {
     private final WSEndpointReference rmSourceReference;
     //
     private volatile VolatileReference<String> outboundSequenceId;
-    
+
     private volatile VolatileReference<Set<String>> processedLocalIDs;
-    
+
     private volatile VolatileReference<LocalIDManager> localIDManager;
 
     ClientTube(ClientTube original, TubeCloner cloner) {
@@ -106,7 +106,7 @@ final class ClientTube extends AbstractFilterTubeImpl {
             // TODO P3 remove this condition and remove context.getScInitiator() method
             scInitiator = ((MetroClientTubelineAssemblyContext) context).getScInitiator();
         }
-        
+
         // the SPI way of getting the scInitiator, it works for JRF OWSM SC integration
         // TODO consider using the SPI way for Metro SC impl as well
         if (scInitiator == null) {
@@ -180,7 +180,7 @@ final class ClientTube extends AbstractFilterTubeImpl {
             LOGGER.exiting();
         }
     }
-    
+
     @Override
     public NextAction processRequest(Packet request) {
         LOGGER.entering();
@@ -227,7 +227,7 @@ final class ClientTube extends AbstractFilterTubeImpl {
                         } catch (Throwable t) {
                             // In case we have a problem, take it as the sequence it is looking for is invalid
                         }
-                        
+
                         if (validSequence) {
                             // use the existing localID to send message
                             sendWithExistingSeqIdAndMsgNumber = true;
@@ -273,24 +273,24 @@ final class ClientTube extends AbstractFilterTubeImpl {
                         outboundSequenceId.value,
                         outboundMessageNumber);
                 // no need to persistence the message
-                
-                // set DestinationAddress 
+
+                // set DestinationAddress
                 rc.communicator.setDestinationAddressFrom(request); // set the actual destination endpoint from the first packed
             }
             final JaxwsApplicationMessage message = tempMessage;
- 
+
             if (localID != null) {
                 // persist the localID if it is a new one
                 if (!existingLocalID) {
                     localIDManager.value.createLocalID(localID, message.getSequenceId(), message.getMessageNumber());
                 }
-                // book keeping this localID for clean up 
+                // book keeping this localID for clean up
                 if (processedLocalIDs.value == null) {
                     processedLocalIDs.value = new HashSet<>();
                 }
                 processedLocalIDs.value.add(localID);
             }
-            
+
             synchronized (message.getCorrelationId()) {
                 // this synchronization is needed so that all 3 operations occur before
                 // AbstractResponseHandler.getParentFiber() is invoked on the response thread
@@ -352,7 +352,7 @@ final class ClientTube extends AbstractFilterTubeImpl {
             }
         }
     }
-    
+
     private void cleanupPersistedLocalIDs() {
         if (processedLocalIDs.value != null) {
             localIDManager.value.removeLocalIDs(processedLocalIDs.value.iterator());
@@ -446,7 +446,7 @@ final class ClientTube extends AbstractFilterTubeImpl {
 
     private void openRmSession(Packet request) {
         rc.communicator.setDestinationAddressFrom(request); // set the actual destination endpoint from the first packed
-        
+
         createSequences(request);
 
         ClientAckRequesterTask cart = new ClientAckRequesterTask(rc, outboundSequenceId.value);

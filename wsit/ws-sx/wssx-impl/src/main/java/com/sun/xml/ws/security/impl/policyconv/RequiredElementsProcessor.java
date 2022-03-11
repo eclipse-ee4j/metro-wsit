@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -24,15 +24,15 @@ import java.util.Vector;
  * @author K.Venugopal@sun.com
  */
 public class RequiredElementsProcessor {
-    
+
     private List<RequiredElements> assertionList;
     private MessagePolicy mp;
     /** Creates a new instance of RequiredElementProcessor */
     public RequiredElementsProcessor(List<RequiredElements> al,MessagePolicy mp) {
         this.assertionList = al;
         this.mp = mp;
-    }    
-    
+    }
+
     public void process() throws PolicyGenerationException{
         Vector<String> targetValues = new Vector<>();
         MandatoryTargetPolicy mt = new MandatoryTargetPolicy();
@@ -53,7 +53,7 @@ public class RequiredElementsProcessor {
                     targets.add(tr);
                 }
             }
-        } 
-       mp.append(mt);  
+        }
+       mp.append(mt);
     }
 }

@@ -27,7 +27,7 @@ import javax.xml.stream.XMLStreamWriter;
  * @author Ashutosh.Shahi@sun.com
  */
 public class EncryptedSignedMessageHeader extends SignedMessageHeader{
-    
+
     private SecurityHeaderElement encHeader = null;
     private boolean parsed = false;
     private String localName;
@@ -35,15 +35,15 @@ public class EncryptedSignedMessageHeader extends SignedMessageHeader{
     private String prefix;
     private Vector attrList = new Vector();
     private Vector attrNSList = new Vector();
-    
+
     private MutableXMLStreamBuffer buffer = null;
-    
+
     /** Creates a new instance of EncryptedSignedMessageHeader */
     public EncryptedSignedMessageHeader(SignedMessageHeader hdr, SecurityHeaderElement she) {
         super(hdr);
         encHeader = she;
     }
-    
+
     /**
      *
      * @return The header as as XMLStreamReader
@@ -57,7 +57,7 @@ public class EncryptedSignedMessageHeader extends SignedMessageHeader{
         }
         return buffer.readAsXMLStreamReader();
     }
-    
+
     /**
      * Write the header to an XMLStreamWriter
      */
@@ -70,7 +70,7 @@ public class EncryptedSignedMessageHeader extends SignedMessageHeader{
         ((SecurityElementWriter)encHeader).writeTo(streamWriter);
         writeEndElement(streamWriter);
     }
-    
+
     /**
      * Write the header to an XMLStreamWriter
      */
@@ -82,7 +82,7 @@ public class EncryptedSignedMessageHeader extends SignedMessageHeader{
         writeStartElement(streamWriter);
         ((SecurityElementWriter)encHeader).writeTo(streamWriter, props);
         writeEndElement(streamWriter);
-        
+
     }
     @SuppressWarnings("unchecked")
     protected void parse()throws XMLStreamException{
@@ -116,7 +116,7 @@ public class EncryptedSignedMessageHeader extends SignedMessageHeader{
                         attr.setUri(uri);
                         attrList.add(attr);
                     }
-                    
+
                     count = 0;
                     count = reader.getNamespaceCount();
                     for(int i=0;i<count ;i++){
@@ -137,14 +137,14 @@ public class EncryptedSignedMessageHeader extends SignedMessageHeader{
                     break;
                 }
             }
-            
+
         }
     }
-    
+
     private void writeEndElement(XMLStreamWriter xsw) throws XMLStreamException{
         xsw.writeEndElement();
     }
-    
+
     private void writeStartElement(XMLStreamWriter xsw) throws XMLStreamException{
         xsw.writeStartElement(prefix,localName,uri);
         for(int i=0;i<attrNSList.size();i++){

@@ -109,7 +109,7 @@ class AlternativesBasedPolicyResolver implements PolicyResolver {
             wsscVer = WSSCVersion.WSSC_13;
         }
 
-        
+
 
         action = getAction(msg);
         if (isRMMessage() || isMCMessage()) {
@@ -218,7 +218,7 @@ class AlternativesBasedPolicyResolver implements PolicyResolver {
                         Node faultNode = node.getFirstChild();
                         while (faultNode != null && faultNode.getNodeType() != Node.ELEMENT_NODE)
                             faultNode = faultNode.getNextSibling();   //fix for bug #1487
-                        
+
                         if (faultNode == null) {
                             return new MessagePolicy();
                         }

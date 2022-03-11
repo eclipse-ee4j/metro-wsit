@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -31,13 +31,13 @@ import javax.xml.stream.XMLStreamException;
  */
 public class SecurityContextToken implements SecurityHeaderElement, NamespaceContextInfo,
         SecurityElementWriter, com.sun.xml.ws.security.SecurityContextToken {
-    
+
     private static final String IDENTIFIER = "Identifier".intern();
     private static final String INSTANCE = "Instance".intern();
-    
+
     private static final int IDENTIFIER_ELEMENT = 1;
     private static final int INSTANCE_ELEMENT = 2;
-    
+
     private String id = "";
     private String namespaceURI = "";
     private String localName = "";
@@ -47,7 +47,7 @@ public class SecurityContextToken implements SecurityHeaderElement, NamespaceCon
     private JAXBFilterProcessingContext pc;
     private MutableXMLStreamBuffer buffer = null;
     private HashMap<String,String> nsDecls;
-    
+
     /** Creates a new instance of SecurityContextToken */
     @SuppressWarnings("unchecked")
     public SecurityContextToken(XMLStreamReader reader,JAXBFilterProcessingContext pc,
@@ -63,11 +63,11 @@ public class SecurityContextToken implements SecurityHeaderElement, NamespaceCon
         sct.next();
         process(sct);
     }
-    
+
     public String getSCId(){
         return identifier;
     }
-    
+
     @Override
     public URI getIdentifier() {
         try {
@@ -76,66 +76,66 @@ public class SecurityContextToken implements SecurityHeaderElement, NamespaceCon
             throw new RuntimeException(e);
         }
     }
-    
+
     @Override
     public String getInstance() {
         return instance;
     }
-    
+
     @Override
     public List getExtElements() {
         return extElements;
     }
-    
+
     @Override
     public boolean refersToSecHdrWithId(final String id) {
         throw new UnsupportedOperationException();
     }
-    
+
     @Override
     public String getId() {
         return id;
     }
-    
+
     @Override
     public void setId(final String id) {
         throw new UnsupportedOperationException();
     }
-    
+
     @Override
     public String getNamespaceURI() {
         return namespaceURI;
     }
-    
+
     @Override
     public String getLocalPart() {
         return localName;
     }
-    
+
     @Override
     public javax.xml.stream.XMLStreamReader readHeader() {
         throw new UnsupportedOperationException();
     }
-    
+
     @Override
     public void writeTo(OutputStream os) {
         throw new UnsupportedOperationException();
     }
-    
+
     @Override
     public void writeTo(javax.xml.stream.XMLStreamWriter streamWriter) throws javax.xml.stream.XMLStreamException {
         buffer.writeToXMLStreamWriter(streamWriter);
     }
-    
-    
+
+
     @Override
     public HashMap<String, String> getInscopeNSContext() {
         return nsDecls;
     }
-    
+
     private void process(XMLStreamReader reader) throws XMLStreamException, XWSSecurityException {
-        
-        
+
+
         if(StreamUtil.moveToNextElement(reader)){
             int refElement = getEventType(reader);
             while(reader.getEventType() != reader.END_DOCUMENT){
@@ -155,7 +155,7 @@ public class SecurityContextToken implements SecurityHeaderElement, NamespaceCon
                 }
                 if(StreamUtil.moveToNextStartOREndElement(reader) &&
                         StreamUtil._break(reader, "SecurityContextToken", MessageConstants.WSSC_NS)){
-                    
+
                     break;
                 }else{
                     if(reader.getEventType() != XMLStreamReader.START_ELEMENT){
@@ -164,10 +164,10 @@ public class SecurityContextToken implements SecurityHeaderElement, NamespaceCon
                 }
                 refElement = getEventType(reader);
             }
-            
+
         }
     }
-    
+
     private int getEventType(javax.xml.stream.XMLStreamReader reader) {
         if(reader.getEventType()== XMLStreamReader.START_ELEMENT){
             if(reader.getLocalName() == IDENTIFIER){
@@ -179,25 +179,25 @@ public class SecurityContextToken implements SecurityHeaderElement, NamespaceCon
         }
         return -1;
     }
-    
+
     @Override
     public void writeTo(javax.xml.stream.XMLStreamWriter streamWriter, HashMap props) {
         throw new UnsupportedOperationException();
     }
-    
+
     @Override
     public String getWsuId() {
         return id;
     }
-    
+
     @Override
     public String getType() {
         return MessageConstants.SECURITY_CONTEXT_TOKEN_NS;
     }
-    
+
     @Override
     public Object getTokenValue() {
         return this;
     }
-    
+
 }

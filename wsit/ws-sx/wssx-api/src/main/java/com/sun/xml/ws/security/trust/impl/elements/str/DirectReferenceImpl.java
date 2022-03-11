@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -33,7 +33,7 @@ public class DirectReferenceImpl extends ReferenceType implements DirectReferenc
         setValueType(valueType);
         setURI(uri);
     }
-    
+
     public DirectReferenceImpl(final String valueType, final String uri, final String instance){
         setValueType(valueType);
         setURI(uri);
@@ -41,9 +41,9 @@ public class DirectReferenceImpl extends ReferenceType implements DirectReferenc
             getOtherAttributes().put(_WSC_INSTANCE_10_Type_QNAME, instance);
         }else if(WSSCVersion13.WSSC_13.getSCTTokenTypeURI().equals(valueType)){
             getOtherAttributes().put(_WSC_INSTANCE_13_Type_QNAME, instance);
-        }        
+        }
     }
-    
+
     public DirectReferenceImpl(final ReferenceType refType){
         this(refType.getValueType(), refType.getURI());
     }
@@ -57,7 +57,7 @@ public class DirectReferenceImpl extends ReferenceType implements DirectReferenc
     public URI getValueTypeURI(){
         return URI.create(super.getValueType());
     }
-    
+
     @Override
     public String getType(){
         return "Reference";

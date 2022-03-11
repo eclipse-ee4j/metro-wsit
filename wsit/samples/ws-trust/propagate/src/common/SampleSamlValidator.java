@@ -38,7 +38,7 @@ public class SampleSamlValidator implements SAMLAssertionValidator {
         String name = null;
         String actAs = null;
         String role = null;
-        
+
         try{
             Assertion assertion = AssertionUtil.fromElement(assertionEle);
 

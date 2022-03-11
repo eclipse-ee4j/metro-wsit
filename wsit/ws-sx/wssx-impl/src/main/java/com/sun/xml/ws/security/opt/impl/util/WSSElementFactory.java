@@ -77,15 +77,15 @@ public class WSSElementFactory {
     private static final Logger log = Logger.getLogger(
             LogDomainConstants.WSS_API_DOMAIN,
             LogDomainConstants.WSS_API_DOMAIN_BUNDLE);
-    
+
     static {
         /*
           Work-around for the JDK JCE name mapping for oaep padding. See JDK-8017173
          */
         System.setProperty("org.apache.xml.security.resource.config", "resource/config.xml");
-        
+
         org.apache.xml.security.Init.init();
-        
+
         //workaround for: Apache XML Security 1.5.6 do not support Canonicalizer.ALGO_ID_C14N_PHYSICAL in file 'java/org/apache/xml/security/resource/config.xml'
         try {
           org.apache.xml.security.c14n.Canonicalizer.register(org.apache.xml.security.c14n.Canonicalizer.ALGO_ID_C14N_PHYSICAL, org.apache.xml.security.c14n.implementations.CanonicalizerPhysical.class.getName());
@@ -96,24 +96,24 @@ public class WSSElementFactory {
           log.log(Level.SEVERE, org.apache.xml.security.c14n.Canonicalizer.ALGO_ID_C14N_PHYSICAL+" registered failed!", e);
         }
     }
-    
+
     private SOAPVersion soapVersion = SOAPVersion.SOAP_11;
-    
+
     public static final com.sun.xml.security.core.xenc.ObjectFactory eoFactory = new com.sun.xml.security.core.xenc.ObjectFactory();
     /** Creates a new instance of WSSKeyInfoFactory */
     public WSSElementFactory(SOAPVersion soapVersion) {
         this.soapVersion = soapVersion;
     }
-    
-    
+
+
     public SecurityHeader createSecurityHeader(){
         return new SecurityHeader();
     }
-    
+
     public SecurityHeader createSecurityHeader(int headerLayout, String soapVersion, boolean mustUnderstandValue){
         return new SecurityHeader(headerLayout, soapVersion, mustUnderstandValue);
     }
-    
+
     /**
      * Create a BinarySecurity Token Header element.
      *
@@ -127,23 +127,23 @@ public class WSSElementFactory {
         bst.setValue(token);
         return new BinarySecurityToken(bst,soapVersion);
     }
-        
+
      /**
       * Create a BinarySecurity Token Header element.
       *
       */
     public BinarySecurityToken createBinarySecurityToken(String id,byte[] cer){
         return createBinarySecurityToken(id,MessageConstants.X509v3_NS,MessageConstants.BASE64_ENCODING_NS,cer);
-    }       
-    
+    }
+
     /**
      * Create a Kerberos Binary Security Token
-     * 
+     *
      */
     public BinarySecurityToken createKerberosBinarySecurityToken(String id, byte[] token){
         return createBinarySecurityToken(id, MessageConstants.KERBEROS_V5_GSS_APREQ, MessageConstants.BASE64_ENCODING_NS, token);
     }
-    
+
     /**
      *Create a SecurityTokenReference
      *
@@ -153,12 +153,12 @@ public class WSSElementFactory {
         str.setReference(reference);
         return str;
     }
-    
+
     public SecurityTokenReference createSecurityTokenReference(){
-        SecurityTokenReference str = new SecurityTokenReference(soapVersion);        
+        SecurityTokenReference str = new SecurityTokenReference(soapVersion);
         return str;
     }
-    
+
     /**
      * Creates a DirectReference element
      *
@@ -166,11 +166,11 @@ public class WSSElementFactory {
     public DirectReference createDirectReference(){
         return new DirectReference(soapVersion);
     }
-    
+
     public KeyIdentifier createKeyIdentifier(){
         return new KeyIdentifier(soapVersion);
     }
-    
+
     public X509Data createX509DataWithIssuerSerial(X509IssuerSerial xis){
         X509Data x509Data = new X509Data(soapVersion);
         List<Object> list = new ArrayList<>();
@@ -178,28 +178,28 @@ public class WSSElementFactory {
         x509Data.setX509IssuerSerialOrX509SKIOrX509SubjectName(list);
         return x509Data;
     }
-    
+
     public GSHeaderElement createGSHeaderElement(JAXBElement el){
         return new GSHeaderElement(el, soapVersion);
     }
-    
+
     public GSHeaderElement createGSHeaderElement(Object obj){
         return new GSHeaderElement(obj, soapVersion);
     }
-    
+
     public SecurityContextToken createSecurityContextToken(URI identifier, String instance, String wsuId){
         return new SecurityContextToken(identifier, instance, wsuId, soapVersion);
     }
-    
+
     public SecurityContextToken createSecurityContextToken(SecurityContextTokenType sTokenType, String wsuId){
         return new SecurityContextToken(sTokenType, soapVersion);
     }
-    
+
     public X509IssuerSerial createX509IssuerSerial(String issuerName, BigInteger serialNumber){
         X509IssuerSerial xis = new X509IssuerSerial(soapVersion);
         xis.setX509IssuerName(issuerName);
         xis.setX509SerialNumber(serialNumber);
-        
+
         return xis;
     }
     @SuppressWarnings("unchecked")
@@ -225,8 +225,8 @@ public class WSSElementFactory {
         keyInfo.setContent(strList);
         return keyInfo;
     }
-    
-    
+
+
     public EncryptedData createEncryptedData(String id,Data data,String dataAlgo,KeyInfoType keyInfo,Key key,boolean contentOnly){
         EncryptedDataType edt = new EncryptedDataType();
         if(contentOnly){
@@ -246,7 +246,7 @@ public class WSSElementFactory {
         }
         return new JAXBEncryptedData(edt,data,key,soapVersion);
     }
-    
+
     public EncryptedData createEncryptedData(String id, Attachment attachment, String dataAlgo, KeyInfoType keyInfo, Key key, EncryptionTarget target) {
         AttachmentData attachData = new AttachmentData(attachment);
         String cid = "cid:" + attachment.getContentId();
@@ -285,7 +285,7 @@ public class WSSElementFactory {
         }
         return new JAXBEncryptedData(edt,attachData,key,soapVersion);
     }
-    
+
     public EncryptedHeader createEncryptedHeader(String ehId, String edId,Data data,String dataAlgo,KeyInfoType keyInfo,Key key,boolean contentOnly){
         EncryptedHeaderType eht = new EncryptedHeaderType();
         EncryptedDataType edt = new EncryptedDataType();
@@ -315,7 +315,7 @@ public class WSSElementFactory {
         EncryptedHeader eh =  new EncryptedHeader(eht, data, key, soapVersion);
         return eh;
     }
-    
+
     public EncryptedKey createEncryptedKey(String id , String keyEncAlgo,KeyInfo keyInfo,Key dkEK, Key dataEncKey) throws XWSSecurityException{
         EncryptedKeyType ekt = eoFactory.createEncryptedKeyType();
         EncryptionMethodType emt = eoFactory.createEncryptionMethodType();
@@ -328,18 +328,18 @@ public class WSSElementFactory {
         ekt.setId(id);
         return new JAXBEncryptedKey(ekt,dkEK,dataEncKey,soapVersion);
     }
-    
+
     public JAXBElement<com.sun.xml.security.core.xenc.ReferenceType> createDataReference(SecurityElement se ){
         com.sun.xml.security.core.xenc.ReferenceType rt = eoFactory.createReferenceType();
         rt.setURI("#"+se.getId());
         return eoFactory.createReferenceListDataReference(rt);
-        
+
     }
-    
+
     public KeyInfoType createKeyInfoType(String keyAlgo,String refType,String refId){
         return new KeyInfoType();
     }
-    
+
     public DerivedKey createDerivedKey(String id,String algo,byte[] nonce,long offset,long length,String label,SecurityTokenReference str, String spVersion){
         DerivedKeyTokenType dkt = new DerivedKeyTokenType();
         com.sun.xml.ws.security.secconv.impl.wssx.bindings.DerivedKeyTokenType dkt13 = new com.sun.xml.ws.security.secconv.impl.wssx.bindings.DerivedKeyTokenType();
@@ -363,7 +363,7 @@ public class WSSElementFactory {
             return new DerivedKey(dkt,soapVersion, spVersion);
         }
     }
-    
+
     public DerivedKey createDerivedKey(String id,String algo,byte[] nonce,long offset,long length,String label,SecurityTokenReferenceType str, String spVersion){
         DerivedKeyTokenType dkt = new DerivedKeyTokenType();
         com.sun.xml.ws.security.secconv.impl.wssx.bindings.DerivedKeyTokenType dkt13 = new com.sun.xml.ws.security.secconv.impl.wssx.bindings.DerivedKeyTokenType();
@@ -387,7 +387,7 @@ public class WSSElementFactory {
             return new DerivedKey(dkt,soapVersion, spVersion);
         }
     }
-    
+
     public DerivedKey createDerivedKey(String id,String algo,byte[] nonce,long offset,long length,String label,SecurityTokenReferenceType str,String refId, String spVersion){
         DerivedKeyTokenType dkt = new DerivedKeyTokenType();
         com.sun.xml.ws.security.secconv.impl.wssx.bindings.DerivedKeyTokenType dkt13 = new com.sun.xml.ws.security.secconv.impl.wssx.bindings.DerivedKeyTokenType();
@@ -411,7 +411,7 @@ public class WSSElementFactory {
             return new DerivedKey(dkt,soapVersion,refId,spVersion);
         }
     }
-    
+
     protected String convertAlgURIToTransformation(String algorithmURI) {
         return JCEMapper.translateURItoJCEID(algorithmURI);
     }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -49,7 +49,7 @@ public class WSATGatewayRMTest extends TestCase {
  */
         };
         Xid[] xids = testWSATGatewayRM.recover(XAResource.TMSTARTRSCAN);
-        Xid xid = new XidImpl(1234, new byte[]{'a','b','c'}, new byte[]{'1'}); //todo reuse of xid may not be best/accurate 
+        Xid xid = new XidImpl(1234, new byte[]{'a','b','c'}, new byte[]{'1'}); //todo reuse of xid may not be best/accurate
         BranchRecord branch = new BranchRecord(xid);
         branch.addSubordinate(xid, WSATXAResourceTest.createWSATXAResourceForXid(xid));
         assertEquals("testWSATGatewayRM.pendingXids.size()", 0, WSATGatewayRM.pendingXids.size());
@@ -62,7 +62,7 @@ public class WSATGatewayRMTest extends TestCase {
         assertEquals("xid", xids[1], xid);
         testWSATGatewayRM.rollback(xid);
     }
-    
+
     /*
     public void testRegister() throws Exception {
         // need to stub  for registerResourceWithTM in create call here...
@@ -83,5 +83,5 @@ public class WSATGatewayRMTest extends TestCase {
         assertEquals("transactionStub.enlistedResources.size()", transactionStub.enlistedResources.size(), 1);
     }
       */
-    
+
 }

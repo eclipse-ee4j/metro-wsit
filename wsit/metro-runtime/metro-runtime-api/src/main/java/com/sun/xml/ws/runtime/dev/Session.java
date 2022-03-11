@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -18,9 +18,9 @@ import org.glassfish.gmbal.ManagedData;
 
 /**
  * The <code> Session </code> object is used to manage state between multiple requests
- * from the same client. It contains a session key field to uniquely identify the Session, 
+ * from the same client. It contains a session key field to uniquely identify the Session,
  * a <code>SecurityInfo</code> field that contains the security parameters used to
- * protect the session and  userdata field that can store the state for multiple 
+ * protect the session and  userdata field that can store the state for multiple
  * requests from the client.
  *
  * @author Bhakti Mehta
@@ -61,13 +61,13 @@ public class Session {
      * Public constructor
      *
      * @param manager - A <code>SessionManager</code> that can handle <code>Sessions</code>
-     * of this type.  
+     * of this type.
      * @param key - The unique session id
      * @param userData - Holder for user-defined data.
      */
     public Session(SessionManager manager, String key, Object userData) {
         this();
-        
+
         this.manager = manager;
         this.userData = userData;
         this.key = key;
@@ -95,7 +95,7 @@ public class Session {
 
     /**
      * Accessor for the <code>securityInfo</code> field.
-     * 
+     *
      * @return The value of the field.
      */
     @ManagedAttribute

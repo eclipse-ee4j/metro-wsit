@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -67,28 +67,28 @@ import java.util.ArrayList;
 import org.w3c.dom.Element;
 
 public abstract class IssueSamlTokenContract implements com.sun.xml.ws.api.security.trust.IssueSamlTokenContract<BaseSTSRequest, BaseSTSResponse> {
-    
+
     private static final Logger log =
             Logger.getLogger(
             LogDomainConstants.TRUST_IMPL_DOMAIN,
             LogDomainConstants.TRUST_IMPL_DOMAIN_BUNDLE);
-    
+
     protected static final String SAML_HOLDER_OF_KEY_1_0 = "urn:oasis:names:tc:SAML:1.0:cm:holder-of-key";
     protected static final String SAML_HOLDER_OF_KEY_2_0 = "urn:oasis:names:tc:SAML:2.0:cm:holder-of-key";
     protected static final String SAML_BEARER_1_0 = "urn:oasis:names:tc:SAML:1.0:cm:bearer";
     protected static final String SAML_BEARER_2_0 = "urn:oasis:names:tc:SAML:2.0:cm:bearer";
     protected static final String SAML_SENDER_VOUCHES_1_0 = "urn:oasis:names:tc:SAML:1.0:cm::sender-vouches";
     protected static final String SAML_SENDER_VOUCHES_2_0 = "urn:oasis:names:tc:SAML:2.0:cm:sender-vouches";
-    
+
     protected STSConfiguration stsConfig;
     protected WSTrustVersion wstVer;
     protected String authnCtxClass;
-    protected WSTrustElementFactory eleFac = 
+    protected WSTrustElementFactory eleFac =
             WSTrustElementFactory.newInstance(WSTrustVersion.WS_TRUST_10);
-    
+
     private static final int DEFAULT_KEY_SIZE = 256;
 
-    
+
     @Override
     public void init(final STSConfiguration stsConfig) {
         this.stsConfig = stsConfig;
@@ -96,11 +96,11 @@ public abstract class IssueSamlTokenContract implements com.sun.xml.ws.api.secur
         this.authnCtxClass = (String)stsConfig.getOtherOptions().get(WSTrustConstants.AUTHN_CONTEXT_CLASS);
         eleFac = WSTrustElementFactory.newInstance(wstVer);
     }
-    
+
     /** Issue a Token */
     @Override
     public BaseSTSResponse issue(final BaseSTSRequest request, final IssuedTokenContext context)throws WSTrustException {
-        
+
         RequestSecurityToken rst = (RequestSecurityToken)request;
         SecondaryParameters secParas = null;
         if (wstVer.getNamespaceURI().equals(WSTrustVersion.WS_TRUST_13_NS_URI)){
@@ -126,7 +126,7 @@ public abstract class IssueSamlTokenContract implements com.sun.xml.ws.api.secur
         if (serCert != null){
             context.getOtherProperties().put(IssuedTokenContext.TARGET_SERVICE_CERTIFICATE, serCert);
         }
-        
+
         TrustSPMetadata spMd = stsConfig.getTrustSPMetadata(appliesTo);
         if (spMd == null){
             // Only used for testing purpose; default should not documented
@@ -152,7 +152,7 @@ public abstract class IssueSamlTokenContract implements com.sun.xml.ws.api.secur
         if (tokenType == null){
             tokenType = WSTrustConstants.SAML11_ASSERTION_TOKEN_TYPE;
         }
-        
+
         // Get KeyType
         String keyType = null;
         URI keyTypeURI = rst.getKeyType();
@@ -167,7 +167,7 @@ public abstract class IssueSamlTokenContract implements com.sun.xml.ws.api.secur
         if (keyType == null){
             keyType = wstVer.getSymmetricKeyTypeURI();
         }
-        
+
         String encryptionAlgorithm = null;
         URI encryptionAlgorithmURI = rst.getEncryptionAlgorithm();
         if(encryptionAlgorithmURI == null && secParas != null){
@@ -177,7 +177,7 @@ public abstract class IssueSamlTokenContract implements com.sun.xml.ws.api.secur
             encryptionAlgorithm = encryptionAlgorithmURI.toString();
         }
         context.setEncryptionAlgorithm(encryptionAlgorithm);
-        
+
         String signatureAlgorithm = null;
         URI signatureAlgorithmURI = rst.getSignatureAlgorithm();
         if(signatureAlgorithmURI == null && secParas != null){
@@ -187,7 +187,7 @@ public abstract class IssueSamlTokenContract implements com.sun.xml.ws.api.secur
             signatureAlgorithm = signatureAlgorithmURI.toString();
         }
         context.setSignatureAlgorithm(signatureAlgorithm);
-        
+
         String canonicalizationAlgorithm = null;
         URI canonicalizationAlgorithmURI = rst.getCanonicalizationAlgorithm();
         if(canonicalizationAlgorithmURI == null && secParas != null){
@@ -197,17 +197,17 @@ public abstract class IssueSamlTokenContract implements com.sun.xml.ws.api.secur
             canonicalizationAlgorithm = canonicalizationAlgorithmURI.toString();
         }
         context.setCanonicalizationAlgorithm(canonicalizationAlgorithm);
-        
+
         // Get KeyWrap Algorithm, which is the part of WS-Trust wssx versaion
-        URI keyWrapAlgorithmURI = null;        
+        URI keyWrapAlgorithmURI = null;
         if(secParas != null){
-            keyWrapAlgorithmURI = secParas.getKeyWrapAlgorithm();            
-        }        
+            keyWrapAlgorithmURI = secParas.getKeyWrapAlgorithm();
+        }
         if(keyWrapAlgorithmURI != null){
             context.getOtherProperties().put(IssuedTokenContext.KEY_WRAP_ALGORITHM, keyWrapAlgorithmURI.toString());
-        }                
-        
-        // Get authenticaed client Subject 
+        }
+
+        // Get authenticaed client Subject
         Subject subject = context.getRequestorSubject();
         if (subject == null){
             AccessControlContext acc = AccessController.getContext();
@@ -218,7 +218,7 @@ public abstract class IssueSamlTokenContract implements com.sun.xml.ws.api.secur
                     LogStringsMessages.WST_0030_REQUESTOR_NULL());
             throw new WSTrustException(LogStringsMessages.WST_0030_REQUESTOR_NULL());
         }
-        
+
         OnBehalfOf obo = rst.getOnBehalfOf();
         if (obo != null){
             Object oboToken = obo.getAny();
@@ -237,18 +237,18 @@ public abstract class IssueSamlTokenContract implements com.sun.xml.ws.api.secur
                 }
             }
         }
-        
+
         // Check if the client is authorized to be issued the token
         final STSAuthorizationProvider authzProvider = WSTrustFactory.getSTSAuthorizationProvider();
         if (!authzProvider.isAuthorized(subject, appliesTo, tokenType, keyType)){
             String user = subject.getPrincipals().iterator().next().getName();
-            log.log(Level.SEVERE, 
+            log.log(Level.SEVERE,
                     LogStringsMessages.WST_0015_CLIENT_NOT_AUTHORIZED(
                     user, tokenType, appliesTo));
             throw new WSTrustException(LogStringsMessages.WST_0015_CLIENT_NOT_AUTHORIZED(
                     user, tokenType, appliesTo));
         }
-        
+
         // Get claimed attributes
         Claims claims = rst.getClaims();
         if (claims == null && secParas != null){
@@ -259,7 +259,7 @@ public abstract class IssueSamlTokenContract implements com.sun.xml.ws.api.secur
         }
         final STSAttributeProvider attrProvider = WSTrustFactory.getSTSAttributeProvider();
         final Map<QName, List<String>> claimedAttrs = attrProvider.getClaimedAttributes(subject, appliesTo, tokenType, claims);
-        
+
         RequestedProofToken proofToken = null;
         Entropy serverEntropy = null;
         int keySize = 0;
@@ -267,9 +267,9 @@ public abstract class IssueSamlTokenContract implements com.sun.xml.ws.api.secur
             //============================
             // Create required secret key
             //============================
-            
+
             proofToken = eleFac.createRequestedProofToken();
-            
+
             // Get client entropy
             byte[] clientEntr = null;
             final Entropy clientEntropy = rst.getEntropy();
@@ -277,14 +277,14 @@ public abstract class IssueSamlTokenContract implements com.sun.xml.ws.api.secur
                 final BinarySecret clientBS = clientEntropy.getBinarySecret();
                 if (clientBS == null){
                     if(log.isLoggable(Level.FINE)) {
-                        log.log(Level.FINE, 
+                        log.log(Level.FINE,
                                 LogStringsMessages.WST_1009_NULL_BINARY_SECRET());
                     }
                 }else {
                     clientEntr = clientBS.getRawValue();
                 }
             }
-            
+
             keySize = (int)rst.getKeySize();
             if (keySize < 1 && secParas != null){
                 keySize = (int) secParas.getKeySize();
@@ -293,14 +293,14 @@ public abstract class IssueSamlTokenContract implements com.sun.xml.ws.api.secur
                 keySize = DEFAULT_KEY_SIZE;
             }
             if(log.isLoggable(Level.FINE)) {
-                log.log(Level.FINE, 
+                log.log(Level.FINE,
                         LogStringsMessages.WST_1010_KEY_SIZE(keySize, DEFAULT_KEY_SIZE));
             }
-            
+
             byte[] key = WSTrustUtil.generateRandomSecret(keySize/8);
             final BinarySecret serverBS = eleFac.createBinarySecret(key, wstVer.getNonceBinarySecretTypeURI());
             serverEntropy = eleFac.createEntropy(serverBS);
-            
+
             // compute the secret key
             try {
                 if (clientEntr != null && clientEntr.length > 0){
@@ -312,11 +312,11 @@ public abstract class IssueSamlTokenContract implements com.sun.xml.ws.api.secur
                     proofToken.setBinarySecret(serverBS);
                 }
             } catch (Exception ex){
-                log.log(Level.SEVERE, 
+                log.log(Level.SEVERE,
                         LogStringsMessages.WST_0013_ERROR_SECRET_KEY(wstVer.getCKPSHA1algorithmURI(), keySize, appliesTo), ex);
                 throw new WSTrustException(LogStringsMessages.WST_0013_ERROR_SECRET_KEY(wstVer.getCKPSHA1algorithmURI(), keySize, appliesTo), ex);
             }
-            
+
             context.setProofKey(key);
         }else if(wstVer.getPublicKeyTypeURI().equals(keyType)){
             // Get UseKey
@@ -340,23 +340,23 @@ public abstract class IssueSamlTokenContract implements com.sun.xml.ws.api.secur
                 throw new WSTrustException(LogStringsMessages.WST_0034_UNABLE_GET_CLIENT_CERT());
             }
         }else if(wstVer.getBearerKeyTypeURI().equals(keyType)){
-            //No proof key required 
+            //No proof key required
         }else{
             log.log(Level.SEVERE,
                     LogStringsMessages.WST_0025_INVALID_KEY_TYPE(keyType, appliesTo));
             throw new WSTrustException(LogStringsMessages.WST_0025_INVALID_KEY_TYPE(keyType, appliesTo));
         }
-        
+
         //========================================
         // Create RequestedSecurityToken
         //========================================
-        
-        // Create RequestedSecurityToken 
+
+        // Create RequestedSecurityToken
         final String assertionId = "uuid-" + UUID.randomUUID();
         final RequestedSecurityToken reqSecTok = eleFac.createRequestedSecurityToken();
         final Token samlToken = createSAMLAssertion(appliesTo, tokenType, keyType, assertionId, stsConfig.getIssuer(), claimedAttrs, context);
         reqSecTok.setToken(samlToken);
-        
+
         // Create RequestedAttachedReference and RequestedUnattachedReference
         String valueType = null;
         if (WSTrustConstants.SAML10_ASSERTION_TOKEN_TYPE.equals(tokenType)||
@@ -368,11 +368,11 @@ public abstract class IssueSamlTokenContract implements com.sun.xml.ws.api.secur
         final SecurityTokenReference samlReference = WSTrustUtil.createSecurityTokenReference(assertionId, valueType);
         final RequestedAttachedReference raRef =  eleFac.createRequestedAttachedReference(samlReference);
         final RequestedUnattachedReference ruRef =  eleFac.createRequestedUnattachedReference(samlReference);
-        
+
         //==================
         // Create the RSTR
         //==================
-        
+
         // get Context
         URI ctx = null;
         try {
@@ -386,30 +386,30 @@ public abstract class IssueSamlTokenContract implements com.sun.xml.ws.api.secur
             throw new WSTrustException(
                     LogStringsMessages.WST_0014_URI_SYNTAX() ,ex);
         }
-        
+
          // Create Lifetime
         long currentTime = WSTrustUtil.getCurrentTimeWithOffset();
         final Lifetime lifetime = WSTrustUtil.createLifetime(currentTime, stsConfig.getIssuedTokenTimeout(), wstVer);
-        
+
         final RequestSecurityTokenResponse rstr =
                 eleFac.createRSTRForIssue(rst.getTokenType(), ctx, reqSecTok, applies, raRef, ruRef, proofToken, serverEntropy, lifetime);
-        
+
         if (keySize > 0){
             rstr.setKeySize(keySize);
         }
-        
+
        //String issuer = config.getIssuer();
-        
+
       // Token samlToken = createSAMLAssertion(appliesTo, tokenType, keyType, assertionId, issuer, claimedAttrs, context);
        //rstr.getRequestedSecurityToken().setToken(samlToken);
-        
+
         // Populate IssuedTokenContext
         context.setSecurityToken(samlToken);
         context.setAttachedSecurityTokenReference(samlReference);
         context.setUnAttachedSecurityTokenReference(samlReference);
         context.setCreationTime(new Date(currentTime));
         context.setExpirationTime(new Date(currentTime + stsConfig.getIssuedTokenTimeout()));
-        
+
         if (wstVer.getNamespaceURI().equals(WSTrustVersion.WS_TRUST_13.getNamespaceURI())){
             List<RequestSecurityTokenResponse> list = new ArrayList<>();
             list.add(rstr);
@@ -419,34 +419,34 @@ public abstract class IssueSamlTokenContract implements com.sun.xml.ws.api.secur
         }
         return rstr;
     }
-    
+
     /** Issue a Collection of Token(s) possibly for different scopes */
     public BaseSTSResponse issueMultiple(
             final BaseSTSRequest request, final IssuedTokenContext context) {
         throw new UnsupportedOperationException("Unsupported operation: issueMultiple");
     }
-    
+
     /** Renew a Token */
     @Override
     public BaseSTSResponse renew(
             final BaseSTSRequest request, final IssuedTokenContext context) {
         throw new UnsupportedOperationException("Unsupported operation: renew");
     }
-    
+
     /** Cancel a Token */
     @Override
     public BaseSTSResponse cancel(
             final BaseSTSRequest request, final IssuedTokenContext context, final Map issuedTokenCtxMap) {
         throw new UnsupportedOperationException("Unsupported operation: cancel");
     }
-    
+
     /** Validate a Token */
     @Override
     public BaseSTSResponse validate(
             final BaseSTSRequest request, final IssuedTokenContext context) {
         throw new UnsupportedOperationException("Unsupported operation: validate");
     }
-    
+
     /**
      * handle an unsolicited RSTR like in the case of
      * Client Initiated Secure Conversation.
@@ -456,7 +456,7 @@ public abstract class IssueSamlTokenContract implements com.sun.xml.ws.api.secur
             final BaseSTSResponse rstr, final IssuedTokenContext context) {
         throw new UnsupportedOperationException("Unsupported operation: handleUnsolicited");
     }
-    
+
     @Override
     public abstract Token createSAMLAssertion(String appliesTo, String tokenType, String keyType, String assertionId, String issuer, Map<QName, List<String>> claimedAttrs, IssuedTokenContext context) throws WSTrustException;
 }

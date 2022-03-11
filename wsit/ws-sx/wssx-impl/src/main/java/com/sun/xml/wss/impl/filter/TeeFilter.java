@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -67,14 +67,14 @@ public class TeeFilter {
     + "    </xsl:choose>\n"
     + "  </xsl:template>\n"
     + "</xsl:stylesheet>\n";
-    
+
     /** OutputStream for output. */
     private OutputStream out;
-    
+
     /** Represents a stylesheet */
     private Templates templates;
-    
-    
+
+
     /**
      * Copy and optionally format a message
      *
@@ -86,7 +86,7 @@ public class TeeFilter {
     throws XWSSecurityException {
         init(out, stylesheet);
     }
-    
+
     /**
      * Copy and optionally pretty print a message
      *
@@ -101,7 +101,7 @@ public class TeeFilter {
             init(out, null);
         }
     }
-    
+
     /**
      * Saves a copy of message to Outputstream out
      *
@@ -109,7 +109,7 @@ public class TeeFilter {
     public TeeFilter(OutputStream out) throws XWSSecurityException {
         init(out, null);
     }
-    
+
     /**
      * A no-op
      *
@@ -117,11 +117,11 @@ public class TeeFilter {
     public TeeFilter() throws XWSSecurityException {
         init(null, null);
     }
-    
+
     private void init(OutputStream out, Source stylesheet)
     throws XWSSecurityException {
         this.out = out;
-        
+
         if (stylesheet == null) {
             templates = null;
         } else {
@@ -136,7 +136,7 @@ public class TeeFilter {
             }
         }
     }
-    
+
     private Source getPrettyPrintStylesheet() {
         //        if (true) {
         //            if (defaultStylesheetSource == null) {
@@ -152,7 +152,7 @@ public class TeeFilter {
         return stylesheetSource;
         //        }
     }
-    
+
     /**
      * Invokes the MessageFilter on the SOAPMessage sm.  A
      * XWSSecurityException is thrown if the operation did not succeed.
@@ -166,7 +166,7 @@ public class TeeFilter {
         if (out == null) {
             return;
         }
-        
+
         Transformer transformer;
         try {
             if (secureMessage.countAttachments() > 0) {

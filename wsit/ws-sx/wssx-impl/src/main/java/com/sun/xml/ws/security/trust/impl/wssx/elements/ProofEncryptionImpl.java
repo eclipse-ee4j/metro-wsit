@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -27,45 +27,45 @@ import jakarta.xml.bind.JAXBElement;
  * @author WS-Trust Implementation Team.
  */
 public class ProofEncryptionImpl extends ProofEncryptionType implements ProofEncryption {
-    
+
     private String targetType = null;
-    
+
     private SecurityTokenReference str = null;
     private Token token = null;
-    
+
     public ProofEncryptionImpl(SecurityTokenReference str) {
         setSecurityTokenReference(str);
         setTargetType(WSTrustConstants.STR_TYPE);
     }
-    
+
     public ProofEncryptionImpl(Token token) {
         setToken(token);
         setTargetType(WSTrustConstants.TOKEN_TYPE);
     }
-    
+
      public ProofEncryptionImpl (ProofEncryptionType peType) {
         JAXBElement obj = (JAXBElement)peType.getAny();
         String local = obj.getName().getLocalPart();
         if ("SecurityTokenReference".equals(local)) {
-            SecurityTokenReference str = 
+            SecurityTokenReference str =
                         new SecurityTokenReferenceImpl((SecurityTokenReferenceType)obj.getValue());
             setSecurityTokenReference(str);
             setTargetType(WSTrustConstants.STR_TYPE);
         } else {
             //ToDo
-        } 
+        }
     }
-    
+
     @Override
     public String getTargetType() {
         return targetType;
     }
-    
+
     @Override
     public void setTargetType(String ttype) {
         targetType = ttype;
     }
-    
+
     @Override
     public void setSecurityTokenReference(SecurityTokenReference ref) {
         if (ref != null) {
@@ -77,12 +77,12 @@ public class ProofEncryptionImpl extends ProofEncryptionType implements ProofEnc
         setTargetType(WSTrustConstants.STR_TYPE);
         token = null;
     }
-    
+
     @Override
     public SecurityTokenReference getSecurityTokenReference() {
         return str;
     }
-    
+
     public void setToken(Token token) {
         if (token != null) {
             this.token = token;
@@ -91,9 +91,9 @@ public class ProofEncryptionImpl extends ProofEncryptionType implements ProofEnc
         setTargetType(WSTrustConstants.TOKEN_TYPE);
         str = null;
     }
-    
+
     public Token getToken() {
         return token;
     }
-    
+
 }

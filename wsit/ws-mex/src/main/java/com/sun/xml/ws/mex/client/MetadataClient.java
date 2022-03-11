@@ -49,16 +49,16 @@ import org.w3c.dom.NodeList;
  * <code>Map&lt;QName, List&lt;PortInfo&gt;&gt; names = mClient.getServiceAndPortNames(mData);</code>
  */
 public class MetadataClient {
-    
+
     enum Protocol { SOAP_1_2, SOAP_1_1 };
-    
+
     private final String [] suffixes = { "" , "/mex" };
     private final MetadataUtil mexUtil;
     private static final JAXBContext jaxbContext;
-    
+
     private static final Logger logger =
         Logger.getLogger(MetadataClient.class.getName());
-    
+
     static {
         try {
             jaxbContext = JAXBContext.newInstance(
@@ -67,14 +67,14 @@ public class MetadataClient {
             throw new AssertionError(jaxbE);
         }
     }
-   
+
    /**
      * Default constructor.
      */
     public MetadataClient() {
         mexUtil = new MetadataUtil();
     }
-    
+
     /**
      * Method used to load the metadata from the endpoint. First
      * soap 1.2 is used, then 1.1. If both attempts fail, the
@@ -114,7 +114,7 @@ public class MetadataClient {
             MessagesMessages.MEX_0007_RETURNING_NULL_MDATA());
         return null;
     }
-    
+
     /**
      * Currently only supports Get requests (not Get Metadata),
      * so we only need the reference's address. Any metadata
@@ -124,7 +124,7 @@ public class MetadataClient {
      */
     public Metadata retrieveMetadata(
         @NotNull final MetadataReference reference) {
-        
+
         final List nodes = reference.getAny();
         for (Object o : nodes) {
             final Node node = (Node) o;
@@ -135,10 +135,10 @@ public class MetadataClient {
         }
         return null;
     }
-    
+
     /**
      * Used to retrieve the service and port names and port addresses
-     * from metadata. 
+     * from metadata.
      *
      * @see com.sun.xml.ws.mex.client.PortInfo
      * @return A list of PortInfo objects
@@ -168,7 +168,7 @@ public class MetadataClient {
     }
 
     private void getServiceInformationFromNode(List<PortInfo> portInfos, final Object node) {
-        
+
         final Node wsdlNode = (Node) node;
         final String namespace = getAttributeValue(wsdlNode, "targetNamespace");
         final NodeList nodes = wsdlNode.getChildNodes();
@@ -176,7 +176,7 @@ public class MetadataClient {
             final Node serviceNode = nodes.item(i);
             if (serviceNode.getLocalName() != null &&
                 serviceNode.getLocalName().equals("service")) {
-                
+
                 final Node nameAtt = serviceNode.getAttributes().getNamedItem("name");
                 final QName serviceName = new QName(namespace,
                     nameAtt.getNodeValue());
@@ -185,7 +185,7 @@ public class MetadataClient {
                     final Node portNode = portNodes.item(j);
                     if (portNode.getLocalName() != null &&
                         portNode.getLocalName().equals("port")) {
-                        
+
                         final QName portName = new QName(namespace,
                             getAttributeValue(portNode, "name"));
                         final String address = getPortAddress(portNode);
@@ -196,7 +196,7 @@ public class MetadataClient {
             }
         }
     }
-    
+
     /*
      * Create Metadata object from output stream. Need to remove
      * the metadata from soap wrapper. If the metadata contains
@@ -205,7 +205,7 @@ public class MetadataClient {
      */
     private Metadata createMetadata(final InputStream stream)
         throws XMLStreamException, JAXBException {
-        
+
         final XMLInputFactory factory = XMLInputFactory.newInstance();
         final XMLStreamReader reader =
             factory.createXMLStreamReader(stream);
@@ -214,7 +214,7 @@ public class MetadataClient {
             state = reader.next();
         } while (state != reader.START_ELEMENT ||
             !reader.getLocalName().equals("Metadata"));
-        
+
         final Unmarshaller uMarhaller = jaxbContext.createUnmarshaller();
         final Metadata mData = (Metadata) uMarhaller.unmarshal(reader);
         cleanData(mData);
@@ -238,7 +238,7 @@ public class MetadataClient {
             final Node addressNode = portDetails.item(i);
             if (addressNode.getLocalName() != null &&
                 addressNode.getLocalName().equals("address")) {
-                
+
                 return getAttributeValue(addressNode, "location");
             }
         }
@@ -282,7 +282,7 @@ public class MetadataClient {
                         final Node schemaNode = schemaNodes.item(j);
                         if (schemaNode.getLocalName() != null &&
                             schemaNode.getLocalName().equals("schema")) {
-                            
+
                             cleanSchemaNode(schemaNode);
                         }
                     }
@@ -292,7 +292,7 @@ public class MetadataClient {
             }
         }
     }
-    
+
     private void cleanSchemaNode(final Node schemaNode) {
         final NodeList children = schemaNode.getChildNodes();
         for (int i=0; i<children.getLength(); i++) {
@@ -323,5 +323,5 @@ public class MetadataClient {
             atts.removeNamedItem("location");
         }
     }
-    
+
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -11,12 +11,12 @@
 package com.sun.xml.ws.security.policy;
 
 /**
- * Signed, endorsing, encrypted supporting tokens are signed, endorsing supporting 
- * tokens that are also encrypted when they appear in the wsse:SecurityHeader. 
+ * Signed, endorsing, encrypted supporting tokens are signed, endorsing supporting
+ * tokens that are also encrypted when they appear in the wsse:SecurityHeader.
  * Element Encryption SHOULD be used for encrypting the supporting tokens.
  *
  * @author Ashutosh.Shahi@sun.com
  */
 public interface SignedEndorsingEncryptedSupportingTokens extends SignedEndorsingSupportingTokens{
-    
+
 }

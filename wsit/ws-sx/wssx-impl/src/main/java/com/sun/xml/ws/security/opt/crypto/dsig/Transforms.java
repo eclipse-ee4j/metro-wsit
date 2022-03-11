@@ -20,16 +20,16 @@ import jakarta.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement(name="Transforms",namespace = "http://www.w3.org/2000/09/xmldsig#")
 public class Transforms extends com.sun.xml.security.core.dsig.TransformsType {
-    
+
     /** Creates a new instance of Transforms */
     public Transforms() {
     }
-    
+
     @Override
     public void setTransform(List<Transform> transform) {
         this.transform = transform;
     }
 
-   
-    
+
+
 }

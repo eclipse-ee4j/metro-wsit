@@ -44,7 +44,7 @@ public class RelToken extends PolicyAssertion implements com.sun.xml.ws.security
     private SecurityPolicyVersion spVersion = SecurityPolicyVersion.SECURITYPOLICY200507;
     private final QName itQname;
     private String includeToken;
-    
+
     /** Creates a new instance of RelToken */
     public RelToken(AssertionData name,Collection<PolicyAssertion> nestedAssertions, AssertionSet nestedAlternative) {
         super(name,nestedAssertions,nestedAlternative);
@@ -54,14 +54,14 @@ public class RelToken extends PolicyAssertion implements com.sun.xml.ws.security
         itQname = new QName(spVersion.namespaceUri, Constants.IncludeToken);
         includeToken = spVersion.includeTokenAlways;
     }
-    
-    
+
+
     @Override
     public String getTokenType() {
         populate();
         return tokenType;
     }
-    
+
     @Override
     public Iterator getTokenRefernceType() {
         if ( tokenRefType != null ) {
@@ -70,7 +70,7 @@ public class RelToken extends PolicyAssertion implements com.sun.xml.ws.security
             return Collections.emptyList().iterator();
         }
     }
-    
+
     @Override
     public boolean isRequireDerivedKeys() {
         populate();
@@ -79,20 +79,20 @@ public class RelToken extends PolicyAssertion implements com.sun.xml.ws.security
         }
         return false;
     }
-    
+
     @Override
     public String getIncludeToken() {
         populate();
         return includeToken;
     }
-    
-    
+
+
     @Override
     public String getTokenId() {
         return id;
     }
-    
-    
+
+
     @Override
     public AssertionFitness validate(boolean isServer) {
         return populate(isServer);
@@ -100,7 +100,7 @@ public class RelToken extends PolicyAssertion implements com.sun.xml.ws.security
     private void populate(){
         populate(false);
     }
-    
+
     private synchronized AssertionFitness populate(boolean isServer) {
         if(!populated){
             NestedPolicy policy = this.getNestedPolicy();
@@ -114,7 +114,7 @@ public class RelToken extends PolicyAssertion implements com.sun.xml.ws.security
             }
             AssertionSet as = policy.getAssertionSet();
             Iterator<PolicyAssertion> paItr = as.iterator();
-            
+
             while(paItr.hasNext()){
                 PolicyAssertion assertion  = paItr.next();
                 if(PolicyUtil.isRelTokenType(assertion, spVersion)){
@@ -128,7 +128,7 @@ public class RelToken extends PolicyAssertion implements com.sun.xml.ws.security
                     tokenRefType.add(assertion.getName().getLocalPart().intern());
                 } else{
                     if(!assertion.isOptional()){
-                        
+
                         Constants.log_invalid_assertion(assertion, isServer, Constants.RelToken);
                         fitness = AssertionFitness.HAS_UNKNOWN_ASSERTION;
                     }
@@ -143,5 +143,5 @@ public class RelToken extends PolicyAssertion implements com.sun.xml.ws.security
     public SecurityPolicyVersion getSecurityPolicyVersion() {
         return spVersion;
     }
-    
+
 }

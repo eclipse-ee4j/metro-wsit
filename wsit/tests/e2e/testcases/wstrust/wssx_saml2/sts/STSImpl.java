@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -36,14 +36,14 @@ import jakarta.xml.ws.handler.MessageContext;
 public class STSImpl extends BaseSTSImpl implements Provider<Source>{
     @Resource
     protected WebServiceContext context;
-    
+
     public Source invoke(Source rstElement){
         return super.invoke(rstElement);
     }
-    
-    protected MessageContext getMessageContext() {        
-        MessageContext msgCtx = context.getMessageContext(); 
+
+    protected MessageContext getMessageContext() {
+        MessageContext msgCtx = context.getMessageContext();
         return msgCtx;
     }
-    
+
 }

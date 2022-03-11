@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -23,7 +23,7 @@ import java.util.List;
  * This is an implementation of the abstract <code>Condition</code> class, which
  * specifes that the assertion this AuthenticationCondition is part of, is
  * addressed to one or more specific audience.
- * 
+ *
  * <p>The following schema fragment specifies the expected content contained within SAML
  * AudienceRestrictionCondition element.
  * <pre>
@@ -39,13 +39,13 @@ import java.util.List;
  * </pre>
  */
 public interface AudienceRestrictionCondition {
-    
+
     /**
-     * Gets the value of the audience property.    
+     * Gets the value of the audience property.
      *
-     * Objects of the following type(s) are in the list {@link java.lang.String }     
-     * 
+     * Objects of the following type(s) are in the list {@link java.lang.String }
+     *
      */
     List<String> getAudience();
-    
+
 }

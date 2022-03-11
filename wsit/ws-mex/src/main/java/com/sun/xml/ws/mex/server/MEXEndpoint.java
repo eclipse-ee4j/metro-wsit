@@ -263,8 +263,8 @@ public class MEXEndpoint implements Provider<Message> {
 
         return null;
     }
-    
-    
+
+
    private void writeEndEnvelope(final XMLStreamWriter writer)
         throws XMLStreamException {
         writer.writeEndElement();

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -45,25 +45,25 @@ import com.sun.xml.ws.security.trust.logging.LogStringsMessages;
  * @author Manveen Kaur
  */
 public class RequestedProofTokenImpl extends RequestedProofTokenType implements RequestedProofToken {
-    
+
     private static final Logger log =
             Logger.getLogger(
             LogDomainConstants.TRUST_IMPL_DOMAIN,
             LogDomainConstants.TRUST_IMPL_DOMAIN_BUNDLE);
-    
+
     private String tokenType;
     private URI computedKey;
     private BinarySecret secret;
     private SecurityTokenReference str;
-    
+
     public RequestedProofTokenImpl() {
         // empty constructor
     }
-    
+
     public RequestedProofTokenImpl(String proofTokenType) {
         setProofTokenType(proofTokenType);
     }
-    
+
     public RequestedProofTokenImpl(RequestedProofTokenType rptType){
         final JAXBElement obj = (JAXBElement)rptType.getAny();
         final String local = obj.getName().getLocalPart();
@@ -78,12 +78,12 @@ public class RequestedProofTokenImpl extends RequestedProofTokenType implements 
             throw new RuntimeException(LogStringsMessages.WST_0019_INVALID_PROOF_TOKEN_TYPE(local, null));
         }
     }
-    
+
     @Override
     public String getProofTokenType() {
         return tokenType;
     }
-    
+
     @Override
     public final void setProofTokenType(@NotNull final String proofTokenType) {
         if (! (proofTokenType.equalsIgnoreCase(RequestedProofToken.BINARY_SECRET_TYPE)
@@ -98,7 +98,7 @@ public class RequestedProofTokenImpl extends RequestedProofTokenType implements 
         }
         tokenType = proofTokenType;
     }
-    
+
     @Override
     public void setSecurityTokenReference(final SecurityTokenReference reference) {
         if (reference != null) {
@@ -109,18 +109,18 @@ public class RequestedProofTokenImpl extends RequestedProofTokenType implements 
         }
         setProofTokenType(RequestedProofToken.TOKEN_REF_TYPE);
     }
-    
+
     @Override
     public SecurityTokenReference getSecurityTokenReference() {
         return str;
     }
-    
+
     @Override
     public final void setComputedKey(@NotNull final URI computedKey) {
-        
+
         if (computedKey != null) {
             final String ckString = computedKey.toString();
-            if (!(ckString.equalsIgnoreCase(WSTrustVersion.WS_TRUST_10.getCKHASHalgorithmURI()) || 
+            if (!(ckString.equalsIgnoreCase(WSTrustVersion.WS_TRUST_10.getCKHASHalgorithmURI()) ||
                     (ckString.equalsIgnoreCase(WSTrustVersion.WS_TRUST_10.getCKPSHA1algorithmURI())))) {
                 log.log(Level.SEVERE,
                         LogStringsMessages.WST_0028_INVALID_CK(ckString));
@@ -133,12 +133,12 @@ public class RequestedProofTokenImpl extends RequestedProofTokenType implements 
         }
         setProofTokenType(RequestedProofToken.COMPUTED_KEY_TYPE);
     }
-    
+
     @Override
     public URI getComputedKey() {
         return computedKey;
     }
-    
+
     @Override
     public final void setBinarySecret(final BinarySecret secret) {
         if (secret != null) {
@@ -149,12 +149,12 @@ public class RequestedProofTokenImpl extends RequestedProofTokenType implements 
         }
         setProofTokenType(RequestedProofToken.BINARY_SECRET_TYPE);
     }
-    
+
     @Override
     public BinarySecret getBinarySecret() {
         return secret;
     }
-    
+
     public static RequestedProofTokenType fromElement(final org.w3c.dom.Element element)
     throws WSTrustException {
         try {
@@ -166,5 +166,5 @@ public class RequestedProofTokenImpl extends RequestedProofTokenType implements 
             throw new WSTrustException(LogStringsMessages.WST_0021_ERROR_UNMARSHAL_DOM_ELEMENT(), ex);
         }
     }
-    
+
 }

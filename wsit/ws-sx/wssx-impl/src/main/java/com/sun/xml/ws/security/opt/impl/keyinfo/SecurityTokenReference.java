@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -54,14 +54,14 @@ import java.io.OutputStream;
  */
 
 public class SecurityTokenReference extends SecurityTokenReferenceType
-          implements com.sun.xml.ws.security.opt.api.keyinfo.SecurityTokenReference, 
+          implements com.sun.xml.ws.security.opt.api.keyinfo.SecurityTokenReference,
         SecurityHeaderElement, SecurityElementWriter, Token {
-    
+
     //private SecurityTokenReferenceType str = null;
-    
+
     private boolean isCanonicalized = false;
     SOAPVersion sv = SOAPVersion.SOAP_11;
-    
+
     /** Creates a new instance of SecurityTokenReference */
     public SecurityTokenReference(SOAPVersion soapVersion) {
         this.sv = soapVersion;
@@ -82,7 +82,7 @@ public class SecurityTokenReference extends SecurityTokenReferenceType
         } else if(X509DATA_ISSUERSERIAL.equals(type)){
             refElem = new com.sun.xml.security.core.dsig.ObjectFactory().createX509Data((X509Data)ref);
         }
-        
+
         if(refElem != null){
             List<Object> list = this.getAny();
             list.clear();
@@ -107,7 +107,7 @@ public class SecurityTokenReference extends SecurityTokenReferenceType
         //anything else??
         return null;
     }
-    
+
     @Override
     public void setTokenType(String tokenType) {
         QName qname = new QName(MessageConstants.WSSE11_NS,
@@ -115,7 +115,7 @@ public class SecurityTokenReference extends SecurityTokenReferenceType
         Map<QName, String> otherAttributes = this.getOtherAttributes();
         otherAttributes.put(qname, tokenType);
     }
-    
+
     @Override
     public String getTokenType() {
         QName qname = new QName(MessageConstants.WSSE11_NS,
@@ -123,45 +123,45 @@ public class SecurityTokenReference extends SecurityTokenReferenceType
         Map<QName, String> otherAttributes = this.getOtherAttributes();
         return otherAttributes.get(qname);
     }
-    
+
     @Override
     public String getNamespaceURI() {
         return MessageConstants.WSSE_NS;
     }
-    
-    
+
+
     @Override
     public String getLocalPart() {
         return MessageConstants.WSSE_SECURITY_TOKEN_REFERENCE_LNAME;
     }
-    
-    
+
+
     public String getAttribute(@NotNull String nsUri, @NotNull String localName) {
         QName qname = new QName(nsUri, localName);
         Map<QName, String> otherAttributes = this.getOtherAttributes();
         return otherAttributes.get(qname);
     }
-    
-    
+
+
     public String getAttribute(@NotNull QName name) {
         Map<QName, String> otherAttributes = this.getOtherAttributes();
         return otherAttributes.get(name);
     }
-    
+
     @Override
     public XMLStreamReader readHeader() throws XMLStreamException {
         XMLStreamBufferResult xbr = new XMLStreamBufferResult();
         JAXBElement<SecurityTokenReferenceType> strElem = new ObjectFactory().createSecurityTokenReference(this);
         try{
             getMarshaller().marshal(strElem, xbr);
-            
+
         } catch(JAXBException je){
             throw new XMLStreamException(je);
         }
         return xbr.getXMLStreamBuffer().readAsXMLStreamReader();
     }
-    
-    
+
+
     /**
      * writes the SecurityTokenReference element to the XMLStreamWriter
      */
@@ -178,26 +178,26 @@ public class SecurityTokenReference extends SecurityTokenReferenceType
                     return;
                 }
             }
-            
+
             getMarshaller().marshal(strElem,streamWriter);
         } catch (JAXBException e) {
             throw new XMLStreamException(e);
         }
     }
-    
-    
+
+
     public byte[] canonicalize(String algorithm, List<AttributeNS> namespaceDecls) {
         throw new UnsupportedOperationException();
     }
-    
+
     public boolean isCanonicalized() {
         return isCanonicalized;
     }
-    
+
     private Marshaller getMarshaller() throws JAXBException{
         return JAXBUtil.createMarshaller(sv);
     }
-    
+
     @Override
     public void writeTo(OutputStream os) {
         throw new UnsupportedOperationException();
@@ -249,5 +249,5 @@ public class SecurityTokenReference extends SecurityTokenReferenceType
     public Object getTokenValue() {
         return getReference();
     }
-    
+
 }

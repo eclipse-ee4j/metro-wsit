@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -33,20 +33,20 @@ import com.sun.xml.wss.logging.impl.opt.LogStringsMessages;
  * @author K.Venugopal@sun.com
  */
 public class BSTProcessor implements StreamFilter {
-    
+
     private static final Logger logger = Logger.getLogger(LogDomainConstants.IMPL_OPT_DOMAIN,
             LogDomainConstants.IMPL_OPT_DOMAIN_BUNDLE);
-    
+
     private byte [] bstValue = null;
     private X509Certificate cert = null;
     /** Creates a new instance of BSTProcessor */
     public BSTProcessor() {
     }
-    
+
     public byte [] getValue(){
         return bstValue;
     }
-    
+
     public X509Certificate getCertificate(){
         return cert;
     }
@@ -73,11 +73,11 @@ public class BSTProcessor implements StreamFilter {
                     throw new XWSSecurityRuntimeException(LogStringsMessages.WSS_1603_ERROR_READING_STREAM(ex));
                 }
             }
-            
+
             try {
                 bstValue = Base64.decode(reader.getText());
                 buildCertificate(new ByteArrayInputStream(bstValue));
-                
+
             } catch (Base64DecodingException ex) {
                 logger.log(Level.SEVERE, LogStringsMessages.WSS_1604_ERROR_DECODING_BASE_64_DATA(ex),ex);
                 throw new XWSSecurityRuntimeException(LogStringsMessages.WSS_1604_ERROR_DECODING_BASE_64_DATA(ex));
@@ -85,7 +85,7 @@ public class BSTProcessor implements StreamFilter {
         }
         return true;
     }
-    
+
     /**
      * builds the certificate  from the given cert value
      * @param certValue InputStream
@@ -100,5 +100,5 @@ public class BSTProcessor implements StreamFilter {
             throw new XWSSecurityRuntimeException(LogStringsMessages.WSS_1605_ERROR_GENERATING_CERTIFICATE(ex));
         }
     }
-    
+
 }

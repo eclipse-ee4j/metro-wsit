@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -69,16 +69,16 @@ import java.util.logging.Level;
  * @author <U><B>k.venugopal@sun.com</B></U>
  */
 public class DSigResolver implements URIDereferencer{
-    
+
     private static volatile DSigResolver resolver = null;
     private static Logger logger = Logger.getLogger (LogDomainConstants.IMPL_SIGNATURE_DOMAIN,
             LogDomainConstants.IMPL_SIGNATURE_DOMAIN_BUNDLE);
-    
+
     private String optNSClassName = "org.apache.jcp.xml.dsig.internal.dom.DOMSubTreeData";
     private Class _nodeSetClass = null;
     private Constructor _constructor = null;
     private Boolean  _false = Boolean.valueOf(false);
-    
+
     /** Creates a new instance of DSigResolver */
     @SuppressWarnings("unchecked")
     private DSigResolver () {
@@ -88,10 +88,10 @@ public class DSigResolver implements URIDereferencer{
         }catch(LinkageError | ClassNotFoundException le){
             logger.log (Level.FINE,"Not able load JSR 105 RI specific NodeSetData class ",le);
         } catch(NoSuchMethodException ne){
-            
+
         }
     }
-    
+
     /**
      *
      * @return URI Dereferencer instance.
@@ -102,25 +102,25 @@ public class DSigResolver implements URIDereferencer{
         }
         return resolver;
     }
-    
+
     private static void init (){
         if(resolver == null){
             synchronized(DSigResolver.class){
                 if(resolver == null){
-                    resolver = new DSigResolver ();                
+                    resolver = new DSigResolver ();
                 }
             }
         }
     }
-    
-    
+
+
     /**
      * resolve the URI of type "cid:" , "attachmentRef:", "http:", "#xyz".
      */
     @Override
     public Data dereference (URIReference uriRef, XMLCryptoContext context) throws URIReferenceException {
         String uri = null;
-        
+
         try{
             if(uriRef instanceof DOMURIReference ){
                 DOMURIReference domRef = (DOMURIReference) uriRef;
@@ -148,8 +148,8 @@ public class DSigResolver implements URIDereferencer{
         }
         return null;
     }
-    
-    
+
+
     Data dereferenceURI (String uri, XMLCryptoContext context) throws URIReferenceException, XWSSecurityException{
         FilterProcessingContext filterContext =(FilterProcessingContext) context.get (MessageConstants.WSS_PROCESSING_CONTEXT);
         SecurableSoapMessage secureMsg = filterContext.getSecurableSoapMessage ();
@@ -178,9 +178,9 @@ public class DSigResolver implements URIDereferencer{
         }
         //throw new URIReferenceException("Resource "+uri+" was not found");
     }
-    
+
     Data dereferenceExternalResource (final String uri,XMLCryptoContext context) throws URIReferenceException {
-        
+
         URIDereferencer resolver = WSSPolicyConsumerImpl.getInstance ().getDefaultResolver ();
         URIReference uriRef = null;
         FilterProcessingContext filterContext =(FilterProcessingContext) context.get (MessageConstants.WSS_PROCESSING_CONTEXT);
@@ -188,12 +188,12 @@ public class DSigResolver implements URIDereferencer{
         final Attr uriAttr = secureMsg.getSOAPMessage ().getSOAPPart ().createAttribute ("uri");
         uriAttr.setNodeValue (uri);
         uriRef = new DOMURIReference (){
-            
+
             @Override
             public String getURI (){
                 return uri;
             }
-            
+
             @Override
             public String getType (){
                 return null;
@@ -205,7 +205,7 @@ public class DSigResolver implements URIDereferencer{
         };
         try{
             Data data = resolver.dereference (uriRef, context);
-            
+
             if(MessageConstants.debug){
                 if(data instanceof NodeSetData){
                     logger.log (Level.FINE,"Node set Data");
@@ -227,15 +227,15 @@ public class DSigResolver implements URIDereferencer{
             logger.log (Level.SEVERE,LogStringsMessages.WSS_1325_DSIG_EXTERNALTARGET(ue));
             throw ue;
         }
-        
+
     }
-    
-    
+
+
     Data dereferenceAttachments (String uri, XMLCryptoContext context) throws URIReferenceException, XWSSecurityException {
         boolean sunAttachmentTransformProvider = true;
         FilterProcessingContext filterContext =(FilterProcessingContext)
         context.get (MessageConstants.WSS_PROCESSING_CONTEXT);
-        
+
         SecurableSoapMessage secureMsg = filterContext.getSecurableSoapMessage ();
         AttachmentPart attachment = secureMsg.getAttachmentPart (uri);
         if(attachment == null){
@@ -253,7 +253,7 @@ public class DSigResolver implements URIDereferencer{
         }
         //        throw new URIReferenceException("Attachment Resource with Identifier  "+uri+" was not found");
     }
-    
+
     Data dereferenceFragment (String uri, XMLCryptoContext context) throws URIReferenceException, XWSSecurityException {
         FilterProcessingContext filterContext =(FilterProcessingContext) context.get(MessageConstants.WSS_PROCESSING_CONTEXT);
         HashMap elementCache = filterContext.getElementCache ();
@@ -289,7 +289,7 @@ public class DSigResolver implements URIDereferencer{
         }
         return convertToData (element,true);
     }
-    
+
     Data convertToData (final Node node,boolean xpathNodeSet){
         final HashSet nodeSet = new HashSet ();
         if(xpathNodeSet){
@@ -305,7 +305,7 @@ public class DSigResolver implements URIDereferencer{
                 @Override
                 public Iterator iterator (){
                     return Collections.singletonList (node).iterator ();
-                    
+
                 }
             };
         }
@@ -368,7 +368,7 @@ public class DSigResolver implements URIDereferencer{
         HashMap tokenCache = filterContext.getTokenCache ();
         Element tokenElement = null;
         Element newElement = null;
-        
+
         if (refElement instanceof DirectReference) {
             // isXMLToken = true;
             /* Use the URI value to locate the BST */
@@ -380,12 +380,12 @@ public class DSigResolver implements URIDereferencer{
                 if(tokenElement == null){
                     throw new URIReferenceException ("Could not locate token with following ID"+tokenId);
                 }
-             
+
             } else {
                 tokenElement = secToken.getAsSoapElement();
             }
             newElement = (Element)element.getOwnerDocument ().importNode (tokenElement, true);
-            
+
         } else if (refElement instanceof KeyIdentifier) {
             String valueType = ((KeyIdentifier) refElement).getValueType ();
             String keyId = ((KeyIdentifier) refElement).getReferenceValue ();
@@ -396,14 +396,14 @@ public class DSigResolver implements URIDereferencer{
                 /* Use the Subject Key Identifier to locate BST */
                 //  isXMLToken = false;
                 X509Certificate cert = null;
-                
+
                 Object token = tokenCache.get (keyId);
                 if(token instanceof X509SubjectKeyIdentifier ){
                     if(token != null){
                         cert = ((X509SubjectKeyIdentifier)token).getCertificate ();
                     }
                 }
-                
+
                 if(cert == null){
                     cert = filterContext.getSecurityEnvironment ().getCertificate (
                             filterContext.getExtraneousProperties (), XMLUtil.getDecodedBase64EncodedData (keyId));
@@ -422,14 +422,14 @@ public class DSigResolver implements URIDereferencer{
                 }
             } else if (MessageConstants.ThumbPrintIdentifier_NS.equals (valueType)) {
                 X509Certificate cert = null;
-                
+
                 Object token = tokenCache.get (keyId);
                 if(token instanceof X509ThumbPrintIdentifier ){
                     if(token != null){
                         cert = ((X509ThumbPrintIdentifier)token).getCertificate ();
                     }
                 }
-                
+
                 if(cert == null){
                     cert = filterContext.getSecurityEnvironment ().getCertificate (
                             filterContext.getExtraneousProperties (), XMLUtil.getDecodedBase64EncodedData (keyId), MessageConstants.THUMB_PRINT_TYPE);
@@ -451,7 +451,7 @@ public class DSigResolver implements URIDereferencer{
                 newElement = null;
             } else if (MessageConstants.WSSE_SAML_KEY_IDENTIFIER_VALUE_TYPE.equals (valueType) ||
                      MessageConstants.WSSE_SAML_v2_0_KEY_IDENTIFIER_VALUE_TYPE.equals (valueType)) {
-                
+
                 //TODO : should we first try locating from the cache
                 if (tokenRef.getSamlAuthorityBinding () != null) {
                     tokenElement = filterContext.getSecurityEnvironment ().
@@ -461,15 +461,15 @@ public class DSigResolver implements URIDereferencer{
                     tokenElement = SAMLUtil.locateSamlAssertion (keyId,secureMessage.getSOAPPart ());
                 }
                 newElement = (Element)element.getOwnerDocument ().importNode (tokenElement, true);
-                
-                Assertion assertion = null; 
+
+                Assertion assertion = null;
                 try {
                     assertion = AssertionUtil.fromElement(tokenElement);
                 } catch (Exception e) {
                     throw new XWSSecurityException (e);
                 }
                 tokenCache.put (keyId, assertion);
-                
+
             } else {
                 try {
                     tokenElement = resolveSAMLToken (tokenRef, keyId, filterContext);
@@ -491,7 +491,7 @@ public class DSigResolver implements URIDereferencer{
                             xwsse);
                 }
             }
-            
+
         } else if (refElement instanceof X509IssuerSerial) {
             //       isXMLToken = false;
             BigInteger serialNumber =
@@ -502,7 +502,7 @@ public class DSigResolver implements URIDereferencer{
             if(token instanceof X509IssuerSerial){
                 cert = ((X509IssuerSerial)token).getCertificate ();
             }
-            
+
             if(cert == null){
                 cert = filterContext.getSecurityEnvironment ().getCertificate (
                         filterContext.getExtraneousProperties (),serialNumber, issuerName);
@@ -534,8 +534,8 @@ public class DSigResolver implements URIDereferencer{
     @SuppressWarnings("unchecked")
     private static Element resolveSAMLToken (SecurityTokenReference tokenRef, String assertionId,
             FilterProcessingContext context)throws XWSSecurityException {
-       
-        Assertion ret = (Assertion)context.getTokenCache().get(assertionId); 
+
+        Assertion ret = (Assertion)context.getTokenCache().get(assertionId);
         if (ret != null) {
             try {
                 return SAMLUtil.toElement(context.getSecurableSoapMessage().getSOAPPart(), ret,null);
@@ -543,12 +543,12 @@ public class DSigResolver implements URIDereferencer{
                 throw new XWSSecurityException (e);
             }
         }
-        
+
         Element tokenElement = null;
         if (tokenRef.getSamlAuthorityBinding () != null) {
             tokenElement = context.getSecurityEnvironment ().
                     locateSAMLAssertion (
-                    context.getExtraneousProperties(), 
+                    context.getExtraneousProperties(),
                     tokenRef.getSamlAuthorityBinding (),
                     assertionId,
                     context.getSOAPMessage ().getSOAPPart ());
@@ -556,15 +556,15 @@ public class DSigResolver implements URIDereferencer{
             tokenElement = SAMLUtil.locateSamlAssertion (
                     assertionId, context.getSOAPMessage ().getSOAPPart ());
         }
-        
+
         try {
             ret = AssertionUtil.fromElement(tokenElement);
         } catch (Exception e) {
             throw new XWSSecurityException (e);
         }
         context.getTokenCache ().put (assertionId, ret);
-        
+
         return tokenElement;
     }
-    
+
 }

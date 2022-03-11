@@ -98,17 +98,17 @@ import java.io.InputStreamReader;
  * @author Ashutosh Shahi
  */
 public class SecurityUtil {
-    
+
     protected static final Logger log =  Logger.getLogger( LogDomainConstants.IMPL_CRYPTO_DOMAIN,
             LogDomainConstants.IMPL_CRYPTO_DOMAIN_BUNDLE);
-    
+
     /** Creates a new instance of SecurityUtil */
     public SecurityUtil() {
     }
-    
+
     public static SecretKey generateSymmetricKey(String algorithm) throws XWSSecurityException{
         try {
-            
+
             //keyGen.init(168);//TODO-Venu
             String jceAlgo = JCEMapper.getJCEKeyAlgorithmFromURI(algorithm);
             //JCEMapper.translateURItoJCEID(algorithm);
@@ -136,7 +136,7 @@ public class SecurityUtil {
                     "Unable to Generate Symmetric Key", e);
         }
     }
-    
+
     /**
      * Lookup method to get the Key Length based on algorithm
      * TODO: Not complete yet, need to add more algorithms
@@ -155,20 +155,20 @@ public class SecurityUtil {
             throw new UnsupportedOperationException("TODO: not yet implemented keyLength for" + algorithm);
         }
     }
-    
+
     public static String generateUUID() {
         Random rnd = new Random();
         int intRandom = rnd.nextInt();
         String id = "XWSSGID-"+ System.currentTimeMillis() + intRandom;
         return id;
     }
-    
+
     public static byte[] P_SHA1(byte[] secret, byte[] seed
             ) throws Exception {
-        
+
         byte[] aBytes, result;
         aBytes = seed;
-        
+
         Mac hMac = Mac.getInstance("HMACSHA1");
         SecretKeySpec sKey = new SecretKeySpec(secret, "HMACSHA1");
         hMac.init(sKey);
@@ -179,29 +179,29 @@ public class SecurityUtil {
         hMac.update(aBytes);
         hMac.update(seed);
         result = hMac.doFinal();
-        
+
         return result;
     }
-    
+
     public static byte[] P_SHA1(byte[] secret, byte[] seed,
             int requiredSize) throws NoSuchAlgorithmException, InvalidKeyException {
         Mac hMac = Mac.getInstance("HMACSHA1");
         SecretKeySpec sKey = new SecretKeySpec(secret, "HMACSHA1");
-        
+
         byte[] result = new byte[requiredSize];
         int copied=0;
-        
+
         byte[] aBytes = seed;
         hMac.init(sKey);
         hMac.update(aBytes);
         aBytes  = hMac.doFinal();
-        
+
         int rounds = requiredSize/aBytes.length ;
         if(requiredSize % aBytes.length != 0)
             rounds++;
-        
+
         for(int i = 0; i < rounds; i ++){
-            
+
             hMac.reset();
             hMac.init(sKey);
             hMac.update(aBytes);
@@ -220,7 +220,7 @@ public class SecurityUtil {
         }
         return result;
     }
-    
+
     public static String getSecretKeyAlgorithm(String encryptionAlgo) {
         String encAlgo = JCEMapper.translateURItoJCEID(encryptionAlgo);
         if (encAlgo.startsWith("AES")) {
@@ -231,8 +231,8 @@ public class SecurityUtil {
             return "DES";
         }
         return encAlgo;
-    }       
-    
+    }
+
     public static void checkIncludeTokenPolicyOpt(JAXBFilterProcessingContext context,
             AuthenticationTokenPolicy.UsernameTokenBinding untBinding,
             String unTokenid) throws XWSSecurityException{
@@ -247,7 +247,7 @@ public class SecurityUtil {
                 untBinding.setReferenceType(MessageConstants.DIRECT_REFERENCE_TYPE);
             } else {
                 throw new UnsupportedOperationException(untBinding.getIncludeToken() + " not supported yet as IncludeToken policy");
-            }            
+            }
         } catch(Exception e){
             throw new XWSSecurityException(e);
         }
@@ -256,11 +256,11 @@ public class SecurityUtil {
     public static void checkIncludeTokenPolicy(FilterProcessingContext context,
             AuthenticationTokenPolicy.X509CertificateBinding certInfo,
             String x509id) throws XWSSecurityException{
-        
+
         HashMap insertedX509Cache = context.getInsertedX509Cache();
         X509SecurityToken x509Token = (X509SecurityToken)insertedX509Cache.get(x509id);
         //SecurableSoapMessage secureMessage = context.getSecurableSoapMessage();
-        
+
         try{
             if(x509Token == null){
                 /*Token policyToken = certInfo.getPolicyToken();
@@ -299,13 +299,13 @@ public class SecurityUtil {
             throw new XWSSecurityException(e);
         }
     }
-    
+
     public static void checkIncludeTokenPolicyOpt(JAXBFilterProcessingContext context,
             AuthenticationTokenPolicy.X509CertificateBinding certInfo,
             String x509id) throws XWSSecurityException{
-        
+
         //SecurityHeaderElement she = context.getSecurityHeader().getChildElement(x509id);
-        
+
         try{
             //if(she != null){
                 /*Token policyToken = certInfo.getPolicyToken();
@@ -347,7 +347,7 @@ public class SecurityUtil {
             throw new XWSSecurityException(e);
         }
     }
-    
+
     public static String  getWsuIdOrId(Element elem) throws XWSSecurityException {
         NamedNodeMap nmap = elem.getAttributes();
         Node attr = nmap.getNamedItem("Id");
@@ -361,18 +361,18 @@ public class SecurityUtil {
         }
         return attr.getNodeValue();
     }
-    
-    
+
+
     public static void resolveSCT(FilterProcessingContext context, SecureConversationTokenKeyBinding sctBinding)
     throws XWSSecurityException {
         // resolve the ProofKey here and set it into ProcessingContext
         //String sctPolicyId = sctBinding.getPolicyToken().getTokenId();
-        String sctPolicyId = sctBinding.getUUID();        
+        String sctPolicyId = sctBinding.getUUID();
         // this will work on the client side only
         //IssuedTokenContext ictx = context.getIssuedTokenContext(sctPolicyId);
         IssuedTokenContext ictx = null;
         String protocol = context.getWSSCVersion(context.getSecurityPolicyVersion());
-        if(context.isClient()){            
+        if(context.isClient()){
             String sctId = context.getSCPolicyIDtoSctIdMap(sctPolicyId);
             SCTokenConfiguration config = new DefaultSCTokenConfiguration(protocol, sctId, !context.isExpired(), !context.isInboundMessage());
             ictx =IssuedTokenManager.getInstance().createIssuedTokenContext(config, null);
@@ -386,9 +386,9 @@ public class SecurityUtil {
             // this will work on the server side
             String sctId = "";
             if(context instanceof JAXBFilterProcessingContext){
-                
+
                 Object sctObject = context.getExtraneousProperty(MessageConstants.INCOMING_SCT);
-                
+
                 if (sctObject == null) {
                     throw new XWSSecurityException("SecureConversation Session Context not Found");
                 }
@@ -398,20 +398,20 @@ public class SecurityUtil {
                 }else if(sctObject instanceof SecurityContextToken){
                     SecurityContextToken sct = (SecurityContextToken)sctObject;
                     sctId = sct.getIdentifier().toString();
-                }                                                                
-            } else{                                
+                }
+            } else{
                 SecurityContextToken sct = (SecurityContextToken)context.getExtraneousProperty(MessageConstants.INCOMING_SCT);
                 if (sct == null) {
                     throw new XWSSecurityException("SecureConversation Session Context not Found");
-                }                
+                }
                 sctId = sct.getIdentifier().toString();
             }
-            
+
             ictx = ((SessionManager)context.getExtraneousProperty("SessionManager")).getSecurityContext(sctId, !context.isExpired());
             java.net.URI identifier = null;
             String instance = null;
             String wsuId = null;
-                    
+
             SecurityContextToken sct = (SecurityContextToken)ictx.getSecurityToken();
             if (sct != null){
                 identifier = sct.getIdentifier();
@@ -421,22 +421,22 @@ public class SecurityUtil {
                 SecurityContextTokenInfo sctInfo = ictx.getSecurityContextTokenInfo();
                 identifier = java.net.URI.create(sctInfo.getIdentifier());
                 instance = sctInfo.getInstance();
-                wsuId = sctInfo.getExternalId();  
+                wsuId = sctInfo.getExternalId();
             }
-            
+
             ictx.setSecurityToken(WSTrustElementFactory.newInstance(protocol).createSecurityContextToken(identifier, instance, wsuId));
         }
-            
-        
+
+
         if (ictx == null) {
             throw new XWSSecurityException("SecureConversation Session Context not Found");
         } else {
-            //System.out.println("SC Session located...");            
+            //System.out.println("SC Session located...");
         }
         //TODO: assuming only a single secure-conversation context
         context.setSecureConversationContext(ictx);
     }
-    
+
     public static void resolveIssuedToken(FilterProcessingContext context, IssuedTokenKeyBinding itkb) throws XWSSecurityException {
         //resolve the ProofKey here and set it into ProcessingContext
         //String itPolicyId = itkb.getPolicyToken().getTokenId();
@@ -449,7 +449,7 @@ public class SecurityUtil {
             ictx = context.getTrustCredentialHolder();
             clientSide = false;
         }
-        
+
         if (ictx == null) {
             throw new XWSSecurityException("Trust IssuedToken not Found");
         }
@@ -470,28 +470,28 @@ public class SecurityUtil {
             }
         }
     }
-    
+
     public static void initInferredIssuedTokenContext(FilterProcessingContext wssContext, Token str, Key returnKey) {
         // new code which fixes issues with Brokered Trust.
         IssuedTokenContextImpl ictx = (IssuedTokenContextImpl)wssContext.getTrustCredentialHolder();
         if (ictx == null) {
             ictx = new IssuedTokenContextImpl();
         }
-        
+
         ictx.setProofKey(returnKey.getEncoded());
         ictx.setUnAttachedSecurityTokenReference(str);
         wssContext.setTrustCredentialHolder(ictx);
     }
-    
+
     public static boolean isEncryptedKey(SOAPElement elem) {
-        
+
         if (MessageConstants.XENC_ENCRYPTED_KEY_LNAME.equals(elem.getLocalName()) &&
                 MessageConstants.XENC_NS.equals(elem.getNamespaceURI())) {
             return true;
         }
         return false;
     }
-    
+
     public static boolean isBinarySecret(SOAPElement elem) {
         if (MessageConstants.BINARY_SECRET_LNAME.equals(elem.getLocalName()) &&
                 WSTrustConstants.WST_NAMESPACE.equals(elem.getNamespaceURI())) {
@@ -501,17 +501,17 @@ public class SecurityUtil {
     }
      @SuppressWarnings("unchecked")
     public static SecurityContextTokenImpl locateBySCTId(FilterProcessingContext context, String sctId) throws XWSSecurityException {
-        
+
         Hashtable contextMap = context.getIssuedTokenContextMap();
-        
+
         if (contextMap == null) {
             // print a warning here
             //System.out.println("context.getIssuedTokenContextMap was null.........");
             return null;
         }
-        
+
         Iterator<Map.Entry> it = contextMap.entrySet().iterator();
-        
+
         while (it.hasNext()) {
             Map.Entry entry = it.next();
             String tokenId = (String)entry.getKey();
@@ -592,8 +592,8 @@ public class SecurityUtil {
             throw new XWSSecurityException(e);
         }
     }
-    
-    
+
+
     public static String getDataEncryptionAlgo(JAXBFilterProcessingContext context){
         WSSPolicy policy = (WSSPolicy) context.getSecurityPolicy();
         String tmp = "";
@@ -614,7 +614,7 @@ public class SecurityUtil {
         }
         return tmp;
     }
-    
+
     /**
      * Returns a URL pointing to the given config file. The file is looked up as
      * a resource on the classpath.
@@ -631,13 +631,13 @@ public class SecurityUtil {
             return cl.getResource(configFileName);
         }
     }
-    
+
     public static Element convertSTRToElement(Object strElem, Document doc) throws XWSSecurityException{
-        
+
         if(strElem == null || strElem instanceof Element){
             return (Element)strElem;
         }
-        
+
         com.sun.xml.wss.core.SecurityTokenReference stRef = null;
         if(strElem instanceof com.sun.xml.ws.security.opt.impl.reference.KeyIdentifier){
             com.sun.xml.ws.security.opt.impl.reference.KeyIdentifier keyIdStrElem = (com.sun.xml.ws.security.opt.impl.reference.KeyIdentifier)strElem;
@@ -653,7 +653,7 @@ public class SecurityUtil {
         }
         return stRef;
     }
-    
+
     public static  void copySubject(final Subject to, final Subject from) {
          AccessController.doPrivileged(
                  new PrivilegedAction<>() {
@@ -687,14 +687,14 @@ public class SecurityUtil {
         );
         return otherPartySubject;
     }
-    
+
     public static SecurityContextToken getSCT(SecurityContextToken sct, SOAPVersion version){
         if(sct instanceof com.sun.xml.ws.security.secconv.impl.wssx.bindings.SecurityContextTokenType){
             return new SecurityContextToken13(
                     (com.sun.xml.ws.security.secconv.impl.wssx.bindings.SecurityContextTokenType)sct,version);
         }else{
             return new com.sun.xml.ws.security.opt.impl.keyinfo.SecurityContextToken((SecurityContextTokenType)sct,version);
-        }        
+        }
     }
      @SuppressWarnings("unchecked")
     public static  void copy(Map p1, Map p2) {
@@ -703,7 +703,7 @@ public class SecurityUtil {
         }
         p1.putAll(p2);
     }
-    
+
      public static Object newInstance(String className,
             ClassLoader classLoader, String spiName) {
         try {
@@ -722,7 +722,7 @@ public class SecurityUtil {
                     "The "  +  spiName + " :"  + className + " specified in META-INF/services could not be instantiated", x);
         }
     }
-     
+
      public static  Object loadSPIClass(URL url, String spiName) {
         InputStream is = null;
         if (url == null) {
@@ -747,10 +747,10 @@ public class SecurityUtil {
             }
         } catch (IOException e) {
             return null;
-        } 
+        }
         return null;
     }
-     
+
     public static long toLong(String lng) throws XWSSecurityException {
         if (lng == null) {
             return 0;
@@ -774,5 +774,5 @@ public class SecurityUtil {
         } else {
             return MessageConstants.RSA_SHA1_SIGMETHOD;
         }
-    }  
+    }
 }

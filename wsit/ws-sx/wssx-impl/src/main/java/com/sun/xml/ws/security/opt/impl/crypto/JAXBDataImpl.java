@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -126,7 +126,7 @@ public class JAXBDataImpl implements JAXBData {
         Marshaller mh;
         try {
             if (header != null && header instanceof JAXBHeader) {
-                final JAXBHeader hdr = ((JAXBHeader) header);             
+                final JAXBHeader hdr = ((JAXBHeader) header);
                 Object obj = header.readAsJAXB(jc.createUnmarshaller());
                 mh = jc.createMarshaller();
                 //mh.setProperty("org.glassfish.jaxb.c14n", true);

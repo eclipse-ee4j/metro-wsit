@@ -42,7 +42,7 @@ class WSATNoOpXAResource implements XAResource {
 
     @Override
     public int getTransactionTimeout() {
-        return -1; 
+        return -1;
     }
 
     @Override

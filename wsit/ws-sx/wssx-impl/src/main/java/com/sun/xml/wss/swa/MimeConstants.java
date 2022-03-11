@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -42,7 +42,7 @@ public interface MimeConstants {
 
    // rfc2045/6 canonicalized parameters for text/image/application types
    String CHARSET           = "charset";
-  
+
    // rfc2045/6 canonicalized parameter names for application type
       // for octet-stream subtype
    String TYPE           = "type";
@@ -68,5 +68,5 @@ public interface MimeConstants {
    String IMAGE_GIF_TYPE    = IMAGE_TYPE + "/" + GIF_TYPE;
    String APPLICATION_OCTET_STREAM_TYPE
                                    = APPLICATION_TYPE + "/" + OCTET_STREAM_TYPE;
-                                                
+
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -38,8 +38,8 @@ public class SAMLException extends Exception {
     }
 
     /**
-     * Create an <code>SAMLException</code> 
-     * 
+     * Create an <code>SAMLException</code>
+     *
      * @param e the cause
      */
     public SAMLException (Throwable e) {

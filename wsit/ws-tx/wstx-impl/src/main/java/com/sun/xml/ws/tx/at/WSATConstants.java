@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -81,7 +81,7 @@ public interface WSATConstants {
     String WSAT_REGISTRATIONREQUESTERPORTTYPEPORT = "/"+ WSAT_CONTEXT_ROOT +"/RegistrationRequesterPortType";
     //RegistrationRequesterPortTypeRPC";
     String WSAT_PARTICIPANTPORTTYPEPORT = "/"+ WSAT_CONTEXT_ROOT +"/ParticipantPortType";
-    // logger                                                     
+    // logger
     String DEBUG_WSAT = "DebugWSAT";
 
     String WSAT11_NS_URI = "http://docs.oasis-open.org/ws-tx/wsat/2006/06";

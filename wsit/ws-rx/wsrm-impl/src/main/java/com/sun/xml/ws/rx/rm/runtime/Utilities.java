@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -23,9 +23,9 @@ import java.io.IOException;
 import jakarta.xml.ws.WebServiceException;
 
 /**
- * The non-instantiable utility class containing various common static utility methods 
+ * The non-instantiable utility class containing various common static utility methods
  * used for runtime processing.
- * 
+ *
  * @author Marek Potociar (marek.potociar at sun.com)
  */
 final class Utilities {
@@ -42,7 +42,7 @@ final class Utilities {
     /**
      * Checks whether the actual sequence identifier value equals to the expected value
      * and throws a logged exception if th check fails.
-     * 
+     *
      * @param expected expected sequence identifier value
      * @param actual actual sequence identifier value
      * @throws java.lang.IllegalStateException if actual value does not equal to the expected value

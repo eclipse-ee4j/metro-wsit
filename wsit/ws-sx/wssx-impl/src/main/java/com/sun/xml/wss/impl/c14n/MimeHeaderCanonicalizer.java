@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -31,14 +31,14 @@ import java.util.List;
 import jakarta.mail.internet.MimeUtility;
 
 public class MimeHeaderCanonicalizer extends Canonicalizer {
-    
+
     public MimeHeaderCanonicalizer() {}
-    
+
     @Override
     public byte[] canonicalize(byte[] input) {
         return null;
     }
-    
+
     @Override
     public InputStream canonicalize(InputStream input, OutputStream outputStream)
     throws javax.xml.crypto.dsig.TransformException   {
@@ -52,7 +52,7 @@ public class MimeHeaderCanonicalizer extends Canonicalizer {
         while(mimeHeaders.hasNext()){
             mimeHeaderList.add(mimeHeaders.next());
         }
-        
+
         // rf. steps 2-10 Section 4.3.1 SwA Draft 13
         // SAAJ RI returns trimmed (at start) Content-Description values
         // Unstructured MIME Headers can be RFC2047 encoded, step 6
@@ -63,7 +63,7 @@ public class MimeHeaderCanonicalizer extends Canonicalizer {
             _mh += uncomment(rfc2047decode(unfold(cDescription)));
             _mh += _CRLF;
         }
-        
+
         // Unfold, step 5; unfold WSP, step 7;
         String cDisposition = getMatchingHeader(mimeHeaderList, MimeConstants.CONTENT_DISPOSITION);
         if (cDisposition != null) {
@@ -71,7 +71,7 @@ public class MimeHeaderCanonicalizer extends Canonicalizer {
             _mh += canonicalizeHeaderLine(uncomment(unfold(cDisposition)), true);
             _mh += _CRLF;
         }
-        
+
         // Unfold, step 5; unfold WSP, step 7;
         String cId = getMatchingHeader(mimeHeaderList, MimeConstants.CONTENT_ID);
         if (cId != null) {
@@ -79,7 +79,7 @@ public class MimeHeaderCanonicalizer extends Canonicalizer {
             _mh += unfoldWS(uncomment(unfold(cId))).trim();
             _mh += _CRLF;
         }
-        
+
         // Unfold, step 5; unfold WSP, step 7;
         String cLocation = getMatchingHeader(mimeHeaderList, MimeConstants.CONTENT_LOCATION);
         if (cLocation != null) {
@@ -87,17 +87,17 @@ public class MimeHeaderCanonicalizer extends Canonicalizer {
             _mh += unfoldWS(uncomment(unfold(cLocation))).trim();
             _mh += _CRLF;
         }
-        
+
         // Unfold, step 5; unfold WSP, step 7;
         String cType = getMatchingHeader(mimeHeaderList, MimeConstants.CONTENT_TYPE);
         cType = (cType == null) ? "text/plain; charset=us-ascii" : cType;
-        
+
         _mh += MimeConstants.CONTENT_TYPE + _CL;
         _mh += canonicalizeHeaderLine(uncomment(unfold(cType)), true);
         _mh += _CRLF;
-        
+
         _mh += _CRLF; // step 17
-        
+
         byte[] b = null;
         try {
             b = _mh.getBytes(StandardCharsets.UTF_8);
@@ -105,16 +105,16 @@ public class MimeHeaderCanonicalizer extends Canonicalizer {
             // log
             throw new XWSSecurityException(e);
         }
-        
+
         return b;
     }
-    
+
     private String getMatchingHeader(List mimeHeaders, String key) throws XWSSecurityException {
         String header_line = null;
         try {
             for (int i=0; i<mimeHeaders.size(); i++) {
                 MimeHeader mhr = (MimeHeader)mimeHeaders.get(i);
-         
+
                 if (mhr.getName().equalsIgnoreCase(key)) {
                     header_line = mhr.getValue();
                     break;
@@ -133,13 +133,13 @@ public class MimeHeaderCanonicalizer extends Canonicalizer {
         }
         return header_line;
     }
-    
+
     private String unfold(String input) {
         if (input.charAt(0) == _QT.charAt(0) || input.charAt(input.length()-1) == _QT.charAt(0)) return input;
-        
+
         // remove all CRLF sequences
         StringBuilder sb = new StringBuilder();
-        
+
         for (int i=0; i<input.length(); i++) {
             char c = input.charAt(i);
             if (c == _CRLF.charAt(0) && i != input.length()-1)
@@ -149,13 +149,13 @@ public class MimeHeaderCanonicalizer extends Canonicalizer {
                 }
             sb.append(c);
         }
-        
+
         return sb.toString();
     }
-    
+
     private String rfc2047decode(String input) throws XWSSecurityException {
         if (input.charAt(0) == _QT.charAt(0) || input.charAt(input.length()-1) == _QT.charAt(0)) return input;
-        
+
         String decodedText = null;
         try {
             decodedText = MimeUtility.decodeText(input);
@@ -165,10 +165,10 @@ public class MimeHeaderCanonicalizer extends Canonicalizer {
         }
         return decodedText;
     }
-    
+
     private String unfoldWS(String input) {
         if (input.charAt(0) == _QT.charAt(0) || input.charAt(input.length()-1) == _QT.charAt(0)) return input;
-        
+
         StringBuilder sb = new StringBuilder();
         for (int i=0; i<input.length(); i++) {
             if (input.charAt(i) == _WS.charAt(0) || input.charAt(i) == _HT.charAt(0)) {
@@ -181,32 +181,32 @@ public class MimeHeaderCanonicalizer extends Canonicalizer {
             } else
                 sb.append(input.charAt(i));
         }
-        
+
         return sb.toString();
     }
-    
+
     private String uncomment(String input) {
         if (input.charAt(0) == _QT.charAt(0) || input.charAt(input.length()-1) == _QT.charAt(0)) return input;
-        
+
         for (int oc=0; oc<input.length(); oc++) {
             if ((oc=input.indexOf(_OC)) == -1)
                 // no opening brace found
                 break;
-            
+
             int offset = input.substring(oc).indexOf(_CC);
             if (offset == -1)
                 // no closing brace found
                 break;
-            
+
             int cc = oc + offset;
-            
+
             String fs = (oc != 0) ? input.substring(0, oc) : "";
             String bs = input.substring(cc+1);
-            
+
             if (offset == 1) {
                 // encountered "..()"
                 input = fs + _WS + bs;
-                
+
             } else {
                 if (!input.substring(oc + 1, cc).contains(_OC)) {
                     // encountered "..(..).."
@@ -214,22 +214,22 @@ public class MimeHeaderCanonicalizer extends Canonicalizer {
                 } else {
                     // encountered nested comment, bombs if comments are malformed
                     input = fs + _OC + uncomment(input.substring(oc+1, cc+1)) + bs;
-                    
+
                 }
             }
         }
-        
+
         return input;
     }
-    
+
     private String canonicalizeHeaderLine(String input, boolean applyStep10SwaDraft13) throws XWSSecurityException {
         int _sc = input.indexOf(_SC);
         if (_sc <=0 || _sc == input.length()-1) return input;
-        
+
         // step 9 MHC SwA Draft 13
         String _fs = input.substring(0, _sc).toLowerCase();
         if (applyStep10SwaDraft13) _fs = quote(_fs, false);
-        
+
         // params found
         String size = null;
         String type = null;
@@ -239,23 +239,23 @@ public class MimeHeaderCanonicalizer extends Canonicalizer {
         String read_date = null;
         String creation_date = null;
         String modification_date = null;
-        
+
         String decoded = null;
-        
+
         try {
             decoded = rfc2184decode(input.substring(_sc+1));
         } catch (Exception e) {
             // log
             throw new XWSSecurityException(e);
         }
-        
+
         StringTokenizer strnzr = new StringTokenizer(decoded, _SC);
         while (strnzr.hasMoreElements()) {
             String param = strnzr.nextToken();
-            
+
             String pname = param.substring(0, param.indexOf(_EQ));
             String value = param.substring(param.indexOf(_EQ)+1);
-            
+
             if (pname.equalsIgnoreCase(MimeConstants.TYPE)) {
                 type = quote(value.toLowerCase(), true);
             } else
@@ -281,58 +281,58 @@ public class MimeHeaderCanonicalizer extends Canonicalizer {
                                             size = quote(value.toLowerCase(), true);
                                         }
         }
-        
+
         // no sanity checks
         if (charset != null)
             _fs += _SC + MimeConstants.CHARSET + _EQ + charset;
-        
+
         if (creation_date != null)
             _fs += _SC + MimeConstants.CREATION_DATE + _EQ + creation_date;
-        
+
         if (filename != null)
             _fs += _SC + MimeConstants.FILENAME + _EQ + filename;
-        
+
         if (modification_date != null)
             _fs += _SC + MimeConstants.MODIFICATION_DATE + _EQ + modification_date;
-        
+
         if (padding != null)
             _fs += _SC + MimeConstants.PADDING + _EQ + padding;
-        
+
         if (read_date != null)
             _fs += _SC + MimeConstants.READ_DATE + _EQ + read_date;
-        
+
         if (size != null)
             _fs += _SC + MimeConstants.SIZE + _EQ + size;
-        
+
         if (type != null)
             _fs += _SC + MimeConstants.TYPE + _EQ + type;
-        
+
         return _fs;
     }
-    
+
     private Vector makeParameterVector(String input) {
         Vector<Object> v = new Vector<>();
-        
+
         StringTokenizer nzr = new StringTokenizer(input, _SC);
         while (nzr.hasMoreTokens()) {
             v.add(nzr.nextToken());
         }
-        
+
         return v;
     }
-    
+
     private String _rfc2184decode(String input) throws Exception {
         StringTokenizer nzr = new StringTokenizer(input, _SQ);
-        
+
         if (nzr.countTokens() != 3) {
             // log
             throw new XWSSecurityException("Malformed RFC2184 encoded parameter");
         }
-        
+
         String charset  = nzr.nextToken();
         String language = nzr.nextToken();
         //String encoded  = nzr.nextToken();
-        
+
         for (int i=0; i<input.length(); i++) {
             if (input.charAt(i) == _PC.charAt(0)) {
                 input = input.substring(0, i) +
@@ -340,10 +340,10 @@ public class MimeHeaderCanonicalizer extends Canonicalizer {
                 input.substring(i+3);
             }
         }
-        
+
         return input;
     }
-    
+
     private String _decodeHexadecimal(String input, String charset, String language) throws Exception {
         // ignoring language
         byte b = Byte.decode("0x"+input.toUpperCase()).byteValue();
@@ -355,63 +355,63 @@ public class MimeHeaderCanonicalizer extends Canonicalizer {
         String pname = "";
         String value = "";
         String decoded = "";
-        
+
         Vector v = makeParameterVector(input);
         for (int i=0; i<v.size(); i++) {
             String token = (String) v.elementAt(i);
-            
+
             int idx = token.indexOf(_EQ);
             String pn = token.substring(0, idx).trim();
             String pv = token.substring(idx+1).trim();
-            
+
             if (pn.endsWith(_AX)) {
                 // is language encoded, strip _AX
                 pn = pn.substring(0, pn.length()-1);
                 pv = _rfc2184decode(pv);
-                
+
                 token = pn + _EQ + pv;
-                
+
                 v.setElementAt(token, i);
-                
+
                 i--;
-                
+
             } else {
                 int ix = pn.indexOf(_AX);
-                
+
                 if (ix == -1) {
                     // flush out the previous param
                     if (!pname.equals(""))
                         decoded += _SC + pname + _EQ + pv;
-                    
+
                     // write the current param
                     decoded += _SC + pn + _EQ + pv;
-                    
+
                     // reset state
                     pname = "";
                     value = "";
                     index = -1;
                     continue;
                 }
-                
+
                 // parameter continuation
                 String pn_i = pn.substring(0, ix).trim();
                 int curr = Integer.parseInt(pn.substring(ix + 1).trim());
-                
+
                 if (pn_i.equalsIgnoreCase(pname)) {
                     if (curr != index+1) {
                         // log
                         throw new XWSSecurityException("Malformed RFC2184 encoded parameter");
                     }
-                    
+
                     value += concatenate2184decoded(value, pv);
                     index++;
-                    
+
                 } else {
                     if (curr == 0) {
                         // flush out previous param
                         if (!pname.equals(""))
                             decoded += _SC + pname + _EQ + value;
-                        
+
                         // store state
                         pname = pn_i;
                         value = pv;
@@ -422,36 +422,36 @@ public class MimeHeaderCanonicalizer extends Canonicalizer {
                     }
                 }
             }
-            
+
         }
-        
+
         // flush out an unwritten param
         if (!pname.equals(""))
             decoded += _SC + pname + _EQ + value;
-        
+
         return decoded;
     }
-    
+
     private String concatenate2184decoded(String v0, String v1) throws XWSSecurityException {
         boolean v0Quoted = (v0.charAt(0) == _QT.charAt(0) && v0.charAt(v0.length()-1) == _QT.charAt(0));
         boolean v1Quoted = (v1.charAt(0) == _QT.charAt(0) && v1.charAt(0) == _QT.charAt(0));
-        
+
         if (v0Quoted != v1Quoted) {
             // log
             throw new XWSSecurityException("Malformed RFC2184 encoded parameter");
         }
-        
+
         String value = null;
-        
+
         if (v0Quoted) {
             value = v0.substring(0, v0.length()-1) + v1.substring(1);
         } else
             value = v0 + v1;
-        
-        
+
+
         return value;
     }
-    
+
     private String quote(String input, boolean force) {
         if (input.charAt(0) == _QT.charAt(0) || input.charAt(input.length()-1) == _QT.charAt(0))
             input = _QT + unquoteInner(input.substring(1, input.length()-1)) + _QT;
@@ -460,23 +460,23 @@ public class MimeHeaderCanonicalizer extends Canonicalizer {
                 input = _QT + quoteInner(unfoldWS(input).trim()) + _QT;
             else
                 input = unfoldWS(input).trim();
-        
+
         return input;
     }
-    
+
     private String unquoteInner(String input) {
         StringBuilder sb = new StringBuilder();
-        
+
         for (int i=0; i<input.length(); i++) {
             char c = input.charAt(i);
-            
+
             if (c == _BS.charAt(0)) {
                 if (i == input.length()-1) {
                     sb.append(c);
                     sb.append(c);
                     break;
                 }
-                
+
                 i++;
                 char d = input.charAt(i);
                 if (d == _QT.charAt(0) || d == _BS.charAt(0)) {
@@ -488,32 +488,32 @@ public class MimeHeaderCanonicalizer extends Canonicalizer {
                     continue;
                 }
             }
-            
+
             if (c == _QT.charAt(0)) {
                 sb.append(_BS.charAt(0));
                 sb.append(c);
             }
-            
+
             sb.append(c);
         }
-        
+
         return sb.toString();
     }
-    
+
     private String quoteInner(String input) {
         StringBuilder sb = new StringBuilder();
-        
+
         for (int i=0; i < input.length(); i++) {
             char c = input.charAt(i);
-            
+
             if (c == _BS.charAt(0) || c == _QT.charAt(0)) sb.append(_BS.charAt(0));
-            
+
             sb.append(c);
         }
-        
+
         return sb.toString();
     }
-    
+
     // rfc2822 mime header delimiters
     private static final String _WS = " ";
     private static final String _SC = ";";
@@ -528,6 +528,6 @@ public class MimeHeaderCanonicalizer extends Canonicalizer {
     private static final String _HT = "\t";
     private static final String _AX = "*";
     private static final String _PC = "%";
-    
+
     private static final String _CRLF = "\r\n";
 }

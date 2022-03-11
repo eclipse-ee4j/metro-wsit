@@ -19,7 +19,7 @@ import javax.xml.stream.XMLStreamReader;
  */
 public interface SecurityElement {
     /**
-     * 
+     *
      * @return id
      */
     String getId();
@@ -28,11 +28,11 @@ public interface SecurityElement {
      */
     void setId(final String id);
     /**
-     * 
+     *
      * @return namespace uri of the security header element.
      */
     String getNamespaceURI();
-    
+
     /**
      * Gets the local name of this header element.
      *
@@ -40,35 +40,35 @@ public interface SecurityElement {
      *      this string must be interned.
      */
     String getLocalPart();
-    
-   
+
+
     /**
      * Reads the header as a {@link XMLStreamReader}.
-     * 
+     *
      * <p>
      * The returned parser points at the start element of this header.
      * (IOW, {@link XMLStreamReader#getEventType()} would return
      * {@link XMLStreamReader#START_ELEMENT}.
-     * 
+     *
      * <p><strong>Performance Expectation</strong>
      * <p>
      * For some Header implementations, this operation
      * is a non-trivial operation. Therefore, use of this method
      * is discouraged unless the caller is interested in reading
      * the whole header.
-     * 
+     *
      * <p>
      * Similarly, if the caller wants to use this method only to do
      * the API conversion (such as simply firing SAX events from
      * {@link XMLStreamReader}), then the JAX-WS team requests
      * that you talk to us.
-     * 
+     *
      * <p>
      * Messages that come from tranport usually provides
      * a reasonably efficient implementation of this method.
-     * 
+     *
      * @return must not null.
      */
-    XMLStreamReader readHeader() throws XMLStreamException;  
-    
+    XMLStreamReader readHeader() throws XMLStreamException;
+
 }

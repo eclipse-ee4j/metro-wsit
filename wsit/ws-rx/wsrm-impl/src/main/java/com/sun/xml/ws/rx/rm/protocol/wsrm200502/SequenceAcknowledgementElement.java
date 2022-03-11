@@ -30,7 +30,7 @@ import java.util.Map;
 
 /**
  * Abstraction of the <code>SequenceAcknowledgement</code> WS-RM protocol element.
- * Based on a JAXB schema compiler generated class that has properties for each 
+ * Based on a JAXB schema compiler generated class that has properties for each
  * child element of the SequenceAcknowledgement element.  A property used to
  * serialize/ deserialize the <code>BufferRemaining</code> extensibility element is added.
  *
@@ -64,7 +64,7 @@ public class SequenceAcknowledgementElement {
     }
 
     /**
-     * Gets the value of the identifier property. 
+     * Gets the value of the identifier property.
      * @return The value of the property.
      */
     public Identifier getIdentifier() {
@@ -73,7 +73,7 @@ public class SequenceAcknowledgementElement {
 
     /**
      * Sets the value of the identifier property.
-     * 
+     *
      * @param value The new value of the property.
      */
     public void setIdentifier(Identifier value) {
@@ -82,7 +82,7 @@ public class SequenceAcknowledgementElement {
 
     /**
      * Gets the value of the acknowledgementRange property.
-     * 
+     *
      * @return The value of the property, which is a list of AcknowledgementRange
      *  objects
      */
@@ -95,10 +95,10 @@ public class SequenceAcknowledgementElement {
 
     /**
      *  Gets the value of the nack property.
-     * 
+     *
      * @return The value of the property, which is a list of BigIntegers
-     * 
-     * 
+     *
+     *
      */
     public List<BigInteger> getNack() {
         if (nack == null) {
@@ -109,9 +109,9 @@ public class SequenceAcknowledgementElement {
 
     /**
      * Gets the value of the any property representing extensibility elements
-     *  
+     *
      * @return The list of elements.
-     * 
+     *
      */
     public List<Object> getAny() {
         if (any == null) {
@@ -122,7 +122,7 @@ public class SequenceAcknowledgementElement {
 
     /**
      * Gets a map that contains attributes that aren't bound to any typed property on this class.
-     * 
+     *
      * @return The value of the property
      */
     public Map<QName, String> getOtherAttributes() {

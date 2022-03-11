@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -42,7 +42,7 @@ public abstract class Constants {
 
     public static final QName MESSAGE_ID_HEADER = new QName(wsaURI,"MessageID");
     public static final List<PolicyAssertion> EMPTY_LIST = Collections.emptyList();
-    
+
     public static final QName bsOperationName =
             new QName("http://schemas.xmlsoap.org/ws/2005/02/trust","RequestSecurityToken");
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -31,18 +31,18 @@ import jakarta.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement(name="KeyValue", namespace = "http://www.w3.org/2000/09/xmldsig#")
 public class KeyValue extends com.sun.xml.security.core.dsig.KeyValueType implements javax.xml.crypto.dsig.keyinfo.KeyValue {
-    
+
     /** Creates a new instance of KeyValue */
     public KeyValue() {
     }
-    
+
     @Override
     public PublicKey getPublicKey() throws KeyException {
         PublicKey publicKey = null;
         for ( Object o : content) {
             if ( o instanceof DSAKeyValue) {
                 DSAKeyValue dsaKeyValue = (DSAKeyValue) o;
-                
+
                 DSAPublicKeySpec spec = new DSAPublicKeySpec(
                         new BigInteger(dsaKeyValue.getY()),
                         new BigInteger(dsaKeyValue.getP()),
@@ -56,11 +56,11 @@ public class KeyValue extends com.sun.xml.security.core.dsig.KeyValueType implem
                 }
             } else if ( o instanceof RSAKeyValue) {
                 RSAKeyValue rsaKayValue = (RSAKeyValue) o;
-                
+
                 RSAPublicKeySpec spec = new RSAPublicKeySpec(
                         new BigInteger(rsaKayValue.getModulus()),
                         new BigInteger(rsaKayValue.getExponent()));
-                
+
                 try {
                     KeyFactory fac = KeyFactory.getInstance("RSA");
                     return fac.generatePublic(spec);
@@ -71,14 +71,14 @@ public class KeyValue extends com.sun.xml.security.core.dsig.KeyValueType implem
         }
         return null;
     }
-    
+
     @Override
     public boolean isFeatureSupported(String string) {
         return false;
     }
-    
+
     public void setContent(List<Object> content ) {
         this.content = content;
     }
-    
+
 }

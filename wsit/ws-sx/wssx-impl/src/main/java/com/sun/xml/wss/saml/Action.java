@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -13,7 +13,7 @@
  *
  * Created on August 18, 2005, 11:57 AM
  *
- * 
+ *
  */
 
 package com.sun.xml.wss.saml;
@@ -33,23 +33,23 @@ package com.sun.xml.wss.saml;
  *   &lt;/simpleContent&gt;
  * &lt;/complexType&gt;
  * </pre>
- * 
+ *
  */
 public interface Action {
 
     /**
      * Gets the value of the value property.
-     * 
+     *
      * @return object is {@link java.lang.String }
-     *     
+     *
      */
     String getValue();
 
     /**
      * Gets the value of the namespace property.
-     * 
+     *
      * @return object is {@link java.lang.String }
-     *     
+     *
      */
     String getNamespace();
 }

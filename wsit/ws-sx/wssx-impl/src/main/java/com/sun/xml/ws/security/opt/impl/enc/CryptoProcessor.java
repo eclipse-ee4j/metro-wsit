@@ -54,7 +54,7 @@ import com.sun.xml.wss.impl.XWSSecurityRuntimeException;
 public class CryptoProcessor {
     private static final Logger logger = Logger.getLogger(LogDomainConstants.IMPL_OPT_CRYPTO_DOMAIN,
             LogDomainConstants.IMPL_OPT_CRYPTO_DOMAIN_BUNDLE);
-    
+
     protected Cipher cipher = null;
     protected Key key = null;
     protected Data data = null;
@@ -64,7 +64,7 @@ public class CryptoProcessor {
     private byte[] ed = null;
     private IvParameterSpec ivSpec = null;
     private byte[] encryptedDataCV = null;
-    
+
     public CryptoProcessor(){}
     /** Creates a new instance of EncryptionProcessor */
     public CryptoProcessor(int mode,String algo,Data ed,Key key) {
@@ -73,14 +73,14 @@ public class CryptoProcessor {
         this.data = ed;
         this.key = key;
     }
-    
+
     public CryptoProcessor(int mode,String algo,Key dk,Key key) {
         this.mode = mode;
         this.algorithm = algo;
         this.key = key;
         this.dk = dk;
     }
-    
+
     public CryptoProcessor(int mode,String algo,Key key) {
         this.mode = mode;
         this.algorithm = algo;
@@ -96,7 +96,7 @@ public class CryptoProcessor {
             cipher.init(mode, getKey());
         }
     }
-    
+
     protected String getAlgorithm(){
         return algorithm;
     }
@@ -108,11 +108,11 @@ public class CryptoProcessor {
     protected String convertAlgURIToTransformation(String algorithmURI) {
         return JCEMapper.translateURItoJCEID(algorithmURI);
     }
-    
+
     protected Key getKey(){
         return key;
     }
-    
+
     /**
      * encrypts outputStream
      */
@@ -164,7 +164,7 @@ public class CryptoProcessor {
             }
             outputStream.write(ed);
             outputStream.flush();
-            
+
         } catch (NoSuchAlgorithmException ex) {
             logger.log(Level.SEVERE, LogStringsMessages.WSS_1904_UNSUPPORTED_KEYENCRYPTION_ALGORITHM(getAlgorithm()), ex);
             throw new XWSSecurityRuntimeException("Unable to compute CipherValue as "+getAlgorithm()+" is not supported", ex);
@@ -179,22 +179,22 @@ public class CryptoProcessor {
             throw new XWSSecurityRuntimeException(ibe);
         }
     }
-    
+
     public void setEncryptedDataCV(byte [] cv){
         encryptedDataCV = cv;
     }
-    
+
     /**
      * initialises the Cipher and encrypts the data  which is a byte[] and returns the encrypted data
      * @param cipherInput byte[]
-     * @return encryptedBytes byte[] 
+     * @return encryptedBytes byte[]
      */
     public byte[] encryptData(byte[] cipherInput){
         try {
             if(cipher == null){
-                initCipher();    
+                initCipher();
             }
-            
+
             byte[] cipherOutput = cipher.doFinal(cipherInput);
             byte[] iv = cipher.getIV();
             byte[] encryptedBytes = new byte[iv.length + cipherOutput.length];
@@ -267,7 +267,7 @@ public class CryptoProcessor {
                     logger.log(Level.SEVERE, LogStringsMessages.WSS_1908_ERROR_WRITING_ENCRYPTEDDATA(),ex);
                 }
             }
-            
+
             cos.flush();
             cos.close();
         } catch (NoSuchAlgorithmException ex) {
@@ -291,14 +291,14 @@ public class CryptoProcessor {
      * @return Key
      */
     public Key decryptKey(byte[] encryptedKey, String encAlgo) throws IOException{
-        
+
         try {
             if(mode == Cipher.UNWRAP_MODE){
                 if (algorithm == null || algorithm.length() == 0) {
                     logger.log(Level.SEVERE, LogStringsMessages.WSS_1912_DECRYPTION_ALGORITHM_NULL());
                     throw new IOException("Cannot decrypt a key without knowing the algorithm");
                 }
-                
+
                 if(key == null){
                     logger.log(Level.SEVERE, LogStringsMessages.WSS_1913_DECRYPTION_KEY_NULL());
                     throw new IOException("Key used to decrypt EncryptedKey cannot be null");
@@ -307,7 +307,7 @@ public class CryptoProcessor {
                     initCipher();
                 }
                 return cipher.unwrap(encryptedKey,JCEMapper.getJCEKeyAlgorithmFromURI(encAlgo), Cipher.SECRET_KEY);
-                
+
             }
         } catch (InvalidKeyException ex) {
             logger.log(Level.SEVERE, LogStringsMessages.WSS_1906_INVALID_KEY_ERROR(), ex);
@@ -341,9 +341,9 @@ public class CryptoProcessor {
                 return new CipherInputStream(is,cipher);
             } else {
                logger.log(Level.SEVERE, LogStringsMessages.WSS_1914_INVALID_CIPHER_MODE(mode),"Invalid Cipher mode:"+mode);
-               throw new IOException("Invalid Cipher mode:"+mode); 
+               throw new IOException("Invalid Cipher mode:"+mode);
             }
-            
+
         } catch (InvalidKeyException ex) {
             logger.log(Level.SEVERE, LogStringsMessages.WSS_1906_INVALID_KEY_ERROR(),ex);
             throw new XWSSecurityRuntimeException(ex);
@@ -357,7 +357,7 @@ public class CryptoProcessor {
             logger.log(Level.SEVERE, LogStringsMessages.WSS_1915_INVALID_ALGORITHM_PARAMETERS(getAlgorithm()), invalidAPE);
             throw new XWSSecurityRuntimeException(invalidAPE);
         }
-        
+
     }
     /**
      * decrypts the encryptedContent which a byte[]
@@ -376,7 +376,7 @@ public class CryptoProcessor {
                 return cipher.doFinal(encryptedContent, len, encryptedContent.length - len);
             } else {
                logger.log(Level.SEVERE, LogStringsMessages.WSS_1914_INVALID_CIPHER_MODE(mode));
-               throw new IOException("Invalid Cipher mode:"+mode); 
+               throw new IOException("Invalid Cipher mode:"+mode);
             }
         } catch (InvalidKeyException ex) {
             logger.log(Level.SEVERE, LogStringsMessages.WSS_1906_INVALID_KEY_ERROR(),ex);

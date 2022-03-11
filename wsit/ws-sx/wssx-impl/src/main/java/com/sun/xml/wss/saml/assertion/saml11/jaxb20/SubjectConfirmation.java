@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -37,21 +37,21 @@ import jakarta.xml.bind.JAXBContext;
  */
 public class SubjectConfirmation extends com.sun.xml.wss.saml.internal.saml11.jaxb20.SubjectConfirmationType
         implements com.sun.xml.wss.saml.SubjectConfirmation {
-    
-    protected PublicKey keyInfoKeyValue = null;    
-            
+
+    protected PublicKey keyInfoKeyValue = null;
+
     protected static final Logger log = Logger.getLogger(
             LogDomainConstants.WSS_API_DOMAIN,
             LogDomainConstants.WSS_API_DOMAIN_BUNDLE);
-    
+
     public SubjectConfirmation(){
-        
+
     }
     @SuppressWarnings("unchecked")
     public void setConfirmationMethod(List confirmationMethod) {
         this.confirmationMethod = confirmationMethod;
     }
-    
+
     /**
      * From scratch constructor for a single confirmation method.
      *
@@ -62,12 +62,12 @@ public class SubjectConfirmation extends com.sun.xml.wss.saml.internal.saml11.ja
      */
     @SuppressWarnings("unchecked")
     public SubjectConfirmation(java.lang.String confirmationMethod) {
-        
+
         List cm = new LinkedList();
         cm.add(confirmationMethod);
         setConfirmationMethod(cm);
     }
-    
+
     /**
      * Constructs a subject confirmation element from an existing
      * XML block.
@@ -79,14 +79,14 @@ public class SubjectConfirmation extends com.sun.xml.wss.saml.internal.saml11.ja
     throws SAMLException {
         try {
             JAXBContext jc = SAMLJAXBUtil.getJAXBContext();
-                    
+
             jakarta.xml.bind.Unmarshaller u = jc.createUnmarshaller();
             return (SubjectConfirmationType)u.unmarshal(element);
         } catch ( Exception ex) {
             throw new SAMLException(ex.getMessage());
         }
     }
-    
+
     /**
      * Constructs an <code>SubjectConfirmation</code> instance.
      *
@@ -107,10 +107,10 @@ public class SubjectConfirmation extends com.sun.xml.wss.saml.internal.saml11.ja
     public SubjectConfirmation(
             List confirmationMethods, Element subjectConfirmationData,
             Element keyInfo) throws SAMLException {
-        
+
         JAXBContext jc = null;
         jakarta.xml.bind.Unmarshaller u = null;
-        
+
         //Unmarshal to JAXB KeyInfo Object and set it
         try {
             jc = SAMLJAXBUtil.getJAXBContext();;
@@ -118,7 +118,7 @@ public class SubjectConfirmation extends com.sun.xml.wss.saml.internal.saml11.ja
         } catch ( Exception ex) {
             throw new SAMLException(ex.getMessage());
         }
-        
+
         try {
             if ( keyInfo != null) {
                 setKeyInfo((KeyInfoType)((JAXBElement)u.unmarshal(keyInfo)).getValue());
@@ -131,18 +131,18 @@ public class SubjectConfirmation extends com.sun.xml.wss.saml.internal.saml11.ja
             throw new SAMLException(ex);
         }
         setConfirmationMethod(confirmationMethods);
-    }     
-    
-    public SubjectConfirmation(SubjectConfirmationType subConfType){      
-        setSubjectConfirmationData(subConfType.getSubjectConfirmationData());        
+    }
+
+    public SubjectConfirmation(SubjectConfirmationType subConfType){
+        setSubjectConfirmationData(subConfType.getSubjectConfirmationData());
         setConfirmationMethod(subConfType.getConfirmationMethod());
     }
-       
+
     @Override
     public Object getSubjectConfirmationDataForSAML11() {
         return super.getSubjectConfirmationData();
     }
-    
+
     @Override
     public SubjectConfirmationData getSubjectConfirmationDataForSAML20() {
         throw new UnsupportedOperationException("Not supported for SAML 1.1");
@@ -152,5 +152,5 @@ public class SubjectConfirmation extends com.sun.xml.wss.saml.internal.saml11.ja
     public NameID getNameId() {
         throw new UnsupportedOperationException("Not supported for SAML 1.1");
     }
-    
+
 }

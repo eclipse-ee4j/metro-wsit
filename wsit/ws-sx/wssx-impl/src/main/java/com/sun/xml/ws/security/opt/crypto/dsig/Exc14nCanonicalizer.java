@@ -39,46 +39,46 @@ import java.util.logging.Level;
  * @author K.Venugopal@sun.com
  */
 public class Exc14nCanonicalizer extends TransformService {
-    
+
     private static final Logger logger = Logger.getLogger(LogDomainConstants.IMPL_OPT_SIGNATURE_DOMAIN,
             LogDomainConstants.IMPL_OPT_SIGNATURE_DOMAIN_BUNDLE);
-    
-    
+
+
     StAXEXC14nCanonicalizerImpl _canonicalizer = new StAXEXC14nCanonicalizerImpl();
     UnsyncByteArrayOutputStream baos = new UnsyncByteArrayOutputStream();
     TransformParameterSpec _transformParameterSpec;
     /** Creates a new instance of Exc14nCanonicalizer */
     public Exc14nCanonicalizer() {
     }
-    
+
     @Override
     public void init(TransformParameterSpec transformParameterSpec) {
         _transformParameterSpec = transformParameterSpec;
     }
-    
+
     @Override
     public void marshalParams(XMLStructure xMLStructure, XMLCryptoContext xMLCryptoContext) throws MarshalException {
     }
-    
+
     @Override
     public void init(XMLStructure xMLStructure, XMLCryptoContext xMLCryptoContext) {
     }
-    
+
     @Override
     public AlgorithmParameterSpec getParameterSpec() {
         return _transformParameterSpec;
     }
-    
+
     @Override
     public Data transform(Data data, XMLCryptoContext xMLCryptoContext) throws TransformException {
         _canonicalizer.setStream(baos);
         _canonicalizer.reset();
-        
+
         if(data instanceof StreamWriterData ){
             StreamWriterData swd = (StreamWriterData)data;
             NamespaceContextEx nc  = swd.getNamespaceContext();
             Iterator<NamespaceContextEx.Binding> itr = nc.iterator();
-            
+
             while(itr.hasNext()){
                 final NamespaceContextEx.Binding nd = itr.next();
                 _canonicalizer.writeNamespace(nd.getPrefix(),nd.getNamespaceURI());
@@ -94,23 +94,23 @@ public class Exc14nCanonicalizer extends TransformService {
                 logger.log(Level.SEVERE, LogStringsMessages.WSS_1759_TRANSFORM_ERROR(ex.getMessage()),ex);
                 throw new TransformException(ex);
             }
-            
-            
+
+
             return new OctetStreamData(new ByteArrayInputStream(baos.getBytes(),0,baos.getLength()));
         }
         throw new UnsupportedOperationException("Data type"+data+" not yet supported");
     }
-    
+
     @Override
     public Data transform(Data data, XMLCryptoContext xMLCryptoContext, OutputStream outputStream) throws TransformException {
         _canonicalizer.setStream(outputStream);
         _canonicalizer.reset();
-        
+
         if(data instanceof StreamWriterData){
             StreamWriterData swd = (StreamWriterData)data;
             NamespaceContextEx nc  = swd.getNamespaceContext();
             Iterator<NamespaceContextEx.Binding> itr = nc.iterator();
-            
+
             while(itr.hasNext()){
                 final NamespaceContextEx.Binding nd = itr.next();
                 _canonicalizer.writeNamespace(nd.getPrefix(),nd.getNamespaceURI());
@@ -126,18 +126,18 @@ public class Exc14nCanonicalizer extends TransformService {
                 logger.log(Level.SEVERE, LogStringsMessages.WSS_1759_TRANSFORM_ERROR(ex.getMessage()),ex);
                 throw new TransformException(ex);
             }
-            
+
             return null;
         }else if(data instanceof JAXBData){
             JAXBData jd =(JAXBData)data;
             NamespaceContextEx nc  = jd.getNamespaceContext();
             Iterator<NamespaceContextEx.Binding> itr = nc.iterator();
-            
+
             while(itr.hasNext()){
                 final NamespaceContextEx.Binding nd = itr.next();
                 _canonicalizer.writeNamespace(nd.getPrefix(),nd.getNamespaceURI());
             }
-            
+
             try {
                 ExcC14NParameterSpec spec = (ExcC14NParameterSpec)_transformParameterSpec;
                 if(spec != null){
@@ -148,16 +148,16 @@ public class Exc14nCanonicalizer extends TransformService {
             } catch (XWSSecurityException ex) {
                 throw new TransformException(ex);
             }
-            
+
             return null;
         }
         throw new UnsupportedOperationException("Data type "+data+" not yet supported");
     }
-    
+
     @Override
     public boolean isFeatureSupported(String string) {
         return true;
     }
-    
-    
+
+
 }

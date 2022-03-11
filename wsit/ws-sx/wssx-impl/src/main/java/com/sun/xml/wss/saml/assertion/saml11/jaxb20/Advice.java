@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -40,12 +40,12 @@ public class Advice  extends com.sun.xml.wss.saml.internal.saml11.jaxb20.AdviceT
     protected static final Logger log = Logger.getLogger(
             LogDomainConstants.WSS_API_DOMAIN,
             LogDomainConstants.WSS_API_DOMAIN_BUNDLE);
-   
+
     @SuppressWarnings("unchecked")
     public static AdviceType fromElement(Element element) throws SAMLException {
         try {
             JAXBContext jc = SAMLJAXBUtil.getJAXBContext();
-                    
+
             jakarta.xml.bind.Unmarshaller u = jc.createUnmarshaller();
             return (AdviceType)u.unmarshal(element);
         } catch ( Exception ex) {
@@ -53,12 +53,12 @@ public class Advice  extends com.sun.xml.wss.saml.internal.saml11.jaxb20.AdviceT
         }
     }
 
-    
+
     private void setAssertionIDReferenceOrAssertionOrAny(
             List<Object> assertionIDReferenceOrAssertionOrAny) {
         this.assertionIDReferenceOrAssertionOrAny = assertionIDReferenceOrAssertionOrAny;
     }
-    
+
     /**
      * Constructor
      *
@@ -77,13 +77,13 @@ public class Advice  extends com.sun.xml.wss.saml.internal.saml11.jaxb20.AdviceT
             setAssertionIDReferenceOrAssertionOrAny(otherelement);
         }
     }
-    
+
     public Advice(AdviceType adviceType) {
         if(adviceType != null){
             setAssertionIDReferenceOrAssertionOrAny(adviceType.getAssertionIDReferenceOrAssertionOrAny());
         }
     }
-    
+
     @Override
     public List<Object> getAdvice(){
         return super.getAssertionIDReferenceOrAssertionOrAny();

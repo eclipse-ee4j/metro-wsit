@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -42,30 +42,30 @@ public class TargetResolverImpl implements TargetResolver{
     private static Logger log = Logger.getLogger(
             LogDomainConstants.WSS_API_DOMAIN,
             LogDomainConstants.WSS_API_DOMAIN_BUNDLE);
-    
+
     /** Creates a new instance of TargetResolverImpl */
     public TargetResolverImpl(ProcessingContext ctx) {
         this.ctx = ctx;
     }
-    
+
     @Override
     public void resolveAndVerifyTargets(
             List<Target> actualTargets, List<Target> inferredTargets, WSSPolicy actualPolicy) throws XWSSecurityException {
-        
+
         String policyType = PolicyTypeUtil.signaturePolicy(actualPolicy) ? "Signature" : "Encryption";
         boolean isEndorsing = false;
-        
+
         if ( PolicyTypeUtil.signaturePolicy(actualPolicy)) {
             SignaturePolicy.FeatureBinding fp = (SignaturePolicy.FeatureBinding)actualPolicy.getFeatureBinding();
             if (fp.isEndorsingSignature()) {
                 isEndorsing = true;
             }
         }
-        
+
         fpContext = new FilterProcessingContext(ctx);
         SecurityHeader header = fpContext.getSecurableSoapMessage().findSecurityHeader();
         Document doc = header.getOwnerDocument();
-        
+
         for(Target actualTarget : actualTargets){
             boolean found = false;
             String targetInPolicy = getTargetValue(doc,actualTarget);
@@ -90,12 +90,12 @@ public class TargetResolverImpl implements TargetResolver{
                         throw new XWSSecurityException("Policy verification error:" +
                                 "Missing target " + targetInPolicy + " for " + policyType);
                     }
-                    
+
                 }
             }
         }
     }
-    
+
     private String getTargetValue(final Document doc, final Target actualTarget) {
         String targetInPolicy = null;
         if(actualTarget.getType() == Target.TARGET_TYPE_VALUE_QNAME){
@@ -114,7 +114,7 @@ public class TargetResolverImpl implements TargetResolver{
         }
         return targetInPolicy;
     }
-    
+
     @Override
     public boolean isTargetPresent(List<Target> actualTargets) throws XWSSecurityException {
         FilterProcessingContext fpContext = new FilterProcessingContext(ctx);
@@ -145,5 +145,5 @@ public class TargetResolverImpl implements TargetResolver{
         }
         return false;
     }
-    
+
 }

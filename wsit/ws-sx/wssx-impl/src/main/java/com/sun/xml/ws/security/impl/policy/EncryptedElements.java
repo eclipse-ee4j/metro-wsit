@@ -28,7 +28,7 @@ import com.sun.xml.ws.security.policy.SecurityAssertionValidator;
  * @author Abhijit Das
  */
 public class EncryptedElements extends PolicyAssertion implements  com.sun.xml.ws.security.policy.EncryptedElements, SecurityAssertionValidator {
-    
+
     private String xpathVersion;
     private ArrayList<String> targetList;
     private static List<String> emptyList = Collections.emptyList();
@@ -36,42 +36,42 @@ public class EncryptedElements extends PolicyAssertion implements  com.sun.xml.w
     private static QName XPathVersion = new QName("XPathVersion");
     private AssertionFitness fitness = AssertionFitness.IS_VALID;
     private SecurityPolicyVersion spVersion;
-    
+
     /**
      * Creates a new instance of EncryptedElements
      */
     public EncryptedElements() {
         spVersion = SecurityPolicyVersion.SECURITYPOLICY200507;
     }
-    
+
     public EncryptedElements(AssertionData name,Collection<PolicyAssertion> nestedAssertions, AssertionSet nestedAlternative) {
         super(name,nestedAssertions,nestedAlternative);
         String nsUri = getName().getNamespaceURI();
         spVersion = PolicyUtil.getSecurityPolicyVersion(nsUri);
     }
-    
+
     @Override
     public String getXPathVersion() {
         return xpathVersion;
     }
-    
+
     public void setXPathVersion(String version) {
         this.xpathVersion = version;
     }
-    
+
     public void addTarget(String target) {
         if ( targetList == null ) {
             targetList = new ArrayList<>();
         }
         targetList.add(target);
     }
-    
+
     public void removeTarget(String target) {
         if ( targetList != null ) {
             targetList.remove(target);
         }
     }
-    
+
     @Override
     public Iterator<String> getTargets() {
         populate();
@@ -80,7 +80,7 @@ public class EncryptedElements extends PolicyAssertion implements  com.sun.xml.w
         }
         return emptyList.iterator();
     }
-    
+
     @Override
     public AssertionFitness validate(boolean isServer) {
         return populate(isServer);
@@ -88,7 +88,7 @@ public class EncryptedElements extends PolicyAssertion implements  com.sun.xml.w
     private void populate(){
         populate(false);
     }
-    
+
     private synchronized AssertionFitness populate(boolean isServer) {
         if(!populated){
             this.xpathVersion = this.getAttributeValue(XPathVersion);
@@ -110,5 +110,5 @@ public class EncryptedElements extends PolicyAssertion implements  com.sun.xml.w
         }
         return fitness;
     }
-    
+
 }

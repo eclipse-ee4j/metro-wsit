@@ -50,7 +50,7 @@ public class HttpsToken extends PolicyAssertion implements com.sun.xml.ws.securi
         id= PolicyUtil.randomUUID();
         rccQname = new QName(spVersion.namespaceUri, Constants.RequireClientCertificate);
     }
-    
+
     public HttpsToken(AssertionData name,Collection<PolicyAssertion> nestedAssertions, AssertionSet nestedAlternative) {
         super(name,nestedAssertions,nestedAlternative);
         id= PolicyUtil.randomUUID();
@@ -58,52 +58,52 @@ public class HttpsToken extends PolicyAssertion implements com.sun.xml.ws.securi
         spVersion = PolicyUtil.getSecurityPolicyVersion(nsUri);
         rccQname = new QName(spVersion.namespaceUri, Constants.RequireClientCertificate);
     }
-    
+
     public void setRequireClientCertificate(boolean value) {
         Map<QName, String> attrs = this.getAttributes();
         QName rccQname = new QName(spVersion.namespaceUri, Constants.RequireClientCertificate);
         attrs.put(rccQname,Boolean.toString(value));
         requireCC = value;
     }
-    
+
     @Override
     public boolean isRequireClientCertificate() {
         populate();
         return this.requireCC;
     }
-    
+
     @Override
     public String getIncludeToken() {
         throw new UnsupportedOperationException("This method is not supported for HttpsToken");
     }
-    
+
     public void setIncludeToken(String type) {
         throw new UnsupportedOperationException("This method is not supported for HttpsToken");
     }
-    
+
     @Override
     public String getTokenId() {
         return id;
     }
-    
+
     @Override
     public Issuer getIssuer() {
         populate();
         return issuer;
     }
-    
+
     @Override
     public IssuerName getIssuerName() {
         populate();
         return issuerName;
     }
-    
+
     @Override
     public Claims getClaims(){
         populate();
         return claims;
     }
-    
+
     @Override
     public AssertionFitness validate(boolean isServer) {
         return populate(isServer);
@@ -111,9 +111,9 @@ public class HttpsToken extends PolicyAssertion implements com.sun.xml.ws.securi
     private void populate(){
         populate(false);
     }
-    
+
     private synchronized AssertionFitness populate(boolean isServer) {
-        
+
         if(!populated){
             if(SecurityPolicyVersion.SECURITYPOLICY200507.namespaceUri.equals(
                     spVersion.namespaceUri)){
@@ -151,7 +151,7 @@ public class HttpsToken extends PolicyAssertion implements com.sun.xml.ws.securi
                         issuer = (Issuer)assertion;
                     } else if(PolicyUtil.isIssuerName(assertion, spVersion)){
                         issuerName = (IssuerName)assertion;
-                    } else if(PolicyUtil.isClaimsElement(assertion) && 
+                    } else if(PolicyUtil.isClaimsElement(assertion) &&
                             SecurityPolicyVersion.SECURITYPOLICY12NS.namespaceUri.equals(spVersion.namespaceUri) ){
                         claims = (Claims)assertion;
                     }
@@ -164,9 +164,9 @@ public class HttpsToken extends PolicyAssertion implements com.sun.xml.ws.securi
             populated = true;
         }
         return fitness;
-        
+
     }
-    
+
     @Override
     public SecurityPolicyVersion getSecurityPolicyVersion() {
         return spVersion;

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -33,84 +33,84 @@ import com.sun.istack.NotNull;
 public class TCPConnectionImpl implements WebServiceContextDelegate {
     private final ChannelContext channelContext;
     private final Connection connection;
-    
+
     private String contentType;
     private int replyStatus;
-    
+
     private InputStream inputStream;
     private OutputStream outputStream;
-    
+
     private boolean isHeaderSerialized;
-    
+
     public TCPConnectionImpl(final ChannelContext channelContext) {
         this.channelContext = channelContext;
         this.connection = channelContext.getConnection();
     }
-    
+
     public InputStream openInput() throws IOException, WSTCPException {
         inputStream = connection.openInputStream();
         contentType = channelContext.getContentType();
         return inputStream;
     }
-    
+
     public OutputStream openOutput() throws IOException, WSTCPException {
         setMessageHeaders();
 
         outputStream = connection.openOutputStream();
         return outputStream;
     }
-    
+
     public int getStatus() {
         return replyStatus;
     }
-    
+
     public void setStatus(final int statusCode) {
         replyStatus = statusCode;
     }
-    
+
     public String getContentType() {
         return contentType;
     }
-    
+
     public void setContentType(final String contentType) {
         this.contentType = contentType;
     }
-    
+
     public void flush() throws IOException, WSTCPException {
         if (outputStream == null) {
             setMessageHeaders();
             outputStream = connection.openOutputStream();
         }
-        
+
         connection.flush();
     }
-    
+
     public void close() {
     }
-    
+
     // Not supported
     @Override
     public Principal getUserPrincipal(final Packet request) {
         return null;
     }
-    
+
     // Not supported
     @Override
     public boolean isUserInRole(final Packet request, final String role) {
         return false;
     }
-    
+
     @Override
     public @NotNull String getEPRAddress(@NotNull final Packet request, @NotNull final WSEndpoint endpoint) {
         return channelContext.getTargetWSURI().toString();
     }
-    
+
     @Override
     public String getWSDLAddress(@NotNull final Packet request,
                                  @NotNull final WSEndpoint endpoint) {
         return null;
     }
-    
+
     public void sendErrorMessage(WSTCPError message) throws IOException, WSTCPException {
         setStatus(TCPConstants.ERROR);
         OutputStream output = openOutput();
@@ -123,7 +123,7 @@ public class TCPConnectionImpl implements WebServiceContextDelegate {
     private void setMessageHeaders() throws WSTCPException {
         if (!isHeaderSerialized) {
             isHeaderSerialized = true;
-            
+
             final int messageId = getMessageId();
             connection.setMessageId(messageId);
             if (FrameType.isFrameContainsParams(messageId)) {
@@ -131,17 +131,17 @@ public class TCPConnectionImpl implements WebServiceContextDelegate {
             }
         }
     }
-    
+
     private int getMessageId() {
         if (getStatus() == TCPConstants.ONE_WAY) {
             return FrameType.NULL;
         } else if (getStatus() != TCPConstants.OK) {
             return FrameType.ERROR;
         }
-        
+
         return FrameType.MESSAGE;
     }
-    
+
     public ChannelContext getChannelContext() {
         return channelContext;
     }

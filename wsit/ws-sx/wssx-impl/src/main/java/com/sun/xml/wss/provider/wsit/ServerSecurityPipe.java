@@ -59,7 +59,7 @@ public class ServerSecurityPipe extends AbstractFilterPipeImpl {
             PipeCloner cloner) {
 
         super(that, cloner);
-        // we can share the helper for all pipes so that the remove 
+        // we can share the helper for all pipes so that the remove
         // registration (in server side) can be done properly
         this.helper = that.helper;
 
@@ -71,29 +71,29 @@ public class ServerSecurityPipe extends AbstractFilterPipeImpl {
      * This method is called once in server side and at most one in client side.
      */
     @Override
-	public void preDestroy() {
-	helper.disable();
+    public void preDestroy() {
+    helper.disable();
         /*
          Fix for bug 3932/4052
          */
-        next.preDestroy(); 
-    }    
-    
+        next.preDestroy();
+    }
+
     /**
      * This is used in creating subsequent pipes.
      */
     @Override
-	public Pipe copy(PipeCloner cloner) {
+    public Pipe copy(PipeCloner cloner) {
         return new ServerSecurityPipe(this, cloner);
     }
-    
+
     @Override
-	public Packet process(Packet request) {
+    public Packet process(Packet request) {
 
         if (isHttpBinding) {
             return next.process(request);
         }
-        
+
         Packet response = null;
 
         try {
@@ -108,170 +108,170 @@ public class ServerSecurityPipe extends AbstractFilterPipeImpl {
         }
 
         return response;
-    }    
+    }
     @SuppressWarnings("unchecked")
     private Packet processRequest(Packet request) throws Exception {
 
         AuthStatus status = AuthStatus.SUCCESS;
-	
-	PacketMessageInfo info= new PacketMapMessageInfo(request,new Packet());
 
-	// XXX at this time, we expect the server subject to be null
+    PacketMessageInfo info= new PacketMapMessageInfo(request,new Packet());
 
-	Subject serverSubject = (Subject) 
-	    request.invocationProperties.get(PipeConstants.SERVER_SUBJECT);
+    // XXX at this time, we expect the server subject to be null
 
-	//could change the request packet
-        ServerAuthContext sAC = 
-	    helper.getServerAuthContext(info,serverSubject);
+    Subject serverSubject = (Subject)
+        request.invocationProperties.get(PipeConstants.SERVER_SUBJECT);
 
-	Subject clientSubject = getClientSubject(request);
+    //could change the request packet
+        ServerAuthContext sAC =
+        helper.getServerAuthContext(info,serverSubject);
 
-	final Packet validatedRequest;
-	
-	try {
+    Subject clientSubject = getClientSubject(request);
 
-	    if (sAC != null) {
-		
-		// client subject must not be null
-		// and when return status is SUCCESS, module
-		// must have called handler.handle(CallerPrincipalCallback)
+    final Packet validatedRequest;
 
-		status = sAC.validateRequest(info,clientSubject,serverSubject);
+    try {
 
-	    }
-	} catch(Exception e) {
+        if (sAC != null) {
 
-	    logger.log(Level.SEVERE,LogStringsMessages.WSITPVD_0053_ERROR_VALIDATE_REQUEST(), e);
+        // client subject must not be null
+        // and when return status is SUCCESS, module
+        // must have called handler.handle(CallerPrincipalCallback)
 
-	    WebServiceException wse = new WebServiceException
-		("Cannot validate request for", e);
+        status = sAC.validateRequest(info,clientSubject,serverSubject);
 
-	    //set status for audit
-	    status = AuthStatus.SEND_FAILURE;
+        }
+    } catch(Exception e) {
 
-	    // if unable to determine if two-way will return empty response
-	    return helper.getFaultResponse
-		(info.getRequestPacket(),info.getResponsePacket(),wse);
+        logger.log(Level.SEVERE,LogStringsMessages.WSITPVD_0053_ERROR_VALIDATE_REQUEST(), e);
 
-	} finally {
-	    validatedRequest = info.getRequestPacket();
-	}
+        WebServiceException wse = new WebServiceException
+        ("Cannot validate request for", e);
 
-	Packet response = null;
+        //set status for audit
+        status = AuthStatus.SEND_FAILURE;
 
-	if (status == AuthStatus.SUCCESS) {
+        // if unable to determine if two-way will return empty response
+        return helper.getFaultResponse
+        (info.getRequestPacket(),info.getResponsePacket(),wse);
 
-	    boolean authorized = true;
+    } finally {
+        validatedRequest = info.getRequestPacket();
+    }
+
+    Packet response = null;
+
+    if (status == AuthStatus.SUCCESS) {
+
+        boolean authorized = true;
             helper.authorize(validatedRequest);
-	    if (authorized) {
+        if (authorized) {
 
-		// only do doAdPriv if SecurityManager is in effect
-		if (System.getSecurityManager() == null) {
-		    try {
-			// proceed to invoke the endpoint
-			response = next.process(validatedRequest);
-		    } catch (Exception e) {			
-			logger.log(Level.SEVERE,LogStringsMessages.WSITPVD_0055_WS_ERROR_NEXT_PIPE(), e);			
-			response = helper.getFaultResponse
-			    (validatedRequest,info.getResponsePacket(),e);
-		    }
-		} else {
-		    try {
-			response = (Packet)Subject.doAsPrivileged
-			    (clientSubject,new PrivilegedExceptionAction() {
-				@Override
-				public Object run() {
-				    // proceed to invoke the endpoint
-				    return next.process(validatedRequest);
-				}
-			    }, null);
-		    } catch (PrivilegedActionException pae) {
-		        Throwable cause = pae.getCause();
-			if (cause instanceof AuthException){
-			    logger.log(Level.SEVERE,LogStringsMessages.WSITPVD_0055_WS_ERROR_NEXT_PIPE(), cause);
-			}
-			response = helper.getFaultResponse
-			    (validatedRequest,info.getResponsePacket(),cause);
-		    }
-		}
-	    }
-	    
-	    //pipes are not supposed to return a null response packet
-	    if (response == null) {
+        // only do doAdPriv if SecurityManager is in effect
+        if (System.getSecurityManager() == null) {
+            try {
+            // proceed to invoke the endpoint
+            response = next.process(validatedRequest);
+            } catch (Exception e) {
+            logger.log(Level.SEVERE,LogStringsMessages.WSITPVD_0055_WS_ERROR_NEXT_PIPE(), e);
+            response = helper.getFaultResponse
+                (validatedRequest,info.getResponsePacket(),e);
+            }
+        } else {
+            try {
+            response = (Packet)Subject.doAsPrivileged
+                (clientSubject,new PrivilegedExceptionAction() {
+                @Override
+                public Object run() {
+                    // proceed to invoke the endpoint
+                    return next.process(validatedRequest);
+                }
+                }, null);
+            } catch (PrivilegedActionException pae) {
+                Throwable cause = pae.getCause();
+            if (cause instanceof AuthException){
+                logger.log(Level.SEVERE,LogStringsMessages.WSITPVD_0055_WS_ERROR_NEXT_PIPE(), cause);
+            }
+            response = helper.getFaultResponse
+                (validatedRequest,info.getResponsePacket(),cause);
+            }
+        }
+        }
 
-		WebServiceException wse = new WebServiceException
-		    ("Invocation of Service {0} returned null response packet");
-                
-		response = helper.getFaultResponse
-		    (validatedRequest,info.getResponsePacket(),wse);
+        //pipes are not supposed to return a null response packet
+        if (response == null) {
 
-		logger.log(Level.SEVERE,LogStringsMessages.WSITPVD_0056_NULL_RESPONSE(),wse);
+        WebServiceException wse = new WebServiceException
+            ("Invocation of Service {0} returned null response packet");
 
-	    }
+        response = helper.getFaultResponse
+            (validatedRequest,info.getResponsePacket(),wse);
 
-	    // secure response, including if it is a fault
-	    if (sAC != null && response.getMessage() != null) {
-		info.setResponsePacket(response);
-		response = processResponse(info, sAC, serverSubject);
-	    }
+        logger.log(Level.SEVERE,LogStringsMessages.WSITPVD_0056_NULL_RESPONSE(),wse);
 
-	} else {
-	    // validateRequest did not return success
-	    if (logger.isLoggable(Level.FINE)) {
-		logger.log(Level.FINE,"ws.status_validate_request", status);
-	    }
-	    // even for one-way mep, may return response with non-empty message
-	    response = info.getResponsePacket();
-	}
+        }
+
+        // secure response, including if it is a fault
+        if (sAC != null && response.getMessage() != null) {
+        info.setResponsePacket(response);
+        response = processResponse(info, sAC, serverSubject);
+        }
+
+    } else {
+        // validateRequest did not return success
+        if (logger.isLoggable(Level.FINE)) {
+        logger.log(Level.FINE,"ws.status_validate_request", status);
+        }
+        // even for one-way mep, may return response with non-empty message
+        response = info.getResponsePacket();
+    }
 
         return response;
     }
 
-    // called when secureResponse is to be called 
+    // called when secureResponse is to be called
     private Packet processResponse(PacketMessageInfo info,
-				   ServerAuthContext sAC,
-				   Subject serverSubject) {
-        
+                   ServerAuthContext sAC,
+                   Subject serverSubject) {
+
         AuthStatus status;
 
-	try {
+    try {
 
-	    status = sAC.secureResponse(info, serverSubject);
+        status = sAC.secureResponse(info, serverSubject);
 
-	} catch (Exception e) {
-	    if (e instanceof AuthException) {
-		if (logger.isLoggable(Level.INFO)) {
-		    logger.log(Level.INFO, "ws.error_secure_response", e);
-		}
-	    } else {
-		    logger.log(Level.SEVERE, LogStringsMessages.WSITPVD_0054_ERROR_SECURE_RESPONSE(), e);
-	    }
-    
-	    return helper.makeFaultResponse(info.getResponsePacket(),e);
-	}
+    } catch (Exception e) {
+        if (e instanceof AuthException) {
+        if (logger.isLoggable(Level.INFO)) {
+            logger.log(Level.INFO, "ws.error_secure_response", e);
+        }
+        } else {
+            logger.log(Level.SEVERE, LogStringsMessages.WSITPVD_0054_ERROR_SECURE_RESPONSE(), e);
+        }
 
-	if (logger.isLoggable(Level.FINE)) {
-	    logger.log(Level.FINE,"ws.status_secure_response", status);
-	}
+        return helper.makeFaultResponse(info.getResponsePacket(),e);
+    }
 
-	return info.getResponsePacket();
+    if (logger.isLoggable(Level.FINE)) {
+        logger.log(Level.FINE,"ws.status_secure_response", status);
+    }
+
+    return info.getResponsePacket();
 
     }
 
     private  Subject getClientSubject(Packet p) {
-	Subject s = null;
-	if (p != null) {
-	    s =(Subject) 
-		p.invocationProperties.get(PipeConstants.CLIENT_SUBJECT);
-	}
-	if (s == null) {
-	    s = helper.getClientSubject();
-	    if (p != null) {
-		p.invocationProperties.put(PipeConstants.CLIENT_SUBJECT,s);
-	    }
-	}
-	return s;
+    Subject s = null;
+    if (p != null) {
+        s =(Subject)
+        p.invocationProperties.get(PipeConstants.CLIENT_SUBJECT);
+    }
+    if (s == null) {
+        s = helper.getClientSubject();
+        if (p != null) {
+        p.invocationProperties.put(PipeConstants.CLIENT_SUBJECT,s);
+        }
+    }
+    return s;
     }
 
 }

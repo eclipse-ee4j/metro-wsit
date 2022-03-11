@@ -53,7 +53,7 @@ import java.util.logging.Logger;
  * @author Ashutosh.Shahi@sun.com
  */
 public class PolicyResolverImpl implements PolicyResolver {
-    
+
     protected static final Logger log =
             Logger.getLogger(
             LogDomainConstants.WSS_JAXWS_IMPL_DOMAIN,
@@ -211,14 +211,14 @@ public class PolicyResolverImpl implements PolicyResolver {
                     nodes = body.getElementsByTagNameNS(SOAPConstants.URI_NS_SOAP_1_1_ENVELOPE, "detail");
                 }
                 if(nodes.getLength() == 0) {
-                    return sph.getMessagePolicy();                    
+                    return sph.getMessagePolicy();
                 }
                 if (nodes.getLength() > 0) {
                     Node node = nodes.item(0);
                     Node faultNode = node.getFirstChild();
                     while (faultNode != null && faultNode.getNodeType() != Node.ELEMENT_NODE)
                             faultNode = faultNode.getNextSibling();   //fix for bug #1487
-                    
+
                     if (faultNode == null) {
                         return new MessagePolicy();
                     }
@@ -229,7 +229,7 @@ public class PolicyResolverImpl implements PolicyResolver {
                     } else {
                         faultDetail = new QName(faultNode.getLocalName());
                     }
-                    WSDLFault fault = operation.getFault(faultDetail);                    
+                    WSDLFault fault = operation.getFault(faultDetail);
                     SecurityPolicyHolder faultPolicyHolder = sph.getFaultPolicy(fault);
                     SecurityPolicy faultPolicy = (faultPolicyHolder == null) ? new MessagePolicy() : faultPolicyHolder.getMessagePolicy();
                     return faultPolicy;

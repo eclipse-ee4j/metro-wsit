@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -38,7 +38,7 @@ import jakarta.xml.bind.JAXBContext;
  */
 public class AuthorizationDecisionStatement extends AuthorizationDecisionStatementType
     implements com.sun.xml.wss.saml.AuthorizationDecisionStatement {
-    
+
     protected static final Logger log = Logger.getLogger(
             LogDomainConstants.WSS_API_DOMAIN,
             LogDomainConstants.WSS_API_DOMAIN_BUNDLE);
@@ -62,7 +62,7 @@ public class AuthorizationDecisionStatement extends AuthorizationDecisionStateme
         throws SAMLException {
         try {
             JAXBContext jc = SAMLJAXBUtil.getJAXBContext();
-                    
+
             jakarta.xml.bind.Unmarshaller u = jc.createUnmarshaller();
             return (AuthorizationDecisionStatementType)u.unmarshal(element);
         } catch ( Exception ex) {
@@ -73,7 +73,7 @@ public class AuthorizationDecisionStatement extends AuthorizationDecisionStateme
     private void setAction(List action) {
         this.action = action;
     }
-    
+
     /**
      * Constructs an instance of <code>AuthorizationDecisionStatement</code>.
      *
@@ -91,17 +91,17 @@ public class AuthorizationDecisionStatement extends AuthorizationDecisionStateme
     public AuthorizationDecisionStatement(
         Subject subject, String resource, String decision, List action,
         Evidence evidence) {
-        
+
         setSubject(subject);
         setResource(resource);
         setDecision(DecisionType.fromValue(decision));
         setAction(action);
         setEvidence(evidence);
     }
-    
+
     public AuthorizationDecisionStatement(AuthorizationDecisionStatementType authDesStmt) {
         if(authDesStmt.getSubject() != null){
-            Subject subj = new Subject(authDesStmt.getSubject());            
+            Subject subj = new Subject(authDesStmt.getSubject());
             setSubject(subj);
         }
         setResource(authDesStmt.getResource());
@@ -109,7 +109,7 @@ public class AuthorizationDecisionStatement extends AuthorizationDecisionStateme
         setAction(authDesStmt.getAction());
         setEvidence(authDesStmt.getEvidence());
     }
-    
+
      @Override
      public List<Action> getActionList(){
          if(actionList == null){
@@ -119,7 +119,7 @@ public class AuthorizationDecisionStatement extends AuthorizationDecisionStateme
          }
          Iterator it = super.getAction().iterator();
          while(it.hasNext()){
-             com.sun.xml.wss.saml.assertion.saml11.jaxb20.Action obj = 
+             com.sun.xml.wss.saml.assertion.saml11.jaxb20.Action obj =
                      new com.sun.xml.wss.saml.assertion.saml11.jaxb20.Action((ActionType)it.next());
              actionList.add(obj);
          }
@@ -146,5 +146,5 @@ public class AuthorizationDecisionStatement extends AuthorizationDecisionStateme
     public Subject getSubject() {
         return (Subject)super.getSubject();
     }
-   
+
 }

@@ -25,14 +25,14 @@ import javax.security.auth.x500.X500Principal;
  * @author kumar jayanti
  */
 public class IssuerNameAndSerialCertSelector implements CertSelector {
-    
+
     private final BigInteger serialNumber;
     private final String issuerName;
-    
+
        /** logger */
     protected static final Logger log =  Logger.getLogger(
             LogDomainConstants.WSS_API_DOMAIN,LogDomainConstants.WSS_API_DOMAIN_BUNDLE);
-  
+
     /** Creates a new instance of IssuerNameAndSerialCertSelector */
     public IssuerNameAndSerialCertSelector(BigInteger serialNum, String issuer) {
         this.serialNumber = serialNum;
@@ -44,22 +44,22 @@ public class IssuerNameAndSerialCertSelector implements CertSelector {
         if (cert instanceof X509Certificate) {
            if (this.matchesIssuerSerialAndName(this.serialNumber, this.issuerName, (X509Certificate)cert)) {
                return true;
-           }     
+           }
         }
         return false;
     }
-    
+
     @Override
     public Object clone() {
         return new IssuerNameAndSerialCertSelector(this.serialNumber, this.issuerName);
     }
-    
+
     private boolean matchesIssuerSerialAndName(
         BigInteger serialNumberMatch,
         String issuerNameMatch,
         X509Certificate x509Cert) {
-  
-        
+
+
         X500Principal thisIssuerPrincipal = x509Cert.getIssuerX500Principal();
         X500Principal issuerPrincipal = new X500Principal(issuerName);
 

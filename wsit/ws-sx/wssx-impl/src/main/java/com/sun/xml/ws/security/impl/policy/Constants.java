@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -15,10 +15,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Constants {
-    
-    
+
+
     //Namespace constants
-    
+
     public final static String ADDRESSING_NS = "http://schemas.xmlsoap.org/ws/2004/08/addressing";
     public final static String XPATH_NS = "http://www.w3.org/TR/1999/REC-xpath-19991116";
     public final static String TRUST_NS = "http://schemas.xmlsoap.org/ws/2005/02/trust";
@@ -145,7 +145,7 @@ public class Constants {
     public final static String Layout = "Layout";
     public final static String RequireIssuerSerialReference = "RequireIssuerSerialReference";
     public final static String RsaToken = "RsaToken";
-    
+
     // New Assertions from WS-SecurityPolicy 1.2
     public final static String KeyValueToken = "KeyValueToken";
     public final static String RsaKeyValue = "RsaKeyValue";
@@ -167,9 +167,9 @@ public class Constants {
     public final static String AttachmentCompleteSignatureTransform = "AttachmentCompleteSignatureTransform";
 
     // End of new assertions from WS-SecurityPolicy 1.2
-    
+
     public final static String Body = "Body";
-    
+
     public final static String HEADER = "Header";
     public final static String RequestSecurityTokenTemplate = "RequestSecurityTokenTemplate";
     public final static String EndpointReference = "EndpointReference";
@@ -187,16 +187,16 @@ public class Constants {
     public final static String Lifetime = "Lifetime";
     public final static String Issuer = "Issuer";
     public final static String IssuerName = "IssuerName";
-    
+
     //Addressing constants
     public final static String Address = "Address";
     public static final String IDENTITY = "Identity";
-    
+
     // Mex Constants
     public static final String Metadata = "Metadata";
     public static final String MetadataSection = "MetadataSection";
     public static final String MetadataReference = "MetadataReference";
-    
+
     //utility constants
     public final static String Created = "Created";
     public final static String Nonce = "Nonce";
@@ -217,17 +217,17 @@ public class Constants {
     public static final String WS_SECURITY_POLICY_PACKAGE_ROOT = "com.sun.xml.ws.security.impl.policy";
     public static final String WS_SECURITY_POLICY_DOMAIN_BUNDLE = WS_SECURITY_POLICY_PACKAGE_ROOT + ".LogStrings";
     public static final Logger logger = Logger.getLogger(Constants.WS_SECURITY_POLICY_DOMAIN,Constants.WS_SECURITY_POLICY_DOMAIN_BUNDLE);
-    
+
     public static final String SUN_WSS_SECURITY_CLIENT_POLICY_NS="http://schemas.sun.com/2006/03/wss/client";
     public static final String SUN_WSS_SECURITY_SERVER_POLICY_NS="http://schemas.sun.com/2006/03/wss/server";
-    
+
     public static final String SUN_TRUST_CLIENT_SECURITY_POLICY_NS="http://schemas.sun.com/ws/2006/05/trust/client";
     public static final String SUN_TRUST_SERVER_SECURITY_POLICY_NS="http://schemas.sun.com/ws/2006/05/trust/server";
     public static final String SUN_SECURE_CLIENT_CONVERSATION_POLICY_NS="http://schemas.sun.com/ws/2006/05/sc/client";
     public static final String SUN_SECURE_SERVER_CONVERSATION_POLICY_NS="http://schemas.sun.com/ws/2006/05/sc/server";
-    
+
     public static final String MS_SP_NS = "http://schemas.microsoft.com/ws/2005/07/securitypolicy";
-    
+
     public static final String KerberosConfig = "KerberosConfig";
     public static final String KeyStore = "KeyStore";
     public static final String SessionManagerStore = "SessionManagerStore";
@@ -244,14 +244,14 @@ public class Constants {
     public final static String NoPassword = "NoPassword";
     public final static String HashPassword = "HashPassword";
     public final static String BSP10 = "BSP10";
-    public final static String SECURITY_POLICY_PACKAGE_DIR = "com.sun.xml.ws.security.impl.policy";    
-    public static void log_invalid_assertion(PolicyAssertion assertion , boolean isServer,String parentAssertion){        
+    public final static String SECURITY_POLICY_PACKAGE_DIR = "com.sun.xml.ws.security.impl.policy";
+    public static void log_invalid_assertion(PolicyAssertion assertion , boolean isServer,String parentAssertion){
         Level level = Level.SEVERE;
         if(!isServer){
             level = Level.WARNING;
         }
         if(logger.isLoggable(level)){
             logger.log(level,LogStringsMessages.SP_0100_INVALID_SECURITY_ASSERTION(assertion,parentAssertion));
-        }        
+        }
     }
 }

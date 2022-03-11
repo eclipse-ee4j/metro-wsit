@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -28,7 +28,7 @@ import javax.xml.namespace.QName;
 public final class TCPAdapterList extends AbstractList<TCPAdapter> implements AdapterFactory<TCPAdapter> {
     private final List<TCPAdapter> adapters = new ArrayList<>();
     private final Map<PortInfo, String> addressMap = new HashMap<>();
-    
+
     // TODO: documented because it's used by AS
     @Override
     public TCPAdapter createAdapter(final String name, final String urlPattern, final WSEndpoint<?> endpoint) {
@@ -41,7 +41,7 @@ public final class TCPAdapterList extends AbstractList<TCPAdapter> implements Ad
         }
         return tcpAdapter;
     }
-    
+
     /**
      * @return urlPattern without "/*"
      */
@@ -52,7 +52,7 @@ public final class TCPAdapterList extends AbstractList<TCPAdapter> implements Ad
             return urlPattern;
         }
     }
-    
+
     /**
      * Creates a PortAddressResolver that maps portname to its address
      */
@@ -75,13 +75,13 @@ public final class TCPAdapterList extends AbstractList<TCPAdapter> implements Ad
             }
         };
     }
-    
-    
+
+
     @Override
     public TCPAdapter get(final int index) {
         return adapters.get(index);
     }
-    
+
     @Override
     public int size() {
         return adapters.size();

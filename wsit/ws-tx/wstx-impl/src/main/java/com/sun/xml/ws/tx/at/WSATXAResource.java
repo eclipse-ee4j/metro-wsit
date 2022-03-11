@@ -11,7 +11,7 @@
 package com.sun.xml.ws.tx.at;
 
 import com.sun.istack.logging.Logger;
-import com.sun.xml.ws.tx.at.localization.LocalizationMessages; 
+import com.sun.xml.ws.tx.at.localization.LocalizationMessages;
 import com.sun.xml.ws.api.tx.at.Transactional;
 import javax.transaction.xa.XAException;
 import javax.transaction.xa.XAResource;
@@ -161,7 +161,7 @@ public class WSATXAResource implements WSATConstants, XAResource, Serializable {
     /**
      * Commit.
      *
-     * @param xid      Xid The actual Xid passed in is ignored and the member variable used instead as there is a final 
+     * @param xid      Xid The actual Xid passed in is ignored and the member variable used instead as there is a final
      *                 1-to-1 relationship between WSATXAResource and Xid during construction.  In reality is doesn't matter but in
      *                 order to be consistent with rollback (where it does matter), the member variable is used
      * @param onePhase there is no single phase commit in WS-AT and so this is ignored
@@ -191,7 +191,7 @@ public class WSATXAResource implements WSATConstants, XAResource, Serializable {
                 logSuccess("preparecommitted");
                 getWSATHelper().removeDurableParticipant(this);
                 m_isRemovedFromMap = true;
-            } else if (m_status.equals(PREPARED)) {//timed outs  
+            } else if (m_status.equals(PREPARED)) {//timed outs
                 LOGGER.severe(LocalizationMessages.WSAT_4551_FAILED_STATE_FOR_COMMIT(
                     m_status, m_epr.toString(), m_xid));
                 XAException xaException = newFailedStateXAExceptionForMethodNameAndErrorcode("commit", XAException.XAER_RMFAIL);

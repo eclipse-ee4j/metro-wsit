@@ -99,7 +99,7 @@ public class SOAPUtil {
 
     /*
       Create and initialize a WssSoapFaultException.
-     
+
     public static WssSoapFaultException newSOAPFaultException(
             String faultstring,
             Throwable th) {
@@ -125,7 +125,7 @@ public class SOAPUtil {
         sfe.initCause(th);
         return sfe;
     }
-    
+
      public static WssSoapFaultException newSOAPFaultException(
             QName faultCode,
             String faultstring,
@@ -199,7 +199,7 @@ public class SOAPUtil {
 
     public static SOAPFaultException getSOAPFaultException(Exception ex, SOAPFactory factory, SOAPVersion version) {
         String msg = getExceptionMessage(ex);
-       
+
         SOAPFault fault = getSOAPFault(MessageConstants.WSSE_INVALID_SECURITY, msg, factory, version);
         if (!isEnableFaultDetail()) {
             return createSOAPFault(fault,ex);
@@ -219,7 +219,7 @@ public class SOAPUtil {
         return sfe;
     }
 
-    
+
     private static void setFaultDetail(SOAPFault fault, Throwable cause) {
         try {
             //Add Detail element to the fault.

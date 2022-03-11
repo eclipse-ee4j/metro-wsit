@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  * Copyright 1995-2005 The Apache Software Foundation
  * Copyright 1995-2005 The Apache Software Foundation
  *
@@ -41,17 +41,17 @@ public class MacOutputStream extends ByteArrayOutputStream {
     public byte[] toByteArray() {
         return none;
     }
-    
+
     @Override
     public void write(byte[] arg0)  {
         mac.update(arg0);
     }
-    
+
     @Override
     public void write(int arg0) {
         mac.update((byte)arg0);
     }
-    
+
     @Override
     public void write(byte[] arg0, int arg1, int arg2) {
         mac.update(arg0,arg1,arg2);

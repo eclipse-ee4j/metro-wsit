@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -56,7 +56,7 @@ public class SymmetricTokenBuilder extends TokenBuilder {
         this.keyProtectionAlg = kpAlgo;
     }
     /**
-     * 
+     *
      * @return BuilderResult
      */
     @Override
@@ -75,7 +75,7 @@ public class SymmetricTokenBuilder extends TokenBuilder {
             }
         }
         BuilderResult stbResult = new BuilderResult();
-        WSSPolicy ckBinding = (WSSPolicy) binding.getKeyBinding();        
+        WSSPolicy ckBinding = (WSSPolicy) binding.getKeyBinding();
         if (PolicyTypeUtil.usernameTokenBinding(ckBinding)) {
              if (sendEKSHA1) {
                 String ekSha1Ref = (String) context.getExtraneousProperty(MessageConstants.EK_SHA1_VALUE);
@@ -118,7 +118,7 @@ public class SymmetricTokenBuilder extends TokenBuilder {
                     context.setExtraneousProperty("SecretKey", dataProtectionKey);
                     //Truncating 20 byte Key to 16 byte Key;
                     byte[] secretKey = untBinding.getSecretKey().getEncoded();
-                    PasswordDerivedKey pdk = new PasswordDerivedKey();                    
+                    PasswordDerivedKey pdk = new PasswordDerivedKey();
                     Key dpKey = pdk.generate16ByteKeyforEncryption(secretKey);
                     ek = (SecurityHeaderElement) elementFactory.createEncryptedKey(context.generateID(), context.getAlgorithmSuite().getSymmetricKeyAlgorithm(), ekKI, dpKey, dataProtectionKey);
                     context.getSecurityHeader().add(ek);

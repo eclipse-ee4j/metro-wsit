@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -54,15 +54,15 @@ import javax.xml.namespace.QName;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "BinarySecurityTokenType")
 public class BinarySecurityTokenType
-        
+
 {
-    
+
     @XmlAttribute(name = "ValueType")
     protected String valueType;
-    
+
     @XmlAttribute(name = "EncodingType")
     protected String encodingType;
-    
+
     @XmlValue
     protected byte[] value;
     @XmlAttribute(name = "Id", namespace = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd")
@@ -71,9 +71,9 @@ public class BinarySecurityTokenType
     protected String id;
     @XmlAnyAttribute
     private Map<QName, String> otherAttributes = new HashMap<>();
-    
-    
-    
+
+
+
     /**
      * Gets the value of the id property.
      *
@@ -85,7 +85,7 @@ public class BinarySecurityTokenType
     public String getId() {
         return id;
     }
-    
+
     /**
      * Sets the value of the id property.
      *
@@ -97,7 +97,7 @@ public class BinarySecurityTokenType
     public void setId(String value) {
         this.id = value;
     }
-    
+
     /**
      * Gets a map that contains attributes that aren't bound to any typed property on this class.
      *
@@ -115,16 +115,16 @@ public class BinarySecurityTokenType
     public Map<QName, String> getOtherAttributes() {
         return otherAttributes;
     }
-    
-    
+
+
     public void setValue(byte[] value){
         this.value = value;
     }
-    
+
     public byte[] getValue(){
         return this.value;
     }
-    
+
     /**
      * Gets the value of the encodingType property.
      *
@@ -136,7 +136,7 @@ public class BinarySecurityTokenType
     public String getEncodingType() {
         return encodingType;
     }
-    
+
     /**
      * Sets the value of the encodingType property.
      *
@@ -148,7 +148,7 @@ public class BinarySecurityTokenType
     public void setEncodingType(String value) {
         this.encodingType = value;
     }
-    
+
     /**
      * Gets the value of the valueType property.
      *
@@ -160,7 +160,7 @@ public class BinarySecurityTokenType
     public String getValueType() {
         return valueType;
     }
-    
+
     /**
      * Sets the value of the valueType property.
      *
@@ -172,6 +172,6 @@ public class BinarySecurityTokenType
     public void setValueType(String value) {
         this.valueType = value;
     }
-    
-    
+
+
 }

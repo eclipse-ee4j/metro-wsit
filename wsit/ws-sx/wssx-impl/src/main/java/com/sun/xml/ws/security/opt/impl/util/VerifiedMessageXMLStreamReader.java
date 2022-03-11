@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -22,10 +22,10 @@ import javax.xml.stream.XMLStreamReader;
 
 
 public class VerifiedMessageXMLStreamReader implements XMLStreamReader{
-    
+
     private XMLStreamReader reader = null;
     private NamespaceContext _nsCtx = null;
-    
+
     /** Creates a new instance of FilteredXMLStreamReader */
     public VerifiedMessageXMLStreamReader(XMLStreamReader reader, Map<String,String> bodyENVNS ) {
         this.reader = reader;
@@ -257,16 +257,16 @@ public class VerifiedMessageXMLStreamReader implements XMLStreamReader{
         return reader.getAttributeValue(string, string0);
     }
     private static final class InternalNamespaceContext implements NamespaceContext {
-        
+
         private NamespaceContext parent;
 
         private Map<String, String> bodyEnvNs;
-        
+
         public InternalNamespaceContext(NamespaceContext parent, Map<String,String> bodyEnvNs) {
             this.parent = parent;
             this.bodyEnvNs = bodyEnvNs;
         }
-        
+
         @Override
         public String getNamespaceURI(String prefix) {
             String nsUri = parent.getNamespaceURI(prefix);
@@ -298,7 +298,7 @@ public class VerifiedMessageXMLStreamReader implements XMLStreamReader{
         public Iterator getPrefixes(String namespaceURI) {
             return  new InternalIterator(parent.getPrefixes(namespaceURI), this.bodyEnvNs, namespaceURI);
         }
-        
+
     }
     private static final class InternalIterator implements Iterator {
         ArrayList<String> arr = new ArrayList<>();
@@ -318,17 +318,17 @@ public class VerifiedMessageXMLStreamReader implements XMLStreamReader{
             }
             internal = arr.iterator();
         }
-        
+
         @Override
         public boolean hasNext() {
             return internal.hasNext();
         }
-        
+
         @Override
         public Object next() {
             return internal.next();
         }
-        
+
         @Override
         public void remove() {
             throw new UnsupportedOperationException("Remove Not Supported");

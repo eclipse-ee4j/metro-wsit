@@ -39,30 +39,30 @@ import com.sun.xml.wss.logging.impl.opt.signature.LogStringsMessages;
 public class CanonicalizationMethod extends CanonicalizationMethodType implements javax.xml.crypto.dsig.CanonicalizationMethod {
     @XmlTransient private static final Logger logger = Logger.getLogger(LogDomainConstants.IMPL_OPT_SIGNATURE_DOMAIN,
     LogDomainConstants.IMPL_OPT_SIGNATURE_DOMAIN_BUNDLE);
-    
+
     @XmlTransient private Exc14nCanonicalizer _exc14nCanonicalizer = new Exc14nCanonicalizer();
     @XmlTransient private AlgorithmParameterSpec _algSpec = null;
-    
+
     /** Creates a new instance of CanonicalizationMethod */
     public CanonicalizationMethod() {
     }
-    
+
     public void setParameterSpec(AlgorithmParameterSpec algSpec) {
         this._algSpec = algSpec;
     }
-    
+
     @Override
     public AlgorithmParameterSpec getParameterSpec() {
         return _algSpec;
     }
-    
-    
+
+
     @Override
     public boolean isFeatureSupported(String string) {
         //TODO:
         return false;
     }
-    
+
     @Override
     public Data transform(Data data, XMLCryptoContext xMLCryptoContext) throws TransformException {
         if(algorithm == CanonicalizationMethod.EXCLUSIVE){
@@ -70,9 +70,9 @@ public class CanonicalizationMethod extends CanonicalizationMethodType implement
             _exc14nCanonicalizer.transform(data,xMLCryptoContext);
         }
         return null;
-        
+
     }
-    
+
     @Override
     public Data transform(Data data, XMLCryptoContext xMLCryptoContext, OutputStream outputStream) throws TransformException {
         if(algorithm == CanonicalizationMethod.EXCLUSIVE){
@@ -80,7 +80,7 @@ public class CanonicalizationMethod extends CanonicalizationMethodType implement
         }
         return null;
     }
-    
+
     @SuppressWarnings("unchecked")
     public void setContent(List content) {
         this.content = content;

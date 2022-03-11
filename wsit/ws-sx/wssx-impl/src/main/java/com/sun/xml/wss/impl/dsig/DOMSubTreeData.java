@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -34,22 +34,22 @@ public class DOMSubTreeData implements NodeSetData {
     private Node root;
 
     public DOMSubTreeData(Node root, boolean excludeComments) {
-	this.root = root;
-	this.ni = new DelayedNodeIterator(root, excludeComments);
-	this.excludeComments = excludeComments;
+    this.root = root;
+    this.ni = new DelayedNodeIterator(root, excludeComments);
+    this.excludeComments = excludeComments;
     }
 
     @Override
     public Iterator iterator() {
-	return ni;
+    return ni;
     }
 
     public Node getRoot() {
-	return root;
+    return root;
     }
 
     public boolean excludeComments() {
-	return excludeComments;
+    return excludeComments;
     }
 
     /**
@@ -57,36 +57,36 @@ public class DOMSubTreeData implements NodeSetData {
      * not populated until the caller first attempts to advance the iterator.
      */
     static class DelayedNodeIterator implements Iterator {
-    	private Node root;
-	private List nodeSet;
-	private ListIterator li;
-	private boolean withComments;
+        private Node root;
+    private List nodeSet;
+    private ListIterator li;
+    private boolean withComments;
 
-	DelayedNodeIterator(Node root, boolean excludeComments) {
+    DelayedNodeIterator(Node root, boolean excludeComments) {
             this.root = root;
             this.withComments = !excludeComments;
-	}
+    }
 
         @Override
         public boolean hasNext() {
             if (nodeSet == null) {
-		nodeSet = dereferenceSameDocumentURI(root);
-		li = nodeSet.listIterator();
+        nodeSet = dereferenceSameDocumentURI(root);
+        li = nodeSet.listIterator();
             }
-	    return li.hasNext();
+        return li.hasNext();
         }
 
         @Override
         public Object next() {
             if (nodeSet == null) {
-		nodeSet = dereferenceSameDocumentURI(root);
-		li = nodeSet.listIterator();
+        nodeSet = dereferenceSameDocumentURI(root);
+        li = nodeSet.listIterator();
             }
             if (li.hasNext()) {
-		return li.next();
+        return li.next();
             } else {
                 throw new NoSuchElementException();
-	    }
+        }
         }
 
         @Override
@@ -94,20 +94,20 @@ public class DOMSubTreeData implements NodeSetData {
             throw new UnsupportedOperationException();
         }
 
-	/**
+    /**
          * Dereferences a same-document URI fragment.
-	 *
-	 * @param node the node (document or element) referenced by the
-         *	 URI fragment. If null, returns an empty set.
-	 * @return a set of nodes (minus any comment nodes)
-	 */
-	private List dereferenceSameDocumentURI(Node node) {
+     *
+     * @param node the node (document or element) referenced by the
+         *     URI fragment. If null, returns an empty set.
+     * @return a set of nodes (minus any comment nodes)
+     */
+    private List dereferenceSameDocumentURI(Node node) {
             List nodeSet = new ArrayList();
             if (node != null) {
-		nodeSetMinusCommentNodes(node, nodeSet, null);
+        nodeSetMinusCommentNodes(node, nodeSet, null);
             }
             return nodeSet;
-	}
+    }
 
         /**
          * Recursively traverses the subtree, and returns an XPath-equivalent
@@ -121,7 +121,7 @@ public class DOMSubTreeData implements NodeSetData {
         private void nodeSetMinusCommentNodes(Node node, List nodeSet,
                                               Node prevSibling) {
             switch (node.getNodeType()) {
-		case Node.ELEMENT_NODE :
+        case Node.ELEMENT_NODE :
                     NamedNodeMap attrs = node.getAttributes();
                     if (attrs != null) {
                         for (int i = 0, len = attrs.getLength(); i < len; i++) {
@@ -129,16 +129,16 @@ public class DOMSubTreeData implements NodeSetData {
                         }
                     }
                     nodeSet.add(node);
-		case Node.DOCUMENT_NODE :
+        case Node.DOCUMENT_NODE :
                     Node pSibling = null;
                     for (Node child = node.getFirstChild(); child != null;
                         child = child.getNextSibling()) {
-			nodeSetMinusCommentNodes(child, nodeSet, pSibling);
+            nodeSetMinusCommentNodes(child, nodeSet, pSibling);
                         pSibling = child;
                     }
                     break;
-		case Node.TEXT_NODE :
-		case Node.CDATA_SECTION_NODE:
+        case Node.TEXT_NODE :
+        case Node.CDATA_SECTION_NODE:
                     // emulate XPath which only returns the first node in
                     // contiguous text/cdata nodes
                     if (prevSibling != null &&
@@ -146,14 +146,14 @@ public class DOMSubTreeData implements NodeSetData {
                          prevSibling.getNodeType() == Node.CDATA_SECTION_NODE)){
                         return;
                     }
-		case Node.PROCESSING_INSTRUCTION_NODE :
+        case Node.PROCESSING_INSTRUCTION_NODE :
                     nodeSet.add(node);
-	            break;
-		case Node.COMMENT_NODE:
-		    if (withComments) { 
+                break;
+        case Node.COMMENT_NODE:
+            if (withComments) {
                         nodeSet.add(node);
-		    }
             }
-	}
+            }
+    }
     }
 }

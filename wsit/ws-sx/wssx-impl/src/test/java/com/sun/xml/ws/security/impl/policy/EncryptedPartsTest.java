@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -31,43 +31,43 @@ import java.util.Iterator;
  * @author Mayank.Mishra@SUN.com
  */
 public class EncryptedPartsTest extends TestCase {
-    
+
     public EncryptedPartsTest(String testName) {
         super(testName);
     }
-    
+
     @Override
     protected void setUp() {
     }
-    
+
     @Override
     protected void tearDown() {
     }
-    
+
     public static Test suite() {
         TestSuite suite = new TestSuite(EncryptedPartsTest.class);
-        
+
         return suite;
     }
-    
+
     private PolicySourceModel unmarshalPolicyResource(String resource) throws PolicyException, IOException {
         Reader reader = getResourceReader(resource);
         PolicySourceModel model = ModelUnmarshaller.getUnmarshaller().unmarshalModel(reader);
         reader.close();
         return model;
     }
-    
+
     private Reader getResourceReader(String resourceName) {
         return new InputStreamReader(Thread.currentThread().getContextClassLoader().getResourceAsStream(resourceName));
     }
-    
+
     public Policy unmarshalPolicy(String xmlFile)throws Exception{
         PolicySourceModel model =  unmarshalPolicyResource(xmlFile);
         Policy mbp = ModelTranslator.getTranslator().translate(model);
         return mbp;
-        
+
     }
-    
+
     public void testEncryptParts2() throws Exception{
         String fileName = "security/EncryptParts2.xml";
         Policy policy = unmarshalPolicy(fileName);
@@ -82,7 +82,7 @@ public class EncryptedPartsTest extends TestCase {
             }
         }
     }
-    
+
     public void testEncryptPartsCR6421129() throws Exception{
         String fileName = "security/EncryptParts5.xml";
         Policy policy = unmarshalPolicy(fileName);
@@ -109,7 +109,7 @@ public class EncryptedPartsTest extends TestCase {
             }
         }
     }
-    
+
     private SecurityPolicyVersion getSPVersion(PolicyAssertion pa){
         String nsUri = pa.getName().getNamespaceURI();
         // Default SPVersion
@@ -120,5 +120,5 @@ public class EncryptedPartsTest extends TestCase {
         }
         return spVersion;
     }
-    
+
 }

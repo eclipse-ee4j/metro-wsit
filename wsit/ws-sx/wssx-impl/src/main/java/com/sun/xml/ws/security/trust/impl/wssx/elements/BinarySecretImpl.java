@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -31,18 +31,18 @@ import org.apache.xml.security.exceptions.Base64DecodingException;
  * @author WS-Trust Implementation Team
  */
 public class BinarySecretImpl extends BinarySecretType implements BinarySecret {
-    
-   public BinarySecretImpl(byte[] rawValue, String type) {        
+
+   public BinarySecretImpl(byte[] rawValue, String type) {
         setRawValue(rawValue);
         setType(type);
-        
+
     }
-    
+
     public BinarySecretImpl(BinarySecretType bsType){
         this(bsType.getValue(), bsType.getType());
-        
+
     }
-    
+
     /**
      * Constructs a <code>BinarySecret</code> element from
      * an existing XML block.
@@ -70,42 +70,42 @@ public class BinarySecretImpl extends BinarySecretType implements BinarySecret {
      public byte[] getRawValue() {
         return super.getValue();
      }
-     
-     
+
+
      @Override
      public String getTextValue() {
-        return Base64.encode(getRawValue());         
+        return Base64.encode(getRawValue());
      }
-     
+
      @Override
      public void setRawValue(byte[] rawText) {
         setValue(rawText);
      }
-      
+
      @Override
      public void setTextValue(String encodedText) {
          try {
              setValue(Base64.decode(encodedText));
          } catch (Base64DecodingException de) {
-             throw new RuntimeException("Error while decoding " + 
-                                        de.getMessage()); 
+             throw new RuntimeException("Error while decoding " +
+                                        de.getMessage());
          }
      }
-     
+
  /*    public void setType(String type) {
-        if (!(this.ASYMMETRIC_KEY_TYPE.equalsIgnoreCase(type)  
-              || this.NONCE_KEY_TYPE.equalsIgnoreCase(type) 
+        if (!(this.ASYMMETRIC_KEY_TYPE.equalsIgnoreCase(type)
+              || this.NONCE_KEY_TYPE.equalsIgnoreCase(type)
               || this.SYMMETRIC_KEY_TYPE.equalsIgnoreCase(type))) {
             throw new RuntimeException("Invalid BinarySecret Type: " + type);
         }
-        
+
         setType(type);
-        
+
      }
-     
+
      public String getType(){
          return this.type;
      }
      */
-     
+
 }

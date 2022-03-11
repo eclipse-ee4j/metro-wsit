@@ -17,20 +17,20 @@ import com.sun.xml.wss.impl.FilterProcessingContext;
  *
  */
 public class JAXWSProcessingContextImpl extends FilterProcessingContext implements JAXWSProcessingContext{
-    
+
     private Message _message;
     /** Creates a new instance of JAXWSProcessingContextImpl */
     public JAXWSProcessingContextImpl() {
     }
-    
+
     @Override
     public void setMessage(Message message) {
         this._message = message;
     }
-    
+
     @Override
     public Message getMessage() {
         return _message;
     }
-    
+
 }

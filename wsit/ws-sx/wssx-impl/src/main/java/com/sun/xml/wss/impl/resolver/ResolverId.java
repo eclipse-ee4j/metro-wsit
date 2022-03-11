@@ -56,7 +56,7 @@ import javax.xml.xpath.XPathFactory;
 public class ResolverId extends ResourceResolverSpi {
 
    /* Implementation class name */
-   private static String implementationClassName = 
+   private static String implementationClassName =
                            ResolverId.class.getName();
 
    protected static final Logger log =
@@ -72,7 +72,7 @@ public class ResolverId extends ResourceResolverSpi {
    public static String getResolverName() {
       return implementationClassName;
    }
-  
+
    /**
     * Method engineResolve
     *
@@ -120,7 +120,7 @@ public class ResolverId extends ResourceResolverSpi {
          URI uriNew = new URI(new URI(BaseURI), uri.getNodeValue());
          result.setSourceURI(uriNew.toString());
       } catch (URI.MalformedURIException ex) {
-         result.setSourceURI(BaseURI);         
+         result.setSourceURI(BaseURI);
       }
 
       return result;
@@ -152,7 +152,7 @@ public class ResolverId extends ResourceResolverSpi {
             ((NamespaceContextImpl)nsContext).add("wsse", MessageConstants.WSSE_NS);
         return nsContext;
     }
-    
+
    /**
     * Looks up elements with wsu:Id or Id in xenc or dsig namespace
     *
@@ -170,11 +170,11 @@ public class ResolverId extends ResourceResolverSpi {
             }
             return selement;
        }
-                                                                                                                     
+
       if (MessageConstants.debug) {
           log.log(Level.FINEST, "Document.getElementById() FAILED......'" + id + "'");
       }
-      
+
        Element element = null;
       //------------------------
         NodeList elems = null;
@@ -193,7 +193,7 @@ public class ResolverId extends ResourceResolverSpi {
                     new Object[] {id, ex.getMessage()});
             throw new XWSSecurityRuntimeException(ex);
         }
-       
+
         if (elems != null) {
             if (elems.getLength() > 1) {
                 //TODO: localize the string
@@ -202,7 +202,7 @@ public class ResolverId extends ResourceResolverSpi {
                 element = (Element)elems.item(0);
             }
         }
-        
+
         if (element == null) {
             xpath =  "//*[@Id='" + id + "']";
             try {
@@ -227,14 +227,14 @@ public class ResolverId extends ResourceResolverSpi {
                         break;
                     }
                 }
-                
+
             } else {
                 element = (Element)elems.item(0);
             }
         }
-      
+
       /*
-      Element nscontext = XMLUtils.createDSctx(doc, 
+      Element nscontext = XMLUtils.createDSctx(doc,
                                                "wsu",
                                                MessageConstants.WSU_NS);
       Element element =
@@ -245,20 +245,20 @@ public class ResolverId extends ResourceResolverSpi {
          NodeList elems = XPathAPI.selectNodeList(
                                           doc,
                                           "//*[@Id='" + id + "']",
-                                          nscontext); 
+                                          nscontext);
          for (int i=0; i < elems.getLength(); i++) {
              Element elem = (Element)elems.item(i);
              String namespace = elem.getNamespaceURI();
              if (namespace.equals(MessageConstants.DSIG_NS) ||
                  namespace.equals(MessageConstants.XENC_NS)) {
-                element = elem;  
+                element = elem;
                 break;
              }
-         }  
+         }
       }
        */
        //-----------------------
-       
+
       // look for SAML AssertionID
       if (element == null) {
 
@@ -288,11 +288,11 @@ public class ResolverId extends ResourceResolverSpi {
     *             an empty set.
     */
    private Set dereferenceSameDocumentURI(Node node) {
-	Set nodeSet = new HashSet();
-	if (node != null) {
-	    nodeSetMinusCommentNodes(node, nodeSet, null);
-	}
-	return nodeSet;
+    Set nodeSet = new HashSet();
+    if (node != null) {
+        nodeSetMinusCommentNodes(node, nodeSet, null);
+    }
+    return nodeSet;
    }
 
    /**
@@ -304,35 +304,35 @@ public class ResolverId extends ResourceResolverSpi {
     */
    @SuppressWarnings("unchecked")
    private void nodeSetMinusCommentNodes(Node node, Set nodeSet,
-	Node prevSibling) {
-	switch (node.getNodeType()) {
+    Node prevSibling) {
+    switch (node.getNodeType()) {
             case Node.ELEMENT_NODE :
-		NamedNodeMap attrs = node.getAttributes();
-		if (attrs != null) {
+        NamedNodeMap attrs = node.getAttributes();
+        if (attrs != null) {
                     for (int i = 0; i<attrs.getLength(); i++) {
                         nodeSet.add(attrs.item(i));
                     }
-		}
+        }
                 nodeSet.add(node);
-        	Node pSibling = null;
-		for (Node child = node.getFirstChild(); child != null;
+            Node pSibling = null;
+        for (Node child = node.getFirstChild(); child != null;
                     child = child.getNextSibling()) {
                     nodeSetMinusCommentNodes(child, nodeSet, pSibling);
                     pSibling = child;
-		}
+        }
                 break;
             case Node.TEXT_NODE :
             case Node.CDATA_SECTION_NODE:
-		// emulate XPath which only returns the first node in
-		// contiguous text/cdata nodes
-		if (prevSibling != null &&
+        // emulate XPath which only returns the first node in
+        // contiguous text/cdata nodes
+        if (prevSibling != null &&
                     (prevSibling.getNodeType() == Node.TEXT_NODE ||
                      prevSibling.getNodeType() == Node.CDATA_SECTION_NODE)) {
                     return;
-		}
+        }
             case Node.PROCESSING_INSTRUCTION_NODE :
-		nodeSet.add(node);
-	}
+        nodeSet.add(node);
+    }
    }
 
     @Override

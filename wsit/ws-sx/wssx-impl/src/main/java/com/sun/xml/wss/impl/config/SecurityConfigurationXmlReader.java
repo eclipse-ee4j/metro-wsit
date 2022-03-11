@@ -81,102 +81,102 @@ import com.sun.xml.wss.impl.policy.mls.MessagePolicy;
  * xwssconfig.xsd (the XWS-Security configuration schema)
  */
 
-public class SecurityConfigurationXmlReader implements ConfigurationConstants {    
+public class SecurityConfigurationXmlReader implements ConfigurationConstants {
 
     protected static final Logger log = Logger.getLogger(
             LogDomainConstants.CONFIGURATION_DOMAIN,
             LogDomainConstants.CONFIGURATION_DOMAIN_BUNDLE);
-    
+
     static Random rnd = new Random();
     private static Document parseXmlString(String sourceXml) throws Exception {
         return parseXmlStream(
                 new ByteArrayInputStream(sourceXml.getBytes()));
     }
-    
+
     //Note: Assumes the passed element is a <SecurityConfiguration> element
     private static void validateConfiguration(Element element) {
-        
+
         // Check if more than one xwss:Timestamp element exists
         NodeList timestamps =
                 element.getElementsByTagNameNS(
                 CONFIGURATION_URL,
                 TIMESTAMP_ELEMENT_NAME);
-        
+
         if (timestamps.getLength() > 1) {
             // log
             throw new IllegalStateException(
                     "More than one xwss:Timestamp element " +
                     "in security configuration file");
         }
-        
+
         // Check if more than one xwss:RequireTimestamp element exists
         NodeList requireTimestamps =
                 element.getElementsByTagNameNS(
                 CONFIGURATION_URL,
                 TIMESTAMP_REQUIREMENT_ELEMENT_NAME);
-        
+
         if (requireTimestamps.getLength() > 1) {
             // log
             throw new IllegalStateException(
                     "More than one xwss:RequireTimestamp element " +
                     "in security configuration file");
         }
-        
+
         // Check if more than one xwss:UsernameAndPassword element exists
         NodeList usernamePasswords =
                 element.getElementsByTagNameNS(
                 CONFIGURATION_URL,
                 USERNAME_PASSWORD_AUTHENTICATION_ELEMENT_NAME);
-        
+
         if (usernamePasswords.getLength() > 1) {
             // log
             throw new IllegalStateException(
                     "More than one xwss:UsernameToken element " +
                     "in security configuration file");
         }
-        
+
         // Check if more than one xwss:RequireUsernameAndPassword element exists
         NodeList requireUsernamePasswords =
                 element.getElementsByTagNameNS(
                 CONFIGURATION_URL,
                 USERNAMETOKEN_REQUIREMENT_ELEMENT_NAME);
-        
+
         if (requireUsernamePasswords.getLength() > 1) {
             // log
             throw new IllegalStateException(
                     "More than one xwss:RequireUsernameToken element " +
                     "in security configuration file");
         }
-        
+
         // Check if more than one xwss:OptionalTargets element exists
         NodeList optionalTargets =
                 element.getElementsByTagNameNS(
                 CONFIGURATION_URL,
                 OPTIONAL_TARGETS_ELEMENT_NAME);
-        
+
         if (optionalTargets.getLength() > 1) {
             // log
             throw new IllegalStateException(
                     "More than one xwss:OptionalTargets element " +
                     "in security configuration file");
         }
-        
+
         // Check if more than one xwss:SAMLASSERTION elements exist
         NodeList samlAssertions =
                 element.getElementsByTagNameNS(
                 CONFIGURATION_URL,
                 SAML_ASSERTION_ELEMENT_NAME);
-        
+
         if (samlAssertions.getLength() > 1) {
             // log
             throw new IllegalStateException(
                     "More than one xwss:SAMLAssertion element " +
                     "in security configuration file");
         }
-        
+
         checkIdUniqueness(element);
     }
-    
+
     /**
      * read an XWS-Security configuration String representing an <code>xwss:JAXRPCSecurity</code> element
      * and return an ApplicationSecurityConfiguration instance.
@@ -192,16 +192,16 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
                 parseXmlString(sourceXml).
                 getDocumentElement());
     }
-    
+
     private static Document parseXmlStream(
             InputStream xmlStream) throws Exception {
         return parseXmlStream(xmlStream, null);
     }
-    
+
     private static Document parseXmlStream(
             InputStream xmlStream, PrintStream out)
             throws Exception {
-        
+
         DocumentBuilderFactory factory = WSITXMLFactory.createDocumentBuilderFactory(WSITXMLFactory.DISABLE_SECURE_PROCESSING);
                 //new com.sun.org.apache.xerces.internal.jaxp.DocumentBuilderFactoryImpl();
         factory.setAttribute(
@@ -221,7 +221,7 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
         DocumentBuilder builder = factory.newDocumentBuilder();
         builder.setErrorHandler(new ErrorHandler(out));
         Document configurationDocument = builder.parse(xmlStream);
-        
+
         // not very efficient, can we do it as part of regular parsing
         NodeList nodeList = configurationDocument.getElementsByTagNameNS
                 (CONFIGURATION_URL,DECLARATIVE_CONFIGURATION_ELEMENT_NAME);
@@ -230,7 +230,7 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
         }
         return configurationDocument;
     }
-    
+
     /**
      * Parse and validate an XWS-Security configuration
      * @param xmlStream the InputStream representing the configuration
@@ -242,7 +242,7 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
             throws Exception {
         parseXmlStream(xmlStream, out);
     }
-    
+
     /**
      * read an XWS-Security configuration representing a <code>xwss:SecurityConfiguration</code> element
      * and return a DeclarativeSecurityConfiguration instance.
@@ -257,7 +257,7 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
                 parseXmlStream(xmlStream).getDocumentElement(),
                 new DeclarativeSecurityConfiguration());
     }
-    
+
     /**
      * read an XWS-Security configuration  representing an <code>xwss:JAXRPCSecurity</code> element
      * and return an ApplicationSecurityConfiguration instance.
@@ -274,7 +274,7 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
         config.init();
         return config;
     }
-    
+
     private static DeclarativeSecurityConfiguration
             createDeclarativeConfiguration(
             Element configData) throws Exception {
@@ -287,46 +287,46 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
     private static SecurityPolicy
             createSecurityConfiguration(Element configData)
             throws Exception {
-        
+
         QName qname = getQName(configData);
-        
+
         if (JAXRPC_SECURITY_ELEMENT_QNAME.equals(qname)) {
             ApplicationSecurityConfiguration declarations =
                     new ApplicationSecurityConfiguration();
-            
+
             String secEnvHandler = getSecurityEnvironmentHandler(configData);
             if (secEnvHandler != null)
                 declarations.setSecurityEnvironmentHandler(secEnvHandler);
-            
+
             if (!configHasSingleService(configData)) {
                 throw new IllegalStateException(
                         "Single <xwss:Service> element expected under <xwss:JAXRPCSecurity> element");
             }
-            
+
             String optimize = configData.getAttribute(OPTIMIZE_ATTRIBUTE_NAME);
 
             boolean opt = Boolean.valueOf(optimize);
 
-            declarations.isOptimized(opt); 
-            
+            declarations.isOptimized(opt);
+
             String retainSecHeader = configData.getAttribute(RETAIN_SEC_HEADER);
             declarations.retainSecurityHeader(Boolean.valueOf(retainSecHeader));
 
             String resetMU = configData.getAttribute(RESET_MUST_UNDERSTAND);
             declarations.resetMustUnderstand(Boolean.valueOf(resetMU));
-            
+
             Element previousDefinitionElement = null;
             Element eachDefinitionElement = getFirstChildElement(configData);
             int secEnvTagCount = 0;
             HashMap serviceNameMap = new HashMap();
-            
+
             // we should encounter a single Sec-Env-Handler and one or more Services
             while (eachDefinitionElement != null) {
                 QName definitionType = getQName(eachDefinitionElement);
-                
+
                 if (SERVICE_ELEMENT_QNAME.equals(definitionType)) {
                     StaticApplicationContext jaxrpcSContext = new StaticApplicationContext();
-                    
+
                     // when there are multiple services the name has to be unique
                     String name = eachDefinitionElement.getAttribute(NAME_ATTRIBUTE_NAME);
                     if (serviceNameMap.containsKey(name)) {
@@ -337,14 +337,14 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
                     } else {
                         serviceNameMap.put(name,null);
                     }
-                    
-                    
+
+
                     readApplicationSecurityConfiguration(
                             eachDefinitionElement, declarations, null, jaxrpcSContext);
-                    
+
                 } else if (SECURITY_ENVIRONMENT_HANDLER_ELEMENT_QNAME.
                         equals(definitionType)) {
-                    
+
                     if (secEnvTagCount == 1) {
                         // log
                         throw new IllegalStateException(
@@ -352,7 +352,7 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
                                 "element in security configuration file");
                     }
                     secEnvTagCount++;
-                    
+
                 } else {
                     log.log(Level.SEVERE,
                             "WSS0413.illegal.configuration.element",
@@ -361,11 +361,11 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
                             eachDefinitionElement.getTagName()
                             + " is not a recognized definition type");
                 }
-                
+
                 previousDefinitionElement = eachDefinitionElement;
                 eachDefinitionElement = getNextElement(eachDefinitionElement);
             }
-            
+
             // check that the SecurityEnvironmentHandler was the last one
             // TODO: not sure if this check is required/enforced by schema
             QName definitionType = getQName( previousDefinitionElement);
@@ -374,16 +374,16 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
                 throw new IllegalStateException(
                         "The SecurityEnvironmentHandler must appear as " +
                         "the last Element inside a <xwss:JAXRPCSecurity>");
-            }            
+            }
             // implementation optimization for most common case
             //declarations.configurationHasPorts(configHasPorts(configData));
             declarations.singleServiceNoPorts(
                     configHasSingleServiceAndNoPorts(configData));
             declarations.hasOperationPolicies(
                     configHasOperations(configData));
-            
+
             return declarations;
-            
+
         } else if (DECLARATIVE_CONFIGURATION_ELEMENT_QNAME.equals(qname)) {
             if (dynamicPolicy(configData)) {
                 SecurityPolicy declarations = new DynamicSecurityPolicy();
@@ -402,7 +402,7 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
             + " is not a recognized definition type");
         }
     }
-    
+
     /*
      * Need to be coupled with schema checks
      */
@@ -412,21 +412,21 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
             SecurityPolicy subDeclarations,
             StaticApplicationContext iContext)
             throws Exception {
-        
+
         QName qname = getQName(configData);
-        
+
         if (SERVICE_ELEMENT_QNAME.equals(qname)) {
-            
+
             String id = getIdAttribute(configData);
             String name = configData.getAttribute(NAME_ATTRIBUTE_NAME);
             String useCache = configData.getAttribute(USECACHE_ATTRIBUTE_NAME);
-            
+
             boolean isBSP = getBSPAttribute(configData, null);
-            
+
             iContext.isService(true);
             iContext.setUUID(id);
             iContext.setServiceIdentifier(name);
-            
+
             // temporary work-around for applicationId
             if (!"".equals(name)) {
                 iContext.setApplicationContextRoot(name);
@@ -435,18 +435,18 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
             } else {
                 iContext.setApplicationContextRoot(generateUUID());
             }
-            
-            
+
+
             ApplicationSecurityConfiguration innerDeclarations =
                     new ApplicationSecurityConfiguration();
-            
+
             innerDeclarations.isBSP(isBSP);
             innerDeclarations.useCache(
                     parseBoolean(USECACHE_ATTRIBUTE_NAME, useCache));
-            
+
             ((ApplicationSecurityConfiguration) declarations).
                     setSecurityPolicy(iContext, innerDeclarations);
-            
+
             String secEnvHandler = getSecurityEnvironmentHandler(configData);
             if (secEnvHandler != null) {
                 innerDeclarations.setSecurityEnvironmentHandler(secEnvHandler);
@@ -460,7 +460,7 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
                         "Missing <xwss:SecurityEnvironmentHandler> element for " +
                         qname.getLocalPart());
             }
-            
+
             NodeList nl = configData.getChildNodes();
             for (int i=0; i < nl.getLength(); i++) {
                 // assuming all element nodes
@@ -470,40 +470,40 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
                             (Element)child, declarations, innerDeclarations, iContext);
                 }
             }
-            
+
         } else
             if (PORT_ELEMENT_QNAME.equals(qname)) {
-            
+
             if (subDeclarations == null) {
                 throw new Exception(
                         "Unexpected <xwss:Port> element without a parent " +
                         "<xwss:Service> encountered");
             }
-            
+
             String port = configData.getAttribute(NAME_ATTRIBUTE_NAME);
-            
+
             StaticApplicationContext jContext = new StaticApplicationContext();
             jContext.copy(iContext);
             jContext.isPort(true);
             jContext.isService(false);
             jContext.setPortIdentifier(port);
-            
+
             ApplicationSecurityConfiguration innerDeclarations =
                     new ApplicationSecurityConfiguration();
-            
+
             boolean isBSP = getBSPAttribute(
                     configData, (ApplicationSecurityConfiguration)subDeclarations);
-            
+
             innerDeclarations.isBSP(isBSP);
             innerDeclarations.setSecurityEnvironmentHandler(
                     ((ApplicationSecurityConfiguration)subDeclarations).
                     getSecurityEnvironmentHandler());
-            
+
             ((ApplicationSecurityConfiguration) declarations).
                     setSecurityPolicy(jContext, innerDeclarations);
             ((ApplicationSecurityConfiguration) subDeclarations).
                     setSecurityPolicy(jContext, innerDeclarations);
-            
+
             NodeList nl = configData.getChildNodes();
             for (int i=0; i < nl.getLength(); i++) {
                 // assuming all element nodes
@@ -513,35 +513,35 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
                             (Element)child, declarations, innerDeclarations, jContext);
                 }
             }
-            
+
             } else
                 if (OPERATION_ELEMENT_QNAME.equals(qname)) {
-            
+
             String operation = configData.getAttribute(NAME_ATTRIBUTE_NAME);
-            
+
             StaticApplicationContext kContext = new StaticApplicationContext();
-            
+
             kContext.copy(iContext);
             kContext.isOperation(true);
             kContext.isPort(false);
             kContext.setOperationIdentifier(operation);
-            
-            
+
+
             ApplicationSecurityConfiguration innerDeclarations =
                     new ApplicationSecurityConfiguration();
-            
+
             ((ApplicationSecurityConfiguration) declarations).
                     setSecurityPolicy(kContext, innerDeclarations);
             ((ApplicationSecurityConfiguration) subDeclarations).
                     setSecurityPolicy(kContext, innerDeclarations);
-            
+
             boolean isBSP = getBSPAttribute(
                     configData, (ApplicationSecurityConfiguration)subDeclarations);
             innerDeclarations.isBSP(isBSP);
             innerDeclarations.setSecurityEnvironmentHandler(
                     ((ApplicationSecurityConfiguration)subDeclarations).
                     getSecurityEnvironmentHandler());
-            
+
             NodeList nl = configData.getChildNodes();
             for (int i=0; i < nl.getLength(); i++) {
                 // assuming all element nodes
@@ -551,33 +551,33 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
                             (Element)child, declarations, innerDeclarations, kContext);
                 }
             }
-            
+
                 } else
                     if (DECLARATIVE_CONFIGURATION_ELEMENT_QNAME.equals(qname)) {
-            
+
             if (dynamicPolicy(configData)) {
                 ((ApplicationSecurityConfiguration) subDeclarations).
                         setSecurityPolicy(iContext, new DynamicSecurityPolicy());
             }
-            
+
             DeclarativeSecurityConfiguration  innerDeclarations =
                     new DeclarativeSecurityConfiguration();
-            
+
             boolean isBSP = getBSPAttribute(
                     configData, (ApplicationSecurityConfiguration)subDeclarations);
             innerDeclarations.isBSP(isBSP);
-            
+
             ((ApplicationSecurityConfiguration) subDeclarations).
                     setSecurityPolicy(iContext, innerDeclarations);
-            
+
             readContainerForBaseConfigurationData(
                     configData, innerDeclarations,
                     ((ApplicationSecurityConfiguration)subDeclarations).
                     getSecurityEnvironmentHandler());
-            
+
                     } else if (
                 SECURITY_ENVIRONMENT_HANDLER_ELEMENT_QNAME.equals(qname)) {
-            
+
             //TODO: check here that number of handler specified is not > 1
             if (!iContext.isService()) {
                 // log
@@ -587,7 +587,7 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
             }
                     }
     }
-    
+
     private static DeclarativeSecurityConfiguration
             readContainerForBaseConfigurationData(
             Element configData,
@@ -595,34 +595,34 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
             throws Exception {
         return readContainerForBaseConfigurationData(configData, declarations, null);
     }
-    
+
     private static DeclarativeSecurityConfiguration
             readContainerForBaseConfigurationData(
             Element configData,
             DeclarativeSecurityConfiguration declarations,
             String securityHandlerClass)
             throws Exception {
-        
+
         QName qname = getQName(configData);
-        
+
         if (DECLARATIVE_CONFIGURATION_ELEMENT_QNAME.equals(qname)) {
-            
+
             NamedNodeMap configurationAttributes = configData.getAttributes();
             int attributeCount = configurationAttributes.getLength();
             String attributeName = null;
-            
+
             for (int index = 0; index < attributeCount; index++) {
                 Attr configurationAttribute =
                         (Attr) configurationAttributes.item(index);
                 attributeName = configurationAttribute.getName();
-                
+
                 if (DUMP_MESSAGES_ATTRIBUTE_NAME.
                         equalsIgnoreCase(attributeName)) {
                     declarations.setDumpMessages(
                             parseBoolean(
                             DUMP_MESSAGES_ATTRIBUTE_NAME,
                             configurationAttribute.getValue()));
-                    
+
                 } else if (MessageConstants.NAMESPACES_NS.equals(
                         configurationAttribute.getNamespaceURI())) {
                     // Ignore namespace declaration
@@ -635,7 +635,7 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
                 } else if(ENABLE_WSS11_POLICY_ATTRIBUTE_NAME.
                         equalsIgnoreCase(attributeName)){
                     boolean wss11Enabled = parseBoolean(ENABLE_WSS11_POLICY_ATTRIBUTE_NAME,
-                            configurationAttribute.getValue());                 
+                            configurationAttribute.getValue());
                     declarations.senderSettings().enableWSS11Policy(wss11Enabled);
                     declarations.receiverSettings().enableWSS11Policy(wss11Enabled);
                 } else if (RETAIN_SEC_HEADER.equalsIgnoreCase(attributeName)) {
@@ -664,28 +664,28 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
         }
         return declarations;
     }
-    
+
     private static void readBaseConfigurationData(
             Element configData,
             DeclarativeSecurityConfiguration declarations,
             String securityHandlerClass)
             throws XWSSecurityException {
-        
+
         Element eachDefinitionElement = getFirstChildElement(configData);
         boolean timestampFound = false;
-        
+
         boolean senderEnableDynamicPolicy = declarations.senderSettings().enableDynamicPolicy();
         boolean receiverEnableDynamicPolicy = declarations.receiverSettings().enableDynamicPolicy();
         boolean receiverBSPFlag = declarations.receiverSettings().isBSP();
         //added for BackwardCompatibility with XWSS1.1, the xmlsec in XWSS11 cannot
         //accept PrefixList in CanonicalizationMethod parameters
         boolean senderBSPFlag = declarations.senderSettings().isBSP();
-        
+
         while (eachDefinitionElement != null) {
             QName definitionType = getQName(eachDefinitionElement);
-            
+
             if (TIMESTAMP_ELEMENT_QNAME.equals(definitionType)) {
-                
+
                 if (!timestampFound) {
                     TimestampPolicy timestampPolicy = new TimestampPolicy();
                     readTimestampSettings(timestampPolicy, eachDefinitionElement);
@@ -701,31 +701,31 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
                         throw new IllegalStateException(
                                 "Duplicate Timestamp element");
                 }
-                
+
             } else if (ENCRYPT_OPERATION_ELEMENT_QNAME.equals(definitionType)) {
-                
+
                 EncryptionPolicy encryptionPolicy = new EncryptionPolicy();
                 readEncryptionSettings(encryptionPolicy, eachDefinitionElement);
                 applyDefaults(encryptionPolicy, senderEnableDynamicPolicy);
                 declarations.senderSettings().append(encryptionPolicy);
-                
+
             } else if (SIGN_OPERATION_ELEMENT_QNAME.equals(definitionType)) {
                 SignaturePolicy signaturePolicy = new SignaturePolicy();
-                readSigningSettings(signaturePolicy, eachDefinitionElement, senderEnableDynamicPolicy);               
+                readSigningSettings(signaturePolicy, eachDefinitionElement, senderEnableDynamicPolicy);
                 //declarations.senderSettings().append(signaturePolicy);
                 //added for BackwardCompatibility with XWSS1.1, the xmlsec in XWSS11 cannot
                 //accept PrefixList in CanonicalizationMethod parameters
-                SignaturePolicy.FeatureBinding fb = 
+                SignaturePolicy.FeatureBinding fb =
                          (SignaturePolicy.FeatureBinding)signaturePolicy.getFeatureBinding();
                 if (fb != null) {
                      fb.isBSP(senderBSPFlag);
                 }
                 //end of XWSS11 BC fix
-                
+
                 String includeTimeStamp =
                         eachDefinitionElement.getAttribute(INCLUDE_TIMESTAMP_ATTRIBUTE_NAME);
                 boolean timeStamp = getBooleanValue(includeTimeStamp);
-                
+
                 if (timeStamp && !hasTimestampSiblingPolicy(eachDefinitionElement)) {
                     //System.out.println("Adding from SIGN");
                     TimestampPolicy t = new TimestampPolicy();
@@ -734,13 +734,13 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
                     applyDefaults(t, senderEnableDynamicPolicy);
                     declarations.senderSettings().append(t);
                 }
-                
+
                 declarations.senderSettings().append(signaturePolicy);
-                
+
             } else if (
                     USERNAME_PASSWORD_AUTHENTICATION_ELEMENT_QNAME.
                     equals(definitionType)) {
-                
+
                 try {
                     AuthenticationTokenPolicy utBinding =
                             new AuthenticationTokenPolicy();
@@ -756,9 +756,9 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
                     // log
                     throw new IllegalStateException(pge.getMessage());
                 }
-                
+
             } else if (SAML_ELEMENT_QNAME.equals(definitionType)) {
-                
+
                 try {
                     AuthenticationTokenPolicy samlBinding =
                             new AuthenticationTokenPolicy();
@@ -779,11 +779,11 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
                 SignaturePolicy signaturePolicy = new SignaturePolicy();
                 readVerifySettings(signaturePolicy, eachDefinitionElement,receiverBSPFlag, receiverEnableDynamicPolicy);
                 declarations.receiverSettings().append(signaturePolicy);
-                
+
                 String requireTimeStamp =
                         eachDefinitionElement.getAttribute(TIMESTAMP_REQUIRED_ATTRIBUTE_NAME);
                 boolean timeStamp = getBooleanValue(requireTimeStamp);
-                
+
                 if (timeStamp && !hasTimestampSiblingPolicy(eachDefinitionElement)) {
                     //System.out.println("Adding from RequireSignature");
                     TimestampPolicy t = new TimestampPolicy();
@@ -792,14 +792,14 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
                     applyReceiverDefaults(t, receiverBSPFlag, securityHandlerClass, receiverEnableDynamicPolicy);
                     declarations.receiverSettings().append(t);
                 }
-                
+
             } else if (ENCRYPTION_REQUIREMENT_ELEMENT_QNAME.equals(
                     definitionType)) {
                 EncryptionPolicy encryptionPolicy = new EncryptionPolicy();
                 readDecryptionSettings(encryptionPolicy, eachDefinitionElement);
                 applyReceiverDefaults(encryptionPolicy, receiverBSPFlag, receiverEnableDynamicPolicy);
                 declarations.receiverSettings().append(encryptionPolicy);
-                
+
             } else if (USERNAMETOKEN_REQUIREMENT_ELEMENT_QNAME.equals(
                     definitionType)) {
                 try {
@@ -823,16 +823,16 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
                 }
             } else if (TIMESTAMP_REQUIREMENT_ELEMENT_QNAME.equals(
                     definitionType)) {
-                
+
                 TimestampPolicy timestampPolicy = new TimestampPolicy();
                 readTimestampRequirementSettings(
                         timestampPolicy, eachDefinitionElement);
                 applyReceiverDefaults(timestampPolicy, receiverBSPFlag, securityHandlerClass, receiverEnableDynamicPolicy);
                 declarations.receiverSettings().append(timestampPolicy);
-                
+
             } else if (SAML_REQUIREMENT_ELEMENT_QNAME.equals(
                     definitionType)) {
-                
+
                 // read SAML requirement element
                 try {
                     AuthenticationTokenPolicy samlBinding =
@@ -849,7 +849,7 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
                     // log
                     throw new IllegalStateException(pge.getMessage());
                 }
-                
+
             } else if (OPTIONAL_TARGETS_ELEMENT_QNAME.equals(definitionType)) {
                 readOptionalTargetSettings(
                         declarations.receiverSettings(), eachDefinitionElement);
@@ -860,12 +860,12 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
                 throw new IllegalStateException(definitionType
                         + " is not a recognized definition type");
             }
-            
+
             eachDefinitionElement = getNextElement(eachDefinitionElement);
         }
     }
-    
-    
+
+
     private static void readVerifySettings( SignaturePolicy signaturePolicy,
             Element signingSettings,boolean bsp, boolean dp) {
         readVerifySettings(signaturePolicy, signingSettings);
@@ -884,25 +884,25 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
             st.setDigestAlgorithm(DigestMethod.SHA1); //SHA1
             ((SignaturePolicy.FeatureBinding)signaturePolicy.getFeatureBinding()).
                     addTargetBinding(st);
-            
+
             //}
         }
         signaturePolicy.isBSP(bsp);
     }
-    
+
     private static void readVerifySettings(
             SignaturePolicy signaturePolicy, Element signingSettings) {
         readSigningSettings(signaturePolicy, signingSettings);
     }
-    
+
     private static void readSigningSettings(SignaturePolicy signaturePolicy,
             Element signingSettings,boolean enableDynamicPolicy) {
         readSigningSettings(signaturePolicy, signingSettings);
         applyDefaults(signaturePolicy, enableDynamicPolicy);
-        
+
         String includeTimeStamp = signingSettings.getAttribute(INCLUDE_TIMESTAMP_ATTRIBUTE_NAME);
         boolean timeStamp = getBooleanValue(includeTimeStamp);
-        
+
         if(timeStamp){
             /*if (!hasTimestampSiblingPolicy(signingSettings)) {
                 ((SignaturePolicy.FeatureBinding)signaturePolicy.getFeatureBinding())
@@ -915,11 +915,11 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
             st.setValue(MessageConstants.TIMESTAMP_QNAME);
             ((SignaturePolicy.FeatureBinding)signaturePolicy.getFeatureBinding()).
                     addTargetBinding(st);
-            
+
             //}
         }
     }
-    
+
     private static boolean hasTimestampSiblingPolicy(Element signElement) {
         if (SIGN_OPERATION_ELEMENT_NAME.equals(signElement.getLocalName())) {
             Element signParent =(Element) signElement.getParentNode();
@@ -948,23 +948,23 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
                 }
                 requireSignatureNode = requireSignatureNode.getPreviousSibling();
             }
-            
+
         }
         return false;
     }
-    
+
     /*
      */
     private static void readSigningSettings(
             SignaturePolicy signaturePolicy, Element signingSettings) {
-        
+
         String id = getIdAttribute(signingSettings);
         signaturePolicy.setUUID(id);
         // Read sign attributes
         NamedNodeMap signingAttributes = signingSettings.getAttributes();
         int attributeCount = signingAttributes.getLength();
         String attributeName = null;
-        
+
         for (int index = 0; index < attributeCount; index++) {
             Attr signingAttribute = (Attr) signingAttributes.item(index);
             attributeName = signingAttribute.getName();
@@ -990,13 +990,13 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
                         signingSettings.getTagName());
             }
         }
-        
+
         Element eachSubElement = getFirstChildElement(signingSettings);
         int keyBearingTokensSeen = 0;
-        
+
         while (eachSubElement != null) {
             QName subElementQName = getQName(eachSubElement);
-            
+
             if (TARGET_QNAME.equals(subElementQName)) {
                 SignaturePolicy.FeatureBinding featureBinding =
                         (SignaturePolicy.FeatureBinding)
@@ -1063,26 +1063,26 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
             eachSubElement = getNextElement(eachSubElement);
         }
     }
-    
+
     /*
      * TODO: was the keyAlias an optional attribute in last release
      */
     private static void readSymmetricKeySettings(
             SymmetricKeyBinding keyBinding, Element symmKeyElement) {
-        
+
         NamedNodeMap symmKeyAttributes = symmKeyElement.getAttributes();
         int attributeCount = symmKeyAttributes.getLength();
         String attributeName = null;
-        
+
         if(attributeCount == 0){
             throw new IllegalStateException(
                     "A SymmetricKey must specify keyAlias, certAlias or useReceivedSecret as an attribute");
         }
-        
+
         for (int index = 0; index < attributeCount; index++) {
             Attr symmKeyAttribute = (Attr) symmKeyAttributes.item(index);
             attributeName = symmKeyAttribute.getName();
-            
+
             if (SYMMETRIC_KEY_ALIAS_ATTRIBUTE_NAME.equalsIgnoreCase(attributeName)) {
                 keyBinding.setKeyIdentifier(symmKeyAttribute.getValue());
             }else if ("certAlias".equalsIgnoreCase(attributeName)) {
@@ -1103,7 +1103,7 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
             }
         }
     }
-    
+
     /*
      * TODO: Make use of MessageConstants.<appropriateStrategyConstant>
      */
@@ -1113,14 +1113,14 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
         keyBinding.newPrivateKeyBinding();
         String id = getIdAttribute(token);
         keyBinding.setUUID(id);
-        
+
         NamedNodeMap tokenAttributes = token.getAttributes();
         int attributeCount = tokenAttributes.getLength();
         String attributeName = null;
         for (int index = 0; index < attributeCount; index++) {
             Attr tokenAttribute = (Attr) tokenAttributes.item(index);
             attributeName = tokenAttribute.getName();
-            
+
             if (ID_ATTRIBUTE_NAME.equalsIgnoreCase(attributeName)) {
                 //do nothing
             } else if(KEY_REFERENCE_TYPE_ATTRIBUTE_NAME.equalsIgnoreCase(attributeName)) {
@@ -1149,8 +1149,8 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
             }
         }
     }
-    
-    
+
+
     /*
      */
     @SuppressWarnings("unchecked")
@@ -1161,7 +1161,7 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
         Element eachSubElement = getFirstChildElement(optionalTargetSettings);
         while (eachSubElement != null) {
             QName subElementQName = getQName(eachSubElement);
-            
+
             if (TARGET_QNAME.equals(subElementQName)) {
                 Target t = new Target();
                 t.setEnforce(false);
@@ -1176,40 +1176,40 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
             }
             eachSubElement = getNextElement(eachSubElement);
         }
-        
-        requirements.addOptionalTargets(targets);        
+
+        requirements.addOptionalTargets(targets);
         //call iterator once to update the optional targets into policies
         requirements.iterator();
     }
-    
+
     private static void readDecryptionSettings(
             EncryptionPolicy encryptionPolicy,
             Element encryptionSettings) {
         readEncryptionSettings(encryptionPolicy, encryptionSettings);
     }
-    
+
     /*
      */
     private static void readEncryptionSettings(
             EncryptionPolicy encryptionPolicy,
             Element encryptionSettings) {
-        
-        
+
+
         String id = getIdAttribute(encryptionSettings);
         encryptionPolicy.setUUID(id);
-        
+
         // read attributes
         NamedNodeMap encryptAttributes =
                 encryptionSettings.getAttributes();
         int attributeCount = encryptAttributes.getLength();
-        
+
         String attributeName = null;
-        
+
         for (int index = 0; index < attributeCount; index++) {
             Attr encAttr =
                     (Attr)encryptAttributes.item(index);
             attributeName = encAttr.getName();
-            
+
             if (ID_ATTRIBUTE_NAME.equalsIgnoreCase(attributeName)) {
                 //do nothing
             } else  {
@@ -1222,14 +1222,14 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
                         encryptionSettings.getTagName());
             }
         }
-        
+
         // read sub-elements
         int keyBearingTokensSeen = 0;
-        
+
         Element eachSubElement = getFirstChildElement(encryptionSettings);
         while (eachSubElement != null) {
             QName subElementQName = getQName(eachSubElement);
-            
+
             if (TARGET_QNAME.equals(subElementQName)) {
                 EncryptionPolicy.FeatureBinding featureBinding =
                         (EncryptionPolicy.FeatureBinding)
@@ -1295,9 +1295,9 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
             }
             eachSubElement = getNextElement(eachSubElement);
         }
-        
+
     }
-    
+
     private static void readKeyEncMethodSettings(
             EncryptionPolicy encryptionPolicy, Element keyEncSettings) {
         String algorithm =
@@ -1306,7 +1306,7 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
             throw new IllegalArgumentException(
                     "Empty/Missing algorithm attribute on " +
                     keyEncSettings.getTagName());
-            
+
         }
         checkCompatibility(algorithm, keyEncSettings);
         SecurityPolicy keyBinding = encryptionPolicy.getKeyBinding();
@@ -1318,7 +1318,7 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
         }
         setKeyAlgorithm(keyBinding, algorithm);
     }
-    
+
     private static void checkCompatibility(String keyEncAlgo, Element keyEncSettings) {
         if (MessageConstants.RSA_OAEP_KEY_TRANSPORT.equals(keyEncAlgo) ||
                 MessageConstants.RSA_15_KEY_TRANSPORT.equals(keyEncAlgo)) {
@@ -1335,13 +1335,13 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
             }
         } else if (MessageConstants.TRIPLE_DES_KEY_WRAP.equals(keyEncAlgo) ||
                 keyEncAlgo.startsWith("http://www.w3.org/2001/04/xmlenc#kw-aes")) {
-            
+
             if (!hasSymmetricKeySibling(keyEncSettings)) {
                 // log
                 throw new IllegalStateException("Missing SymmetricKey association  for " +
                         KEY_ENCRYPTION_METHOD_ELEMENT_NAME + " " + keyEncAlgo);
             }
-            
+
             if (hasX509Sibling(keyEncSettings)) {
                 // log
                 throw new IllegalStateException("Invalid X509Token/SAML key association specified for " +
@@ -1353,7 +1353,7 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
                     " specified for " + KEY_ENCRYPTION_METHOD_ELEMENT_NAME);
         }
     }
-    
+
     //TODO : Add SAML support here later. An HOK assertion here can serve the same purpose
     private static  boolean hasX509Sibling(Element keyEncSettings) {
         Element parent = (Element)keyEncSettings.getParentNode();
@@ -1363,7 +1363,7 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
         }
         return false;
     }
-    
+
     private static boolean hasSymmetricKeySibling(Element keyEncSettings) {
         Element parent = (Element)keyEncSettings.getParentNode();
         NodeList symKeyNodes = parent.getElementsByTagNameNS(ConfigurationConstants.CONFIGURATION_URL, SYMMETRIC_KEY_ELEMENT_NAME);
@@ -1372,9 +1372,9 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
         }
         return false;
     }
-    
+
     private static void setDefaultKeyAlgorithm(SecurityPolicy keyBinding, String algorithm) {
-        
+
         if (PolicyTypeUtil.samlTokenPolicy(keyBinding)) {
             AuthenticationTokenPolicy.SAMLAssertionBinding samlBinding =
                     (AuthenticationTokenPolicy.SAMLAssertionBinding)keyBinding;
@@ -1393,9 +1393,9 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
             throw new IllegalArgumentException("Unknown Key Type " + keyBinding.getClass().getName());
         }
     }
-    
+
     private static void setKeyAlgorithm(SecurityPolicy keyBinding, String algorithm) {
-        
+
         if (PolicyTypeUtil.samlTokenPolicy(keyBinding)) {
             AuthenticationTokenPolicy.SAMLAssertionBinding samlBinding =
                     (AuthenticationTokenPolicy.SAMLAssertionBinding)keyBinding;
@@ -1404,7 +1404,7 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
             AuthenticationTokenPolicy.X509CertificateBinding x509Binding =
                     (AuthenticationTokenPolicy.X509CertificateBinding)keyBinding;
             x509Binding.setKeyAlgorithm(algorithm);
-           if(MessageConstants.HMAC_SHA1_SIGMETHOD.equals(algorithm)){ 
+           if(MessageConstants.HMAC_SHA1_SIGMETHOD.equals(algorithm)){
                 String certAlias = x509Binding.getCertificateIdentifier();
                 if(certAlias == null || certAlias.equals("")){
                     throw new IllegalArgumentException("The certificate Alias should be set when algorithm is:" + algorithm);
@@ -1417,7 +1417,7 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
             throw new IllegalArgumentException("Unknown Key Type " + keyBinding.getClass().getName());
         }
     }
-    
+
     private static void readDataEncMethodSettings(
             EncryptionPolicy encryptionPolicy, Element dataEncSettings) {
         String algorithm =
@@ -1426,14 +1426,14 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
             throw new IllegalArgumentException(
                     "Empty/Missing algorithm attribute on " +
                     dataEncSettings.getTagName());
-            
+
         }
         EncryptionPolicy.FeatureBinding featureBinding =
                 (EncryptionPolicy.FeatureBinding)
                 encryptionPolicy.getFeatureBinding();
         featureBinding.setDataEncryptionAlgorithm(algorithm);
     }
-    
+
     private static void readCanonMethodSettings(
             SignaturePolicy signaturePolicy, Element canonSettings) {
         String algorithm =
@@ -1448,7 +1448,7 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
             throw new IllegalArgumentException(
                     "Empty/Missing algorithm attribute on " +
                     canonSettings.getTagName());
-            
+
         }
         SignaturePolicy.FeatureBinding featureBinding =
                 (SignaturePolicy.FeatureBinding)
@@ -1456,7 +1456,7 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
         featureBinding.setCanonicalizationAlgorithm(algorithm);
         featureBinding.setDisbaleInclusivePrefix(disableInclusivePrefix);
     }
-    
+
     private static void readSigMethodSettings(
             SignaturePolicy signaturePolicy, Element sigMethodSettings) {
         String algorithm =
@@ -1465,9 +1465,9 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
             throw new IllegalArgumentException(
                     "Empty/Missing algorithm attribute on " +
                     sigMethodSettings.getTagName());
-            
+
         }
-        
+
         SecurityPolicy keyBinding = signaturePolicy.getKeyBinding();
         if (keyBinding == null) {
             keyBinding =
@@ -1477,11 +1477,11 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
         }
         setKeyAlgorithm(keyBinding, algorithm);
     }
-    
+
     private static QName getQName(Node element) {
         return new QName(element.getNamespaceURI(), element.getLocalName());
     }
-    
+
     private static Element getFirstChildElement(Node node) {
         Node nextSibling = node.getFirstChild();
         while (nextSibling != null) {
@@ -1492,7 +1492,7 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
         }
         return (Element) nextSibling;
     }
-    
+
     private static Element getNextElement(Node node) {
         Node nextSibling = node;
         while (nextSibling != null) {
@@ -1503,21 +1503,21 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
         }
         return (Element) nextSibling;
     }
-    
+
     private static class ErrorHandler extends DefaultHandler {
         PrintStream out;
-        
+
         public ErrorHandler(PrintStream out) {
             this.out = out;
         }
-        
+
         @Override
         public void error(SAXParseException e) throws SAXException {
             if (out != null)
                 out.println(e);
             throw e;
         }
-        
+
         @Override
         public void warning(SAXParseException e) {
             if (out != null)
@@ -1525,7 +1525,7 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
             else
                 ;// log
         }
-        
+
         @Override
         public void fatalError(SAXParseException e) throws SAXException {
             if (out != null)
@@ -1533,7 +1533,7 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
             throw e;
         }
     }
-    
+
     private static boolean parseBoolean(String attr, String value) throws Exception {
         if ("1".equals(value) || "true".equalsIgnoreCase(value)) {
             return true;
@@ -1546,8 +1546,8 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
                     " has value other than 'true' or 'false'");
         }
     }
-    
-    
+
+
     private static long parseLong(String str) {
         if (!"".equals(str)) {
             String ret = str;
@@ -1559,15 +1559,15 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
         }
         return 0;
     }
-    
+
     private static void readTimestampSettings(
             TimestampPolicy policy, Element timestampSettings) {
         String id = getIdAttribute(timestampSettings);
         policy.setUUID(id);
         String timeout = timestampSettings.getAttribute(TIMEOUT_ATTRIBUTE_NAME);
         policy.setTimeout(parseLong(timeout) * 1000);
-        
-        
+
+
         Element someElement = getFirstChildElement(timestampSettings);
         if (someElement != null) {
             log.log(Level.SEVERE,
@@ -1577,19 +1577,19 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
             + " is not a recognized sub-element of Timestamp");
         }
     }
-    
+
     private static void readTimestampRequirementSettings(
             TimestampPolicy policy, Element timestampSettings) {
         String id = getIdAttribute(timestampSettings);
         policy.setUUID(id);
-        
+
         String maxClockSkew = timestampSettings.getAttribute(MAX_CLOCK_SKEW);
         String timestampFreshness = timestampSettings.getAttribute(TIMESTAMP_FRESHNESS_LIMIT);
-        
+
         //set them on the policy
         policy.setMaxClockSkew(parseLong(maxClockSkew) * 1000);
         policy.setTimestampFreshness(parseLong(timestampFreshness) * 1000);
-        
+
         Element someElement = getFirstChildElement(timestampSettings);
         if (someElement != null) {
             log.log(Level.SEVERE,
@@ -1598,27 +1598,27 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
             throw new IllegalStateException(getQName(someElement)
             + " is not a recognized sub-element of RequireTimestamp");
         }
-    }    
-    
+    }
+
     /*
      */
     private static void readUsernamePasswordSettings(
             AuthenticationTokenPolicy.UsernameTokenBinding utBinding,
             Element usernamePasswordSettings) {
-        
+
         String id = getIdAttribute(usernamePasswordSettings);
         utBinding.setUUID(id);
-        
+
         NamedNodeMap usernameAttributes =
                 usernamePasswordSettings.getAttributes();
         int attributeCount = usernameAttributes.getLength();
-        
+
         String attributeName = null;
-        
+
         for (int index = 0; index < attributeCount; index++) {
             Attr usernamePasswordAttribute =
                     (Attr) usernameAttributes.item(index);
-            
+
             attributeName = usernamePasswordAttribute.getName();
             if (ID_ATTRIBUTE_NAME.equalsIgnoreCase(attributeName)) {
                 utBinding.setUUID(usernamePasswordAttribute.getValue());
@@ -1641,12 +1641,12 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
                 throw new IllegalStateException(attributeName
                         + " is not a recognized attribute of UsernameToken");
             }
-            
+
         }
         if ( utBinding.getDigestOn() && !utBinding.getUseNonce() ) {
             throw new IllegalStateException("useNonce attribute must be true if digestPassword is true");
         }
-        
+
         Element someElement = getFirstChildElement(usernamePasswordSettings);
         if (someElement != null) {
             log.log(Level.SEVERE,
@@ -1656,16 +1656,16 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
             + " is not a recognized sub-element of UsernameToken");
         }
     }
-    
+
     /*
      */
     private static void readUsernamePasswordRequirementSettings(
             AuthenticationTokenPolicy.UsernameTokenBinding utBinding,
             Element authenticateUserSettings) {
-        
+
         String id = getIdAttribute(authenticateUserSettings);
         utBinding.setUUID(id);
-        
+
         //set them on the policy
         TimestampPolicy tPolicy = null;
         try {
@@ -1674,15 +1674,15 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
             //log
             throw new IllegalStateException(e.getMessage());
         }
-        
+
         NamedNodeMap authenticateUserAttributes = authenticateUserSettings.getAttributes();
         int attributeCount = authenticateUserAttributes.getLength();
         String attributeName = null;
-        
+
         for (int index = 0; index < attributeCount; index++) {
             Attr authenticateUserAttribute = (Attr) authenticateUserAttributes.item(index);
             attributeName = authenticateUserAttribute.getName();
-            
+
             if (ID_ATTRIBUTE_NAME.equalsIgnoreCase(attributeName)) {
                 // do nothing
             }  else if (NONCE_REQUIRED_ATTRIBUTE_NAME
@@ -1708,7 +1708,7 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
                         + " is not a recognized attribute of RequireUsernameToken");
             }
         }
-        
+
         Element someElement = getFirstChildElement(authenticateUserSettings);
         if (someElement != null) {
             log.log(Level.SEVERE,
@@ -1717,31 +1717,31 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
             throw new IllegalStateException(getQName(someElement)
             + " is not a recognized sub-element of RequireUsernameToken");
         }
-        
+
         if ( utBinding.getDigestOn() && !utBinding.getUseNonce() ) {
             throw new IllegalStateException("nonceRequired attribute must be true if passwordDigestRequired is true");
         }
     }
-    
+
     private static void readSAMLTokenSettings(
             AuthenticationTokenPolicy.SAMLAssertionBinding samlBinding,
             Element samlTokenSettings) {
-        
+
         String id = getIdAttribute(samlTokenSettings);
         samlBinding.setUUID(id);
-        
+
         String type = samlTokenSettings.getAttribute(SAML_ASSERTION_TYPE_ATTRIBUTE_NAME);
         validateSAMLType(type, samlTokenSettings);
-        
+
         NamedNodeMap samlAttributes = samlTokenSettings.getAttributes();
         int attributeCount = samlAttributes.getLength();
         String attributeName = null;
-        
+
         for (int index = 0; index < attributeCount; index++) {
             Attr samlAttribute = (Attr) samlAttributes.item(index);
-            
+
             attributeName = samlAttribute.getName();
-            
+
             if (ID_ATTRIBUTE_NAME.equalsIgnoreCase(attributeName)) {
                 // do nothing
             }  else if (SAML_ASSERTION_TYPE_ATTRIBUTE_NAME
@@ -1771,27 +1771,27 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
             }
         }
     }
-    
-    
+
+
     private static void readRequireSAMLTokenSettings(
             AuthenticationTokenPolicy.SAMLAssertionBinding samlBinding,
             Element samlTokenSettings) {
-        
+
         String id = getIdAttribute(samlTokenSettings);
         samlBinding.setUUID(id);
-        
+
         String type = samlTokenSettings.getAttribute(SAML_ASSERTION_TYPE_ATTRIBUTE_NAME);
         validateRequireSAMLType(type, samlTokenSettings);
-        
+
         NamedNodeMap samlAttributes = samlTokenSettings.getAttributes();
         int attributeCount = samlAttributes.getLength();
         String attributeName = null;
-        
+
         for (int index = 0; index < attributeCount; index++) {
             Attr samlAttribute = (Attr) samlAttributes.item(index);
-            
+
             attributeName = samlAttribute.getName();
-            
+
             if (ID_ATTRIBUTE_NAME.equalsIgnoreCase(attributeName)) {
                 // do nothing
             } else if (SAML_ASSERTION_TYPE_ATTRIBUTE_NAME
@@ -1817,14 +1817,14 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
             }
         }
     }
-    
-    
+
+
     /*
      */
     private static EncryptionTarget readEncryptionTargetSettings(
             Element targetSettings) {
         EncryptionTarget target = new EncryptionTarget();
-        
+
         // Read-in the target type attribute
         NamedNodeMap targetAttributes = targetSettings.getAttributes();
         int attributeCount = targetAttributes.getLength();
@@ -1832,7 +1832,7 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
         for (int index = 0; index < attributeCount; index++) {
             Attr targetAttribute = (Attr) targetAttributes.item(index);
             attributeName = targetAttribute.getName();
-            
+
             if (TARGET_TYPE_ATTRIBUTE_NAME.equalsIgnoreCase(attributeName)) {
                 String targetType = targetAttribute.getValue();
                 // valid values of targetType are xpath, qname, id
@@ -1851,10 +1851,10 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
                 }
             } else if
                     (CONTENT_ONLY_ATTRIBUTE_NAME.equalsIgnoreCase(attributeName)) {
-                
+
                 String contentOnly = targetAttribute.getValue();
                 target.setContentOnly(getBooleanValue(contentOnly));
-                
+
             } else if
                     (ENFORCE_ATTRIBUTE_NAME.equalsIgnoreCase(attributeName)) {
                 String enforce_S = targetAttribute.getValue();
@@ -1862,7 +1862,7 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
                 target.setEnforce(enforce);
             } else if
                     (VALUE_ATTRIBUTE_NAME.equalsIgnoreCase(attributeName)) {
-                
+
             } else {
                 log.log(Level.SEVERE,
                         "WSS0512.illegal.attribute.name",
@@ -1872,7 +1872,7 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
                         + " is not a recognized attribute of Target");
             }
         }
-        
+
         // Read-in the target type attribute
         //read value attribute
         String targetValue = targetSettings.getAttribute(VALUE_ATTRIBUTE_NAME);
@@ -1882,13 +1882,13 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
             throw new IllegalStateException(
                 "value attribute of the EncryptionTarget element missing/empty");
         }
-                
+
         if (targetValue.startsWith("#"))
             targetValue = targetValue.substring(1);
-                
-                
+
+
         target.setValue(targetValue);
-        
+
         //read any transform child elements
         Element eachDefinitionElement = getFirstChildElement(targetSettings);
         while (eachDefinitionElement != null) {
@@ -1907,10 +1907,10 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
             }
             eachDefinitionElement = getNextElement(eachDefinitionElement);
         }
-        
+
         return target;
     }
-    
+
     private static Target readTargetSettings(Element targetSettings, boolean signature) {
         if (signature) {
             SignatureTarget target = new SignatureTarget();
@@ -1921,11 +1921,11 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
             return readTargetSettings(targetSettings, target);
         }
     }
-    
+
     /*
      */
     private static Target readTargetSettings(Element targetSettings, Target target) {
-        
+
         // Read-in the target type attribute
         NamedNodeMap targetAttributes = targetSettings.getAttributes();
         int attributeCount = targetAttributes.getLength();
@@ -1933,7 +1933,7 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
         for (int index = 0; index < attributeCount; index++) {
             Attr targetAttribute = (Attr) targetAttributes.item(index);
             attributeName = targetAttribute.getName();
-            
+
             if (TARGET_TYPE_ATTRIBUTE_NAME.equalsIgnoreCase(attributeName)) {
                 String targetType = targetAttribute.getValue();
                 // valid values of targetType are xpath, qname, id
@@ -1978,32 +1978,32 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
                         + " is not a recognized attribute of Target");
             }
         }
-        
+
         // Read-in the target value
         String targetValue = XMLUtil.getFullTextFromChildren(targetSettings);
-        
+
         if (targetValue == null || targetValue.equals("")) {
             // log
             throw new IllegalStateException(
                     "Value of the Target element is required to be specified");
         }
-        
+
         // ignore the proceeding # in case this is a xpointer uri
         if (targetValue.startsWith("#")) {
             targetValue = targetValue.substring(1);
         }
-        
+
         target.setValue(targetValue);
-        
+
         return target;
     }
-    
+
     /*
      */
     private static SignatureTarget readSignatureTargetSettings(
             Element targetSettings) {
         SignatureTarget target = new SignatureTarget();
-            
+
         // Read-in the target type attribute
         NamedNodeMap targetAttributes = targetSettings.getAttributes();
         int attributeCount = targetAttributes.getLength();
@@ -2011,7 +2011,7 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
         for (int index = 0; index < attributeCount; index++) {
             Attr targetAttribute = (Attr) targetAttributes.item(index);
             attributeName = targetAttribute.getName();
-            
+
             if (TARGET_TYPE_ATTRIBUTE_NAME.equalsIgnoreCase(attributeName)) {
                 String targetType = targetAttribute.getValue();
                 // valid values of targetType are xpath, qname, id
@@ -2034,7 +2034,7 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
                     throw new IllegalStateException(
                             "invalid contentOnly attribute in a xwss:SignatureTarget");
                 }
-                
+
                 /* we could check if the reference is to an attachement
                  * and add a Transform
                 String contentOnly = targetAttribute.getValue();
@@ -2050,14 +2050,14 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
                 }
                 target.addTransform(transform);
                  */
-                
+
             } else if
                     (ENFORCE_ATTRIBUTE_NAME.equalsIgnoreCase(attributeName)) {
                 String enforce_S = targetAttribute.getValue();
                 boolean enforce = getBooleanValue(enforce_S);
                 target.setEnforce(enforce);
             }else if(VALUE_ATTRIBUTE_NAME.equalsIgnoreCase(attributeName)){
-                
+
             }else {
                 log.log(Level.SEVERE,
                         "WSS0512.illegal.attribute.name",
@@ -2076,7 +2076,7 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
                     "value attribute of the SignatureTarget element missing/empty");
         }
         target.setValue(targetValue);
-        
+
         //read the DigestMethod child
         boolean attachmentTxSeen = false;
         Element eachDefinitionElement = getFirstChildElement(targetSettings);
@@ -2115,11 +2115,11 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
                 throw new IllegalStateException("Missing Transform specification for Attachment Target " + target.getValue());
             }
         }
-        
-        
+
+
         return target;
     }
-    
+
     private static String readDigestMethod(Element digestMethod) {
         String algorithm = digestMethod.getAttribute(ALGORITHM_ATTRIBUTE_NAME);
         if ("".equals(algorithm)) {
@@ -2128,10 +2128,10 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
         }
         return algorithm;
     }
-    
+
     private static SignatureTarget.Transform readSigTransform(Element transform) {
-        
-        
+
+
         String algorithm = transform.getAttribute(ALGORITHM_ATTRIBUTE_NAME);
         boolean disableInclusivePrefix = false;
         try{
@@ -2144,13 +2144,13 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
             throw new IllegalStateException(
                     " Empty/Missing algorithm attribute on xwss:Transform element");
         }
-        
+
         Element eachDefinitionElement = getFirstChildElement(transform);
         //HashMap props = new HashMap();
         SignatureTarget.Transform trans = new SignatureTarget.Transform();
         trans.setTransform(algorithm);
         trans.setDisbaleInclusivePrefix(disableInclusivePrefix);
-        
+
         if(algorithm.equals(Transform.XPATH )){
             fillXPATHTransformParams(eachDefinitionElement, trans);
         }else if(algorithm.equals(Transform.XPATH2 )){
@@ -2162,18 +2162,18 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
                 log.log(Level.FINE,"Algorithm Parameters not supported" +
                         "for transform",algorithm);
             }
-        }             
-                
+        }
+
         return trans;
     }
-    
-    
+
+
     private static void fillXPATHTransformParams(Element algoElement , SignatureTarget.Transform transform){
         QName definitionType = getQName(algoElement);
         if (ALGORITHM_PARAMETER_ELEMENT_QNAME.equals(definitionType)) {
             String name = algoElement.getAttribute(NAME_ATTRIBUTE_NAME);
             String value = algoElement.getAttribute(VALUE_ATTRIBUTE_NAME);
-            
+
             if(name.equals("XPATH")){
                 transform.setAlgorithmParameters(new XPathFilterParameterSpec(value));
             }else{
@@ -2191,13 +2191,13 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
     }
     @SuppressWarnings("unchecked")
     private static void fillXPATH2TransformParams(Element algoElement , SignatureTarget.Transform transform){
-        
+
         ArrayList xpathTypeList = new ArrayList();
         while (algoElement != null) {
             QName definitionType = getQName(algoElement);
             if (ALGORITHM_PARAMETER_ELEMENT_QNAME.equals(definitionType)) {
-                
-                
+
+
                 String name = algoElement.getAttribute(NAME_ATTRIBUTE_NAME);
                 String value = algoElement.getAttribute(VALUE_ATTRIBUTE_NAME);
                 if(name.equalsIgnoreCase("UNION")){
@@ -2210,7 +2210,7 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
                     throw new IllegalStateException("XPATH2 Transform AlgorithmParameter name attribute"
                             +" should be one of UNION,INTERSECT,SUBTRACT");
                 }
-                
+
             } else {
                 log.log(
                         Level.SEVERE,
@@ -2220,11 +2220,11 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
                         " is not a recognized sub-element of Transform");
             }
             algoElement = getNextElement(algoElement);
-            
+
         }
         transform.setAlgorithmParameters(new XPathFilter2ParameterSpec(xpathTypeList));
     }
-    
+
     private static void fillSTRTransformParams(Element algoElement , SignatureTarget.Transform transform){
         QName definitionType = getQName(algoElement);
         if (ALGORITHM_PARAMETER_ELEMENT_QNAME.equals(definitionType)) {
@@ -2240,17 +2240,17 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
                     " is not a recognized sub-element of Transform");
         }
     }
-    
+
     private static EncryptionTarget.Transform readEncTransform(
             Element transform) {
-        
+
         String algorithm = transform.getAttribute(ALGORITHM_ATTRIBUTE_NAME);
         if ("".equals(algorithm)) {
             // log
             throw new IllegalStateException(
                     " Empty/Missing algorithm attribute on xwss:Transform element");
         }
-        
+
         //Element eachDefinitionElement = getFirstChildElement(transform);
        /* HashMap props = new HashMap();
         while (eachDefinitionElement != null) {
@@ -2273,13 +2273,13 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
         //trans.setAlgorithmParameters(props);
         return trans;
     }
-    
-    
+
+
     private static void validateContentOnly(Element target) {
-        
+
         Node parent = target.getParentNode();
         String parentName = parent.getLocalName();
-        
+
         if (SIGNATURE_REQUIREMENT_ELEMENT_NAME.equalsIgnoreCase(parentName) ||
                 SIGN_OPERATION_ELEMENT_NAME.equalsIgnoreCase(parentName)) {
             String targetValue = target.getAttribute(VALUE_ATTRIBUTE_NAME);
@@ -2296,7 +2296,7 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
                         "invalid contentOnly attribute in a SignatureTarget");
             }
         }
-        
+
         if (!ENCRYPT_OPERATION_ELEMENT_NAME.equalsIgnoreCase(parentName) &&
                 !ENCRYPTION_REQUIREMENT_ELEMENT_NAME.
                 equalsIgnoreCase(parentName)) {
@@ -2305,7 +2305,7 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
                     parentName);
         }
     }
-    
+
     private static void validateSAMLKeyReferenceType(String typeName) {
         if (!MessageConstants.KEY_INDETIFIER_TYPE.equalsIgnoreCase(typeName) &&
                 !MessageConstants.EMBEDDED_REFERENCE_TYPE.equalsIgnoreCase(typeName)) {
@@ -2313,15 +2313,15 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
                     "Reference Type " + typeName +
                     " not allowed for SAMLAssertion References");
         }
-        
+
     }
-    
+
     private static void validateRequireSAMLType(String type, Element samlTokenSettings) {
         if (!SV_SAML_TYPE.equals(type)) {
             throw new IllegalStateException(
                     "Allowed Assertion Types for <xwss:RequireSAMLAssertion> is SV only");
         }
-        
+
         // the parent node should be a <SecurityConfiguration> if the type = SV
         Node parent = samlTokenSettings.getParentNode();
         if (parent == null) {
@@ -2329,30 +2329,30 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
             throw new IllegalStateException(
                     "<xwss:RequireSAMLAssertion> cannot occur at this position");
         }
-        
+
         String parentName = parent.getLocalName();
         if (!DECLARATIVE_CONFIGURATION_ELEMENT_NAME.equals(parentName)) {
             throw new IllegalStateException(
                     "<xwss:RequireSAMLAssertion> of Type=SV cannot occur as child of " + parentName);
         }
     }
-    
+
     private static void validateSAMLType(String type, Element samlTokenSettings) {
         if (!SV_SAML_TYPE.equals(type) && !HOK_SAML_TYPE.equals(type)) {
             throw new IllegalStateException(
                     type + " not a valid SAML Assertion Type, require one of HOK|SV");
         }
-        
+
         // the parent node should be a <SecurityConfiguration> if the type = SV
         if (SV_SAML_TYPE.equals(type)) {
-            
+
             Node parent = samlTokenSettings.getParentNode();
             if (parent == null) {
                 //should never happen
                 throw new IllegalStateException(
                         "SAML Assertion cannot occur at this position");
             }
-            
+
             String parentName = parent.getLocalName();
             if (!DECLARATIVE_CONFIGURATION_ELEMENT_NAME.equals(parentName)) {
                 throw new IllegalStateException(
@@ -2360,15 +2360,15 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
             }
         }
     }
-    
+
     private static boolean dynamicPolicy(Element configData) {
         String dynamicFlag = configData.getAttribute(ENABLE_DYNAMIC_POLICY_ATTRIBUTE_NAME);
         NodeList nl = configData.getElementsByTagName("*");
-        
+
         if ("".equals(dynamicFlag) || "false".equals(dynamicFlag) ||
                 "0".equals(dynamicFlag))
             return false;
-        
+
         if ("true".equals(dynamicFlag) || "1".equals(dynamicFlag)) {
             if (nl.getLength() == 0) {
                 return true;
@@ -2376,7 +2376,7 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
         }
         return false;
     }
-    
+
     private static boolean getBSPAttribute(Element configData, ApplicationSecurityConfiguration parent) {
         String conformanceValue = configData.getAttribute(CONFORMANCE_ATTRIBUTE_NAME);
         if (BSP_CONFORMANCE.equals(conformanceValue)) {
@@ -2386,21 +2386,21 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
         }
         return false;
     }
-    
+
     private static String getIdAttribute(Element configData) {
         String id = configData.getAttribute(ID_ATTRIBUTE_NAME);
-        
+
         if (id.startsWith("#")) {
             throw new IllegalArgumentException("Illegal id attribute " + id +
                     ", id attributes on policy elements cannot begin with a '#' character");
         }
-        
+
         if ("".equals(id)) {
             id = generateUUID();
         }
         return id;
     }
-    
+
     //TODO: rewrite this
     private static String generateUUID() {
         //Random rnd = new Random();
@@ -2408,9 +2408,9 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
         String id = "XWSSGID-"+ System.currentTimeMillis() + intRandom;
         return id;
     }
-    
+
     private static void validateTargetContentOnly(Element target) {
-        
+
         Node parent = target.getParentNode();
         String parentName = parent.getLocalName();
         if (!ENCRYPT_OPERATION_ELEMENT_NAME.equalsIgnoreCase(parentName) &&
@@ -2423,11 +2423,11 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
     }
     @SuppressWarnings("unchecked")
     private static String getSecurityEnvironmentHandler(Element element) {
-        
+
         int secEnvCount = 0;
         Element eachDefinitionElement = getFirstChildElement(element);
         String handlerClsName = null;
-        
+
         while (eachDefinitionElement != null) {
             QName definitionType = getQName(eachDefinitionElement);
             if (SECURITY_ENVIRONMENT_HANDLER_ELEMENT_QNAME.equals(definitionType)) {
@@ -2438,7 +2438,7 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
                             "under " + element.getTagName());
                 }
                 secEnvCount++;
-                
+
                 handlerClsName =
                         XMLUtil.getFullTextFromChildren(
                         eachDefinitionElement);
@@ -2453,7 +2453,7 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
         }
         return handlerClsName;
     }
-    
+
     //TODO : might actually want to set XPath2ParameterSpec for XPATH2
     @SuppressWarnings("unchecked")
     private static void readAlgorithmProperties(HashMap props, Element eachDefinitionElement) {
@@ -2461,7 +2461,7 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
         String value = eachDefinitionElement.getAttribute(VALUE_ATTRIBUTE_NAME);
         props.put(name, value);
     }
-    
+
     private static boolean getBooleanValue(String valueString) {
         if ("0".equals(valueString) || "false".equalsIgnoreCase(valueString)) {
             return false;
@@ -2473,15 +2473,15 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
         throw new IllegalArgumentException(valueString +
                 " is not a valid boolean value");
     }
-    
+
     private static void applyDefaults(TimestampPolicy policy, boolean dp) {
         if (policy.getTimeout() == 0) {
             policy.setTimeout(5000);
         }
     }
-    
+
     private static void applyDefaults(EncryptionPolicy policy, boolean dp) {
-        
+
         // get the target list
         EncryptionPolicy.FeatureBinding featureBinding =
                 (EncryptionPolicy.FeatureBinding)policy.getFeatureBinding();
@@ -2497,15 +2497,15 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
                     (AuthenticationTokenPolicy.X509CertificateBinding)policy.newX509CertificateKeyBinding();
             x509Policy.setReferenceType(MessageConstants.DIRECT_REFERENCE_TYPE);
         }
-        
+
     }
-    
+
     private static void applyDefaults(SignaturePolicy policy, boolean dp) {
-        
+
         // get the target list
         SignaturePolicy.FeatureBinding featureBinding =
                 (SignaturePolicy.FeatureBinding)policy.getFeatureBinding();
-        
+
         boolean targetsEmpty = (featureBinding.getTargetBindings().size() == 0);
         if(MessageConstants.debug){
             log.log(Level.FINEST, "In ApplyDefaults"+featureBinding.getTargetBindings().size());
@@ -2531,26 +2531,26 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
         if ("".equals(featureBinding.getCanonicalizationAlgorithm())) {
             featureBinding.setCanonicalizationAlgorithm(CanonicalizationMethod.EXCLUSIVE);
         }
-        
+
     }
-    
+
     private static void applyDefaults(
             AuthenticationTokenPolicy.UsernameTokenBinding policy, boolean dp) {
-        
+
         // defaults are applied here which is useNonce = true, doDigest=true
-        
+
     }
-    
+
     private static void applyDefaults(
             AuthenticationTokenPolicy.SAMLAssertionBinding policy, boolean dp) {
-        
+
         if ("".equals(policy.getReferenceType())) {
             policy.setReferenceType(MessageConstants.KEY_INDETIFIER_TYPE);
         }
     }
-    
+
     private static void applyReceiverDefaults(SignaturePolicy policy, boolean bsp, boolean dp) {
-        
+
         // get the target list
         SignaturePolicy.FeatureBinding featureBinding =
                 (SignaturePolicy.FeatureBinding)policy.getFeatureBinding();
@@ -2562,7 +2562,7 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
             t.setDigestAlgorithm(DigestMethod.SHA1); //SHA1
             featureBinding.addTargetBinding(t);
         }
-        
+
         // if bsp is true the filters will actually have code to verify that the
         // incoming algorithms (are BSP defined ones)
         // so nothing todo here
@@ -2573,9 +2573,9 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
         //}
         policy.isBSP(bsp);
     }
-    
+
     private static void applyReceiverDefaults(EncryptionPolicy policy, boolean bsp, boolean dp) {
-        
+
         // get the target list
         EncryptionPolicy.FeatureBinding featureBinding =
                 (EncryptionPolicy.FeatureBinding)policy.getFeatureBinding();
@@ -2586,7 +2586,7 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
             Target t = new EncryptionTarget();
             featureBinding.addTargetBinding(t);
         }
-        
+
         // if bsp is true the filters will actually have code to verify that the
         // incoming algorithms (for key and data enc are BSP defined ones)
         // so nothing todo here
@@ -2600,16 +2600,16 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
         //}
         policy.isBSP(bsp);
     }
-    
+
     private static void applyReceiverDefaults(
             AuthenticationTokenPolicy.UsernameTokenBinding policy,
             boolean bsp,
             String securityHandlerClass, boolean dp) {
-        
-        // defaults are applied here which is RequireNonce = true, RequireDigest=true        
+
+        // defaults are applied here which is RequireNonce = true, RequireDigest=true
         policy.isBSP(bsp);
     }
-    
+
     private static void applyReceiverDefaults(
             TimestampPolicy timestampPolicy,
             boolean bsp,
@@ -2617,25 +2617,25 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
         if ( timestampPolicy.getMaxClockSkew() == 0 ) {
              timestampPolicy.setMaxClockSkew(Timestamp.MAX_CLOCK_SKEW);
         }
-                                                                                                                    
+
         if (timestampPolicy.getTimestampFreshness() == 0) {
             timestampPolicy.setTimestampFreshness(Timestamp.TIMESTAMP_FRESHNESS_LIMIT);
         }
-        
+
         timestampPolicy.isBSP(bsp);
     }
-    
+
     private static void applyReceiverDefaults(
             AuthenticationTokenPolicy.SAMLAssertionBinding policy, boolean bsp, boolean dp) {
-        
+
         if ("".equals(policy.getReferenceType())) {
             policy.setReferenceType(MessageConstants.KEY_INDETIFIER_TYPE);
         }
         policy.isBSP(bsp);
     }
-    
+
     private static boolean configHasSingleService(Element config) {
-        
+
         NodeList services =
                 config.getElementsByTagNameNS(
                 CONFIGURATION_URL, SERVICE_ELEMENT_NAME);
@@ -2644,26 +2644,26 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
         }
         return true;
     }
-    
+
     private static boolean configHasSingleServiceAndNoPorts(Element config) {
-        
+
         NodeList services =
                 config.getElementsByTagNameNS(
                 CONFIGURATION_URL, SERVICE_ELEMENT_NAME);
         if ((services.getLength() > 1) || (services.getLength() == 0)) {
             return false;
         }
-        
+
         NodeList ports =
                 config.getElementsByTagNameNS(
                 CONFIGURATION_URL, PORT_ELEMENT_NAME);
-        
+
         if (ports.getLength() == 0) {
             return true;
         }
         return false;
     }
-    
+
     private static boolean configHasOperations(Element config) {
         NodeList ops =
                 config.getElementsByTagNameNS(
@@ -2675,7 +2675,7 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
     }
     @SuppressWarnings("unchecked")
     private static void checkIdUniqueness(Element elem) {
-        
+
         NodeList nl = elem.getElementsByTagNameNS(CONFIGURATION_URL, "*");
         int len = nl.getLength();
         HashMap map = new HashMap();
@@ -2689,7 +2689,7 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
                     map.put(idAttr, idAttr);
                 }
             }
-            
+
             idAttr = subElem.getAttribute(STRID);
             if (!"".equals(idAttr)) {
                 if (map.containsKey(idAttr)) {
@@ -2701,5 +2701,5 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
         }
 
     }
-    
+
 }

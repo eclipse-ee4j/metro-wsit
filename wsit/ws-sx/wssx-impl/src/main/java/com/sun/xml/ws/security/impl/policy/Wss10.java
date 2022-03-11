@@ -25,46 +25,46 @@ import java.util.logging.Level;
  * @author K.Venugopal@sun.com
  */
 public class Wss10 extends PolicyAssertion implements com.sun.xml.ws.security.policy.WSSAssertion, SecurityAssertionValidator {
-    
+
     Set<String> requiredPropSet;
-    String version = "1.0";   
+    String version = "1.0";
     boolean populated = false;
     private AssertionFitness fitness = AssertionFitness.IS_VALID;
     private SecurityPolicyVersion spVersion;
-    
+
     /**
      * Creates a new instance of WSSAssertion
      */
     public Wss10() {
         spVersion = SecurityPolicyVersion.SECURITYPOLICY200507;
     }
-    
+
     public Wss10(AssertionData name,Collection<PolicyAssertion> nestedAssertions, AssertionSet nestedAlternative) {
         super(name,nestedAssertions,nestedAlternative);
         String nsUri = getName().getNamespaceURI();
         spVersion = PolicyUtil.getSecurityPolicyVersion(nsUri);
     }
-    
-    
-    
+
+
+
     public void addRequiredProperty(String requirement) {
         if(requiredPropSet == null){
             requiredPropSet = new HashSet<>();
         }
         requiredPropSet.add(requirement);
     }
-    
+
     @Override
     public Set<String> getRequiredProperties() {
         populate();
         return requiredPropSet;
     }
-    
+
     @Override
     public String getType() {
         return version;
     }
-    
+
     @Override
     public AssertionFitness validate(boolean isServer) {
         return populate(isServer);
@@ -72,7 +72,7 @@ public class Wss10 extends PolicyAssertion implements com.sun.xml.ws.security.po
     private void populate(){
         populate(false);
     }
-    
+
     private synchronized AssertionFitness populate(boolean isServer) {
         if(!populated){
             NestedPolicy policy = this.getNestedPolicy();

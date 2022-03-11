@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -50,7 +50,7 @@ public class ClientPipelineHook extends com.sun.xml.ws.api.client.ClientPipeline
     com.sun.xml.ws.api.pipe.Pipe createSecurityPipe(@Nullable PolicyMap policyMap, com.sun.xml.ws.api.pipe.ClientPipeAssemblerContext ctxt, @NotNull com.sun.xml.ws.api.pipe.Pipe tail) {
         return tail;
     }
-   
+
     /**
      * Called during the client-side tubeline construction process once to allow a
      * container to register a tube for security.

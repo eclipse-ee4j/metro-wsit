@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -32,7 +32,7 @@ public class AddNumbersClient {
             int result = wsProxy.addNumbers(n1, n2);
             if (result == expectedResult) {
                 System.out.printf("[ %s ]: Result as expected: %d\n", name, result);
-            } else {                
+            } else {
                 System.out.printf("[ %s ]: Unexpected result: %d    Expected: %d\n", name, result, expectedResult);
             }
         } catch (Exception ex) {
@@ -59,7 +59,7 @@ public class AddNumbersClient {
         AddNumbersService service = new AddNumbersService();
 
         AddNumbersClient client = new AddNumbersClient("Client", service);
-        
+
         for (int i = 0; i < EXPECTED_RESULT.length; i++) {
             client.testAddNumbers(NUMBER_1[i], NUMBER_2[i], EXPECTED_RESULT[i]);
         }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -36,29 +36,29 @@ import com.sun.xml.ws.security.trust.WSTrustVersion;
 import org.w3c.dom.Element;
 
 public class ProcessingContextImpl extends ProcessingContext {
-    
+
     protected WSSAssertion wssAssertion = null;
 
     protected Hashtable issuedTokenContextMap = null;
-    
+
     protected Hashtable scPolicyIDtoSctIdMap = null;
-    
+
     protected AlgorithmSuite bootAlgoSuite = null;
     private WSSCVersion wsscVer;
     private WSTrustVersion wsTrustVer;
     private boolean addressingEnabled;
 
-    
+
     // Security runtime would populate received client creds into it
     // when it is an incoming Trust or SC message
     private static final String TRUST_CLIENT_CREDENTIALS = "TrustClientCredentialHolder";
     private static final String ISSUED_SAML_TOKEN = "IssuedSAMLToken";
     private static final String SAMLID_VS_KEY_CACHE = "SAMLID_VS_KEY_CACHE";
-    private static final String INCOMING_ASSERTION_ID="Incoming_Saml_Assertion_Id";    
+    private static final String INCOMING_ASSERTION_ID="Incoming_Saml_Assertion_Id";
 
     // KerberosContext information
     //private Hashtable<String, KerberosContext> krbContextMap = null;
-    
+
     // Hack required for DecryptionProcessor
     protected AlgorithmSuite algoSuite = null;
     // for Issued Token
@@ -68,23 +68,23 @@ public class ProcessingContextImpl extends ProcessingContext {
     protected IssuedTokenContext trustContext = null;
 
     protected MessagePolicy inferredSecurityPolicy = new MessagePolicy();
-    
+
     protected List signConfirmIds = new ArrayList();
 
    // private OperationResolver operationResolver = null;
     private boolean isTrustMsg = false;
-    
-    private boolean isSamlSignatureKey = false;    
-    
+
+    private boolean isSamlSignatureKey = false;
+
     // Version of SecurityPolicy being used
     private String securityPolicyVersion = null;
-    
+
     private String wscInstance = null;
-    
+
     private long timestampTimeout = 0;
     private int iterationsForPDK;
     private String action;
-    
+
     /**
      *Default constructor
      */
@@ -94,9 +94,9 @@ public class ProcessingContextImpl extends ProcessingContext {
      *constructor
      */
     public ProcessingContextImpl(Map invocationProps) {
-       properties = invocationProps; 
+       properties = invocationProps;
     }
-    
+
     /**
      * Constructor
      * @param context the static policy context for this request
@@ -108,9 +108,9 @@ public class ProcessingContextImpl extends ProcessingContext {
             SecurityPolicy securityPolicy,
             SOAPMessage message)
             throws XWSSecurityException {
-        super(context, securityPolicy, message);    
+        super(context, securityPolicy, message);
     }
-    
+
      /**
      * copy operator
      * @param ctxx1 the ProcessingContext to which to copy
@@ -124,9 +124,9 @@ public class ProcessingContextImpl extends ProcessingContext {
             ProcessingContextImpl ctx1 = (ProcessingContextImpl)ctxx1;
             ProcessingContextImpl ctx2 = (ProcessingContextImpl)ctxx2;
             super.copy(ctx1, ctx2);
-            ctx1.setIssuedTokenContextMap(ctx2.getIssuedTokenContextMap()); 
+            ctx1.setIssuedTokenContextMap(ctx2.getIssuedTokenContextMap());
             //ctx1.setKerberosContextMap(ctx2.getKerberosContextMap());
-            ctx1.setAlgorithmSuite(ctx2.getAlgorithmSuite()); 
+            ctx1.setAlgorithmSuite(ctx2.getAlgorithmSuite());
             ctx1.setSecureConversationContext(ctx2.getSecureConversationContext());
             ctx1.setWSSAssertion(ctx2.getWSSAssertion());
             ctx1.inferredSecurityPolicy = ctx2.getInferredSecurityPolicy();
@@ -137,7 +137,7 @@ public class ProcessingContextImpl extends ProcessingContext {
             ctx1.setWSCInstance(ctx2.getWSCInstance());
             ctx1.setSCPolicyIDtoSctIdMap(ctx2.getSCPolicyIDtoSctIdMap());
             ctx1.setAction(ctx2.getAction());
-            
+
             ctx1.setBootstrapAlgoSuite(ctx2.getBootstrapAlgoSuite());
             ctx1.setWsscVer(ctx2.getWsscVer());
             ctx1.setWsTrustVer(ctx2.getWsTrustVer());
@@ -147,15 +147,15 @@ public class ProcessingContextImpl extends ProcessingContext {
            super.copy(ctxx1, ctxx2);
        }
     }
-    
+
     public void setIssuedTokenContextMap(Hashtable issuedTokenContextMap ) {
         this.issuedTokenContextMap = issuedTokenContextMap;
     }
-    
+
     public Hashtable getIssuedTokenContextMap() {
         return issuedTokenContextMap;
     }
-    
+
     /* (non-Javadoc)
      * @return SecurableSoapMessage
      */
@@ -176,15 +176,15 @@ public class ProcessingContextImpl extends ProcessingContext {
             //TODO: This is temporary for testing
             // Once integrated we must throw an RT exception from here
             issuedTokenContextMap = new Hashtable();
-        } 
+        }
         issuedTokenContextMap.put(policyID, issuedTokenContext);
     }
-    
+
     public KerberosContext getKerberosContext() {
         KerberosContext krbContext = (KerberosContext)getExtraneousProperty(MessageConstants.KERBEROS_CONTEXT);
         return krbContext;
     }
-    
+
     public void setKerberosContext(KerberosContext kerberosContext) {
         setExtraneousProperty(MessageConstants.KERBEROS_CONTEXT, kerberosContext);
     }
@@ -208,7 +208,7 @@ public class ProcessingContextImpl extends ProcessingContext {
     public void setIncomingAssertionId(String assid) {
         getExtraneousProperties().put(INCOMING_ASSERTION_ID, assid);
     }
-    
+
     public String getIncomingAssertionId() {
         return (String)getExtraneousProperties().get(INCOMING_ASSERTION_ID);
     }
@@ -241,7 +241,7 @@ public class ProcessingContextImpl extends ProcessingContext {
     public void setWSSAssertion(WSSAssertion wssAssertion){
         this.wssAssertion = wssAssertion;
     }
-                                                                                
+
     public WSSAssertion getWSSAssertion(){
         return wssAssertion;
     }
@@ -260,11 +260,11 @@ public class ProcessingContextImpl extends ProcessingContext {
 //    public void setOperationResolver(OperationResolver operationResolver){
 //          this.operationResolver = operationResolver;
 //    }
-// 
+//
 //    public OperationResolver getOperationResolver(){
 //        return operationResolver;
 //    }
- 
+
     public void isTrustMessage(boolean isTrust){
         this.isTrustMsg = isTrust;
     }
@@ -272,7 +272,7 @@ public class ProcessingContextImpl extends ProcessingContext {
     public boolean isTrustMessage(){
         return isTrustMsg;
     }
-    
+
     public void isSamlSignatureKey(boolean value){
         this.isSamlSignatureKey = value;
     }
@@ -280,23 +280,23 @@ public class ProcessingContextImpl extends ProcessingContext {
     public boolean isSamlSignatureKey(){
         return this.isSamlSignatureKey;
     }
-    
+
     public List getSignatureConfirmationIds(){
         return signConfirmIds;
     }
-    
+
     public boolean hasIssuedToken(){
         return policyHasIssuedToken;
-    } 
+    }
 
     public void hasIssuedToken(boolean flag){
         policyHasIssuedToken = flag;
-    } 
-    
+    }
+
     public long getTimestampTimeout() {
         return this.timestampTimeout;
     }
-    
+
     public void setTimestampTimeout(long timeout) {
         this.timestampTimeout = timeout;
     }
@@ -308,24 +308,24 @@ public class ProcessingContextImpl extends ProcessingContext {
     public int getiterationsForPDK(){
         return this.iterationsForPDK;
     }
-    
+
     public void setSecurityPolicyVersion(String secPolVersion){
         this.securityPolicyVersion = secPolVersion;
     }
-    
+
     public String getSecurityPolicyVersion(){
         return this.securityPolicyVersion;
     }
-    
+
     public void setWSCInstance(String value){
         this.wscInstance = value;
     }
-    
+
     public String getWSCInstance(){
         return this.wscInstance;
     }
-    
-    public String getWSSCVersion(String nsUri) {        
+
+    public String getWSSCVersion(String nsUri) {
          if(MessageConstants.SECURITYPOLICY_200507_NS.equals(nsUri)){
             return MessageConstants.WSSC_NS;
         } else if(MessageConstants.SECURITYPOLICY_12_NS.equals(nsUri)){
@@ -333,17 +333,17 @@ public class ProcessingContextImpl extends ProcessingContext {
         }
         return null;
     }
-    
+
     public void setSCPolicyIDtoSctIdMap(Hashtable scPolicyIDtoSctIdMap ) {
         this.scPolicyIDtoSctIdMap = scPolicyIDtoSctIdMap;
     }
-    
+
     public Hashtable getSCPolicyIDtoSctIdMap() {
         return scPolicyIDtoSctIdMap;
     }
-    
+
     public String getSCPolicyIDtoSctIdMap(String scPolicyID) {
-        if (scPolicyIDtoSctIdMap == null) {            
+        if (scPolicyIDtoSctIdMap == null) {
             return null;
         }
         return (String)scPolicyIDtoSctIdMap.get(scPolicyID);
@@ -355,7 +355,7 @@ public class ProcessingContextImpl extends ProcessingContext {
     public String getAction(){
         return this.action;
     }
-    
+
     /**
      * @return the bootAlgoSuite
      */

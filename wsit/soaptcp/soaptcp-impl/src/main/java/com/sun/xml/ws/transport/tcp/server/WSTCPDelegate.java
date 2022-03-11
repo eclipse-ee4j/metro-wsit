@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -37,50 +37,50 @@ import java.util.logging.Logger;
 public final class WSTCPDelegate implements WSTCPAdapterRegistry, TCPMessageListener {
     private static final Logger logger = Logger.getLogger(
             com.sun.xml.ws.transport.tcp.util.TCPConstants.LoggingDomain + ".server");
-    
+
     private final Map<String, TCPAdapter> fixedUrlPatternEndpoints = new HashMap<>();
     private final List<TCPAdapter> pathUrlPatternEndpoints = new ArrayList<>();
-    
+
     private volatile TCPAdapter serviceChannelWSAdapter;
-    
+
     /**
      * Custom registry, where its possible to delegate Adapter search
      */
     private WSTCPAdapterRegistry customWSRegistry;
-    
+
     public WSTCPDelegate() {
     }
-    
+
     public void setCustomWSRegistry(@NotNull final WSTCPAdapterRegistry customWSRegistry) {
         this.customWSRegistry = customWSRegistry;
     }
-    
+
     public void registerAdapters(@NotNull final String contextPath,
             @NotNull final List<TCPAdapter> adapters) {
-        
+
         for(TCPAdapter adapter : adapters)
             registerEndpointUrlPattern(contextPath, adapter);
     }
-    
+
     public void freeAdapters(@NotNull final String contextPath,
             @NotNull final List<TCPAdapter> adapters) {
-        
+
         for(TCPAdapter adapter : adapters) {
             final String urlPattern = contextPath + adapter.urlPattern;
             logger.log(Level.FINE, MessagesMessages.WSTCP_1100_WSTCP_DELEGATE_DEREGISTER_ADAPTER(urlPattern));
-            
+
             if (fixedUrlPatternEndpoints.remove(urlPattern) == null) {
                 pathUrlPatternEndpoints.remove(adapter);
             }
         }
     }
-    
+
     private void registerEndpointUrlPattern(@NotNull final String contextPath,
             @NotNull final TCPAdapter adapter) {
-        
+
         final String urlPattern = contextPath + adapter.urlPattern;
         logger.log(Level.FINE, MessagesMessages.WSTCP_1101_WSTCP_DELEGATE_REGISTER_ADAPTER(urlPattern));
-        
+
         if (urlPattern.endsWith("/*")) {
             pathUrlPatternEndpoints.add(adapter);
         } else {
@@ -91,7 +91,7 @@ public final class WSTCPDelegate implements WSTCPAdapterRegistry, TCPMessageList
             }
         }
     }
-    
+
     /**
      * Determines which {@link TCPAdapter} serves the given request.
      */
@@ -110,18 +110,18 @@ public final class WSTCPDelegate implements WSTCPAdapterRegistry, TCPMessageList
                 }
             }
         }
-        
+
         if (result ==  null && customWSRegistry != null) {
             if (logger.isLoggable(Level.FINE)) {
                 logger.log(Level.FINE, MessagesMessages.WSTCP_1102_WSTCP_DELEGATE_GOING_TO_CUSTOM_REG(tcpURI));
             }
-            
+
             return customWSRegistry.getTarget(tcpURI);
         }
-        
+
         return result;
     }
-    
+
     /**
      * Implementation of TCPMessageListener.onError
      * method is called if error occured during frame processing
@@ -131,7 +131,7 @@ public final class WSTCPDelegate implements WSTCPAdapterRegistry, TCPMessageList
     public void onError(ChannelContext channelContext, WSTCPError error) throws IOException {
         sendErrorResponse(channelContext, error);
     }
-    
+
     /**
      * Implementation of TCPMessageListener.onMessage
      * method is called once request message come
@@ -151,7 +151,7 @@ public final class WSTCPDelegate implements WSTCPAdapterRegistry, TCPMessageList
             } else {
                 target = getServiceChannelWSAdapter();
             }
-            
+
             if (target != null) {
                 target.handle(channelContext);
             } else {
@@ -159,13 +159,13 @@ public final class WSTCPDelegate implements WSTCPAdapterRegistry, TCPMessageList
                         WSTCPError.createNonCriticalError(TCPConstants.UNKNOWN_CHANNEL_ID,
                         MessagesMessages.WSTCP_0026_UNKNOWN_CHANNEL_ID(channelContext.getChannelId())));
             }
-            
+
         } catch (WSTCPException e) {
             final Connection connection = channelContext.getConnection();
             logger.log(Level.SEVERE, MessagesMessages.WSTCP_0023_TARGET_EXEC_ERROR(connection.getHost(), connection.getPort()), e);
-            
+
             sendErrorResponse(channelContext, e.getError());
-            
+
             if (e.getError().isCritical()) {
                 channelContext.getConnectionSession().close();
             }
@@ -190,11 +190,11 @@ public final class WSTCPDelegate implements WSTCPAdapterRegistry, TCPMessageList
             }
         }
     }
-    
+
     public void destroy() {
         logger.log(Level.FINE, MessagesMessages.WSTCP_1105_WSTCP_DELEGATE_DESTROY());
     }
-    
+
     /**
      * Returns TCPAdapter for service channel
      * cannot do that once in constructor because of GF startup performance
@@ -204,10 +204,10 @@ public final class WSTCPDelegate implements WSTCPAdapterRegistry, TCPMessageList
         if (serviceChannelWSAdapter == null) {
             registerServiceChannelWSAdapter();
         }
-        
+
         return serviceChannelWSAdapter;
     }
-    
+
     private void sendErrorResponse(ChannelContext channelContext, WSTCPError error) throws IOException {
         try {
             TCPAdapter.sendErrorResponse(channelContext, error);
@@ -216,12 +216,12 @@ public final class WSTCPDelegate implements WSTCPAdapterRegistry, TCPMessageList
             throw new IOException(e.getClass().getName() + ": " + e.getMessage());
         }
     }
-    
+
     private synchronized void registerServiceChannelWSAdapter() {
         if (serviceChannelWSAdapter == null) {
             WSEndpoint<ServiceChannelWSImpl> endpoint = ServiceChannelCreator.getServiceChannelEndpointInstance();
             final String serviceNameLocal = endpoint.getServiceName().getLocalPart();
-            
+
             serviceChannelWSAdapter = new TCPServiceChannelWSAdapter(serviceNameLocal,
                     TCPConstants.SERVICE_CHANNEL_URL_PATTERN,
                     endpoint,

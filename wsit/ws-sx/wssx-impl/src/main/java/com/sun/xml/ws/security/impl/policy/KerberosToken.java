@@ -31,7 +31,7 @@ import com.sun.xml.ws.security.policy.SecurityAssertionValidator.AssertionFitnes
  * @author mayank.mishra@Sun.com
  */
 public class KerberosToken extends PolicyAssertion implements com.sun.xml.ws.security.policy.KerberosToken, SecurityAssertionValidator {
-    
+
     private AssertionFitness fitness = AssertionFitness.IS_VALID;
     private boolean populated = false;
     private String tokenType = null;
@@ -45,7 +45,7 @@ public class KerberosToken extends PolicyAssertion implements com.sun.xml.ws.sec
     private Issuer issuer = null;
     private IssuerName issuerName = null;
     private Claims claims = null;
-    
+
     /** Creates a new instance of KerberosToken */
     public KerberosToken(AssertionData name,Collection<PolicyAssertion> nestedAssertions, AssertionSet nestedAlternative) {
         super(name,nestedAssertions,nestedAlternative);
@@ -56,68 +56,68 @@ public class KerberosToken extends PolicyAssertion implements com.sun.xml.ws.sec
         itQname = new QName(spVersion.namespaceUri, Constants.IncludeToken);
         includeToken = spVersion.includeTokenAlways;
     }
-    
-    
+
+
     @Override
     public String getTokenType() {
         populate();
         return tokenType;
     }
-    
+
     public void setTokenType(String tokenType) {
         this.tokenType = tokenType;
     }
-    
+
     @Override
     public Set getTokenRefernceType() {
         populate();
         return referenceType;
     }
-    
+
     public void addTokenReferenceType(String tokenRefType) {
         referenceType.add(tokenRefType);
     }
-    
+
     @Override
     public boolean isRequireDerivedKeys() {
         populate();
         return reqDK;
     }
-    
+
     @Override
     public String getIncludeToken() {
         populate();
         return includeToken;
     }
-    
+
     public void setIncludeToken(String type) {
         includeToken = type;
     }
-    
-    
+
+
     @Override
     public String getTokenId() {
         return id;
     }
-    
+
     @Override
     public Issuer getIssuer() {
         populate();
         return issuer;
     }
-    
+
     @Override
     public IssuerName getIssuerName() {
         populate();
         return issuerName;
     }
-    
+
     @Override
     public Claims getClaims(){
         populate();
         return claims;
     }
-    
+
     @Override
     public AssertionFitness validate(boolean isServer) {
         return populate(isServer);
@@ -125,7 +125,7 @@ public class KerberosToken extends PolicyAssertion implements com.sun.xml.ws.sec
     private void populate(){
         populate(false);
     }
-    
+
     private synchronized AssertionFitness populate(boolean isServer) {
         if(!populated){
             if(this.getAttributeValue(itQname)!=null){
@@ -140,7 +140,7 @@ public class KerberosToken extends PolicyAssertion implements com.sun.xml.ws.sec
                 return fitness;
             }
             AssertionSet as = policy.getAssertionSet();
-            
+
             for(PolicyAssertion assertion: as){
                 if(PolicyUtil.isTokenReferenceType(assertion, spVersion)){
                     referenceType.add(assertion.getName().getLocalPart().intern());
@@ -163,7 +163,7 @@ public class KerberosToken extends PolicyAssertion implements com.sun.xml.ws.sec
                         issuer = (Issuer)assertion;
                     } else if(PolicyUtil.isIssuerName(assertion, spVersion)){
                         issuerName = (IssuerName)assertion;
-                    } else if(PolicyUtil.isClaimsElement(assertion) && 
+                    } else if(PolicyUtil.isClaimsElement(assertion) &&
                             SecurityPolicyVersion.SECURITYPOLICY12NS.namespaceUri.equals(spVersion.namespaceUri) ){
                         claims = (Claims)assertion;
                     }
@@ -182,5 +182,5 @@ public class KerberosToken extends PolicyAssertion implements com.sun.xml.ws.sec
     public SecurityPolicyVersion getSecurityPolicyVersion() {
         return spVersion;
     }
-    
+
 }

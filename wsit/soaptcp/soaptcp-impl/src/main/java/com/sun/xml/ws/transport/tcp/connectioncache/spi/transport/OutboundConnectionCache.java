@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -87,7 +87,7 @@ public interface OutboundConnectionCache<C extends Connection>
      * <P>
      */
     C get( ContactInfo<C> cinfo, ConnectionFinder<C> finder
-	) throws IOException ;
+    ) throws IOException ;
 
     /** Behaves the same as {@code get( ContactInfo<C>, ConnectionFinder<C> )}
      * except that no connection finder is provided, so that step is

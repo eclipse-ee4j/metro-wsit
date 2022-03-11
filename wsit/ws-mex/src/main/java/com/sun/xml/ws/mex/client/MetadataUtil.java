@@ -25,13 +25,13 @@ import com.sun.xml.ws.mex.client.MetadataClient.Protocol;
  * are supported.
  */
 public class MetadataUtil {
-    
+
     // the transport-specific code is (mostly) here
     private final HttpPoster postClient;
-    
+
     private static final Logger logger =
         Logger.getLogger(MetadataUtil.class.getName());
-    
+
     public MetadataUtil() {
         postClient = new HttpPoster();
     }
@@ -44,7 +44,7 @@ public class MetadataUtil {
      */
     InputStream getMetadata(final String address,
         final Protocol protocol) throws IOException {
-        
+
         final String request = getMexWsdlRequest(address, protocol);
         if (logger.isLoggable(Level.FINE)) {
             logger.fine("Request message:\n" + request + "\n");
@@ -55,10 +55,10 @@ public class MetadataUtil {
         }
         return postClient.post(request, address, contentType);
     }
-    
+
     private String getMexWsdlRequest(final String address,
         final Protocol protocol) {
-        
+
         // start with soap 1.2
         String soapPrefix = "s12";
         String soapNamespace = MetadataConstants.SOAP_1_2;
@@ -84,6 +84,6 @@ public class MetadataUtil {
             "<" + soapPrefix + ":Body/>" +
             "</" + soapPrefix + ":Envelope>";
     }
-    
+
 }
 

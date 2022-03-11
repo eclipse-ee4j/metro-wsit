@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -95,17 +95,17 @@ public class WSTrustContractImpl implements WSTrustContract<BaseSTSRequest, Base
             Logger.getLogger(
             LogDomainConstants.TRUST_IMPL_DOMAIN,
             LogDomainConstants.TRUST_IMPL_DOMAIN_BUNDLE);
-    
+
     protected static final String SAML_SENDER_VOUCHES_1_0 = "urn:oasis:names:tc:SAML:1.0:cm::sender-vouches";
     protected static final String SAML_SENDER_VOUCHES_2_0 = "urn:oasis:names:tc:SAML:2.0:cm:sender-vouches";
-    
-   
+
+
     protected STSConfiguration stsConfig;
     protected WSTrustVersion wstVer;
     protected WSTrustElementFactory eleFac;
-    
+
     private static final int DEFAULT_KEY_SIZE = 256;
-    
+
     @Override
     public void init(final STSConfiguration stsConfig) {
         this.stsConfig = stsConfig;
@@ -121,7 +121,7 @@ public class WSTrustContractImpl implements WSTrustContract<BaseSTSRequest, Base
         if (wstVer.getNamespaceURI().equals(WSTrustVersion.WS_TRUST_13_NS_URI)){
             secParas = rst.getSecondaryParameters();
         }
-        
+
        // Get token scope
         final AppliesTo applies = rst.getAppliesTo();
         String appliesTo = null;
@@ -139,11 +139,11 @@ public class WSTrustContractImpl implements WSTrustContract<BaseSTSRequest, Base
             }
         }
         context.setAppliesTo(appliesTo);
-        
+
         // Get token issuer
         String issuer = stsConfig.getIssuer();
         context.setTokenIssuer(issuer);
-        
+
         // Get the metadata for the SP as identified by the AppliesTo
         TrustSPMetadata spMd = stsConfig.getTrustSPMetadata(appliesTo);
         if (spMd == null){
@@ -155,7 +155,7 @@ public class WSTrustContractImpl implements WSTrustContract<BaseSTSRequest, Base
                     LogStringsMessages.WST_0004_UNKNOWN_SERVICEPROVIDER(appliesTo));
             throw new WSTrustException(LogStringsMessages.WST_0004_UNKNOWN_SERVICEPROVIDER(appliesTo));
         }
-        
+
         // Get service certificate
         if (serCert == null){
             serCert = this.getServiceCertificate(spMd, appliesTo);
@@ -163,12 +163,12 @@ public class WSTrustContractImpl implements WSTrustContract<BaseSTSRequest, Base
         if (serCert != null){
             context.getOtherProperties().put(IssuedTokenContext.TARGET_SERVICE_CERTIFICATE, serCert);
         }
-        
+
         // Get STS certificate and private key
         Object[] certAndKey = this.getSTSCertAndPrivateKey();
         context.getOtherProperties().put(IssuedTokenContext.STS_CERTIFICATE, certAndKey[0]);
         context.getOtherProperties().put(IssuedTokenContext.STS_PRIVATE_KEY, certAndKey[1]);
-        
+
         // Get TokenType
         String tokenType = null;
         URI tokenTypeURI = rst.getTokenType();
@@ -184,7 +184,7 @@ public class WSTrustContractImpl implements WSTrustContract<BaseSTSRequest, Base
             tokenType = WSTrustConstants.SAML11_ASSERTION_TOKEN_TYPE;
         }
         context.setTokenType(tokenType);
-        
+
         // Get KeyType
         String keyType = null;
         URI keyTypeURI = rst.getKeyType();
@@ -211,7 +211,7 @@ public class WSTrustContractImpl implements WSTrustContract<BaseSTSRequest, Base
             encryptionAlgorithm = encryptionAlgorithmURI.toString();
         }
         context.setEncryptionAlgorithm(encryptionAlgorithm);
-        
+
         String signatureAlgorithm = null;
         URI signatureAlgorithmURI = rst.getSignatureAlgorithm();
         if(signatureAlgorithmURI == null && secParas != null){
@@ -221,7 +221,7 @@ public class WSTrustContractImpl implements WSTrustContract<BaseSTSRequest, Base
             signatureAlgorithm = signatureAlgorithmURI.toString();
         }
         context.setSignatureAlgorithm(signatureAlgorithm);
-        
+
         String canonicalizationAlgorithm = null;
         URI canonicalizationAlgorithmURI = rst.getCanonicalizationAlgorithm();
         if(canonicalizationAlgorithmURI == null && secParas != null){
@@ -231,17 +231,17 @@ public class WSTrustContractImpl implements WSTrustContract<BaseSTSRequest, Base
             canonicalizationAlgorithm = canonicalizationAlgorithmURI.toString();
         }
         context.setCanonicalizationAlgorithm(canonicalizationAlgorithm);
-        
+
         // Get KeyWrap Algorithm, which is the part of WS-Trust wssx versaion
-        URI keyWrapAlgorithmURI = null;        
+        URI keyWrapAlgorithmURI = null;
         if(secParas != null){
-            keyWrapAlgorithmURI = secParas.getKeyWrapAlgorithm();            
-        }        
+            keyWrapAlgorithmURI = secParas.getKeyWrapAlgorithm();
+        }
         if(keyWrapAlgorithmURI != null){
             context.getOtherProperties().put(IssuedTokenContext.KEY_WRAP_ALGORITHM, keyWrapAlgorithmURI.toString());
-        }                
-        
-        // Get authenticaed client Subject 
+        }
+
+        // Get authenticaed client Subject
         Subject subject = context.getRequestorSubject();
         if (subject == null){
             AccessControlContext acc = AccessController.getContext();
@@ -253,7 +253,7 @@ public class WSTrustContractImpl implements WSTrustContract<BaseSTSRequest, Base
                     LogStringsMessages.WST_0030_REQUESTOR_NULL());
             throw new WSTrustException(LogStringsMessages.WST_0030_REQUESTOR_NULL());
         }
-        
+
         // Get client authentication context
         String authnCtx = (String)stsConfig.getOtherOptions().get(WSTrustConstants.AUTHN_CONTEXT_CLASS);
         if (authnCtx != null){
@@ -299,7 +299,7 @@ public class WSTrustContractImpl implements WSTrustContract<BaseSTSRequest, Base
                 claims.getSupportingProperties().add(oboSubj);
             }
         }
-        
+
         // Handle ActAs token
         ActAs actAs = rst.getActAs();
         if (actAs != null){
@@ -328,22 +328,22 @@ public class WSTrustContractImpl implements WSTrustContract<BaseSTSRequest, Base
         final STSAuthorizationProvider authzProvider = WSTrustFactory.getSTSAuthorizationProvider();
         if (!authzProvider.isAuthorized(subject, appliesTo, tokenType, keyType)){
             String user = subject.getPrincipals().iterator().next().getName();
-            log.log(Level.SEVERE, 
+            log.log(Level.SEVERE,
                     LogStringsMessages.WST_0015_CLIENT_NOT_AUTHORIZED(
                     user, tokenType, appliesTo));
             throw new WSTrustException(LogStringsMessages.WST_0015_CLIENT_NOT_AUTHORIZED(
                     user, tokenType, appliesTo));
         }
-        
+
         // Get claimed attributes from the STSAttributeProvider
         final STSAttributeProvider attrProvider = WSTrustFactory.getSTSAttributeProvider();
         final Map<QName, List<String>> claimedAttrs = attrProvider.getClaimedAttributes(subject, appliesTo, tokenType, claims);
         context.getOtherProperties().put(IssuedTokenContext.CLAIMED_ATTRUBUTES, claimedAttrs);
-        
+
         //==========================================
-        // Create proof key and RequestedProofToken 
+        // Create proof key and RequestedProofToken
         //==========================================
-           
+
         RequestedProofToken proofToken = null;
         Entropy serverEntropy = null;
         int keySize = 0;
@@ -356,14 +356,14 @@ public class WSTrustContractImpl implements WSTrustContract<BaseSTSRequest, Base
                 final BinarySecret clientBS = clientEntropy.getBinarySecret();
                 if (clientBS == null){
                     if(log.isLoggable(Level.FINE)) {
-                        log.log(Level.FINE, 
+                        log.log(Level.FINE,
                                 LogStringsMessages.WST_1009_NULL_BINARY_SECRET());
                     }
                 }else {
                     clientEntr = clientBS.getRawValue();
                 }
             }
-            
+
             // Get KeySize
             keySize = (int)rst.getKeySize();
             if (keySize < 1 && secParas != null){
@@ -373,14 +373,14 @@ public class WSTrustContractImpl implements WSTrustContract<BaseSTSRequest, Base
                 keySize = DEFAULT_KEY_SIZE;
             }
             if(log.isLoggable(Level.FINE)) {
-                log.log(Level.FINE, 
+                log.log(Level.FINE,
                         LogStringsMessages.WST_1010_KEY_SIZE(keySize, DEFAULT_KEY_SIZE));
             }
-            
+
             byte[] key = WSTrustUtil.generateRandomSecret(keySize/8);
             final BinarySecret serverBS = eleFac.createBinarySecret(key, wstVer.getNonceBinarySecretTypeURI());
             serverEntropy = eleFac.createEntropy(serverBS);
-            
+
             // compute the secret key
             try {
                 if (clientEntr != null && clientEntr.length > 0){
@@ -392,11 +392,11 @@ public class WSTrustContractImpl implements WSTrustContract<BaseSTSRequest, Base
                     proofToken.setBinarySecret(serverBS);
                 }
             } catch (Exception ex){
-                log.log(Level.SEVERE, 
+                log.log(Level.SEVERE,
                         LogStringsMessages.WST_0013_ERROR_SECRET_KEY(wstVer.getCKPSHA1algorithmURI(), keySize, appliesTo), ex);
                 throw new WSTrustException(LogStringsMessages.WST_0013_ERROR_SECRET_KEY(wstVer.getCKPSHA1algorithmURI(), keySize, appliesTo), ex);
             }
-            
+
             // put the generated secret key into the IssuedTokenContext
             context.setProofKey(key);
         }else if(wstVer.getPublicKeyTypeURI().equals(keyType)){
@@ -421,13 +421,13 @@ public class WSTrustContractImpl implements WSTrustContract<BaseSTSRequest, Base
                 throw new WSTrustException(LogStringsMessages.WST_0034_UNABLE_GET_CLIENT_CERT());
             }
         }else if(wstVer.getBearerKeyTypeURI().equals(keyType)){
-            //No proof key required 
+            //No proof key required
         }else{
             log.log(Level.SEVERE,
                     LogStringsMessages.WST_0025_INVALID_KEY_TYPE(keyType, appliesTo));
             throw new WSTrustException(LogStringsMessages.WST_0025_INVALID_KEY_TYPE(keyType, appliesTo));
         }
-        
+
         // Create Lifetime
         Lifetime lifetime = rst.getLifetime();
         long currentTime = WSTrustUtil.getCurrentTimeWithOffset();
@@ -435,25 +435,25 @@ public class WSTrustContractImpl implements WSTrustContract<BaseSTSRequest, Base
         if (lifetime == null){
             lifespan = stsConfig.getIssuedTokenTimeout();
             lifetime = WSTrustUtil.createLifetime(currentTime, lifespan, wstVer);
-           
+
         }else{
             lifespan = WSTrustUtil.getLifeSpan(lifetime);
         }
         context.setCreationTime(new Date(currentTime));
         context.setExpirationTime(new Date(currentTime + lifespan));
-        
+
         //==============================================
         // Create RequestedSecurityToken and references
         //==============================================
-        
+
         // Get STSTokenProvider
         STSTokenProvider tokenProvider = WSTrustFactory.getSTSTokenProvider();
         tokenProvider.generateToken(context);
-        
-        // Create RequestedSecurityToken 
+
+        // Create RequestedSecurityToken
         final RequestedSecurityToken reqSecTok = eleFac.createRequestedSecurityToken();
         Token issuedToken = context.getSecurityToken();
-        
+
         // Encrypt the token if required and the service certificate is available
         if (stsConfig.getEncryptIssuedToken()&& serCert != null){
             String keyWrapAlgo = (String) context.getOtherProperties().get(IssuedTokenContext.KEY_WRAP_ALGORITHM);
@@ -461,7 +461,7 @@ public class WSTrustContractImpl implements WSTrustContract<BaseSTSRequest, Base
             issuedToken = new GenericToken(encTokenEle);
         }
         reqSecTok.setToken(issuedToken);
-        
+
         // Create RequestedAttachedReference and RequestedUnattachedReference
         final SecurityTokenReference raSTR = (SecurityTokenReference)context.getAttachedSecurityTokenReference();
         final SecurityTokenReference ruSTR = (SecurityTokenReference)context.getUnAttachedSecurityTokenReference();
@@ -473,35 +473,35 @@ public class WSTrustContractImpl implements WSTrustContract<BaseSTSRequest, Base
         if (ruSTR != null){
             ruRef = eleFac.createRequestedUnattachedReference(ruSTR);
         }
-        
+
         //======================================
         // Create RequestSecurityTokenResponse
         //======================================
-        
+
         // get Context
         URI ctx = null;
         final String rstCtx = rst.getContext();
         if (rstCtx != null){
             ctx = URI.create(rstCtx);
         }
-      
+
         // Create RequestSecurityTokenResponse
         final RequestSecurityTokenResponse rstr =
                 eleFac.createRSTRForIssue(URI.create(tokenType), ctx, reqSecTok, applies, raRef, ruRef, proofToken, serverEntropy, lifetime);
-        
+
         if (keySize > 0){
             rstr.setKeySize(keySize);
         }
-        
+
         this.handleExtension(rst, rstr, context);
-        
+
         if(log.isLoggable(Level.FINE)) {
-                log.log(Level.FINE, 
+                log.log(Level.FINE,
                         LogStringsMessages.WST_1006_CREATED_RST_ISSUE(WSTrustUtil.elemToString(rst, wstVer)));
-                log.log(Level.FINE, 
+                log.log(Level.FINE,
                         LogStringsMessages.WST_1007_CREATED_RSTR_ISSUE(WSTrustUtil.elemToString(rstr, wstVer)));
         }
-        
+
         if (wstVer.getNamespaceURI().equals(WSTrustVersion.WS_TRUST_13.getNamespaceURI())){
             List<RequestSecurityTokenResponse> list = new ArrayList<>();
             list.add(rstr);
@@ -509,12 +509,12 @@ public class WSTrustContractImpl implements WSTrustContract<BaseSTSRequest, Base
 
             return rstrc;
         }
-           
+
         return rstr;
     }
-    
+
     protected void handleExtension(BaseSTSRequest request, BaseSTSResponse response, IssuedTokenContext context) throws WSTrustException{
-    
+
     }
 
     @Override
@@ -530,52 +530,52 @@ public class WSTrustContractImpl implements WSTrustContract<BaseSTSRequest, Base
     @Override
     public BaseSTSResponse validate(BaseSTSRequest request, IssuedTokenContext context) throws WSTrustException {
         RequestSecurityToken rst = (RequestSecurityToken)request;
-        
+
         // Get STS certificate and private key
         Object[] certAndKey = this.getSTSCertAndPrivateKey();
         context.getOtherProperties().put(IssuedTokenContext.STS_CERTIFICATE, certAndKey[0]);
         context.getOtherProperties().put(IssuedTokenContext.STS_PRIVATE_KEY, certAndKey[1]);
         context.getOtherProperties().put(IssuedTokenContext.WS_TRUST_VERSION, wstVer);
-         
+
         // get TokenType
         URI tokenType = rst.getTokenType();
         context.setTokenType(tokenType.toString());
-        
+
         //Get ValidateTarget
         Element token = null;
         Element assertionInRST = (Element)stsConfig.getOtherOptions().get(WSTrustConstants.SAML_ASSERTION_ELEMENT_IN_RST);
         if (assertionInRST != null){
             token = assertionInRST;
         }else if (wstVer.getNamespaceURI().equals(WSTrustVersion.WS_TRUST_10_NS_URI)){
-            // It is not well defined how to carry the security token 
+            // It is not well defined how to carry the security token
             // to be validated. ValidateTarget is only introduced in the
-            // ws-trust 1.3. Here we assume the token is directly child element 
+            // ws-trust 1.3. Here we assume the token is directly child element
             // of RST
             List<Object> exts = rst.getExtensionElements();
             if (exts.size() > 0){
                 token = (Element)exts.get(0);
-            }  
+            }
         }else{
             ValidateTarget vt = rst.getValidateTarget();
             token = (Element)vt.getAny();
         }
         context.setTarget(new GenericToken(token));
-        
+
         // Get STSTokenProvider and validate the token
         STSTokenProvider tokenProvider = WSTrustFactory.getSTSTokenProvider();
         tokenProvider.isValideToken(context);
-        
-        // Create RequestedSecurityToken 
+
+        // Create RequestedSecurityToken
         RequestedSecurityToken reqSecTok = null;
         if (!wstVer.getValidateStatuesTokenType().equals(tokenType.toString())){
             reqSecTok = eleFac.createRequestedSecurityToken();
             Token issuedToken = context.getSecurityToken();
             reqSecTok.setToken(issuedToken);
         }
-        
+
         // Create RequestSecurityTokenResponse
         final RequestSecurityTokenResponse rstr = eleFac.createRSTRForValidate(tokenType, reqSecTok, (Status)context.getOtherProperties().get(IssuedTokenContext.STATUS));
-        
+
         if (wstVer.getNamespaceURI().equals(WSTrustVersion.WS_TRUST_13.getNamespaceURI())){
             List<RequestSecurityTokenResponse> list = new ArrayList<>();
             list.add(rstr);
@@ -583,7 +583,7 @@ public class WSTrustContractImpl implements WSTrustContract<BaseSTSRequest, Base
 
             return rstrc;
         }
-        
+
         return rstr;
     }
 
@@ -591,7 +591,7 @@ public class WSTrustContractImpl implements WSTrustContract<BaseSTSRequest, Base
     public void handleUnsolicited(BaseSTSResponse rstr, IssuedTokenContext context) {
         throw new UnsupportedOperationException("Unsupported operation: handleUnsolicited");
     }
-    
+
     private X509Certificate getServiceCertificate(TrustSPMetadata spMd, String appliesTo)throws WSTrustException{
         String certAlias = spMd.getCertAlias();
         X509Certificate cert = null;
@@ -607,14 +607,14 @@ public class WSTrustContractImpl implements WSTrustContract<BaseSTSRequest, Base
                 log.log(Level.SEVERE,
                     LogStringsMessages.WST_0033_UNABLE_GET_SERVICE_CERT(appliesTo), ex);
                 throw new WSTrustException(
-                    LogStringsMessages.WST_0033_UNABLE_GET_SERVICE_CERT(appliesTo), ex);            
+                    LogStringsMessages.WST_0033_UNABLE_GET_SERVICE_CERT(appliesTo), ex);
             }catch(UnsupportedCallbackException ex){
                 log.log(Level.SEVERE,
                     LogStringsMessages.WST_0033_UNABLE_GET_SERVICE_CERT(appliesTo), ex);
                 throw new WSTrustException(
                     LogStringsMessages.WST_0033_UNABLE_GET_SERVICE_CERT(appliesTo), ex);
             }
-        
+
             cert = req.getX509Certificate();
         }else{
             SecurityEnvironment secEnv = (SecurityEnvironment)stsConfig.getOtherOptions().get(WSTrustConstants.SECURITY_ENVIRONMENT);
@@ -627,10 +627,10 @@ public class WSTrustContractImpl implements WSTrustContract<BaseSTSRequest, Base
                     LogStringsMessages.WST_0033_UNABLE_GET_SERVICE_CERT(appliesTo), ex);
             }
         }
-        
+
         return cert;
     }
-    
+
     private Object[] getSTSCertAndPrivateKey() throws WSTrustException{
         X509Certificate stsCert = null;
         PrivateKey stsPrivKey = null;
@@ -646,14 +646,14 @@ public class WSTrustContractImpl implements WSTrustContract<BaseSTSRequest, Base
                 log.log(Level.SEVERE,
                     LogStringsMessages.WST_0043_UNABLE_GET_STS_KEY(), ex);
                 throw new WSTrustException(
-                    LogStringsMessages.WST_0043_UNABLE_GET_STS_KEY(), ex);            
+                    LogStringsMessages.WST_0043_UNABLE_GET_STS_KEY(), ex);
             }catch(UnsupportedCallbackException ex){
                 log.log(Level.SEVERE,
                     LogStringsMessages.WST_0043_UNABLE_GET_STS_KEY(), ex);
                 throw new WSTrustException(
                     LogStringsMessages.WST_0043_UNABLE_GET_STS_KEY(), ex);
             }
-                
+
             stsPrivKey = request.getPrivateKey();
             stsCert = request.getX509Certificate();
         }else{
@@ -668,13 +668,13 @@ public class WSTrustContractImpl implements WSTrustContract<BaseSTSRequest, Base
                     LogStringsMessages.WST_0043_UNABLE_GET_STS_KEY(), ex);
             }
         }
-        
+
         Object[] results = new Object[2];
         results[0] = stsCert;
         results[1] = stsPrivKey;
         return results;
     }
-    
+
      private Element encryptToken(final Element assertion,  final X509Certificate serCert, final String appliesTo, final String encryptionAlgorithm, final String keyWrapAlgorithm) throws WSTrustException{
         Element encDataEle = null;
         // Create the encryption key
@@ -688,18 +688,18 @@ public class WSTrustContractImpl implements WSTrustContract<BaseSTSRequest, Base
             final int keysizeInBytes = 32;
             final byte[] skey = WSTrustUtil.generateRandomSecret(keysizeInBytes);
             cipher.init(XMLCipher.ENCRYPT_MODE, new SecretKeySpec(skey, "AES"));
-                
+
             // Encrypt the assertion and return the Encrypteddata
             final Document owner = assertion.getOwnerDocument();
             final EncryptedData encData = cipher.encryptData(owner, assertion);
             final String id = "uuid-" + UUID.randomUUID();
             encData.setId(id);
-                
+
             final KeyInfo encKeyInfo = new KeyInfo(owner);
             final EncryptedKey encKey = WSTrustUtil.encryptKey(owner, skey, serCert, keyWrapAlgorithm);
             encKeyInfo.add(encKey);
             encData.setKeyInfo(encKeyInfo);
-            
+
             encDataEle = cipher.martial(encData);
          } catch (XMLEncryptionException ex) {
             log.log(Level.SEVERE,
@@ -710,7 +710,7 @@ public class WSTrustContractImpl implements WSTrustContract<BaseSTSRequest, Base
                             LogStringsMessages.WST_0044_ERROR_ENCRYPT_ISSUED_TOKEN(appliesTo), ex);
             throw new WSTrustException( LogStringsMessages.WST_0040_ERROR_ENCRYPT_PROOFKEY(appliesTo), ex);
         }
-        
+
         return encDataEle;
     }
 

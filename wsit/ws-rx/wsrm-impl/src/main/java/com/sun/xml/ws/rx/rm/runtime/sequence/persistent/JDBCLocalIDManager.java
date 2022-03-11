@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -49,13 +49,13 @@ public class JDBCLocalIDManager implements LocalIDManager {
         Connection con = cm.getConnection();
         PreparedStatement ps = null;
         try {
-            ps = cm.prepareStatement(con, 
+            ps = cm.prepareStatement(con,
                     "INSERT INTO RM_LOCALIDS (LOCAL_ID, SEQ_ID, MSG_NUMBER, CREATE_TIME) VALUES (?, ?, ?, ?)", true);
 
-            ps.setString(1, localID); 
+            ps.setString(1, localID);
             ps.setString(2, sequenceID);
             ps.setLong(3, messageNumber);
-            ps.setLong(4, System.currentTimeMillis()); 
+            ps.setLong(4, System.currentTimeMillis());
 
             int rowCount = ps.executeUpdate();
             if (rowCount != 1) {
@@ -125,9 +125,9 @@ public class JDBCLocalIDManager implements LocalIDManager {
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
-                result = new BoundMessage(rs.getString("SEQ_ID"), 
-                        rs.getLong("MSG_NUMBER"), 
-                        rs.getLong("CREATE_TIME"), 
+                result = new BoundMessage(rs.getString("SEQ_ID"),
+                        rs.getLong("MSG_NUMBER"),
+                        rs.getLong("CREATE_TIME"),
                         rs.getLong("SEQ_TERMINATE_TIME"));
             }
 
@@ -139,7 +139,7 @@ public class JDBCLocalIDManager implements LocalIDManager {
             cm.recycle(ps);
             cm.recycle(con);
         }
-        return result; 
+        return result;
     }
 
     @Override
@@ -147,10 +147,10 @@ public class JDBCLocalIDManager implements LocalIDManager {
         Connection con = cm.getConnection();
         PreparedStatement ps = null;
         try {
-            ps = cm.prepareStatement(con, 
+            ps = cm.prepareStatement(con,
                     "UPDATE RM_LOCALIDS SET SEQ_TERMINATE_TIME=? WHERE SEQ_ID=?", true);
 
-            ps.setLong(1, System.currentTimeMillis()); 
+            ps.setLong(1, System.currentTimeMillis());
             ps.setString(2, sequenceID);
 
             ps.executeUpdate();

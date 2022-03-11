@@ -39,7 +39,7 @@ public class SecurityHeader {
     public static final int LAYOUT_STRICT = 1;
     public static final int LAYOUT_LAX_TS_FIRST = 2;
     public static final int LAYOUT_LAX_TS_LAST = 3;
-    
+
     protected ArrayList<SecurityHeaderElement> secHeaderContent = new ArrayList<>();
     protected int headerLayout = LAYOUT_STRICT;
     protected String soapVersion = MessageConstants.SOAP_1_1_NS;
@@ -50,31 +50,31 @@ public class SecurityHeader {
      * uses Lax Message Layout and SOAP 1.1 version
      */
     public SecurityHeader(){
-        
+
     }
-    
+
     public SecurityHeader(int layout, String soapVersion, boolean muValue){
         this.headerLayout = layout;
         this.soapVersion = soapVersion;
         this.mustUnderstandValue = muValue;
     }
-    
+
     public int getHeaderLayout(){
         return this.headerLayout;
     }
-    
+
     public void setHeaderLayout(int headerLayout){
         this.headerLayout = headerLayout;
     }
-    
+
     public String getSOAPVersion(){
         return this.soapVersion;
     }
-    
+
     public void setSOAPVersion(String soapVersion){
         this.soapVersion = soapVersion;
     }
-    
+
     public SecurityHeaderElement getChildElement(String localName,String uri){
         for(SecurityHeaderElement she : secHeaderContent){
             if(localName.equals(she.getLocalPart()) && uri.equals(she.getNamespaceURI())){
@@ -83,7 +83,7 @@ public class SecurityHeader {
         }
         return null;
     }
-    
+
     public Iterator getHeaders(final String localName,final String uri){
         return new Iterator() {
             int idx = 0;
@@ -94,7 +94,7 @@ public class SecurityHeader {
                     fetch();
                 return next!=null;
             }
-            
+
             @Override
             public Object next() {
                 if(next==null) {
@@ -103,12 +103,12 @@ public class SecurityHeader {
                         throw new NoSuchElementException();
                     }
                 }
-                
+
                 Object r = next;
                 next = null;
                 return r;
             }
-            
+
             private void fetch() {
                 while(idx<secHeaderContent.size()) {
                     SecurityHeaderElement she = secHeaderContent.get(idx++);
@@ -119,15 +119,15 @@ public class SecurityHeader {
                     }
                 }
             }
-            
+
             @Override
             public void remove() {
                 throw new UnsupportedOperationException();
             }
         };
     }
-    
-    
+
+
     public SecurityHeaderElement getChildElement(String id){
         for(SecurityHeaderElement she: secHeaderContent){
             if(id.equals(she.getId()))
@@ -135,11 +135,11 @@ public class SecurityHeader {
         }
         return null;
     }
-    
+
     public void add(SecurityHeaderElement header){
         prepend(header);
     }
-    
+
     public boolean replace(SecurityHeaderElement replaceThis, SecurityHeaderElement withThis){
         int index = secHeaderContent.indexOf(replaceThis);
         if(index != -1){
@@ -148,15 +148,15 @@ public class SecurityHeader {
         }
         return false;
     }
-    
+
     public void prepend(SecurityHeaderElement element){
         secHeaderContent.add(0,element);
     }
-    
+
     public void append(SecurityHeaderElement element){
         secHeaderContent.add(element);
     }
-    
+
     /**
      * Gets the namespace URI of this header element.
      *
@@ -166,7 +166,7 @@ public class SecurityHeader {
     public @NotNull String getNamespaceURI(){
         return MessageConstants.WSSE_NS;
     }
-    
+
     /**
      * Gets the local name of this header element.
      *
@@ -176,7 +176,7 @@ public class SecurityHeader {
     public @NotNull String getLocalPart(){
         return "Security";
     }
-    
+
     /**
      * Gets the attribute value on the header element.
      *
@@ -195,7 +195,7 @@ public class SecurityHeader {
     public @Nullable String getAttribute(@NotNull String nsUri, @NotNull String localName){
         throw new UnsupportedOperationException();
     }
-    
+
     /**
      * Gets the attribute value on the header element.
      *
@@ -210,8 +210,8 @@ public class SecurityHeader {
     public @Nullable String getAttribute(@NotNull QName name){
         throw new UnsupportedOperationException();
     }
-    
-    
+
+
     /**
      * Writes out the header.
      *
@@ -227,11 +227,11 @@ public class SecurityHeader {
             for( SecurityHeaderElement el : secHeaderContent){
                 ((SecurityElementWriter)el).writeTo(streamWriter);
             }
-            
+
             streamWriter.writeEndElement();
         }
     }
-    
+
     /**
      * Writes out the header to the given SOAPMessage.
      *
@@ -247,7 +247,7 @@ public class SecurityHeader {
     public void writeTo(SOAPMessage saaj) throws SOAPException{
         throw new UnsupportedOperationException();
     }
-    
+
     /**
      * Writes out the header as SAX events.
      *
@@ -292,7 +292,7 @@ public class SecurityHeader {
             }
         }
     }
-    
+
     private void orderHeaders(){
         if(headerLayout == LAYOUT_LAX_TS_LAST){
             laxTimestampLast();
@@ -302,7 +302,7 @@ public class SecurityHeader {
             strict();
         }
     }
-    
+
     private void laxTimestampLast(){
         strict();
         SecurityHeaderElement timestamp = this.secHeaderContent.get(0);
@@ -311,12 +311,12 @@ public class SecurityHeader {
             this.secHeaderContent.add(timestamp);
         }
     }
-    
-    
+
+
     private void laxTimestampFirst(){
         strict();
     }
-    
+
     private void print(ArrayList<SecurityHeaderElement> list){
         if(!debug){
             return;
@@ -327,13 +327,13 @@ public class SecurityHeader {
         }
         System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++");
     }
-    
+
     private void strict(){
         ArrayList<SecurityHeaderElement> primaryElementList  = new ArrayList<>();
         ArrayList<SecurityHeaderElement> topElementList  = new ArrayList<>();
         int len = secHeaderContent.size();
         print(secHeaderContent);
-        
+
         SecurityHeaderElement timeStamp = null;
         for(int i=0;i<len;i++){
             SecurityHeaderElement she = secHeaderContent.get(i);
@@ -347,13 +347,13 @@ public class SecurityHeader {
                 primaryElementList.add(0,she);
             }
         }
-        
+
         print(topElementList);
        // topElementList = orderList(topElementList);
-        
+
         print(primaryElementList);
         primaryElementList = orderList(primaryElementList);
-        
+
         ArrayList<SecurityHeaderElement> tmpList = new ArrayList<>();
         for(int i=0;i<primaryElementList.size();i++){
             SecurityHeaderElement she = primaryElementList.get(i);
@@ -374,33 +374,33 @@ public class SecurityHeader {
         primaryElementList.removeAll(tmpList);
 
         topElementList = orderList(topElementList);
-        
+
         secHeaderContent.clear();
         for(int i=topElementList.size()-1;i>=0;i--){
             secHeaderContent.add(topElementList.get(i));
         }
-        
+
         for(int i=primaryElementList.size()-1;i>=0;i--){
             secHeaderContent.add(primaryElementList.get(i));
         }
-        
+
         if(timeStamp != null){
             secHeaderContent.add(0,timeStamp);
         }
     }
-    
+
     private ArrayList<SecurityHeaderElement> orderList(ArrayList<SecurityHeaderElement> list){
         ArrayList<SecurityHeaderElement> tmp = new ArrayList<>();
         for(int i=0;i<list.size();i++){
             SecurityHeaderElement securityElementOne = list.get(i);
-            
+
             int wLen = tmp.size();
             int index = 0;
             if(wLen == 0){
                 tmp.add(securityElementOne);
                 continue;
             }
-            
+
             int setIndex = -1;
             for(int j=0;j<wLen;j++){
                 SecurityHeaderElement securityElementTwo = tmp.get(j);
@@ -422,7 +422,7 @@ public class SecurityHeader {
                     }else{
                         setIndex = j+1;
                     }
-                    
+
                 }
             }
             if(tmp.contains(securityElementOne)){
@@ -437,7 +437,7 @@ public class SecurityHeader {
         }
         return tmp;
     }
-    
+
     private boolean refersToEncryptedElement(SecurityHeaderElement securityElementOne,SecurityHeaderElement securityElementTwo){
         if(securityElementOne.refersToSecHdrWithId(((JAXBEncryptedData)securityElementTwo).getEncryptedId())){
             return true;
@@ -463,7 +463,7 @@ public class SecurityHeader {
                 return true;//Issued token encrypted.
             }
             localPart = ((JAXBEncryptedData)she).getEncryptedLocalName();
-            
+
         }
         if(localPart == MessageConstants.WSSE_BINARY_SECURITY_TOKEN_LNAME){
             return true;
@@ -483,7 +483,7 @@ public class SecurityHeader {
         if(localPart == MessageConstants.SIGNATURE_CONFIRMATION_LNAME){
             return true;
         }
-        
+
         if(localPart == MessageConstants.TIMESTAMP_LNAME){
             return true;
         }

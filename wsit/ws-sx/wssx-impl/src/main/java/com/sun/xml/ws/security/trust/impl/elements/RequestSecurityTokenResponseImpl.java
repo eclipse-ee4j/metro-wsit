@@ -84,22 +84,22 @@ import com.sun.xml.ws.security.trust.logging.LogStringsMessages;
  * @author Manveen Kaur
  */
 public class RequestSecurityTokenResponseImpl extends RequestSecurityTokenResponseType implements RequestSecurityTokenResponse {
-    
+
     private static final Logger log =
             Logger.getLogger(
             LogDomainConstants.TRUST_IMPL_DOMAIN,
             LogDomainConstants.TRUST_IMPL_DOMAIN_BUNDLE);
 
     private URI tokenType = null;
-    
+
     private long keySize = 0;
-    
+
     private URI keyType = null;
     private URI computedKeyAlgorithm = null;
     private URI signatureAlgorithm = null;
     private URI encryptionAlgorithm = null;
     private URI canonAlgorithm = null;
-    
+
     private Lifetime lifetime = null;
     private Entropy entropy = null;
     private AppliesTo appliesTo = null;
@@ -108,39 +108,39 @@ public class RequestSecurityTokenResponseImpl extends RequestSecurityTokenRespon
     private ProofEncryption proofEncryption = null;
     private Encryption encryption = null;
     private DelegateTo delegateTo = null;
-    
+
     private OnBehalfOf obo = null;
     private RequestedSecurityToken requestedSecToken = null;
     private RequestedProofToken requestedProofToken = null;
     private RequestedAttachedReference requestedAttachedReference = null;
     private RequestedUnattachedReference requestedUnattachedReference = null;
-    
+
     private URI signWith = null;
     private URI encryptWith = null;
     private URI authenticationType = null;
-    
+
     private SignChallenge signChallenge = null;
     private SignChallengeResponse signChallengeRes = null;
-    
+
     private boolean forwardable = true;
     private boolean delegatable = false;
-    
+
     private Issuer issuer = null;
     private Renewing renewable = null;
-    
+
     private BinaryExchange binaryExchange = null;
     private AllowPostdating apd = null;
     private Status status = null;
-    
+
     private Policy policy = null;
     private PolicyReference policyRef = null;
-    
+
     private RequestedTokenCancelled rtc = null;
-    
+
     public RequestSecurityTokenResponseImpl() {
         // default empty constructor
     }
-    
+
     public RequestSecurityTokenResponseImpl(URI tokenType,
             URI context,
             RequestedSecurityToken token,
@@ -151,7 +151,7 @@ public class RequestSecurityTokenResponseImpl extends RequestSecurityTokenRespon
             Entropy entropy,
             Lifetime lifetime,
             Status status) {
-        
+
         setTokenType(tokenType);
         if (context != null) { setContext(context.toString()); }
         if (token != null) { setRequestedSecurityToken(token); }
@@ -163,12 +163,12 @@ public class RequestSecurityTokenResponseImpl extends RequestSecurityTokenRespon
         if (lifetime != null) { setLifetime(lifetime); }
         if (status != null) { setStatus(status); }
     }
-    
+
     @Override
     public URI getTokenType() {
         return tokenType;
     }
-    
+
     @Override
     public final void setTokenType(final URI tokenType) {
         if (tokenType != null) {
@@ -178,12 +178,12 @@ public class RequestSecurityTokenResponseImpl extends RequestSecurityTokenRespon
             getAny().add(ttElement);
         }
     }
-    
+
     @Override
     public Lifetime getLifetime() {
         return lifetime;
     }
-    
+
     @Override
     public final void setLifetime(final Lifetime lifetime) {
         this.lifetime = lifetime;
@@ -191,12 +191,12 @@ public class RequestSecurityTokenResponseImpl extends RequestSecurityTokenRespon
                 (new ObjectFactory()).createLifetime((LifetimeType)lifetime);
         getAny().add(ltElement);
     }
-    
+
     @Override
     public RequestedTokenCancelled getRequestedTokenCancelled() {
         return this.rtc;
     }
-    
+
     @Override
     public final void setRequestedTokenCancelled(final RequestedTokenCancelled rtc) {
         this.rtc = rtc;
@@ -204,12 +204,12 @@ public class RequestSecurityTokenResponseImpl extends RequestSecurityTokenRespon
                 (new ObjectFactory()).createRequestedTokenCancelled((RequestedTokenCancelledType)rtc);
         getAny().add(rtcElement);
     }
-    
+
     @Override
     public Status getStatus() {
         return status;
     }
-    
+
     @Override
     public final void setStatus(final Status status) {
         this.status = status;
@@ -217,12 +217,12 @@ public class RequestSecurityTokenResponseImpl extends RequestSecurityTokenRespon
                 (new ObjectFactory()).createStatus((StatusType)status);
         getAny().add(sElement);
     }
-    
+
     @Override
     public Entropy getEntropy() {
         return entropy;
     }
-    
+
     @Override
     public final void setEntropy(final Entropy entropy) {
         this.entropy = entropy;
@@ -230,28 +230,28 @@ public class RequestSecurityTokenResponseImpl extends RequestSecurityTokenRespon
                 (new ObjectFactory()).createEntropy((EntropyType)entropy);
         getAny().add(etElement);
     }
-    
+
     @Override
     public final void setAppliesTo(final AppliesTo appliesTo) {
         getAny().add(appliesTo);
         this.appliesTo = appliesTo;
     }
-    
+
     @Override
     public AppliesTo getAppliesTo() {
         return appliesTo;
     }
-    
+
     @Override
     public final void setOnBehalfOf(final OnBehalfOf onBehalfOf) {
         obo = onBehalfOf;
     }
-    
+
     @Override
     public OnBehalfOf getOnBehalfOf() {
         return obo;
     }
-    
+
     @Override
     public final void setIssuer(final Issuer issuer) {
         this.issuer = issuer;
@@ -259,12 +259,12 @@ public class RequestSecurityTokenResponseImpl extends RequestSecurityTokenRespon
                 (new com.sun.xml.ws.security.trust.impl.bindings.ObjectFactory()).createIssuer((EndpointReferenceImpl)issuer);
         getAny().add(eprType);*/
     }
-    
+
     @Override
     public Issuer getIssuer() {
         return issuer;
     }
-    
+
     @Override
     public final void setRenewable(final Renewing renew) {
         renewable = renew;
@@ -272,12 +272,12 @@ public class RequestSecurityTokenResponseImpl extends RequestSecurityTokenRespon
                 (new ObjectFactory()).createRenewing((RenewingType)renew);
         getAny().add(renewType);
     }
-    
+
     @Override
     public Renewing getRenewable() {
         return renewable;
     }
-    
+
     @Override
     public final void setSignChallenge(final SignChallenge challenge) {
         signChallenge = challenge;
@@ -285,12 +285,12 @@ public class RequestSecurityTokenResponseImpl extends RequestSecurityTokenRespon
                 (new ObjectFactory()).createSignChallenge((SignChallengeType)challenge);
         getAny().add(challengeType);
     }
-    
+
     @Override
     public SignChallenge getSignChallenge() {
         return signChallenge;
     }
-    
+
     @Override
     public final void setBinaryExchange(final BinaryExchange exchange) {
         binaryExchange = exchange;
@@ -298,12 +298,12 @@ public class RequestSecurityTokenResponseImpl extends RequestSecurityTokenRespon
                 (new ObjectFactory()).createBinaryExchange((BinaryExchangeType)exchange);
         getAny().add(exchangeType);
     }
-    
+
     @Override
     public BinaryExchange getBinaryExchange() {
         return binaryExchange;
     }
-    
+
     @Override
     public final void setAuthenticationType(final URI uri) {
         this.authenticationType = uri;
@@ -311,15 +311,15 @@ public class RequestSecurityTokenResponseImpl extends RequestSecurityTokenRespon
                 (new ObjectFactory()).createAuthenticationType(uri.toString());
         getAny().add(atElement);
     }
-    
+
     @Override
     public URI getAuthenticationType() {
         return authenticationType;
     }
-    
+
     @Override
     public final void setKeyType(@NotNull final URI keytype) throws WSTrustException {
-        
+
         WSTrustVersion wstVer = new WSTrustVersion10();
         if (! (keytype.toString().equalsIgnoreCase(wstVer.getSymmetricKeyTypeURI())
                || keytype.toString().equalsIgnoreCase(wstVer.getPublicKeyTypeURI())
@@ -334,24 +334,24 @@ public class RequestSecurityTokenResponseImpl extends RequestSecurityTokenRespon
             getAny().add(ktElement);
         }
     }
-    
+
     @Override
     public URI getKeyType() {
         return keyType;
     }
-    
+
     @Override
     public final void setKeySize(@NotNull final long size) {
         keySize = size;
         final JAXBElement<Long> ksElement =  (new ObjectFactory()).createKeySize(size);
         getAny().add(ksElement);
     }
-    
+
     @Override
     public long getKeySize() {
         return keySize;
     }
-    
+
     @Override
     public final void setSignatureAlgorithm(@NotNull final URI algorithm) {
         signatureAlgorithm = algorithm;
@@ -359,12 +359,12 @@ public class RequestSecurityTokenResponseImpl extends RequestSecurityTokenRespon
                 (new ObjectFactory()).createSignatureAlgorithm(algorithm.toString());
         getAny().add(signElement);
     }
-    
+
     @Override
     public URI getSignatureAlgorithm() {
         return signatureAlgorithm;
     }
-    
+
     @Override
     public final void setEncryptionAlgorithm(@NotNull final URI algorithm) {
         encryptionAlgorithm = algorithm;
@@ -372,12 +372,12 @@ public class RequestSecurityTokenResponseImpl extends RequestSecurityTokenRespon
                 (new ObjectFactory()).createEncryptionAlgorithm(algorithm.toString());
         getAny().add(encElement);
     }
-    
+
     @Override
     public URI getEncryptionAlgorithm() {
         return encryptionAlgorithm;
     }
-    
+
     @Override
     public final void setCanonicalizationAlgorithm(@NotNull final URI algorithm) {
         canonAlgorithm = algorithm;
@@ -385,12 +385,12 @@ public class RequestSecurityTokenResponseImpl extends RequestSecurityTokenRespon
                 (new ObjectFactory()).createCanonicalizationAlgorithm(algorithm.toString());
         getAny().add(canonElement);
     }
-    
+
     @Override
     public URI getCanonicalizationAlgorithm() {
         return canonAlgorithm;
     }
-    
+
     @Override
     public final void setUseKey(final UseKey useKey) {
         this.useKey = useKey;
@@ -398,12 +398,12 @@ public class RequestSecurityTokenResponseImpl extends RequestSecurityTokenRespon
                 (new ObjectFactory()).createUseKey((UseKeyType)useKey);
         getAny().add(ukElement);
     }
-    
+
     @Override
     public UseKey getUseKey() {
         return useKey;
     }
-    
+
     @Override
     public final void setProofEncryption(final ProofEncryption proofEncryption) {
         this.proofEncryption = proofEncryption;
@@ -411,12 +411,12 @@ public class RequestSecurityTokenResponseImpl extends RequestSecurityTokenRespon
                 (new ObjectFactory()).createProofEncryption((ProofEncryptionType)proofEncryption);
         getAny().add(proofElement);
     }
-    
+
     @Override
     public ProofEncryption getProofEncryption() {
         return proofEncryption;
     }
-    
+
     @Override
     public final void setComputedKeyAlgorithm(@NotNull final URI algorithm) {
         if (algorithm != null) {
@@ -431,12 +431,12 @@ public class RequestSecurityTokenResponseImpl extends RequestSecurityTokenRespon
             getAny().add(ckaElement);
         }
     }
-    
+
     @Override
     public URI getComputedKeyAlgorithm() {
         return computedKeyAlgorithm;
     }
-    
+
     @Override
     public final void setEncryption(final Encryption enc) {
         this.encryption = enc;
@@ -444,46 +444,46 @@ public class RequestSecurityTokenResponseImpl extends RequestSecurityTokenRespon
                 (new ObjectFactory()).createEncryption((EncryptionType)enc);
         getAny().add(encElement);
     }
-    
+
     @Override
     public Encryption getEncryption() {
         return encryption;
     }
-    
+
     @Override
     public final void setSignWith(final URI algorithm) {
         signWith = algorithm;
         final JAXBElement<String> sElement =  (new ObjectFactory()).createSignWith(algorithm.toString());
         getAny().add(sElement);
     }
-    
+
     @Override
     public URI getSignWith() {
         return signWith;
     }
-    
+
     @Override
     public final void setEncryptWith(@NotNull final URI algorithm) {
         encryptWith = algorithm;
         final JAXBElement<String> sElement =  (new ObjectFactory()).createEncryptWith(algorithm.toString());
         getAny().add(sElement);
     }
-    
+
     @Override
     public URI getEncryptWith() {
         return encryptWith;
     }
-    
+
     @Override
     public void setKeyWrapAlgorithm(URI algorithm) {
         throw new UnsupportedOperationException("KeyWrapAlgorithm element in WS-Trust Standard version(1.0) is not supported");
     }
-    
+
     @Override
     public URI getKeyWrapAlgorithm() {
         throw new UnsupportedOperationException("KeyWrapAlgorithm element in WS-Trust Standard version(1.0) is not supported");
     }
-    
+
     @Override
     public final void setDelegateTo(final DelegateTo to) {
         this.delegateTo = to;
@@ -491,12 +491,12 @@ public class RequestSecurityTokenResponseImpl extends RequestSecurityTokenRespon
                 (new ObjectFactory()).createDelegateTo((DelegateToType)to);
         getAny().add(dtElement);
     }
-    
+
     @Override
     public DelegateTo getDelegateTo() {
         return delegateTo;
     }
-    
+
     @Override
     public final void setForwardable(final boolean flag) {
         forwardable = flag;
@@ -504,12 +504,12 @@ public class RequestSecurityTokenResponseImpl extends RequestSecurityTokenRespon
                 (new ObjectFactory()).createForwardable(flag);
         getAny().add(forward);
     }
-    
+
     @Override
     public boolean getForwardable() {
         return forwardable;
     }
-    
+
     @Override
     public final void setDelegatable(final boolean flag) {
         this.delegatable = flag;
@@ -517,39 +517,39 @@ public class RequestSecurityTokenResponseImpl extends RequestSecurityTokenRespon
                 (new ObjectFactory()).createDelegatable(flag);
         getAny().add(del);
     }
-    
+
     @Override
     public boolean getDelegatable() {
         return delegatable;
     }
-    
+
     @Override
     public final void setPolicy(final Policy policy) {
         this.policy = policy;
         getAny().add(policy);
     }
-    
+
     @Override
     public Policy getPolicy() {
         return policy;
     }
-    
+
     @Override
     public final void setPolicyReference(final PolicyReference policyRef) {
         this.policyRef = policyRef;
         getAny().add(policyRef);
     }
-    
+
     @Override
     public PolicyReference getPolicyReference() {
         return policyRef;
     }
-    
+
     @Override
     public AllowPostdating getAllowPostdating() {
         return apd;
     }
-    
+
     @Override
     public final void setAllowPostdating(final AllowPostdating allowPostdating) {
         apd = allowPostdating;
@@ -557,7 +557,7 @@ public class RequestSecurityTokenResponseImpl extends RequestSecurityTokenRespon
                 (new ObjectFactory()).createAllowPostdating((AllowPostdatingType)apd);
         getAny().add(allowPd);
     }
-    
+
     @Override
     public final void setSignChallengeResponse(final SignChallengeResponse challenge) {
         signChallengeRes = challenge;
@@ -565,12 +565,12 @@ public class RequestSecurityTokenResponseImpl extends RequestSecurityTokenRespon
                 (new ObjectFactory()).createSignChallengeResponse((SignChallengeType)challenge);
         getAny().add(challengeType);
     }
-    
+
     @Override
     public SignChallengeResponse getSignChallengeResponse() {
         return signChallengeRes;
     }
-    
+
     @Override
     public final void setAuthenticator(final Authenticator authenticator) {
         this.authenticator = authenticator;
@@ -578,12 +578,12 @@ public class RequestSecurityTokenResponseImpl extends RequestSecurityTokenRespon
                 (new ObjectFactory()).createAuthenticator((AuthenticatorType)authenticator);
         getAny().add(authType);
     }
-    
+
     @Override
     public Authenticator getAuthenticator() {
         return authenticator;
     }
-    
+
     @Override
     public final void setRequestedProofToken(final RequestedProofToken proofToken) {
         requestedProofToken = proofToken;
@@ -591,26 +591,26 @@ public class RequestSecurityTokenResponseImpl extends RequestSecurityTokenRespon
                 createRequestedProofToken((RequestedProofTokenType)proofToken);
         getAny().add(pElement);
     }
-    
+
     @Override
     public RequestedProofToken getRequestedProofToken() {
         return requestedProofToken;
     }
-    
+
     @Override
     public final void setRequestedSecurityToken(final RequestedSecurityToken securityToken) {
         requestedSecToken = securityToken;
         final JAXBElement<RequestedSecurityTokenType> rstElement =  (new ObjectFactory()).
                 createRequestedSecurityToken((RequestedSecurityTokenType)securityToken);
-        
+
         getAny().add(rstElement);
     }
-    
+
     @Override
     public RequestedSecurityToken getRequestedSecurityToken() {
         return requestedSecToken;
     }
-    
+
     @Override
     public final void setRequestedAttachedReference(final RequestedAttachedReference reference) {
         requestedAttachedReference = reference;
@@ -618,12 +618,12 @@ public class RequestSecurityTokenResponseImpl extends RequestSecurityTokenRespon
                 createRequestedAttachedReference((RequestedReferenceType)reference);
         getAny().add(raElement);
     }
-    
+
     @Override
     public RequestedAttachedReference getRequestedAttachedReference() {
         return requestedAttachedReference;
     }
-    
+
     @Override
     public final void setRequestedUnattachedReference(final RequestedUnattachedReference reference) {
         requestedUnattachedReference = reference;
@@ -631,24 +631,24 @@ public class RequestSecurityTokenResponseImpl extends RequestSecurityTokenRespon
                 createRequestedUnattachedReference((RequestedReferenceType)reference);
         getAny().add(raElement);
     }
-    
+
     @Override
     public RequestedUnattachedReference getRequestedUnattachedReference() {
         return requestedUnattachedReference;
     }
-    
+
     public RequestSecurityTokenResponseImpl(RequestSecurityTokenResponseType rstrType)
     throws URISyntaxException,WSTrustException {
-        
+
         this.context = rstrType.getContext();
         final List<Object> list = rstrType.getAny();
         for (int i = 0; i < list.size(); i++) {
-            
+
             if(list.get(i) instanceof AppliesTo){
                 setAppliesTo((AppliesTo)list.get(i));
                 continue;
             }
-            
+
             Object object = list.get(i);
             if (!(object instanceof JAXBElement)){
                 getAny().add(object);
@@ -745,6 +745,6 @@ public class RequestSecurityTokenResponseImpl extends RequestSecurityTokenRespon
             }
         }
     }
-    
+
 }
 

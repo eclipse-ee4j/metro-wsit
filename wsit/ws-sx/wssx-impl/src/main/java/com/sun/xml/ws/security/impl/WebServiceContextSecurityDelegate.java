@@ -33,12 +33,12 @@ public class WebServiceContextSecurityDelegate implements WebServiceContextDeleg
        if (subject == null) {
            //log a warning ?
            return null;
-       } 
+       }
        Set<Principal> set = subject.getPrincipals(Principal.class);
        if (set.isEmpty()) {
            return null;
        }
-       
+
        return set.iterator().next();
     }
 
@@ -57,7 +57,7 @@ public class WebServiceContextSecurityDelegate implements WebServiceContextDeleg
     public String getWSDLAddress(Packet arg0, WSEndpoint arg1) {
         return delegate.getWSDLAddress(arg0, arg1);
     }
-    
-   
+
+
 
 }

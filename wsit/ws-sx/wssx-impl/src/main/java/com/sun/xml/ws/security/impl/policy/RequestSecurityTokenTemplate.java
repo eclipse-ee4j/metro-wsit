@@ -23,7 +23,7 @@ import com.sun.xml.ws.security.policy.SecurityAssertionValidator;
  * @author K.Venugopal@sun.com Abhijit.Das@Sun.COM
  */
 public class RequestSecurityTokenTemplate extends PolicyAssertion implements com.sun.xml.ws.security.policy.RequestSecurityTokenTemplate, SecurityAssertionValidator {
-    
+
     private boolean populated = false;
     private AssertionFitness fitness = AssertionFitness.IS_VALID;
     String tokenType;
@@ -43,132 +43,132 @@ public class RequestSecurityTokenTemplate extends PolicyAssertion implements com
     private String keyWrapAlgo;
     private String wstVer;
     private Claims claims = null;
-    
+
     /**
      * Creates a new instance of RequestSecurityTokenTemplate
      */
     public RequestSecurityTokenTemplate() {
     }
-    
+
     public RequestSecurityTokenTemplate(AssertionData name,Collection<PolicyAssertion> nestedAssertions, AssertionSet nestedAlternative) {
         super(name,nestedAssertions,nestedAlternative);
     }
-    
+
     @Override
     public String getTokenType() {
         populate();
         return tokenType;
     }
-    
+
     @Override
     public String getRequestType() {
         populate();
         return this.requestType;
     }
-    
+
     @Override
     public Lifetime getLifetime() {
         populate();
         return lifeTime;
     }
-    
-    
+
+
     @Override
     public String getAuthenticationType() {
         populate();
         return authenticationType;
     }
-    
-    
+
+
     @Override
     public String getKeyType() {
         populate();
         return keyType;
     }
-    
+
     @Override
     public int getKeySize() {
         populate();
         return keySize;
     }
-    
-    
-    
+
+
+
     @Override
     public String getSignatureAlgorithm() {
         populate();
         return sigAlgo;
     }
-    
-    
+
+
     @Override
     public String getEncryptionAlgorithm() {
         populate();
         return encAlgo;
     }
-    
-    
+
+
     @Override
     public String getCanonicalizationAlgorithm() {
         populate();
         return canonAlgo;
     }
-    
-    
+
+
     @Override
     public boolean getProofEncryptionRequired() {
         populate();
         return isProofEncRequired;
     }
-    
-    
-    
+
+
+
     @Override
     public String getComputedKeyAlgorithm() {
         populate();
         return computedKeyAlgo;
     }
-    
+
     @Override
     public String getKeyWrapAlgorithm() {
         populate();
         return keyWrapAlgo;
-    }    
-    
+    }
+
     @Override
     public boolean getEncryptionRequired() {
         populate();
         return isEncRequired;
     }
-    
-    
-    
+
+
+
     @Override
     public String getSignWith() {
         populate();
         return signWith;
     }
-    
-    
+
+
     @Override
     public String getEncryptWith() {
         populate();
         return encryptWith;
     }
-    
+
     @Override
     public Claims getClaims(){
         populate();
         return claims;
     }
-    
+
     @Override
     public String getTrustVersion() {
         populate();
         return wstVer;
     }
-    
-    
+
+
     @Override
     public AssertionFitness validate(boolean isServer) {
         return populate(isServer);
@@ -176,11 +176,11 @@ public class RequestSecurityTokenTemplate extends PolicyAssertion implements com
     private void populate(){
         populate(false);
     }
-    
+
     private synchronized AssertionFitness populate(boolean isServer) {
         if(!populated){
             if ( this.hasNestedAssertions() ) {
-                
+
                 Iterator <PolicyAssertion> it =this.getNestedAssertionsIterator();
                 while( it.hasNext() ) {
                     PolicyAssertion assertion = it.next();
@@ -230,7 +230,7 @@ public class RequestSecurityTokenTemplate extends PolicyAssertion implements com
                             fitness = AssertionFitness.HAS_UNKNOWN_ASSERTION;
                         }
                     }
-                    
+
                 }
             }
             populated = true;

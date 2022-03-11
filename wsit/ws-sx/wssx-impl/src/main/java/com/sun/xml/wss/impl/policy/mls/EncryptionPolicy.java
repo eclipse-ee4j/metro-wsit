@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -35,7 +35,7 @@ import com.sun.xml.wss.impl.PolicyTypeUtil;
  * </UL>
  */
 public class EncryptionPolicy extends WSSKeyBindingExtension {
-    
+
     /*
      * Feature Bindings
      *
@@ -47,7 +47,7 @@ public class EncryptionPolicy extends WSSKeyBindingExtension {
      * (2) SymmetricKeyBinding
      * (3) SAMLAssertionBinding
      */
-    
+
     /**
      * default constructor
      */
@@ -55,7 +55,7 @@ public class EncryptionPolicy extends WSSKeyBindingExtension {
         setPolicyIdentifier(PolicyTypeUtil.ENCRYPTION_POLICY_TYPE);
         this._featureBinding = new FeatureBinding();
     }
-    
+
     /**
      * Equals operator
      * @param policy <code>WSSPolicy</code> to be compared for equality
@@ -64,20 +64,20 @@ public class EncryptionPolicy extends WSSKeyBindingExtension {
     @Override
     public boolean equals(WSSPolicy policy) {
         boolean _assert = false;
-        
+
         try {
             return equalsIgnoreTargets(policy);
             /*EncryptionPolicy sPolicy = (EncryptionPolicy) policy;
-             
+
             _assert = ((WSSPolicy) getFeatureBinding()).equals (
                          (WSSPolicy) sPolicy.getFeatureBinding()) &&
             getKeyBinding().equals ((WSSPolicy) sPolicy.getKeyBinding());
              */
         } catch (Exception cce) {}
-        
+
         return _assert;
     }
-    
+
     /*
      * Equality comparision ignoring the Targets
      * @param policy the policy to be compared for equality
@@ -86,19 +86,19 @@ public class EncryptionPolicy extends WSSKeyBindingExtension {
     @Override
     public boolean equalsIgnoreTargets(WSSPolicy policy) {
         boolean _assert = false;
-        
+
         try {
             if(PolicyTypeUtil.encryptionPolicy(policy))
                 return true;
-            
+
             //EncryptionPolicy sPolicy = (EncryptionPolicy) policy;
             //TODO : Uncomment it
             //_assert = getKeyBinding().equals((WSSPolicy) sPolicy.getKeyBinding());
         } catch (Exception cce) {}
-        
+
         return _assert;
     }
-    
+
     /**
      * clone operator
      * @return a clone of this EncryptionPolicy
@@ -106,21 +106,21 @@ public class EncryptionPolicy extends WSSKeyBindingExtension {
     @Override
     public Object clone() {
         EncryptionPolicy ePolicy = new EncryptionPolicy();
-        
+
         try {
             WSSPolicy fBinding = (WSSPolicy) getFeatureBinding();
             WSSPolicy kBinding = (WSSPolicy) getKeyBinding();
-            
+
             if (fBinding != null)
                 ePolicy.setFeatureBinding((MLSPolicy)fBinding.clone());
-            
+
             if (kBinding != null)
                 ePolicy.setKeyBinding((MLSPolicy)kBinding.clone());
         } catch (Exception e) {}
-        
+
         return ePolicy;
     }
-    
+
     /**
      * @return the type of the policy
      */
@@ -128,14 +128,14 @@ public class EncryptionPolicy extends WSSKeyBindingExtension {
     public String getType() {
         return PolicyTypeUtil.ENCRYPTION_POLICY_TYPE;
     }
-    
+
     /**
      * A class representing FeatureBindings for an EncryptionPolicy
      * The FeatureBinding would contain information about the MessageParts
      * to be Encrypted, The data encryption algorithm to be used.
      */
     public static class FeatureBinding extends WSSPolicy {
-        
+
         /*
          * Feature Bindings
          *
@@ -149,27 +149,27 @@ public class EncryptionPolicy extends WSSKeyBindingExtension {
          * (2) SymmetricKeyBinding
          * (3) SAMLAssertionBinding
          */
-        
+
         String _dataEncryptionAlgorithm = "";
         ArrayList _targets = new ArrayList();
         boolean standAloneRefList = false;
         boolean targetIsIssuedToken = false;
         boolean targetIsSignature = false;
-        
+
         /**
          *default constructor
          */
         public FeatureBinding() {
             setPolicyIdentifier(PolicyTypeUtil.ENCRYPTION_POLICY_FEATUREBINDING_TYPE);
         }
-        
+
         /**
          * @return the DataEncryptionAlgorithm
          */
         public String getDataEncryptionAlgorithm() {
             return _dataEncryptionAlgorithm;
         }
-        
+
         /**
          * set the DataEncryptionAlgorithm to be used
          * @param algorithm the DataEncryptionAlgorithm
@@ -180,14 +180,14 @@ public class EncryptionPolicy extends WSSKeyBindingExtension {
             }
             this._dataEncryptionAlgorithm = algorithm;
         }
-        
+
         /**
          * @return Target collection
          */
         public ArrayList getTargetBindings() {
             return _targets;
         }
-        
+
         /**
          * @param target EncryptionTarget
          */
@@ -198,7 +198,7 @@ public class EncryptionPolicy extends WSSKeyBindingExtension {
             }
             _targets.add(target);
         }
-        
+
         /*
          * @param target Target
          */
@@ -209,7 +209,7 @@ public class EncryptionPolicy extends WSSKeyBindingExtension {
             }
             _targets.add(new EncryptionTarget(target));
         }
-        
+
         /**
          * @param targets ArrayList of all targets to be removed
          */
@@ -220,23 +220,23 @@ public class EncryptionPolicy extends WSSKeyBindingExtension {
             }
             _targets.removeAll(targets);
         }
-        
+
         /**
          * Equals operator
          * @return true if the binding is equal to this Encryption Policy
          */
         @Override
         public boolean equals(WSSPolicy policy) {
-            
+
             try {
                 FeatureBinding fBinding = (FeatureBinding) policy;
                 boolean b1 = _targets.equals(fBinding.getTargetBindings());
                 if (!b1) return false;
             } catch (Exception e) {}
-            
+
             return true;
         }
-        
+
        /*
         * Equality comparision ignoring the Targets
         * @param policy the policy to be compared for equality
@@ -246,7 +246,7 @@ public class EncryptionPolicy extends WSSKeyBindingExtension {
         public boolean equalsIgnoreTargets(WSSPolicy policy) {
             return true;
         }
-        
+
         /**
          * clone operator
          * @return a clone of this EncryptionPolicy.FeatureBinding
@@ -255,26 +255,26 @@ public class EncryptionPolicy extends WSSKeyBindingExtension {
         @SuppressWarnings("unchecked")
         public Object clone(){
             FeatureBinding fBinding = new FeatureBinding();
-            
+
             try {
                 ArrayList list = new ArrayList();
-                
+
                 Iterator i = getTargetBindings().iterator();
                 while (i.hasNext()) list.add(((EncryptionTarget)i.next()).clone());
-                
+
                 fBinding.getTargetBindings().addAll(list);
-                
+
                 WSSPolicy kBinding = (WSSPolicy)getKeyBinding();
                 fBinding.setDataEncryptionAlgorithm(this.getDataEncryptionAlgorithm());
                 if (kBinding != null)
                     fBinding.setKeyBinding((MLSPolicy)kBinding.clone());
             } catch (Exception e) {}
-            
+
             fBinding.encryptsIssuedToken(this.encryptsIssuedToken());
             fBinding.encryptsSignature(this.encryptsSignature());
             return fBinding;
         }
-        
+
         /**
          * @return the type of the policy
          */
@@ -282,15 +282,15 @@ public class EncryptionPolicy extends WSSKeyBindingExtension {
         public String getType() {
             return PolicyTypeUtil.ENCRYPTION_POLICY_FEATUREBINDING_TYPE;
         }
-        
+
         public boolean encryptsIssuedToken() {
             return targetIsIssuedToken;
         }
-        
+
         public void encryptsIssuedToken(boolean flag) {
             targetIsIssuedToken = flag;
         }
-        
+
         public boolean encryptsSignature() {
             return targetIsSignature;
         }
@@ -300,7 +300,7 @@ public class EncryptionPolicy extends WSSKeyBindingExtension {
         public boolean getUseStandAloneRefList(){
             return standAloneRefList;
         }
-        
+
         public void setUseStandAloneRefList(boolean value){
             this.standAloneRefList = value;
         }

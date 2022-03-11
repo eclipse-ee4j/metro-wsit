@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -43,16 +43,16 @@ import jakarta.xml.ws.handler.MessageContext;
 public class ServiceChannelWSImpl {
     private static final Logger logger = Logger.getLogger(
             com.sun.xml.ws.transport.tcp.util.TCPConstants.LoggingDomain + ".server");
-    
+
     @Resource
     private WebServiceContext wsContext;
-    
+
     public void initiateSession() {
         final ChannelContext serviceChannelContext = getChannelContext();
         final ConnectionSession connectionSession = serviceChannelContext.getConnectionSession();
         logger.log(Level.FINE, MessagesMessages.WSTCP_1140_SOAPTCP_SESSION_OPEN(connectionSession.hashCode()));
     }
-    
+
     @WebResult(name = "channelId")
     public int openChannel(
             @WebParam(name="targetWSURI", mode=WebParam.Mode.IN)String targetWSURI,
@@ -61,43 +61,43 @@ public class ServiceChannelWSImpl {
             throws ServiceChannelException {
         final ChannelContext serviceChannelContext = getChannelContext();
         final ServerConnectionSession connectionSession = (ServerConnectionSession) serviceChannelContext.getConnectionSession();
-        
+
         final WSTCPAdapterRegistry adapterRegistry = getAdapterRegistry();
-        
+
         final WSTCPURI tcpURI = WSTCPURI.parse(targetWSURI);
         final TCPAdapter adapter = adapterRegistry.getTarget(tcpURI);
         if (adapter == null) throw new ServiceChannelException(ServiceChannelErrorCode.UNKNOWN_ENDPOINT_ADDRESS, MessagesMessages.WSTCP_0034_WS_ENDPOINT_NOT_FOUND(targetWSURI));
-        
+
         final BindingUtils.NegotiatedBindingContent serviceSupportedContent =
                 BindingUtils.getNegotiatedContentTypesAndParams(adapter.getEndpoint().getBinding());
-        
+
         negotiatedMimeTypes.value.retainAll(serviceSupportedContent.negotiatedMimeTypes);
         if (negotiatedMimeTypes.value.isEmpty()) {
             throw new ServiceChannelException(ServiceChannelErrorCode.CONTENT_NEGOTIATION_FAILED, MessagesMessages.WSTCP_0033_CONTENT_NEGOTIATION_FAILED(targetWSURI, serviceSupportedContent.negotiatedMimeTypes));
         }
-        
+
         negotiatedParams.value.retainAll(serviceSupportedContent.negotiatedParams);
-        
+
         int channelId = connectionSession.getNextAvailChannelId();
         ChannelSettings channelSettings = new ChannelSettings(negotiatedMimeTypes.value, negotiatedParams.value, channelId, adapter.getEndpoint().getServiceName(), tcpURI);
         final ChannelContext openedChannelContext = new ChannelContext(connectionSession, channelSettings);
         final SOAPVersion soapVersion = adapter.getEndpoint().getBinding().getSOAPVersion();
         final Codec defaultCodec = adapter.getEndpoint().createCodec();
         ChannelContext.configureCodec(openedChannelContext, soapVersion, defaultCodec);
-        
+
         connectionSession.registerChannel(openedChannelContext);
-        
+
         if (logger.isLoggable(Level.FINE)) {
             logger.log(Level.FINE, MessagesMessages.WSTCP_1141_SOAPTCP_CHANNEL_OPEN(connectionSession.hashCode(), openedChannelContext.getChannelId(), targetWSURI));
         }
         return channelId;
     }
-    
+
     public void closeChannel(
             @WebParam(name="channelId", mode=WebParam.Mode.IN) int channelId)  throws ServiceChannelException {
         final ChannelContext serviceChannelContext = getChannelContext();
         final ServerConnectionSession connectionSession = (ServerConnectionSession) serviceChannelContext.getConnectionSession();
-        
+
         if (connectionSession.findWSServiceContextByChannelId(channelId) != null) {
             if (logger.isLoggable(Level.FINE)) {
                 logger.log(Level.FINE, MessagesMessages.WSTCP_1142_SOAPTCP_CHANNEL_CLOSE(connectionSession.hashCode(), channelId));
@@ -110,12 +110,12 @@ public class ServiceChannelWSImpl {
             throw new ServiceChannelException(ServiceChannelErrorCode.UNKNOWN_CHANNEL_ID, MessagesMessages.WSTCP_0035_UNKNOWN_CHANNEL_UD(channelId));
         }
     }
-    
+
     private @NotNull ChannelContext getChannelContext() {
         final MessageContext messageContext = wsContext.getMessageContext();
         return (ChannelContext) messageContext.get(TCPConstants.CHANNEL_CONTEXT);
     }
-    
+
     private @NotNull WSTCPAdapterRegistry getAdapterRegistry() {
         final MessageContext messageContext = wsContext.getMessageContext();
         return (WSTCPAdapterRegistry) messageContext.get(TCPConstants.ADAPTER_REGISTRY);

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -60,7 +60,7 @@ class DestinationMessageHandler implements MessageHandler {
             throw new WsrmRequiredException();
         }
         final Sequence inboundSequence = sequenceManager.getInboundSequence(inboundSequenceId);
-        
+
         // register and possibly store message in the unacked message sequence queue
         inboundSequence.registerMessage(inMessage, storeMessage);
 
@@ -70,7 +70,7 @@ class DestinationMessageHandler implements MessageHandler {
     public void processAcknowledgements(@Nullable AcknowledgementData acknowledgementData) throws UnknownSequenceException {
         processAcknowledgements(acknowledgementData, false);
     }
-    
+
     void processAcknowledgements(@Nullable AcknowledgementData acknowledgementData, boolean doNotSetAckRequestedFlag) throws UnknownSequenceException {
         assert sequenceManager != null;
 
@@ -78,7 +78,7 @@ class DestinationMessageHandler implements MessageHandler {
             return;
         }
 
-        if (acknowledgementData.getAcknowledgedSequenceId() != null) { // process outbound sequence acknowledgements           
+        if (acknowledgementData.getAcknowledgedSequenceId() != null) { // process outbound sequence acknowledgements
             final List<AckRange> acknowledgedRanges = acknowledgementData.getAcknowledgedRanges();
             if (!acknowledgedRanges.isEmpty()) {
                 Sequence outboundSequence = sequenceManager.getOutboundSequence(acknowledgementData.getAcknowledgedSequenceId());
@@ -93,7 +93,7 @@ class DestinationMessageHandler implements MessageHandler {
             inboundSequence.setAckRequestedFlag();
         }
     }
-    
+
     /**
      * Retrieves acknowledgement information for a given outbound (and inbound) sequence
      *
@@ -123,7 +123,7 @@ class DestinationMessageHandler implements MessageHandler {
             ackDataBuilder.ackReqestedSequenceId(outboundSequence.getId());
             outboundSequence.updateLastAcknowledgementRequestTime();
         }
-        
+
         return ackDataBuilder.build();
     }
 

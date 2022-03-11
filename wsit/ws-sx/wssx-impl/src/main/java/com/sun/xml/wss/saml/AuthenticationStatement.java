@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -29,7 +29,7 @@ import java.util.List;
  * <code>SubjectStatementAbstractType</code> with the additional element and
  * attributes.
  *
- * <p>The following schema fragment specifies the expected content contained within SAML 
+ * <p>The following schema fragment specifies the expected content contained within SAML
  * AuthenticationStatement element.
  *
  * <pre>
@@ -52,50 +52,50 @@ public interface AuthenticationStatement{
 
      /**
      * Gets the value of the ipAddress property.
-     * 
+     *
      * @return object is {@link java.lang.String }
-     *     
+     *
      */
      String getSubjectLocalityIPAddress();
-    
+
     /**
      * Gets the value of the dnsAddress property.
-     * 
+     *
      * @return object is {@link java.lang.String }
-     *     
+     *
      */
     String getSubjectLocalityDNSAddress();
 
     /**
      * Gets the value of the authorityBinding property.
-     *   
+     *
      * Objects of the following type(s) are in the list {@link AuthorityBinding }
-     *      
+     *
      */
     List<AuthorityBinding> getAuthorityBindingList();
 
      /**
      * Gets the value of the authenticationInstant property.
-     * 
+     *
      * @return object is {@link java.util.Date }
-     *     
+     *
      */
      Date getAuthenticationInstantDate();
 
     /**
      * Gets the value of the authenticationMethod property.
-     * 
+     *
      * @return object is {@link java.lang.String }
-     *     
+     *
      */
     String getAuthenticationMethod();
-    
+
     /**
      * Gets the value of the subject property.
-     * 
+     *
      * @return object is {@link java.lang.String }
-     *     
+     *
      */
     Subject getSubject();
-        
+
 }

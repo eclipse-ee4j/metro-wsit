@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -28,7 +28,7 @@ import java.util.Date;
  * <code>SubjectStatementAbstractType</code> with the additional element and
  * attributes.
  *
- * <p>The following schema fragment specifies the expected content contained within SAML 
+ * <p>The following schema fragment specifies the expected content contained within SAML
  * AuthenticationStatement element.
  *
  * <pre>
@@ -47,61 +47,61 @@ import java.util.Date;
  * </pre>
  *
  */
-public interface AuthnStatement {            
-    
+public interface AuthnStatement {
+
     /**
      * Gets the value of the authnInstant property.
-     * 
+     *
      * @return object is {@link java.util.Date }
-     *     
+     *
      */
     Date getAuthnInstantDate();
-    
+
     /**
      * Gets the value of the sessionIndex property.
-     * 
+     *
      * @return object is {@link java.lang.String }
-     *     
+     *
      */
     String getSessionIndex();
-    
+
     /**
      * Gets the value of the sessionNotOnOrAfter property.
-     * 
+     *
      * @return object is {@link java.util.Date }
-     *     
+     *
      */
     Date getSessionNotOnOrAfterDate();
-       
+
     /**
      * Gets the value of the SubjectLocality address property.
-     * 
+     *
      * @return object is {@link java.lang.String }
-     *     
+     *
      */
     String getSubjectLocalityAddress();
-    
+
     /**
      * Gets the value of the SubjectLocality dnsName property.
-     * 
+     *
      * @return object is {@link java.lang.String }
-     *     
+     *
      */
     String getSubjectLocalityDNSName();
-    
+
     /**
      * Gets the value of the AuthnContext's AuthnContextClassRef property.
-     * 
+     *
      * @return object is {@link java.lang.String }
-     *     
+     *
      */
     String getAuthnContextClassRef();
-    
+
     /**
      * Gets the value of the AuthnContext's AuthenticatingAuthority property.
-     * 
+     *
      * @return object is {@link java.lang.String }
-     *     
+     *
      */
     String getAuthenticatingAuthority();
 }

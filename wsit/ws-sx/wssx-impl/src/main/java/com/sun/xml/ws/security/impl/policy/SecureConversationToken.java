@@ -55,7 +55,7 @@ public class SecureConversationToken extends PolicyAssertion implements com.sun.
          itQname = new QName(spVersion.namespaceUri, Constants.IncludeToken);
          includeToken = spVersion.includeTokenAlways;
     }
-    
+
     public SecureConversationToken(AssertionData name,Collection<PolicyAssertion> nestedAssertions, AssertionSet nestedAlternative) {
         super(name,nestedAssertions,nestedAlternative);
         id= PolicyUtil.randomUUID();
@@ -64,8 +64,8 @@ public class SecureConversationToken extends PolicyAssertion implements com.sun.
         itQname = new QName(spVersion.namespaceUri, Constants.IncludeToken);
         includeToken = spVersion.includeTokenAlways;
     }
-    
-    
+
+
     @Override
     public Set getTokenRefernceTypes() {
         populate();
@@ -74,7 +74,7 @@ public class SecureConversationToken extends PolicyAssertion implements com.sun.
         }
         return referenceType;
     }
-    
+
     @Override
     public boolean isRequireDerivedKeys() {
         populate();
@@ -83,8 +83,8 @@ public class SecureConversationToken extends PolicyAssertion implements com.sun.
         }
         return false;
     }
-    
-    
+
+
         @Override
         public boolean isMustNotSendCancel() {
         populate();
@@ -93,7 +93,7 @@ public class SecureConversationToken extends PolicyAssertion implements com.sun.
         }
         return false;
     }
-    
+
     @Override
     public boolean isMustNotSendRenew() {
         populate();
@@ -102,57 +102,57 @@ public class SecureConversationToken extends PolicyAssertion implements com.sun.
         }
         return false;
     }
-    
+
     @Override
     public String getTokenType() {
         populate();
         return this.tokenType;
     }
-    
+
     @Override
     public Issuer getIssuer() {
         populate();
         return issuer;
     }
-    
+
     @Override
     public IssuerName getIssuerName() {
         populate();
         return issuerName;
     }
-    
+
     @Override
     public Claims getClaims(){
         populate();
         return claims;
     }
-    
+
     @Override
     public String getIncludeToken() {
         populate();
         return includeToken;
     }
-    
+
     public void setIncludeToken(String type) {
         Map<QName, String> attrs = this.getAttributes();
         QName tokenName = new QName(spVersion.namespaceUri, Constants.IncludeToken);
         attrs.put(tokenName,type);
     }
-    
-    
-    
+
+
+
     @Override
     public NestedPolicy getBootstrapPolicy() {
         populate();
         return bootstrapPolicy;
     }
-    
+
     @Override
     public String getTokenId() {
         return id;
     }
-    
-    
+
+
     @Override
     public AssertionFitness validate(boolean isServer) {
         return populate(isServer);
@@ -160,7 +160,7 @@ public class SecureConversationToken extends PolicyAssertion implements com.sun.
     private void populate(){
         populate(false);
     }
-    
+
     private synchronized AssertionFitness populate(boolean isServer) {
         if(!populated){
             String tmp = getAttributeValue(itQname);
@@ -198,7 +198,7 @@ public class SecureConversationToken extends PolicyAssertion implements com.sun.
                         Constants.log_invalid_assertion(assertion, isServer, Constants.SecureConversationToken);
                         fitness = AssertionFitness.HAS_UNKNOWN_ASSERTION;
                     }
-                    
+
                 }
             }
             if ( this.hasNestedAssertions() ) {
@@ -209,7 +209,7 @@ public class SecureConversationToken extends PolicyAssertion implements com.sun.
                         issuer = (Issuer)assertion;
                     } else if(PolicyUtil.isIssuerName(assertion, spVersion)){
                         issuerName = (IssuerName)assertion;
-                    } else if(PolicyUtil.isClaimsElement(assertion) && 
+                    } else if(PolicyUtil.isClaimsElement(assertion) &&
                             SecurityPolicyVersion.SECURITYPOLICY12NS.namespaceUri.equals(spVersion.namespaceUri) ){
                         claims = (Claims)assertion;
                     }

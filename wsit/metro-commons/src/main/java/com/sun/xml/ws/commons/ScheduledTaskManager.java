@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -44,7 +44,7 @@ public final class ScheduledTaskManager extends AbstractTaskManager {
     private final Queue<ScheduledFuture<?>> scheduledTaskHandles;
     private final Component component;
     private final String threadNamePrefix;
-    
+
     /**
      * TODO javadoc
      */
@@ -52,7 +52,7 @@ public final class ScheduledTaskManager extends AbstractTaskManager {
         super();
         this.name = name.trim();
         this.component = component;
-        
+
         // make all lowercase, replace all occurences of subsequent empty characters with a single dash and append some info
         this.threadNamePrefix = this.name.toLowerCase().replaceAll("\\s+", "-") + "-scheduler-" + instanceNumber.getAndIncrement();
         this.scheduledTaskHandles = new ConcurrentLinkedQueue<>();
@@ -98,17 +98,17 @@ public final class ScheduledTaskManager extends AbstractTaskManager {
     public ScheduledFuture<?> runOnce(Runnable task) {
         return startTask(task, DELAY, PERIOD);
     }
-    
+
     @Override
     protected ThreadFactory createThreadFactory() {
         return new NamedThreadFactory(threadNamePrefix);
     }
-    
+
     @Override
     protected String getThreadPoolName() {
         return threadNamePrefix;
     }
-    
+
     @Override
     protected int getThreadPoolSize() {
         return 1;

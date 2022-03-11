@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -39,22 +39,22 @@ public class STSIssuedTokenProviderImpl implements IssuedTokenProvider {
             Logger.getLogger(
             LogDomainConstants.TRUST_IMPL_DOMAIN,
             LogDomainConstants.TRUST_IMPL_DOMAIN_BUNDLE);
-    
+
     @Override
     public void issue(IssuedTokenContext ctx)throws WSTrustException{
         getIssuedTokenContext(ctx);
-    } 
-    
+    }
+
     @Override
     public void cancel(IssuedTokenContext ctx) {
-        
+
     }
-    
+
     @Override
     public void renew(IssuedTokenContext ctx) {
-        
+
     }
-    
+
     @Override
     public void validate(IssuedTokenContext ctx)throws WSTrustException{
         TrustPlugin tp = WSTrustFactory.newTrustPlugin();
@@ -113,7 +113,7 @@ public class STSIssuedTokenProviderImpl implements IssuedTokenProvider {
                 }
             }
         }
-        
+
         TrustPlugin tp = WSTrustFactory.newTrustPlugin();
         tp.process(ctx);
         if (shareToken){

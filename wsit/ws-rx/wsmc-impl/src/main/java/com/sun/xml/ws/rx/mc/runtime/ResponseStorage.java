@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -229,15 +229,15 @@ final class ResponseStorage {
         pendingResponseIdentifiers.invalidateCache();
         pendingResponses.invalidateCache();
     }
-    
+
     void dispose() {
         if (LOGGER.isLoggable(Level.FINER)) {
             LOGGER.finer("[WSMC-HA] endpoint UID [" + endpointUid + "]: Disposing the response storage");
         }
-        
+
         pendingResponseIdentifiers.close();
         pendingResponseIdentifiers.destroy();
-        
+
         pendingResponses.close();
         pendingResponses.destroy();
     }

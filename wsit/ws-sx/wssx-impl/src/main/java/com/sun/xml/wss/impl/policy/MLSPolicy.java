@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -24,8 +24,8 @@ package com.sun.xml.wss.impl.policy;
 public abstract class MLSPolicy implements SecurityPolicy {
 
     protected boolean readonly = false;
-    
-    
+
+
     /**
      * Get FeatureBinding component
      * @return FeatureBinding component of this MLSPolicy
@@ -39,8 +39,8 @@ public abstract class MLSPolicy implements SecurityPolicy {
      * @exception PolicyGenerationException if a KeyBinding component is invalid for this MLSPolicy
      */
     public abstract MLSPolicy getKeyBinding () throws PolicyGenerationException;
-    
-    
+
+
     /**
      * @param readonly set the readonly status of the policy.
      *

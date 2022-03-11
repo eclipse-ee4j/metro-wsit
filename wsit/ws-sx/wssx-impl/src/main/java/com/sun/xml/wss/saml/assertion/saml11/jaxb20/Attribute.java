@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -33,7 +33,7 @@ import jakarta.xml.bind.JAXBContext;
  */
 public class Attribute extends AttributeType
     implements com.sun.xml.wss.saml.Attribute {
-    
+
     protected static final Logger log = Logger.getLogger(
             LogDomainConstants.WSS_API_DOMAIN,
             LogDomainConstants.WSS_API_DOMAIN_BUNDLE);
@@ -49,7 +49,7 @@ public class Attribute extends AttributeType
     public static AttributeType fromElement(Element element) throws SAMLException {
         try {
             JAXBContext jc =  SAMLJAXBUtil.getJAXBContext();
-                    
+
             jakarta.xml.bind.Unmarshaller u = jc.createUnmarshaller();
             return (AttributeType)u.unmarshal(element);
         } catch ( Exception ex) {
@@ -60,7 +60,7 @@ public class Attribute extends AttributeType
     private void setAttributeValue(List values) {
         this.attributeValue = values;
     }
-    
+
     /**
      * Constructs an instance of <code>Attribute</code>.
      *
@@ -75,13 +75,13 @@ public class Attribute extends AttributeType
         setAttributeName(name);
         setAttributeNamespace(nameSpace);
         setAttributeValue(values);
-    }    
-    
+    }
+
     public Attribute(AttributeType attType) {
         setAttributeName(attType.getAttributeName());
         setAttributeNamespace(attType.getAttributeNamespace());
         setAttributeValue(attType.getAttributeValue());
-    } 
+    }
 
     @Override
     public String getFriendlyName() {

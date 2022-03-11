@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -44,7 +44,7 @@ public interface ConfigurationConstants {
 
     String RETAIN_SEC_HEADER = "retainSecurityHeader";
     String RESET_MUST_UNDERSTAND = "resetMustUnderstand";
-    
+
     // --- Declarative Configuration --
     String DECLARATIVE_CONFIGURATION_ELEMENT_NAME = "SecurityConfiguration";
 
@@ -52,7 +52,7 @@ public interface ConfigurationConstants {
 
     //2.0 addition
     String ENABLE_DYNAMIC_POLICY_ATTRIBUTE_NAME = "enableDynamicPolicy";
-    
+
     // WSS 1.1 Policy
     String ENABLE_WSS11_POLICY_ATTRIBUTE_NAME = "enableWSS11Policy";
 
@@ -63,7 +63,7 @@ public interface ConfigurationConstants {
     String OPTIONAL_TARGETS_ELEMENT_NAME = "OptionalTargets";
 
 
-    // requireSignature 
+    // requireSignature
     String SIGNATURE_REQUIREMENT_ELEMENT_NAME = "RequireSignature";
     String TIMESTAMP_REQUIRED_ATTRIBUTE_NAME = "requireTimestamp";
 
@@ -82,7 +82,7 @@ public interface ConfigurationConstants {
     String TIMESTAMP_ELEMENT_NAME = "Timestamp";
     String TIMEOUT_ATTRIBUTE_NAME = "timeout";
 
-    // Sign     
+    // Sign
     String SIGN_OPERATION_ELEMENT_NAME = "Sign";
     String INCLUDE_TIMESTAMP_ATTRIBUTE_NAME = "includeTimestamp";
 
@@ -98,7 +98,7 @@ public interface ConfigurationConstants {
 
     String SV_SAML_TYPE = "SV";
     String HOK_SAML_TYPE = "HOK";
-   
+
 
     String REQUIRE_SAML_ASSERTION_ELEMENT_NAME = "RequireSAMLAssertion";
 
@@ -126,7 +126,7 @@ public interface ConfigurationConstants {
     String URI_TARGET = "uri";
     String QNAME_TARGET = "qname";
     String XPATH_TARGET = "xpath";
-    
+
     String ENCRYPTION_TARGET_ELEMENT_NAME = "EncryptionTarget";
     String SIGNATURE_TARGET_ELEMENT_NAME = "SignatureTarget";
 
@@ -146,7 +146,7 @@ public interface ConfigurationConstants {
     String VALUE_ATTRIBUTE_NAME = "value";
     String DISABLE_INCLUSIVE_PREFIX = "disableInclusivePrefix";
 
-    
+
     // keyReferenceType
     String DIRECT_KEY_REFERENCE_TYPE = MessageConstants.DIRECT_REFERENCE_TYPE;
     String IDENTIFIER_KEY_REFERENCE_TYPE = MessageConstants.KEY_INDETIFIER_TYPE;
@@ -154,7 +154,7 @@ public interface ConfigurationConstants {
     //2.0 addition
     String EMBEDDED_KEY_REFERENCE_TYPE = MessageConstants.EMBEDDED_REFERENCE_TYPE;
 
-    // UsernamePassword    
+    // UsernamePassword
     String USERNAME_PASSWORD_AUTHENTICATION_ELEMENT_NAME = "UsernameToken";
     String USERNAME_ATTRIBUTE_NAME = "name";
     String PASSWORD_ATTRIBUTE_NAME = "password";
@@ -253,11 +253,11 @@ public interface ConfigurationConstants {
 
     QName DATA_ENCRYPTION_METHOD_ELEMENT_QNAME =  new QName(
             CONFIGURATION_URL,
-            DATA_ENCRYPTION_METHOD_ELEMENT_NAME); 
+            DATA_ENCRYPTION_METHOD_ELEMENT_NAME);
 
     //2.0 addition
     QName TRANSFORM_ELEMENT_QNAME = new QName(
-            CONFIGURATION_URL, 
+            CONFIGURATION_URL,
             TRANSFORM_ELEMENT_NAME);
 
     QName ALGORITHM_PARAMETER_ELEMENT_QNAME =  new QName(

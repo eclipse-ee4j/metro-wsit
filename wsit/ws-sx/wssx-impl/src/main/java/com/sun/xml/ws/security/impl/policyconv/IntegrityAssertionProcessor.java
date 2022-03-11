@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -25,27 +25,27 @@ import javax.xml.namespace.QName;
  *
  * @author K.Venugopal@sun.com
  */
-public class IntegrityAssertionProcessor {   
-    
-    private boolean contentOnly = false; 
+public class IntegrityAssertionProcessor {
+
+    private boolean contentOnly = false;
     private boolean seenBody = false;
     private boolean seenAttachments = false;
     private HashSet<Header> signParts  = new HashSet<>();
-    private boolean allHeaders = false;    
+    private boolean allHeaders = false;
     private SignatureTargetCreator targetCreator = null;
-    
+
     /** Creates a new instance of IntegrityAssertionProcessor */
-    
+
     public IntegrityAssertionProcessor(AlgorithmSuite algorithmSuite, boolean contentOnly) {
         //this.algorithmSuite = algorithmSuite;
         this.contentOnly = contentOnly;
         targetCreator = new SignatureTargetCreator(false,algorithmSuite,contentOnly);
     }
-    
+
     public SignatureTargetCreator getTargetCreator(){
         return targetCreator;
     }
-    
+
     public void process(SignedParts signedParts,SignaturePolicy.FeatureBinding binding){
         Iterator tv = signedParts.getHeaders();
         if(SecurityPolicyUtil.isSignedPartsEmpty(signedParts)){
@@ -97,7 +97,7 @@ public class IntegrityAssertionProcessor {
         }
         signParts.clear();
     }
-    
+
     public void process(SignedElements signedElements,SignaturePolicy.FeatureBinding binding){
         Iterator<String> itr = signedElements.getTargets();
         while(itr.hasNext()){
@@ -109,7 +109,7 @@ public class IntegrityAssertionProcessor {
             binding.addTargetBinding(target);
         }
     }
-    
+
     private boolean seenSignTarget(Header name ){
 //        Iterator<Header> itr = signParts.iterator();
 //        while(itr.hasNext()){
@@ -124,7 +124,7 @@ public class IntegrityAssertionProcessor {
         signParts.add(name);
         return false;
     }
-    
+
     public void process(QName targetName,SignaturePolicy.FeatureBinding binding){
         SignatureTarget target = targetCreator.newQNameSignatureTarget(targetName);
         targetCreator.addTransform(target);

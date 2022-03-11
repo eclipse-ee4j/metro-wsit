@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -24,7 +24,7 @@ package com.sun.xml.wss.saml;
  * An assertion is specified by value by including the entire
  * <code>Assertion</code> object
  *
- * <p>The following schema fragment specifies the expected content contained within 
+ * <p>The following schema fragment specifies the expected content contained within
  * SAML Evidence element.
  * <pre>
  * &lt;complexType name="EvidenceType"&gt;
@@ -38,9 +38,9 @@ package com.sun.xml.wss.saml;
  *   &lt;/complexContent&gt;
  * &lt;/complexType&gt;
  * </pre>
- * 
+ *
  */
 
 public interface Evidence {
-    
+
 }

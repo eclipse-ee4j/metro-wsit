@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -30,44 +30,44 @@ import junit.framework.*;
  * @author Mayank.Mishra@SUN.com
  */
 public class IssuedTokenTest extends TestCase {
-    
+
     public IssuedTokenTest(String testName) {
         super(testName);
     }
-    
+
     @Override
     protected void setUp() {
     }
-    
+
     @Override
     protected void tearDown() {
     }
-    
+
     public static Test suite() {
         TestSuite suite = new TestSuite(IssuedTokenTest.class);
-        
+
         return suite;
     }
-    
+
     private PolicySourceModel unmarshalPolicyResource(String resource) throws PolicyException, IOException {
         Reader reader = getResourceReader(resource);
         PolicySourceModel model = ModelUnmarshaller.getUnmarshaller().unmarshalModel(reader);
         reader.close();
         return model;
     }
-    
+
     private Reader getResourceReader(String resourceName) {
         return new InputStreamReader(Thread.currentThread().getContextClassLoader().getResourceAsStream(resourceName));
     }
-    
+
     public Policy unmarshalPolicy(String xmlFile)throws Exception{
         PolicySourceModel model =  unmarshalPolicyResource(
                 xmlFile);
         Policy mbp = ModelTranslator.getTranslator().translate(model);
         return mbp;
-        
+
     }
-    
+
     public void testIssuedTokenAssertions1() throws Exception{
         String fileName = "security/IssuedTokenAssertions1.xml";
         Policy policy = unmarshalPolicy(fileName);
@@ -83,8 +83,8 @@ public class IssuedTokenTest extends TestCase {
             throw new Exception("No Assertions found!. Unmarshalling of "+fileName+" failed!");
         }
     }
-    
-    
+
+
     public void testIssuedTokenAssertions2() throws Exception{
         String fileName = "security/IssuedTokenAssertions2.xml";
         Policy policy = unmarshalPolicy(fileName);
@@ -105,8 +105,8 @@ public class IssuedTokenTest extends TestCase {
             throw new Exception("No Assertions found!. Unmarshalling of "+fileName+" failed!");
         }
     }
-    
-    
+
+
     public void testIssuedTokenAssertions3() throws Exception{
         String fileName = "security/IssuedTokenAssertions3.xml";
         String rType = com.sun.xml.ws.security.policy.IssuedToken.REQUIRE_INTERNAL_REFERENCE;
@@ -127,8 +127,8 @@ public class IssuedTokenTest extends TestCase {
             throw new Exception("No Assertions found!. Unmarshalling of "+fileName+" failed!");
         }
     }
-    
-    
+
+
      public void testIssuedTokenAssertions4() throws Exception{
          // test for bug
          //https://wsit.dev.java.net/issues/show_bug.cgi?id=314
@@ -146,6 +146,6 @@ public class IssuedTokenTest extends TestCase {
             throw new Exception("No Assertions found!. Unmarshalling of "+fileName+" failed!");
         }
     }
-    
+
 
 }

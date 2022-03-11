@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -27,7 +27,7 @@ import jakarta.xml.bind.JAXBContext;
  */
 public class AudienceRestriction extends AudienceRestrictionType
     implements com.sun.xml.wss.saml.AudienceRestriction{
-    
+
     protected static final Logger log = Logger.getLogger(
             LogDomainConstants.WSS_API_DOMAIN,
             LogDomainConstants.WSS_API_DOMAIN_BUNDLE);
@@ -36,7 +36,7 @@ public class AudienceRestriction extends AudienceRestrictionType
     private void setAudience(List audience) {
         this.audience = audience;
     }
-    
+
     /**
     This constructor takes in a <code>List</code> of audience for this
     condition, each of them being a String.
@@ -61,7 +61,7 @@ public class AudienceRestriction extends AudienceRestrictionType
         throws SAMLException {
         try {
             JAXBContext jc = SAML20JAXBUtil.getJAXBContext();
-                    
+
             jakarta.xml.bind.Unmarshaller u = jc.createUnmarshaller();
             return (AudienceRestrictionType)u.unmarshal(element);
         } catch ( Exception ex) {

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -25,19 +25,19 @@ import org.w3c.dom.Element;
  * the FeatureBinding for an EncryptionPolicy (refer EncryptionPolicy.FeatureBinding).
  */
 public class EncryptionTarget extends Target implements Cloneable {
-    
+
     String _dataEncryptionAlgorithm = ""; // Rf. MessageConstants
-    
+
     ArrayList _cipherReferenceTransforms = new ArrayList();
-    
+
     Element drefData = null;
     private boolean isOptimized = false;
-    
+
     /**
      * Default constructor
      */
     public EncryptionTarget() {}
-    
+
     /**
      * Constructor that takes a Target
      */
@@ -47,8 +47,8 @@ public class EncryptionTarget extends Target implements Cloneable {
         this.setValue(target.getValue());
         this.setContentOnly(target.getContentOnly());
     }
-    
-    
+
+
     /**
      * Constructor
      * @param algorithm Data Encryption Algorithm
@@ -56,7 +56,7 @@ public class EncryptionTarget extends Target implements Cloneable {
     public EncryptionTarget(String algorithm) {
         this._dataEncryptionAlgorithm = algorithm;
     }
-    
+
     /**
      * Constructor
      * @param algorithm Data Encryption Algorithm
@@ -67,7 +67,7 @@ public class EncryptionTarget extends Target implements Cloneable {
         this._dataEncryptionAlgorithm = algorithm;
         this._cipherReferenceTransforms.add(new Transform(transform));
     }
-    
+
     /**
      * set the DataEncryptionAlgorithm
      * @param algorithm Data Encryption Algorithm
@@ -75,14 +75,14 @@ public class EncryptionTarget extends Target implements Cloneable {
     public void setDataEncryptionAlgorithm(String algorithm) {
         this._dataEncryptionAlgorithm = algorithm;
     }
-    
+
     /**
      * @return Data Encryption Algorithm
      */
     public String getDataEncryptionAlgorithm() {
         return this._dataEncryptionAlgorithm;
     }
-    
+
     /**
      * add a CipherReference Transform
      * @param transform Cipher Reference Transform
@@ -91,7 +91,7 @@ public class EncryptionTarget extends Target implements Cloneable {
     public void addCipherReferenceTransform(String transform) {
         this._cipherReferenceTransforms.add(new Transform(transform));
     }
-    
+
     /**
      * add a CipherReference Transform
      * @param transform CipherReference Transform
@@ -100,21 +100,21 @@ public class EncryptionTarget extends Target implements Cloneable {
     public void addCipherReferenceTransform(Transform transform) {
         this._cipherReferenceTransforms.add(transform);
     }
-    
+
     /**
      * @return Collection of CipherReference Transforms
      */
     public ArrayList getCipherReferenceTransforms() {
         return _cipherReferenceTransforms;
     }
-    
+
     /**
      * @return  a new instance of Encryption Transform
      */
     public Transform newEncryptionTransform() {
         return new Transform();
     }
-    
+
     /**
      * Equals operator
      * @param target EncryptionTarget
@@ -123,12 +123,12 @@ public class EncryptionTarget extends Target implements Cloneable {
     public boolean equals(EncryptionTarget target) {
         boolean b1 = _dataEncryptionAlgorithm.equals("") ? true :
             _dataEncryptionAlgorithm.equals(target.getDataEncryptionAlgorithm());
-        
+
         boolean b2 = _cipherReferenceTransforms.equals(target.getCipherReferenceTransforms());
-        
+
         return b1 && b2;
     }
-    
+
     /**
      * clone operator
      * @return a clone of this EncryptionTarget
@@ -137,47 +137,47 @@ public class EncryptionTarget extends Target implements Cloneable {
     @SuppressWarnings("unchecked")
     public Object clone() {
         EncryptionTarget target = new EncryptionTarget();
-        
+
         try {
             target.setDataEncryptionAlgorithm(_dataEncryptionAlgorithm);
             target.setValue(this.getValue());
             target.setType(this.getType());
             target.setContentOnly(this.getContentOnly());
             target.setEnforce(this.getEnforce());
-            
+
             Iterator i = getCipherReferenceTransforms().iterator();
             while (i.hasNext()) {
                 Transform transform = (Transform) i.next();
                 target.getCipherReferenceTransforms().add(transform.clone());
             }
         } catch (Exception e) {}
-        
+
         return target;
     }
-    
+
     public void setElementData(Element data){
         this.drefData = data;
     }
-    
+
     public Element getElementData(){
         return this.drefData ;
     }
-    
+
     /**
      * This class represents a Transform that can appear on an EcncryptionTarget,
      * Instances of this class are added as CipherReference Transforms on an EcncryptionTarget
      */
     public static class Transform implements Cloneable {
-        
+
         String _transform = "";
-        
+
         AlgorithmParameterSpec _algorithmParameters = null;
-        
+
         /**
          *Default constructor
          */
         public Transform() {}
-        
+
         /**
          * Constructor
          * @param algorithm the URI for the transform alogrithm
@@ -185,15 +185,15 @@ public class EncryptionTarget extends Target implements Cloneable {
         public Transform(String algorithm) {
             this._transform = algorithm;
         }
-        
-        
+
+
         /**
          * @return the algorithm parameters
          */
         public AlgorithmParameterSpec getAlgorithmParameters() {
             return this._algorithmParameters;
         }
-        
+
         /**
          * set any parameters for the Transform Algorithm
          * @param params a HashMap of AlgorithmParameters
@@ -201,7 +201,7 @@ public class EncryptionTarget extends Target implements Cloneable {
         public void setAlgorithmParameters(AlgorithmParameterSpec params) {
             this._algorithmParameters= params;
         }
-        
+
         /**
          * set the Transform Algorithm
          * @param algorithm the Algorithm for the Transform
@@ -209,14 +209,14 @@ public class EncryptionTarget extends Target implements Cloneable {
         public void setTransform(String algorithm) {
             this._transform = algorithm;
         }
-        
+
         /**
          * @return algorithm the transform algorithm
          */
         public String getTransform() {
             return this._transform;
         }
-        
+
         /**
          * equals operator
          * @param transform the transform to be compared for equality
@@ -225,13 +225,13 @@ public class EncryptionTarget extends Target implements Cloneable {
         public boolean equals(Transform transform) {
             boolean b1 = _transform.equals("") ? true : _transform.equals(transform.getTransform());
             if (!b1) return false;
-            
+
             boolean b2 = _algorithmParameters.equals(transform.getAlgorithmParameters());
             if (!b2) return false;
-            
+
             return true;
         }
-        
+
         /**
          * clone operator
          * @return a clone of this Transform
@@ -246,6 +246,6 @@ public class EncryptionTarget extends Target implements Cloneable {
 
     public boolean isIsOptimized () {
         return isOptimized;
-    }  
+    }
 }
 

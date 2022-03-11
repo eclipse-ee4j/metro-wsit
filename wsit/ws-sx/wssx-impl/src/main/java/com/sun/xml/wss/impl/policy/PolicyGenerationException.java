@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -28,7 +28,7 @@ public class PolicyGenerationException extends com.sun.xml.wss.XWSSecurityExcept
     public PolicyGenerationException (String message) {
         super (message);
     }
-    
+
     /**
      * Constructs an Exception with a nested exception and specifying a message
      * @param message the exception string
@@ -37,7 +37,7 @@ public class PolicyGenerationException extends com.sun.xml.wss.XWSSecurityExcept
     public PolicyGenerationException (String message, Throwable cause) {
         super (message, cause);
     }
-    
+
     /**
      * An Exception wrapper around another exception
      * @param cause the original cause

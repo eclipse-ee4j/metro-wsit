@@ -116,7 +116,7 @@ import org.w3c.dom.NodeList;
  * Decision and Attribute assertion.
  */
 public class Assertion extends AssertionType implements com.sun.xml.wss.saml.Assertion {
-    
+
     private Element signedAssertion = null;
     private NameIDType issuerValue = null;
     private java.math.BigInteger majorValue = null;
@@ -127,7 +127,7 @@ public class Assertion extends AssertionType implements com.sun.xml.wss.saml.Ass
     private JAXBContext jc;
     /**
      * XML Information Set REC
-     * all namespace attributes (including those named xmlns, 
+     * all namespace attributes (including those named xmlns,
      * whose [prefix] property has no value) have a namespace URI of http://www.w3.org/2000/xmlns/
      */
     public final static String XMLNS_URI = "http://www.w3.org/2000/xmlns/".intern();
@@ -143,21 +143,21 @@ public class Assertion extends AssertionType implements com.sun.xml.wss.saml.Ass
         this.setSignature(assertion.getSignature());
         this.setStatement(assertion.getStatementOrAuthnStatementOrAuthzDecisionStatement());
     }
-    
+
     protected static final Logger log = Logger.getLogger(
             LogDomainConstants.WSS_API_DOMAIN,
             LogDomainConstants.WSS_API_DOMAIN_BUNDLE);
-    
+
     @Override
     public java.math.BigInteger getMajorVersion(){
         return this.majorValue;
     }
-    
+
     @Override
     public java.math.BigInteger getMinorVersion(){
         return this.minorValue;
     }
-    
+
     @Override
     public void setMajorVersion(java.math.BigInteger majorValue){
         this.majorValue = majorValue;
@@ -166,18 +166,18 @@ public class Assertion extends AssertionType implements com.sun.xml.wss.saml.Ass
     public void setMinorVersion(java.math.BigInteger minorValue){
         this.minorValue = minorValue;
     }
-    
+
     @Override
     public String getAssertionID(){
         return getID();
     }
-    
+
     @Override
     public String getSamlIssuer(){
         this.issuerValue = this.getIssuer();
         return issuerValue.getValue();
     }
-    
+
     @Override
     public String getIssueInstance(){
         if(this.issueInstant != null){
@@ -185,70 +185,70 @@ public class Assertion extends AssertionType implements com.sun.xml.wss.saml.Ass
         }
         return null;
     }
-    
+
     @Override
-    public Conditions getConditions(){        
-        Conditions cond = new Conditions(super.getConditions());        
+    public Conditions getConditions(){
+        Conditions cond = new Conditions(super.getConditions());
         return cond;
     }
-    
+
     @Override
     public Advice getAdvice(){
         Advice adv = new Advice(super.getAdvice());
-        return adv;        
+        return adv;
     }
-        
+
     @Override
-    public Subject getSubject(){       
+    public Subject getSubject(){
         Subject subj = new Subject(super.getSubject());
         return subj;
     }
-    
+
     /**
      * sign the saml assertion (Enveloped Signature)
      * @param pubKey PublicKey to be used for Signature verification
      * @param privKey PrivateKey to be used for Signature calculation
      */
-    
+
     @Override
     public Element sign(PublicKey pubKey, PrivateKey privKey) throws SAMLException {
-        
+
         //Check if the signature is already calculated
         if ( signedAssertion != null) {
             return signedAssertion;
         }
-        
+
         //Calculate the enveloped signature
         try {
-            
+
             XMLSignatureFactory fac = WSSPolicyConsumerImpl.getInstance().getSignatureFactory();
             return sign(fac.newDigestMethod(DigestMethod.SHA1,null),SignatureMethod.RSA_SHA1, pubKey,privKey);
-            
+
         } catch (Exception ex) {
             // log here
             throw new SAMLException(ex);
         }
     }
-    
+
     @Override
     public Element sign(X509Certificate cert, PrivateKey privKey, boolean alwaysIncludeCert) throws SAMLException {
         //Check if the signature is already calculated
         if ( signedAssertion != null) {
             return signedAssertion;
         }
-        
+
         //Calculate the enveloped signature
         try {
-            
+
             XMLSignatureFactory fac = WSSPolicyConsumerImpl.getInstance().getSignatureFactory();
             return sign(fac.newDigestMethod(DigestMethod.SHA1,null),SignatureMethod.RSA_SHA1, cert,privKey, alwaysIncludeCert);
-            
+
         } catch (Exception ex) {
             // log here
             throw new SAMLException(ex);
         }
     }
-    
+
     @Override
     public Element sign(X509Certificate cert, PrivateKey privKey, boolean alwaysIncludeCert, String sigAlgorithm, String canonicalizationAlgorithm) throws SAMLException {
         //Check if the signature is already calculated
@@ -259,42 +259,42 @@ public class Assertion extends AssertionType implements com.sun.xml.wss.saml.Ass
         if(sigAlgorithm == null){
             sigAlgorithm = SignatureMethod.RSA_SHA1;
         }
-        
+
         if(canonicalizationAlgorithm != null){
             this.canonicalizationMethod = canonicalizationAlgorithm;
         }
-        
+
         //Calculate the enveloped signature
         try {
-            
+
             XMLSignatureFactory fac = WSSPolicyConsumerImpl.getInstance().getSignatureFactory();
             return sign(fac.newDigestMethod(DigestMethod.SHA1,null),sigAlgorithm, cert,privKey, alwaysIncludeCert);
-            
+
         } catch (Exception ex) {
             // log here
             throw new SAMLException(ex);
         }
     }
-    
+
     @Override
     public Element sign(X509Certificate cert, PrivateKey privKey) throws SAMLException {
         //Check if the signature is already calculated
         if ( signedAssertion != null) {
             return signedAssertion;
         }
-        
+
         //Calculate the enveloped signature
         try {
-            
+
             XMLSignatureFactory fac = WSSPolicyConsumerImpl.getInstance().getSignatureFactory();
             return sign(fac.newDigestMethod(DigestMethod.SHA1,null),SignatureMethod.RSA_SHA1, cert,privKey);
-            
+
         } catch (Exception ex) {
             // log here
             throw new SAMLException(ex);
         }
     }
-    
+
     /**
      * sign the saml assertion (Enveloped Signature)
      * @param digestMethod DigestMethod to be used
@@ -305,47 +305,47 @@ public class Assertion extends AssertionType implements com.sun.xml.wss.saml.Ass
     @Override
     @SuppressWarnings("unchecked")
     public Element sign(DigestMethod digestMethod, String signatureMethod, PublicKey pubKey, PrivateKey privKey) throws SAMLException {
-        
+
         //Check if the signature is already calculated
         if ( signedAssertion != null) {
             return signedAssertion;
             //return;
         }
-        
+
         //Calculate the enveloped signature
         try {
-            
-            
+
+
             XMLSignatureFactory fac = WSSPolicyConsumerImpl.getInstance().getSignatureFactory();
             ArrayList transformList = new ArrayList();
-            
+
             Transform tr1 = fac.newTransform(Transform.ENVELOPED, (TransformParameterSpec) null);
             Transform tr2 = fac.newTransform(CanonicalizationMethod.EXCLUSIVE, (TransformParameterSpec) null);
             transformList.add(tr1);
             transformList.add(tr2);
-            
+
             String uri = "#" + this.getID();
             Reference ref = fac.newReference(uri,digestMethod,transformList, null, null);
-            
+
             // Create the SignedInfo
             SignedInfo si = fac.newSignedInfo
                     (fac.newCanonicalizationMethod
                     (CanonicalizationMethod.EXCLUSIVE,(C14NMethodParameterSpec) null),
                     fac.newSignatureMethod(signatureMethod, null),
                     Collections.singletonList(ref));
-            
+
             // Create a KeyValue containing the DSA PublicKey that was generated
             KeyInfoFactory kif = fac.getKeyInfoFactory();
             KeyValue kv = kif.newKeyValue(pubKey);
-            
+
             // Create a KeyInfo and add the KeyValue to it
             KeyInfo ki = kif.newKeyInfo(Collections.singletonList(kv));
-            
+
             // Instantiate the document to be signed
             Document doc =  XMLUtil.newDocument();
-            
+
             //Document document;
-            
+
             //Element assertionElement = this.toElement(doc);
             Element assertionElement = this.toElement(doc);
             //try {
@@ -355,13 +355,13 @@ public class Assertion extends AssertionType implements com.sun.xml.wss.saml.Ass
             //} catch (Exception ex) {
             //    throw new XWSSecurityException("Unable to create Document : " + ex.getMessage());
             //}
-            
+
             //document.appendChild(assertionElement);
             //doc.appendChild(assertionElement);
-            
+
             // Create a DOMSignContext and specify the DSA PrivateKey and
             // location of the resulting XMLSignature's parent element
-            
+
             DOMSignContext dsc = null;
             KeySelector ks = KeySelector.singletonKeySelector(privKey);
             NodeList nl = assertionElement.getElementsByTagNameNS(assertionElement.getNamespaceURI(), "Issuer");
@@ -381,10 +381,10 @@ public class Assertion extends AssertionType implements com.sun.xml.wss.saml.Ass
             dsc.setURIDereferencer(new DSigResolver(map,assertionElement));
             XMLSignature signature = fac.newXMLSignature(si, ki);
             dsc.putNamespacePrefix("http://www.w3.org/2000/09/xmldsig#", "ds");
-            
+
             // Marshal, generate (and sign) the enveloped signature
             signature.sign(dsc);
-            
+
             signedAssertion = assertionElement;
             return assertionElement;
         } catch (Exception ex) {
@@ -401,20 +401,20 @@ public class Assertion extends AssertionType implements com.sun.xml.wss.saml.Ass
             return signedAssertion;
             //return;
         }
-        
+
         //Calculate the enveloped signature
         try {
             XMLSignatureFactory fac = WSSPolicyConsumerImpl.getInstance().getSignatureFactory();
             ArrayList transformList = new ArrayList();
-            
+
             Transform tr1 = fac.newTransform(Transform.ENVELOPED, (TransformParameterSpec) null);
             Transform tr2 = fac.newTransform(canonicalizationMethod, (TransformParameterSpec) null);
             transformList.add(tr1);
             transformList.add(tr2);
-            
+
             String uri = "#" + this.getID();
             Reference ref = fac.newReference(uri,digestMethod,transformList, null, null);
-            
+
             // Create the SignedInfo
             SignedInfo si = fac.newSignedInfo
                     (fac.newCanonicalizationMethod
@@ -422,7 +422,7 @@ public class Assertion extends AssertionType implements com.sun.xml.wss.saml.Ass
                     (C14NMethodParameterSpec) null),
                     fac.newSignatureMethod(signatureMethod, null),
                     Collections.singletonList(ref));
-            
+
             // Instantiate the document to be signed
             Document doc = MessageFactory.newInstance().createMessage().getSOAPPart();
             KeyInfoFactory kif = fac.getKeyInfoFactory();
@@ -439,14 +439,14 @@ public class Assertion extends AssertionType implements com.sun.xml.wss.saml.Ass
                     ki = kif.newKeyInfo(Collections.singletonList(domKeyInfo));
                 }
             }
-            
+
             if (ki == null){
                   X509Data x509Data = kif.newX509Data(Collections.singletonList(cert));
                   ki = kif.newKeyInfo(Collections.singletonList(x509Data));
             }
            /* KeyIdentifier kid = new KeyIdentifierImpl(MessageConstants.X509SubjectKeyIdentifier_NS, MessageConstants.MessageConstants.BASE64_ENCODING_NS);
             kid.setValue(Base64.encode(X509SubjectKeyIdentifier.getSubjectKeyIdentifier(cert)));
-            SecurityTokenReference str = new SecurityTokenReferenceImpl(kid);*/  
+            SecurityTokenReference str = new SecurityTokenReferenceImpl(kid);*/
             Element assertionElement = this.toElement(doc);
             //try {
             //    DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -457,9 +457,9 @@ public class Assertion extends AssertionType implements com.sun.xml.wss.saml.Ass
             //}
             //document.appendChild(assertionElement);
             //doc.appendChild(assertionElement);
-            
-            
-            
+
+
+
             // Create a DOMSignContext and specify the DSA PrivateKey and
             // location of the resulting XMLSignature's parent element
             DOMSignContext dsc = null;
@@ -477,26 +477,26 @@ public class Assertion extends AssertionType implements com.sun.xml.wss.saml.Ass
             }
             HashMap map = new HashMap();
             map.put(this.getID(),assertionElement);
-            
+
             dsc.setURIDereferencer(new DSigResolver(map,assertionElement));
             XMLSignature signature = fac.newXMLSignature(si, ki);
             dsc.putNamespacePrefix("http://www.w3.org/2000/09/xmldsig#", "ds");
-            
+
             // Marshal, generate (and sign) the enveloped signature
             signature.sign(dsc);
-            
+
             signedAssertion = assertionElement;
             return assertionElement;
         } catch (XWSSecurityException | InvalidAlgorithmParameterException | XMLSignatureException | SOAPException | NoSuchAlgorithmException | MarshalException ex) {
             throw new SAMLException(ex);
         }
     }
-    
+
     @Override
     public Element sign(DigestMethod digestMethod, String signatureMethod, X509Certificate cert, PrivateKey privKey) throws SAMLException {
         return sign(digestMethod, signatureMethod, cert, privKey, false);
     }
-    
+
     @Override
     public Element toElement(Node doc) throws XWSSecurityException {
         if ( signedAssertion == null) {
@@ -510,11 +510,11 @@ public class Assertion extends AssertionType implements com.sun.xml.wss.saml.Ass
         }
         return signedAssertion;
     }
-    
+
     public boolean isSigned() {
         return signature != null?true:false;
     }
-    
+
     /**
      * This constructor is used to build <code>Assertion</code> object from a
      * block of existing XML that has already been built into a DOM.
@@ -529,7 +529,7 @@ public class Assertion extends AssertionType implements com.sun.xml.wss.saml.Ass
     throws SAMLException {
         try {
             JAXBContext jc = SAML20JAXBUtil.getJAXBContext();
-            
+
             jakarta.xml.bind.Unmarshaller u = jc.createUnmarshaller();
             Object el = u.unmarshal(element);
             //return new Assertion((AssertionType)u.unmarshal(element));
@@ -543,12 +543,12 @@ public class Assertion extends AssertionType implements com.sun.xml.wss.saml.Ass
     private void setStatement(List statement) {
         this.statementOrAuthnStatementOrAuthzDecisionStatement = statement;
     }
-    
+
     @Override
     public String getType() {
         return MessageConstants.SAML_v2_0_NS;
     }
-    
+
     @Override
     public Object getTokenValue() {
 
@@ -559,7 +559,7 @@ public class Assertion extends AssertionType implements com.sun.xml.wss.saml.Ass
         }
         return null;
     }
-    
+
     /**
      * This constructor is used to populate the data members: the
      * <code>assertionID</code>, the issuer, time when assertion issued,
@@ -591,10 +591,10 @@ public class Assertion extends AssertionType implements com.sun.xml.wss.saml.Ass
             throws SAMLException {
         if ( assertionID != null)
             setID(assertionID);
-        
+
         if ( issuer != null)
             setIssuer(issuer);
-        
+
         if ( issueInstant != null) {
             try {
                 DatatypeFactory factory = DatatypeFactory.newInstance();
@@ -603,19 +603,19 @@ public class Assertion extends AssertionType implements com.sun.xml.wss.saml.Ass
                 //ignore
             }
         }
-        
+
         if ( conditions != null)
             setConditions(conditions);
-        
+
         if ( advice != null)
             setAdvice(advice);
-        
+
         if ( statements != null)
             setStatement(statements);
-        
+
         if ( subject != null)
             setSubject(subject);
-        
+
         setVersion("2.0");
     }
     /**
@@ -648,7 +648,7 @@ public class Assertion extends AssertionType implements com.sun.xml.wss.saml.Ass
             String assertionID, NameID issuer, GregorianCalendar issueInstant,
             Conditions conditions, Advice advice, Subject subject, List statements,JAXBContext jcc)
             throws SAMLException {
-        
+
           this( assertionID,  issuer,  issueInstant,
              conditions,  advice,  subject,  statements);
           jc=jcc;
@@ -667,7 +667,7 @@ public class Assertion extends AssertionType implements com.sun.xml.wss.saml.Ass
             this.map = map;
             init();
         }
-        
+
         void init(){
             try{
                 _nodeSetClass = Class.forName(optNSClassName);
@@ -677,7 +677,7 @@ public class Assertion extends AssertionType implements com.sun.xml.wss.saml.Ass
             }catch(ClassNotFoundException cne){
                 // logger.log (Level.FINE,"Not able load JSR 105 RI specific NodeSetData class ",cne);
             }catch(NoSuchMethodException ne){
-                
+
             }
         }
         @Override
@@ -698,7 +698,7 @@ public class Assertion extends AssertionType implements com.sun.xml.wss.saml.Ass
                 if(el == null){
                     el = (Element)map.get(uri);
                 }
-                
+
                 if(_constructor != null){
                     try{
                         return (Data)_constructor.newInstance(new Object[] {el,_false});
@@ -716,13 +716,13 @@ public class Assertion extends AssertionType implements com.sun.xml.wss.saml.Ass
                         }
                     };
                 }
-                
+
             }
-            
+
             return null;
             //throw new URIReferenceException("Resource "+uri+" was not found");
         }
-        
+
         void toNodeSet(final Node rootNode,final Set result){
             switch (rootNode.getNodeType()) {
                 case Node.ELEMENT_NODE:
@@ -756,7 +756,7 @@ public class Assertion extends AssertionType implements com.sun.xml.wss.saml.Ass
                     result.add(rootNode);
             }
         }
-        
+
     }
     @Override
     @SuppressWarnings("unchecked")
@@ -768,7 +768,7 @@ public class Assertion extends AssertionType implements com.sun.xml.wss.saml.Ass
         }
         List list = super.getStatementOrAuthnStatementOrAuthzDecisionStatement();
         Iterator ite = list.iterator();
-        
+
         while (ite.hasNext()) {
             Object object = ite.next();
             if (object instanceof AttributeStatementType) {
@@ -806,7 +806,7 @@ public class Assertion extends AssertionType implements com.sun.xml.wss.saml.Ass
             DOMValidateContext validationContext = new DOMValidateContext(pubKey, signElement);
             XMLSignatureFactory signatureFactory = WSSPolicyConsumerImpl.getInstance().getSignatureFactory();
             // unmarshal the XMLSignature
-            XMLSignature xmlSignature = signatureFactory.unmarshalXMLSignature(validationContext);            
+            XMLSignature xmlSignature = signatureFactory.unmarshalXMLSignature(validationContext);
             validationContext.setURIDereferencer(new DSigResolver(map, samlAssertion));
             boolean coreValidity = xmlSignature.validate(validationContext);
             return coreValidity;

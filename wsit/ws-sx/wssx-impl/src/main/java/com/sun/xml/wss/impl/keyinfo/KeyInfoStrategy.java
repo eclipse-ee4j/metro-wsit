@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -29,7 +29,7 @@ import java.security.cert.X509Certificate;
  * @author K.Venugopal@sun.com
  */
 public abstract class KeyInfoStrategy {
-    
+
     public static KeyInfoStrategy getInstance(String strategy) {
         //TODO: For now.
         if(MessageConstants.KEY_INDETIFIER_TYPE == strategy || MessageConstants.KEY_INDETIFIER_TYPE.equals(strategy)){
@@ -49,7 +49,7 @@ public abstract class KeyInfoStrategy {
         }
         return null;
     }
-    
+
     /**
      * insert the Key Information into a ds:KeyInfo using the
      * appropriate scheme
@@ -63,7 +63,7 @@ public abstract class KeyInfoStrategy {
      */
     public abstract void insertKey(KeyInfoHeaderBlock keyInfo,SecurableSoapMessage secureMsg,
     String x509TokenId)throws XWSSecurityException;
-    
+
     /**
      * insert the Key Information into a SecurityTokenReference using the
      * appropriate scheme
@@ -77,11 +77,11 @@ public abstract class KeyInfoStrategy {
      */
     public abstract void insertKey(SecurityTokenReference tokenRef, SecurableSoapMessage secureMsg)
     throws XWSSecurityException;
-    
+
     /**
      * Sets the certificate corresponding to the security operation
      */
     public abstract void setCertificate(X509Certificate cert);
-    
+
     public abstract String getAlias();
 }

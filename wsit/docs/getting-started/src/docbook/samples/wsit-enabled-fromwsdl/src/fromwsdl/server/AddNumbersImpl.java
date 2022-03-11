@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -12,7 +12,7 @@ package fromwsdl.server;
 
 @jakarta.jws.WebService (endpointInterface="fromwsdl.server.AddNumbersPortType")
 public class AddNumbersImpl{
-    
+
     /**
      * @param number1
      * @param number2
@@ -32,12 +32,12 @@ public class AddNumbersImpl{
         }
         return number1 + number2;
     }
-    
+
     /*
      * Simple one-way method that takes an integer.
      */
     public void oneWayInt(int number) {
         System.out.println("Service received: " + number);
     }
-    
+
 }

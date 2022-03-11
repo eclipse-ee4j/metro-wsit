@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -76,12 +76,12 @@ import org.w3c.dom.Element;
  *       call DecryptionProcessor
  */
 public class EncryptionFilter {
-    
-    
+
+
     protected static final Logger log =  Logger.getLogger(
             LogDomainConstants.IMPL_FILTER_DOMAIN,
             LogDomainConstants.IMPL_FILTER_DOMAIN_BUNDLE);
-    
+
    /**
     * sets the username token in UsernameToken Binding,
     * creates secret key for encryption and sets it in username token binding
@@ -143,21 +143,21 @@ public class EncryptionFilter {
      */
     @SuppressWarnings("unchecked")
     public static void process(FilterProcessingContext context) throws XWSSecurityException {
-        
+
         if (!context.isInboundMessage()) {
-            
+
             EncryptionPolicy policy = (EncryptionPolicy)context.getSecurityPolicy();
             EncryptionPolicy resolvedPolicy = policy;
-            
+
             boolean wss11Receiver = "true".equals(context.getExtraneousProperty("EnableWSS11PolicyReceiver"));
             boolean wss11Sender = "true".equals(context.getExtraneousProperty("EnableWSS11PolicySender"));
             boolean sendEKSHA1 =  wss11Receiver && wss11Sender && (getReceivedSecret(context) != null);
             boolean wss10 = !wss11Sender;
-            
+
             if (!context.makeDynamicPolicyCallback()) {
                 WSSPolicy keyBinding = (WSSPolicy) policy.getKeyBinding();
                 String dataEncAlgo = MessageConstants.TRIPLE_DES_BLOCK_ENCRYPTION;
-                
+
                 EncryptionPolicy.FeatureBinding featureBinding =
                         (EncryptionPolicy.FeatureBinding) policy.getFeatureBinding();
                 String tmp = featureBinding.getDataEncryptionAlgorithm();
@@ -168,17 +168,17 @@ public class EncryptionFilter {
                         // warn that no dataEncAlgo was set
                     }
                 }
-                
+
                 if(tmp != null && !"".equals(tmp)){
                     dataEncAlgo = tmp;
                 }
-                
+
                 // derivedTokenKeyBinding with x509 as originalkeyBinding is to be treated same as
                 // DerivedKey with Symmetric binding and X509 as key binding of Symmetric binding
                 if(PolicyTypeUtil.derivedTokenKeyBinding(keyBinding)){
                     DerivedTokenKeyBinding dtk = (DerivedTokenKeyBinding)keyBinding.clone();
                     WSSPolicy originalKeyBinding = dtk.getOriginalKeyBinding();
-                    
+
                     if (PolicyTypeUtil.x509CertificateBinding(originalKeyBinding)){
                         AuthenticationTokenPolicy.X509CertificateBinding ckBindingClone =
                                 (AuthenticationTokenPolicy.X509CertificateBinding)originalKeyBinding.clone();
@@ -204,15 +204,15 @@ public class EncryptionFilter {
                     try {
                         AuthenticationTokenPolicy.X509CertificateBinding binding =
                                 (AuthenticationTokenPolicy.X509CertificateBinding)keyBinding.clone();
-                        
+
                         String certIdentifier = binding.getCertificateIdentifier();
-                        
+
                         X509Certificate cert = context.getSecurityEnvironment().
                                 getCertificate(context.getExtraneousProperties(), certIdentifier, false);
                         binding.setX509Certificate(cert);
-                        
+
                         context.setX509CertificateBinding(binding);
-                        
+
                     } catch (Exception e) {
                         log.log(Level.SEVERE, LogStringsMessages.WSS_1413_ERROR_EXTRACTING_CERTIFICATE(), e);
                         throw new XWSSecurityException(e);
@@ -228,7 +228,7 @@ public class EncryptionFilter {
                     if(krbContext != null){
                         byte[] kerberosToken = krbContext.getKerberosToken();
                         binding.setTokenValue(kerberosToken);
-                        
+
                         SecretKey sKey = krbContext.getSecretKey(SecurityUtil.getSecretKeyAlgorithm(dataEncAlgo));
                         binding.setSecretKey(sKey);
                     }else{
@@ -239,10 +239,10 @@ public class EncryptionFilter {
                 } else if (PolicyTypeUtil.symmetricKeyBinding(keyBinding)) {
                     try {
                         SymmetricKeyBinding binding = (SymmetricKeyBinding)keyBinding.clone();
-                        
+
                         String keyIdentifier = binding.getKeyIdentifier();
                         SecretKey sKey = null;
-                        
+
                         WSSPolicy ckBinding = (WSSPolicy) binding.getKeyBinding();
                         if(PolicyTypeUtil.usernameTokenBinding(ckBinding)){
                             if (!sendEKSHA1) {
@@ -284,7 +284,7 @@ public class EncryptionFilter {
                             }
                             context.setKerberosTokenBinding(ckBindingClone);
                         }
-                        
+
                         if(!PolicyTypeUtil.kerberosTokenBinding(ckBinding)){
                             if(!keyIdentifier.equals(MessageConstants._EMPTY)){
                                 sKey = context.getSecurityEnvironment().getSecretKey(
@@ -296,7 +296,7 @@ public class EncryptionFilter {
                                 sKey =  SecurityUtil.generateSymmetricKey(dataEncAlgo);
                             }
                         }
-                        
+
                         binding.setSecretKey(sKey);
                         context.setSymmetricKeyBinding(binding);
                     } catch (Exception e) {
@@ -305,22 +305,22 @@ public class EncryptionFilter {
                         throw new XWSSecurityException(e);
                     }
                 } else if (PolicyTypeUtil.samlTokenPolicy(keyBinding)) {
-                    
+
                     //resolvedPolicy = (EncryptionPolicy)policy.clone();
                     keyBinding =(WSSPolicy) policy.getKeyBinding();
-                    
+
                     DynamicApplicationContext dynamicContext =
                             new DynamicApplicationContext(context.getPolicyContext());
                     dynamicContext.setMessageIdentifier(context.getMessageIdentifier());
                     dynamicContext.inBoundMessage(false);
-                    
+
                     AuthenticationTokenPolicy.SAMLAssertionBinding binding =
                             (AuthenticationTokenPolicy.SAMLAssertionBinding)keyBinding;
                     binding.isReadOnly(true);
-                    
+
                     AuthenticationTokenPolicy.SAMLAssertionBinding samlBinding =
                             new AuthenticationTokenPolicy.SAMLAssertionBinding();
-                    
+
                     if (context.getExtraneousProperty(MessageConstants.INCOMING_SAML_ASSERTION) == null) {
                         AuthenticationTokenPolicy.SAMLAssertionBinding resolvedSAMLBinding =
                            (AuthenticationTokenPolicy.SAMLAssertionBinding)
@@ -335,28 +335,28 @@ public class EncryptionFilter {
                     }else{
                         Object assertion = context.getExtraneousProperty(MessageConstants.INCOMING_SAML_ASSERTION);
                         if(assertion instanceof Element){
-                            samlBinding.setAssertion((Element)assertion);                           
-                        }                   
-                    }                 
-                                        
+                            samlBinding.setAssertion((Element)assertion);
+                        }
+                    }
+
                     policy.setKeyBinding(samlBinding);
                     resolvedPolicy = policy;
                 } else if (PolicyTypeUtil.secureConversationTokenKeyBinding(keyBinding)) {
                     // resolve the ProofKey here and set it into ProcessingContext
                     SecureConversationTokenKeyBinding sctBinding = (SecureConversationTokenKeyBinding)keyBinding;
                     SecurityUtil.resolveSCT(context, sctBinding);
-                    
+
                 } else if (PolicyTypeUtil.issuedTokenKeyBinding(keyBinding)) {
                     IssuedTokenKeyBinding itkb = (IssuedTokenKeyBinding)keyBinding;
                     SecurityUtil.resolveIssuedToken(context, itkb);
                 } else if (PolicyTypeUtil.derivedTokenKeyBinding(keyBinding)) {
                     DerivedTokenKeyBinding dtk = (DerivedTokenKeyBinding)keyBinding.clone();
                     WSSPolicy originalKeyBinding = dtk.getOriginalKeyBinding();
-                    
+
                     if ( PolicyTypeUtil.symmetricKeyBinding(originalKeyBinding)) {
                         SymmetricKeyBinding symmBinding = (SymmetricKeyBinding)originalKeyBinding.clone();
                         SecretKey sKey = null;
-                        
+
                         WSSPolicy ckBinding = (WSSPolicy) originalKeyBinding.getKeyBinding();
                         if(PolicyTypeUtil.usernameTokenBinding(ckBinding)){
                             try {
@@ -403,7 +403,7 @@ public class EncryptionFilter {
                             }
                             context.setKerberosTokenBinding(ckBindingClone);
                         }
-                        
+
                         if(!PolicyTypeUtil.kerberosTokenBinding(ckBinding)){
                             if(sendEKSHA1){
                                 sKey = getReceivedSecret(context);
@@ -425,13 +425,13 @@ public class EncryptionFilter {
                     log.log(Level.SEVERE, LogStringsMessages.WSS_1422_UNSUPPORTED_KEYBINDING_ENCRYPTION_POLICY());
                     throw new XWSSecurityException("Unsupported KeyBinding for EncryptionPolicy");
                 }
-                
+
             } else {
                 try {
                     //resolvedPolicy = (EncryptionPolicy)policy.clone();
                     policy.isReadOnly(true);
-                    
-                    
+
+
                     DynamicApplicationContext dynamicContext =
                             new DynamicApplicationContext(context.getPolicyContext());
                     dynamicContext.setMessageIdentifier(context.getMessageIdentifier());
@@ -442,29 +442,29 @@ public class EncryptionFilter {
                     ProcessingContext.copy(dynamicContext.getRuntimeProperties(), context.getExtraneousProperties());
                     HarnessUtil.makeDynamicPolicyCallback(dynamicCallback,
                             context.getSecurityEnvironment().getCallbackHandler());
-                    
+
                     resolvedPolicy = (EncryptionPolicy)dynamicCallback.getSecurityPolicy();
-                    
+
                 } catch (Exception e) {
                     log.log(Level.SEVERE,  LogStringsMessages.WSS_1412_ERROR_PROCESSING_DYNAMICPOLICY(new Object[] { e.getMessage()}));
                     throw new XWSSecurityException(e);
                 }
             }
-            
+
             context.setSecurityPolicy(resolvedPolicy);
             encrypt(context);
-            
+
         } else {
-            
+
             if ( context.makeDynamicPolicyCallback()) {
                 WSSPolicy policy =(WSSPolicy) context.getSecurityPolicy();
                 EncryptionPolicy resolvedPolicy = null;
-                
+
                 try {
                     policy.isReadOnly(true);
                     DynamicApplicationContext dynamicContext =
                             new DynamicApplicationContext(context.getPolicyContext());
-                    
+
                     dynamicContext.setMessageIdentifier(context.getMessageIdentifier());
                     dynamicContext.inBoundMessage(true);
                     // TODO: set runtime context for making callback
@@ -473,16 +473,16 @@ public class EncryptionFilter {
                     ProcessingContext.copy(dynamicContext.getRuntimeProperties(), context.getExtraneousProperties());
                     HarnessUtil.makeDynamicPolicyCallback(dynamicCallback,
                             context.getSecurityEnvironment().getCallbackHandler());
-                    
+
                     resolvedPolicy = (EncryptionPolicy)dynamicCallback.getSecurityPolicy();
-                    
+
                 } catch (Exception e) {
                     log.log(Level.SEVERE, LogStringsMessages.WSS_1420_DYNAMIC_POLICY_SIGNATURE(new Object[] {e.getMessage()}));
                     throw new XWSSecurityException(e);
                 }
                 context.setSecurityPolicy(resolvedPolicy);
             }
-            
+
             DecryptionProcessor.decrypt(context);
         }
     }
@@ -508,5 +508,5 @@ public class EncryptionFilter {
         sKey = (javax.crypto.SecretKey)context.getExtraneousProperty(MessageConstants.SECRET_KEY_VALUE);
         return sKey;
     }
-    
+
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -35,7 +35,7 @@ public class CertificateValidationCallback extends XWSSCallback implements Callb
     private CertificateValidator validator;
 
     private X509Certificate certificate;
-    
+
     private boolean revocationEnabled = false;
 
     public CertificateValidationCallback(X509Certificate certificate) {
@@ -46,7 +46,7 @@ public class CertificateValidationCallback extends XWSSCallback implements Callb
         this.certificate = certificate;
         this.runtimeProperties = context;
     }
-    
+
     public boolean getResult() {
         try {
             if (validator != null)  {
@@ -86,7 +86,7 @@ public class CertificateValidationCallback extends XWSSCallback implements Callb
 
     public interface CertificateValidator  {
 
-        /** 
+        /**
          * Certificate validator.
          * @param certificate <code>java.security.cert.X509Certificate</code>
          * @return true if the certificate is valid else false
@@ -107,7 +107,7 @@ public class CertificateValidationCallback extends XWSSCallback implements Callb
         public CertificateValidationException(String message, Throwable cause) {
             super(message, cause);
         }
-    
+
         public CertificateValidationException(Throwable cause) {
             super(cause);
         }

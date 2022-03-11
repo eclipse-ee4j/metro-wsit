@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -40,12 +40,12 @@ public class X509IssuerSerialStrategy extends KeyInfoStrategy {
 
     X509Certificate cert = null;
 
-    String alias = null;    
+    String alias = null;
 
     public X509IssuerSerialStrategy(){
-        
+
     }
-    
+
     public X509IssuerSerialStrategy(String alias, boolean forSigning) {
         this.alias = alias;
         //this.forSigning = forSigning;
@@ -54,7 +54,7 @@ public class X509IssuerSerialStrategy extends KeyInfoStrategy {
 
     @Override
     public void insertKey(
-        SecurityTokenReference tokenRef, SecurableSoapMessage secureMsg) 
+        SecurityTokenReference tokenRef, SecurableSoapMessage secureMsg)
         throws XWSSecurityException {
         X509IssuerSerial x509IssuerSerial =
             new  X509IssuerSerial(secureMsg.getSOAPPart(), cert);
@@ -69,7 +69,7 @@ public class X509IssuerSerialStrategy extends KeyInfoStrategy {
         throws XWSSecurityException {
 
         Document ownerDoc = keyInfo.getOwnerDocument();
-        SecurityTokenReference tokenRef = 
+        SecurityTokenReference tokenRef =
             new SecurityTokenReference(ownerDoc);
         X509IssuerSerial x509IssuerSerial =
             new  X509IssuerSerial(ownerDoc, cert);

@@ -20,7 +20,7 @@ module org.glassfish.metro.wsit.impl {
     requires com.sun.xml.ws.rt;
     requires com.sun.xml.ws.fi;
     requires com.sun.xml.ws.policy;
-    
+
     requires com.sun.xml.fastinfoset;
     requires static com.sun.xml.ws.servlet;
     requires gmbal;

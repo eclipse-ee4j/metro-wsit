@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -23,14 +23,14 @@ import org.apache.coyote.ProtocolHandler;
  * SOAP/TCP implementation of Tomcat ProtocolHandler, based on Grizzly 1.0
  * @author Alexey Stashok
  */
-public abstract class WSTCPTomcatProtocolHandlerBase implements ProtocolHandler, Runnable {    
+public abstract class WSTCPTomcatProtocolHandlerBase implements ProtocolHandler, Runnable {
     private static final Logger logger = Logger.getLogger(
             com.sun.xml.ws.transport.tcp.util.TCPConstants.LoggingDomain + ".server");
 
     private Map<String, Object> atts = new HashMap<>();
-    
+
     private Adapter adapter;
-    
+
     protected int port;
     protected int redirectHttpPort = 8080;
     protected int readThreadsCount;
@@ -64,7 +64,7 @@ public abstract class WSTCPTomcatProtocolHandlerBase implements ProtocolHandler,
         if (logger.isLoggable(Level.INFO)) {
             logger.log(Level.INFO, MessagesMessages.WSTCP_1170_INIT_SOAPTCP(port));
         }
-        
+
         WSTCPTomcatRegistry.setInstance(new WSTCPTomcatRegistry(port));
     }
 
@@ -91,36 +91,36 @@ public abstract class WSTCPTomcatProtocolHandlerBase implements ProtocolHandler,
         }
         WSTCPTomcatRegistry.setInstance(new WSTCPTomcatRegistry(-1));
         destroy();
-    }    
-    
+    }
+
     public void setPort(int port) {
         this.port = port;
     }
-    
+
     public int getPort() {
         return port;
     }
-    
+
     public void setReadThreadsCount(int readThreadsCount) {
         this.readThreadsCount = readThreadsCount;
     }
-    
+
     public int getReadThreadsCount() {
         return readThreadsCount;
     }
-    
+
     public void setMaxWorkerThreadsCount(int maxWorkerThreadsCount) {
         this.maxWorkerThreadsCount = maxWorkerThreadsCount;
     }
-    
+
     public int getMaxWorkerThreadsCount() {
         return maxWorkerThreadsCount;
     }
-    
+
     public void setMinWorkerThreadsCount(int minWorkerThreadsCount) {
         this.minWorkerThreadsCount = minWorkerThreadsCount;
     }
-    
+
     public int getMinWorkerThreadsCount() {
         return minWorkerThreadsCount;
     }

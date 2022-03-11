@@ -30,11 +30,11 @@ import java.util.logging.Level;
  */
 
 public class AlgorithmSuite extends com.sun.xml.ws.policy.PolicyAssertion implements com.sun.xml.ws.security.policy.AlgorithmSuite,SecurityAssertionValidator{
-    
+
     private AssertionFitness fitness = AssertionFitness.IS_VALID;
     private AlgorithmSuiteValue value;
     private HashSet<String> props = new HashSet<>();
-    private boolean populated = false;    
+    private boolean populated = false;
     private SecurityPolicyVersion spVersion;
     private String signatureAlgo = null;
     /**
@@ -43,92 +43,92 @@ public class AlgorithmSuite extends com.sun.xml.ws.policy.PolicyAssertion implem
     public AlgorithmSuite() {
         spVersion = SecurityPolicyVersion.SECURITYPOLICY200507;
     }
-    
+
     public AlgorithmSuite(AssertionData name,Collection<PolicyAssertion> nestedAssertions, AssertionSet nestedAlternative) {
         super(name,nestedAssertions,nestedAlternative);
         String nsUri = getName().getNamespaceURI();
         spVersion = PolicyUtil.getSecurityPolicyVersion(nsUri);
     }
-    
+
     @Override
     public Set getAdditionalProps() {
         return props;
     }
-    
+
     public void setAdditionalProps(Set properties) {
     }
-    
+
     public void setType(AlgorithmSuiteValue value) {
         this.value = value;
         populated = true;
     }
-    
+
     @Override
     public AlgorithmSuiteValue getType() {
         populate();
         return value;
     }
-    
+
     @Override
     public String getDigestAlgorithm() {
         populate();
         return value.getDigAlgorithm();
     }
-    
-    
+
+
     @Override
     public String getEncryptionAlgorithm() {
         populate();
         return value.getEncAlgorithm();
     }
-    
-    
+
+
     @Override
     public String getSymmetricKeyAlgorithm() {
         populate();
         return value.getSymKWAlgorithm();
     }
-    
+
     @Override
     public String getAsymmetricKeyAlgorithm() {
         populate();
         return value.getAsymKWAlgorithm();
     }
-    
+
     @Override
     public String getSignatureKDAlogrithm() {
         populate();
         return value.getSigKDAlgorithm();
     }
-    
+
     @Override
     public String getEncryptionKDAlogrithm() {
         populate();
         return value.getEncKDAlgorithm();
     }
-    
+
     @Override
     public int getMinSKLAlgorithm() {
         populate();
         return value.getMinSKLAlgorithm();
     }
-    
+
     @Override
     public String getSymmetricKeySignatureAlgorithm() {
         return com.sun.xml.ws.security.policy.Constants.HMAC_SHA1;
     }
-    
+
     @Override
     public String getAsymmetricKeySignatureAlgorithm() {
         return com.sun.xml.ws.security.policy.Constants.RSA_SHA1;
     }
-    
+
     private void populate(){
         populate(false);
     }
-    
+
     private synchronized AssertionFitness populate(boolean isServer) {
-        
+
         if(!populated){
             NestedPolicy policy = this.getNestedPolicy();
             if(policy == null){
@@ -141,7 +141,7 @@ public class AlgorithmSuite extends com.sun.xml.ws.policy.PolicyAssertion implem
                 return fitness;
             }
             AssertionSet as = policy.getAssertionSet();
-            
+
             Iterator<PolicyAssertion> ast = as.iterator();
             while(ast.hasNext()){
                 PolicyAssertion assertion = ast.next();
@@ -170,7 +170,7 @@ public class AlgorithmSuite extends com.sun.xml.ws.policy.PolicyAssertion implem
                 }else if(PolicyUtil.isExclusiveC14NWithComments(assertion)){
                     if(PolicyUtil.isExclusiveC14NWithCommentsForTransforms(assertion)){
                         this.props.add(Constants.ExclusiveC14NWithCommentsForTransforms);
-                    } 
+                    }
                     if(PolicyUtil.isExclusiveC14NWithCommentsForCm(assertion)){
                         this.props.add(Constants.ExclusiveC14NWithCommentsForCm);
                     }
@@ -188,28 +188,28 @@ public class AlgorithmSuite extends com.sun.xml.ws.policy.PolicyAssertion implem
         }
         return fitness;
     }
-    
-    
+
+
     @Override
     public String getComputedKeyAlgorithm() {
         return com.sun.xml.ws.security.policy.Constants.PSHA1;
     }
-    
+
     @Override
     public int getMaxSymmetricKeyLength() {
         return MAX_SKL;
     }
-    
+
     @Override
     public int getMinAsymmetricKeyLength() {
         return MIN_AKL;
     }
-    
+
     @Override
     public int getMaxAsymmetricKeyLength() {
         return MAX_AKL;
     }
-    
+
     @Override
     public AssertionFitness validate(boolean isServer) {
         return populate(isServer);

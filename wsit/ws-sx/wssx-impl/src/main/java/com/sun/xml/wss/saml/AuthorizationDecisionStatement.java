@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -25,7 +25,7 @@ import java.util.List;
  * specified resource has resulted in the specified decision on the basis of
  * some optionally specified evidence.
  *
- * <p>The following schema fragment specifies the expected content contained within 
+ * <p>The following schema fragment specifies the expected content contained within
  * SAML AuthorizationDecisionStatement element.
  * <pre>
  * &lt;complexType name="AuthorizationDecisionStatementType"&gt;
@@ -41,7 +41,7 @@ import java.util.List;
  *   &lt;/complexContent&gt;
  * &lt;/complexType&gt;
  * </pre>
- * 
+ *
  *
  */
 public interface AuthorizationDecisionStatement {
@@ -50,40 +50,40 @@ public interface AuthorizationDecisionStatement {
      * Gets the value of the action property.
      *
      * @return Objects of the following type(s) are in the list {@link Action }
-     * 
-     * 
+     *
+     *
      */
     List<Action> getActionList();
 
     /**
      * Gets the value of the evidence property.
-     * 
+     *
      * @return object is {@link Evidence }
-     *     
+     *
      */
     Evidence getEvidence();
 
     /**
      * Gets the value of the decision property.
-     * 
+     *
      * @return object is {@link java.lang.String }
-     *     
+     *
      */
     String getDecisionValue();
 
     /**
      * Gets the value of the resource property.
-     * 
+     *
      * @return object is {@link java.lang.String }
-     *     
+     *
      */
     String getResource();
 
     /**
      * Gets the value of the subject property.
-     * 
+     *
      * @return object is {@link Subject }
-     *     
+     *
      */
     Subject getSubject();
 }

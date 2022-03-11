@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -23,7 +23,7 @@ import java.util.List;
 /**
  * Provides abstract sequence implementation common to both - inbound and outbound
  * sequence
- * 
+ *
  * @author Marek Potociar (marek.potociar at sun.com)
  */
 public abstract class AbstractSequence implements Sequence {
@@ -133,7 +133,7 @@ public abstract class AbstractSequence implements Sequence {
     public boolean isAckRequested() {
         return data.getAckRequestedFlag();
     }
-    
+
     @Override
     public boolean isFailedOver(long messageNumber) {
         return data.isFailedOver(messageNumber);
@@ -181,7 +181,7 @@ public abstract class AbstractSequence implements Sequence {
     public SequenceData getData() {
         return data;
     }
-    
+
     @Override
     public ApplicationMessage retrieveMessage(String correlationId) {
         return data.retrieveMessage(correlationId);

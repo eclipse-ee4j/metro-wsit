@@ -15,7 +15,7 @@ package com.sun.xml.ws.security.trust.elements.str;
  * @author localuser
  */
 public interface Reference {
-    
+
     String getType();
-    
+
 }

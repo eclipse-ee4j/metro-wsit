@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -43,33 +43,33 @@ public class TCPTransportPipeFactory extends com.sun.xml.ws.transport.tcp.client
         if (checkSchema && !TCPConstants.PROTOCOL_SCHEMA.equalsIgnoreCase(context.getAddress().getURI().getScheme())) {
             return null;
         }
-        
+
         initializeConnectionManagement(context.getWsdlModel());
         if (context.getService().getServiceName().equals(serviceChannelServiceName)) {
             return new ServiceChannelTransportPipe(context);
         }
-        
+
         return new TCPTransportPipe(context);
-    }    
-    
+    }
+
     /**
      * Sets the client ConnectionManagement settings, which are passed via cliend
      * side policies for ServiceChannelWS
      */
     private static void initializeConnectionManagement(WSDLPort port) {
-        PolicyConnectionManagementSettingsHolder instance = 
+        PolicyConnectionManagementSettingsHolder instance =
                 PolicyConnectionManagementSettingsHolder.getInstance();
-        
+
         if (instance.clientSettings == null) {
             synchronized(instance) {
                 if (instance.clientSettings == null) {
-                    instance.clientSettings = 
+                    instance.clientSettings =
                             PolicyConnectionManagementSettingsHolder.createSettingsInstance(port);
                 }
             }
         }
     }
-    
+
     private static int retrieveCustomTCPPort(WSDLPort port) {
         try {
             WSDLModel model = port.getBinding().getOwner();
@@ -94,7 +94,7 @@ public class TCPTransportPipeFactory extends com.sun.xml.ws.transport.tcp.client
                                     return Integer.parseInt(value);
                                 } catch(NumberFormatException e) {
                                 }
-                                
+
                                 return -1;
                             }
                         }

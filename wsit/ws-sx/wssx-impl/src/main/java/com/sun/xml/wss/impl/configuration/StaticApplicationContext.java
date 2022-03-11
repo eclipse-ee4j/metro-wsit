@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -42,7 +42,7 @@ public final class StaticApplicationContext implements StaticPolicyContext {
     private String portIdentifier = "";
     private String operationIdentifier = "";
 
-    
+
     /**
      * Default constructor
      */
@@ -51,7 +51,7 @@ public final class StaticApplicationContext implements StaticPolicyContext {
     /**
      * Copy constructor
      *@param context StaticApplicationContext
-     */ 
+     */
     public StaticApplicationContext(StaticApplicationContext context) {
         copy (context);
     }
@@ -136,7 +136,7 @@ public final class StaticApplicationContext implements StaticPolicyContext {
      *@param operation the Operation Identifier
      */
     public void setOperationIdentifier (String operation) {
-	isOperation (true);
+    isOperation (true);
         this.operationIdentifier = operation;
     }
 
@@ -218,7 +218,7 @@ public final class StaticApplicationContext implements StaticPolicyContext {
      * @return true if the argument context is equal to this context
      */
     public boolean equals (StaticApplicationContext ctx) {
-   
+
         boolean b1 =
                  (UUID.equalsIgnoreCase (ctx.getUUID())); /* &&
                   contextRoot.equalsIgnoreCase (ctx.getApplicationContextRoot()));*/
@@ -234,21 +234,21 @@ public final class StaticApplicationContext implements StaticPolicyContext {
     }
 
     // TODO : this hashcode is not unique, change it later, but it works for now
-    // hashCode needs to be implemented by this class for the equals() operator to 
+    // hashCode needs to be implemented by this class for the equals() operator to
     // be called by the HashMap.get() method
     // equals() method on HashMap is only called if hashCode succeeds
     /**
      * @return hashcode for this context
      */
     public int hashCode() {
-        return 
-            UUID.hashCode() + serviceIdentifier.hashCode() + 
+        return
+            UUID.hashCode() + serviceIdentifier.hashCode() +
                 portIdentifier.hashCode() + operationIdentifier.hashCode();
     }
 
     public String toString() {
         String ret =  "isService=" + isService + "\nisPort=" + isPort + "\nisOperation=" + isOperation +
-                      "\nUUID=" + UUID + "\nserviceIdentifier=" + serviceIdentifier + 
+                      "\nUUID=" + UUID + "\nserviceIdentifier=" + serviceIdentifier +
                       "\nportIdentifier=" + portIdentifier + "\noperationIdentifier=" + operationIdentifier;
         return ret;
     }

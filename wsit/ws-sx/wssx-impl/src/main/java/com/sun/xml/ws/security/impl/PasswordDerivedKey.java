@@ -35,12 +35,12 @@ import com.sun.xml.wss.impl.policy.mls.AuthenticationTokenPolicy;
 
 public class PasswordDerivedKey {
 
-    private byte[] salt=null;       
-    private final int keylength = 160;    
+    private byte[] salt=null;
+    private final int keylength = 160;
     private byte[] sign = null;
 
     private byte[] generateRandomSaltof15Bytes() {
-      
+
         Random random = new Random();
         byte[] randomSalt = new byte[15];
         random.nextBytes(randomSalt);
@@ -67,9 +67,9 @@ public class PasswordDerivedKey {
 
         System.arraycopy(temp, 0, input, 0, temp.length);
         System.arraycopy(temp1, 0, input, temp.length, temp1.length);
-        
+
         MessageDigest md = null;
-                
+
         try {
             md = java.security.MessageDigest.getInstance("SHA1");
         } catch (NoSuchAlgorithmException ex) {
@@ -84,7 +84,7 @@ public class PasswordDerivedKey {
             md.update(keyof160bits);
             keyof160bits = md.digest();
 
-        }        
+        }
         return keyof160bits;
 
     }
@@ -178,7 +178,7 @@ public class PasswordDerivedKey {
     }
 
     public boolean verifyMACSignature(byte[] receivedSignature,byte[] data,String password, int iterate, byte[] receivedsalt) throws UnsupportedEncodingException, InvalidKeyException, SignatureException {
-        
+
         receivedsalt[0]=01;
         byte[] keyof160bits = generate160BitKey(password, iterate, receivedsalt);
         SecretKey keySpec = new SecretKeySpec(keyof160bits, "AES");
@@ -191,7 +191,7 @@ public class PasswordDerivedKey {
         return MessageDigest.isEqual(receivedSignature,signature);
 
     }
-    
+
 
     public boolean testAlgorithm(String algo) {
 

@@ -15,5 +15,5 @@ package com.sun.xml.ws.security.policy;
  * @author Abhijit Das
  */
 public interface UseKey {
-    
+
 }

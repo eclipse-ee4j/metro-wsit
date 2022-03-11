@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -25,7 +25,7 @@ import java.util.List;
  * <code>Conditions</code>. Each <code>Condition</code> evaluates to a value that
  * is Valid, Invalid or Indeterminate.
  *
- * <p>The following schema fragment specifies the expected content contained within 
+ * <p>The following schema fragment specifies the expected content contained within
  * SAML Conditions element.
  *
  * <pre>
@@ -45,23 +45,23 @@ import java.util.List;
  * </pre>
  */
 public interface Conditions {
-    
+
     /**
      * Gets the value of the notBefore property.
-     * 
+     *
      * @return object is {@link java.util.Date }
-     *     
+     *
      */
     Date getNotBeforeDate();
-    
+
     /**
      * Gets the value of the notOnOrAfter property.
-     * 
+     *
      * @return object is {@link java.util.Date }
-     *     
+     *
      */
     Date getNotOnOrAfterDate();
-    
+
      /**
      * Gets the value of the audienceRestrictionConditionOrDoNotCacheConditionOrCondition property.
      *
@@ -69,9 +69,9 @@ public interface Conditions {
      * {@link DoNotCacheCondition }
      * {@link AudienceRestrictionCondition }
      * {@link Condition }
-     * 
-     * 
+     *
+     *
      */
     List<Object> getConditions();
-    
+
 }

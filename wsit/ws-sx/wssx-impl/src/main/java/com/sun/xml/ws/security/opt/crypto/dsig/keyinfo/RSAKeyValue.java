@@ -21,14 +21,14 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name="RSAKeyValue", namespace = "http://www.w3.org/2000/09/xmldsig#")
 
 public class RSAKeyValue extends com.sun.xml.security.core.dsig.RSAKeyValueType {
-    
+
     /** Creates a new instance of RSAKeyValue */
     public RSAKeyValue() {
     }
-    
-    public RSAKeyValue(PublicKey pubKey) {        
+
+    public RSAKeyValue(PublicKey pubKey) {
         setExponent(((RSAPublicKey)pubKey).getPublicExponent().toByteArray());
         setModulus(((RSAPublicKey)pubKey).getModulus().toByteArray());
     }
-    
+
 }

@@ -27,7 +27,7 @@ import javax.xml.namespace.QName;
  */
 
 public class SpnegoContextToken extends PolicyAssertion implements com.sun.xml.ws.security.policy.SpnegoContextToken, SecurityAssertionValidator{
-    
+
     private boolean populated = false;
     private PolicyAssertion rdKey = null;
     //Boolean requiredDerivedKeys = false;
@@ -37,7 +37,7 @@ public class SpnegoContextToken extends PolicyAssertion implements com.sun.xml.w
     private SecurityPolicyVersion spVersion = SecurityPolicyVersion.SECURITYPOLICY200507;
     private final QName itQname;
     private String includeToken;
-    
+
     /**
      * Creates a new instance of SpnegoContextToken
      */
@@ -46,7 +46,7 @@ public class SpnegoContextToken extends PolicyAssertion implements com.sun.xml.w
         itQname = new QName(spVersion.namespaceUri, Constants.IncludeToken);
         includeToken = spVersion.includeTokenAlways;
     }
-    
+
     public SpnegoContextToken(AssertionData name,Collection<PolicyAssertion> nestedAssertions, AssertionSet nestedAlternative) {
         super(name,nestedAssertions,nestedAlternative);
         id= PolicyUtil.randomUUID();
@@ -55,14 +55,14 @@ public class SpnegoContextToken extends PolicyAssertion implements com.sun.xml.w
         itQname = new QName(spVersion.namespaceUri, Constants.IncludeToken);
         includeToken = spVersion.includeTokenAlways;
     }
-    
-    
+
+
     @Override
     public Issuer getIssuer() {
         populate();
         return this.issuer;
     }
-    
+
     @Override
     public boolean isRequireDerivedKeys() {
         populate();
@@ -71,20 +71,20 @@ public class SpnegoContextToken extends PolicyAssertion implements com.sun.xml.w
         }
         return false;
     }
-    
-    
+
+
     @Override
     public String getIncludeToken() {
         populate();
         return includeToken;
     }
-    
-    
+
+
     @Override
     public String getTokenId() {
         return id;
     }
-    
+
     @Override
     public AssertionFitness validate(boolean isServer) {
         return populate(isServer);
@@ -92,7 +92,7 @@ public class SpnegoContextToken extends PolicyAssertion implements com.sun.xml.w
     private void populate(){
         populate(false);
     }
-    
+
     private synchronized AssertionFitness populate(boolean isServer) {
         if(!populated){
             NestedPolicy policy = this.getNestedPolicy();
@@ -108,7 +108,7 @@ public class SpnegoContextToken extends PolicyAssertion implements com.sun.xml.w
             }
             AssertionSet as = policy.getAssertionSet();
             Iterator<PolicyAssertion> paItr = as.iterator();
-            
+
             while(paItr.hasNext()){
                 PolicyAssertion assertion  = paItr.next();
                 if(PolicyUtil.isRequireDerivedKeys(assertion, spVersion)){
@@ -120,7 +120,7 @@ public class SpnegoContextToken extends PolicyAssertion implements com.sun.xml.w
                     }
                 }
             }
-            
+
             if ( this.hasNestedAssertions() ) {
                 Iterator <PolicyAssertion> it = this.getNestedAssertionsIterator();
                 while(it.hasNext()){
@@ -139,6 +139,6 @@ public class SpnegoContextToken extends PolicyAssertion implements com.sun.xml.w
     public SecurityPolicyVersion getSecurityPolicyVersion() {
         return spVersion;
     }
-    
-    
+
+
 }

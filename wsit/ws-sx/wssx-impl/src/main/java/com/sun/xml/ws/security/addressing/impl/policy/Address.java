@@ -23,16 +23,16 @@ import java.util.logging.Level;
  * @author Abhijit Das
  */
 public class Address extends com.sun.xml.ws.policy.PolicyAssertion implements com.sun.xml.ws.security.addressing.policy.Address {
-    
+
     private boolean populated = false;
     private URI address;
-    
+
     /**
      * Creates a new instance of Address
      */
     public Address() {
     }
-    
+
     public Address(AssertionData name,Collection<PolicyAssertion> nestedAssertions, AssertionSet nestedAlternative) {
         super(name,nestedAssertions,nestedAlternative);
     }
@@ -50,16 +50,16 @@ public class Address extends com.sun.xml.ws.policy.PolicyAssertion implements co
             }
         }
     }
-    
+
     @Override
     public URI getURI() {
         populate();
         return address;
     }
-    
-    
+
+
     public String getNamespaceURI() {
         throw new UnsupportedOperationException();
     }
-    
+
 }

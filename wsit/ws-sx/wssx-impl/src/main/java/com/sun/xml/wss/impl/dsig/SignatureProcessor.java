@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -135,7 +135,7 @@ public class SignatureProcessor{
      */
     @SuppressWarnings("unchecked")
     public static int sign(FilterProcessingContext context) throws XWSSecurityException {
-        
+
         try{
             SignaturePolicy signaturePolicy  = (SignaturePolicy)context.getSecurityPolicy();
             SOAPMessage soapMessage = context.getSOAPMessage();
@@ -146,31 +146,31 @@ public class SignatureProcessor{
             if(logger.isLoggable(Level.FINEST)){
                 logger.log(Level.FINEST, "KeyBinding is "+keyBinding);
             }
-            
+
             Key signingKey = null;
             Node nextSibling =  null;
             //TODO :: Creation of WSSPolicyConsumerImpl every time.
             WSSPolicyConsumerImpl dsigHelper = WSSPolicyConsumerImpl.getInstance();
             KeyInfo keyInfo = null;
             SecurityHeader securityHeader = secureMessage.findOrCreateSecurityHeader();
-            
+
             SignaturePolicy.FeatureBinding featureBinding =
                     (SignaturePolicy.FeatureBinding)signaturePolicy.getFeatureBinding();
             AlgorithmSuite algSuite = context.getAlgorithmSuite();
-            
+
             boolean wss11Receiver = "true".equals(context.getExtraneousProperty("EnableWSS11PolicyReceiver"));
             boolean wss11Sender = "true".equals(context.getExtraneousProperty("EnableWSS11PolicySender"));
             boolean wss10 = !wss11Sender;
             boolean sendEKSHA1 =  wss11Receiver && wss11Sender && (getEKSHA1Ref(context) != null);
-            
+
             if (PolicyTypeUtil.usernameTokenPolicy(keyBinding)) {
                 logger.log(Level.SEVERE, LogStringsMessages.WSS_1326_UNSUPPORTED_USERNAMETOKEN_KEYBINDING());
                 throw new XWSSecurityException("UsernameToken as KeyBinding for SignaturePolicy is Not Yet Supported");
             } else if ( PolicyTypeUtil.derivedTokenKeyBinding(keyBinding)) {
                 DerivedTokenKeyBinding dtk = (DerivedTokenKeyBinding)keyBinding.clone();
-                
+
                 WSSPolicy originalKeyBinding = dtk.getOriginalKeyBinding();
-                
+
                 String algorithm = null;
                 if(algSuite != null){
                     algorithm = algSuite.getEncryptionAlgorithm();
@@ -181,13 +181,13 @@ public class SignatureProcessor{
                 long offset = 0; // Default 0
                 long length = SecurityUtil.getLengthFromAlgorithm(algorithm);
                 if(length == 32) length = 24;
-                
+
                 if (PolicyTypeUtil.x509CertificateBinding(originalKeyBinding)) {
                     // this is becuase SecurityPolicy Converter never produces this combination
                     logger.log(Level.SEVERE, LogStringsMessages.WSS_1327_UNSUPPORTED_ASYMMETRICBINDING_DERIVEDKEY_X_509_TOKEN());
                     throw new XWSSecurityException("Asymmetric Binding with DerivedKeys under X509Token Policy Not Yet Supported");
                 } else if ( PolicyTypeUtil.symmetricKeyBinding(originalKeyBinding)) {
-                    
+
                     SymmetricKeyBinding skb = null;
                     if ( context.getSymmetricKeyBinding() != null) {
                         skb = context.getSymmetricKeyBinding();
@@ -205,11 +205,11 @@ public class SignatureProcessor{
                     DerivedKeyToken dkt = new DerivedKeyTokenImpl(offset, length, secret);
                     //get the signing key for signature from derivedkeyToken
                     signingKey = dkt.generateSymmetricKey(jceAlgo);
-                    
+
                     Node[] nxtSiblingContainer = new Node[1];
                     keyInfo = prepareForSymmetricKeySignature(context, keyBinding, originalKey, signaturePolicy, nxtSiblingContainer, null, dkt);
                     nextSibling = nxtSiblingContainer[0];
-                    
+
                 } else if ( PolicyTypeUtil.issuedTokenKeyBinding(originalKeyBinding)) {
                     byte[] prfKey = context.getTrustContext().getProofKey();
                     if (prfKey == null) {
@@ -223,7 +223,7 @@ public class SignatureProcessor{
                         }
                         signingKey = context.getSecurityEnvironment().
                                 getPrivateKey(context.getExtraneousProperties(), cert);
-                        
+
                         //Get the IssuedToken and insert it into the message
                         GenericToken issuedToken =
                                 (GenericToken)context.getTrustContext().getSecurityToken();
@@ -247,7 +247,7 @@ public class SignatureProcessor{
                                                  KeyBindingBase.INCLUDE_ALWAYS_TO_RECIPIENT_VER2.equals(iTokenType)
                                                 );
                         Element strElem = null;
-                        
+
                         if (includeToken) {
                             strElem =(Element)context.getTrustContext().
                                     getAttachedSecurityTokenReference().getTokenValue();
@@ -261,13 +261,13 @@ public class SignatureProcessor{
                         SecurityTokenReference str = new SecurityTokenReference(
                                 XMLUtil.convertToSoapElement(secureMessage.getSOAPPart(),
                                 (Element)imported.cloneNode(true)), false);
-                        
+
                         if (tokenElem != null) {
                             if(includeToken) {
                                 secureMessage.findOrCreateSecurityHeader().
                                         insertHeaderBlockElement(tokenElem);
                                 nextSibling = tokenElem.getNextSibling();
-                                
+
                             } else {
                                 nextSibling =  null;
                             }
@@ -290,7 +290,7 @@ public class SignatureProcessor{
                         nextSibling = nxtSiblingContainer[0];
                     }
                 } else if (PolicyTypeUtil.secureConversationTokenKeyBinding(originalKeyBinding)) {
-                    
+
                     DerivedKeyToken dkt = new DerivedKeyTokenImpl(offset, length, context.getSecureConversationContext().getProofKey());
                     //get the signing key for signature from derivedkeyToken
                     signingKey = dkt.generateSymmetricKey(jceAlgo);
@@ -298,7 +298,7 @@ public class SignatureProcessor{
                     keyInfo = prepareForSymmetricKeySignature(context, keyBinding, null, signaturePolicy, nxtSiblingContainer, null, dkt);
                     nextSibling = nxtSiblingContainer[0];
                 }
-                
+
             } else if ( PolicyTypeUtil.issuedTokenKeyBinding(keyBinding)) {
                 Node[] nxtSiblingContainer = new Node[1];
                 // look for the proof token inside the IssuedToken
@@ -314,7 +314,7 @@ public class SignatureProcessor{
                     }
                     signingKey = context.getSecurityEnvironment().
                             getPrivateKey(context.getExtraneousProperties(), cert);
-                    
+
                     //Get the IssuedToken and insert it into the message
                     GenericToken issuedToken =
                             (GenericToken)context.getTrustContext().getSecurityToken();
@@ -338,7 +338,7 @@ public class SignatureProcessor{
                                                  KeyBindingBase.INCLUDE_ALWAYS_TO_RECIPIENT_VER2.equals(iTokenType)
                                                 );
                     Element strElem = null;
-                    
+
                     if (includeToken) {
                         strElem =(Element)context.getTrustContext().
                                 getAttachedSecurityTokenReference().getTokenValue();
@@ -352,13 +352,13 @@ public class SignatureProcessor{
                     SecurityTokenReference str = new SecurityTokenReference(
                             XMLUtil.convertToSoapElement(secureMessage.getSOAPPart(),
                             (Element)imported.cloneNode(true)), false);
-                    
+
                     if (tokenElem != null) {
                         if(includeToken) {
                             secureMessage.findOrCreateSecurityHeader().
                                     insertHeaderBlockElement(tokenElem);
                             nextSibling = tokenElem.getNextSibling();
-                            
+
                         } else {
                             nextSibling =  null;
                         }
@@ -378,14 +378,14 @@ public class SignatureProcessor{
                             context, keyBinding, signingKey, signaturePolicy, nxtSiblingContainer, null, null);
                     nextSibling = nxtSiblingContainer[0];
                 }
-                
+
             } else if (PolicyTypeUtil.secureConversationTokenKeyBinding(keyBinding)) {
-                
+
                 //Hack to get the nextSibling node from prepareForSymmetricKeySignature
                 Node[] nxtSiblingContainer = new Node[1];
                 keyInfo = prepareForSymmetricKeySignature(
                         context, keyBinding, null, signaturePolicy, nxtSiblingContainer, null, null);
-                
+
                 // look for the proof token inside the secureConversationToken
                 String secretKeyAlg = "AES"; // hardcoding to AES for now
                 if (algSuite != null) {
@@ -393,9 +393,9 @@ public class SignatureProcessor{
                 }
                 signingKey = new SecretKeySpec(context.getSecureConversationContext().getProofKey(), secretKeyAlg);
                 nextSibling = nxtSiblingContainer[0];
-                
+
             } else if(PolicyTypeUtil.x509CertificateBinding(keyBinding)) {
-                
+
                 AuthenticationTokenPolicy.X509CertificateBinding certInfo = null;
                 if ( context.getX509CertificateBinding() != null ) {
                     certInfo = context.getX509CertificateBinding();
@@ -403,17 +403,17 @@ public class SignatureProcessor{
                 } else {
                     certInfo = (AuthenticationTokenPolicy.X509CertificateBinding)keyBinding;
                 }
-                
+
                 PrivateKeyBinding privKBinding  = (PrivateKeyBinding)certInfo.getKeyBinding();
                 signingKey = privKBinding.getPrivateKey();
-                
+
                 Node[] nxtSiblingContainer = new Node[1];
                 keyInfo = handleX509Binding(context, signaturePolicy, certInfo, nxtSiblingContainer);
                 nextSibling = nxtSiblingContainer[0];
-                
+
             } else if (PolicyTypeUtil.samlTokenPolicy(keyBinding)) {
                 // populate the policy, the handler should also add a privateKey binding for HOK
-                
+
                 AuthenticationTokenPolicy.SAMLAssertionBinding samlBinding =
                         (AuthenticationTokenPolicy.SAMLAssertionBinding)keyBinding;
                 PrivateKeyBinding privKBinding  = (PrivateKeyBinding)samlBinding.getKeyBinding();
@@ -421,24 +421,24 @@ public class SignatureProcessor{
                     logger.log(Level.SEVERE, LogStringsMessages.WSS_1329_NULL_PRIVATEKEYBINDING_SAML_POLICY());
                     throw new XWSSecurityException("PrivateKey binding not set for SAML Policy by CallbackHandler");
                 }
-                
+
                 signingKey = privKBinding.getPrivateKey();
-                
+
                 if (signingKey == null) {
                     logger.log(Level.SEVERE, LogStringsMessages.WSS_1330_NULL_PRIVATEKEY_SAML_POLICY());
                     throw new XWSSecurityException("PrivateKey null inside PrivateKeyBinding set for SAML Policy ");
                 }
-                
+
                 String referenceType = samlBinding.getReferenceType();
                 if (referenceType.equals(MessageConstants.EMBEDDED_REFERENCE_TYPE)) {
                     logger.log(Level.SEVERE, LogStringsMessages.WSS_1331_UNSUPPORTED_EMBEDDED_REFERENCE_SAML());
                     throw new XWSSecurityException("Embedded Reference Type for SAML Assertions not supported yet");
                 }
-                
+
                 String assertionId = samlBinding.getAssertionId();
                 Element _assertion = samlBinding.getAssertion();
                 Element _authorityBinding = samlBinding.getAuthorityBinding();
-                
+
                 if (assertionId == null) {
                     if (_assertion == null) {
                         logger.log(Level.SEVERE, LogStringsMessages.WSS_1332_NULL_SAML_ASSERTION_SAML_ASSERTION_ID());
@@ -452,7 +452,7 @@ public class SignatureProcessor{
                         assertionId = _assertion.getAttribute("AssertionID");
                     }
                 }
-                
+
                 SecurityTokenReference tokenRef = new SecurityTokenReference(secureMessage.getSOAPPart());
                 String strId = samlBinding.getSTRID();
                 if(strId == null){
@@ -465,12 +465,12 @@ public class SignatureProcessor{
                 }else{
                     tokenRef.setTokenType(MessageConstants.WSSE_SAML_v1_1_TOKEN_TYPE);
                 }
-                
+
                 if (_authorityBinding != null) {
                     tokenRef.setSamlAuthorityBinding(_authorityBinding,
                             secureMessage.getSOAPPart());
                 }
-                
+
                 if ((_assertion != null) && (_authorityBinding == null)) {
                     //insert the SAML Assertion
                     SamlAssertionHeaderBlock samlHeaderblock =
@@ -480,7 +480,7 @@ public class SignatureProcessor{
                     KeyIdentifierStrategy strat = new KeyIdentifierStrategy(assertionId);
                     strat.insertKey(tokenRef, secureMessage);
                     keyInfo = dsigHelper.constructKeyInfo(signaturePolicy, tokenRef);
-                    
+
                     nextSibling = samlHeaderblock.getAsSoapElement().getNextSibling();
                 } else {
                     nextSibling = securityHeader.getNextSiblingOfTimestamp();
@@ -493,35 +493,35 @@ public class SignatureProcessor{
                 } else {
                     skb = (SymmetricKeyBinding)keyBinding;
                 }
-                
+
                 // sign method is HMACSHA-1 for symmetric keys
                 if(!skb.getKeyIdentifier().equals(MessageConstants._EMPTY)){
                     signingKey = skb.getSecretKey();
                     String symmetricKeyName = skb.getKeyIdentifier();
-                    
+
                     keyInfo = dsigHelper.constructKeyInfo(signaturePolicy, symmetricKeyName);
                     nextSibling = securityHeader.getNextSiblingOfTimestamp();
                 } else if(sendEKSHA1){
                     //get the signing key and EKSHA1 reference from the Subject, it was stored from the incoming message
                     String ekSha1Ref = getEKSHA1Ref(context);
                     signingKey = skb.getSecretKey();
-                    
+
                     SecurityTokenReference secTokenRef = new SecurityTokenReference(secureMessage.getSOAPPart());
-                    
+
                     EncryptedKeySHA1Identifier refElem = new EncryptedKeySHA1Identifier(secureMessage.getSOAPPart());
                     refElem.setReferenceValue(ekSha1Ref);
                     secTokenRef.setReference(refElem);
-                    
+
                     //set the wsse11:TokenType attribute as required by WSS 1.1
                     //secTokenRef.setTokenType(MessageConstants.EncryptedKey_NS);
-                    
+
                     keyInfo = dsigHelper.constructKeyInfo(signaturePolicy, secTokenRef);
                     nextSibling = securityHeader.getNextSiblingOfTimestamp();
-                    
+
                     //TODO: the below condition is always true
                 }else if(wss11Sender || wss10){
                     signingKey = skb.getSecretKey();
-                    
+
                     AuthenticationTokenPolicy.X509CertificateBinding x509Binding = null;
                     X509Certificate cert = null;
                     if(!skb.getCertAlias().equals(MessageConstants._EMPTY)){
@@ -530,23 +530,23 @@ public class SignatureProcessor{
                         x509Binding.setCertificateIdentifier(skb.getCertAlias());
                         cert = context.getSecurityEnvironment().getCertificate(context.getExtraneousProperties(), x509Binding.getCertificateIdentifier(), false);
                         x509Binding.setX509Certificate(cert);
-                        
+
                         x509Binding.setReferenceType("Direct");
                     }else if ( context.getX509CertificateBinding() != null ) {
                         x509Binding = context.getX509CertificateBinding();
                         context.setX509CertificateBinding(null);
                         cert = x509Binding.getX509Certificate();
                     }
-                    
+
                     HashMap tokenCache = context.getTokenCache();
                     HashMap insertedX509Cache = context.getInsertedX509Cache();
                     String x509id = x509Binding.getUUID();
                     if(x509id == null || x509id.equals("")){
                         x509id = secureMessage.generateId();
                     }
-                    
+
                     SecurityUtil.checkIncludeTokenPolicy(context, x509Binding, x509id);
-                    
+
                     String keyEncAlgo = XMLCipher.RSA_v1dot5;  //<--Harcoding of Algo
                     String tmp = null;
                     if(algSuite != null){
@@ -564,26 +564,26 @@ public class SignatureProcessor{
                     KeyInfoHeaderBlock keyInfoBlock  = null;
                     secureMessage = context.getSecurableSoapMessage();
                     dsigHelper = WSSPolicyConsumerImpl.getInstance();
-                    
+
                     //Check to see if same x509 token used for Signature and Encryption
                     X509SecurityToken token = null;
                     cert = x509Binding.getX509Certificate();
                     String x509TokenId = x509Binding.getUUID();
                     //String x509TokenId = x509Binding.getPolicyToken().getTokenId();
                     boolean tokenInserted = false;
-                    
+
                     //insert x509 token in tokencache always irrespective of reference type
                     if(x509TokenId == null || x509TokenId.equals("")){
                         x509TokenId = secureMessage.generateId();
                     }
-                    
+
                     token = (X509SecurityToken)tokenCache.get(x509TokenId);
-                    
+
                     //reference type adjustment in checkIncludePolicy might
                     // have inserted x509
                     X509SecurityToken insertedx509 =
                             (X509SecurityToken)context.getInsertedX509Cache().get(x509TokenId);
-                    
+
                     if (token == null) {
                         String valueType = x509Binding.getValueType();
                         if(valueType==null||valueType.equals("")){
@@ -623,7 +623,7 @@ public class SignatureProcessor{
                         ekCache.put(x509TokenId, id);
                         // set its KeyInfo
                         encryptedKey.setKeyInfo(apacheKeyInfo);
-                        
+
                         // insert the EK into the SOAPMessage
                         SOAPElement se = (SOAPElement)keyEncryptor.martial(encryptedKey);
                         if (insertedx509 == null) {
@@ -631,7 +631,7 @@ public class SignatureProcessor{
                         } else {
                             secureMessage.findOrCreateSecurityHeader().insertBefore(se,insertedx509.getNextSibling());
                         }
-                        
+
                         //store EKSHA1 of KeyValue contents in context
                         Element cipherData = (Element)se.getChildElements(new QName(MessageConstants.XENC_NS, "CipherData", MessageConstants.XENC_PREFIX)).next();
                         String cipherValue = cipherData.getElementsByTagNameNS(MessageConstants.XENC_NS, "CipherValue").item(0).getTextContent();
@@ -641,7 +641,7 @@ public class SignatureProcessor{
                         context.setExtraneousProperty("EncryptedKeySHA1", encEkSha1);
                         nextSibling = se.getNextSibling();
                     } else{
-                        
+
                         id = (String)ekCache.get(x509TokenId);
                         signingKey = context.getCurrentSecret();
                         nextSibling = secureMessage.getElementById(id).getNextSibling();
@@ -652,7 +652,7 @@ public class SignatureProcessor{
                         secureMessage.findOrCreateSecurityHeader().insertHeaderBlock(token);
                         insertedX509Cache.put(x509TokenId, token);
                     }
-                    
+
                     //STR for the KeyInfo of signature
                     SecurityTokenReference secTokenRef = new SecurityTokenReference(secureMessage.getSOAPPart());
                     DirectReference reference = new DirectReference();
@@ -668,19 +668,19 @@ public class SignatureProcessor{
                     reference.setValueType(MessageConstants.EncryptedKey_NS);
                     secTokenRef.setReference(reference);
                     keyInfo = dsigHelper.constructKeyInfo(signaturePolicy,secTokenRef);
-                    
+
                 }
             }else {
                 logger.log(Level.SEVERE,LogStringsMessages.WSS_1335_UNSUPPORTED_KEYBINDING_SIGNATUREPOLICY());
                 throw new XWSSecurityException("Unsupported Key Binding for SignaturePolicy");
             }
-            
+
             // Put UsernameToken above signature
             NodeList nodeList = securityHeader.getElementsByTagNameNS(MessageConstants.WSSE_NS, MessageConstants.USERNAME_TOKEN_LNAME);
             if(nodeList != null && nodeList.getLength() > 0){
                 nextSibling = nodeList.item(0).getNextSibling();
             }
-            
+
             // if currentReflist is non-null it means we are doing E before S
             Node refList = context.getCurrentRefList();
             if (refList != null) {
@@ -688,11 +688,11 @@ public class SignatureProcessor{
                 //reset it after using once to null.
                 context.setCurrentReferenceList(null);
             }
-            
+
             if(featureBinding.isEndorsingSignature()){
                 nextSibling = securityHeader.getLastChild().getNextSibling();
             }
-            
+
             SignedInfo signedInfo = WSSPolicyConsumerImpl.getInstance().constructSignedInfo(context);
             DOMSignContext signContext = null;
             if(nextSibling == null){
@@ -706,15 +706,15 @@ public class SignatureProcessor{
             signContext.putNamespacePrefix(MessageConstants.DSIG_NS, MessageConstants.DSIG_PREFIX);
 //            XMLUtils.circumventBug2650(context.getSecurableSoapMessage().getSOAPPart());
             signature.sign(signContext);
-            
+
             //For SignatureConfirmation
             List scList = (ArrayList)context.getExtraneousProperty("SignatureConfirmation");
             if(scList != null){
                 scList.add(Base64.encode(signature.getSignatureValue().getValue()));
             }
             //End SignatureConfirmation specific code
-            
-        }catch(XWSSecurityException xe){          
+
+        }catch(XWSSecurityException xe){
                 logger.log(Level.SEVERE,LogStringsMessages.WSS_1316_SIGN_FAILED(),xe);
             throw xe;
         }catch(Exception ex){
@@ -723,7 +723,7 @@ public class SignatureProcessor{
         }
         return 0;
     }
-    
+
     /**
      *
      * @param context FilterProcessingContext
@@ -748,14 +748,14 @@ public class SignatureProcessor{
             // unmarshal the XMLSignature
             XMLSignature signature = signatureFactory.unmarshalXMLSignature(validationContext);
             verifySignatureAlgorithm(signature);
-            
+
             //For SignatureConfirmation
             List scList = (ArrayList)context.getExtraneousProperty("receivedSignValues");
             if(scList != null){
                 scList.add(Base64.encode(signature.getSignatureValue().getValue()));
             }
             //End SignatureConfirmation specific code
-            
+
             validationContext.setURIDereferencer(DSigResolver.getInstance());
             // Validate the XMLSignature (generated above)
             validationContext.put(MessageConstants.WSS_PROCESSING_CONTEXT, context);
@@ -768,11 +768,11 @@ public class SignatureProcessor{
                 currentMessagePolicy = new SignaturePolicy();
                 context.getInferredSecurityPolicy().append(currentMessagePolicy);
             }
-            
+
 //            XMLUtils.circumventBug2650(context.getSecurableSoapMessage().getSOAPPart());
             boolean coreValidity = signature.validate(validationContext);
             SecurityPolicy securityPolicy = context.getSecurityPolicy();
-            
+
             boolean isBSP = false;
             if(securityPolicy != null) {
                 if (PolicyTypeUtil.messagePolicy(securityPolicy)) {
@@ -781,11 +781,11 @@ public class SignatureProcessor{
                     isBSP = ((WSSPolicy)securityPolicy).isBSP();
                 }
             }
-            
-            
+
+
             // Check core validation status
             if (coreValidity == false) {
-                
+
                 if(logger.isLoggable(Level.FINEST)){
                     logger.log(Level.FINEST,"Signature failed core validation");
                     boolean sv = signature.getSignatureValue().validate(validationContext);
@@ -814,7 +814,7 @@ public class SignatureProcessor{
                     Iterator i = signInfo.getReferences().iterator();
                     for (int j=0; i.hasNext(); j++) {
                         Reference reference = (Reference) i.next();
-                        
+
                         Iterator t = reference.getTransforms().iterator();
                         for (int index=0; t.hasNext(); index++) {
                             Transform transform = (Transform) t.next();
@@ -840,7 +840,7 @@ public class SignatureProcessor{
                     dsigUtil.constructSignaturePolicy(signInfo, policy.isBSP(),currentMessagePolicy);
                     policy.append(currentMessagePolicy);
                 }
-                
+
                 if(context.getMode() == FilterProcessingContext.ADHOC){
                     //throws Exception for now , need to throw only
                     //appropriate errors.
@@ -850,12 +850,12 @@ public class SignatureProcessor{
                     dsigUtil.constructSignaturePolicy(signInfo, policy.isBSP(),currentMessagePolicy);
                     SignaturePolicyVerifier spv = new SignaturePolicyVerifier(context);
                     spv.verifyPolicy(policy,currentMessagePolicy);
-                    
+
                     if(logger.isLoggable(Level.FINEST)){
                         logger.log(Level.FINE,"Reciever Requirements  are met");
                     }
                 }
-                
+
                 if(context.getMode() == FilterProcessingContext.WSDL_POLICY){
                     dsigUtil.constructSignaturePolicy(signInfo, currentMessagePolicy, context.getSecurableSoapMessage());
                 }
@@ -864,17 +864,17 @@ public class SignatureProcessor{
             logger.log(Level.SEVERE, LogStringsMessages.WSS_1338_ERROR_VERIFY());
             throw xwe;
         }catch(XMLSignatureException xse){
-            
+
             Throwable t1 = xse.getCause();
-            
+
             if(t1== null){
                 logger.log(Level.SEVERE, LogStringsMessages.WSS_1338_ERROR_VERIFY());
                 throw new XWSSecurityException(xse);
             }
             if(t1 instanceof KeySelectorException || t1 instanceof URIReferenceException ){
-                
+
                 Throwable t2 = t1.getCause();
-                
+
                 if(t2 != null && t2 instanceof WssSoapFaultException){
                     logger.log(Level.SEVERE, LogStringsMessages.WSS_1338_ERROR_VERIFY());
                     throw (WssSoapFaultException)t2;
@@ -885,7 +885,7 @@ public class SignatureProcessor{
             }
             logger.log(Level.SEVERE, LogStringsMessages.WSS_1338_ERROR_VERIFY());
             throw new XWSSecurityException(xse);
-            
+
         }catch(Exception ex){
             logger.log(Level.SEVERE, LogStringsMessages.WSS_1338_ERROR_VERIFY());
             throw new XWSSecurityException(ex);
@@ -894,14 +894,14 @@ public class SignatureProcessor{
         }
         return 0;
     }
-    
+
     /**
      *
      */
     @SuppressWarnings("unchecked")
     public static void verifyRequirements(FilterProcessingContext context ,
             XMLSignature signature,DOMValidateContext validationContext )throws Exception{
-        
+
         SignaturePolicy policy =(SignaturePolicy) context.getSecurityPolicy();
         SignaturePolicy.FeatureBinding featureBinding = (SignaturePolicy.FeatureBinding)policy.getFeatureBinding();
         WSSPolicyConsumerImpl dsigUtil = WSSPolicyConsumerImpl.getInstance();
@@ -922,7 +922,7 @@ public class SignatureProcessor{
             //messages when sean provides on . For now get the Data again.
             signedReferenceList.add(reference);
         }
-        
+
         ArrayList optionalReqList = new ArrayList();
         ArrayList requiredDataList = new ArrayList();
         ArrayList requiredReferenceList = new ArrayList();
@@ -930,7 +930,7 @@ public class SignatureProcessor{
         ArrayList optionalReferenceList = new ArrayList();
         //It would have been better If I had optional list
         //seperated
-        
+
         Iterator targetItr = targets.iterator();
         SecurableSoapMessage secureMessage = context.getSecurableSoapMessage();
         while(targetItr.hasNext()){
@@ -990,20 +990,20 @@ public class SignatureProcessor{
                 }*/
             }
         }
-        
+
         if(optionalReqList.size() ==0 && requiredReferenceList.size() != signedReferenceList.size()){
             logger.log(Level.SEVERE, LogStringsMessages.WSS_1340_ILLEGAL_UNMATCHED_NOOF_TARGETS());
             throw new XWSSecurityException("Number of Targets in the message"+
                     " dont match number of Targets in receiver requirements");
         }
-        
+
         if(requiredDataList.size() == 0){
             if(logger.isLoggable(Level.FINER)){
                 logger.log(Level.FINER,"No mandatory receiver requirements were provided");
             }
             return;
         }
-        
+
         for(int i=0;i<requiredDataList.size();i++){
             DataWrapper rData = (DataWrapper)requiredDataList.get(i);
             boolean found = false;
@@ -1026,14 +1026,14 @@ public class SignatureProcessor{
                         "having " + type+" type and value " +uri+" is not met");
             }
         }
-        
+
         if(signedDataList.size() == 0){
             if(logger.isLoggable(Level.FINEST)){
                 logger.log(Level.FINEST,"All receiver requirements are met");
             }
         }else{
             List referenceList = null;
-            
+
             //Resolve All optional references if any
             for(int i=0;i<optionalReqList.size();i++){
                 SignatureTarget signatureTarget = (SignatureTarget)optionalReqList.get(i);
@@ -1062,15 +1062,15 @@ public class SignatureProcessor{
                     optionalReferenceList.add(reference);
                 }
             }
-            
+
             for(int i=0;i<signedDataList.size();i++){
                 DataWrapper sData = (DataWrapper)signedDataList.get(i);
                 DataWrapper oData = null;
                 boolean found = false;
-                
+
                 for(int j=0;j< optionalDataList.size();j++){
                     oData = (DataWrapper)optionalDataList.get(j);
-                    
+
                     if(isEqual(oData,sData,(Reference)optionalReferenceList.get(j),(Reference)signedReferenceList.get(i))){
                         optionalDataList.remove(j);
                         optionalReferenceList.remove(j);
@@ -1078,7 +1078,7 @@ public class SignatureProcessor{
                         break;
                     }
                 }
-                
+
                 if(!found){
                     Reference st = (Reference)signedReferenceList.get(i);
                     logger.log(Level.SEVERE,LogStringsMessages.WSS_1341_ILLEGAL_UNMATCHED_TYPE_URI());
@@ -1086,13 +1086,13 @@ public class SignatureProcessor{
                             "with URI " +st.getURI()+ " has not met receiver requirements");
                 }
             }
-            
+
             if(logger.isLoggable(Level.FINEST)){
                 logger.log(Level.FINEST,"All receiver requirements are met");
             }
         }
     }
-    
+
     private static boolean isEqual(DataWrapper data1 ,DataWrapper data2,Reference ref1,Reference ref2) throws XWSSecurityException {
         if(data1.isNodesetData()&& data2.isNodesetData()){
             NodeSetData  ns1 = (NodeSetData)(data1.getData());
@@ -1100,15 +1100,15 @@ public class SignatureProcessor{
             //Fix for Issue#5 back porting from XWSS_2_0
             Node nsd1Root = null;
             Node nsd2Root = null;
-            
+
             if (ns1 instanceof org.apache.jcp.xml.dsig.internal.dom.DOMSubTreeData) {
                 nsd1Root = ((org.apache.jcp.xml.dsig.internal.dom.DOMSubTreeData)ns1).getRoot();
             }
-            
+
             if (ns2 instanceof org.apache.jcp.xml.dsig.internal.dom.DOMSubTreeData) {
                 nsd2Root = ((org.apache.jcp.xml.dsig.internal.dom.DOMSubTreeData)ns2).getRoot();
             }
-            
+
             if (nsd1Root != null && nsd2Root != null) {
                 if(nsd1Root.isSameNode(nsd2Root) || nsd1Root.isEqualNode(nsd2Root)){
                     return true;
@@ -1136,7 +1136,7 @@ public class SignatureProcessor{
                     }
                 }
             }
-                         
+
             if(itr1.hasNext() || itr2.hasNext()){
                 return false;
             }
@@ -1188,10 +1188,10 @@ public class SignatureProcessor{
         }
         return false;
     }
-    
+
     private static boolean isTransformsEqual(Reference ref1, Reference ref2) throws XWSSecurityException {
         List tList1 = ref1.getTransforms();
-        
+
         List tList2 = ref2.getTransforms();
         if(tList1.size() != tList2.size()){
             logger.log(Level.SEVERE, LogStringsMessages.WSS_1342_ILLEGAL_UNMATCHED_TRANSFORMS());
@@ -1202,7 +1202,7 @@ public class SignatureProcessor{
             while(i< tList1.size()){
                 Transform tr1 = (Transform)tList1.get(i);
                 Transform tr2 = (Transform)tList2.get(i);
-                
+
                 String alg1 = tr1.getAlgorithm();
                 String alg2 = tr2.getAlgorithm();
                 i++;
@@ -1212,21 +1212,21 @@ public class SignatureProcessor{
                     throw new XWSSecurityException("Receiver Requirements for the transforms are not met");
                     //return false;
                 }
-                
+
             }
         }
         return true;
     }
-    
+
     private static Data getData(Reference reference,DOMValidateContext context) throws Exception{
-        
+
         final String uri = reference.getURI();
         URIReference uriRef = new URIReference(){
             @Override
             public String getURI(){
                 return uri;
             }
-            
+
             @Override
             public String getType(){
                 return null;
@@ -1244,8 +1244,8 @@ public class SignatureProcessor{
         }
         return inputData;
     }
-    
-    
+
+
     private static Data getData(Transform transform,Data inputData,DOMValidateContext context)throws Exception{
         String transformAlgo = transform.getAlgorithm();
         if( transformAlgo == Transform.XPATH || transformAlgo == Transform.XPATH2 || transformAlgo == Transform.XSLT ){
@@ -1261,15 +1261,15 @@ public class SignatureProcessor{
         }
         return inputData;
     }
-    
+
     /**
      *
      */
     public static boolean verifySignature(Element signElement, FilterProcessingContext context)
     throws XWSSecurityException {
         try {
-            
-            
+
+
             DOMValidateContext validationContext =
                     new DOMValidateContext(KeySelectorImpl.getInstance(), signElement);
             XMLSignatureFactory signatureFactory = WSSPolicyConsumerImpl.getInstance().getSignatureFactory();
@@ -1280,7 +1280,7 @@ public class SignatureProcessor{
             validationContext.put(MessageConstants.WSS_PROCESSING_CONTEXT, context);
             boolean coreValidity = signature.validate(validationContext);
             if (coreValidity == false){
-                
+
                 if(logger.isLoggable(Level.FINEST)){
                     logger.log(Level.FINEST,"Signature failed core validation");
                     boolean sv = signature.getSignatureValue().validate(validationContext);
@@ -1298,8 +1298,8 @@ public class SignatureProcessor{
                 }
             }
             return coreValidity;
-            
-        }catch (Exception e) {           
+
+        }catch (Exception e) {
             logger.log(Level.SEVERE,LogStringsMessages.WSS_1338_ERROR_VERIFY()+e.getMessage());
             throw new XWSSecurityException(e);
         }
@@ -1308,44 +1308,44 @@ public class SignatureProcessor{
     private static KeyInfo prepareForSymmetricKeySignature(FilterProcessingContext context,
             WSSPolicy keyBinding, Key originalKey, SignaturePolicy signaturePolicy, Node[] nxtSiblingContainer, AuthenticationTokenPolicy.X509CertificateBinding certInfo, DerivedKeyToken dkt)
             throws XWSSecurityException {
-        
+
         Node nextSibling = null;
         KeyInfo keyInfo = null;
-        
+
         //depending on the ref type handle an X509Token
         //create an EK with keyInfo pointing to the X509
         String keyEncAlgo = XMLCipher.RSA_v1dot5;  //<--Harcoding of Algo
         if (context.getAlgorithmSuite() != null) {
             keyEncAlgo = context.getAlgorithmSuite().getAsymmetricKeyAlgorithm();
         }
-        
+
         String referenceType =  null;
         KeyInfoStrategy  strategy = null;
         KeyInfoHeaderBlock keyInfoBlock  = null;
         SecurableSoapMessage secureMessage = context.getSecurableSoapMessage();
         SecurityHeader securityHeader = secureMessage.findOrCreateSecurityHeader();
-        
+
         WSSPolicyConsumerImpl dsigHelper = WSSPolicyConsumerImpl.getInstance();
-        
+
         boolean wss11Receiver = "true".equals(context.getExtraneousProperty("EnableWSS11PolicyReceiver"));
         boolean wss11Sender = "true".equals(context.getExtraneousProperty("EnableWSS11PolicySender"));
         boolean sendEKSHA1 =  wss11Receiver && wss11Sender&& (getEKSHA1Ref(context) != null);
         boolean wss10 = !wss11Sender;
-        
+
         try {
             if ( PolicyTypeUtil.derivedTokenKeyBinding(keyBinding)) {
                 DerivedTokenKeyBinding dtk = (DerivedTokenKeyBinding)keyBinding.clone();
-                
+
                 WSSPolicy originalKeyBinding = dtk.getOriginalKeyBinding();
-                
+
                 if (PolicyTypeUtil.x509CertificateBinding(originalKeyBinding)) {
                     logger.log(Level.SEVERE, LogStringsMessages.WSS_1327_UNSUPPORTED_ASYMMETRICBINDING_DERIVEDKEY_X_509_TOKEN());
                     throw new XWSSecurityException("Asymmetric Binding with DerivedKeys under X509Token Policy Not Yet Supported");
                 } else  if ( PolicyTypeUtil.symmetricKeyBinding(originalKeyBinding)) {
-                    
+
                     if(sendEKSHA1){
                         String ekSha1Ref = getEKSHA1Ref(context);
-                        
+
                         //STR for DerivedKeyToken
                         SecurityTokenReference tokenRef = new SecurityTokenReference(secureMessage.getSOAPPart());
                         EncryptedKeySHA1Identifier refElem = new EncryptedKeySHA1Identifier(secureMessage.getSOAPPart());
@@ -1366,34 +1366,34 @@ public class SignatureProcessor{
                         // set the next sibling to next sibling of derived key token
                         nextSibling = dktHeadrBlock.getAsSoapElement().getNextSibling();
                         nxtSiblingContainer[0] = nextSibling;
-                        
+
                         //Construct the STR for signature
                         DirectReference reference = new DirectReference();
                         reference.setURI("#"+dktId);
                         SecurityTokenReference sigTokenRef = new SecurityTokenReference(secureMessage.getSOAPPart());
                         sigTokenRef.setReference(reference);
                         keyInfo = dsigHelper.constructKeyInfo(signaturePolicy,sigTokenRef);
-                        
+
                         return keyInfo;
-                        
+
                     } else if(wss11Sender || wss10){
-                        
+
                         AuthenticationTokenPolicy.X509CertificateBinding x509Binding = null;
                         X509Certificate cert = null;
                         if ( context.getX509CertificateBinding() != null ) {
                             x509Binding = context.getX509CertificateBinding();
                             context.setX509CertificateBinding(null);
                         }
-                        
+
                         HashMap tokenCache = context.getTokenCache();
                         HashMap insertedX509Cache = context.getInsertedX509Cache();
                         String x509id = x509Binding.getUUID();
                         if(x509id == null || x509id.equals("")){
                             x509id = secureMessage.generateId();
                         }
-                        
+
                         SecurityUtil.checkIncludeTokenPolicy(context, x509Binding, x509id);
-                        
+
                         referenceType =  x509Binding.getReferenceType();
                         strategy = KeyInfoStrategy.getInstance(referenceType);
                         X509SecurityToken token = null;
@@ -1401,7 +1401,7 @@ public class SignatureProcessor{
                         String x509TokenId = x509Binding.getUUID();
                         //Check to see if same x509 token used for Signature and Encryption
                         boolean tokenInserted = false;
-                        
+
                         if(x509TokenId == null || x509TokenId.equals("")){
                             x509TokenId = secureMessage.generateId();
                         }
@@ -1409,7 +1409,7 @@ public class SignatureProcessor{
                         // causing an insertion of the X509 into the Message
                         X509SecurityToken insertedx509 =
                                 (X509SecurityToken)context.getInsertedX509Cache().get(x509TokenId);
-                        
+
                         // this one is used to determine if the whole BST + EK + DKT(opt)
                         // has been inserted by another filter such as Encryption running before
                         token = (X509SecurityToken)tokenCache.get(x509TokenId);
@@ -1430,7 +1430,7 @@ public class SignatureProcessor{
                         } else{
                             tokenInserted = true;
                         }
-                        
+
                         String dktId = keyBinding.getUUID();
                         if (dktId == null) {
                             dktId = secureMessage.generateId();
@@ -1448,8 +1448,8 @@ public class SignatureProcessor{
                             strategy.setCertificate(cert);
                             strategy.insertKey(keyInfoBlock, secureMessage, x509TokenId);
                             org.apache.xml.security.keys.KeyInfo apacheKeyInfo = keyInfoBlock.getKeyInfo();
-                            
-                            
+
+
                             //create an encrypted Key --- it encrypts the original key
                             try{
                                 keyEncryptor = XMLCipher.getInstance(keyEncAlgo);
@@ -1467,7 +1467,7 @@ public class SignatureProcessor{
                             // set its KeyInfo
                             encryptedKey.setKeyInfo(apacheKeyInfo);
                         }
-                        
+
                         //STR for DerivedKeyToken
                         SecurityTokenReference tokenRef = new SecurityTokenReference(secureMessage.getSOAPPart());
                         DirectReference reference = new DirectReference();
@@ -1479,7 +1479,7 @@ public class SignatureProcessor{
                         tokenRef.setReference(reference);
                         DerivedKeyTokenHeaderBlock dktHeadrBlock =
                                 new DerivedKeyTokenHeaderBlock(securityHeader.getOwnerDocument(), tokenRef, nonce, dkt.getOffset(), dkt.getLength() ,dktId);
-                        
+
                         if(!tokenInserted){
                             Node nsX509 = null;
                             if (insertedx509 != null) {
@@ -1495,7 +1495,7 @@ public class SignatureProcessor{
                             if (insertedx509 != null) {
                                 nsX509 = insertedx509.getNextSibling();
                             }
-                            
+
                             // insert the EK into the SOAPMessage -  this goes on top of DKT Header block
                             SOAPElement se = (SOAPElement)keyEncryptor.martial(encryptedKey);
                             if (nsX509 == null) {
@@ -1520,38 +1520,38 @@ public class SignatureProcessor{
                             Element ekElem = secureMessage.getElementById(ekId);
                             secureMessage.findOrCreateSecurityHeader().insertBefore(dktHeadrBlock, ekElem.getNextSibling());
                         }
-                        
+
                         //Construct the STR for signature
                         DirectReference refSig = new DirectReference();
                         refSig.setURI("#"+dktId);
                         SecurityTokenReference sigTokenRef = new SecurityTokenReference(secureMessage.getSOAPPart());
                         sigTokenRef.setReference(refSig);
                         keyInfo = dsigHelper.constructKeyInfo(signaturePolicy,sigTokenRef);
-                        
+
                         // set the next sibling to next sibling of derived key token
                         nextSibling = dktHeadrBlock.getAsSoapElement().getNextSibling();
                         nxtSiblingContainer[0] = nextSibling;
-                        
+
                         return keyInfo;
-                        
+
                     }
                 } else if ( PolicyTypeUtil.issuedTokenKeyBinding(originalKeyBinding)) {
-                    
+
                     IssuedTokenKeyBinding itk = (IssuedTokenKeyBinding)originalKeyBinding;
-                    
+
                     IssuedTokenContext issuedTokenContext =  context.getTrustContext();
-                    
+
                     //Get the IssuedToken and insert it into the message
                     GenericToken issuedToken = (GenericToken)issuedTokenContext.getSecurityToken();
                     SOAPElement tokenElem =  null;
                     SecurityTokenReference str = null;
                     Element strElem = null;
-                    
+
                     // check if the token is already present
                     IssuedTokenKeyBinding ikb = (IssuedTokenKeyBinding)originalKeyBinding;
                     //String ikbPolicyId = ikb.getPolicyToken().getTokenId();
                     String ikbPolicyId = ikb.getUUID();
-                    
+
                     //Look for TrustToken in TokenCache
                     HashMap tokCache = context.getTokenCache();
                     Object tok = tokCache.get(ikbPolicyId);
@@ -1562,12 +1562,12 @@ public class SignatureProcessor{
                                                  KeyBindingBase.INCLUDE_ALWAYS_VER2.equals(iTokenType) ||
                                                  KeyBindingBase.INCLUDE_ALWAYS_TO_RECIPIENT_VER2.equals(iTokenType)
                                                 );
-                    
+
                     if (includeIST && (issuedToken == null)) {
                         logger.log(Level.SEVERE, LogStringsMessages.WSS_1343_NULL_ISSUED_TOKEN());
                         throw new XWSSecurityException("Issued Token to be inserted into the Message was Null");
                     }
-                    
+
                     if (issuedToken != null) {
                         // treat the token as an Opaque entity and just insert the token into message
                         Element elem = (Element)issuedToken.getTokenValue();
@@ -1591,26 +1591,26 @@ public class SignatureProcessor{
                             }
                         }
                     }
-                    
+
                     if (includeIST) {
                         strElem = (Element)issuedTokenContext.getAttachedSecurityTokenReference().getTokenValue();
                     } else {
                         strElem = (Element)issuedTokenContext.getUnAttachedSecurityTokenReference().getTokenValue();
                     }
-                    
+
                     //TODO: remove these expensive conversions
                     Element imported = (Element)secureMessage.getSOAPPart().importNode(strElem,true);
                     str = new SecurityTokenReference(XMLUtil.convertToSoapElement(secureMessage.getSOAPPart(), imported), false);
-                    
+
                     if (originalKey != null) {
                         SecurityUtil.updateSamlVsKeyCache(str, context, originalKey);
                     }
-                    
+
                     String dktId = keyBinding.getUUID();
                     if (dktId == null) {
                         dktId = secureMessage.generateId();
                     }
-                    
+
                     DerivedKeyTokenHeaderBlock derivedKeyTokenHeaderBlock =
                             new DerivedKeyTokenHeaderBlock(
                             secureMessage.getSOAPPart(),
@@ -1619,8 +1619,8 @@ public class SignatureProcessor{
                             dkt.getOffset(),
                             dkt.getLength(),
                             dktId);
-                    
-                    
+
+
                     if (issuedTokenElementFromMsg != null) {
                         SecurityHeader _secHeader = secureMessage.findOrCreateSecurityHeader();
                         _secHeader.insertBefore(derivedKeyTokenHeaderBlock, issuedTokenElementFromMsg.getNextSibling());
@@ -1633,7 +1633,7 @@ public class SignatureProcessor{
                             secureMessage.findOrCreateSecurityHeader().insertHeaderBlock(derivedKeyTokenHeaderBlock);
                         }
                     }
-                    
+
                     // insert the Issued Token after the DKT
                     if (tokenElem != null) {
                         if (includeIST) {
@@ -1643,23 +1643,23 @@ public class SignatureProcessor{
                         // client side response processing
                         context.setIssuedSAMLToken(tokenElem);
                     }
-                    
+
                     //Construct the STR for signature
                     DirectReference refSig = new DirectReference();
                     refSig.setURI("#"+dktId);
                     SecurityTokenReference sigTokenRef = new SecurityTokenReference(secureMessage.getSOAPPart());
                     sigTokenRef.setReference(refSig);
                     keyInfo = dsigHelper.constructKeyInfo(signaturePolicy,sigTokenRef);
-                    
+
                     // set the next sibling to next sibling of derived key token
                     nextSibling = derivedKeyTokenHeaderBlock.getAsSoapElement().getNextSibling();
                     nxtSiblingContainer[0] = nextSibling;
                     return keyInfo;
-                    
+
                 } else if ( PolicyTypeUtil.samlTokenPolicy(originalKeyBinding)) {
                     logger.log(Level.SEVERE, LogStringsMessages.WSS_1345_UNSUPPORTED_DERIVEDKEYS_SAML_TOKEN());
                     throw new UnsupportedOperationException("DerivedKeys with SAMLToken not yet supported");
-                    
+
                 } else if (PolicyTypeUtil.secureConversationTokenKeyBinding(originalKeyBinding)) {
                     SecureConversationTokenKeyBinding sctBinding = (SecureConversationTokenKeyBinding)originalKeyBinding;
                     //STR for DerivedKeyToken
@@ -1673,9 +1673,9 @@ public class SignatureProcessor{
                     DerivedKeyTokenHeaderBlock dktHeaderBlock =
                             new DerivedKeyTokenHeaderBlock(
                             securityHeader.getOwnerDocument(), tokenRef, nonce, dkt.getOffset(), dkt.getLength() ,dktId);
-                    
+
                     Node next = (sctElement != null) ? sctElement.getNextSibling() : null;
-                    
+
                     if (next == null) {
                         Node reflist = context.getCurrentRefList();
                         if (reflist != null) {
@@ -1683,7 +1683,7 @@ public class SignatureProcessor{
                             context.setCurrentReferenceList(null);
                         }
                     }
-                    
+
                     SOAPElement dktElem = (SOAPElement)securityHeader.insertBefore(
                             dktHeaderBlock.getAsSoapElement(), next);
                     //Construct the STR for signature
@@ -1691,15 +1691,15 @@ public class SignatureProcessor{
                     refSig.setURI("#"+dktId);
                     SecurityTokenReference sigTokenRef = new SecurityTokenReference(secureMessage.getSOAPPart());
                     sigTokenRef.setReference(refSig);
-                    
+
                     // signature should be below DKT
                     nextSibling = dktElem.getNextSibling();
                     nxtSiblingContainer[0] = nextSibling;
-                    
+
                     keyInfo = dsigHelper.constructKeyInfo(signaturePolicy,sigTokenRef);
                     return keyInfo;
                 }
-                
+
             } else if ( PolicyTypeUtil.issuedTokenKeyBinding(keyBinding)) {
                 //Get the IssuedToken and insert it into the message
                 IssuedTokenContext issuedTokenContext =  context.getTrustContext();
@@ -1708,12 +1708,12 @@ public class SignatureProcessor{
                 SecurityTokenReference str = null;
                 Element strElem = null;
                 SOAPElement issuedTokenElementFromMsg = null;
-                
+
                 // check if the token is already present
                 IssuedTokenKeyBinding ikb = (IssuedTokenKeyBinding)keyBinding;
                 //String ikbPolicyId = ikb.getPolicyToken().getTokenId();
                 String ikbPolicyId = ikb.getUUID();
-                
+
                 //Look for TrustToken in TokenCache
                 HashMap tokCache = context.getTokenCache();
                 Object tok = tokCache.get(ikbPolicyId);
@@ -1727,7 +1727,7 @@ public class SignatureProcessor{
                     logger.log(Level.SEVERE, LogStringsMessages.WSS_1343_NULL_ISSUED_TOKEN());
                     throw new XWSSecurityException("Issued Token to be inserted into the Message was Null");
                 }
-                
+
                 if (issuedToken != null) {
                     // treat the token as an Opaque entity and just insert the token into message
                     Element elem = (Element)issuedToken.getTokenValue();
@@ -1751,27 +1751,27 @@ public class SignatureProcessor{
                         }
                     }
                 }
-                
+
                 if (includeIST) {
                     strElem = SecurityUtil.convertSTRToElement(issuedTokenContext.getAttachedSecurityTokenReference().getTokenValue(), secureMessage.getSOAPPart());
                 } else {
                     strElem = SecurityUtil.convertSTRToElement(issuedTokenContext.getUnAttachedSecurityTokenReference().getTokenValue(), secureMessage.getSOAPPart());
                 }
-                
+
                 if(strElem == null){
                     logger.log(Level.SEVERE, LogStringsMessages.WSS_1378_UNABLETO_REFER_ISSUE_TOKEN());
                     throw new XWSSecurityException("Cannot determine how to reference the Issued Token in the Message");
                 }
-                
+
                 //TODO: remove these expensive conversions
                 Element imported = (Element)secureMessage.getSOAPPart().importNode(strElem,true);
                 str = new SecurityTokenReference(
                         XMLUtil.convertToSoapElement(secureMessage.getSOAPPart(), (Element)imported.cloneNode(true)), false);
-                
+
                 if (originalKey != null) {
                     SecurityUtil.updateSamlVsKeyCache(str, context, originalKey);
                 }
-                
+
                 if (tokenElem != null) {
                     if(includeIST) {
 
@@ -1786,24 +1786,24 @@ public class SignatureProcessor{
                 } else if (issuedTokenElementFromMsg != null) {
                     nxtSiblingContainer[0] = issuedTokenElementFromMsg.getNextSibling();
                 }
-                
+
                 keyInfo = dsigHelper.constructKeyInfo(signaturePolicy,str);
                 return keyInfo;
-                
+
             } else if (PolicyTypeUtil.secureConversationTokenKeyBinding(keyBinding)){
-                
+
                 SecurityTokenReference secTokenRef = new SecurityTokenReference(secureMessage.getSOAPPart());
                 SecureConversationTokenKeyBinding sctBinding = (SecureConversationTokenKeyBinding)keyBinding;
                 SOAPElement sctElement = insertSCT(context, sctBinding, secTokenRef);
-                
+
                 // signature should be below SCT
                 nextSibling = (sctElement != null) ? sctElement.getNextSibling() : null;
                 nxtSiblingContainer[0] =  nextSibling;
-                
+
                 keyInfo = dsigHelper.constructKeyInfo(signaturePolicy,secTokenRef);
                 return keyInfo;
             }
-            
+
         } catch (SOAPException | Base64DecodingException | NoSuchAlgorithmException ex ) {
             logger.log(Level.SEVERE, LogStringsMessages.WSS_1346_ERROR_PREPARING_SYMMETRICKEY_SIGNATURE(), ex);
             throw new XWSSecurityException(ex);
@@ -1817,23 +1817,23 @@ public class SignatureProcessor{
         SecurableSoapMessage secureMessage = context.getSecurableSoapMessage();
         //String sctPolicyId = sctBinding.getPolicyToken().getTokenId();
         String sctPolicyId = sctBinding.getUUID();
-        
+
         //Look for SCT in TokenCache
         HashMap tokCache = context.getTokenCache();
         SecurityContextTokenImpl sct = null;
         sct = (SecurityContextTokenImpl)tokCache.get(sctPolicyId);
         boolean tokenInserted = false;
         SOAPElement sctElement = null;
-        
+
         IssuedTokenContext ictx = context.getSecureConversationContext();
-        
+
         if (sct == null) {
             SecurityContextToken sct1 =(SecurityContextToken)ictx.getSecurityToken();
             if (sct1 == null) {
                 logger.log(Level.SEVERE, LogStringsMessages.WSS_1347_NULL_SECURE_CONVERSATION_TOKEN());
                 throw new XWSSecurityException("SecureConversation Token not Found");
             }
-            
+
             sct = new SecurityContextTokenImpl(
                     secureMessage.getSOAPPart(), sct1.getIdentifier().toString(), sct1.getInstance(), sct1.getWsuId(), sct1.getExtElements());
             // put back in token cache
@@ -1843,7 +1843,7 @@ public class SignatureProcessor{
             // record the element
             sctElement = secureMessage.getElementByWsuId(sct.getWsuId());
         }
-        
+
         String sctWsuId = sct.getWsuId();
         if (sctWsuId == null) {
             sct.setId(secureMessage.generateId());
@@ -1854,15 +1854,15 @@ public class SignatureProcessor{
            KeyBindingBase.INCLUDE_ALWAYS.equals(iTokenType) ||
            KeyBindingBase.INCLUDE_ALWAYS_TO_RECIPIENT_VER2.equals(iTokenType) ||
            KeyBindingBase.INCLUDE_ALWAYS_VER2.equals(iTokenType)) {
-            
+
             if (!tokenInserted) {
                 secureMessage.findOrCreateSecurityHeader().insertHeaderBlock(sct);
                 // record the element
                 sctElement = secureMessage.getElementByWsuId(sct.getWsuId());
             }
-            
+
             DirectReference reference = new DirectReference();
-            
+
             reference.setURI("#" + sctWsuId);
             secTokenRef.setReference(reference);
         } else {
@@ -1871,7 +1871,7 @@ public class SignatureProcessor{
             reference.setSCTURI(sct.getIdentifier().toString(), sct.getInstance());
             secTokenRef.setReference(reference);
         }
-        
+
         return sctElement;
     }
     @SuppressWarnings("unchecked")
@@ -1879,28 +1879,28 @@ public class SignatureProcessor{
             SignaturePolicy signaturePolicy,
             AuthenticationTokenPolicy.X509CertificateBinding certInfo,
             Node[] nxtSiblingContainer) throws XWSSecurityException{
-        
+
         Node nextSibling = null;
         KeyInfo keyInfo = null;
         SecurableSoapMessage secureMessage = context.getSecurableSoapMessage();
         SecurityHeader securityHeader = secureMessage.findOrCreateSecurityHeader();
         WSSPolicyConsumerImpl dsigHelper = WSSPolicyConsumerImpl.getInstance();
-        
+
         HashMap tokenCache = context.getTokenCache();
         HashMap insertedX509Cache = context.getInsertedX509Cache();
         String x509id = certInfo.getUUID();
         if(x509id == null || x509id.equals("")){
             x509id = secureMessage.generateId();
         }
-        
+
         SecurityUtil.checkIncludeTokenPolicy(context, certInfo, x509id);
-        
+
         String referenceType = certInfo.getReferenceType();
         String strId = certInfo.getSTRID();
         if(strId == null){
             strId = secureMessage.generateId();
         }
-        
+
         try{
             if(referenceType.equals("Direct")){
                 DirectReference reference = new DirectReference();
@@ -1908,7 +1908,7 @@ public class SignatureProcessor{
                 String valueType= certInfo.getValueType();
                 if(valueType==null||valueType.equals("")){
                     valueType=MessageConstants.X509v3_NS;
-                    
+
                 }
                 reference.setValueType(valueType);
                 //Use DirectReferenceStrategy -
@@ -2001,187 +2001,187 @@ public class SignatureProcessor{
             throw new XWSSecurityException(e);
         }
     }
-    
+
     private static String getEKSHA1Ref(FilterProcessingContext context) {
         String ekSha1Ref = null;
         ekSha1Ref = (String) context.getExtraneousProperty(MessageConstants.EK_SHA1_VALUE);
         return ekSha1Ref;
     }
-    
+
     @SuppressWarnings("unchecked")
-	private static void verifySignatureAlgorithm(XMLSignature signature)
-			throws XWSSecurityException {
-		if (null == signature) {
-			logger.log(Level.FINE,
-					" null signature, no signature algorithm verification");
-			return;
-		}
-		SignedInfo signedInfo = signature.getSignedInfo();
-		if (null == signedInfo) {
-			String errorStr = LogStringsMessages
-					.WSS_1315_SIGNATURE_VERIFICATION_FAILED()
-					+ "at ds:SignedInfo";
-			logger.log(Level.SEVERE, errorStr + " ds:SignedInfo is NULL");
-			throw new XWSSecurityException(errorStr);
-		}
-		verifyCanonicalizationMethod(signedInfo.getCanonicalizationMethod());
-		verifyReferences(signedInfo.getReferences());
-		verifySignatureMethod(signedInfo.getSignatureMethod());
-	}
-	
-	public static void verifyCanonicalizationMethodAlgorithm(
-			String c14nMethodAlgorithm) throws XWSSecurityException {
-		if ((null == c14nMethodAlgorithm) || (c14nMethodAlgorithm.length() < 1)) {
-			String errorStr = LogStringsMessages
-					.WSS_1368_ILLEGAL_STR_CANONCALIZATION()
-					+ " at ds:CanonicalizationMethod Algorithm";
-			logger.log(Level.SEVERE, errorStr + "NULL Algorithm");
-			throw new XWSSecurityException(errorStr);
-		}
-		String algoStr = c14nMethodAlgorithm.trim();
-		for (int i = 0; i < SUPPORTED_CANONICALIZATION_METHOD_ALGORITHM.length; i++) {
-			if (SUPPORTED_CANONICALIZATION_METHOD_ALGORITHM[i].equals(algoStr)) {
-				return;
-			}
-		}
+    private static void verifySignatureAlgorithm(XMLSignature signature)
+            throws XWSSecurityException {
+        if (null == signature) {
+            logger.log(Level.FINE,
+                    " null signature, no signature algorithm verification");
+            return;
+        }
+        SignedInfo signedInfo = signature.getSignedInfo();
+        if (null == signedInfo) {
+            String errorStr = LogStringsMessages
+                    .WSS_1315_SIGNATURE_VERIFICATION_FAILED()
+                    + "at ds:SignedInfo";
+            logger.log(Level.SEVERE, errorStr + " ds:SignedInfo is NULL");
+            throw new XWSSecurityException(errorStr);
+        }
+        verifyCanonicalizationMethod(signedInfo.getCanonicalizationMethod());
+        verifyReferences(signedInfo.getReferences());
+        verifySignatureMethod(signedInfo.getSignatureMethod());
+    }
 
-		String errorStr = LogStringsMessages.WSS_1320_STR_UN_TRANSFORM_ERROR()
-				+ " Unexpected ds:CanonicalizationMethod, ["
-				+ c14nMethodAlgorithm + "]";
-		logger.log(Level.SEVERE, errorStr
-				+ " Unknown ds:CanonicalizationMethod Algorithm");
-		throw new XWSSecurityException(errorStr);
-	}
+    public static void verifyCanonicalizationMethodAlgorithm(
+            String c14nMethodAlgorithm) throws XWSSecurityException {
+        if ((null == c14nMethodAlgorithm) || (c14nMethodAlgorithm.length() < 1)) {
+            String errorStr = LogStringsMessages
+                    .WSS_1368_ILLEGAL_STR_CANONCALIZATION()
+                    + " at ds:CanonicalizationMethod Algorithm";
+            logger.log(Level.SEVERE, errorStr + "NULL Algorithm");
+            throw new XWSSecurityException(errorStr);
+        }
+        String algoStr = c14nMethodAlgorithm.trim();
+        for (int i = 0; i < SUPPORTED_CANONICALIZATION_METHOD_ALGORITHM.length; i++) {
+            if (SUPPORTED_CANONICALIZATION_METHOD_ALGORITHM[i].equals(algoStr)) {
+                return;
+            }
+        }
 
-	private static void verifyReferences(List<Reference> referenceList)
-			throws XWSSecurityException {
-		if (null == referenceList || referenceList.size() < 1) {
-			String errorStr = LogStringsMessages
-					.WSS_1315_SIGNATURE_VERIFICATION_FAILED()
-					+ " at ds:Reference ";
-			logger.log(Level.SEVERE, errorStr + " Empty or NULL ");
-			throw new XWSSecurityException(errorStr);
-		}
-		for (int i = 0; i < referenceList.size(); i++) {
-			Reference ref = referenceList.get(i);
-			verifyTransforms(ref.getTransforms());
-			verifyDigestMethod(ref.getDigestMethod());
-		}
-	}
+        String errorStr = LogStringsMessages.WSS_1320_STR_UN_TRANSFORM_ERROR()
+                + " Unexpected ds:CanonicalizationMethod, ["
+                + c14nMethodAlgorithm + "]";
+        logger.log(Level.SEVERE, errorStr
+                + " Unknown ds:CanonicalizationMethod Algorithm");
+        throw new XWSSecurityException(errorStr);
+    }
 
-	private static void verifyDigestMethod(DigestMethod digestMethod)
-			throws XWSSecurityException {
-		// WSS_1765_INVALID_DEGEST_ALGO
-		if (null == digestMethod || null == digestMethod.getAlgorithm()) {
-			String errorStr = LogStringsMessages
-					.WSS_1301_INVALID_DIGEST_ALGO(null)
-					+ "at ds:Reference/ds:DigestMethod";
-			logger.log(Level.SEVERE, errorStr + " is NULL");
-			throw new XWSSecurityException(errorStr);
-		}
-		// todo: verify <ds:DigestMethod Algorithm >
-	}
+    private static void verifyReferences(List<Reference> referenceList)
+            throws XWSSecurityException {
+        if (null == referenceList || referenceList.size() < 1) {
+            String errorStr = LogStringsMessages
+                    .WSS_1315_SIGNATURE_VERIFICATION_FAILED()
+                    + " at ds:Reference ";
+            logger.log(Level.SEVERE, errorStr + " Empty or NULL ");
+            throw new XWSSecurityException(errorStr);
+        }
+        for (int i = 0; i < referenceList.size(); i++) {
+            Reference ref = referenceList.get(i);
+            verifyTransforms(ref.getTransforms());
+            verifyDigestMethod(ref.getDigestMethod());
+        }
+    }
 
-	private static void verifyTransforms(List<?> trList)
-			throws XWSSecurityException {
-		if (null == trList || trList.size() < 1 || trList.size() > 1) {
-			String errorStr = LogStringsMessages
-					.WSS_1342_ILLEGAL_UNMATCHED_TRANSFORMS() + " Empty or NULL";
-			logger.log(Level.SEVERE, errorStr + " at ds:Transforms");
-			return; // throw new XWSSecurityException(errorStr);
-		}
-		// Only support one Tranform here
-		verifyTransform((Transform) trList.get(0));
-	}
+    private static void verifyDigestMethod(DigestMethod digestMethod)
+            throws XWSSecurityException {
+        // WSS_1765_INVALID_DEGEST_ALGO
+        if (null == digestMethod || null == digestMethod.getAlgorithm()) {
+            String errorStr = LogStringsMessages
+                    .WSS_1301_INVALID_DIGEST_ALGO(null)
+                    + "at ds:Reference/ds:DigestMethod";
+            logger.log(Level.SEVERE, errorStr + " is NULL");
+            throw new XWSSecurityException(errorStr);
+        }
+        // todo: verify <ds:DigestMethod Algorithm >
+    }
 
-	private static void verifyTransform(Transform tr)
-			throws XWSSecurityException {
-		// WSS_1300_DSIG_TRANSFORM_PARAM_ERROR()
-		if (null == tr) {
-			String errorStr = LogStringsMessages
-					.WSS_1342_ILLEGAL_UNMATCHED_TRANSFORMS() + " Empty or NULL";
-			logger.log(Level.SEVERE, errorStr + "Null ds:Transform found");
-			throw new XWSSecurityException(errorStr);
-		}
-		if (MessageConstants.STR_TRANSFORM_URI.equals(tr.getAlgorithm())) {
-			verifyStrTransform(tr);
-		}
-		// Todo: Add other transform verifications
-	}
+    private static void verifyTransforms(List<?> trList)
+            throws XWSSecurityException {
+        if (null == trList || trList.size() < 1 || trList.size() > 1) {
+            String errorStr = LogStringsMessages
+                    .WSS_1342_ILLEGAL_UNMATCHED_TRANSFORMS() + " Empty or NULL";
+            logger.log(Level.SEVERE, errorStr + " at ds:Transforms");
+            return; // throw new XWSSecurityException(errorStr);
+        }
+        // Only support one Tranform here
+        verifyTransform((Transform) trList.get(0));
+    }
 
-	private static void verifyStrTransform(Transform tr)
-			throws XWSSecurityException {
-		// WSS_1300_DSIG_TRANSFORM_PARAM_ERROR()
-		AlgorithmParameterSpec algoParaSpec = tr.getParameterSpec();
-		if ((null == algoParaSpec)
-				|| !(algoParaSpec instanceof DOMSTRTransform.STRTransformParameterSpec)) {
-			String errorStr = LogStringsMessages
-					.WSS_1300_DSIG_TRANSFORM_PARAM_ERROR()
-					+ " at ds:Transform/wsse:TransformationParameters";
-			logger.log(
-					Level.SEVERE,
-					errorStr
-							+ "Error on wsse:TransformationParameters for #STR-Transform");
-			throw new XWSSecurityException(errorStr);
-		}
-		DOMSTRTransform.STRTransformParameterSpec spec = (DOMSTRTransform.STRTransformParameterSpec) algoParaSpec;
-		verifyCanonicalizationMethod(spec.getCanonicalizationMethod());
-	}
+    private static void verifyTransform(Transform tr)
+            throws XWSSecurityException {
+        // WSS_1300_DSIG_TRANSFORM_PARAM_ERROR()
+        if (null == tr) {
+            String errorStr = LogStringsMessages
+                    .WSS_1342_ILLEGAL_UNMATCHED_TRANSFORMS() + " Empty or NULL";
+            logger.log(Level.SEVERE, errorStr + "Null ds:Transform found");
+            throw new XWSSecurityException(errorStr);
+        }
+        if (MessageConstants.STR_TRANSFORM_URI.equals(tr.getAlgorithm())) {
+            verifyStrTransform(tr);
+        }
+        // Todo: Add other transform verifications
+    }
 
-	private static void verifyCanonicalizationMethod(
-			CanonicalizationMethod canonicalizationMethod)
-			throws XWSSecurityException {
-		if (null == canonicalizationMethod) {
-			String errorStr = LogStringsMessages
-					.WSS_1368_ILLEGAL_STR_CANONCALIZATION()
-					+ " at ds:CanonicalizationMethod";
-			logger.log(Level.SEVERE, errorStr
-					+ " NULL ds:CanonicalizationMethod");
-			throw new XWSSecurityException(errorStr);
-		}
-		verifyCanonicalizationMethodAlgorithm(canonicalizationMethod
-				.getAlgorithm());
+    private static void verifyStrTransform(Transform tr)
+            throws XWSSecurityException {
+        // WSS_1300_DSIG_TRANSFORM_PARAM_ERROR()
+        AlgorithmParameterSpec algoParaSpec = tr.getParameterSpec();
+        if ((null == algoParaSpec)
+                || !(algoParaSpec instanceof DOMSTRTransform.STRTransformParameterSpec)) {
+            String errorStr = LogStringsMessages
+                    .WSS_1300_DSIG_TRANSFORM_PARAM_ERROR()
+                    + " at ds:Transform/wsse:TransformationParameters";
+            logger.log(
+                    Level.SEVERE,
+                    errorStr
+                            + "Error on wsse:TransformationParameters for #STR-Transform");
+            throw new XWSSecurityException(errorStr);
+        }
+        DOMSTRTransform.STRTransformParameterSpec spec = (DOMSTRTransform.STRTransformParameterSpec) algoParaSpec;
+        verifyCanonicalizationMethod(spec.getCanonicalizationMethod());
+    }
 
-	}
+    private static void verifyCanonicalizationMethod(
+            CanonicalizationMethod canonicalizationMethod)
+            throws XWSSecurityException {
+        if (null == canonicalizationMethod) {
+            String errorStr = LogStringsMessages
+                    .WSS_1368_ILLEGAL_STR_CANONCALIZATION()
+                    + " at ds:CanonicalizationMethod";
+            logger.log(Level.SEVERE, errorStr
+                    + " NULL ds:CanonicalizationMethod");
+            throw new XWSSecurityException(errorStr);
+        }
+        verifyCanonicalizationMethodAlgorithm(canonicalizationMethod
+                .getAlgorithm());
 
-	private static String[] SUPPORTED_CANONICALIZATION_METHOD_ALGORITHM = new String[] {
-	/*
-	 * The <a href="http://www.w3.org/TR/2001/REC-xml-c14n-20010315">Canonical
-	 * XML (without comments)</a> canonicalization method algorithm URI. String
-	 * INCLUSIVE = "http://www.w3.org/TR/2001/REC-xml-c14n-20010315";
-	 */
-	CanonicalizationMethod.INCLUSIVE,
-	/*
-	 * The <a
-	 * href="http://www.w3.org/TR/2001/REC-xml-c14n-20010315#WithComments">
-	 * Canonical XML with comments</a> canonicalization method algorithm URI.
-	 * String INCLUSIVE_WITH_COMMENTS =
-	 * "http://www.w3.org/TR/2001/REC-xml-c14n-20010315#WithComments";
-	 */
+    }
 
-	CanonicalizationMethod.INCLUSIVE_WITH_COMMENTS,
-	/*
-	 * The <a href="http://www.w3.org/2001/10/xml-exc-c14n#">Exclusive Canonical
-	 * XML (without comments)</a> canonicalization method algorithm URI. String
-	 * EXCLUSIVE = "http://www.w3.org/2001/10/xml-exc-c14n#";
-	 */
-	CanonicalizationMethod.EXCLUSIVE,
-	/*
-	 * The <a href="http://www.w3.org/2001/10/xml-exc-c14n#WithComments">
-	 * Exclusive Canonical XML with comments</a> canonicalization method
-	 * algorithm URI. String EXCLUSIVE_WITH_COMMENTS =
-	 * "http://www.w3.org/2001/10/xml-exc-c14n#WithComments";
-	 */
-	CanonicalizationMethod.EXCLUSIVE_WITH_COMMENTS };
+    private static String[] SUPPORTED_CANONICALIZATION_METHOD_ALGORITHM = new String[] {
+    /*
+     * The <a href="http://www.w3.org/TR/2001/REC-xml-c14n-20010315">Canonical
+     * XML (without comments)</a> canonicalization method algorithm URI. String
+     * INCLUSIVE = "http://www.w3.org/TR/2001/REC-xml-c14n-20010315";
+     */
+    CanonicalizationMethod.INCLUSIVE,
+    /*
+     * The <a
+     * href="http://www.w3.org/TR/2001/REC-xml-c14n-20010315#WithComments">
+     * Canonical XML with comments</a> canonicalization method algorithm URI.
+     * String INCLUSIVE_WITH_COMMENTS =
+     * "http://www.w3.org/TR/2001/REC-xml-c14n-20010315#WithComments";
+     */
 
-	private static void verifySignatureMethod(SignatureMethod signatureMethod)
-			throws XWSSecurityException {
-		if (null == signatureMethod || null == signatureMethod.getAlgorithm()) {
-			String errorStr = LogStringsMessages
-					.WSS_1315_SIGNATURE_VERIFICATION_FAILED()
-					+ "at ds:SignedInfo/ds:SignatureMethod";
-			logger.log(Level.SEVERE, errorStr + " is NULL");
-			throw new XWSSecurityException(errorStr);
-		}
-	}
+    CanonicalizationMethod.INCLUSIVE_WITH_COMMENTS,
+    /*
+     * The <a href="http://www.w3.org/2001/10/xml-exc-c14n#">Exclusive Canonical
+     * XML (without comments)</a> canonicalization method algorithm URI. String
+     * EXCLUSIVE = "http://www.w3.org/2001/10/xml-exc-c14n#";
+     */
+    CanonicalizationMethod.EXCLUSIVE,
+    /*
+     * The <a href="http://www.w3.org/2001/10/xml-exc-c14n#WithComments">
+     * Exclusive Canonical XML with comments</a> canonicalization method
+     * algorithm URI. String EXCLUSIVE_WITH_COMMENTS =
+     * "http://www.w3.org/2001/10/xml-exc-c14n#WithComments";
+     */
+    CanonicalizationMethod.EXCLUSIVE_WITH_COMMENTS };
+
+    private static void verifySignatureMethod(SignatureMethod signatureMethod)
+            throws XWSSecurityException {
+        if (null == signatureMethod || null == signatureMethod.getAlgorithm()) {
+            String errorStr = LogStringsMessages
+                    .WSS_1315_SIGNATURE_VERIFICATION_FAILED()
+                    + "at ds:SignedInfo/ds:SignatureMethod";
+            logger.log(Level.SEVERE, errorStr + " is NULL");
+            throw new XWSSecurityException(errorStr);
+        }
+    }
 }

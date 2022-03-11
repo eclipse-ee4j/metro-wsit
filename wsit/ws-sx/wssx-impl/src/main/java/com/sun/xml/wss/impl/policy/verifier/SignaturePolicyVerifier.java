@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -34,14 +34,14 @@ import com.sun.xml.wss.impl.MessageConstants;
  * @author K.Venugopal@sun.com
  */
 public class SignaturePolicyVerifier implements PolicyVerifier{
-    
+
     FilterProcessingContext context;
-    
+
     /** Creates a new instance of SignaturePolicyVerifier */
     public SignaturePolicyVerifier (FilterProcessingContext context) {
         this.context = context;
     }
-    
+
     /**
      *
      * @param configPolicy Policy configured for the incoming message.
@@ -50,7 +50,7 @@ public class SignaturePolicyVerifier implements PolicyVerifier{
      * is configured.
      *
      */
-    
+
     /*
      * Note : Right now we dont check Signature Target requirements here. We should come up
      * with a better and yet performant design as policy requirements get clear.
@@ -58,19 +58,19 @@ public class SignaturePolicyVerifier implements PolicyVerifier{
      */
     @Override
     public void verifyPolicy (SecurityPolicy configPolicy, SecurityPolicy recvdPolicy) throws PolicyViolationException {
-        
+
         if(PolicyTypeUtil.signaturePolicy (configPolicy) && PolicyTypeUtil.signaturePolicy (recvdPolicy)){
             SignaturePolicy rsignPolicy = (SignaturePolicy)recvdPolicy;
             SignaturePolicy csignPolicy = (SignaturePolicy)configPolicy;
-            
+
             SignaturePolicy.FeatureBinding rfBinding = (SignaturePolicy.FeatureBinding)rsignPolicy.getFeatureBinding ();
             SignaturePolicy.FeatureBinding cfBinding = (SignaturePolicy.FeatureBinding)csignPolicy.getFeatureBinding ();
-            
+
             String cCanonAlgo = cfBinding.getCanonicalizationAlgorithm ();
             String rCanonAlgo = rfBinding.getCanonicalizationAlgorithm ();
             if(cCanonAlgo == null || rCanonAlgo == null ){
                throw new PolicyViolationException("Either Policy configured or Policy inferred is null "
-                       +"while verifying inferredPolicy with configuredPolicy"); 
+                       +"while verifying inferredPolicy with configuredPolicy");
             }
             if(cCanonAlgo.length () >0 && rCanonAlgo.length () >0 ){
                 if(!rCanonAlgo.equals (cCanonAlgo)){
@@ -102,7 +102,7 @@ public class SignaturePolicyVerifier implements PolicyVerifier{
                 }else if(cKeyType == PolicyTypeUtil.X509CERTIFICATE_TYPE ){
                     checkX509CertificateBinding ((X509CertificateBinding)ckeyBinding,(X509CertificateBinding)rkeyBinding);
                 }
-                
+
             }*/
         }
     }
@@ -112,27 +112,27 @@ public class SignaturePolicyVerifier implements PolicyVerifier{
      * @param recvdPolicy SAMLAssertionBinding
      */
     private void checkSAMLAssertionBinding (SAMLAssertionBinding configPolicy , SAMLAssertionBinding recvdPolicy)throws PolicyViolationException {
-        
+
         boolean matched = true;
-        
+
         String _cAI = configPolicy.getAuthorityIdentifier ();
         String _rAI = recvdPolicy.getAuthorityIdentifier ();
         if((_cAI != null && _cAI.length () > 0 ) && _rAI != null){
             matched = _cAI.equals (_rAI);
             _throwError (configPolicy,recvdPolicy,matched);
-        }        
-       
+        }
+
     }
-    
+
     /**
      * verifies whether the configured and received policies are same or not
      * @param configPolicy X509CertificateBinding
      * @param recvdPolicy X509CertificateBinding
      */
     private void checkX509CertificateBinding (X509CertificateBinding configPolicy , X509CertificateBinding recvdPolicy)throws PolicyViolationException {
-        
+
         boolean matched = true;
-        
+
         configPolicy = setReferenceType(configPolicy);
         String ckeyAlg = configPolicy.getKeyAlgorithm ();
         String rkeyAlg = recvdPolicy.getKeyAlgorithm ();
@@ -140,18 +140,18 @@ public class SignaturePolicyVerifier implements PolicyVerifier{
             matched = ckeyAlg.equals (rkeyAlg);
         }
         _throwError (configPolicy,recvdPolicy,matched);
-        
+
         /*String cRT = configPolicy.getReferenceType ();
         String rRT = recvdPolicy.getReferenceType ();
-        
+
         if(cRT != null && cRT.length () > 0 ){
             matched = cRT.equals (rRT);
         }
         _throwError (configPolicy,recvdPolicy,matched);*/
-        
+
         String cVT = configPolicy.getValueType ();
         String rVT = recvdPolicy.getValueType ();
-        
+
         if(cVT != null && cVT.length () > 0 && rVT.length () >0){
             matched = cVT.equals (rVT);
         }
@@ -159,7 +159,7 @@ public class SignaturePolicyVerifier implements PolicyVerifier{
         /*
         String cCI = configPolicy.getCertificateIdentifier ();
         String rCI = recvdPolicy.getCertificateIdentifier ();
-         
+
         if(cCI != null && cCI.length () > 0 ){
             matched = cCI.equals (rCI);
         }
@@ -190,7 +190,7 @@ public class SignaturePolicyVerifier implements PolicyVerifier{
      * @return  configPolicy X509CertificateBinding
      */
     private X509CertificateBinding setReferenceType(X509CertificateBinding configPolicy){
-        
+
             //Token policyToken = configPolicy.getPolicyToken();
             //if (policyToken != null) {
               if (configPolicy.policyTokenWasSet()) {
@@ -210,7 +210,7 @@ public class SignaturePolicyVerifier implements PolicyVerifier{
                     }
                 }
              }
-        
+
         return configPolicy;
     }
 }

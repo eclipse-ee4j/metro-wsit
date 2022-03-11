@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -54,7 +54,7 @@ class RmConfigurationImpl extends RxConfigurationBase implements RmConfiguration
         checkState();
         return rmFeature;
     }
-    
+
     @Override
     public @Nullable com.oracle.webservices.oracle_internal_api.rm.ReliableMessagingFeature getInternalRmFeature() {
         return internalRmFeature;
@@ -71,15 +71,15 @@ class RmConfigurationImpl extends RxConfigurationBase implements RmConfiguration
             throw new IllegalStateException("Reliable messaging feature is not enabled");
         }
     }
-    
+
     @Override
     public String toString() {
-        return "RmConfigurationImpl" + 
-                "{\nrmFeature=" + rmFeature + 
-                "{\ninternalRmFeature=" + internalRmFeature + 
-                ",\nruntimeVersion=" + runtimeVersion + 
+        return "RmConfigurationImpl" +
+                "{\nrmFeature=" + rmFeature +
+                "{\ninternalRmFeature=" + internalRmFeature +
+                ",\nruntimeVersion=" + runtimeVersion +
                 "\n}";
     }
-    
-    
+
+
 }

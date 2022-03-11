@@ -62,7 +62,7 @@ import com.sun.xml.wss.logging.LogStringsMessages;
 import java.net.MalformedURLException;
 
 public class XMLUtil {
-    
+
     /**
      * This is a custom XML handler to load the dtds from the classpath
      * This should be used by all the xml parsing document builders to
@@ -73,45 +73,45 @@ public class XMLUtil {
      * jar://com/sun/identity/sm/sms.dtd
      * Bundle all the dtds along with the jar files and
      */
-    
+
    protected static final Logger logger =  Logger.getLogger(
             LogDomainConstants.WSS_API_DOMAIN,LogDomainConstants.WSS_API_DOMAIN_BUNDLE);
-        
-        
+
+
     static class XMLHandler extends DefaultHandler {
-        
+
         /**
          * This method reads the resource from a reader
          */
         String read(Reader aReader) {
             StringBuilder sb = new StringBuilder();
-            
+
             try {
                 BufferedReader bReader = new BufferedReader(aReader);
                 char[] data = new char[2048];
                 int count = 0;
-                
+
                 while ((count = bReader.read(data)) != -1) {
                     sb.append(data, 0, count);
                 }
-                
+
                 //while loop
                 bReader.close();
                 aReader.close();
             } catch (IOException e) {
             }
-            
+
             //try/catch
             return sb.toString();
         }
-        
+
         /**
          * This method reads the resource from the classloader which load this class
          */
         String read(String fileName) {
             return read(fileName, XMLUtil.class);
         }
-        
+
         /**
          * Reads the resource from a class loader.
          *
@@ -121,10 +121,10 @@ public class XMLUtil {
          */
         String read(String fileName, Class cl) {
             String data = "";
-            
+
            try {
                 InputStream in = cl.getResourceAsStream(fileName);
-                
+
                 //may be absoulte file path is given
                 if (in == null) {
                     try {
@@ -141,7 +141,7 @@ public class XMLUtil {
                         in = url.openStream();
                     }
                 }
-                
+
                 //if
                 data = read(new InputStreamReader(in));
                 in.close();
@@ -149,40 +149,40 @@ public class XMLUtil {
                 //ignoring this as well
             } catch(IOException e) {
                 //ignore
-            } 
-            
+            }
+
             //try/catch
             return data;
         }
         @Override
         public InputSource resolveEntity(String aPublicID, String aSystemID) {
             String sysid = aSystemID.trim();
-            
+
             if (sysid.toLowerCase().startsWith("jar://")) {
                 String dtdname = sysid.substring(5);
                 String dtdValue = read(dtdname).trim();
-                
+
                 return new InputSource(new StringReader(dtdValue));
             }
-            
+
             return null;
         }
     }
-    
-    
+
+
     protected static SOAPFactory soapFactory;
     static {
         try {
             soapFactory = SOAPFactory.newInstance();
         } catch (SOAPException e) {
-            
+
         }
     }
-    
-    
-    
+
+
+
     private static boolean validating = false;
-    
+
     /**
      * convertToSoapElement
      *
@@ -196,7 +196,7 @@ public class XMLUtil {
             return (SOAPElement) elem;
         return (SOAPElement) doc.importNode(elem, true);
     }
-    
+
     /**
      * This method searches children of Element element for element with tagName
      * and namespaceURI nsName. It searchs one level down only.
@@ -216,63 +216,63 @@ public class XMLUtil {
             Node child = null;
             String childName;
             String childNS;
-            
+
             for (int i = 0; i < length; i++) {
                 child = nl.item(i);
                 childName = child.getLocalName();
                 childNS = child.getNamespaceURI();
-                
+
                 if ((childName != null) && (childName.equals(tagName)) &&
                 (childNS != null) && (childNS.equals(nsName))) {
                     list.add(child);
                 }
             }
         }
-        
+
         return list;
     }
-    
+
     public static String getFullTextFromChildren(Element element) {
         if (element == null) {
             return null;
         }
-        
+
         StringBuilder sb = new StringBuilder(1000);
         NodeList nl = element.getChildNodes();
         Node child = null;
         int length = nl.getLength();
-        
+
         for (int i = 0; i < length; i++) {
             child = nl.item(i);
-            
+
             if (child.getNodeType() == Node.TEXT_NODE) {
                 sb.append(child.getNodeValue());
             }
         }
-        
+
         return sb.toString().trim();
     }
-    
+
     public static boolean inEncryptionNS(SOAPElement element) {
         return element.getNamespaceURI().equals(MessageConstants.XENC_NS);
     }
-    
+
     public static boolean inSamlNSv1_0(SOAPElement element) {
         return element.getNamespaceURI().equals(MessageConstants.SAML_v1_0_NS);
     }
-    
+
     public static boolean inSamlNSv2_0(SOAPElement element) {
         return element.getNamespaceURI().equals(MessageConstants.SAML_v2_0_NS);
     }
-    
+
     public static boolean inSamlNSv1_1(SOAPElement element) {
         return element.getNamespaceURI().equals(MessageConstants.SAML_v1_1_NS);
     }
-    
+
     public static boolean inSignatureNS(SOAPElement element) {
         return element.getNamespaceURI().equals(MessageConstants.DSIG_NS);
     }
-    
+
     public static boolean inWsseNS(SOAPElement element) {
         return element.getNamespaceURI().equals(MessageConstants.WSSE_NS);
     }
@@ -280,7 +280,7 @@ public class XMLUtil {
     public static boolean inWsscNS(SOAPElement element) {
         return element.getNamespaceURI().equals(MessageConstants.WSSC_NS);
     }
-    
+
     public static boolean inWsse11NS(SOAPElement element){
         return element.getNamespaceURI().equals(MessageConstants.WSSE11_NS);
     }
@@ -288,12 +288,12 @@ public class XMLUtil {
     public static boolean inWSS11_NS(SOAPElement element) {
         return element.getNamespaceURI().equals(MessageConstants.WSS11_SPEC_NS);
     }
-        
-            
+
+
     public static boolean inWsuNS(SOAPElement element) {
         return element.getNamespaceURI().equals(MessageConstants.WSU_NS);
     }
-    
+
     public static String resolveXPath(Node element) throws Exception {
         if (element.getOwnerDocument() == null) {
             logger.log(Level.SEVERE,LogStringsMessages.WSS_0424_NULL_OWNER_DOCUMENT_ELEMENT());
@@ -316,32 +316,32 @@ public class XMLUtil {
         xpath.insert(0, "./");
         return xpath.toString();
     }
-    
+
     public static Element prependChildElement(
     Element parent,
     Element child,
     boolean addWhitespace,
     Document doc) {
-        
+
         Node firstChild = parent.getFirstChild();
         if (firstChild == null) {
             parent.appendChild(child);
         } else {
             parent.insertBefore(child, firstChild);
         }
-        
+
         if (addWhitespace) {
             Node whitespaceText = doc.createTextNode("\n");
             parent.insertBefore(whitespaceText, child);
         }
         return child;
     }
-    
+
     public static Element prependChildElement(
     Element parent, Element child, Document doc) {
         return prependChildElement(parent, child, true, doc);
     }
-    
+
     /**
      * Print a Node tree recursively.
      * @param node A DOM tree Node
@@ -351,111 +351,111 @@ public class XMLUtil {
         if (node == null) {
             return null;
         }
-        
+
         StringBuilder xml = new StringBuilder(100);
         int type = node.getNodeType();
-        
+
         switch (type) {
             // print element with attributes
             case Node.ELEMENT_NODE: {
                 xml.append('<');
                 xml.append(node.getNodeName());
-                
+
                 NamedNodeMap attrs = node.getAttributes();
                 int length = attrs.getLength();
                 ;
-                
+
                 for (int i = 0; i < length; i++) {
                     Attr attr = (Attr) attrs.item(i);
                     xml.append(' ');
                     xml.append(attr.getNodeName());
                     xml.append("=\"");
-                    
+
                     //xml.append(normalize(attr.getNodeValue()));
                     xml.append(attr.getNodeValue());
                     xml.append('"');
                 }
-                
+
                 xml.append('>');
-                
+
                 NodeList children = node.getChildNodes();
-                
+
                 if (children != null) {
                     int len = children.getLength();
-                    
+
                     for (int i = 0; i < len; i++) {
                         xml.append(print(children.item(i)));
                     }
                 }
-                
+
                 break;
             }
-            
+
             // handle entity reference nodes
             case Node.ENTITY_REFERENCE_NODE: {
                 NodeList children = node.getChildNodes();
-                
+
                 if (children != null) {
                     int len = children.getLength();
-                    
+
                     for (int i = 0; i < len; i++) {
                         xml.append(print(children.item(i)));
                     }
                 }
-                
+
                 break;
             }
-            
+
             // print cdata sections
             case Node.CDATA_SECTION_NODE: {
                 xml.append("<![CDATA[");
                 xml.append(node.getNodeValue());
                 xml.append("]]>");
-                
+
                 break;
             }
-            
+
             // print text
             case Node.TEXT_NODE: {
                 //xml.append(normalize(node.getNodeValue()));
                 xml.append(node.getNodeValue());
-                
+
                 break;
             }
-            
+
             // print processing instruction
             case Node.PROCESSING_INSTRUCTION_NODE: {
                 xml.append("<?");
                 xml.append(node.getNodeName());
-                
+
                 String data = node.getNodeValue();
-                
+
                 if ((data != null) && (data.length() > 0)) {
                     xml.append(' ');
                     xml.append(data);
                 }
-                
+
                 xml.append("?>");
-                
+
                 break;
             }
         }
-        
+
         if (type == Node.ELEMENT_NODE) {
             xml.append("</");
             xml.append(node.getNodeName());
             xml.append('>');
         }
-        
+
         return xml.toString();
     }
-    
+
 //    public static  Node selectSingleNode(
 //    Node contextNode,
 //    String xpath,
 //    Element nsContext)
 //    throws XWSSecurityException {
-//        
+//
 //        try {
 //            return XPathAPI.selectSingleNode(contextNode, xpath, nsContext);
 //        } catch (TransformerException e) {
@@ -463,7 +463,7 @@ public class XMLUtil {
 //            throw new XWSSecurityException("Unable to resolve XPath", e);
 //        }
 //    }
-    
+
     public static void setWsuIdAttr(Element element, String wsuId) {
         element.setAttributeNS(
         MessageConstants.NAMESPACES_NS,
@@ -474,12 +474,12 @@ public class XMLUtil {
         MessageConstants.WSU_ID_QNAME,
         wsuId);
     }
-    
+
      public static void setIdAttr(Element element, String Id) {
         element.setAttribute("Id", Id);
-        element.setIdAttribute("Id", true);        
+        element.setIdAttribute("Id", true);
     }
-    
+
     /**
      * Converts the XML document from an input stream  to DOM Document format.
      *
@@ -492,7 +492,7 @@ public class XMLUtil {
            synchronizing a single instance of the factory and obtaining the builder
          */
         DocumentBuilderFactory dbFactory = null;
-        
+
         try {
             // Assign new debug object
             dbFactory = WSITXMLFactory.createDocumentBuilderFactory(WSITXMLFactory.DISABLE_SECURE_PROCESSING);
@@ -501,17 +501,17 @@ public class XMLUtil {
             dbFactory.setNamespaceAware(true);
         } catch (Exception e) {
         }
-        
+
         try {
             DocumentBuilder documentBuilder = dbFactory.newDocumentBuilder();
-            
+
             if (documentBuilder == null) {
                 return null;
             }
-            
+
             documentBuilder.setEntityResolver(new XMLHandler());
             //XMLHandler());
-            
+
             return documentBuilder.parse(is);
         } catch (Exception e) {
             // Since there may potentially be several invalid XML documents
@@ -520,7 +520,7 @@ public class XMLUtil {
             return null;
         }
     }
-    
+
     /**
      * Converts the XML document from a String format to DOM Document format.
      *
@@ -539,7 +539,7 @@ public class XMLUtil {
 
         return toDOMDocument(is);
     }
-    
+
     /**
      * Obtains a new instance of a DOM Document object
      * @return a new instance of a DOM Document object
@@ -550,10 +550,10 @@ public class XMLUtil {
         DocumentBuilderFactory dbFactory = WSITXMLFactory.createDocumentBuilderFactory(WSITXMLFactory.DISABLE_SECURE_PROCESSING);
         dbFactory.setNamespaceAware(true);
         dbFactory.setValidating(validating);
-        
+
         return dbFactory.newDocumentBuilder().newDocument();
     }
-    
+
     /**
      * Checks if a node has a child of ELEMENT type.
      * @param node a node
@@ -563,18 +563,18 @@ public class XMLUtil {
         NodeList nl = node.getChildNodes();
         Node child = null;
         int length = nl.getLength();
-        
+
         for (int i = 0; i < length; i++) {
             child = nl.item(i);
-            
+
             if (child.getNodeType() == Node.ELEMENT_NODE) {
                 return true;
             }
         }
-        
+
         return false;
     }
-    
+
     public static DSAKeyValue getDSAKeyValue(
     Document doc, X509Certificate cert) throws XWSSecurityException {
         try {
@@ -589,13 +589,13 @@ public class XMLUtil {
             dsaPkSpec.getQ(),
             dsaPkSpec.getG(),
             dsaPkSpec.getY());
-            
+
         } catch (Exception e) {
             logger.log(Level.SEVERE,LogStringsMessages.WSS_0426_FAILED_DSA_KEY_VALUE(), e);
             throw new XWSSecurityException(e);
         }
     }
-    
+
     public static RSAKeyValue getRSAKeyValue(
     Document doc, X509Certificate cert) throws XWSSecurityException {
         try {
@@ -609,13 +609,13 @@ public class XMLUtil {
             rsaPkSpec.getModulus(),
             rsaPkSpec.getPublicExponent()
             );
-            
+
         } catch (Exception e) {
             logger.log(Level.SEVERE, LogStringsMessages.WSS_0293_FAILED_RSA_KEY_VALUE(), e);
             throw new XWSSecurityException(e);
         }
     }
-    
+
     // The X509Certificate element, which contains
     // a base64-encoded [X509v3] certificate is added into the X509Data
     public static X509Data getX509Data(
@@ -629,7 +629,7 @@ public class XMLUtil {
             throw new XWSSecurityException(e);
         }
     }
-    
+
      // Looks up elements with wsu:Id or Id in xenc or dsig namespace.
      //
      // @param doc
@@ -656,14 +656,14 @@ public class XMLUtil {
 //        if (sdoc == null) {
 //            sdoc = doc;
 //        }
-//                                                                                                                     
+//
 //        Element nscontext = XMLUtils.createDSctx(sdoc,
 //            "wsu",
 //            MessageConstants.WSU_NS);
 //        Element element =
 //            (Element) XPathAPI.selectSingleNode(
 //                sdoc, "//*[@wsu:Id='" + id + "']", nscontext);
-//        
+//
 //        if (element == null) {
 //            NodeList elems = XPathAPI.selectNodeList(
 //            sdoc,
@@ -683,7 +683,7 @@ public class XMLUtil {
 //
 //        // look for SAML AssertionID
 //        if (element == null) {
-//                                
+//
 //            /*NodeList assertions =
 //                sdoc.getElementsByTagNameNS(MessageConstants.SAML_v1_0_NS,
 //                    MessageConstants.SAML_ASSERTION_LNAME);*/
@@ -705,7 +705,7 @@ public class XMLUtil {
 //        return element;
 //    }
 
-    
+
     public static String convertToXpath(String qname) {
         QName name = QName.valueOf(qname);
         if ("".equals(name.getNamespaceURI())) {
@@ -718,7 +718,7 @@ public class XMLUtil {
             + "']";
         }
     }
-    
+
     public static byte[] getDecodedBase64EncodedData(String encodedData)throws XWSSecurityException {
         try {
             return Base64.decode(encodedData);
@@ -729,7 +729,7 @@ public class XMLUtil {
             e);
         }
     }
-    
+
     public static Document getOwnerDocument(Node node) {
         if (node.getNodeType() == Node.DOCUMENT_NODE) {
             return (Document) node;
@@ -737,7 +737,7 @@ public class XMLUtil {
             return node.getOwnerDocument();
         }
     }
-    
+
     public static Element getFirstChildElement(Node node) {
         Node child = node.getFirstChild();
         while (child != null && child.getNodeType() != Node.ELEMENT_NODE) {
@@ -745,11 +745,11 @@ public class XMLUtil {
         }
         return (Element) child;
     }
-    
+
     public static Element createElement(Document doc, String tag, String nsURI,
         String prefix) {
         String qName = prefix == null ? tag : prefix + ":" + tag;
         return doc.createElementNS(nsURI, qName);
-    } 
-    
+    }
+
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -45,7 +45,7 @@ import com.sun.xml.ws.security.policy.IssuedToken;
  */
 public class SymmetricBindingProcessor extends BindingProcessor{
     private SymmetricBinding binding = null;
-   
+
     /** Creates a new instance of SymmetricBindingProcessor */
     public SymmetricBindingProcessor(SymmetricBinding binding,XWSSPolicyContainer container,
             boolean isServer,boolean isIncoming,Vector<SignedParts> signedParts,Vector<EncryptedParts> encryptedParts,
@@ -62,30 +62,30 @@ public class SymmetricBindingProcessor extends BindingProcessor{
         this.signedElements = signedElements;
         this.encryptedElements = encryptedElements;
         this.encryptedParts = encryptedParts;
-        
+
     }
-    
-    
+
+
     public void process()throws PolicyException{
-        
+
         Token pt = binding.getProtectionToken();
         Token st = null;
         Token et = null;
-        
+
         if(pt == null ){
             st = binding.getSignatureToken();
             et = binding.getEncryptionToken();
-            
+
             if(et != null){
                 primaryEP = new EncryptionPolicy();
                 primaryEP.setUUID(pid.generateID());
                 addSymmetricKeyBinding(primaryEP,et);
             }
-            
+
             if(st != null){
                 primarySP = new SignaturePolicy();
                 primarySP.setUUID(pid.generateID());
-                
+
                 SignaturePolicy.FeatureBinding spFB = (com.sun.xml.wss.impl.policy.mls.SignaturePolicy.FeatureBinding)
                 primarySP.getFeatureBinding();
                 //spFB.setCanonicalizationAlgorithm(CanonicalizationMethod.EXCLUSIVE);
@@ -112,7 +112,7 @@ public class SymmetricBindingProcessor extends BindingProcessor{
             SecurityPolicyUtil.setCanonicalizationMethod(spFB, binding.getAlgorithmSuite());
             spFB.isPrimarySignature(true);
         }
-        
+
         if(protectionOrder == Binding.SIGN_ENCRYPT){
             container.insert(primarySP);
             // container.insert(primaryEP);
@@ -123,11 +123,11 @@ public class SymmetricBindingProcessor extends BindingProcessor{
                 EncryptionPolicy.FeatureBinding efp = (EncryptionPolicy.FeatureBinding) primaryEP.getFeatureBinding();
                 efp.setUseStandAloneRefList(true);
             }
-            
+
         }
         addPrimaryTargets();
-        
-        
+
+
         if(foundEncryptTargets && binding.getSignatureProtection()){
             protectPrimarySignature();
         }
@@ -150,7 +150,7 @@ public class SymmetricBindingProcessor extends BindingProcessor{
             }
         }
     }
-    
+
     protected void addSymmetricKeyBinding(WSSPolicy policy, Token token) throws PolicyException{
         com.sun.xml.wss.impl.policy.mls.SymmetricKeyBinding skb =
                 new com.sun.xml.wss.impl.policy.mls.SymmetricKeyBinding();
@@ -167,7 +167,7 @@ public class SymmetricBindingProcessor extends BindingProcessor{
             tokenProcessor.setTokenInclusion(x509CB,(Token) tokenAssertion);
             //x509CB.setPolicyToken((Token) tokenAssertion);
             tokenProcessor.setX509TokenRefType(x509CB, x509Token);
-            
+
              if(x509Token.getIssuer() != null){
                 Address addr = x509Token.getIssuer().getAddress();
                 if(addr != null)
@@ -175,11 +175,11 @@ public class SymmetricBindingProcessor extends BindingProcessor{
             } else if(x509Token.getIssuerName() != null){
                 x509CB.setIssuer(x509Token.getIssuerName().getIssuerName());
             }
-            
+
             if(x509Token.getClaims() != null){
                 x509CB.setClaims(x509Token.getClaims().getClaimsAsBytes());
             }
-            
+
             if(x509Token.isRequireDerivedKeys()){
                 DerivedTokenKeyBinding dtKB =  new DerivedTokenKeyBinding();
                 skb.setKeyBinding(x509CB);
@@ -198,7 +198,7 @@ public class SymmetricBindingProcessor extends BindingProcessor{
             tokenProcessor.setTokenValueType(kerberosBinding, tokenAssertion);
             tokenProcessor.setTokenInclusion(kerberosBinding,(Token) tokenAssertion);
             tokenProcessor.setKerberosTokenRefType(kerberosBinding, kerberosToken);
-            
+
             if(kerberosToken.getIssuer() != null){
                 Address addr = kerberosToken.getIssuer().getAddress();
                 if(addr != null)
@@ -206,11 +206,11 @@ public class SymmetricBindingProcessor extends BindingProcessor{
             } else if(kerberosToken.getIssuerName() != null){
                 kerberosBinding.setIssuer(kerberosToken.getIssuerName().getIssuerName());
             }
-            
+
             if(kerberosToken.getClaims() != null){
                 kerberosBinding.setClaims(kerberosToken.getClaims().getClaimsAsBytes());
             }
-            
+
             if(kerberosToken.isRequireDerivedKeys()){
                 DerivedTokenKeyBinding dtKB =  new DerivedTokenKeyBinding();
                 skb.setKeyBinding(kerberosBinding);
@@ -228,7 +228,7 @@ public class SymmetricBindingProcessor extends BindingProcessor{
             sab.setReferenceType(MessageConstants.DIRECT_REFERENCE_TYPE);
             tokenProcessor.setTokenInclusion(sab,(Token) tokenAssertion);
             //sab.setPolicyToken((Token) tokenAssertion);
-            
+
              if(samlToken.getIssuer() != null){
                 Address addr = samlToken.getIssuer().getAddress();
                 if(addr != null)
@@ -236,11 +236,11 @@ public class SymmetricBindingProcessor extends BindingProcessor{
             } else if(samlToken.getIssuerName() != null){
                 sab.setIssuer(samlToken.getIssuerName().getIssuerName());
             }
-            
+
             if(samlToken.getClaims() != null){
                 sab.setClaims(samlToken.getClaims().getClaimsAsBytes());
             }
-            
+
             if(samlToken.isRequireDerivedKeys()){
                 DerivedTokenKeyBinding dtKB =  new DerivedTokenKeyBinding();
                 dtKB.setOriginalKeyBinding(sab);
@@ -255,7 +255,7 @@ public class SymmetricBindingProcessor extends BindingProcessor{
             //itkb.setPolicyToken((Token) tokenAssertion);
             itkb.setUUID(((Token)tokenAssertion).getTokenId());
             IssuedToken it = (IssuedToken)tokenAssertion;
-            
+
             if(it.getIssuer() != null){
                 Address addr = it.getIssuer().getAddress();
                 if(addr != null)
@@ -263,11 +263,11 @@ public class SymmetricBindingProcessor extends BindingProcessor{
             } else if(it.getIssuerName() != null){
                 itkb.setIssuer(it.getIssuerName().getIssuerName());
             }
-            
+
             if(it.getClaims() != null){
                 itkb.setClaims(it.getClaims().getClaimsAsBytes());
             }
-            
+
             if(it.isRequireDerivedKeys()){
                 DerivedTokenKeyBinding dtKB =  new DerivedTokenKeyBinding();
                 dtKB.setOriginalKeyBinding(itkb);
@@ -279,7 +279,7 @@ public class SymmetricBindingProcessor extends BindingProcessor{
         }else if(PolicyUtil.isSecureConversationToken(tokenAssertion, spVersion)){
             SecureConversationTokenKeyBinding sct = new SecureConversationTokenKeyBinding();
             SecureConversationToken sctPolicy = (SecureConversationToken)tokenAssertion;
-            
+
             if(sctPolicy.getIssuer() != null){
                 Address addr = sctPolicy.getIssuer().getAddress();
                 if(addr != null)
@@ -287,11 +287,11 @@ public class SymmetricBindingProcessor extends BindingProcessor{
             } else if(sctPolicy.getIssuerName() != null){
                 sct.setIssuer(sctPolicy.getIssuerName().getIssuerName());
             }
-            
+
             if(sctPolicy.getClaims() != null){
                 sct.setClaims(sctPolicy.getClaims().getClaimsAsBytes());
             }
-            
+
             if(sctPolicy.isRequireDerivedKeys()){
                 DerivedTokenKeyBinding dtKB =  new DerivedTokenKeyBinding();
                 dtKB.setOriginalKeyBinding(sct);
@@ -318,7 +318,7 @@ public class SymmetricBindingProcessor extends BindingProcessor{
             } else if(unt.getIssuerName() != null){
                 utb.setIssuer(unt.getIssuerName().getIssuerName());
             }
-            
+
             if(unt.getClaims() != null){
                 utb.setClaims(unt.getClaims().getClaimsAsBytes());
             }
@@ -334,18 +334,18 @@ public class SymmetricBindingProcessor extends BindingProcessor{
             } else{
                 skb.setKeyBinding(utb);
                 policy.setKeyBinding(skb);
-            }            
+            }
         }
         else{
             throw new UnsupportedOperationException("addKeyBinding for "+ token + "is not supported");
         }
     }
-    
+
     @Override
     protected Binding getBinding(){
         return binding;
     }
-    
+
     @Override
     protected EncryptionPolicy getSecondaryEncryptionPolicy() throws PolicyException {
         if(sEncPolicy == null){
@@ -361,13 +361,13 @@ public class SymmetricBindingProcessor extends BindingProcessor{
         }
         return sEncPolicy;
     }
-    
+
     @Override
     protected void close(){
         if(protectionOrder == Binding.SIGN_ENCRYPT){
             container.insert(primaryEP);
         }
     }
-    
-    
+
+
 }

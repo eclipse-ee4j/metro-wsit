@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -68,13 +68,13 @@ public class KerberosLogin {
         } catch (Exception e) {
             throw new XWSSecurityException("Unexpected Exception in Kerberos login - unable to continue", e);
         }
-        
+
         try{
             Subject loginSubject = lc.getSubject();
             Subject.doAsPrivileged(loginSubject,
                     new KerberosClientSetupAction(servicePrincipal, credDeleg),
                     null);
-            
+
             Set<Object> setPubCred =  loginSubject.getPublicCredentials();
             Iterator<Object> iter1 = setPubCred.iterator();
             GSSContext gssContext=null;
@@ -136,13 +136,13 @@ public class KerberosLogin {
         } catch (Exception e) {
             throw new XWSSecurityException("Unexpected Exception in Kerberos login - unable to continue", e);
         }
-        
+
         try{
             Subject loginSubject = lc.getSubject();
             Subject.doAsPrivileged(loginSubject,
                     new KerberosServerSetupAction(token),
                     null);
-            
+
             Set<Object> setPubCred =  loginSubject.getPublicCredentials();
             Iterator<Object> iter1 = setPubCred.iterator();
             GSSContext gssContext=null;
@@ -181,24 +181,24 @@ public class KerberosLogin {
         krbContext.setOnce(false);
         return krbContext;
     }
-    
+
     static class KerberosClientSetupAction implements java.security.PrivilegedExceptionAction {
         String server;
         boolean credentialDelegation = false;
-        
+
         public KerberosClientSetupAction(String server, boolean credDeleg){
             this.server = server;
             credentialDelegation = credDeleg;
         }
-        
+
         @Override
         public Object run() throws Exception {
-            
+
             try {
                 Oid krb5Oid = new Oid("1.2.840.113554.1.2.2");
                 GSSManager manager = GSSManager.getInstance();
                 GSSName serverName = manager.createName(server, null);
-                
+
                 GSSContext context = manager.createContext(serverName,
                         krb5Oid,
                         null,
@@ -206,38 +206,38 @@ public class KerberosLogin {
                 context.requestMutualAuth(false);  // Mutual authentication
                 context.requestConf(false);  // Will use confidentiality later
                 context.requestInteg(true); // Will use integrity later
-                
+
                 context.requestCredDeleg(credentialDelegation);
-                
+
                 byte[] token = new byte[0];
                 token = context.initSecContext(token, 0, token.length);
-                
+
                 AccessControlContext acc = AccessController.getContext();
                 Subject loginSubject = Subject.getSubject(acc);
                 loginSubject.getPublicCredentials().add(context);
                 loginSubject.getPublicCredentials().add(token);
-                
+
             } catch (Exception e) {
                 throw new java.security.PrivilegedActionException(e);
             }
             return null;
         }
-        
+
     }
-    
+
     static class KerberosServerSetupAction implements java.security.PrivilegedExceptionAction {
-        
+
         byte[] token;
-        
+
         public KerberosServerSetupAction(byte[] token){
             this.token = token;
         }
         @Override
         @SuppressWarnings("unchecked")
         public Object run() throws Exception {
-            
+
             try {
-                
+
                 final GSSManager manager = GSSManager.getInstance();
                 GSSContext context = manager.createContext((GSSCredential)null);
                 byte[] outToken = context.acceptSecContext(token, 0, token.length);
@@ -253,7 +253,7 @@ public class KerberosLogin {
             }
             return null;
         }
-        
+
     }
-    
+
 }

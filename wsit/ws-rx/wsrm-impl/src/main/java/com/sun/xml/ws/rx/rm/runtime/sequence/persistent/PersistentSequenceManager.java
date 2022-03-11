@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -85,7 +85,7 @@ public final class PersistentSequenceManager extends AbstractMOMRegistrationAwar
      */
     private final String uniqueEndpointId;
     /**
-     * Internal variable to store information about whether or not this instance 
+     * Internal variable to store information about whether or not this instance
      * of the SequenceManager is still valid.
      */
     private volatile boolean disposed = false;
@@ -458,7 +458,7 @@ public final class PersistentSequenceManager extends AbstractMOMRegistrationAwar
                         if (boundSequences.containsKey(sequence.getId())) {
                             boundSequences.remove(sequence.getId());
                         }
-                        
+
                         if (localIDManager != null) {
                             // In RM_LOCALIDS table, mark all the LocalIDs tied with sequence as terminated
                             // In future, consider add some config/logic to purege those long been terminated

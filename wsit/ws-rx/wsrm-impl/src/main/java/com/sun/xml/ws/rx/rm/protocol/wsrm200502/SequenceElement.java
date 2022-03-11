@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -55,7 +55,7 @@ public class SequenceElement {
     /**
      * Mutator for the Id property.  Maps to the Identifier property in the underlying
      * JAXB class.
-     * 
+     *
      * @param idString The new value.
      */
     public void setId(String idString) {
@@ -99,7 +99,7 @@ public class SequenceElement {
 
     /**
      * Gets the value of the identifier property.
-     * 
+     *
      * @return The property value
      */
     public Identifier getIdentifier() {
@@ -108,7 +108,7 @@ public class SequenceElement {
 
     /**
      * Sets the value of the identifier property.
-     * 
+     *
      * @param value The new value.
      */
     public void setIdentifier(Identifier value) {
@@ -117,9 +117,9 @@ public class SequenceElement {
 
     /**
      * Gets the value of the messageNumber property.
-     * 
+     *
      * @return The value of the property.
-     *     
+     *
      */
     public Long getMessageNumber() {
         return messageNumber;
@@ -127,9 +127,9 @@ public class SequenceElement {
 
     /**
      * Sets the value of the messageNumber property.
-     * 
+     *
      * @param value The new value.
-     *     
+     *
      */
     public void setMessageNumber(Long value) {
         this.messageNumber = value;
@@ -138,20 +138,20 @@ public class SequenceElement {
     /**
      * Accessor for the Number property which maps to the MessageNumber property in
      * the underlying JAXB class.
-     * 
+     *
      * @return The Message number.
      */
     public long getNumber() {
         return getMessageNumber();
     }
-    
+
     /**
      * Gets the value of the lastMessage property.
-     * 
+     *
      * @return The value of the property
      *          non-null indicates that a Last child will be serialized on
      *          the Sequence element.
-     *     
+     *
      */
     public LastMessage getLastMessage() {
         return lastMessage;
@@ -159,11 +159,11 @@ public class SequenceElement {
 
     /**
      * Sets the value of the lastMessage property.
-     * 
+     *
      * @param value The new value.  Either null or a member
      * of the placeholder inner LastMessage class.
-     *  
-     *     
+     *
+     *
      */
     public void setLastMessage(LastMessage value) {
         this.lastMessage = value;
@@ -171,10 +171,10 @@ public class SequenceElement {
 
     /**
      * Gets the value of the any property.
-     * 
+     *
      * @return The value of the property.
-     * 
-     * 
+     *
+     *
      */
     public List<Object> getAny() {
         if (any == null) {
@@ -185,7 +185,7 @@ public class SequenceElement {
 
     /**
      * Gets a map that contains attributes that aren't bound to any typed property on this class.
-     * 
+     *
      * @return The map of attributes.
      */
     public Map<QName, String> getOtherAttributes() {
@@ -195,7 +195,7 @@ public class SequenceElement {
     /**
      * <p>Java class for anonymous complex type.  That acts as a
      * placeholder in the <code>lastMessage</code> field.
-     * 
+     *
      */
     @XmlAccessorType(XmlAccessType.FIELD)
     @XmlType(name = "")

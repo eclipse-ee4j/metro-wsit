@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -79,7 +79,7 @@ public class DecryptionKeyCallback extends XWSSCallback implements Callback {
 
         private byte[] x509SubjectKeyIdentifier;
 
-        /** 
+        /**
          * Constructor.
          * It takes the byte stream of X509SubjectKeyIdentifier.
          */
@@ -96,7 +96,7 @@ public class DecryptionKeyCallback extends XWSSCallback implements Callback {
             return x509SubjectKeyIdentifier;
         }
     }
-    
+
     /**
      * Request for a private key when the X.509 Thumb print
      * value for a corresponding X.509 Certificate is given.
@@ -107,7 +107,7 @@ public class DecryptionKeyCallback extends XWSSCallback implements Callback {
 
         private byte[] x509Thumbprint;
 
-        /** 
+        /**
          * Constructor.
          * It takes the byte stream of X509ThumbPrint.
          */
@@ -136,7 +136,7 @@ public class DecryptionKeyCallback extends XWSSCallback implements Callback {
         private BigInteger serialNumber;
 
         /**
-         * 
+         *
          *
          * @param issuerName Name of the issuer.
          * @param serialNumber serial number of the Certificate.
@@ -161,7 +161,7 @@ public class DecryptionKeyCallback extends XWSSCallback implements Callback {
         /**
          * Get the Certificate Serial Number.
          *
-         * @return <code>java.math.BigInteger</code> representing the Ceritificate's 
+         * @return <code>java.math.BigInteger</code> representing the Ceritificate's
          * serial number.
          *
          */
@@ -181,7 +181,7 @@ public class DecryptionKeyCallback extends XWSSCallback implements Callback {
         /**
          * Constructor.
          *
-         * @param certificate <code>java.security.X509Certificate</code> 
+         * @param certificate <code>java.security.X509Certificate</code>
          * to be used for Decryption.
          */
         public X509CertificateBasedRequest(X509Certificate certificate) {
@@ -237,7 +237,7 @@ public class DecryptionKeyCallback extends XWSSCallback implements Callback {
         /**
          * Constructor.
          *
-         * @param alias <code>java.lang.String</code> representing the alias of the 
+         * @param alias <code>java.lang.String</code> representing the alias of the
          * SymmetircKey to be used for Decryption.
          *
          */
@@ -259,9 +259,9 @@ public class DecryptionKeyCallback extends XWSSCallback implements Callback {
      * private key to be used for decryption is to be retrieved given the PublicKey
      */
     public static class PublicKeyBasedPrivKeyRequest extends PrivateKeyRequest {
-                                                                                                                                                         
+
         private PublicKey pk;
-               
+
         /**
          * Constructor.
          *
@@ -271,7 +271,7 @@ public class DecryptionKeyCallback extends XWSSCallback implements Callback {
         public PublicKeyBasedPrivKeyRequest(PublicKey publicKey) {
             this.pk = publicKey;
         }
-             
+
         /**
          * Get the PublicKey stored in this Request.
          *

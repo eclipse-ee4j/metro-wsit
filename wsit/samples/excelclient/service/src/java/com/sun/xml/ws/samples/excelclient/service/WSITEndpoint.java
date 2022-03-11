@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -29,13 +29,13 @@ import java.util.List;
  */
 @WebService()
 public class WSITEndpoint {
-    
+
     @PersistenceUnit
     private EntityManagerFactory emf;
-    
+
     @Resource
     private UserTransaction utx;
-    
+
     @WebMethod(action="getPatientId")
     public int getPatientId(
             @WebParam(name = "firstname") String firstname,
@@ -77,10 +77,10 @@ public class WSITEndpoint {
                 em.close();
             }
         }
-        
+
         return patientId;
     }
-    
+
     @WebMethod(action="getPatientFirstname")
     public String getPatientFirstname(
             @WebParam(name = "patientid") int patientid) {
@@ -104,10 +104,10 @@ public class WSITEndpoint {
                 em.close();
             }
         }
-        
+
         return result;
     }
-    
+
     @WebMethod(action="getPatientSurname")
     public String getPatientSurname(
             @WebParam(name = "patientid") int patientid) {
@@ -131,10 +131,10 @@ public class WSITEndpoint {
                 em.close();
             }
         }
-        
+
         return result;
     }
-    
+
     @WebMethod(action="getPatientDOB")
     public String getPatientDOB(
             @WebParam(name = "patientid") int patientid) {
@@ -158,10 +158,10 @@ public class WSITEndpoint {
                 em.close();
             }
         }
-        
+
         return result;
     }
-    
+
     @WebMethod(action="getPatientSSN")
     public String getPatientSSN(
             @WebParam(name = "patientid") int patientid) {
@@ -185,10 +185,10 @@ public class WSITEndpoint {
                 em.close();
             }
         }
-        
+
         return result;
     }
-    
+
     @WebMethod(action="getPatientDiagnosis")
     @SuppressWarnings("unchecked")
     public String getPatientDiagnosis(
@@ -233,6 +233,6 @@ public class WSITEndpoint {
                 em.persist(currentMax);
             }
             return result;
-    }    
-    
+    }
+
 }

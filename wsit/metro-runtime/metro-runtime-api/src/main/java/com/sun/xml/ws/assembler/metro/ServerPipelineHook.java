@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -63,7 +63,7 @@ public class ServerPipelineHook extends com.sun.xml.ws.api.server.ServerPipeline
      *
      * @param context
      *      Represents abstraction of policy map, tubeline head, SEI, WSDL abstraction etc. Context can be used
-     *      whether add a new tube to the head or not.     
+     *      whether add a new tube to the head or not.
      *
      * @return
      *      The default implementation just returns <code>tail</code>, which means
@@ -72,5 +72,5 @@ public class ServerPipelineHook extends com.sun.xml.ws.api.server.ServerPipeline
      */
     public @NotNull Tube createSecurityTube(ServerTubelineAssemblyContext context) {
         return context.getTubelineHead();
-    }    
+    }
 }

@@ -26,36 +26,36 @@ import com.sun.xml.wss.impl.PolicyTypeUtil;
  * concrete FeatureBinding and/or KeyBinding.
  */
 public class TimestampPolicy extends WSSPolicy {
-    
+
     /*
      * Feature Bindings
      * Key Bindings
      */
-    
+
     private String creationTime     = MessageConstants._EMPTY;
     private String expirationTime   = MessageConstants._EMPTY;
-    
+
     private long timeout = 300000;
     private long maxClockSkew = 300000;
     private long timestampFreshness = 300000;
-    
+
     static SimpleDateFormat formatter  = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
     static SimpleDateFormat formatter1 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'.'SSS'Z'");
-    
+
     /**
      *Default constructor
      */
     public TimestampPolicy() {
         setPolicyIdentifier(PolicyTypeUtil.TIMESTAMP_POLICY_TYPE);
     }
-    
+
     /**
      * set the CreationTime for the timestamp in this TimestampPolicy
      */
     public void setCreationTime(String creationTime) {
         this.creationTime = creationTime;
     }
-    
+
     /**
      * If the current time on a receiving system is past the CreationTime of the timestamp plus the
      * timeout, then the timestamp is to be considered expired.
@@ -65,7 +65,7 @@ public class TimestampPolicy extends WSSPolicy {
     public void setTimeout(long timeout) {
         this.timeout = timeout;
     }
-    
+
     /**
      * set the maximum clock skew adjustment value (in milliseconds)
      * @param maxClockSkew the Maximum Clock Skew adjustment to be used
@@ -74,7 +74,7 @@ public class TimestampPolicy extends WSSPolicy {
     public void setMaxClockSkew(long maxClockSkew) {
         this.maxClockSkew = maxClockSkew;
     }
-    
+
     /**
      * set the Timestamp Freshness Limit (in milliseconds) for this Timestamp
      * Timestamps received by a receiver with creation Times older than
@@ -84,7 +84,7 @@ public class TimestampPolicy extends WSSPolicy {
     public void setTimestampFreshness(long timestampFreshness) {
         this.timestampFreshness = timestampFreshness;
     }
-    
+
     /**
      * @return creationTime the creation time of the timestamp in this
      * TimestampPolicy if set, empty string otherwise
@@ -92,14 +92,14 @@ public class TimestampPolicy extends WSSPolicy {
     public String getCreationTime() {
         return this.creationTime;
     }
-    
+
     /**
      * @return timeout the Timeout in milliseconds for this Timestamp
      */
     public long getTimeout() {
         return this.timeout;
     }
-    
+
     /**
      * @return expirationTime the expiration time if set for this Timestamp, empty string otherwise
      */
@@ -112,54 +112,54 @@ public class TimestampPolicy extends WSSPolicy {
             } catch (Exception e) {
                 synchronized(formatter1) {
                     expirationTime =  Long.toString(formatter1.parse(creationTime).getTime() + timeout);
-                            
+
                 }
             }
         }
-        
+
         return this.expirationTime;
     }
-    
+
     /**
      * @param expirationTime the expiration time
      */
     public void setExpirationTime(String expirationTime) {
         this.expirationTime= expirationTime;
     }
-    
+
     /**
      * @return maxClockSkew the maximum Clock Skew adjustment
      */
     public long getMaxClockSkew() {
         return this.maxClockSkew;
     }
-    
+
     /**
      * @return timeStampFreshness limit
      */
     public long getTimestampFreshness() {
         return this.timestampFreshness;
     }
-    
+
     /**
      * @param policy the policy to be compared for equality
      * @return true if the argument policy is equal to this
      */
     @Override
     public boolean equals(WSSPolicy policy) {
-        
+
         boolean assrt = false;
-        
+
         try {
             TimestampPolicy tPolicy = (TimestampPolicy) policy;
             boolean b1 = creationTime.equals("") ? true : creationTime.equalsIgnoreCase(tPolicy.getCreationTime());
             boolean b2 = getExpirationTime().equals("") ? true : getExpirationTime().equalsIgnoreCase(tPolicy.getExpirationTime());
             assrt = b1 && b2;
         } catch (Exception e) {}
-        
+
         return assrt;
     }
-    
+
     /*
      * Equality comparision ignoring the Targets
      * @param policy the policy to be compared for equality
@@ -169,7 +169,7 @@ public class TimestampPolicy extends WSSPolicy {
     public boolean equalsIgnoreTargets(WSSPolicy policy) {
         return equals(policy);
     }
-    
+
     /**
      * Clone operator
      * @return clone of this policy
@@ -177,7 +177,7 @@ public class TimestampPolicy extends WSSPolicy {
     @Override
     public Object clone(){
         TimestampPolicy tPolicy = new TimestampPolicy();
-        
+
         try {
             tPolicy.setTimeout(timeout);
             tPolicy.setCreationTime(creationTime);
@@ -185,10 +185,10 @@ public class TimestampPolicy extends WSSPolicy {
             tPolicy.setMaxClockSkew(maxClockSkew);
             tPolicy.setTimestampFreshness(timestampFreshness);
         } catch (Exception e) {}
-        
+
         return tPolicy;
     }
-    
+
     /**
      * @return the type of the policy
      */
@@ -196,6 +196,6 @@ public class TimestampPolicy extends WSSPolicy {
     public String getType() {
         return PolicyTypeUtil.TIMESTAMP_POLICY_TYPE;
     }
-    
+
 }
 

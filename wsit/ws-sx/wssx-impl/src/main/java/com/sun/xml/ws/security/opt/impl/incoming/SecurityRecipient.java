@@ -96,7 +96,7 @@ public final class SecurityRecipient {
         /*
           Work-around for the JDK JCE name mapping for oaep padding. See JDK-8017173
          */
-        System.setProperty("org.apache.xml.security.resource.config", "resource/config.xml"); 
+        System.setProperty("org.apache.xml.security.resource.config", "resource/config.xml");
         org.apache.xml.security.Init.init();
 
         //workaround for: Apache XML Security 1.5.6 do not support Canonicalizer.ALGO_ID_C14N_PHYSICAL in file 'java/org/apache/xml/security/resource/config.xml'
@@ -184,7 +184,7 @@ public final class SecurityRecipient {
         this.bodyEpilogue = bodyEpilogue;
     }
 
-    // Validate Message 
+    // Validate Message
     public Message validateMessage(JAXBFilterProcessingContext ctx) throws XWSSecurityException {
         try {
             this.context = ctx;
@@ -601,7 +601,7 @@ public final class SecurityRecipient {
                     }
                     checkDecryptedData(she, ek.getPolicy());
                 } else {
-                    // Handle Encrypted Attachment here 
+                    // Handle Encrypted Attachment here
                     byte[] decryptedMimeData = ed.getDecryptedMimeData(ek.getKey(ed.getEncryptionAlgorithm()));
                     Attachment as = new AttachmentImpl(ed.getAttachmentContentId(), decryptedMimeData, ed.getAttachmentMimeType());
                     securityContext.getDecryptedAttachmentSet().add(as);
@@ -639,7 +639,7 @@ public final class SecurityRecipient {
                     }
                     checkDecryptedData(she, refList.getPolicy());
                 } else {
-                    // Handle Encrypted Attachment here 
+                    // Handle Encrypted Attachment here
                     byte[] decryptedMimeData = ed.getDecryptedMimeData();
                     Attachment as = new AttachmentImpl(ed.getAttachmentContentId(), decryptedMimeData, ed.getAttachmentMimeType());
                     securityContext.getDecryptedAttachmentSet().add(as);
@@ -866,7 +866,7 @@ public final class SecurityRecipient {
         AttachmentSet as = securityContext.getDecryptedAttachmentSet();
         if (as == null || as.isEmpty()) {
             as = securityContext.getAttachmentSet();
-        }        
+        }
         if (!context.getDisablePayloadBuffering() && (!context.isSecure() || "Fault".equals(message.getLocalName()))) {
             if (logger.isLoggable(Level.FINE)) {
                 logger.log(Level.FINE, "Buffering Payload from incomming message");
@@ -988,7 +988,7 @@ public final class SecurityRecipient {
         //MessagePolicyVerifier mpv = new MessagePolicyVerifier(context, targetResolver);
         PolicyVerifier mpv = PolicyVerifierFactory.createVerifier(msgPolicy, context);
         mpv.verifyPolicy(context.getInferredSecurityPolicy(), msgPolicy);
-        
+
         return streamMsg;
     }
 
@@ -1818,7 +1818,7 @@ public final class SecurityRecipient {
             if (isSCRenew(action, ctx)) {
                 ctx.isExpired(true);
             }
-            
+
             if ((action.contains("/RST/SCT") || action.contains("/RSTR/SCT"))) {
                 if (ctx.getBootstrapAlgoSuite() != null) {
                     ctx.setAlgorithmSuite(ctx.getBootstrapAlgoSuite());
@@ -1831,7 +1831,7 @@ public final class SecurityRecipient {
         }
 
     }
-    
+
     private boolean isSCRenew(String action, JAXBFilterProcessingContext ctx) {
         if (!ctx.isAddressingEnabled()) {
             return false;

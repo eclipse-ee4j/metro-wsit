@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -47,7 +47,7 @@ final class ConnectionManager {
     Connection getConnection() throws PersistenceException {
         try {
             Connection connection = dataSourceProvider.getDataSource().getConnection();
-            
+
             // connection.setTransactionIsolation(Connection.TRANSACTION_REPEATABLE_READ);
             connection.setAutoCommit(false);
             return connection;
@@ -112,7 +112,7 @@ final class ConnectionManager {
             try {
                 if (markRollbackForXA) {
                     //Do not roll back ourselves here as we don't own this distributed TX
-                    //but mark it so that the only possible outcome of the TX is to 
+                    //but mark it so that the only possible outcome of the TX is to
                     //roll back the TX
                     getUserTransaction().setRollbackOnly();
                 }
@@ -130,7 +130,7 @@ final class ConnectionManager {
 
     void commit(Connection sqlConnection) throws PersistenceException {
         if (isDistributedTransactionInUse()) {
-            //Do nothing as the distributed TX will eventually get  
+            //Do nothing as the distributed TX will eventually get
             //committed and this work will be part of that
         } else {
             try {
@@ -156,7 +156,7 @@ final class ConnectionManager {
         if (status != Status.STATUS_NO_TRANSACTION) {
             result = true;
             if (LOGGER.isLoggable(Level.FINE)) {
-                LOGGER.fine("Determined that distributed transaction is in use. Status code: " + status);    
+                LOGGER.fine("Determined that distributed transaction is in use. Status code: " + status);
             }
         }
         return result;
@@ -166,7 +166,7 @@ final class ConnectionManager {
         UserTransaction userTransaction = null;
         try {
             Context initialContext = new InitialContext();
-            userTransaction = 
+            userTransaction =
                     (UserTransaction)initialContext.lookup("java:comp/UserTransaction");
         } catch (NamingException ne) {
             LOGGER.warning("Not able to lookup UserTransaction from InitialContext", ne);

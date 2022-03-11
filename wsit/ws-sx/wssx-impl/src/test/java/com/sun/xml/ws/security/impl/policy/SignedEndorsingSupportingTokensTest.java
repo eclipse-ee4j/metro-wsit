@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -38,25 +38,25 @@ import junit.framework.*;
  * @author Mayank.Mishra@SUN.com
  */
 public class SignedEndorsingSupportingTokensTest extends TestCase {
-    
+
     public SignedEndorsingSupportingTokensTest(String testName) {
         super(testName);
     }
-    
+
     @Override
     protected void setUp() {
     }
-    
+
     @Override
     protected void tearDown() {
     }
-    
+
     public static Test suite() {
         TestSuite suite = new TestSuite(SignedEndorsingSupportingTokensTest.class);
-        
+
         return suite;
     }
-    
+
     public boolean hasXPathTarget(String xpathExpr , Iterator itr){
         while(itr.hasNext()){
             if(xpathExpr.equals(itr.next())){
@@ -71,19 +71,19 @@ public class SignedEndorsingSupportingTokensTest extends TestCase {
         reader.close();
         return model;
     }
-    
+
     private Reader getResourceReader(String resourceName) {
         return new InputStreamReader(Thread.currentThread().getContextClassLoader().getResourceAsStream(resourceName));
     }
-    
+
     public Policy unmarshalPolicy(String xmlFile)throws Exception{
         PolicySourceModel model =  unmarshalPolicyResource(
                 xmlFile);
         Policy mbp = ModelTranslator.getTranslator().translate(model);
         return mbp;
-        
+
     }
-    
+
     public void testSignedEndorsingSupportingToken() throws Exception {
         String fileName="security/SignedEndorsingSupportingToken.xml";
         Policy policy = unmarshalPolicy(fileName);
@@ -93,17 +93,17 @@ public class SignedEndorsingSupportingTokensTest extends TestCase {
             for(PolicyAssertion assertion : as) {
                 assertEquals("Invalid assertion", "SignedEndorsingSupportingTokens",assertion.getName().getLocalPart());
                 SignedEndorsingSupportingTokens sst = (SignedEndorsingSupportingTokens)assertion;
-                
+
                 AlgorithmSuite aSuite = (AlgorithmSuite) sst.getAlgorithmSuite();
                 assertEquals("Unmatched Algorithm",aSuite.getEncryptionAlgorithm(), AlgorithmSuiteValue.TripleDesRsa15.getEncAlgorithm());
-                
+
                 Iterator itrest = sst.getTokens();
                 if(itrest.hasNext()) {
                     assertTrue(X509Token.WSSX509V3TOKEN10.equals(((X509Token)itrest.next()).getTokenType()));
                 }
-                
-                
-                
+
+
+
                 Iterator itrSparts = sst.getSignedElements();
                 if(itrSparts.hasNext()) {
                     SignedElements se = (SignedElements)itrSparts.next();
@@ -115,5 +115,5 @@ public class SignedEndorsingSupportingTokensTest extends TestCase {
             }
         }
     }
-    
+
 }

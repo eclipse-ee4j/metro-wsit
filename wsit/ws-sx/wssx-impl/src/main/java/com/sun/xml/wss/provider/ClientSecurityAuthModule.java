@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -52,7 +52,7 @@ public class ClientSecurityAuthModule extends WssProviderAuthModule
                                MessagePolicy responsePolicy,
                                CallbackHandler handler,
                                Map options) {
-            super.initialize(requestPolicy, responsePolicy, handler, options, true); 
+            super.initialize(requestPolicy, responsePolicy, handler, options, true);
        }
 
        @SuppressWarnings("unchecked")
@@ -82,13 +82,13 @@ public class ClientSecurityAuthModule extends WssProviderAuthModule
                  if (optimize  != MessageConstants.NOT_OPTIMIZED  && isOptimized(msg)) {
                      context.setConfigType(optimize);
                  } else {
-		   try{
+           try{
                      msg.getSOAPBody();
                      msg.getSOAPHeader();
                      context.setConfigType(MessageConstants.NOT_OPTIMIZED);
-		   }catch(SOAPException ex){
-		     throw new AuthException(ex.getMessage());
-		   }
+           }catch(SOAPException ex){
+             throw new AuthException(ex.getMessage());
+           }
                  }
                  SecurityAnnotator.secureMessage(context);
                  return AuthStatus.SEND_SUCCESS;
@@ -106,7 +106,7 @@ public class ClientSecurityAuthModule extends WssProviderAuthModule
                                      Subject serviceSubject)
                    throws AuthException {
              try {
-   
+
                  ProcessingContextImpl context = new ProcessingContextImpl();
 
                  // are the below two lines required ?.
@@ -115,12 +115,12 @@ public class ClientSecurityAuthModule extends WssProviderAuthModule
                      Subject selfSubject = (Subject)sharedState.get(SELF_SUBJECT);
                      _sEnvironment.setSubject(selfSubject, context.getExtraneousProperties());
                  }
- 
+
                  _sEnvironment.setRequesterSubject(subject, context.getExtraneousProperties());
 
                  com.sun.xml.wss.impl.policy.mls.MessagePolicy receiverConfg =
                  ((DeclarativeSecurityConfiguration)_policy).receiverSettings();
-                 
+
                  context.setSecurityPolicy(receiverConfg);
                  //context.setSOAPMessage(((SOAPAuthParam)param).getResponse());
                  context.setSOAPMessage(AuthParamHelper.getResponse(param));
@@ -133,7 +133,7 @@ public class ClientSecurityAuthModule extends WssProviderAuthModule
              } catch (XWSSecurityException xwsse) {
                 xwsse.printStackTrace();
                 throw new AuthException(xwsse.getMessage());
-             } 
+             }
        }
 
        @Override
@@ -158,14 +158,14 @@ public class ClientSecurityAuthModule extends WssProviderAuthModule
                 principals.clear();
              } catch (UnsupportedOperationException uoe) {
                 // log
-             }            
-  
+             }
+
              Iterator pi = privateCredentials.iterator();
              while (pi.hasNext()) {
                 try {
-                    Destroyable dstroyable = 
+                    Destroyable dstroyable =
                                    (Destroyable)pi.next();
-                    dstroyable.destroy(); 
+                    dstroyable.destroy();
                 } catch (DestroyFailedException | ClassCastException dfe) {
                    // log
                 }
@@ -174,12 +174,12 @@ public class ClientSecurityAuthModule extends WssProviderAuthModule
              Iterator qi = publicCredentials.iterator();
              while (qi.hasNext()) {
               try {
-                    Destroyable dstroyable = 
+                    Destroyable dstroyable =
                                    (Destroyable)qi.next();
-                    dstroyable.destroy(); 
+                    dstroyable.destroy();
                 } catch (DestroyFailedException | ClassCastException dfe) {
                    // log
                 }
-             }       
-       }        
+             }
+       }
 }

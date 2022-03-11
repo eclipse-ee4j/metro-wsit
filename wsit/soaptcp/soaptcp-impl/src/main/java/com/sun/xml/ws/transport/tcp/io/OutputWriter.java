@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -32,7 +32,7 @@ import java.util.logging.Logger;
 public final class OutputWriter {
     private static final Logger logger = Logger.getLogger(
             com.sun.xml.ws.transport.tcp.util.TCPConstants.LoggingDomain + ".dump");
-    
+
     /**
      * Flush the buffer by looping until the <code>ByteBuffer</code> is empty
      * @param bb the ByteBuffer to write.
@@ -44,7 +44,7 @@ public final class OutputWriter {
             logger.log(Level.FINEST, MessagesMessages.WSTCP_1070_OUTPUT_WRITER_DUMP(socket.getInetAddress().getHostAddress(), socketChannel.socket().getPort()));
             logger.log(Level.FINEST, DumpUtils.dumpBytes(bb));
         }
-        
+
         SelectionKey key = null;
         Selector writeSelector = null;
         int attempts = 0;
@@ -55,7 +55,7 @@ public final class OutputWriter {
                 if (len < 0){
                     throw new EOFException();
                 }
-                
+
                 if (len == 0) {
                     if ( writeSelector == null ){
                         writeSelector = SelectorFactory.getSelector();
@@ -64,9 +64,9 @@ public final class OutputWriter {
                             continue;
                         }
                     }
-                    
+
                     key = socketChannel.register(writeSelector, SelectionKey.OP_WRITE);
-                    
+
                     if (writeSelector.select(30 * 1000) == 0) {
                         if (attempts > 2) {
                             Socket socket = socketChannel.socket();
@@ -84,7 +84,7 @@ public final class OutputWriter {
                 key.cancel();
                 key = null;
             }
-            
+
             if ( writeSelector != null ) {
                 // Cancel the key.
                 writeSelector.selectNow();
@@ -92,7 +92,7 @@ public final class OutputWriter {
             }
         }
     }
-    
+
     /**
      * Flush the buffer by looping until the <code>ByteBuffer</code> is empty
      * @param bb the ByteBuffer to write.
@@ -114,7 +114,7 @@ public final class OutputWriter {
                 if (len < 0){
                     throw new EOFException();
                 }
-                
+
                 if (len == 0) {
                     if ( writeSelector == null ){
                         writeSelector = SelectorFactory.getSelector();
@@ -123,9 +123,9 @@ public final class OutputWriter {
                             continue;
                         }
                     }
-                    
+
                     key = socketChannel.register(writeSelector, SelectionKey.OP_WRITE);
-                    
+
                     if (writeSelector.select(30 * 1000) == 0) {
                         if (attempts > 2) {
                             Socket socket = socketChannel.socket();
@@ -143,7 +143,7 @@ public final class OutputWriter {
                 key.cancel();
                 key = null;
             }
-            
+
             if ( writeSelector != null ) {
                 // Cancel the key.
                 writeSelector.selectNow();
@@ -151,14 +151,14 @@ public final class OutputWriter {
             }
         }
     }
-    
+
     private static boolean hasRemaining(final ByteBuffer[] bb) {
         for(int i=bb.length - 1; i>=0; i--) {
             if (bb[i].hasRemaining()) {
                 return true;
             }
         }
-        
+
         return false;
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -34,14 +34,14 @@ import javax.xml.namespace.QName;
  */
 
 public class EncryptedKeyToken extends SecurityHeaderBlockImpl implements SecurityToken, Token {
-    
+
     EncryptedKey encryptedKey = null;
     SOAPElement elem = null;
     /** Creates a new instance of EncryptedKeyToken */
     public EncryptedKeyToken(SOAPElement elem) {
         this.elem = elem;
     }
-    
+
     public Key getSecretKey(Key privKey, String dataEncAlgo) throws XWSSecurityException {
         try {
             XMLCipher xmlc = null;
@@ -50,8 +50,8 @@ public class EncryptedKeyToken extends SecurityHeaderBlockImpl implements Securi
                 NodeList nl = elem.getElementsByTagNameNS(MessageConstants.XENC_NS, "EncryptionMethod");
                 if (nl != null)
                     algorithm = ((Element)nl.item(0)).getAttribute("Algorithm");
-                xmlc = XMLCipher.getInstance(algorithm); 
-                xmlc.init(XMLCipher.UNWRAP_MODE, privKey); 
+                xmlc = XMLCipher.getInstance(algorithm);
+                xmlc.init(XMLCipher.UNWRAP_MODE, privKey);
                 if ( encryptedKey == null)
                     encryptedKey = xmlc.loadEncryptedKey(elem);
             }
@@ -65,17 +65,17 @@ public class EncryptedKeyToken extends SecurityHeaderBlockImpl implements Securi
             throw new XWSSecurityException("Error while getting SecretKey from EncryptedKey");
         }
     }
-    
+
     @Override
     public SOAPElement getAsSoapElement() {
         //throw new UnsupportedOperationException("Not supported");
         if(elem != null)
             return elem;
         else
-           throw new UnsupportedOperationException("Not supported"); 
+           throw new UnsupportedOperationException("Not supported");
     }
-    
-    
+
+
     @Override
     public String getId(){
         try {
@@ -84,7 +84,7 @@ public class EncryptedKeyToken extends SecurityHeaderBlockImpl implements Securi
             throw new RuntimeException("Error while extracting ID");
         }
     }
-    
+
     public KeyInfoHeaderBlock getKeyInfo() {
          try {
             if (encryptedKey != null) {
@@ -97,12 +97,12 @@ public class EncryptedKeyToken extends SecurityHeaderBlockImpl implements Securi
                 }
                 KeyInfo keyInfo = new KeyInfo(keyInfoElem, "MessageConstants.DSIG_NS");
                 return new KeyInfoHeaderBlock(keyInfo);
-            }           
+            }
         } catch (XWSSecurityException | XMLSecurityException ex) {
             throw new XWSSecurityRuntimeException("Error while extracting KeyInfo", ex);
         }
     }
-    
+
      @Override
      public String getType() {
         return MessageConstants.XENC_ENCRYPTED_KEY_QNAME;

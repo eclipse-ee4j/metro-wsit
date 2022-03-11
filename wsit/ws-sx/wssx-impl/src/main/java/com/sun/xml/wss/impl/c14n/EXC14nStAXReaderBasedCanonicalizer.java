@@ -39,17 +39,17 @@ public class EXC14nStAXReaderBasedCanonicalizer extends BaseCanonicalizer {
         }
         _tmpBuffer = new UnsyncByteArrayOutputStream();
     }
-    
+
     public void canonicalize(XMLStreamReader reader,OutputStream stream,List inclusiveList) throws XMLStreamException, IOException{
-        
+
         if(reader.hasNext() && reader.getEventType() != XMLStreamConstants.START_ELEMENT){
             throw new XMLStreamException("Reader should point to START_ELEMENT EVENT");
         }
-        
+
         updatedNamespaceContext(reader);
         this._stream = stream;
         this._inclusivePrefixList = inclusiveList;
-		int eventType = reader.getEventType();
+        int eventType = reader.getEventType();
         do{
             switch(eventType){
                 case XMLStreamConstants.START_ELEMENT:{
@@ -71,7 +71,7 @@ public class EXC14nStAXReaderBasedCanonicalizer extends BaseCanonicalizer {
                 case XMLStreamConstants.CHARACTERS:{
                     if(!reader.isWhiteSpace()){
                         outputTextToWriter(reader.getText(),_stream);
-					}
+                    }
                     break;
                 }
                 case XMLStreamConstants.COMMENT:{
@@ -81,7 +81,7 @@ public class EXC14nStAXReaderBasedCanonicalizer extends BaseCanonicalizer {
                     break;
                 }
                 case XMLStreamConstants.END_DOCUMENT:{
-                    
+
                     break;
                 }
                 case XMLStreamConstants.ENTITY_DECLARATION:{
@@ -99,14 +99,14 @@ public class EXC14nStAXReaderBasedCanonicalizer extends BaseCanonicalizer {
                 case XMLStreamConstants.SPACE:{
                     break;
                 }
-                
+
                 case XMLStreamConstants.START_DOCUMENT:{
                     break;
                 }
                 default :{
                     break;
                 }
-                
+
             }
             eventType = reader.next();
         } while(reader.hasNext() && _index >0);
@@ -128,20 +128,20 @@ public class EXC14nStAXReaderBasedCanonicalizer extends BaseCanonicalizer {
         }
         updatedNamespaceContext(reader);
         updateAttributes(reader);
-        
+
         if(prefix != null){
             _visiblyUtilized.add(prefix);
         }
         if(_elementPrefix.length() >0){
             AttributeNS eDecl = _exC14NContext.getNamespaceDeclaration(_elementPrefix);
-            
+
             if(eDecl !=null && !eDecl.isWritten()){
                 eDecl.setWritten(true);
                 _nsResult.add(eDecl);
             }
-            
+
         }
-        
+
         if(_visiblyUtilized.size() > 0){
             Iterator prefixItr = _visiblyUtilized.iterator();
             populateNamespaceDecl(prefixItr);
@@ -149,7 +149,7 @@ public class EXC14nStAXReaderBasedCanonicalizer extends BaseCanonicalizer {
         if(_inclusivePrefixList != null){
             populateNamespaceDecl(_inclusivePrefixList.iterator());
         }
-        
+
         if ( _nsResult.size() > 0) {
             BaseCanonicalizer.sort(_nsResult);
             writeAttributesNS(_nsResult);
@@ -169,14 +169,14 @@ public class EXC14nStAXReaderBasedCanonicalizer extends BaseCanonicalizer {
         while(prefixItr.hasNext() ){
             String prefix = (String)prefixItr.next();
             nsDecl = _exC14NContext.getNamespaceDeclaration(prefix);
-            
+
             if(nsDecl !=null && !nsDecl.isWritten()){
                 nsDecl.setWritten(true);
                 _nsResult.add(nsDecl);
             }
         }
     }
-    
+
     private void updatedNamespaceContext(XMLStreamReader reader){
         if(reader.getEventType() != reader.START_ELEMENT){
             return;
@@ -204,7 +204,7 @@ public class EXC14nStAXReaderBasedCanonicalizer extends BaseCanonicalizer {
             _attrResult.add(attr);
         }
     }
-    
+
     private void writeEndElement(XMLStreamReader reader) throws IOException {
         final String localName = reader.getLocalName();
         final String prefix = reader.getPrefix();
@@ -217,11 +217,11 @@ public class EXC14nStAXReaderBasedCanonicalizer extends BaseCanonicalizer {
             writeStringToUtf8(":",_stream);
             writeStringToUtf8(localName,_stream);
         } else if(prefix == null){
-            writeStringToUtf8(localName,_stream);  
+            writeStringToUtf8(localName,_stream);
         }
         writeCharToUtf8('>',_stream);
     }
-    
+
     @SuppressWarnings("unchecked")
     protected StAXAttr getAttribute(){
         if(_attrPos < _attrs.size() ){
@@ -233,9 +233,9 @@ public class EXC14nStAXReaderBasedCanonicalizer extends BaseCanonicalizer {
             return (StAXAttr)_attrs.get(_attrPos++);
         }
     }
-    
+
     protected void writeAttributesNS(List itr) throws IOException {
-        
+
         AttributeNS attr = null;
         int size = itr.size();
         for ( int i=0; i<size; i++) {
@@ -243,11 +243,11 @@ public class EXC14nStAXReaderBasedCanonicalizer extends BaseCanonicalizer {
             _tmpBuffer.reset();
             _stream.write(attr.getUTF8Data(_tmpBuffer));
         }
-        
+
     }
-    
+
     protected void writeAttributes(List itr) throws IOException {
-        
+
         int size = itr.size();
         for ( int i=0; i<size; i++) {
             StAXAttr attr = (StAXAttr) itr.get(i);

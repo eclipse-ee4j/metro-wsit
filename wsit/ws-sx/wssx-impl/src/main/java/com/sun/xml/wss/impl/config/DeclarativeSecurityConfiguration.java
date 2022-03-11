@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -30,7 +30,7 @@ public class DeclarativeSecurityConfiguration implements SecurityPolicy {
 
     private boolean retainSecHeader = false;
     private boolean resetMU = false;
-    
+
     /*
      *@param doDumpMessages set it to true to enable dumping of messages
      */
@@ -38,7 +38,7 @@ public class DeclarativeSecurityConfiguration implements SecurityPolicy {
         senderSettings.dumpMessages(doDumpMessages);
         receiverSettings.dumpMessages(doDumpMessages);
     }
-    
+
     /*
      *@param flag set it to true to enable DynamicPolicyCallbacks for sender side Policies
      */
@@ -46,21 +46,21 @@ public class DeclarativeSecurityConfiguration implements SecurityPolicy {
         senderSettings.enableDynamicPolicy(flag);
         receiverSettings.enableDynamicPolicy(flag);
     }
-    
+
     /**
      *@return the <code>MessagePolicy</code> applicable for outgoing requests.
      */
     public MessagePolicy senderSettings() {
         return senderSettings;
     }
-    
+
     /**
      *@return the <code>MessagePolicy</code> applicable for incoming requests.
      */
     public MessagePolicy receiverSettings() {
         return receiverSettings;
     }
-    
+
     /*
      *@param bspFlag set it to true of the BSP conformance flag was specified in the configuration
      */
@@ -72,21 +72,21 @@ public class DeclarativeSecurityConfiguration implements SecurityPolicy {
         senderSettings.isBSP(bspFlag);
         receiverSettings.isBSP(bspFlag);
     }
-    
+
     /*
      *@return the Retain Security Header Config Property
      */
     public boolean retainSecurityHeader() {
         return retainSecHeader;
     }
-    
+
     /*
-     *@param arg, set the retainSecurityHeader flag. 
+     *@param arg, set the retainSecurityHeader flag.
      */
     public void retainSecurityHeader(boolean arg) {
         this.retainSecHeader = arg;
     }
-    
+
     /**
      * @return the type of the policy
      */
@@ -98,8 +98,8 @@ public class DeclarativeSecurityConfiguration implements SecurityPolicy {
     public void resetMustUnderstand(boolean value) {
         this.resetMU = value;
     }
-    
+
     public boolean resetMustUnderstand() {
-        return this.resetMU; 
+        return this.resetMU;
     }
 }

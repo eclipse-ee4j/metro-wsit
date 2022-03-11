@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  * Copyright 1995-2005 The Apache Software Foundation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -94,7 +94,7 @@ public class Canonicalizer20010315ExclOmitComments {
     static final int NODE_AFTER_DOCUMENT_ELEMENT = 1;
     //The null xmlns definiton.
     protected static final Attr nullNode;
-    
+
     static {
         try {
             nullNode=WSITXMLFactory.createDocumentBuilderFactory(WSITXMLFactory.DISABLE_SECURE_PROCESSING).
@@ -129,13 +129,13 @@ public class Canonicalizer20010315ExclOmitComments {
     public Canonicalizer20010315ExclOmitComments() {
         this._includeComments = false;
     }
-    
+
     /**
      * Method engineCanonicalizeXPathNodeSet
      */
     public void engineCanonicalizeXPathNodeSet(Set xpathNodeSet,
             String inclusiveNamespaces,java.io.OutputStream stream,XMLCryptoContext context) throws CanonicalizationException,URIReferenceException {
-        
+
         try {
             _writer = stream;
             this._inclusiveNSSet = (TreeSet)InclusiveNamespaces
@@ -166,9 +166,9 @@ public class Canonicalizer20010315ExclOmitComments {
             this._inclusiveNSSet = null;
         }
     }
-    
-    
-    
+
+
+
     /**
      */
     @SuppressWarnings("unchecked")
@@ -182,7 +182,7 @@ public class Canonicalizer20010315ExclOmitComments {
             attrs = E.getAttributes();
             attrsLength = attrs.getLength();
         }
-        
+
         //The prefix visibly utilized(in the attribute or in the name) in the element
         Set visiblyUtilized =null;
         //It's the output selected.
@@ -190,7 +190,7 @@ public class Canonicalizer20010315ExclOmitComments {
         if (isOutputElement) {
             visiblyUtilized =  (Set) this._inclusiveNSSet.clone();
         }
-        
+
         for (int i = 0; i < attrsLength; i++) {
             Attr N = (Attr) attrs.item(i);
             String NName=N.getLocalName();
@@ -199,7 +199,7 @@ public class Canonicalizer20010315ExclOmitComments {
                 //The node is not in the nodeset(if there is a nodeset)
                 continue;
             }*/
-            
+
             if (!XMLNS_URI.equals(N.getNamespaceURI())) {
                 //Not a namespace definition.
                 if (isOutputElement) {
@@ -213,8 +213,8 @@ public class Canonicalizer20010315ExclOmitComments {
                 }
                 continue;
             }
-            
-            
+
+
             if (ns.addMapping(NName, NNodeValue,N)) {
                 //New definiton check if it is relative
                 if (C14nHelper.namespaceIsRelative(NNodeValue)) {
@@ -225,7 +225,7 @@ public class Canonicalizer20010315ExclOmitComments {
                 }
             }
         }
-        
+
         if (isOutputElement) {
             //The element is visible, handle the xmlns definition
             Attr xmlns = E.getAttributeNodeNS(XMLNS_URI, XMLNS);
@@ -234,7 +234,7 @@ public class Canonicalizer20010315ExclOmitComments {
                 //then xmlns=""
                 ns.addMapping(XMLNS,"",nullNode);
             }
-            
+
             if (E.getNamespaceURI() != null) {
                 String prefix = E.getPrefix();
                 if ((prefix == null) || (prefix.length() == 0)) {
@@ -267,12 +267,12 @@ public class Canonicalizer20010315ExclOmitComments {
                 result.add(key);
             }
         }
-        
+
         return result.iterator();
     }
-    
-    
-    
+
+
+
     /**
      * Checks whether a Comment or ProcessingInstruction is before or after the
      * document element. This is needed for prepending or appending "\n"s.
@@ -284,7 +284,7 @@ public class Canonicalizer20010315ExclOmitComments {
      * @see #NODE_AFTER_DOCUMENT_ELEMENT
      */
     final static int getPositionRelativeToDocumentElement(Node currentNode) {
-        
+
         if ((currentNode == null) ||
                 (currentNode.getParentNode().getNodeType() != Node.DOCUMENT_NODE) ) {
             return NODE_NOT_BEFORE_OR_AFTER_DOCUMENT_ELEMENT;
@@ -293,17 +293,17 @@ public class Canonicalizer20010315ExclOmitComments {
         if ( (documentElement == null)  || (documentElement == currentNode) ){
             return NODE_NOT_BEFORE_OR_AFTER_DOCUMENT_ELEMENT;
         }
-        
+
         for (Node x = currentNode; x != null; x = x.getNextSibling()) {
             if (x == documentElement) {
                 return NODE_BEFORE_DOCUMENT_ELEMENT;
             }
         }
-        
+
         return NODE_AFTER_DOCUMENT_ELEMENT;
     }
-    
-    
+
+
     /**
      * Canoicalizes all the nodes included in the currentNode and contained in the
      * _xpathNodeSet field.
@@ -312,13 +312,13 @@ public class Canonicalizer20010315ExclOmitComments {
     final void canonicalizeXPathNodeSet(Node currentNode, NameSpaceSymbTable ns )
     throws CanonicalizationException, IOException ,URIReferenceException{
         boolean currentNodeIsVisible = this._xpathNodeSet.contains(currentNode);
-        
+
         switch (currentNode.getNodeType()) {
-            
+
             case Node.DOCUMENT_TYPE_NODE :
             default :
                 break;
-                
+
             case Node.ENTITY_NODE :
             case Node.NOTATION_NODE :
             case Node.DOCUMENT_FRAGMENT_NODE :
@@ -331,19 +331,19 @@ public class Canonicalizer20010315ExclOmitComments {
                     canonicalizeXPathNodeSet(currentChild,ns);
                 }
                 break;
-                
+
             case Node.COMMENT_NODE :
                 if (currentNodeIsVisible && this._includeComments) {
                     outputCommentToWriter((Comment) currentNode, this._writer);
                 }
                 break;
-                
+
             case Node.PROCESSING_INSTRUCTION_NODE :
                 if (currentNodeIsVisible) {
                     outputPItoWriter((ProcessingInstruction) currentNode, this._writer);
                 }
                 break;
-                
+
             case Node.TEXT_NODE : {
                 if (currentNodeIsVisible && currentNode.getParentNode().getLocalName().equals(MessageConstants.WSSE_BINARY_SECURITY_TOKEN_LNAME)
                 && currentNode.getParentNode().getNamespaceURI().equals(MessageConstants.WSSE_NS)) {
@@ -351,11 +351,11 @@ public class Canonicalizer20010315ExclOmitComments {
                 }
                 break;
             }
-            
+
             case Node.CDATA_SECTION_NODE :
                 if (currentNodeIsVisible) {
                     outputTextToWriter(currentNode.getNodeValue(), this._writer);
-                    
+
                     for (Node nextSibling = currentNode.getNextSibling();
                     (nextSibling != null)
                     && ((nextSibling.getNodeType() == Node.TEXT_NODE)
@@ -372,7 +372,7 @@ public class Canonicalizer20010315ExclOmitComments {
                     }
                 }
                 break;
-                
+
             case Node.ELEMENT_NODE :
                 String localName = currentNode.getLocalName();
                 Element currentElement = null;
@@ -391,8 +391,8 @@ public class Canonicalizer20010315ExclOmitComments {
                     }
                 }
                 currentElement =(Element) currentNode;
-                
-                
+
+
                 OutputStream writer=this._writer;
                 String tagName=currentElement.getTagName();
                 if (currentNodeIsVisible) {
@@ -404,25 +404,25 @@ public class Canonicalizer20010315ExclOmitComments {
                     //Not an outputNode.
                     ns.push();
                 }
-                
+
                 // we output all Attrs which are available
                 Iterator attrs = handleAttributes(currentElement,ns,currentNodeIsVisible);
                 while (attrs.hasNext()) {
                     Attr attr = (Attr) attrs.next();
                     outputAttrToWriter(attr.getNodeName(), attr.getNodeValue(), writer);
                 }
-                
+
                 if (currentNodeIsVisible) {
                     writer.write('>');
                 }
-                
+
                 // traversal
                 for (Node currentChild = currentNode.getFirstChild();
                 currentChild != null;
                 currentChild = currentChild.getNextSibling()) {
                     canonicalizeXPathNodeSet(currentChild,ns);
                 }
-                
+
                 if (currentNodeIsVisible) {
                     writer.write(_END_TAG);
                     writeStringToUtf8(tagName,writer);
@@ -435,7 +435,7 @@ public class Canonicalizer20010315ExclOmitComments {
                 break;
         }
     }
-    
+
     /**
      * Adds to ns the definitons from the parent elements of el
      */
@@ -471,7 +471,7 @@ public class Canonicalizer20010315ExclOmitComments {
                     //Not a namespace definition, ignore.
                     continue;
                 }
-                
+
                 String NName=N.getLocalName();
                 String NValue=N.getNodeValue();
                 if (XML.equals(NName)
@@ -510,39 +510,39 @@ public class Canonicalizer20010315ExclOmitComments {
         final int length = value.length();
         for (int i=0;i < length; i++) {
             char c = value.charAt(i);
-            
+
             switch (c) {
-                
+
                 case '&' :
                     toWrite=_AMP_;
                     //writer.write(_AMP_);
                     break;
-                    
+
                 case '<' :
                     toWrite=_LT_;
                     //writer.write(_LT_);
                     break;
-                    
+
                 case '"' :
                     toWrite=_QUOT_;
                     //writer.write(_QUOT_);
                     break;
-                    
+
                 case 0x09 :    // '\t'
                     toWrite=__X9_;
                     //writer.write(__X9_);
                     break;
-                    
+
                 case 0x0A :    // '\n'
                     toWrite=__XA_;
                     //writer.write(__XA_);
                     break;
-                    
+
                 case 0x0D :    // '\r'
                     toWrite=__XD_;
                     //writer.write(__XD_);
                     break;
-                    
+
                 default :
                     writeCharToUtf8(c,writer);
                     //this._writer.write(c);
@@ -550,10 +550,10 @@ public class Canonicalizer20010315ExclOmitComments {
             }
             writer.write(toWrite);
         }
-        
+
         writer.write('\"');
     }
-    
+
     final static void writeCharToUtf8(final char c,final OutputStream out) throws IOException{
         char ch;
         if (/*(c >= 0x0001) &&*/ (c <= 0x007F)) {
@@ -577,9 +577,9 @@ public class Canonicalizer20010315ExclOmitComments {
             }
             out.write(0x80 | ((c) & 0x3F));
         }
-        
+
     }
-    
+
     final static void writeStringToUtf8(final String str,final OutputStream out) throws IOException{
         final int length=str.length();
         int i=0;
@@ -607,7 +607,7 @@ public class Canonicalizer20010315ExclOmitComments {
                 out.write(0x80 | ((c) & 0x3F));
             }
         }
-        
+
     }
     /**
      * Outputs a PI to the internal Writer.
@@ -616,15 +616,15 @@ public class Canonicalizer20010315ExclOmitComments {
      */
     static final void outputPItoWriter(ProcessingInstruction currentPI, OutputStream writer) throws IOException {
         final int position = getPositionRelativeToDocumentElement(currentPI);
-        
+
         if (position == NODE_AFTER_DOCUMENT_ELEMENT) {
             writer.write('\n');
         }
         writer.write(_BEGIN_PI);
-        
+
         final String target = currentPI.getTarget();
         int length = target.length();
-        
+
         for (int i = 0; i < length; i++) {
             char c=target.charAt(i);
             if (c==0x0D) {
@@ -633,14 +633,14 @@ public class Canonicalizer20010315ExclOmitComments {
                 writeCharToUtf8(c,writer);
             }
         }
-        
+
         final String data = currentPI.getData();
-        
+
         length = data.length();
-        
+
         if (length > 0) {
             writer.write(' ');
-            
+
             for (int i = 0; i < length; i++) {
                 char c=data.charAt(i);
                 if (c==0x0D) {
@@ -650,13 +650,13 @@ public class Canonicalizer20010315ExclOmitComments {
                 }
             }
         }
-        
+
         writer.write(_END_PI);
         if (position == NODE_BEFORE_DOCUMENT_ELEMENT) {
             writer.write('\n');
         }
     }
-    
+
     /**
      * Method outputCommentToWriter
      *
@@ -668,10 +668,10 @@ public class Canonicalizer20010315ExclOmitComments {
             writer.write('\n');
         }
         writer.write(_BEGIN_COMM);
-        
+
         final String data = currentComment.getData();
         final int length = data.length();
-        
+
         for (int i = 0; i < length; i++) {
             char c=data.charAt(i);
             if (c==0x0D) {
@@ -680,13 +680,13 @@ public class Canonicalizer20010315ExclOmitComments {
                 writeCharToUtf8(c,writer);
             }
         }
-        
+
         writer.write(_END_COMM);
         if (position == NODE_BEFORE_DOCUMENT_ELEMENT) {
             writer.write('\n');
         }
     }
-    
+
     /**
      * Outputs a Text of CDATA section to the internal Writer.
      *
@@ -695,33 +695,33 @@ public class Canonicalizer20010315ExclOmitComments {
     static final void outputTextToWriter(final String text, final OutputStream writer) throws IOException {
         outputTextToWriter(text, writer,false);
     }
-    
+
     /**
      * Outputs a Text of CDATA section to the internal Writer.
      *
      * @param writer TODO
-     * @param skipWhiteSpace S	   ::=   	(#x20 | #x9 | #xD | #xA)+
+     * @param skipWhiteSpace S       ::=       (#x20 | #x9 | #xD | #xA)+
      */
     static final void outputTextToWriter(final String text, final OutputStream writer, boolean skipWhiteSpace) throws IOException {
         final int length = text.length();
         byte []toWrite;
         for (int i = 0; i < length; i++) {
             char c = text.charAt(i);
-            
+
             switch (c) {
-                
+
                 case '&' :
                     writer.write(_AMP_);
                     break;
-                    
+
                 case '<' :
                     writer.write(_LT_);
                     break;
-                    
+
                 case '>' :
                     writer.write(_GT_);
                     break;
-                    
+
                 case 0xD :
                     if(!skipWhiteSpace){
                         writer.write(__XD_);
@@ -747,8 +747,8 @@ public class Canonicalizer20010315ExclOmitComments {
             }
         }
     }
-    
-    
+
+
     /**
      * @return Returns the _includeComments.
      */
@@ -761,20 +761,20 @@ public class Canonicalizer20010315ExclOmitComments {
     final public void set_includeComments(boolean comments) {
         _includeComments = comments;
     }
-    
+
     /**
      * @param _writer The _writer to set.
      */
     public void setWriter(OutputStream _writer) {
         this._writer = _writer;
     }
-    
+
     protected static Node deReference(final Node node,XMLCryptoContext context)throws URIReferenceException {
-        
+
          /*NodeList nodeList = ((Document)node).getElementsByTagNameNS(WSSE_EXT,"SecurityTokenReference");
         final Node domNode = nodeList.item(0);*/
         URIDereferencer dereferencer = context.getURIDereferencer();
-        
+
         //Dereference SecurityTokenReference;
         DOMURIReference domReference = new DOMURIReference(){
             @Override
@@ -799,7 +799,7 @@ public class Canonicalizer20010315ExclOmitComments {
             throw new URIReferenceException("URI "+((Element)node).getAttribute("URI") + "not found");
         }
     }
-    
+
     void removeNodes(Node rootNode,Set result){
         try{
             switch (rootNode.getNodeType()) {
@@ -818,22 +818,22 @@ public class Canonicalizer20010315ExclOmitComments {
             //log
         }
     }
-    
+
     final void printBinaryToken(Node currentNode, NameSpaceSymbTable ns )
     throws CanonicalizationException, IOException ,URIReferenceException{
         //handle EKSHA1 under DKT
         if (currentNode == null) return;
-        
+
         boolean currentNodeIsVisible = this._xpathNodeSet.contains(currentNode);
         if(!currentNodeIsVisible){
             currentNodeIsVisible = this.tokenSet.contains(currentNode);
         }
         switch (currentNode.getNodeType()) {
-            
+
             case Node.DOCUMENT_TYPE_NODE :
             default :
                 break;
-                
+
             case Node.ENTITY_NODE :
             case Node.NOTATION_NODE :
             case Node.DOCUMENT_FRAGMENT_NODE :
@@ -846,19 +846,19 @@ public class Canonicalizer20010315ExclOmitComments {
                     printBinaryToken(currentChild,ns);
                 }
                 break;
-                
+
             case Node.COMMENT_NODE :
                 if (currentNodeIsVisible && this._includeComments) {
                     outputCommentToWriter((Comment) currentNode, this._writer);
                 }
                 break;
-                
+
             case Node.PROCESSING_INSTRUCTION_NODE :
                 if (currentNodeIsVisible) {
                     outputPItoWriter((ProcessingInstruction) currentNode, this._writer);
                 }
                 break;
-                
+
             case Node.TEXT_NODE : {
                 if (currentNodeIsVisible && currentNode.getParentNode().getLocalName().equals(MessageConstants.WSSE_BINARY_SECURITY_TOKEN_LNAME)
                 && currentNode.getParentNode().getNamespaceURI().equals(MessageConstants.WSSE_NS)) {
@@ -873,11 +873,11 @@ public class Canonicalizer20010315ExclOmitComments {
                 }
                 break;
             }
-            
+
             case Node.CDATA_SECTION_NODE :
                 if (currentNodeIsVisible) {
                     outputTextToWriter(currentNode.getNodeValue(), this._writer);
-                    
+
                     for (Node nextSibling = currentNode.getNextSibling();
                     (nextSibling != null)
                     && ((nextSibling.getNodeType() == Node.TEXT_NODE)
@@ -894,12 +894,12 @@ public class Canonicalizer20010315ExclOmitComments {
                     }
                 }
                 break;
-                
+
             case Node.ELEMENT_NODE :
                 String localName = currentNode.getLocalName();
                 Element currentElement = null;
                 currentElement = (Element)currentNode;
-                
+
                 OutputStream writer=this._writer;
                 String tagName=currentElement.getTagName();
                 if (currentNodeIsVisible) {
@@ -911,7 +911,7 @@ public class Canonicalizer20010315ExclOmitComments {
                     //Not an outputNode.
                     ns.push();
                 }
-                
+
                 // we output all Attrs which are available
                 Attr defNS = currentElement.getAttributeNodeNS(MessageConstants.NAMESPACES_NS, "xmlns");
                 Iterator attrs = handleAttributes(currentElement,ns, currentNodeIsVisible);
@@ -921,18 +921,18 @@ public class Canonicalizer20010315ExclOmitComments {
                     Attr attr = (Attr) attrs.next();
                     outputAttrToWriter(attr.getNodeName(), attr.getNodeValue(), writer);
                 }
-                
+
                 if (currentNodeIsVisible) {
                     writer.write('>');
                 }
-                
+
                 // traversal
                 for (Node currentChild = currentNode.getFirstChild();
                 currentChild != null;
                 currentChild = currentChild.getNextSibling()) {
                     printBinaryToken(currentChild,ns);
                 }
-                
+
                 if (currentNodeIsVisible) {
                     writer.write(_END_TAG);
                     writeStringToUtf8(tagName,writer);

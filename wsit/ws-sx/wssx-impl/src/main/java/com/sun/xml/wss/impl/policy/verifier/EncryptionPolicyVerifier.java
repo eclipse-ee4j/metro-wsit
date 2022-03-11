@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -33,14 +33,14 @@ import com.sun.xml.wss.impl.MessageConstants;
  * @author  K.Venugopal@sun.com
  */
 public class EncryptionPolicyVerifier implements PolicyVerifier{
-    
+
     FilterProcessingContext context;
-    
+
     /** Creates a new instance of EncryptionPolicyVerifier */
     public EncryptionPolicyVerifier (FilterProcessingContext context) {
         this.context = context;
     }
-    
+
     /**
      *
      * @param configPolicy Policy configured for the incoming message.
@@ -54,7 +54,7 @@ public class EncryptionPolicyVerifier implements PolicyVerifier{
         if(PolicyTypeUtil.encryptionPolicy (configPolicy) && PolicyTypeUtil.encryptionPolicy (recvdPolicy)){
             EncryptionPolicy rEP = (EncryptionPolicy)recvdPolicy;
             EncryptionPolicy cEP = (EncryptionPolicy)configPolicy;
-            
+
             EncryptionPolicy.FeatureBinding rfBinding = (EncryptionPolicy.FeatureBinding)rEP.getFeatureBinding ();
             EncryptionPolicy.FeatureBinding cfBinding = (EncryptionPolicy.FeatureBinding)cEP.getFeatureBinding ();
             String rDA = rfBinding.getDataEncryptionAlgorithm ();
@@ -91,7 +91,7 @@ public class EncryptionPolicyVerifier implements PolicyVerifier{
                 }else if(cKeyType == PolicyTypeUtil.X509CERTIFICATE_TYPE ){
                     checkX509CertificateBinding ((X509CertificateBinding)ckeyBinding,(X509CertificateBinding)rkeyBinding);
                 }
-                
+
             } */
         }
     }
@@ -101,27 +101,27 @@ public class EncryptionPolicyVerifier implements PolicyVerifier{
      * @param recvdPolicy SAMLAssertionBinding
       */
     private void checkSAMLAssertionBinding (SAMLAssertionBinding configPolicy , SAMLAssertionBinding recvdPolicy)throws PolicyViolationException {
-        
+
         boolean matched = true;
-        
+
         String _cAI = configPolicy.getAuthorityIdentifier ();
         String _rAI = recvdPolicy.getAuthorityIdentifier ();
         if((_cAI != null && _cAI.length () > 0 ) && _rAI != null){
             matched = _cAI.equals (_rAI);
             _throwError (configPolicy,recvdPolicy,matched);
         }
-        
+
     }
-    
+
    /**
      * verifies whether the configured and received policies are same or not
      * @param configPolicy X509CertificateBinding
      * @param recvdPolicy X509CertificateBinding
     */
     private void checkX509CertificateBinding (X509CertificateBinding configPolicy , X509CertificateBinding recvdPolicy)throws PolicyViolationException {
-        
+
         boolean matched = true;
-        
+
         configPolicy = setReferenceType(configPolicy);
         String ckeyAlg = configPolicy.getKeyAlgorithm ();
         String rkeyAlg = recvdPolicy.getKeyAlgorithm ();
@@ -129,18 +129,18 @@ public class EncryptionPolicyVerifier implements PolicyVerifier{
             matched = ckeyAlg.equals (rkeyAlg);
         }
         _throwError (configPolicy,recvdPolicy,matched);
-        
+
         /*String cRT = configPolicy.getReferenceType ();
         String rRT = recvdPolicy.getReferenceType ();
-        
+
         if(cRT != null && cRT.length () > 0 ){
             matched = cRT.equals (rRT);
         }
         _throwError (configPolicy,recvdPolicy,matched);*/
-        
+
         String cVT = configPolicy.getValueType ();
         String rVT = recvdPolicy.getValueType ();
-        
+
         if(cVT != null && cVT.length () > 0 ){
             matched = cVT.equals (rVT);
         }
@@ -148,12 +148,12 @@ public class EncryptionPolicyVerifier implements PolicyVerifier{
         /*
         String cCI = configPolicy.getCertificateIdentifier ();
         String rCI = recvdPolicy.getCertificateIdentifier ();
-         
+
         if(cCI != null && cCI.length () > 0 ){
             matched = cCI.equals (rCI);
         }
         _throwError (configPolicy,recvdPolicy,matched);
-         
+
         if(!matched){
             throw new PolicyViolationException ("KeyType used to sign the message doesnot match with " +
                     " the receiver side requirements. Configured KeyType is "+configPolicy+
@@ -179,7 +179,7 @@ public class EncryptionPolicyVerifier implements PolicyVerifier{
      * @return  configPolicy X509CertificateBinding
      */
     private X509CertificateBinding setReferenceType(X509CertificateBinding configPolicy){
-        
+
             //Token policyToken = configPolicy.getPolicyToken();
             //if (policyToken != null) {
             if (configPolicy.policyTokenWasSet()) {
@@ -199,7 +199,7 @@ public class EncryptionPolicyVerifier implements PolicyVerifier{
                     }
                 }
              }
-        
+
         return configPolicy;
     }
 }

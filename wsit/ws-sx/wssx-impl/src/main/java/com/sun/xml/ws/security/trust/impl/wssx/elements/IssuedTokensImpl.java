@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -22,27 +22,27 @@ import java.util.List;
  * @author Manveen Kaur.
  */
 public class IssuedTokensImpl implements IssuedTokens {
-    
+
     RequestSecurityTokenResponseCollection collection = null;
-    
+
     public IssuedTokensImpl() {
         // empty c'tor
     }
-    
+
     public IssuedTokensImpl(RequestSecurityTokenResponseCollection rcollection) {
         setIssuedTokens(rcollection);
     }
-    
+
     @Override
     public RequestSecurityTokenResponseCollection getIssuedTokens() {
         return collection;
     }
-    
+
     @Override
     public void setIssuedTokens(RequestSecurityTokenResponseCollection rcollection) {
         collection = rcollection;
     }
-    
+
     @Override
     public List<Object> getAny() {
         return null;

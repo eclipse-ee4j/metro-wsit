@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -29,7 +29,7 @@ public class WSCUtil {
                 DOMUtil.createDom().createElementNS(
                         WSATConstants.WLA_WSAT_NS_URI,WSATConstants.WSAT_WSAT +":"+WSATConstants.BRANCHQUAL);
         branchQual = branchQual.replaceAll(",", "&#044;");
-        ele.setTextContent(branchQual.trim()); 
+        ele.setTextContent(branchQual.trim());
         return ele;
     }
 

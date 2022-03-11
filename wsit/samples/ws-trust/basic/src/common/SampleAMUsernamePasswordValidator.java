@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -33,9 +33,9 @@ import com.sun.identity.authentication.AuthContext;
 
 
 public class SampleAMUsernamePasswordValidator implements PasswordValidationCallback.PasswordValidator {
-                              
+
     private final static String ORG_NAME = "common.org";
-    
+
     private static SSOToken selfToken = null;
     private static String orgName = SystemProperties.get(ORG_NAME);
 
@@ -47,18 +47,18 @@ public class SampleAMUsernamePasswordValidator implements PasswordValidationCall
                 (PasswordValidationCallback.PlainTextPasswordRequest) request;
         String username = plainTextRequest.getUsername();
         String password = plainTextRequest.getPassword();
-        
+
         SSOToken token = authenticateUser(username, password);
 
-	debug.message("Authenticated username/pasword SSOToken is "+token);
+    debug.message("Authenticated username/pasword SSOToken is "+token);
 
         updateUserSubject(token);
 
-	debug.message("Leaving  SampleAMUsernamePasswordValidator.validate");
+    debug.message("Leaving  SampleAMUsernamePasswordValidator.validate");
 
         return true;
     }
-    
+
     private void updateUserSubject(SSOToken token){
         Subject subj = SubjectAccessor.getRequesterSubject();
         if (subj == null){
@@ -71,10 +71,10 @@ public class SampleAMUsernamePasswordValidator implements PasswordValidationCall
         set.clear();
         set.add(token);
     }
-    
+
       private SSOToken authenticateUser(String username, String password) throws PasswordValidationCallback.PasswordValidationException
     {
-	debug.message("Entering SampleAMUsernamePasswordValidator.authenticateUser");
+    debug.message("Entering SampleAMUsernamePasswordValidator.authenticateUser");
 
         AuthContext ac = null;
         SSOToken token = null;
@@ -92,19 +92,19 @@ public class SampleAMUsernamePasswordValidator implements PasswordValidationCall
             debug.error( "Failed to create AuthContext", le );
             throw new PasswordValidationCallback.PasswordValidationException("Failed to create AuthContext", le);
         }
-       
-        try { 
+
+        try {
             Callback[] callbacks = null;
             // Get the information requested by the plug-ins
             while (ac.hasMoreRequirements()) {
                 callbacks = ac.getRequirements();
-                
+
                 if (callbacks != null) {
                     addLoginCallbackMessage(callbacks, orgName, username, password);
                     ac.submitRequirements(callbacks);
                 }
             }
-                    
+
             if (ac.getStatus() == AuthContext.Status.SUCCESS) {
                 debug.message("Authentication successful");
             } else if (ac.getStatus() == AuthContext.Status.FAILED) {
@@ -128,12 +128,12 @@ public class SampleAMUsernamePasswordValidator implements PasswordValidationCall
             throw new PasswordValidationCallback.PasswordValidationException("getSSOToken failed", e);
         }
 
-	debug.message("Leaving  SampleAMUsernamePasswordValidator.authenticateUser");
+    debug.message("Leaving  SampleAMUsernamePasswordValidator.authenticateUser");
 
         return token;
     }
 
-    static void addLoginCallbackMessage(Callback[] callbacks, String orgName, String userName, String password) 
+    static void addLoginCallbackMessage(Callback[] callbacks, String orgName, String userName, String password)
     {
         for (int i = 0; i < callbacks.length; i++) {
             if (callbacks[i] instanceof NameCallback) {

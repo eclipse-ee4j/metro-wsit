@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -32,7 +32,7 @@ public class DateUtils {
      * @param date Date object.
      */
     public static String dateToString(Date date) {
-	return dateToString(date, UTC_DATE_FORMAT);
+    return dateToString(date, UTC_DATE_FORMAT);
     }
 
     /**
@@ -42,33 +42,33 @@ public class DateUtils {
      * @param date Date object.
      */
     public static String toUTCDateFormat(Date date) {
-	return dateToString(date, UTC_DATE_Z_FORMAT);
+    return dateToString(date, UTC_DATE_Z_FORMAT);
     }
 
-    
-    private static String dateToString(Date date, String format) {
-	GregorianCalendar cal = new GregorianCalendar(UTC_TIME_ZONE);
-	cal.setTime(date);
-	String[] params = new String[6];
 
-	params[0] = formatInteger(cal.get(Calendar.YEAR), 4);
-	params[1] = formatInteger(cal.get(Calendar.MONTH) +1, 2);
-	params[2] = formatInteger(cal.get(Calendar.DAY_OF_MONTH), 2);
-	params[3] = formatInteger(cal.get(Calendar.HOUR_OF_DAY), 2);
-	params[4] = formatInteger(cal.get(Calendar.MINUTE), 2);
-	params[5] = formatInteger(cal.get(Calendar.SECOND), 2);
-	return MessageFormat.format(format, (Object[])params);
+    private static String dateToString(Date date, String format) {
+    GregorianCalendar cal = new GregorianCalendar(UTC_TIME_ZONE);
+    cal.setTime(date);
+    String[] params = new String[6];
+
+    params[0] = formatInteger(cal.get(Calendar.YEAR), 4);
+    params[1] = formatInteger(cal.get(Calendar.MONTH) +1, 2);
+    params[2] = formatInteger(cal.get(Calendar.DAY_OF_MONTH), 2);
+    params[3] = formatInteger(cal.get(Calendar.HOUR_OF_DAY), 2);
+    params[4] = formatInteger(cal.get(Calendar.MINUTE), 2);
+    params[5] = formatInteger(cal.get(Calendar.SECOND), 2);
+    return MessageFormat.format(format, (Object[])params);
     }
 
     private static String formatInteger(int value, int length) {
-	String val = Integer.toString(value);
-	int diff = length - val.length();
+    String val = Integer.toString(value);
+    int diff = length - val.length();
 
-	for (int i = 0; i < diff; i++) {
-	    val = "0" + val;
-	}
+    for (int i = 0; i < diff; i++) {
+        val = "0" + val;
+    }
 
-	return val;
+    return val;
     }
 
     /**
@@ -113,40 +113,40 @@ public class DateUtils {
      * @throws ParseException if <code>strDate</code> is in an invalid format.
      */
     public static Date stringToDate(String strDate)
-	throws ParseException
+    throws ParseException
     {
-	int[] diffTime = null;
-	boolean plusTime = true;
+    int[] diffTime = null;
+    boolean plusTime = true;
 
-	// get time differences (if any)
-	int idxT = strDate.indexOf('T');
-	if (idxT == -1) {
-	    throw new ParseException("Invalid Date Format", 0);
-	}
+    // get time differences (if any)
+    int idxT = strDate.indexOf('T');
+    if (idxT == -1) {
+        throw new ParseException("Invalid Date Format", 0);
+    }
 
-	int idxDiffUTC = strDate.indexOf('-', idxT);
-	if (idxDiffUTC == -1) {
-	    idxDiffUTC = strDate.indexOf('+', idxT);
-	    plusTime = false;
-	}
+    int idxDiffUTC = strDate.indexOf('-', idxT);
+    if (idxDiffUTC == -1) {
+        idxDiffUTC = strDate.indexOf('+', idxT);
+        plusTime = false;
+    }
 
-	if (idxDiffUTC != -1) {
-	    diffTime = getDiffTime(strDate, idxDiffUTC);
-	    strDate = strDate.substring(0, idxDiffUTC);
-	}
+    if (idxDiffUTC != -1) {
+        diffTime = getDiffTime(strDate, idxDiffUTC);
+        strDate = strDate.substring(0, idxDiffUTC);
+    }
 
-	int idxMilliSec = strDate.indexOf('.');
-	if (idxMilliSec != -1) {
-	    strDate = strDate.substring(0, idxMilliSec);
-	} else {
-	    // remove the trailing z/Z character
-	    char lastChar = strDate.charAt(strDate.length()-1);
-	    if ((lastChar == 'z') || (lastChar == 'Z')) {
-		strDate = strDate.substring(0, strDate.length()-1);
-	    }
-	}
+    int idxMilliSec = strDate.indexOf('.');
+    if (idxMilliSec != -1) {
+        strDate = strDate.substring(0, idxMilliSec);
+    } else {
+        // remove the trailing z/Z character
+        char lastChar = strDate.charAt(strDate.length()-1);
+        if ((lastChar == 'z') || (lastChar == 'Z')) {
+        strDate = strDate.substring(0, strDate.length()-1);
+        }
+    }
 
-	return createDate(strDate, diffTime, plusTime);
+    return createDate(strDate, diffTime, plusTime);
     }
 
     /**
@@ -160,25 +160,25 @@ public class DateUtils {
      * @throws ParseException if <code>strDate</code> is in an invalid format.
      */
     private static int[] getDiffTime(String strDate, int idx)
-	throws ParseException
+    throws ParseException
     {
-	// discard the plus/minus char and trailing z char.
-	String strDiff = strDate.substring(idx+1, strDate.length()-1);
-	int[] diffArray = new int[2];
-	int colonIdx = strDiff.indexOf(':');
+    // discard the plus/minus char and trailing z char.
+    String strDiff = strDate.substring(idx+1, strDate.length()-1);
+    int[] diffArray = new int[2];
+    int colonIdx = strDiff.indexOf(':');
 
-	if (colonIdx == -1) {
-	    throw new ParseException("Invalid Date Format", 0);
-	}
+    if (colonIdx == -1) {
+        throw new ParseException("Invalid Date Format", 0);
+    }
 
-	try {
-	    diffArray[0] = Integer.parseInt(strDiff.substring(0, colonIdx));
-	    diffArray[1] = Integer.parseInt(strDiff.substring(colonIdx+1));
-	} catch (NumberFormatException nfe) {
-	    throw new ParseException("Invalid Date Format", 0);
-	}
+    try {
+        diffArray[0] = Integer.parseInt(strDiff.substring(0, colonIdx));
+        diffArray[1] = Integer.parseInt(strDiff.substring(colonIdx+1));
+    } catch (NumberFormatException nfe) {
+        throw new ParseException("Invalid Date Format", 0);
+    }
 
-	return diffArray;
+    return diffArray;
     }
 
     /**
@@ -192,59 +192,59 @@ public class DateUtils {
      *        is null.
      */
     private static Date createDate(
-	String strDate,
-	int[] timeDiff,
-	boolean plusDiff
+    String strDate,
+    int[] timeDiff,
+    boolean plusDiff
     ) throws ParseException
     {
-	try {
-	    int year = Integer.parseInt(strDate.substring(0, 4));
-	    if (strDate.charAt(4) != '-') {
-		throw new ParseException("Invalid Date Format", 0);
-	    }
+    try {
+        int year = Integer.parseInt(strDate.substring(0, 4));
+        if (strDate.charAt(4) != '-') {
+        throw new ParseException("Invalid Date Format", 0);
+        }
 
-	    int month = Integer.parseInt(strDate.substring(5, 7)) -1;
-	    if (strDate.charAt(7) != '-') {
-		throw new ParseException("Invalid Date Format", 0);
-	    }
+        int month = Integer.parseInt(strDate.substring(5, 7)) -1;
+        if (strDate.charAt(7) != '-') {
+        throw new ParseException("Invalid Date Format", 0);
+        }
 
-	    int day = Integer.parseInt(strDate.substring(8, 10));
-	    if (strDate.charAt(10) != 'T') {
-		throw new ParseException("Invalid Date Format", 0);
-	    }
+        int day = Integer.parseInt(strDate.substring(8, 10));
+        if (strDate.charAt(10) != 'T') {
+        throw new ParseException("Invalid Date Format", 0);
+        }
 
-	    int hour = Integer.parseInt(strDate.substring(11, 13));
-	    if (strDate.charAt(13) != ':') {
-		throw new ParseException("Invalid Date Format", 0);
-	    }
+        int hour = Integer.parseInt(strDate.substring(11, 13));
+        if (strDate.charAt(13) != ':') {
+        throw new ParseException("Invalid Date Format", 0);
+        }
 
-	    int minute = Integer.parseInt(strDate.substring(14, 16));
-	    int second = 0;
+        int minute = Integer.parseInt(strDate.substring(14, 16));
+        int second = 0;
 
-	    if (strDate.length() > 17) {
-		if (strDate.charAt(16) != ':') {
-		    throw new ParseException("Invalid Date Format", 0);
-		}
+        if (strDate.length() > 17) {
+        if (strDate.charAt(16) != ':') {
+            throw new ParseException("Invalid Date Format", 0);
+        }
 
-		second = Integer.parseInt(strDate.substring(17, 19));
-	    }
+        second = Integer.parseInt(strDate.substring(17, 19));
+        }
 
-	    GregorianCalendar cal = new GregorianCalendar(
-		year, month, day, hour, minute, second);
-	    cal.setTimeZone(UTC_TIME_ZONE);
+        GregorianCalendar cal = new GregorianCalendar(
+        year, month, day, hour, minute, second);
+        cal.setTimeZone(UTC_TIME_ZONE);
 
-	    if (timeDiff != null) {
-		int hourDiff = (plusDiff) ? timeDiff[0] : (-1 * timeDiff[0]);
-		int minuteDiff = (plusDiff) ? timeDiff[1] : (-1 * timeDiff[1]);
-		cal.add(Calendar.HOUR, hourDiff);
-		cal.add(Calendar.MINUTE, minuteDiff);
-	    }
-	    
-	    return cal.getTime();
-	} catch (NumberFormatException nfe) {
-	    throw new ParseException("Invalid Date Format", 0);
-	}
+        if (timeDiff != null) {
+        int hourDiff = (plusDiff) ? timeDiff[0] : (-1 * timeDiff[0]);
+        int minuteDiff = (plusDiff) ? timeDiff[1] : (-1 * timeDiff[1]);
+        cal.add(Calendar.HOUR, hourDiff);
+        cal.add(Calendar.MINUTE, minuteDiff);
+        }
+
+        return cal.getTime();
+    } catch (NumberFormatException nfe) {
+        throw new ParseException("Invalid Date Format", 0);
+    }
     }
 
-    
+
 }

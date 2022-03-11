@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -19,7 +19,7 @@ import jakarta.xml.soap.Detail;
 
 /**
  * Inicates that the sequence with given sequence identifier is not available.
- * 
+ *
  * This exceptions is used under the following conditions:
  *  <ul>
  *      <li>sequence with such {@code sequenceId} is not registered with a given sequence manager</li>
@@ -37,14 +37,14 @@ import jakarta.xml.soap.Detail;
  * Condition : In response to a message containing an unknown or terminated Sequence identifier.
  * Action Upon Generation : None.
  * Action Upon Receipt : MUST terminate the Sequence if not otherwise terminated.
- * 
+ *
  * @author Marek Potociar (marek.potociar at sun.com)
  */
 public final class UnknownSequenceException extends AbstractSoapFaultException {
     private static final long serialVersionUID = 8837409835889666590L;
     //
     private final String sequenceId;
-    
+
     /**
      * Constructs an instance of <code>NoSuchSequenceException</code> for the sequence with {@code sequenceId} identifier.
      * @param sequenceId the identifier of the unknown sequence.
@@ -64,7 +64,7 @@ public final class UnknownSequenceException extends AbstractSoapFaultException {
      */
     public String getSequenceId() {
         return sequenceId;
-    }        
+    }
     @Override
     public Code getCode() {
         return Code.Sender;

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -54,7 +54,7 @@ import javax.xml.stream.XMLStreamWriter;
 
 public class EncryptedHeader implements SecurityHeaderElement, SecurityElementWriter  {
 
-    
+
 
     private JAXBFilterProcessingContext pc = null;
 
@@ -82,7 +82,7 @@ public class EncryptedHeader implements SecurityHeaderElement, SecurityElementWr
 
     }
 
-    
+
 
     public EncryptedData getEncryptedData(){
 
@@ -90,7 +90,7 @@ public class EncryptedHeader implements SecurityHeaderElement, SecurityElementWr
 
     }
 
-    
+
 
     public String getEncryptionAlgorithm(){
 
@@ -98,7 +98,7 @@ public class EncryptedHeader implements SecurityHeaderElement, SecurityElementWr
 
     }
 
-    
+
 
     public Key getKey(){
 
@@ -106,7 +106,7 @@ public class EncryptedHeader implements SecurityHeaderElement, SecurityElementWr
 
     }
 
-    
+
 
     public InputStream getCipherInputStream() throws XWSSecurityException{
 
@@ -114,7 +114,7 @@ public class EncryptedHeader implements SecurityHeaderElement, SecurityElementWr
 
     }
 
-    
+
 
     public InputStream getCipherInputStream(Key key) throws XWSSecurityException{
 
@@ -122,7 +122,7 @@ public class EncryptedHeader implements SecurityHeaderElement, SecurityElementWr
 
     }
 
-    
+
 
     public XMLStreamReader getDecryptedData() throws XMLStreamException, XWSSecurityException{
 
@@ -130,7 +130,7 @@ public class EncryptedHeader implements SecurityHeaderElement, SecurityElementWr
 
     }
 
-    
+
 
     public XMLStreamReader getDecryptedData(Key key) throws XMLStreamException, XWSSecurityException{
 
@@ -138,7 +138,7 @@ public class EncryptedHeader implements SecurityHeaderElement, SecurityElementWr
 
     }
 
-    
+
 
     @Override
     public boolean refersToSecHdrWithId(String id) {
@@ -147,7 +147,7 @@ public class EncryptedHeader implements SecurityHeaderElement, SecurityElementWr
 
     }
 
-    
+
 
     @Override
     public String getId() {
@@ -156,7 +156,7 @@ public class EncryptedHeader implements SecurityHeaderElement, SecurityElementWr
 
     }
 
-    
+
 
     @Override
     public void setId(String id) {
@@ -165,7 +165,7 @@ public class EncryptedHeader implements SecurityHeaderElement, SecurityElementWr
 
     }
 
-    
+
 
     @Override
     public String getNamespaceURI() {
@@ -174,7 +174,7 @@ public class EncryptedHeader implements SecurityHeaderElement, SecurityElementWr
 
     }
 
-    
+
 
     @Override
     public String getLocalPart() {
@@ -183,7 +183,7 @@ public class EncryptedHeader implements SecurityHeaderElement, SecurityElementWr
 
     }
 
-    
+
 
     @Override
     public XMLStreamReader readHeader() {
@@ -192,7 +192,7 @@ public class EncryptedHeader implements SecurityHeaderElement, SecurityElementWr
 
     }
 
-    
+
 
     @Override
     public void writeTo(XMLStreamWriter streamWriter) {
@@ -201,7 +201,7 @@ public class EncryptedHeader implements SecurityHeaderElement, SecurityElementWr
 
     }
 
-    
+
 
     @Override
     public void writeTo(XMLStreamWriter streamWriter, HashMap props) {
@@ -210,7 +210,7 @@ public class EncryptedHeader implements SecurityHeaderElement, SecurityElementWr
 
     }
 
-    
+
 
     @Override
     public void writeTo(OutputStream os) {
@@ -219,7 +219,7 @@ public class EncryptedHeader implements SecurityHeaderElement, SecurityElementWr
 
     }
 
-    
+
 
     private void process(XMLStreamReader reader) throws XMLStreamException, XWSSecurityException{
 
@@ -229,7 +229,7 @@ public class EncryptedHeader implements SecurityHeaderElement, SecurityElementWr
 
         localName = reader.getLocalName();
 
-        
+
 
         while(reader.hasNext()){
 
@@ -245,7 +245,7 @@ public class EncryptedHeader implements SecurityHeaderElement, SecurityElementWr
 
             }
 
-            
+
 
             if(reader.getEventType() == XMLStreamReader.END_ELEMENT){
 
@@ -261,7 +261,7 @@ public class EncryptedHeader implements SecurityHeaderElement, SecurityElementWr
 
     }
 
-    
+
 
     public WSSPolicy getInferredKB(){
 
@@ -269,7 +269,7 @@ public class EncryptedHeader implements SecurityHeaderElement, SecurityElementWr
 
     }
 
-    
+
 
 }
 

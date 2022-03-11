@@ -15,12 +15,12 @@ package com.sun.xml.wss.impl.c14n;
  * @author root
  */
 public class StAXAttrSorter extends AttrSorter {
-    
+
     /** Creates a new instance of StAXAttrSorter */
     public StAXAttrSorter (boolean value) {
         super (value);
     }
-    
+
    @Override
    protected int sortAttributes (Object object, Object object0) {
         StAXAttr attr = (StAXAttr)object;

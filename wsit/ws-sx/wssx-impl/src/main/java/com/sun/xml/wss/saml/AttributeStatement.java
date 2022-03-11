@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -22,7 +22,7 @@ import java.util.List;
  *The <code>AttributeStatement</code> element supplies a statement by the issuer that the
  *specified subject is associated with the specified attributes.
  *
- * <p>The following schema fragment specifies the expected content contained within SAML 
+ * <p>The following schema fragment specifies the expected content contained within SAML
  * AttributeStatement element.
  *
  * <pre>
@@ -38,22 +38,22 @@ import java.util.List;
  * </pre>
  *
  */
-public interface AttributeStatement{        
-    
+public interface AttributeStatement{
+
     /**
      * Gets the value of the attribute property.
-     *           
+     *
      * Objects of the following type(s) are in the list {@link Attribute }
-     *      
+     *
      */
     List<Attribute> getAttributes();
-    
+
     /**
      * Gets the value of the subject property for SAML1.1 and SAML1.0
-     * 
+     *
      * @return object is {@link Subject }
-     *     
+     *
      */
     Subject getSubject();
-        
+
 }

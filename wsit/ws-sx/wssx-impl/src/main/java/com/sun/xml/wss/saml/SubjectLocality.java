@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -22,7 +22,7 @@ package com.sun.xml.wss.saml;
  * and IP address for the system entity that performed the authentication.
  * It exists as part of <code>AuthenticationStatement</code> element.
  *
- * <p>The following schema fragment specifies the expected content contained within 
+ * <p>The following schema fragment specifies the expected content contained within
  * SAML SubjectLocality element.
  *
  * <pre>
@@ -35,7 +35,7 @@ package com.sun.xml.wss.saml;
  *   &lt;/complexContent&gt;
  * &lt;/complexType&gt;
  * </pre>
- * 
+ *
  */
 public interface SubjectLocality {
 

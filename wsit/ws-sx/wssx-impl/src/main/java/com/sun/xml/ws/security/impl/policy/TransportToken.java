@@ -36,13 +36,13 @@ public class TransportToken extends Token implements com.sun.xml.ws.security.pol
          itQname = new QName(getSecurityPolicyVersion().namespaceUri, Constants.IncludeToken);
          includeToken = "";
     }
-    
+
     public TransportToken(AssertionData name,Collection<PolicyAssertion> nestedAssertions, AssertionSet nestedAlternative) {
         super(name,nestedAssertions,nestedAlternative);
         id= PolicyUtil.randomUUID();
         itQname = new QName(getSecurityPolicyVersion().namespaceUri, Constants.IncludeToken);
     }
-    
+
     @Override
     public String getTokenId() {
         return id;
@@ -55,7 +55,7 @@ public class TransportToken extends Token implements com.sun.xml.ws.security.pol
     public void setIncludeToken(String type) {
         throw new UnsupportedOperationException("This method is not supported for TransportToken");
     }
-    
+
     @Override
     public com.sun.xml.ws.security.policy.HttpsToken getHttpsToken() {
         populate();
@@ -64,7 +64,7 @@ public class TransportToken extends Token implements com.sun.xml.ws.security.pol
     public void setHttpsToken(com.sun.xml.ws.security.policy.HttpsToken token){
         //TODO::
     }
-    
+
     @Override
     public AssertionFitness validate(boolean isServer) {
         return populate(isServer);
@@ -72,7 +72,7 @@ public class TransportToken extends Token implements com.sun.xml.ws.security.pol
     private void populate(){
         populate(false);
     }
-    
+
     private synchronized AssertionFitness populate(boolean isServer) {
         if(!populated){
             this.includeToken = this.getAttributeValue(itQname);

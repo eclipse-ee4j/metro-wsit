@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -14,7 +14,7 @@ package com.sun.xml.ws.transport.tcp.connectioncache.spi.transport;
  * for sending and receiving messages.
  */
 public interface ConnectionCache<C extends Connection> {
-    /** User-provided indentifier for an instance of the 
+    /** User-provided indentifier for an instance of the
      * OutboundConnectionCache.
      */
     String getCacheType() ;
@@ -29,7 +29,7 @@ public interface ConnectionCache<C extends Connection> {
     long numberOfIdleConnections() ;
 
     /** Number of non-idle connections.  Normally, busy+idle==total, but this
-     * may not be strictly true due to concurrent updates to the connection 
+     * may not be strictly true due to concurrent updates to the connection
      * cache.
      */
     long numberOfBusyConnections() ;
@@ -46,9 +46,9 @@ public interface ConnectionCache<C extends Connection> {
     /** Number of connections to reclaim each time reclamation starts.
      */
     int numberToReclaim() ;
-    
+
     /** Close a connection, regardless of its state.  This may cause requests
-     * to fail to be sent, and responses to be lost.  Intended for 
+     * to fail to be sent, and responses to be lost.  Intended for
      * handling serious errors, such as loss of framing on a TCP stream,
      * that require closing the connection.
      */

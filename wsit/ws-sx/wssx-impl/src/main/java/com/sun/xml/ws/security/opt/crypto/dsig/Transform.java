@@ -54,21 +54,21 @@ import java.util.ArrayList;
 public class Transform extends com.sun.xml.security.core.dsig.TransformType implements javax.xml.crypto.dsig.Transform {
     @XmlTransient private static final Logger logger = Logger.getLogger(LogDomainConstants.IMPL_OPT_SIGNATURE_DOMAIN,
             LogDomainConstants.IMPL_OPT_SIGNATURE_DOMAIN_BUNDLE);
-    
+
     @XmlTransient private AlgorithmParameterSpec algSpec = null;
     @XmlTransient private Exc14nCanonicalizer _exc14nTransform;
     @XmlTransient private String refId = "";
-    
+
     /** Creates a new instance of Transform */
     public Transform() {
     }
-    
-    
+
+
     @Override
     public AlgorithmParameterSpec getParameterSpec() {
         return algSpec;
     }
-    
+
     public void setParameterSpec(AlgorithmParameterSpec algSpec) {
         this.algSpec = algSpec;
     }
@@ -77,7 +77,7 @@ public class Transform extends com.sun.xml.security.core.dsig.TransformType impl
     public void setContent(List content) {
         this.content = content;
     }
-    
+
     @Override
     public Data transform(Data data, XMLCryptoContext xMLCryptoContext) throws TransformException {
         if(javax.xml.crypto.dsig.CanonicalizationMethod.EXCLUSIVE.equals(getAlgorithm())){
@@ -92,10 +92,10 @@ public class Transform extends com.sun.xml.security.core.dsig.TransformType impl
         }
         throw new UnsupportedOperationException("Algorithm Transform "+ getAlgorithm() +" not supported yet");
     }
-    
+
     @Override
     public Data transform(Data data, XMLCryptoContext xMLCryptoContext, OutputStream outputStream) throws TransformException {
-        
+
         if(getAlgorithm().equals(MessageConstants.STR_TRANSFORM_URI)){
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
             OutputStream fis = outputStream;
@@ -127,8 +127,8 @@ public class Transform extends com.sun.xml.security.core.dsig.TransformType impl
             }catch(XMLStreamException ex){
                 throw new TransformException(ex);
             }
-            
-            if (logger.isLoggable(Level.FINEST)){                
+
+            if (logger.isLoggable(Level.FINEST)){
                 logger.log(Level.FINEST, LogStringsMessages.WSS_1757_CANONICALIZED_TARGET_VALUE(bos.toString()));
                 try {
                     outputStream.write(bos.toByteArray());
@@ -136,10 +136,10 @@ public class Transform extends com.sun.xml.security.core.dsig.TransformType impl
                 } catch (IOException ex) {
                     throw new TransformException(ex);
                 }
-            }            
+            }
             return null;
         }
-        
+
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         OutputStream fis = outputStream;
         if(logger.isLoggable(Level.FINEST)){
@@ -177,12 +177,12 @@ public class Transform extends com.sun.xml.security.core.dsig.TransformType impl
         }
         throw new UnsupportedOperationException("Algorithm Transform "+ getAlgorithm() +" not supported yet");
     }
-    
+
     @Override
     public boolean isFeatureSupported(String string) {
         return false;
     }
-    
+
     public void setReferenceId(String id){
         this.refId = id;
     }
@@ -207,6 +207,6 @@ public class Transform extends com.sun.xml.security.core.dsig.TransformType impl
         contentList.add(je);
         return contentList;
     }
- 
-    
+
+
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -21,9 +21,9 @@ import com.sun.xml.ws.mex.MessagesMessages;
 
 /**
  * Implementation of the JAX-WS callback interface.
- * 
+ *
  * Returns an address that JAX-WS uses to replace the current WSDL port address.
- * 
+ *
  * @author Fabian Ritzmann
  */
 class MEXAddressResolver extends PortAddressResolver {
@@ -35,7 +35,7 @@ class MEXAddressResolver extends PortAddressResolver {
 
     /**
      * Initialize the class.
-     * 
+     *
      * @param serviceName The name of the underlying service.
      * @param portName The name of the underlying port.
      * @param address The location address that MEX computed for this port.
@@ -55,7 +55,7 @@ class MEXAddressResolver extends PortAddressResolver {
     /**
      * Return a new address that JAX-WS uses to overwrite the current WSDL port
      * address. This method implements the following algorithm:
-     * 
+     *
      * <ol>
      * <li>Only return a new address if the WSDL port and service names match.
      * (Returns null otherwise, which means that JAX-WS does not change the existing address.)
@@ -63,7 +63,7 @@ class MEXAddressResolver extends PortAddressResolver {
      * has "https", return the original address.
      * <li>Otherwise return the new address.
      * </ol>
-     * 
+     *
      * @param serviceName The WSDL service name. May not be null.
      * @param portName The WSDL port name. May not be null.
      * @param currentAddress The current location address in the WSDL.
@@ -72,7 +72,7 @@ class MEXAddressResolver extends PortAddressResolver {
     @Override
     public String getAddressFor(@NotNull final QName serviceName, @NotNull final String portName,
             final String currentAddress) {
-        LOGGER.entering(MEXAddressResolver.class.getName(), "getAddressFor", 
+        LOGGER.entering(MEXAddressResolver.class.getName(), "getAddressFor",
                 new Object[] {serviceName, portName, currentAddress});
         String result = null;
         if (this.service.equals(serviceName) && this.port.equals(portName)) {

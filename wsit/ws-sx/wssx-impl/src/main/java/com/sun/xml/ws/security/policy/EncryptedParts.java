@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -27,25 +27,25 @@ import java.util.Iterator;
  * @author K.Venugopal@sun.com
  */
 public interface EncryptedParts extends Target {
- 
+
     /**
      *
      * @return true if the body is part of the target list.
      */
     boolean hasBody();
-    
+
     /**
-     * 
+     *
      * @return true if attachments are part of the target list.
      */
     boolean hasAttachments();
-   
+
     /**
      * returns list of SOAP Headers that need to protected.
      * @return {@link java.util.Iterator} over the list of SOAP Headers
      */
     Iterator getTargets();
-    
+
 
     /**
      * removes SOAP Body from the list of targets to be confidentiality protected.

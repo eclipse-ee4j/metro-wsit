@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -54,8 +54,8 @@ public final class AtAssertionCreator implements PolicyAssertionCreator {
                 return new AtAlwaysCapability(data, assertionParameters);
             }
         });
-    }    
-    
+    }
+
     private static final List<String> SUPPORTED_DOMAINS = Collections.unmodifiableList(WsatNamespace.namespacesList());
 
     @Override

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -37,34 +37,34 @@ public class SAMLToken implements SecurityHeaderElement, SecurityElementWriter {
         this.samlToken = assertion;
         this.jxbContext = jxbContext;
         this.soapVersion = soapVersion;
-        
+
     }
-    
+
     @Override
     public boolean refersToSecHdrWithId(String id) {
         throw new UnsupportedOperationException();
     }
-    
+
     @Override
     public String getId() {
         return samlToken.getAssertionID();
     }
-    
+
     @Override
     public void setId(String id) {
         throw new UnsupportedOperationException();
     }
-    
+
     @Override
     public String getNamespaceURI() {
         throw new UnsupportedOperationException();
     }
-    
+
     @Override
     public String getLocalPart() {
         throw new UnsupportedOperationException();
     }
-    
+
     @Override
     public XMLStreamReader readHeader() {
         throw new UnsupportedOperationException();
@@ -85,7 +85,7 @@ public class SAMLToken implements SecurityHeaderElement, SecurityElementWriter {
             marshaller.setProperty(Marshaller.JAXB_FRAGMENT,true);
             marshaller.setProperty("org.glassfish.jaxb.xmlDeclaration", false);
             marshaller.marshal(samlToken,streamWriter);
-            
+
         }catch(jakarta.xml.bind.PropertyException pe){
             //log here
             throw new XMLStreamException("Error occurred while setting security marshaller properties",pe);
@@ -94,13 +94,13 @@ public class SAMLToken implements SecurityHeaderElement, SecurityElementWriter {
             throw new XMLStreamException("Error occurred while marshalling SAMLAssertion",je);
         }
     }
-    
+
     @Override
     public void writeTo(XMLStreamWriter streamWriter, HashMap props) {
     }
-    
+
     @Override
     public void writeTo(OutputStream os) {
     }
-    
+
 }

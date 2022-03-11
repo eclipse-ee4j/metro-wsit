@@ -21,13 +21,13 @@ import java.net.URI;
  * @author Shyam Rao
  */
 public class WSSCElementFactory13 extends WSTrustElementFactoryImpl{
-    
+
     private static final WSSCElementFactory13 scElemFactory13 = new WSSCElementFactory13();
-    
+
     public static WSSCElementFactory13 newInstance() {
         return scElemFactory13;
     }
-    
+
     @Override
     public SecurityContextToken createSecurityContextToken(final URI identifier, final String instance, final String wsuId){
         return new SecurityContextTokenImpl(identifier, instance, wsuId);

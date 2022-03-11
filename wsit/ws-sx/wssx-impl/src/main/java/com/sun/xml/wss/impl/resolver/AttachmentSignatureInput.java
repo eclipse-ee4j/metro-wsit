@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -25,7 +25,7 @@ public class AttachmentSignatureInput extends XMLSignatureInput {
    private String _cType = null;
    private Vector _mhs = new Vector();
 
-   public AttachmentSignatureInput(byte[] input) { 
+   public AttachmentSignatureInput(byte[] input) {
        super(input);
    }
 
@@ -50,12 +50,12 @@ public class AttachmentSignatureInput extends XMLSignatureInput {
        Iterator mhItr = _part.getAllMimeHeaders();
 
        Vector mhs = new Vector();
-       while (mhItr.hasNext()) mhs.add(mhItr.next());        
+       while (mhItr.hasNext()) mhs.add(mhItr.next());
 
        // extract Content
        //Object content = _part.getContent();
-       OutputStream baos = new ByteArrayOutputStream();  
-       _part.getDataHandler().writeTo(baos);          
+       OutputStream baos = new ByteArrayOutputStream();
+       _part.getDataHandler().writeTo(baos);
 
        return new Object[] {mhs, ((ByteArrayOutputStream)baos).toByteArray()};
    }

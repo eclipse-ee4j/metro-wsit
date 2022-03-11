@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -38,11 +38,11 @@ import java.util.Properties;
  * <li>wsu       : http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd </li>
  * <li>saml      : urn:oasis:names:tc:SAML:1.0:assertion </li>
  * </ul>
- * 
+ *
  * @deprecated : since XWS 2.0 EA
  */
 public class PrefixNamespaceMappingCallback extends XWSSCallback implements Callback {
-                                                                                                         
+
     private Properties prefixNamespaceMappings = null;
 
     /**

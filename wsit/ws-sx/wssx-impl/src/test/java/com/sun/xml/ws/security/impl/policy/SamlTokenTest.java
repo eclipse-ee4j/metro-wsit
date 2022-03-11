@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -30,7 +30,7 @@ import junit.framework.*;
  * @author Mayank.Mishra@SUN.com
  */
 public class SamlTokenTest extends TestCase {
-    
+
     public SamlTokenTest(String testName) {
         super(testName);
     }
@@ -45,7 +45,7 @@ public class SamlTokenTest extends TestCase {
 
     public static Test suite() {
         TestSuite suite = new TestSuite(SamlTokenTest.class);
-        
+
         return suite;
     }
                 private PolicySourceModel unmarshalPolicyResource(String resource) throws PolicyException, IOException {
@@ -54,19 +54,19 @@ public class SamlTokenTest extends TestCase {
         reader.close();
         return model;
     }
-    
+
     private Reader getResourceReader(String resourceName) {
         return new InputStreamReader(Thread.currentThread().getContextClassLoader().getResourceAsStream(resourceName));
     }
-    
+
     public Policy unmarshalPolicy(String xmlFile)throws Exception{
         PolicySourceModel model =  unmarshalPolicyResource(
                 xmlFile);
         Policy mbp = ModelTranslator.getTranslator().translate(model);
         return mbp;
-        
+
     }
-    
+
      public void testSamlToken_Types_5() throws Exception{
         testSamlToken_Type("security/SamlTokenAssertions1.xml", com.sun.xml.ws.security.impl.policy.SamlToken.WSS_SAML_V10_TOKEN10);
         testSamlToken_Type("security/SamlTokenAssertions2.xml", com.sun.xml.ws.security.impl.policy.SamlToken.WSS_SAML_V11_TOKEN10);
@@ -74,7 +74,7 @@ public class SamlTokenTest extends TestCase {
         testSamlToken_Type("security/SamlTokenAssertions4.xml", com.sun.xml.ws.security.impl.policy.SamlToken.WSS_SAML_V11_TOKEN11);
         testSamlToken_Type("security/SamlTokenAssertions5.xml", com.sun.xml.ws.security.impl.policy.SamlToken.WSS_SAML_V20_TOKEN11);
     }
-    
+
     public void testSamlToken_Keys() throws Exception {
         String fileName = "security/SamlTokenAssertions1.xml";
         Policy policy = unmarshalPolicy(fileName);
@@ -90,8 +90,8 @@ public class SamlTokenTest extends TestCase {
             throw new Exception("No Assertions found!. Unmarshalling of "+fileName+" failed!");
         }
     }
-    
-    
+
+
     public void testSamlToken_Reference() throws Exception {
         String fileName = "security/SamlTokenAssertions2.xml";
         Policy policy = unmarshalPolicy(fileName);
@@ -110,7 +110,7 @@ public class SamlTokenTest extends TestCase {
             throw new Exception("No Assertions found!. Unmarshalling of "+fileName+" failed!");
         }
     }
-    
+
     public void testSamlToken_Type(String fileName, String tokenType) throws Exception {
         Policy policy = unmarshalPolicy(fileName);
         Iterator <AssertionSet> itr = policy.iterator();
@@ -125,5 +125,5 @@ public class SamlTokenTest extends TestCase {
             throw new Exception("No Assertions found!. Unmarshalling of "+fileName+" failed!");
         }
     }
-    
+
 }

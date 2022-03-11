@@ -24,7 +24,7 @@ public class OctectStreamData implements Data{
     public OctectStreamData(String data) {
         this.data = data;
     }
-    
+
     public void write(XMLStreamWriter writer) throws XMLStreamException{
         writer.writeCharacters(data);
     }

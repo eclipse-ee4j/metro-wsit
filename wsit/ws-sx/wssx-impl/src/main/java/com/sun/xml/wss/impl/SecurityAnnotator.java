@@ -36,22 +36,22 @@ import com.sun.xml.wss.logging.LogStringsMessages;
 
 /**
  * This class exports a static Security Service for Securing an Outbound SOAPMessage.
- * The policy to be applied for Securing the Message and the SOAPMessage itself are 
+ * The policy to be applied for Securing the Message and the SOAPMessage itself are
  * supplied in an instance of a com.sun.xml.wss.ProcessingContext
  * @see ProcessingContext
  */
 public class SecurityAnnotator {
 
-	private static Logger log = Logger.getLogger(
-	    LogDomainConstants.WSS_API_DOMAIN,
-	    LogDomainConstants.WSS_API_DOMAIN_BUNDLE);
+    private static Logger log = Logger.getLogger(
+        LogDomainConstants.WSS_API_DOMAIN,
+        LogDomainConstants.WSS_API_DOMAIN_BUNDLE);
 
     /**
-     * Secure an Outbound SOAP Message. 
+     * Secure an Outbound SOAP Message.
      * <P>
      * Calling code should create a com.sun.xml.wss.ProcessingContext object with
      * runtime properties. Specifically, it should set SecurityPolicy, application
-     * CallbackHandler Or a SecurityEnvironment and static security policy context. 
+     * CallbackHandler Or a SecurityEnvironment and static security policy context.
      * The SecurityPolicy instance can be of the following types:
      * <UL>
      *  <LI> A concrete WSSPolicy
@@ -61,7 +61,7 @@ public class SecurityAnnotator {
      *
      * A DynamicSecurityPolicy can inturn resolve to the following:
      * <UL>
-     *  <LI> A concrete WSSPolicy 
+     *  <LI> A concrete WSSPolicy
      *  <LI> A MessagePolicy
      * </UL>
      *
@@ -78,18 +78,18 @@ public class SecurityAnnotator {
         StaticPolicyContext staticContext = context.getPolicyContext ();
 
         FilterProcessingContext fpContext = setFilterProcessingContext(context);
-        
+
         fpContext.isInboundMessage (false);
          if (fpContext.resetMustUnderstand()) {
             fpContext.getSecurableSoapMessage().setDoNotSetMU(true);
         }
-   
+
         if (PolicyTypeUtil.messagePolicy(policy) &&
-                (((MessagePolicy)policy).enableDynamicPolicy() && 
+                (((MessagePolicy)policy).enableDynamicPolicy() &&
                 ((MessagePolicy)policy).size() == 0)) {
             policy = new com.sun.xml.wss.impl.policy.mls.DynamicSecurityPolicy();
         }
-        
+
         if (PolicyTypeUtil.dynamicSecurityPolicy(policy)) {
 
             // create dynamic callback context
@@ -157,7 +157,7 @@ public class SecurityAnnotator {
             List scList = new ArrayList();
             fpContext.setExtraneousProperty("SignatureConfirmation", scList);
         //}
-        
+
         Iterator i = policy.iterator ();
 
         while (i.hasNext ()) {
@@ -180,8 +180,8 @@ public class SecurityAnnotator {
           TODO:
          */
     }
-    
-    public static FilterProcessingContext setFilterProcessingContext(ProcessingContext context) 
+
+    public static FilterProcessingContext setFilterProcessingContext(ProcessingContext context)
             throws XWSSecurityException{
         if(context instanceof JAXBFilterProcessingContext)
             return (JAXBFilterProcessingContext)context;

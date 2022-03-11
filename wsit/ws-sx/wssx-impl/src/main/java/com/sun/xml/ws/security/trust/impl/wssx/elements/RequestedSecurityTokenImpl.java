@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -37,38 +37,38 @@ import com.sun.xml.ws.security.trust.impl.wssx.WSTrustElementFactoryImpl;
 
 /**
  * Implementation for the RequestedSecurityToken.
- * 
+ *
  * @author Manveen Kaur
  */
 public class RequestedSecurityTokenImpl extends RequestedSecurityTokenType implements RequestedSecurityToken {
 
     Token containedToken = null;
-    
-    private final static QName SecurityContextToken_QNAME = 
+
+    private final static QName SecurityContextToken_QNAME =
             new QName("http://docs.oasis-open.org/ws-sx/ws-secureconversation/200512", "SecurityContextToken");
-    
-    private final static QName SAML11_Assertion_QNAME = 
+
+    private final static QName SAML11_Assertion_QNAME =
             new QName("urn:oasis:names:tc:SAML:1.0:assertion", "Assertion");
-    
+
     private final static QName EncryptedData_QNAME = new QName("http://www.w3.org/2001/04/xmlenc#", "EncryptedData");
-    
+
     /**
       * Empty default constructor.
       */
     public RequestedSecurityTokenImpl() {
     }
-    
+
      public RequestedSecurityTokenImpl(RequestedSecurityTokenType rdstType){
         Object rdst = rdstType.getAny();
         if (rdst instanceof JAXBElement){
-            JAXBElement rdstEle = (JAXBElement)rdst; 
+            JAXBElement rdstEle = (JAXBElement)rdst;
             QName name = rdstEle.getName();
             if(SecurityContextToken_QNAME.equals(name)){
                 SecurityContextTokenType sctType = (SecurityContextTokenType)rdstEle.getValue();
                 setToken(new SecurityContextTokenImpl(sctType));
             }/*else if(EncryptedData_QNAME.equals(name)){
                EncryptedDataType edType = (EncryptedDataType)rdstEle.getValue();
-               setToken(edType);  
+               setToken(edType);
             }else if(SAML11_Assertion_QNAME.equals(name)){
                 AssertionType assertionType = (AssertionType)rdstEle.getValue();
                 setToken(new Assertion(assertionType));
@@ -87,7 +87,7 @@ public class RequestedSecurityTokenImpl extends RequestedSecurityTokenType imple
     public RequestedSecurityTokenImpl(Token token) {
         setToken(token);
     }
-    
+
     /**
      * Constructs a <code>RequestedSecurityToken</code> element from
      * an existing XML block.
@@ -105,7 +105,7 @@ public class RequestedSecurityTokenImpl extends RequestedSecurityTokenType imple
             final JAXBContext context =
                 WSTrustElementFactory.getContext(WSTrustVersion.WS_TRUST_13);
             final jakarta.xml.bind.Unmarshaller unmarshaller = context.createUnmarshaller();
-            
+
             return unmarshaller.unmarshal(element, RequestedSecurityTokenType.class).getValue();
         } catch ( Exception ex) {
             throw new WSTrustException(ex.getMessage(), ex);
@@ -119,7 +119,7 @@ public class RequestedSecurityTokenImpl extends RequestedSecurityTokenType imple
     public Token getToken() {
         return containedToken;
     }
-    
+
     @Override
     public void setToken(Token token) {
         if (token != null)  {

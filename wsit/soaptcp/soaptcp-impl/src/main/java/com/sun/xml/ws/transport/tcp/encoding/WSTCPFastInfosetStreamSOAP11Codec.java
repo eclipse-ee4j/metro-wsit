@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -26,9 +26,9 @@ import javax.xml.stream.XMLStreamReader;
  * @author Alexey Stashok
  */
 public class WSTCPFastInfosetStreamSOAP11Codec extends WSTCPFastInfosetStreamCodec{
-    /*package*/ WSTCPFastInfosetStreamSOAP11Codec(StreamSOAPCodec soapCodec, 
+    /*package*/ WSTCPFastInfosetStreamSOAP11Codec(StreamSOAPCodec soapCodec,
             RecycleAwareListener readerRecycleListener, boolean retainState) {
-        super(soapCodec, SOAPVersion.SOAP_11, readerRecycleListener, retainState, 
+        super(soapCodec, SOAPVersion.SOAP_11, readerRecycleListener, retainState,
                 (retainState) ? FastInfosetMIMETypes.STATEFUL_SOAP_11 : FastInfosetMIMETypes.SOAP_11);
     }
 
@@ -45,7 +45,7 @@ public class WSTCPFastInfosetStreamSOAP11Codec extends WSTCPFastInfosetStreamCod
     protected final StreamHeader createHeader(XMLStreamReader reader, XMLStreamBuffer mark) {
         return new StreamHeader11(reader, mark);
     }
-    
+
     @Override
     protected ContentType getContentType(String soapAction) {
         if (soapAction == null || soapAction.length() == 0) {

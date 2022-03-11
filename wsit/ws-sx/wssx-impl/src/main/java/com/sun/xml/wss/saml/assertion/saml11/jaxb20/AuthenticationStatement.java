@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -47,7 +47,7 @@ import jakarta.xml.bind.JAXBContext;
  */
 public class AuthenticationStatement extends AuthenticationStatementType
         implements com.sun.xml.wss.saml.AuthenticationStatement {
-    
+
     protected static final Logger log = Logger.getLogger(
             LogDomainConstants.WSS_API_DOMAIN,
             LogDomainConstants.WSS_API_DOMAIN_BUNDLE);
@@ -59,7 +59,7 @@ public class AuthenticationStatement extends AuthenticationStatementType
     protected AuthenticationStatement() {
         super();
     }
-    
+
     /**
      * This constructor builds an authentication statement element from an
      * existing XML block.
@@ -71,19 +71,19 @@ public class AuthenticationStatement extends AuthenticationStatementType
     public static AuthenticationStatementType fromElement(Element element) throws SAMLException {
         try {
             JAXBContext jc = SAMLJAXBUtil.getJAXBContext();
-                    
+
             jakarta.xml.bind.Unmarshaller u = jc.createUnmarshaller();
             return (AuthenticationStatementType)u.unmarshal(element);
         } catch ( Exception ex) {
             throw new SAMLException(ex.getMessage());
         }
     }
-    
+
     @SuppressWarnings("unchecked")
     private void setAuthorityBinding(List authorityBinding) {
         this.authorityBinding = authorityBinding;
     }
-    
+
     /**
      * Constructor for authentication statement
      *
@@ -99,10 +99,10 @@ public class AuthenticationStatement extends AuthenticationStatementType
     public AuthenticationStatement(
             String authMethod, GregorianCalendar authInstant, Subject subject,
             SubjectLocality subjectLocality, List authorityBinding) {
-        
+
         if ( authMethod != null)
             setAuthenticationMethod(authMethod);
-        
+
         if ( authInstant != null) {
             try {
                 DatatypeFactory factory = DatatypeFactory.newInstance();
@@ -111,17 +111,17 @@ public class AuthenticationStatement extends AuthenticationStatementType
                 //ignore
             }
         }
-        
+
         if ( subject != null)
             setSubject(subject);
-        
+
         if ( subjectLocality != null)
             setSubjectLocality(subjectLocality);
-        
+
         if ( authorityBinding != null)
             setAuthorityBinding(authorityBinding);
     }
-    
+
     public AuthenticationStatement(AuthenticationStatementType authStmtType) {
         setAuthenticationMethod(authStmtType.getAuthenticationMethod());
         setAuthenticationInstant(authStmtType.getAuthenticationInstant());
@@ -132,12 +132,12 @@ public class AuthenticationStatement extends AuthenticationStatementType
         setSubjectLocality(authStmtType.getSubjectLocality());
         setAuthorityBinding(authStmtType.getAuthorityBinding());
     }
-    
+
     @Override
     public Date getAuthenticationInstantDate(){
         if(instantDate != null){
             return instantDate;
-        }        
+        }
         try {
             if(super.getAuthenticationInstant() != null){
                 instantDate = DateUtils.stringToDate(super.getAuthenticationInstant().toString());
@@ -148,12 +148,12 @@ public class AuthenticationStatement extends AuthenticationStatementType
         return instantDate;
     }
 
-    
+
     @Override
     public String getAuthenticationMethod(){
         return super.getAuthenticationMethod();
     }
-    
+
     @Override
     public List<AuthorityBinding> getAuthorityBindingList(){
         if(authorityBindingList != null){
@@ -163,12 +163,12 @@ public class AuthenticationStatement extends AuthenticationStatementType
         }
         Iterator it = super.getAuthorityBinding().iterator();
         while(it.hasNext()){
-            com.sun.xml.wss.saml.assertion.saml11.jaxb20.AuthorityBinding obj = 
+            com.sun.xml.wss.saml.assertion.saml11.jaxb20.AuthorityBinding obj =
                     new com.sun.xml.wss.saml.assertion.saml11.jaxb20.AuthorityBinding((AuthorityBindingType)it.next());
-            authorityBindingList.add(obj);            
+            authorityBindingList.add(obj);
         }
         return authorityBindingList;
-    }        
+    }
 
     @Override
     public String getSubjectLocalityIPAddress() {

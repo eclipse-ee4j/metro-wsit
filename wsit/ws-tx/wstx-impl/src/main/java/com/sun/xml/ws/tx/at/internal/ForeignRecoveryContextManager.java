@@ -38,7 +38,7 @@ public class ForeignRecoveryContextManager {
     // the ttl which is not really a true indication of transaction timeout to go by.
     private static final int INDOUBT_TIMEOUT =
             new Integer(System.getProperty("com.sun.xml.ws.tx.at.internal.indoubt.timeout", "90000"));
-    private static ForeignRecoveryContextManager singleton = new ForeignRecoveryContextManager();  
+    private static ForeignRecoveryContextManager singleton = new ForeignRecoveryContextManager();
     volatile int counter;
     private static final Logger LOGGER_ContextRunnable = Logger.getLogger(ContextRunnable.class);
     private static final Logger LOGGER_RecoveryContextWorker = Logger.getLogger(RecoveryContextWorker.class);
@@ -154,7 +154,7 @@ public class ForeignRecoveryContextManager {
                try {
                    Thread.sleep(5 * 60 * 1000);
                } catch (InterruptedException e) {
-                   e.printStackTrace();  
+                   e.printStackTrace();
                }
            }
         }
@@ -173,7 +173,7 @@ public class ForeignRecoveryContextManager {
                                 replayList.add(rc);
 
                             }
-                        } catch (Throwable e) { 
+                        } catch (Throwable e) {
                             debug(
                                     "ForeignRecoveryContextManager$ContextTimerListener.timerExpired error scheduling " +
                                             "work for recovery context:" + rc.context +

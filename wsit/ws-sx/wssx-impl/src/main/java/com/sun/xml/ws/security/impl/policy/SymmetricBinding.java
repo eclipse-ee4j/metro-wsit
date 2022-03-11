@@ -24,221 +24,221 @@ import java.util.logging.Level;
 import javax.xml.namespace.QName;
 
 /**
- * 
- * 
- * 
+ *
+ *
+ *
  * @author K.Venugopal@sun.com
- *  
+ *
  */
 
-public class SymmetricBinding extends PolicyAssertion implements com.sun.xml.ws.security.policy.SymmetricBinding, SecurityAssertionValidator{    
-    
-    private AssertionFitness fitness = AssertionFitness.IS_VALID;   
-    boolean populated = false;     
+public class SymmetricBinding extends PolicyAssertion implements com.sun.xml.ws.security.policy.SymmetricBinding, SecurityAssertionValidator{
+
+    private AssertionFitness fitness = AssertionFitness.IS_VALID;
+    boolean populated = false;
     Token protectionToken ;
-    Token signatureToken ;   
-    Token encryptionToken ; 
-    MessageLayout layout = MessageLayout.Lax;   
-    AlgorithmSuite algSuite;      
-    boolean includeTimestamp=false;   
+    Token signatureToken ;
+    Token encryptionToken ;
+    MessageLayout layout = MessageLayout.Lax;
+    AlgorithmSuite algSuite;
+    boolean includeTimestamp=false;
     boolean disableTimestampSigning=false;
-    boolean contentOnly = true;     
-    String protectionOrder = SIGN_ENCRYPT;     
-    boolean protectToken = false;      
+    boolean contentOnly = true;
+    String protectionOrder = SIGN_ENCRYPT;
+    boolean protectToken = false;
     boolean protectSignature = false;
     private SecurityPolicyVersion spVersion;
-    
-    /** 
-     * 
+
+    /**
+     *
      * Creates a new instance of SymmetricBinding
-     *     
-     */     
-    
-    public SymmetricBinding() {  
+     *
+     */
+
+    public SymmetricBinding() {
         spVersion = SecurityPolicyVersion.SECURITYPOLICY200507;
-    }     
-    
-    public SymmetricBinding(AssertionData name,Collection<PolicyAssertion> nestedAssertions, AssertionSet nestedAlternative) {            
-        
-        super(name,nestedAssertions,nestedAlternative); 
+    }
+
+    public SymmetricBinding(AssertionData name,Collection<PolicyAssertion> nestedAssertions, AssertionSet nestedAlternative) {
+
+        super(name,nestedAssertions,nestedAlternative);
         String nsUri = getName().getNamespaceURI();
         spVersion = PolicyUtil.getSecurityPolicyVersion(nsUri);
-    }            
-    
+    }
+
     @Override
     public Token getEncryptionToken() {
-        populate();      
-        return encryptionToken;    
-    }          
-    
+        populate();
+        return encryptionToken;
+    }
+
     @Override
     public Token getSignatureToken() {
-        populate();       
-        return signatureToken;      
-    }          
-    
+        populate();
+        return signatureToken;
+    }
+
     @Override
     public Token getProtectionToken() {
-        populate();  
-        return protectionToken; 
-    }          
-    
-    public void setAlgorithmSuite(AlgorithmSuite algSuite) {    
-        this.algSuite = algSuite;         
-    }      
-    
+        populate();
+        return protectionToken;
+    }
+
+    public void setAlgorithmSuite(AlgorithmSuite algSuite) {
+        this.algSuite = algSuite;
+    }
+
     @Override
     public AlgorithmSuite getAlgorithmSuite() {
-        populate();      
-        if(algSuite == null){         
-            algSuite = new  com.sun.xml.ws.security.impl.policy.AlgorithmSuite();          
+        populate();
+        if(algSuite == null){
+            algSuite = new  com.sun.xml.ws.security.impl.policy.AlgorithmSuite();
             Constants.logger.log(Level.FINE, "Using Default Algorithm Suite Basic128");
-        
-        }    
-        return algSuite;    
-    }           
-    
-    public void includeTimeStamp(boolean value) {   
-        includeTimestamp = value;            
-    }                
-    
+
+        }
+        return algSuite;
+    }
+
+    public void includeTimeStamp(boolean value) {
+        includeTimestamp = value;
+    }
+
     @Override
     public boolean isIncludeTimeStamp() {
-        populate();           
-        return includeTimestamp;      
-    }   
-    
+        populate();
+        return includeTimestamp;
+    }
+
     @Override
     public boolean isDisableTimestampSigning(){
         populate();
         return disableTimestampSigning;
     }
-    
-    public void setLayout(MessageLayout layout) {    
-        this.layout = layout;          
-    }            
-    
+
+    public void setLayout(MessageLayout layout) {
+        this.layout = layout;
+    }
+
     @Override
     public MessageLayout getLayout() {
-        populate();         
-        return layout;         
-    }              
-    
-    public void setEncryptionToken(Token token) {  
-        encryptionToken = token ;          
-    }              
-    
-    public void setSignatureToken(Token token) {  
-        signatureToken = token;  
-    }             
-    
-    public void setProtectionToken(Token token) {  
-        protectionToken = token;    
-    }               
-    
+        populate();
+        return layout;
+    }
+
+    public void setEncryptionToken(Token token) {
+        encryptionToken = token ;
+    }
+
+    public void setSignatureToken(Token token) {
+        signatureToken = token;
+    }
+
+    public void setProtectionToken(Token token) {
+        protectionToken = token;
+    }
+
     @Override
     public boolean isSignContent() {
-        populate();         
-        return contentOnly;       
-    }              
-    
-    public void setSignContent(boolean contentOnly) {  
-        
+        populate();
+        return contentOnly;
+    }
+
+    public void setSignContent(boolean contentOnly) {
+
         this.contentOnly = contentOnly;
-    }              
-    
+    }
+
     public void setProtectionOrder(String order) {
-        this.protectionOrder = order;       
-    }           
-    
+        this.protectionOrder = order;
+    }
+
     @Override
     public String getProtectionOrder() {
-        populate();         
-        return protectionOrder;        
-    }              
-    
-    public void setTokenProtection(boolean value) { 
-        this.protectToken = value;      
-    }          
-    
-    
-    public void setSignatureProtection(boolean value) {         
-        
-        this.protectSignature = value;     
-    }               
-    
+        populate();
+        return protectionOrder;
+    }
+
+    public void setTokenProtection(boolean value) {
+        this.protectToken = value;
+    }
+
+
+    public void setSignatureProtection(boolean value) {
+
+        this.protectSignature = value;
+    }
+
     @Override
     public boolean getTokenProtection() {
-        populate();         
-        return protectToken;    
-    }              
-    
+        populate();
+        return protectToken;
+    }
+
     @Override
     public boolean getSignatureProtection() {
-        populate();         
-        return protectSignature;       
-    }             
-    
-    private void populate(){       
-        populate(false);      
-    }             
-    
-    private synchronized AssertionFitness populate(boolean isServer) {     
-        if(!populated){                      
+        populate();
+        return protectSignature;
+    }
+
+    private void populate(){
+        populate(false);
+    }
+
+    private synchronized AssertionFitness populate(boolean isServer) {
+        if(!populated){
             NestedPolicy policy = this.getNestedPolicy();
-            if(policy == null){                            
+            if(policy == null){
                 if(Constants.logger.getLevel() == Level.FINE){
                     Constants.logger.log(Level.FINE,"NestedPolicy is null");
-                }                           
-                populated = true;        
-                return fitness;          
-            }               
-            AssertionSet as = policy.getAssertionSet();    
-            Iterator<PolicyAssertion> ast = as.iterator();       
-            while(ast.hasNext()){                           
-                PolicyAssertion assertion = ast.next();     
-                if(PolicyUtil.isSignatureToken(assertion, spVersion)){  
-                    this.signatureToken = ((com.sun.xml.ws.security.impl.policy.Token)assertion).getToken();      
-                }else if(PolicyUtil.isEncryptionToken(assertion, spVersion)){ 
-                    this.encryptionToken =((com.sun.xml.ws.security.impl.policy.Token)assertion).getToken();   
-                }else if(PolicyUtil.isProtectionToken(assertion, spVersion)){                   
-                    this.protectionToken = ((com.sun.xml.ws.security.impl.policy.Token)assertion).getToken(); 
-                }else if(PolicyUtil.isAlgorithmAssertion(assertion, spVersion)){    
+                }
+                populated = true;
+                return fitness;
+            }
+            AssertionSet as = policy.getAssertionSet();
+            Iterator<PolicyAssertion> ast = as.iterator();
+            while(ast.hasNext()){
+                PolicyAssertion assertion = ast.next();
+                if(PolicyUtil.isSignatureToken(assertion, spVersion)){
+                    this.signatureToken = ((com.sun.xml.ws.security.impl.policy.Token)assertion).getToken();
+                }else if(PolicyUtil.isEncryptionToken(assertion, spVersion)){
+                    this.encryptionToken =((com.sun.xml.ws.security.impl.policy.Token)assertion).getToken();
+                }else if(PolicyUtil.isProtectionToken(assertion, spVersion)){
+                    this.protectionToken = ((com.sun.xml.ws.security.impl.policy.Token)assertion).getToken();
+                }else if(PolicyUtil.isAlgorithmAssertion(assertion, spVersion)){
                     this.algSuite = (AlgorithmSuite) assertion;
                     String sigAlgo = assertion.getAttributeValue(new QName("signatureAlgorithm"));
                     this.algSuite.setSignatureAlgorithm(sigAlgo);
-                }else if(PolicyUtil.isIncludeTimestamp(assertion, spVersion)){      
-                    this.includeTimestamp = true;                        
-                }else if(PolicyUtil.isEncryptBeforeSign(assertion, spVersion)){       
-                    this.protectionOrder = ENCRYPT_SIGN;                 
+                }else if(PolicyUtil.isIncludeTimestamp(assertion, spVersion)){
+                    this.includeTimestamp = true;
+                }else if(PolicyUtil.isEncryptBeforeSign(assertion, spVersion)){
+                    this.protectionOrder = ENCRYPT_SIGN;
                 }else if (PolicyUtil.isSignBeforeEncrypt(assertion, spVersion)){
                     this.protectionOrder = SIGN_ENCRYPT;
-                }else if(PolicyUtil.isContentOnlyAssertion(assertion, spVersion)){  
-                    this.contentOnly = false;                            
-                }else if(PolicyUtil.isMessageLayout(assertion, spVersion)){         
-                    layout = ((Layout)assertion).getMessageLayout();     
-                }else if(PolicyUtil.isProtectTokens(assertion, spVersion)){         
-                    this.protectToken = true;                            
-                }else if(PolicyUtil.isEncryptSignature(assertion, spVersion)){      
-                    this.protectSignature = true;                        
+                }else if(PolicyUtil.isContentOnlyAssertion(assertion, spVersion)){
+                    this.contentOnly = false;
+                }else if(PolicyUtil.isMessageLayout(assertion, spVersion)){
+                    layout = ((Layout)assertion).getMessageLayout();
+                }else if(PolicyUtil.isProtectTokens(assertion, spVersion)){
+                    this.protectToken = true;
+                }else if(PolicyUtil.isEncryptSignature(assertion, spVersion)){
+                    this.protectSignature = true;
                 } else if(PolicyUtil.disableTimestampSigning(assertion)){
                     this.disableTimestampSigning = true;
-                } else{                                    
-                    if(!assertion.isOptional()){         
+                } else{
+                    if(!assertion.isOptional()){
                         Constants.log_invalid_assertion(assertion, isServer, Constants.SymmetricBinding);
-                        fitness = AssertionFitness.HAS_UNKNOWN_ASSERTION;    
-                    }                              
-                }             
-            }                   
-            populated = true;     
-        }             
+                        fitness = AssertionFitness.HAS_UNKNOWN_ASSERTION;
+                    }
+                }
+            }
+            populated = true;
+        }
         return fitness;
-    }           
-    
+    }
+
     @Override
     public AssertionFitness validate(boolean isServer) {
-        return populate(isServer);       
-    } 
+        return populate(isServer);
+    }
 
     @Override
     public SecurityPolicyVersion getSecurityPolicyVersion() {

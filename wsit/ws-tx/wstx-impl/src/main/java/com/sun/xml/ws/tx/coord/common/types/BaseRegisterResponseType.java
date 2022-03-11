@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -18,9 +18,9 @@ import jakarta.xml.ws.EndpointReference;
 
 /**
  * <p>Java class for RegisterResponseType complex type.
- * 
+ *
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ *
  * <pre>{@code
  * <complexType name="RegisterResponseType">
  *   <complexContent>
@@ -33,8 +33,8 @@ import jakarta.xml.ws.EndpointReference;
  *   </complexContent>
  * </complexType>
  * }</pre>
- * 
- * 
+ *
+ *
  */
 public abstract class BaseRegisterResponseType<T extends EndpointReference,K> {
 
@@ -46,46 +46,46 @@ public abstract class BaseRegisterResponseType<T extends EndpointReference,K> {
 
     /**
      * Gets the value of the coordinatorProtocolService property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link EndpointReference }
-     *     
+     *
      */
     public abstract T getCoordinatorProtocolService();
 
     /**
      * Sets the value of the coordinatorProtocolService property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link EndpointReference }
-     *     
+     *
      */
     public abstract void setCoordinatorProtocolService(T value);
 
     /**
      * Gets the value of the any property.
-     * 
+     *
      * <p>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
      * This is why there is not a <CODE>set</CODE> method for the any property.
-     * 
+     *
      * <p>
      * For example, to add a new item, do as follows:
      * <pre>{@code
      *    getAny().add(newItem);
      * }</pre>
-     * 
-     * 
+     *
+     *
      * <p>
      * Objects of the following type(s) are allowed in the list
      * {@link org.w3c.dom.Element }
      * {@link Object }
-     * 
-     * 
+     *
+     *
      */
     public abstract List<Object> getAny();
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -26,9 +26,9 @@ import jakarta.xml.ws.wsaddressing.W3CEndpointReference;
 
 /**
  * <p>Java class for CoordinationContextType complex type.
- * 
+ *
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ *
  * <pre>{@code
  * <complexType name="CoordinationContextType">
  *   <complexContent>
@@ -52,8 +52,8 @@ import jakarta.xml.ws.wsaddressing.W3CEndpointReference;
  *   </complexContent>
  * </complexType>
  * }</pre>
- * 
- * 
+ *
+ *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CoordinationContextType", propOrder = {
@@ -82,11 +82,11 @@ public class CoordinationContextType {
 
     /**
      * Gets the value of the identifier property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link CoordinationContextType.Identifier }
-     *     
+     *
      */
     public CoordinationContextType.Identifier getIdentifier() {
         return identifier;
@@ -94,11 +94,11 @@ public class CoordinationContextType {
 
     /**
      * Sets the value of the identifier property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link CoordinationContextType.Identifier }
-     *     
+     *
      */
     public void setIdentifier(CoordinationContextType.Identifier value) {
         this.identifier = value;
@@ -106,11 +106,11 @@ public class CoordinationContextType {
 
     /**
      * Gets the value of the expires property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link Expires }
-     *     
+     *
      */
     public Expires getExpires() {
         return expires;
@@ -118,11 +118,11 @@ public class CoordinationContextType {
 
     /**
      * Sets the value of the expires property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link Expires }
-     *     
+     *
      */
     public void setExpires(Expires value) {
         this.expires = value;
@@ -130,11 +130,11 @@ public class CoordinationContextType {
 
     /**
      * Gets the value of the coordinationType property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getCoordinationType() {
         return coordinationType;
@@ -142,11 +142,11 @@ public class CoordinationContextType {
 
     /**
      * Sets the value of the coordinationType property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setCoordinationType(String value) {
         this.coordinationType = value;
@@ -154,11 +154,11 @@ public class CoordinationContextType {
 
     /**
      * Gets the value of the registrationService property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link W3CEndpointReference }
-     *     
+     *
      */
     public W3CEndpointReference getRegistrationService() {
         return registrationService;
@@ -166,11 +166,11 @@ public class CoordinationContextType {
 
     /**
      * Sets the value of the registrationService property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link W3CEndpointReference }
-     *     
+     *
      */
     public void setRegistrationService(W3CEndpointReference value) {
         this.registrationService = value;
@@ -178,15 +178,15 @@ public class CoordinationContextType {
 
     /**
      * Gets a map that contains attributes that aren't bound to any typed property on this class.
-     * 
+     *
      * <p>
-     * the map is keyed by the name of the attribute and 
+     * the map is keyed by the name of the attribute and
      * the value is the string value of the attribute.
-     * 
+     *
      * the map returned by this method is live, and you can add new attribute
      * by updating the map directly. Because of this design, there's no setter.
-     * 
-     * 
+     *
+     *
      * @return
      *     always non-null
      */
@@ -197,9 +197,9 @@ public class CoordinationContextType {
 
     /**
      * <p>Java class for anonymous complex type.
-     * 
+     *
      * <p>The following schema fragment specifies the expected content contained within this class.
-     * 
+     *
      * <pre>{@code
      * <complexType>
      *   <simpleContent>
@@ -209,8 +209,8 @@ public class CoordinationContextType {
      *   </simpleContent>
      * </complexType>
      * }</pre>
-     * 
-     * 
+     *
+     *
      */
     @XmlAccessorType(XmlAccessType.FIELD)
     @XmlType(name = "", propOrder = {
@@ -226,11 +226,11 @@ public class CoordinationContextType {
 
         /**
          * Gets the value of the value property.
-         * 
+         *
          * @return
          *     possible object is
          *     {@link String }
-         *     
+         *
          */
         public String getValue() {
             return value;
@@ -238,11 +238,11 @@ public class CoordinationContextType {
 
         /**
          * Sets the value of the value property.
-         * 
+         *
          * @param value
          *     allowed object is
          *     {@link String }
-         *     
+         *
          */
         public void setValue(String value) {
             this.value = value;
@@ -250,15 +250,15 @@ public class CoordinationContextType {
 
         /**
          * Gets a map that contains attributes that aren't bound to any typed property on this class.
-         * 
+         *
          * <p>
-         * the map is keyed by the name of the attribute and 
+         * the map is keyed by the name of the attribute and
          * the value is the string value of the attribute.
-         * 
+         *
          * the map returned by this method is live, and you can add new attribute
          * by updating the map directly. Because of this design, there's no setter.
-         * 
-         * 
+         *
+         *
          * @return
          *     always non-null
          */

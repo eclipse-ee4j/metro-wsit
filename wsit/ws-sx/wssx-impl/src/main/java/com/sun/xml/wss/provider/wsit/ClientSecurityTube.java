@@ -43,24 +43,24 @@ public class ClientSecurityTube extends AbstractFilterTubeImpl implements Secure
 
     private static final String WSIT_CLIENT_AUTH_CONTEXT="com.sun.xml.wss.provider.wsit.WSITClientAuthContext";
     protected PipeHelper helper;
-    
+
     private AuthStatus status = AuthStatus.SEND_SUCCESS;
     private ClientAuthContext cAC = null;
     private Subject clientSubject = null;
     private PacketMessageInfo pmInfo = null;
     protected X509Certificate serverCert = null;
-   
+
     protected static final Logger log =
             Logger.getLogger(
             LogDomainConstants.WSIT_PVD_DOMAIN,
             LogDomainConstants.WSIT_PVD_DOMAIN_BUNDLE);
 
-   
-    
+
+
     public ClientSecurityTube(TubeConfiguration config, Tube nextTube) {
-        super(nextTube);  
+        super(nextTube);
     }
-    
+
     public ClientSecurityTube(Map<String, Object> props, Tube next) {
 
         super(next);
@@ -71,9 +71,9 @@ public class ClientSecurityTube extends AbstractFilterTubeImpl implements Secure
             props.put(PipeConstants.WSDL_SERVICE,
                     wsdlModel.getOwner().getName());
         }
-        this.helper = new PipeHelper(PipeConstants.SOAP_LAYER, props, null);      
+        this.helper = new PipeHelper(PipeConstants.SOAP_LAYER, props, null);
     }
-     
+
     protected ClientSecurityTube(ClientSecurityTube that, TubeCloner cloner) {
         super(that, cloner);
         this.helper = that.helper;
@@ -84,10 +84,10 @@ public class ClientSecurityTube extends AbstractFilterTubeImpl implements Secure
     public AbstractTubeImpl copy(TubeCloner cloner) {
          return new ClientSecurityTube(this, cloner);
     }
-    
+
     @Override
     public void preDestroy() {
-        //Give the AuthContext a chance to cleanup 
+        //Give the AuthContext a chance to cleanup
         //create a dummy request packet
         try {
             Packet request = new Packet();
@@ -101,8 +101,8 @@ public class ClientSecurityTube extends AbstractFilterTubeImpl implements Secure
         //ignore exceptions
         }
         helper.disable();
-    }    
-    
+    }
+
     @Override
     public NextAction processRequest(Packet packet) {
         try {
@@ -120,7 +120,7 @@ public class ClientSecurityTube extends AbstractFilterTubeImpl implements Secure
         }
         return doInvoke(super.next, packet);
     }
-    
+
     @Override
     public NextAction processResponse(Packet ret) {
         try {
@@ -135,7 +135,7 @@ public class ClientSecurityTube extends AbstractFilterTubeImpl implements Secure
         }
         return doReturnWith(ret);
     }
-    
+
     @Override
     public NextAction processException(Throwable t) {
         if (!(t instanceof WebServiceException)) {
@@ -144,146 +144,146 @@ public class ClientSecurityTube extends AbstractFilterTubeImpl implements Secure
         return doThrow(t);
     }
 
-    
+
 
     @SuppressWarnings("unchecked")
     private Packet processClientRequest(Packet request) {
        /*
-	 * XXX should there be code like the following?
-	 if(isHttpBinding) {
-	     return next.process(request);
-	 }
+     * XXX should there be code like the following?
+     if(isHttpBinding) {
+         return next.process(request);
+     }
         */
-	PacketMessageInfo info= new PacketMapMessageInfo(request,new Packet());
+    PacketMessageInfo info= new PacketMapMessageInfo(request,new Packet());
         info.getMap().put(jakarta.xml.ws.Endpoint.WSDL_SERVICE,
             helper.getProperty(PipeConstants.WSDL_SERVICE));
-	clientSubject = getClientSubject(request);
-	cAC = null;
-	try {
-	    cAC = helper.getClientAuthContext(info,clientSubject);
-	    if (cAC != null) {
-		// proceed to process message sescurity
-		status = cAC.secureRequest(info, clientSubject);  
-	    }
-	} catch(Exception e) {
-	    log.log(Level.SEVERE,LogStringsMessages.WSITPVD_0058_ERROR_SECURE_REQUEST(), e);
-	    throw new WebServiceException(
-		  "Cannot secure request",e);
-	} 
+    clientSubject = getClientSubject(request);
+    cAC = null;
+    try {
+        cAC = helper.getClientAuthContext(info,clientSubject);
+        if (cAC != null) {
+        // proceed to process message sescurity
+        status = cAC.secureRequest(info, clientSubject);
+        }
+    } catch(Exception e) {
+        log.log(Level.SEVERE,LogStringsMessages.WSITPVD_0058_ERROR_SECURE_REQUEST(), e);
+        throw new WebServiceException(
+          "Cannot secure request",e);
+    }
 
-	Packet response = null;
-	if (status == AuthStatus.FAILURE) {
-	    if (log.isLoggable(Level.FINE)) {
-		log.log(Level.FINE,"ws.status_secure_request", status);
-	    }
-	    response = info.getResponsePacket();
-	}  else {
+    Packet response = null;
+    if (status == AuthStatus.FAILURE) {
+        if (log.isLoggable(Level.FINE)) {
+        log.log(Level.FINE,"ws.status_secure_request", status);
+        }
+        response = info.getResponsePacket();
+    }  else {
             response = info.getRequestPacket();
         }
-	// may return a security fault even if the MEP was one-way
+    // may return a security fault even if the MEP was one-way
         pmInfo = info;
         return response;
     }
 
     private Packet processClientResponse(Packet response) {
         // check for response
-	Message m = response.getMessage();
-	if (m != null) {
-	    if (cAC != null) {
-		AuthStatus authstatus = AuthStatus.SUCCESS;
-		pmInfo.setResponsePacket(response);
-		try {
-		    authstatus = cAC.validateResponse(pmInfo,clientSubject,null);
-		} catch (Exception e) {
-		    throw new WebServiceException
-			 ("Cannot validate response for {0}",e);
-		}
-		if (authstatus == AuthStatus.SEND_CONTINUE) {
-		    response = processSecureRequest(pmInfo, cAC, clientSubject);
-		} else {
-		    response = pmInfo.getResponsePacket();
-		} 
-	    }
-	}
-
-	return response;
+    Message m = response.getMessage();
+    if (m != null) {
+        if (cAC != null) {
+        AuthStatus authstatus = AuthStatus.SUCCESS;
+        pmInfo.setResponsePacket(response);
+        try {
+            authstatus = cAC.validateResponse(pmInfo,clientSubject,null);
+        } catch (Exception e) {
+            throw new WebServiceException
+             ("Cannot validate response for {0}",e);
+        }
+        if (authstatus == AuthStatus.SEND_CONTINUE) {
+            response = processSecureRequest(pmInfo, cAC, clientSubject);
+        } else {
+            response = pmInfo.getResponsePacket();
+        }
+        }
     }
 
-    private Packet processSecureRequest(PacketMessageInfo info, 
-	ClientAuthContext cAC, Subject clientSubject) 
-	throws WebServiceException {
-	// send the request
-	//Packet response = next.process(info.getRequestPacket());
-         Fiber fiber = Fiber.current().owner.createFiber(); 
+    return response;
+    }
+
+    private Packet processSecureRequest(PacketMessageInfo info,
+    ClientAuthContext cAC, Subject clientSubject)
+    throws WebServiceException {
+    // send the request
+    //Packet response = next.process(info.getRequestPacket());
+         Fiber fiber = Fiber.current().owner.createFiber();
          Packet response = fiber.runSync(next, info.getRequestPacket());
-        
-	// check for response
-	Message m = response.getMessage();
-	if (m != null) {
-	    if (cAC != null) {
-		AuthStatus status = AuthStatus.SUCCESS;
-		info.setResponsePacket(response);
-		try {
-		    status = cAC.validateResponse(info,clientSubject,null);
-		} catch (Exception e) {
-		    throw new WebServiceException
-			 ("Cannot validate response for {0}",e);
-		}
-		if (status == AuthStatus.SEND_CONTINUE) {
-		    response = processSecureRequest(info, cAC, clientSubject);
-		} else {
-		    response = info.getResponsePacket();
-		} 
-	    }
-	}
-	return response;
+
+    // check for response
+    Message m = response.getMessage();
+    if (m != null) {
+        if (cAC != null) {
+        AuthStatus status = AuthStatus.SUCCESS;
+        info.setResponsePacket(response);
+        try {
+            status = cAC.validateResponse(info,clientSubject,null);
+        } catch (Exception e) {
+            throw new WebServiceException
+             ("Cannot validate response for {0}",e);
+        }
+        if (status == AuthStatus.SEND_CONTINUE) {
+            response = processSecureRequest(info, cAC, clientSubject);
+        } else {
+            response = info.getResponsePacket();
+        }
+        }
+    }
+    return response;
     }
 
-    
+
     @Override
     public JAXBElement startSecureConversation(Packet packet) throws WSSecureConversationException {
         PacketMessageInfo info = new PacketMapMessageInfo(packet,new Packet());
-	JAXBElement token = null;
+    JAXBElement token = null;
 
-	try {
-	    // gets the subject from the packet (puts one there if not found)
-	    Subject clientSubject = getClientSubject(packet);
-	    // put MessageInfo in properties map, since MessageInfo 
-	    // is not passed to getAuthContext, key idicates function
-	    HashMap<String, Object> map = new HashMap<>();
-	    map.put(PipeConstants.SECURITY_TOKEN,info);
-	    helper.getSessionToken(map,info,clientSubject);
-	    // helper returns token in map of msgInfo, using same key
-	    Object o = info.getMap().get(PipeConstants.SECURITY_TOKEN);
-	    if (o != null && o instanceof JAXBElement) {
-		token = (JAXBElement) o;
-	    }
-	} catch(Exception e) {
-	    if (e instanceof WSSecureConversationException) {
-		throw (WSSecureConversationException) e;
-	    } else {
-		throw new WSSecureConversationException
-		    ("Secure Conversation failure: ", e);
-	    }
-	} 
-	return token;
+    try {
+        // gets the subject from the packet (puts one there if not found)
+        Subject clientSubject = getClientSubject(packet);
+        // put MessageInfo in properties map, since MessageInfo
+        // is not passed to getAuthContext, key idicates function
+        HashMap<String, Object> map = new HashMap<>();
+        map.put(PipeConstants.SECURITY_TOKEN,info);
+        helper.getSessionToken(map,info,clientSubject);
+        // helper returns token in map of msgInfo, using same key
+        Object o = info.getMap().get(PipeConstants.SECURITY_TOKEN);
+        if (o != null && o instanceof JAXBElement) {
+        token = (JAXBElement) o;
+        }
+    } catch(Exception e) {
+        if (e instanceof WSSecureConversationException) {
+        throw (WSSecureConversationException) e;
+        } else {
+        throw new WSSecureConversationException
+            ("Secure Conversation failure: ", e);
+        }
     }
-   
+    return token;
+    }
+
     @SuppressWarnings("unchecked")
     private Subject getClientSubject(Packet p) {
 
-	Subject s = null;
-	if (p != null) {
-	    s = (Subject) 
-		p.invocationProperties.get(PipeConstants.CLIENT_SUBJECT);
-	}
-	if (s == null) {
-	    s = helper.getClientSubject();
-            if (p != null) {
-	        p.invocationProperties.put(PipeConstants.CLIENT_SUBJECT,s);
-            }
-	}
-	return s;
+    Subject s = null;
+    if (p != null) {
+        s = (Subject)
+        p.invocationProperties.get(PipeConstants.CLIENT_SUBJECT);
     }
-    
+    if (s == null) {
+        s = helper.getClientSubject();
+            if (p != null) {
+            p.invocationProperties.put(PipeConstants.CLIENT_SUBJECT,s);
+            }
+    }
+    return s;
+    }
+
 }

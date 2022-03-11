@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -23,13 +23,13 @@ public class PortInfo {
     private final QName serviceName;
     private final QName portName;
     private final String address;
-    
+
     PortInfo(QName serviceName, QName portName, String address) {
         this.serviceName = serviceName;
         this.portName = portName;
         this.address = address;
     }
-    
+
     /**
      * Retrieve the qname for the service that
      * contains this port.
@@ -37,14 +37,14 @@ public class PortInfo {
     public QName getServiceName() {
         return serviceName;
     }
-    
+
     /**
      * Retrieve the qname for this port.
      */
     public QName getPortName() {
         return portName;
     }
-    
+
     /**
      * Retrieve the address for this port.
      */
@@ -67,7 +67,7 @@ public class PortInfo {
     public String getPortNamespaceURI() {
         return portName.getNamespaceURI();
     }
-    
+
     /**
      * Utility method for obtaining service local name. This
      * method is equivalent to getServiceName().getLocalPart().

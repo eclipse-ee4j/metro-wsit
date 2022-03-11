@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -33,44 +33,44 @@ import junit.framework.*;
  * @author mayank
  */
 public class TransportBindingTest extends TestCase {
-    
+
     public TransportBindingTest(String testName) {
         super(testName);
     }
-    
+
     @Override
     protected void setUp() {
     }
-    
+
     @Override
     protected void tearDown() {
     }
-    
+
     public static Test suite() {
         TestSuite suite = new TestSuite(TransportBindingTest.class);
-        
+
         return suite;
     }
-    
+
     private PolicySourceModel unmarshalPolicyResource(String resource) throws PolicyException, IOException {
         Reader reader = getResourceReader(resource);
         PolicySourceModel model = ModelUnmarshaller.getUnmarshaller().unmarshalModel(reader);
         reader.close();
         return model;
     }
-    
+
     private Reader getResourceReader(String resourceName) {
         return new InputStreamReader(Thread.currentThread().getContextClassLoader().getResourceAsStream(resourceName));
     }
-    
+
     public Policy unmarshalPolicy(String xmlFile)throws Exception{
         PolicySourceModel model =  unmarshalPolicyResource(
                 xmlFile);
         Policy mbp = ModelTranslator.getTranslator().translate(model);
         return mbp;
-        
+
     }
-    
+
     public void testTransportBinding() throws Exception {
         String fileName="security/TransportBindingAssertions.xml";
         Policy policy = unmarshalPolicy(fileName);
@@ -80,17 +80,17 @@ public class TransportBindingTest extends TestCase {
             for(PolicyAssertion assertion : as) {
                 assertEquals("Invalid assertion", "TransportBinding",assertion.getName().getLocalPart());
                 TransportBinding tb = (TransportBinding)assertion;
-                
+
                 AlgorithmSuite aSuite = tb.getAlgorithmSuite();
                 assertEquals("Unmatched Algorithm",aSuite.getEncryptionAlgorithm(), AlgorithmSuiteValue.Basic128.getEncAlgorithm());
-                
+
                 assertTrue(tb.isIncludeTimeStamp());
-                
+
                 HttpsToken tkn = (HttpsToken)tb.getTransportToken();
                 assertFalse("RequireClientCertificate should be false", tkn.isRequireClientCertificate());
             }
         }
     }
-    
+
 
 }

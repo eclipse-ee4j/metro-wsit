@@ -275,7 +275,7 @@ public class KeySelectorImpl extends KeySelector {
                 //WSSElementFactory elementFactory = new WSSElementFactory(wssContext.getSOAPVersion());
                 //DirectReference directRef = elementFactory.createDirectReference();
                 //DirectReference dReference = (DirectReference) reference;
-                DirectReference dReference = (DirectReference) reference;                
+                DirectReference dReference = (DirectReference) reference;
                 String uri = dReference.getURI();
                 if (isBSP && !uri.startsWith("#")) {
                     throw new XWSSecurityException("Violation of BSP R5204 " + ": When a SECURITY_TOKEN_REFERENCE uses a Direct Reference to an INTERNAL_SECURITY_TOKEN, it MUST use a Shorthand XPointer Reference");
@@ -616,7 +616,7 @@ public class KeySelectorImpl extends KeySelector {
                     untBinding.setReferenceType(MessageConstants.DIRECT_REFERENCE_TYPE);
                     //SP13
                     if(((UsernameToken)token).getCreatedValue() != null) {
-                       untBinding.setUseCreated(true); 
+                       untBinding.setUseCreated(true);
                     }
                     if(((UsernameToken)token).getNonceValue() != null) {
                        untBinding.setUseNonce(true);
@@ -1062,7 +1062,7 @@ public class KeySelectorImpl extends KeySelector {
             public String getType() {
                 return null;
             }
-        };        
+        };
         try {
             StreamWriterData data = (StreamWriterData) resolver.dereference(uriRef, context);
             //JAXBElement element = data.getJAXBElement();
@@ -1089,7 +1089,7 @@ public class KeySelectorImpl extends KeySelector {
                         MessageConstants.KERBEROS_V5_GSS_APREQ.equals(token.getValueType())) {
                     return (KerberosBinarySecurityToken) token;
                 } else {
-                    X509BinarySecurityToken x509bst = (X509BinarySecurityToken) token; 
+                    X509BinarySecurityToken x509bst = (X509BinarySecurityToken) token;
                     return x509bst;
                 }
             } else if (MessageConstants.ENCRYPTEDKEY_LNAME.equals(she.getLocalPart())) {
@@ -1149,7 +1149,7 @@ public class KeySelectorImpl extends KeySelector {
 //                IssuedTokenContext ictx = (IssuedTokenContext)elements.nextElement();
 //                Object tok = ictx.getSecurityToken();
 //                String ctxid = null;
-//                
+//
 //                if (tok instanceof com.sun.xml.ws.security.SecurityContextToken) {
 //                    ctxid = ((com.sun.xml.ws.security.SecurityContextToken)tok).getIdentifier().toString();
 //                    if (ctxid.equals(scId)) {
@@ -1178,9 +1178,9 @@ public class KeySelectorImpl extends KeySelector {
                 SecurityContextTokenInfo sctInfo = ctx.getSecurityContextTokenInfo();
                 sctId = URI.create(sctInfo.getIdentifier());
                 sctIns = sctInfo.getInstance();
-                wsuId = sctInfo.getExternalId();  
+                wsuId = sctInfo.getExternalId();
             }
-            ctx.setSecurityToken(WSTrustElementFactory.newInstance(protocol).createSecurityContextToken(sctId, sctIns, wsuId));            
+            ctx.setSecurityToken(WSTrustElementFactory.newInstance(protocol).createSecurityContextToken(sctId, sctIns, wsuId));
         }
 
         //update otherparty subject with bootstrap credentials.

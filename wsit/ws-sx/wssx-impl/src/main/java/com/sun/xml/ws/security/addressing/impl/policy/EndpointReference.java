@@ -23,23 +23,23 @@ import java.util.Iterator;
  * @author Abhijit Das
  */
 public class EndpointReference extends com.sun.xml.ws.policy.PolicyAssertion  {
-    
+
     private Address address;
     private boolean populated = false;
-    
+
     /**
      * Creates a new instance of EndpointReference
      */
     public EndpointReference(AssertionData name,Collection<PolicyAssertion> nestedAssertions, AssertionSet nestedAlternative) {
         super(name,nestedAssertions,nestedAlternative);
     }
-    
+
     public Address getAddress() {
         populate();
         return address;
     }
-    
-       
+
+
     private void populate() {
         if(populated){
             return;
@@ -49,7 +49,7 @@ public class EndpointReference extends com.sun.xml.ws.policy.PolicyAssertion  {
                 if ( this.hasNestedAssertions() ) {
                     Iterator <PolicyAssertion> it = this.getNestedAssertionsIterator();
                     while ( it.hasNext() ) {
-                        PolicyAssertion assertion = it.next();                        
+                        PolicyAssertion assertion = it.next();
                         if ( PolicyUtil.isAddress(assertion)) {
                             this.address = (Address) assertion;
                         }
@@ -59,6 +59,6 @@ public class EndpointReference extends com.sun.xml.ws.policy.PolicyAssertion  {
             }
         }
     }
-    
+
 
 }

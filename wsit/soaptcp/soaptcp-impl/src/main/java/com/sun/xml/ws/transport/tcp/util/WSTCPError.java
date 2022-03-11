@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -17,11 +17,11 @@ public class WSTCPError {
     private final int code;
     private final int subCode;
     private final String description;
-    
+
     public static WSTCPError createCriticalError(final int subCode, final String description) {
         return new WSTCPError(TCPConstants.CRITICAL_ERROR, subCode, description);
     }
-    
+
     public static WSTCPError createNonCriticalError(final int subCode, final String description) {
         return new WSTCPError(TCPConstants.NON_CRITICAL_ERROR, subCode, description);
     }
@@ -35,23 +35,23 @@ public class WSTCPError {
         this.subCode = subCode;
         this.description = description;
     }
-    
+
     public int getCode() {
         return code;
     }
-    
+
     public int getSubCode() {
         return subCode;
     }
-    
+
     public String getDescription() {
         return description;
     }
-    
+
     public boolean isCritical() {
         return code == TCPConstants.CRITICAL_ERROR;
     }
-    
+
     public String toString() {
         String sb = "Code: " +
                 code +

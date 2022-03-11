@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -15,7 +15,7 @@ import com.sun.xml.ws.security.opt.crypto.dsig.keyinfo.KeyInfo;
 import java.security.Key;
 
 /**
- * 
+ *
  * Class to store results from TokenBuilder. Stores the various key information
  * @author K.Venugopal@sun.com
  */
@@ -30,7 +30,7 @@ public class BuilderResult {
     }
 
     /**
-     * 
+     *
      * @return the data protection key
      */
     public Key getDataProtectionKey() {
@@ -38,7 +38,7 @@ public class BuilderResult {
     }
 
     /**
-     * 
+     *
      * @param dataProtectionKey set the data protection key
      */
     public void setDataProtectionKey(final Key dataProtectionKey) {
@@ -46,7 +46,7 @@ public class BuilderResult {
     }
 
     /**
-     * 
+     *
      * @return the key protection key
      */
     public Key getKeyProtectionKey() {
@@ -54,7 +54,7 @@ public class BuilderResult {
     }
 
     /**
-     * 
+     *
      * @param keyProtectionKey store the key protection key
      */
     public void setKeyProtectionKey(final Key keyProtectionKey) {
@@ -62,7 +62,7 @@ public class BuilderResult {
     }
 
     /**
-     * 
+     *
      * @return the stored keyInfo
      */
     public KeyInfo getKeyInfo() {
@@ -70,7 +70,7 @@ public class BuilderResult {
     }
 
     /**
-     * 
+     *
      * @param keyInfo store the keyInfo from <CODE>TokenBuilder</CODE>
      */
     public void setKeyInfo(final KeyInfo keyInfo) {
@@ -78,7 +78,7 @@ public class BuilderResult {
     }
 
     /**
-     * 
+     *
      * @return the encryptedKey
      */
     public EncryptedKey getEncryptedKey() {
@@ -86,17 +86,17 @@ public class BuilderResult {
     }
 
     /**
-     * 
+     *
      * @param encryptedKey store the encryptedKey for Signature or Encryption
      */
     public void setEncryptedKey(final EncryptedKey encryptedKey) {
         this.encryptedKey = encryptedKey;
     }
-    
+
     public void setDPTokenId(final String id){
         this.dpKID = id;
     }
-    
+
     public String getDPTokenId(){
         return dpKID;
     }

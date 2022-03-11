@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -42,10 +42,10 @@ import org.w3c.dom.Element;
  * @author K.Venugopal@sun.com
  */
 public class SamlTokenBuilder extends TokenBuilder{
-    
+
     private AuthenticationTokenPolicy.SAMLAssertionBinding keyBinding = null;
     private boolean forSign = false;
-    private String id;    
+    private String id;
     private MutableXMLStreamBuffer buffer;
     private XMLStreamReader reader;
     /** Creates a new instance of SamlTokenProcessor */
@@ -55,7 +55,7 @@ public class SamlTokenBuilder extends TokenBuilder{
         this.keyBinding = samlBinding;
     }
     /**
-     * 
+     *
      * @return BuilderResult
      */
     @SuppressWarnings("unchecked")
@@ -63,9 +63,9 @@ public class SamlTokenBuilder extends TokenBuilder{
     public BuilderResult process() throws XWSSecurityException {
         BuilderResult result = new BuilderResult();
         String assertionId;
-        
+
         SecurityHeaderElement she = null;
-        
+
         Element samlAssertion = keyBinding.getAssertion();
         if (samlAssertion == null) {
              reader = keyBinding.getAssertionReader();
@@ -94,12 +94,12 @@ public class SamlTokenBuilder extends TokenBuilder{
             she = new GSHeaderElement(samlAssertion);
         }else if (reader != null) {
             she = new GSHeaderElement(buffer);
-            she.setId(id);  // set the ID again to bring it to top            
+            she.setId(id);  // set the ID again to bring it to top
         }
         JAXBEncryptedKey ek;
         String asID;
         String idVal = "";
-        String keyEncAlgo = XMLCipher.RSA_v1dot5;        
+        String keyEncAlgo = XMLCipher.RSA_v1dot5;
         Key samlkey = null;
         if(samlAssertion != null){
             asID = samlAssertion.getAttributeNS(null,"AssertionID");
@@ -126,7 +126,7 @@ public class SamlTokenBuilder extends TokenBuilder{
         if(logger.isLoggable(Level.FINEST)){
             logger.log(Level.FINEST, "SAML Assertion id:{0}", asID);
         }
-        
+
         Key dataProtectionKey;
         if(forSign){
             PrivateKeyBinding privKBinding  = (PrivateKeyBinding)keyBinding.getKeyBinding();
@@ -135,11 +135,11 @@ public class SamlTokenBuilder extends TokenBuilder{
                 logger.log(Level.SEVERE, LogStringsMessages.WSS_1810_NULL_PRIVATEKEY_SAML());
                 throw new XWSSecurityException("PrivateKey null inside PrivateKeyBinding set for SAML Policy ");
             }
-            
+
             if(context.getSecurityHeader().getChildElement(she.getId()) == null){
                 context.getSecurityHeader().add(she);
             }
-            
+
         } else {
             SecurityHeaderElement assertion = (SecurityHeaderElement) context.getExtraneousProperty(MessageConstants.INCOMING_SAML_ASSERTION);
             samlkey = ((SAMLAssertion) assertion).getKey();
@@ -159,17 +159,17 @@ public class SamlTokenBuilder extends TokenBuilder{
         }
         Element authorityBinding = keyBinding.getAuthorityBinding();
         //assertionId = keyBinding.getAssertionId();
-        
-        
-        
+
+
+
         String referenceType = keyBinding.getReferenceType();
         if (referenceType.equals(MessageConstants.EMBEDDED_REFERENCE_TYPE)) {
             logger.log(Level.SEVERE, LogStringsMessages.WSS_1813_UNSUPPORTED_EMBEDDEDREFERENCETYPE_SAML());
             throw new XWSSecurityException("Embedded Reference Type for SAML Assertions not supported yet");
         }
-        
+
         assertionId = she.getId();
-        
+
         //todo reference different keyreference types.
         SecurityTokenReference samlSTR;
         if(authorityBinding == null){
@@ -192,8 +192,8 @@ public class SamlTokenBuilder extends TokenBuilder{
         } else{
             //TODO: handle authorityBinding != null
         }
-        
-        
+
+
         if(!forSign){
             HashMap ekCache = context.getEncryptedKeyCache();
             ek = (JAXBEncryptedKey)elementFactory.createEncryptedKey(context.generateID(),keyEncAlgo,super.keyInfo,samlkey,dataProtectionKey);
@@ -204,16 +204,16 @@ public class SamlTokenBuilder extends TokenBuilder{
         }else{
             result.setKeyInfo(super.keyInfo);
         }
-        
+
         HashMap sentSamlKeys = (HashMap) context.getExtraneousProperty(MessageConstants.STORED_SAML_KEYS);
         if(sentSamlKeys == null)
             sentSamlKeys = new HashMap();
         sentSamlKeys.put(assertionId, dataProtectionKey);
         context.setExtraneousProperty(MessageConstants.STORED_SAML_KEYS, sentSamlKeys);
-        
+
         result.setDataProtectionKey(dataProtectionKey);
-        
+
         return result;
     }
-    
+
 }

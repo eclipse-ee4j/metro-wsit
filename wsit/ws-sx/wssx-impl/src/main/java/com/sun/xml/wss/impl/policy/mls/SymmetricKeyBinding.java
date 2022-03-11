@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -26,85 +26,85 @@ import com.sun.xml.wss.impl.PolicyTypeUtil;
  * KeyBinding for a SignaturePolicy or an EncryptionPolicy.
  */
 public class SymmetricKeyBinding extends KeyBindingBase {
-    
+
     /*
      * Feature Binding
      * Key Binding
      */
-    
+
     String _keyAlgorithm  = MessageConstants._EMPTY;
-    
+
     String _keyIdentifier = MessageConstants._EMPTY;
-    
+
     String _certAlias = MessageConstants._EMPTY;
-    
+
     boolean _useReceivedSecret = false;
-    
+
     SecretKey _secretKey  = null;
     private boolean isEKSHA1 = false;
-    
+
     /**
      * Default constructor
      */
     public SymmetricKeyBinding() {
         setPolicyIdentifier(PolicyTypeUtil.SYMMETRIC_KEY_TYPE);
     }
-    
+
     /**
      * @param keyIdentifier identifier for Key
      * @param keyAlgorithm Key Algorithm
      */
     public SymmetricKeyBinding(String keyIdentifier, String keyAlgorithm) {
         this();
-        
+
         this._keyIdentifier = keyIdentifier;
         this._keyAlgorithm = keyAlgorithm;
     }
-    
+
     /**
      * set the key identifier for the symmetric key
      */
     public void setKeyIdentifier(String keyIdentifier) {
         this._keyIdentifier = keyIdentifier;
     }
-    
+
     /**
      * @return key identifier for the symmetric key
      */
     public String getKeyIdentifier() {
         return this._keyIdentifier;
     }
-    
+
     public void setCertAlias(String certAlias) {
         this._certAlias = certAlias;
     }
-    
+
     public String getCertAlias() {
         return this._certAlias;
     }
-    
+
     public void setUseReceivedSecret(boolean useReceivedSecret) {
         this._useReceivedSecret = useReceivedSecret;
     }
-    
+
     public boolean getUseReceivedSecret() {
         return this._useReceivedSecret;
     }
-    
+
     /**
      * set the Key Algorithm of the Symmetric Key
      */
     public void setKeyAlgorithm(String keyAlgorithm) {
         this._keyAlgorithm = keyAlgorithm;
     }
-    
+
     /**
      * @return keyAlgorithm for the Symmetric Key
      */
     public String getKeyAlgorithm() {
         return this._keyAlgorithm;
     }
-    
+
     /**
      * Set the symmetric key
      * @param secretKey the SecretKey
@@ -112,7 +112,7 @@ public class SymmetricKeyBinding extends KeyBindingBase {
     public void setSecretKey(SecretKey secretKey) {
         this._secretKey = secretKey;
     }
-    
+
     /**
      * @return SecretKey the symmetric key
      */
@@ -146,27 +146,27 @@ public class SymmetricKeyBinding extends KeyBindingBase {
      */
     @Override
     public boolean equals(WSSPolicy policy) {
-        
+
         boolean assrt = false;
-        
+
         try {
             SymmetricKeyBinding skBinding = (SymmetricKeyBinding) policy;
-            
+
             boolean b1 = _keyIdentifier.equals("") ? true : _keyIdentifier.equals(skBinding.getKeyIdentifier());
-            
+
             boolean b2 = _keyAlgorithm.equals("") ? true : _keyAlgorithm.equals(skBinding.getKeyAlgorithm());
-            
+
             boolean b3 = _certAlias.equals("") ? true : _certAlias.equals(skBinding.getCertAlias());
-            
+
             boolean b4 = (_useReceivedSecret == false) ? true : (_useReceivedSecret == skBinding.getUseReceivedSecret());
             boolean b5 = (this._keyBinding.equals(policy._keyBinding));
             boolean b6 = this.isEKSHA1 == skBinding.usesEKSHA1KeyBinding();
             assrt = b1 && b2 && b3 && b4 && b5 && b6;
         } catch (Exception e) {}
-        
+
         return assrt;
     }
-    
+
     /*
      * Equality comparision ignoring the Targets
      * @param policy the policy to be compared for equality
@@ -176,7 +176,7 @@ public class SymmetricKeyBinding extends KeyBindingBase {
     public boolean equalsIgnoreTargets(WSSPolicy binding) {
         return equals(binding);
     }
-    
+
     /**
      * Clone operator
      * @return clone of this policy
@@ -184,7 +184,7 @@ public class SymmetricKeyBinding extends KeyBindingBase {
     @Override
     public Object clone(){
         SymmetricKeyBinding skBinding = new SymmetricKeyBinding();
-        
+
         try {
             skBinding.setUUID(this.getUUID());
             skBinding.setKeyIdentifier(_keyIdentifier);
@@ -214,10 +214,10 @@ public class SymmetricKeyBinding extends KeyBindingBase {
         } catch (Exception e) {
             // log
         }
-        
+
         return skBinding;
     }
-    
+
     /**
      * @return the type of the policy
      */
@@ -225,9 +225,9 @@ public class SymmetricKeyBinding extends KeyBindingBase {
     public String getType() {
         return PolicyTypeUtil.SYMMETRIC_KEY_TYPE;
     }
-    
+
     public String toString(){
         return PolicyTypeUtil.SYMMETRIC_KEY_TYPE+"::"+getKeyAlgorithm()+"::"+_keyIdentifier;
-    }    
+    }
 }
 

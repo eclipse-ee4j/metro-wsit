@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -20,7 +20,7 @@ import javax.xml.stream.XMLStreamWriter;
  * @author Ashutosh.Shahi@sun.com
  */
 public interface SecurityElementWriter {
-    
+
     /**
      * Writes out the header.
      *
@@ -29,12 +29,12 @@ public interface SecurityElementWriter {
      *      writer to an undefined state.
      */
     void writeTo(XMLStreamWriter streamWriter) throws XMLStreamException;
-    
+
     /**
      *
      */
     void writeTo(XMLStreamWriter streamWriter, HashMap props) throws XMLStreamException;
-    
+
     /**
      *
      */

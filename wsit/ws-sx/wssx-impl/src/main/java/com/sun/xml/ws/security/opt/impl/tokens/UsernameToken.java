@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -53,47 +53,47 @@ import com.sun.xml.wss.logging.LogStringsMessages;
 public class UsernameToken extends UsernameTokenType
         implements com.sun.xml.ws.security.opt.api.tokens.UsernameToken,
         SecurityHeaderElement, SecurityElementWriter{
-    
+
     public static final long MAX_NONCE_AGE = 900000; //milliseconds
-    
+
     // password type
     private String passwordType = MessageConstants.PASSWORD_TEXT_NS;
-    
+
     private String usernameValue = null;
-    
+
     private String passwordValue = null;
-    
+
     // password Digest value
     private String passwordDigestValue = null;
-    
+
     private byte[] decodedNonce = null;
-    
+
     // specifies a cryptographically random sequence
     private String nonceValue = null;
-    
+
     // default nonce encoding
     private String nonceEncodingType = MessageConstants.BASE64_ENCODING_NS;
-    
+
     // time stamp to indicate creation time
     private String createdValue = null;
-    
+
     // flag to indicate whether BSP checks should be made or not.
     private boolean bsp = false;
-    
+
     private boolean valuesSet = false;
     private SOAPVersion soapVersion = SOAPVersion.SOAP_11;
     private ObjectFactory objFac = new ObjectFactory();
-    
+
     private static Logger log =
             Logger.getLogger(
             LogDomainConstants.WSS_API_DOMAIN,
             LogDomainConstants.WSS_API_DOMAIN_BUNDLE);
-    
+
     /** Creates a new instance of UsernameToken */
     public UsernameToken(SOAPVersion sv) {
         this.soapVersion = sv;
     }
-       
+
     /**
      * @return Returns the username.
      */
@@ -102,7 +102,7 @@ public class UsernameToken extends UsernameTokenType
         //AttributedString userName
         return usernameValue;
     }
-    
+
     @Override
     public void setUsernameValue(String username) {
         /*AttributedString ut = objFac.createAttributedString();
@@ -110,7 +110,7 @@ public class UsernameToken extends UsernameTokenType
         setUsername(ut);*/
         this.usernameValue = username;
     }
-    
+
     /**
      * @return Returns the password which may be null meaning no password.
      */
@@ -118,7 +118,7 @@ public class UsernameToken extends UsernameTokenType
     public String getPasswordValue() {
         return passwordValue;
     }
-    
+
     /**
      * Sets the password.
      */
@@ -129,14 +129,14 @@ public class UsernameToken extends UsernameTokenType
         setPassword(password);*/
         passwordValue = passwd;
     }
-    
+
     /**
      * @return Returns the passwordType.
      */
     public String getPasswordType() {
         return passwordType;
     }
-    
+
     private void setPasswordType(String passwordType)
     throws SecurityTokenException {
         if (MessageConstants.PASSWORD_TEXT_NS.equals(passwordType)) {
@@ -154,46 +154,46 @@ public class UsernameToken extends UsernameTokenType
                     MessageConstants.PASSWORD_DIGEST_NS);
         }
     }
-    
+
     /**
      * @return Returns the Nonce Encoding type.
      */
     public String getNonceEncodingType() {
         return this.nonceEncodingType;
-    }    
-    
+    }
+
     /**
      * Sets the nonce encoding type.
      * As per WSS:UserNameToken profile, for valid values, refer to
      * wsse:BinarySecurityToken schema.
      */
     private void setNonceEncodingType(String nonceEncodingType) {
-        
+
         if (!MessageConstants.BASE64_ENCODING_NS.equals(nonceEncodingType)) {
             log.log(Level.SEVERE,LogStringsMessages.WSS_0307_NONCE_ENCTYPE_INVALID());
             throw new RuntimeException("Nonce encoding type invalid");
         }
         this.nonceEncodingType = MessageConstants.BASE64_ENCODING_NS;
     }
-    
+
     /**
      * @return Returns the encoded nonce. Null indicates no nonce was set.
      */
     public String getNonceValue() {
         return nonceValue;
     }
-    
+
     /**
      * Returns the created which may be null meaning no time of creation.
      */
     public String getCreatedValue() {
         return createdValue;
     }
-    
+
     public String getPasswordDigestValue() {
         return this.passwordDigestValue;
     }
-    
+
     /**
      * set the nonce value.If nonce value is null then it will create one.
      */
@@ -204,7 +204,7 @@ public class UsernameToken extends UsernameTokenType
             this.nonceValue = nonceValue;
         }
     }
-    
+
     /**
      * set the creation time.
      * @param time If null or empty then this method would create one.
@@ -216,40 +216,40 @@ public class UsernameToken extends UsernameTokenType
             this.createdValue = time;
         }
     }
-          
+
     public void setDigestOn() throws SecurityTokenException {
         setPasswordType(MessageConstants.PASSWORD_DIGEST_NS);
     }
-    
+
     public void isBSP(boolean flag) {
         bsp = flag;
     }
-    
+
     public boolean isBSP() {
         return bsp;
     }
-    
+
     @Override
     public String getNamespaceURI() {
         return MessageConstants.WSSE_NS;
     }
-    
+
     @Override
     public String getLocalPart() {
         return MessageConstants.USERNAME_TOKEN_LNAME;
     }
-    
+
     public String getAttribute(String nsUri, String localName) {
         QName qname = new QName(nsUri, localName);
         Map<QName, String> otherAttributes = this.getOtherAttributes();
         return otherAttributes.get(qname);
     }
-    
+
     public String getAttribute(QName name) {
         Map<QName, String> otherAttributes = this.getOtherAttributes();
         return otherAttributes.get(name);
     }
-    
+
     @Override
     public javax.xml.stream.XMLStreamReader readHeader() throws javax.xml.stream.XMLStreamException {
         if(!this.valuesSet)
@@ -258,19 +258,19 @@ public class UsernameToken extends UsernameTokenType
         JAXBElement<UsernameTokenType> utElem = objFac.createUsernameToken(this);
         try{
             getMarshaller().marshal(utElem, xbr);
-            
+
         } catch(JAXBException je){
             throw new XMLStreamException(je);
         }
         return xbr.getXMLStreamBuffer().readAsXMLStreamReader();
     }
-    
+
     @Override
     public void writeTo(OutputStream os) {
         if(!this.valuesSet)
             setValues();
     }
-    
+
     @Override
     public void writeTo(javax.xml.stream.XMLStreamWriter streamWriter) throws javax.xml.stream.XMLStreamException {
         if(!this.valuesSet)
@@ -286,17 +286,17 @@ public class UsernameToken extends UsernameTokenType
                     return;
                 }
             }
-            
+
             getMarshaller().marshal(utElem,streamWriter);
         } catch (JAXBException e) {
             throw new XMLStreamException(e);
         }
     }
-    
+
     private Marshaller getMarshaller() throws JAXBException{
         return JAXBUtil.createMarshaller(soapVersion);
     }
-    
+
     /*
      * Create a unique nonce. Default encoded with base64.
      * A nonce is a random value that the sender creates
@@ -304,7 +304,7 @@ public class UsernameToken extends UsernameTokenType
      * Nonce is an effective counter measure against replay attacks.
      */
     private void createNonce() {
-        
+
         this.decodedNonce = new byte[18];
         try {
             SecureRandom random = SecureRandom.getInstance("SHA1PRNG");
@@ -322,13 +322,13 @@ public class UsernameToken extends UsernameTokenType
                     "Unrecognized encoding: " + nonceEncodingType);
         }
     }
-    
+
     private String getCreatedFromTimestamp() throws XWSSecurityException {
         Timestamp ts = new Timestamp(soapVersion);
         ts.createDateTime();
         return ts.getCreated().getValue();
     }
-    
+
     /*
      * Password Digest creation.
      * As per WSS-UsernameToken spec, if either or both of <wsse:Nonce>
@@ -339,17 +339,17 @@ public class UsernameToken extends UsernameTokenType
      *
      */
     private void createDigest() throws SecurityTokenException {
-        
+
         String utf8String = "";
         if (createdValue != null) {
             utf8String = utf8String + createdValue;
         }
-        
+
         // password is also optional
         if (passwordValue != null) {
             utf8String = utf8String + passwordValue;
         }
-        
+
         byte[] utf8Bytes;
         utf8Bytes = utf8String.getBytes(StandardCharsets.UTF_8);
 
@@ -363,7 +363,7 @@ public class UsernameToken extends UsernameTokenType
         } else {
             bytesToHash = utf8Bytes;
         }
-        
+
         byte[] hash;
         try {
             MessageDigest sha = MessageDigest.getInstance("SHA-1");
@@ -375,14 +375,14 @@ public class UsernameToken extends UsernameTokenType
         }
         this.passwordDigestValue = Base64.encode(hash);
     }
-    
+
     private void setValues(){
         if(usernameValue != null){
             AttributedString ut = objFac.createAttributedString();
             ut.setValue(usernameValue);
             setUsername(ut);
         }
-        
+
         if (passwordValue != null && !MessageConstants._EMPTY.equals(passwordValue) ){
             AttributedString pw = objFac.createAttributedString();
             if (MessageConstants.PASSWORD_DIGEST_NS == passwordType) {
@@ -399,9 +399,9 @@ public class UsernameToken extends UsernameTokenType
             }
             QName qname = new QName("Type");
             pw.getOtherAttributes().put(qname, passwordType);
-            
+
         }
-        
+
         if(nonceValue != null){
             AttributedString non = objFac.createAttributedString();
             non.setValue(nonceValue);
@@ -411,16 +411,16 @@ public class UsernameToken extends UsernameTokenType
                 non.getOtherAttributes().put(qname, nonceEncodingType);
             }
         }
-        
+
         if(createdValue != null){
             AttributedString cr = objFac.createAttributedString();
             cr.setValue(createdValue);
             setCreated(cr);
         }
-        
+
         valuesSet = true;
     }
-    
+
     /**
      *
      */

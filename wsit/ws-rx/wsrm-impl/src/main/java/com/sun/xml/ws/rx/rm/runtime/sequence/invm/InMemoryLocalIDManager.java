@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -46,9 +46,9 @@ public class InMemoryLocalIDManager implements LocalIDManager {
         for (String localID : store.keySet()) {
             BoundMessage msg = store.get(localID);
             if (sequenceID.equals(msg.sequenceID)) {
-                BoundMessage updatedMsg = new BoundMessage(msg.sequenceID, 
-                        msg.messageNumber, 
-                        msg.createTime, 
+                BoundMessage updatedMsg = new BoundMessage(msg.sequenceID,
+                        msg.messageNumber,
+                        msg.createTime,
                         System.currentTimeMillis());
                 store.put(localID, updatedMsg);
             }

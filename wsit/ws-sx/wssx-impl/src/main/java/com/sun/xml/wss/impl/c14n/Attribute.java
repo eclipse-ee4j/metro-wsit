@@ -19,11 +19,11 @@ import org.xml.sax.Attributes;
 public class Attribute   {
     int position = 0;
     Attributes attributes = null;
-    
+
     /** Creates a new instance of Attribute */
     public Attribute () {
     }
-    
+
     public void setPosition (int pos){
         this.position = pos;
     }
@@ -33,11 +33,11 @@ public class Attribute   {
     public String getLocalName (){
         return attributes.getLocalName (position);
     }
-    
+
     public String getNamespaceURI(){
         return attributes.getURI (position);
     }
-    
+
     public String getValue (){
         return attributes.getValue (position);
     }

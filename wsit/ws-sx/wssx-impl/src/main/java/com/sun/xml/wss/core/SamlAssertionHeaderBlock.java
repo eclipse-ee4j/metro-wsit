@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -61,8 +61,8 @@ public class SamlAssertionHeaderBlock extends SecurityHeaderBlockImpl implements
     Logger.getLogger(
     LogDomainConstants.WSS_API_DOMAIN,
     LogDomainConstants.WSS_API_DOMAIN_BUNDLE);
-    
-    
+
+
     /**
      *
      */
@@ -71,11 +71,11 @@ public class SamlAssertionHeaderBlock extends SecurityHeaderBlockImpl implements
         return SecurityHeaderBlockImpl.fromSoapElement(
         element, SamlAssertionHeaderBlock.class);
     }
-    
+
     private Document contextDocument_ = null;
     private Element delegateAssertion_ = null;
-    
-    
+
+
     /**
      * Constructs code&gt;SamlAssertionHeaderBlock&lt;/code&gt; from an existing SAML
      * &lt;code&gt;Assertion&lt;/code&gt;.
@@ -89,7 +89,7 @@ public class SamlAssertionHeaderBlock extends SecurityHeaderBlockImpl implements
             throw new XWSSecurityException("Assertion may not be null.");
         }
     }
-    
+
     /**
      * Constructs a SAML &lt;code&gt;Assertion&lt;/code&gt; header block from an existing
      * &lt;code&gt;SOAPElement&lt;/code&gt;.
@@ -98,25 +98,25 @@ public class SamlAssertionHeaderBlock extends SecurityHeaderBlockImpl implements
      */
     public SamlAssertionHeaderBlock(SOAPElement element) {
         contextDocument_ = element.getOwnerDocument();
-        
+
         delegateAssertion_ = element;
-        
-        
+
+
         setSOAPElement(element);
     }
-    
+
     /* (non-Javadoc)
      * @see com.sun.xml.wss.SecurityHeaderBlock#getAsSoapElement()
      */
     @Override
     public SOAPElement getAsSoapElement() throws XWSSecurityException {
-        
-        
+
+
         // uncomment after making SamlAssertionHeaderBlock like others (using a dirty flag).
         if (delegateElement != null) {
             return delegateElement;
         }
-        
+
         if (null == contextDocument_) {
             try {
                 contextDocument_ = XMLUtil.newDocument();
@@ -124,26 +124,26 @@ public class SamlAssertionHeaderBlock extends SecurityHeaderBlockImpl implements
                 throw new XWSSecurityException(e);
             }
         }
-        
+
         try {
             SOAPElement se = (SOAPElement)contextDocument_.importNode(delegateAssertion_, true);
             setSOAPElement(se);
-            
+
         } catch (Exception e) {
             throw new XWSSecurityException(e);
         }
-        
+
         return super.getAsSoapElement();
     }
-    
-    
+
+
     /**
      */
     public Document getContextDocument() {
         return contextDocument_;
     }
-    
-    
+
+
     /**
      */
     public Element getDelegateAssertion() {
@@ -168,5 +168,5 @@ public class SamlAssertionHeaderBlock extends SecurityHeaderBlockImpl implements
         }
     }*/
 
-    
+
 }

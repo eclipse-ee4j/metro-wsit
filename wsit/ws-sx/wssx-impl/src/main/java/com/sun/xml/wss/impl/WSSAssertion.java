@@ -18,10 +18,10 @@ import java.util.Set;
  * @author sk112103
  */
 public class WSSAssertion {
-    
+
     Set<String> requiredPropSet;
     String version = "1.0";
-    
+
     /** Creates a new instance of WSSAssertion */
     public WSSAssertion(Set<String> props, String version) {
         requiredPropSet = props;
@@ -31,10 +31,10 @@ public class WSSAssertion {
         }
         this.version = version;
     }
-    
+
     public final static String MUSTSUPPORT_REF_THUMBPRINT = "MustSupportRefThumbprint";
     public final static String MUSTSUPPORT_REF_ENCRYPTED_KEY = "MustSupportRefEncryptedKey";
-    public final static String REQUIRE_SIGNATURE_CONFIRMATION = "RequireSignatureConfirmation";    
+    public final static String REQUIRE_SIGNATURE_CONFIRMATION = "RequireSignatureConfirmation";
     public static final String MUST_SUPPORT_CLIENT_CHALLENGE = "MustSupportClientChallenge";
     public static final String MUST_SUPPORT_SERVER_CHALLENGE = "MustSupportServerChallenge";
     public static final String REQUIRE_CLIENT_ENTROPY = "RequireClientEntropy";
@@ -44,7 +44,7 @@ public class WSSAssertion {
     public static final String REQUIRE_EXTERNAL_URI_REFERENCE = "RequireExternalUriReference";
     public static final String REQUIRE_EMBEDDED_TOKEN_REF = "RequireEmbeddedTokenReference";
     public static final String MUST_SUPPORT_REF_KEYIDENTIFIER = "MustSupportRefKeyIdentifier";
-   
+
     /**
      * List of WSS properties
      * @return {@link java.util.Set}
@@ -57,7 +57,7 @@ public class WSSAssertion {
      * @return 1.0
      */
     public String getType() {
-        return version;    
+        return version;
     }
 
 }

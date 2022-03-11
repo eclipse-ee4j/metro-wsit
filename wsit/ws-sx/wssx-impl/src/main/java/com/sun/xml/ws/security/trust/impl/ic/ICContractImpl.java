@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -38,7 +38,7 @@ public class ICContractImpl extends WSTrustContractImpl{
         @SuppressWarnings("unchecked") final Map<QName, List<String>> claimedAttributes = (Map<QName, List<String>>) context.getOtherProperties().get(IssuedTokenContext.CLAIMED_ATTRUBUTES);
         handleDisplayToken((RequestSecurityToken)request, (RequestSecurityTokenResponse)response, claimedAttributes);
     }
-    
+
     private void handleDisplayToken(RequestSecurityToken rst, RequestSecurityTokenResponse rstr, Map<QName, List<String>> claimedAttrs)throws WSTrustException{
         List<Object> list = rst.getExtensionElements();
         boolean displayToken = false;
@@ -78,7 +78,7 @@ public class ICContractImpl extends WSTrustContractImpl{
                             Element dtg = doc.createElementNS("http://schemas.xmlsoap.org/ws/2005/05/identity", "DisplayTag");
                             dtg.appendChild(doc.createTextNode(attrKey.getLocalPart()));
                             dc.appendChild(dtg);
-                            
+
                             String displayValue = values.get(0);
                             Element dtv = doc.createElementNS("http://schemas.xmlsoap.org/ws/2005/05/identity", "DisplayValue");
                            // if ("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/privatepersonalidentifier".equals(uri)){
@@ -92,7 +92,7 @@ public class ICContractImpl extends WSTrustContractImpl{
                 rstr.getAny().add(rdt);
             }catch (Exception ex){
                 throw new WSTrustException(ex.getMessage(), ex);
-            }   
+            }
         }
     }
 }

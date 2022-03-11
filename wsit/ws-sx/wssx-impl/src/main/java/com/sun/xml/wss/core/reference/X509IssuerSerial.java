@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -71,7 +71,7 @@ public class X509IssuerSerial extends ReferenceElement {
         } catch (Exception e) {
             log.log(Level.SEVERE,
                     "WSS0750.soap.exception",
-                    new Object[] {"ds:X509IssuerSerial", e.getMessage()}); 
+                    new Object[] {"ds:X509IssuerSerial", e.getMessage()});
             throw new XWSSecurityException(e);
         }
 
@@ -86,7 +86,7 @@ public class X509IssuerSerial extends ReferenceElement {
         } catch (SOAPException e) {
             log.log(Level.SEVERE,
                     "WSS0758.soap.exception",
-                    new Object[] {"ds:X509IssuerName", e.getMessage()}); 
+                    new Object[] {"ds:X509IssuerName", e.getMessage()});
             throw new XWSSecurityException(e);
         }
         if (!issuerNames.hasNext())
@@ -208,8 +208,8 @@ public class X509IssuerSerial extends ReferenceElement {
             return delegate.getIssuerName();
         } catch (Exception e) {
             log.log(Level.SEVERE,
-                "WSS0763.exception.issuername", 
-                new Object[] {e.getMessage()});             
+                "WSS0763.exception.issuername",
+                new Object[] {e.getMessage()});
             throw new XWSSecurityException(e);
         }
     }
@@ -230,15 +230,15 @@ public class X509IssuerSerial extends ReferenceElement {
         } catch (Exception e) {
             log.log(Level.SEVERE,
                     "WSS0750.soap.exception",
-                    new Object[] {"ds:X509IssuerSerial", e.getMessage()}); 
+                    new Object[] {"ds:X509IssuerSerial", e.getMessage()});
             throw new XWSSecurityException(e);
         }
     }
-    
+
     public void setCertificate(X509Certificate cert){
         this.cert = cert;
     }
- 
+
     public X509Certificate getCertificate(){
         return cert;
     }

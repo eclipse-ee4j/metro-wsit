@@ -15,9 +15,9 @@ package com.sun.xml.ws.security.policy;
  * @author Kumar Jayanti
  */
 public interface CertStoreConfig {
-    
+
     String getCallbackHandlerClassName();
     String getCertSelectorClassName();
     String getCRLSelectorClassName();
-    
+
 }

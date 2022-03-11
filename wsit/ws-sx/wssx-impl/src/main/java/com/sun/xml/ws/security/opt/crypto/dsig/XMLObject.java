@@ -18,9 +18,9 @@ import java.util.List;
  * @author Abhijit Das
  */
 public class XMLObject extends com.sun.xml.security.core.dsig.ObjectType implements javax.xml.crypto.dsig.XMLObject {
-    
+
     @XmlTransient private List content1 = null;
-    
+
     /** Creates a new instance of XMLObject */
     public XMLObject() {
     }
@@ -40,5 +40,5 @@ public class XMLObject extends com.sun.xml.security.core.dsig.ObjectType impleme
     public void setContent(List content) {
         this.content1 = content;
     }
-    
+
 }

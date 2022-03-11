@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -21,7 +21,7 @@ import jakarta.xml.soap.SOAPMessage;
  *    <LI> Verifying the security in an inbound <code>SOAPMessage</code>
  *</UL>
  *
- * An <code>XWSSProcessor</code> can add/verify Security in a 
+ * An <code>XWSSProcessor</code> can add/verify Security in a
  * <code>SOAPMessage</code> as defined by the OASIS WSS 1.0 specification.
  */
 public interface XWSSProcessor {
@@ -31,12 +31,12 @@ public interface XWSSProcessor {
      *  the Security Policy inferred from the <code>SecurityConfiguration</code>
      *  with which this <code>XWSSProcessor</code> was initialized.
      *
-     * @param  messageCntxt the SOAP <code>ProcessingContext</code> containing 
+     * @param  messageCntxt the SOAP <code>ProcessingContext</code> containing
      *         the outgoing  <code>SOAPMessage</code> to be secured
      *
      * @return the resultant Secure <code>SOAPMessage</code>
      *
-     * @exception XWSSecurityException if there was an error in securing 
+     * @exception XWSSecurityException if there was an error in securing
      *            the message.
      */
     SOAPMessage secureOutboundMessage(
@@ -48,20 +48,20 @@ public interface XWSSProcessor {
      *  the Security Policy inferred from the <code>SecurityConfiguration</code>
      *  with which this <code>XWSSProcessor</code> was initialized.
      *
-     * @param  messageCntxt the SOAP <code>ProcessingContext</code> containing the 
+     * @param  messageCntxt the SOAP <code>ProcessingContext</code> containing the
      *         outgoing  <code>SOAPMessage</code> to be secured
      *
      * @return the resultant <code>SOAPMessage</code> after successful
      *         verification of security in the message
-     * 
      *
-     * @exception XWSSecurityException if there was an unexpected error 
-     *     while verifying the message.OR if the security in the incoming     
+     *
+     * @exception XWSSecurityException if there was an unexpected error
+     *     while verifying the message.OR if the security in the incoming
      * message violates the Security policy that was applied to the message.
      * @exception WssSoapFaultException when security in the incoming message
-     *     is in direct violation of the OASIS WSS specification. 
+     *     is in direct violation of the OASIS WSS specification.
      *     When a WssSoapFaultException is thrown the getFaultCode() method on it
-     *     will return a <code>QName</code> which would correspond to the 
+     *     will return a <code>QName</code> which would correspond to the
      *     WSS defined fault.
      */
     SOAPMessage verifyInboundMessage(

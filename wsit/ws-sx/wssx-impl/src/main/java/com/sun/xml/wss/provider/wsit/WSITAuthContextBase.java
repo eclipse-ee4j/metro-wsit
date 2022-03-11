@@ -135,18 +135,18 @@ import jakarta.xml.bind.Unmarshaller;
  * @author kumar jayanti
  */
 public abstract class WSITAuthContextBase  {
-    
+
     protected static final Logger log =
             Logger.getLogger(
             LogDomainConstants.WSIT_PVD_DOMAIN,
             LogDomainConstants.WSIT_PVD_DOMAIN_BUNDLE);
-    
+
     //*************Synchronized And Modified at Runtime***********
     // Per-Proxy State for SecureConversation sessions
     // as well as IssuedTokenContext returned by invoking a Trust-Plugin
     // This map stores IssuedTokenContext against the Policy-Id
     protected Hashtable<String, IssuedTokenContext> issuedTokenContextMap = new Hashtable<>();
-    
+
     //*************STATIC(s)**************************************
     //protected static QName bsOperationName =
     //        new QName("http://schemas.xmlsoap.org/ws/2005/02/trust","RequestSecurityToken");
@@ -155,7 +155,7 @@ public abstract class WSITAuthContextBase  {
     private final QName encSCClientCancel = new QName("http://schemas.sun.com/2006/03/wss/client","EncSCCancel");
     private final QName optServerSecurity = new QName("http://schemas.sun.com/2006/03/wss/server","DisableStreamingSecurity");
     private final QName optClientSecurity = new QName("http://schemas.sun.com/2006/03/wss/client","DisableStreamingSecurity");
-    
+
     protected boolean disableIncPrefix = false;
     private final QName disableIncPrefixServer = new QName("http://schemas.sun.com/2006/03/wss/server","DisableInclusivePrefixList");
     private final QName disableIncPrefixClient = new QName("http://schemas.sun.com/2006/03/wss/client","DisableInclusivePrefixList");
@@ -163,47 +163,47 @@ public abstract class WSITAuthContextBase  {
     protected boolean encRMLifecycleMsg = false;
     private final QName encRMLifecycleMsgServer = new QName("http://schemas.sun.com/2006/03/wss/server","EncryptRMLifecycleMessage");
     private final QName encRMLifecycleMsgClient = new QName("http://schemas.sun.com/2006/03/wss/client","EncryptRMLifecycleMessage");
-    
+
     protected boolean encHeaderContent = false;
     private final QName encHeaderContentServer = new QName("http://schemas.sun.com/2006/03/wss/server","EncryptHeaderContent");
     private final QName encHeaderContentClient = new QName("http://schemas.sun.com/2006/03/wss/client","EncryptHeaderContent");
-    
+
     protected boolean allowMissingTimestamp = false;
     private final QName allowMissingTSServer = new QName("http://schemas.sun.com/2006/03/wss/server","AllowMissingTimestamp");
     private final QName allowMissingTSClient = new QName("http://schemas.sun.com/2006/03/wss/client","AllowMissingTimestamp");
-    
+
     protected boolean securityMUValue = true;
     private final QName unsetSecurityMUValueServer = new QName("http://schemas.sun.com/2006/03/wss/server","UnsetSecurityMUValue");
     private final QName unsetSecurityMUValueClient = new QName("http://schemas.sun.com/2006/03/wss/client","UnsetSecurityMUValue");
-    
+
     //static JAXBContext used across the Pipe
-    protected static final JAXBContext jaxbContext;    
+    protected static final JAXBContext jaxbContext;
     protected WSSCVersion wsscVer = null;
     protected WSTrustVersion wsTrustVer = null;
     protected RmProtocolVersion rmVer = RmProtocolVersion.WSRM200502;
     protected McProtocolVersion mcVer = McProtocolVersion.WSMC200702;
     protected static final ArrayList<String> securityPolicyNamespaces ;
-    
+
     //protected static MessagePolicy emptyMessagePolicy;
     protected static final List<PolicyAssertion> EMPTY_LIST = Collections.emptyList();
     // debug the Secure SOAP Messages (enable dumping)
     protected static final boolean debug ;
     //public static final URI ISSUE_REQUEST_URI ;
     //public static final URI CANCEL_REQUEST_URI ;
-    
-    
+
+
     //***********CTOR initialized Instance Variables**************
     protected Pipe nextPipe;
     protected Tube nextTube;
-    
+
     // TODO: Optimized flag to be set based on some conditions (no SignedElements/EncryptedElements)
     protected boolean optimized = true;
     protected TubeConfiguration pipeConfig = null;
-   
-    
+
+
     // Security Environment reference initialized with a JAAS CallbackHandler
     protected SecurityEnvironment secEnv = null;
-    
+
     // SOAP version
     protected boolean isSOAP12 = false;
     protected SOAPVersion soapVersion = null;
@@ -234,13 +234,13 @@ public abstract class WSITAuthContextBase  {
     //boolean addressingEnabled = false;
     AddressingVersion addVer = null;
     //WSDLPort port = null;
-    
-    // Security Policy version 
+
+    // Security Policy version
     protected SecurityPolicyVersion spVersion = SecurityPolicyVersion.SECURITYPOLICY200507;
-        
+
     protected static final String REQ_PACKET = "REQ_PACKET";
     protected static final String RES_PACKET = "RES_PACKET";
-    
+
     protected static final String DEFAULT_JMAC_HANDLER = "com.sun.enterprise.security.jmac.callback.ContainerCallbackHandler";
     protected static final String WSDLPORT="WSDLPort";
     protected static final String WSENDPOINT="WSEndpoint";
@@ -253,23 +253,23 @@ public abstract class WSITAuthContextBase  {
     private boolean encryptCancelPayload = false;
     private Policy cancelMSP;
     protected boolean isCertValid;
-    
-    
+
+
     static {
         try {
             //TODO: system property maynot be appropriate for server side.
             debug = Boolean.valueOf(System.getProperty("DebugSecurity"));
             //ISSUE_REQUEST_URI = new URI(WSTrustConstants.REQUEST_SECURITY_TOKEN_ISSUE_ACTION);
             //CANCEL_REQUEST_URI = new URI(WSTrustConstants.CANCEL_REQUEST);
-            jaxbContext = WSTrustElementFactory.getContext();            
+            jaxbContext = WSTrustElementFactory.getContext();
             securityPolicyNamespaces = new ArrayList<>();
             securityPolicyNamespaces.add(SecurityPolicyVersion.SECURITYPOLICY200507.namespaceUri);
-            
+
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-    }    
-    
+    }
+
     /** Creates a new instance of WSITAuthContextBase */
     public WSITAuthContextBase(Map<String, Object> map) {
         this.nextPipe = (Pipe)map.get("NEXT_PIPE");
@@ -290,27 +290,27 @@ public abstract class WSITAuthContextBase  {
         isSOAP12 = (soapVersion == SOAPVersion.SOAP_12) ? true : false;
         wsPolicyMap = pipeConfig.getPolicyMap();
         soapFactory = pipeConfig.getBinding().getSOAPVersion().saajSoapFactory;
-        
+
         if(wsPolicyMap != null){
             collectPolicies(wsPolicyMap,policyAlternatives);
         }
-        
+
         //unmarshaller as instance variable of the pipe
         try {
            this.marshaller = jaxbContext.createMarshaller();
            this.unmarshaller = jaxbContext.createUnmarshaller();
         }catch (jakarta.xml.bind.JAXBException ex) {
             throw new RuntimeException(ex);
-        }                        
-        
+        }
+
         // check whether Service Port has RM
         hasReliableMessaging = isReliableMessagingEnabled(pipeConfig.getWSDLPort());
         hasMakeConnection = isMakeConnectionEnabled(pipeConfig.getWSDLPort());
-        
+
         //put properties for use by AuthModule init
         map.put("SOAP_VERSION", soapVersion);
     }
-    
+
     /**
      * Summary from Section 4.2, WS-Security Policy spec( version 1.1 July 2005 ).
      * MessagePolicySubject : policy can be attached to
@@ -323,7 +323,7 @@ public abstract class WSITAuthContextBase  {
      *   1)wsdl:port
      *   2)wsdl:Binding
      */
-    
+
     protected void collectPolicies(PolicyMap wsPolicyMap, List<PolicyAlternativeHolder> alternatives) {
         try {
             if (wsPolicyMap == null) {
@@ -383,7 +383,7 @@ public abstract class WSITAuthContextBase  {
     }
 
     //TODO:POLALT Alternatives only at BindingLevel for Now
-    private void collectOperationAndMessageLevelPolicies(PolicyMap wsPolicyMap, 
+    private void collectOperationAndMessageLevelPolicies(PolicyMap wsPolicyMap,
             Policy singleAlternative, ArrayList<Policy> policyList, PolicyAlternativeHolder ph) {
         if (wsPolicyMap == null) {
             return;
@@ -430,7 +430,7 @@ public abstract class WSITAuthContextBase  {
                 }
                 //one way
                 SecurityPolicyHolder inPH = null;
-                
+
                 Policy omPolicy = null;
                 omPolicy = wsPolicyMap.getOutputMessageEffectivePolicy(messageKey);
                 if (omPolicy != null) {
@@ -606,7 +606,7 @@ public abstract class WSITAuthContextBase  {
             }
         }
         return sph.getSecureConversationTokens();
-        
+
     }
 
     //TODO:POLALT : should this method look over all alternatives
@@ -639,7 +639,7 @@ public abstract class WSITAuthContextBase  {
         }
         return sph.getKerberosTokens();
     }
-    
+
     //TODO:POLALT : should this method look over all alternatives
     protected List<PolicyAssertion> getSecureConversationPolicies(
             Message message, String scope) {
@@ -667,7 +667,7 @@ public abstract class WSITAuthContextBase  {
         return sph.getSecureConversationTokens();
 
     }
-    
+
 //TODO :: Refactor
     protected ArrayList<PolicyAssertion> getTokens(Policy policy){
         ArrayList<PolicyAssertion> tokenList = new ArrayList<>();
@@ -710,7 +710,7 @@ public abstract class WSITAuthContextBase  {
         }
         return tokenList;
     }
-    
+
     private void addConfigAssertions(Policy policy,SecurityPolicyHolder sph){
         //ArrayList<PolicyAssertion> tokenList = new ArrayList<PolicyAssertion>();
         for(AssertionSet assertionSet : policy){
@@ -731,8 +731,8 @@ public abstract class WSITAuthContextBase  {
             list.add((PolicyAssertion)token);
         }
     }
-    
-    
+
+
     protected PolicyMapKey getOperationKey(Message message){
         WSDLBoundOperation operation = message.getOperation(pipeConfig.getWSDLPort());
         WSDLOperation wsdlOperation = operation.getOperation();
@@ -745,17 +745,17 @@ public abstract class WSITAuthContextBase  {
         PolicyMapKey messageKey =  PolicyMap.createWsdlMessageScopeKey(
                 serviceName,portName,wsdlOperation.getName());
         return messageKey;
-        
+
     }
-    
+
     protected abstract SecurityPolicyHolder addOutgoingMP(WSDLBoundOperation operation,Policy policy, PolicyAlternativeHolder ph)throws PolicyException;
-    
+
     protected abstract SecurityPolicyHolder addIncomingMP(WSDLBoundOperation operation,Policy policy, PolicyAlternativeHolder ph)throws PolicyException;
-    
+
     protected AlgorithmSuite getBindingAlgorithmSuite(Packet packet) {
         return bindingLevelAlgSuite;
     }
-    
+
     protected void cacheMessage(Packet packet){
         // Not required, commenting
 //        Message message = null;
@@ -771,7 +771,7 @@ public abstract class WSITAuthContextBase  {
 //            }
 //        }
     }
-    
+
     private boolean hasTargets(NestedPolicy policy){
         AssertionSet as = policy.getAssertionSet();
         //Iterator<PolicyAssertion> paItr = as.iterator();
@@ -784,8 +784,8 @@ public abstract class WSITAuthContextBase  {
         }
         return foundTargets;
     }
-    
-    
+
+
     protected Policy getEffectiveBootstrapPolicy(NestedPolicy bp)throws PolicyException{
         try {
             ArrayList<Policy> pl = new ArrayList<>();
@@ -794,7 +794,7 @@ public abstract class WSITAuthContextBase  {
             if ( mbp != null ) {
                 pl.add(mbp);
             }
-            
+
             PolicyMerger pm = PolicyMerger.getMerger();
             Policy ep = pm.merge(pl);
             return ep;
@@ -802,9 +802,9 @@ public abstract class WSITAuthContextBase  {
             log.log(Level.SEVERE, LogStringsMessages.WSITPVD_0007_PROBLEM_GETTING_EFF_BOOT_POLICY(), e);
             throw new PolicyException(LogStringsMessages.WSITPVD_0007_PROBLEM_GETTING_EFF_BOOT_POLICY(), e);
         }
-        
+
     }
-    
+
     private Policy getMessageBootstrapPolicy()throws PolicyException ,IOException{
         if(bpMSP == null){
             String bootstrapMessagePolicy = "boot-msglevel-policy.xml";
@@ -818,16 +818,16 @@ public abstract class WSITAuthContextBase  {
         return bpMSP;
     }
 
-// TODO : remove this unused method if possible    
+// TODO : remove this unused method if possible
 //    private Policy getMessageLevelBSP() throws PolicyException {
 //        QName serviceName = pipeConfig.getWSDLModel().getOwner().getName();
 //        QName portName = pipeConfig.getWSDLModel().getName();
 //        PolicyMapKey operationKey = PolicyMap.createWsdlOperationScopeKey(serviceName, portName, bsOperationName);
-//        
+//
 //        Policy operationLevelEP =  wsPolicyMap.getOperationEffectivePolicy(operationKey);
 //        return operationLevelEP;
 //    }
-    
+
     protected PolicySourceModel unmarshalPolicy(String resource) throws PolicyException, IOException {
         InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream(resource);
         if (is == null) {
@@ -838,53 +838,53 @@ public abstract class WSITAuthContextBase  {
         reader.close();
         return model;
     }
-    
+
     protected final WSDLBoundOperation cacheOperation(Message msg, Packet packet){
         WSDLBoundOperation cachedOperation = msg.getOperation(pipeConfig.getWSDLPort());
         packet.invocationProperties.put("WSDL_BOUND_OPERATION", cachedOperation);
         return cachedOperation;
     }
-    
+
     protected final void resetCachedOperation(Packet packet){
         packet.invocationProperties.put("WSDL_BOUND_OPERATION", null);
     }
-    
+
     protected final void cacheOperation(WSDLBoundOperation op, Packet packet) {
         packet.invocationProperties.put("WSDL_BOUND_OPERATION", op);
     }
-    
+
     protected final WSDLBoundOperation cachedOperation(Packet packet) {
         WSDLBoundOperation op = (WSDLBoundOperation)packet.invocationProperties.get("WSDL_BOUND_OPERATION");
         return op;
     }
-    
+
     protected boolean isSCMessage(Packet packet){
-        
+
         if (!bindingHasSecureConversationPolicy()) {
             return false;
         }
-        
+
         if (!isAddressingEnabled()) {
             return false;
         }
-        
+
         String action = getAction(packet);
         if (Constants.rstSCTURI.equals(action)){
             return true;
         }
         return false;
     }
-    
+
     protected boolean isSCRenew(Packet packet){
-        
+
         if (!bindingHasSecureConversationPolicy()) {
             return false;
         }
-        
+
         if (!isAddressingEnabled()) {
             return false;
         }
-        
+
         String action = getAction(packet);
         if(wsscVer.getSCTRenewResponseAction().equals(action) ||
                 wsscVer.getSCTRenewRequestAction().equals(action)) {
@@ -892,17 +892,17 @@ public abstract class WSITAuthContextBase  {
         }
         return false;
     }
-        
+
     protected boolean isSCCancel(Packet packet){
-        
+
         if (!bindingHasSecureConversationPolicy()) {
             return false;
         }
-        
+
         if (!isAddressingEnabled()) {
             return false;
         }
-        
+
         String action = getAction(packet);
         if(wsscVer.getSCTCancelResponseAction().equals(action) ||
                 wsscVer.getSCTCancelRequestAction().equals(action)) {
@@ -910,33 +910,33 @@ public abstract class WSITAuthContextBase  {
         }
         return false;
     }
-    
+
     protected boolean isAddressingEnabled() {
         return (addVer != null);
     }
-    
+
     protected boolean isTrustMessage(Packet packet){
         if (!isAddressingEnabled()) {
             return false;
         }
-        
+
         // Issue
         String action = getAction(packet);
         if(wsTrustVer.getIssueRequestAction().equals(action) ||
                 wsTrustVer.getIssueFinalResoponseAction().equals(action)){
             return true;
         }
-        
-         // Validate 
+
+         // Validate
          if(wsTrustVer.getValidateRequestAction().equals(action) ||
                 wsTrustVer.getValidateFinalResoponseAction().equals(action)){
             return true;
         }
-        
+
         return false;
-        
+
     }
-    
+
     protected boolean isRMMessage(Packet packet){
         if (!isAddressingEnabled()) {
             return false;
@@ -959,13 +959,13 @@ public abstract class WSITAuthContextBase  {
         // if ("true".equals(packet.invocationProperties.get(WSTrustConstants.IS_TRUST_MESSAGE))){
         //    return (String)packet.invocationProperties.get(WSTrustConstants.REQUEST_SECURITY_TOKEN_ISSUE_ACTION);
         //}
-        
+
         MessageHeaders hl = packet.getMessage().getHeaders();
         //String action =  hl.getAction(pipeConfig.getBinding().getAddressingVersion(), pipeConfig.getBinding().getSOAPVersion());
         String action =  AddressingUtils.getAction(hl, addVer, pipeConfig.getBinding().getSOAPVersion());
         return action;
     }
-    
+
     protected WSDLBoundOperation getWSDLOpFromAction(Packet packet ,boolean isIncomming){
         String uriValue = getAction(packet);
         for (PolicyAlternativeHolder p : policyAlternatives) {
@@ -982,7 +982,7 @@ public abstract class WSITAuthContextBase  {
         return null;
 
     }
-    
+
     protected void buildProtocolPolicy(Policy endpointPolicy, PolicyAlternativeHolder ph)throws PolicyException{
         if(endpointPolicy == null ){
             return;
@@ -997,7 +997,7 @@ public abstract class WSITAuthContextBase  {
             Policy effectivePolicy = merger.merge(pList);
             addIncomingProtocolPolicy(effectivePolicy,"RM",ph);
             addOutgoingProtocolPolicy(effectivePolicy,"RM",ph);
-            
+
             pList.remove(msgLevelPolicy);
             pList.add(getMessageBootstrapPolicy());
             PolicyMerger pm = PolicyMerger.getMerger();
@@ -1020,27 +1020,27 @@ public abstract class WSITAuthContextBase  {
                     LogStringsMessages.WSITPVD_0008_PROBLEM_BUILDING_PROTOCOL_POLICY(), ie);
         }
     }
-    
+
     protected SecurityPolicyHolder constructPolicyHolder(Policy effectivePolicy,
             boolean isServer,boolean isIncoming)throws PolicyException{
         return  constructPolicyHolder(effectivePolicy,isServer,isIncoming,false);
     }
-    
+
     protected SecurityPolicyHolder constructPolicyHolder(Policy effectivePolicy,
             boolean isServer,boolean isIncoming,boolean ignoreST)throws PolicyException{
-        
+
         XWSSPolicyGenerator xwssPolicyGenerator = new XWSSPolicyGenerator(effectivePolicy,isServer,isIncoming, spVersion);
         xwssPolicyGenerator.process(ignoreST);
-        this.bindingLevelAlgSuite = xwssPolicyGenerator.getBindingLevelAlgSuite();        
+        this.bindingLevelAlgSuite = xwssPolicyGenerator.getBindingLevelAlgSuite();
         MessagePolicy messagePolicy = xwssPolicyGenerator.getXWSSPolicy();
-        
+
         SecurityPolicyHolder sph = new SecurityPolicyHolder();
         sph.setMessagePolicy(messagePolicy);
         sph.setBindingLevelAlgSuite(xwssPolicyGenerator.getBindingLevelAlgSuite());
         sph.isIssuedTokenAsEncryptedSupportingToken(xwssPolicyGenerator.isIssuedTokenAsEncryptedSupportingToken());
         List<PolicyAssertion> tokenList = getTokens(effectivePolicy);
         addConfigAssertions(effectivePolicy,sph);
-        
+
         for(PolicyAssertion token:tokenList){
             if(PolicyUtil.isSecureConversationToken(token, spVersion)){
                 NestedPolicy bootstrapPolicy = ((SecureConversationToken)token).getBootstrapPolicy();
@@ -1054,7 +1054,7 @@ public abstract class WSITAuthContextBase  {
                 xwssPolicyGenerator.process(ignoreST);
                 MessagePolicy bmp = xwssPolicyGenerator.getXWSSPolicy();
                 this.bootStrapAlgoSuite = xwssPolicyGenerator.getBindingLevelAlgSuite();
-                
+
                 if(isServer && isIncoming){
                     EncryptionPolicy optionalPolicy =
                             new EncryptionPolicy();
@@ -1071,25 +1071,25 @@ public abstract class WSITAuthContextBase  {
                         throw new PolicyException(ex);
                     }*/
                 }
-                
+
                 PolicyAssertion sct = new SCTokenWrapper(token,bmp);
                 sph.addSecureConversationToken(sct);
                 hasSecureConversation = true;
-                
+
                 // if the bootstrap has issued tokens then set hasIssuedTokens=true
                 List<PolicyAssertion> iList =
                         this.getIssuedTokenPoliciesFromBootstrapPolicy((Token)sct);
                 if (!iList.isEmpty()) {
                     hasIssuedTokens = true;
                 }
-                
+
                 // if the bootstrap has kerberos tokens then set hasKerberosTokens=true
                 List<PolicyAssertion> kList =
                         this.getKerberosTokenPoliciesFromBootstrapPolicy((Token)sct);
                 if(!kList.isEmpty()) {
                     hasKerberosToken = true;
                 }
-                
+
             }else if(PolicyUtil.isIssuedToken(token, spVersion)){
                 sph.addIssuedToken(token);
                 hasIssuedTokens = true;
@@ -1100,18 +1100,18 @@ public abstract class WSITAuthContextBase  {
         }
         return sph;
     }
-    
+
     protected List<PolicyAssertion> getIssuedTokenPoliciesFromBootstrapPolicy(
             Token scAssertion) {
         SCTokenWrapper token = (SCTokenWrapper)scAssertion;
         return token.getIssuedTokens();
     }
-    
+
     protected List<PolicyAssertion> getKerberosTokenPoliciesFromBootstrapPolicy(Token scAssertion){
         SCTokenWrapper token = (SCTokenWrapper)scAssertion;
         return token.getKerberosTokens();
     }
-    
+
 // return the callbackhandler if the xwssCallbackHandler was set
 // otherwise populate the props and return null.
     protected String populateConfigProperties(Set configAssertions, Properties props) {
@@ -1142,16 +1142,16 @@ public abstract class WSITAuthContextBase  {
         }
         return null;
     }
-    
+
     private void populateSessionMgrProps(Properties props, SessionManagerStore smStore) {
         if(smStore.getSessionTimeOut() != null) {
-            props.put(SessionManager.TIMEOUT_INTERVAL, smStore.getSessionTimeOut());            
+            props.put(SessionManager.TIMEOUT_INTERVAL, smStore.getSessionTimeOut());
         }
-        if(smStore.getSessionThreshold() != null) {           
+        if(smStore.getSessionThreshold() != null) {
             props.put(SessionManager.SESSION_THRESHOLD, smStore.getSessionThreshold());
         }
     }
-    
+
     private void populateKerberosProps(Properties props, KerberosConfig kerbConfig){
         if(kerbConfig.getLoginModule() != null){
             props.put(DefaultCallbackHandler.KRB5_LOGIN_MODULE, kerbConfig.getLoginModule());
@@ -1163,7 +1163,7 @@ public abstract class WSITAuthContextBase  {
             props.put(DefaultCallbackHandler.KRB5_CREDENTIAL_DELEGATION, kerbConfig.getCredentialDelegation());
         }
     }
-    
+
     private void populateKeystoreProps(Properties props, KeyStore store) {
        boolean foundLoginModule = false;
         if(store.getKeyStoreLoginModuleConfigName() != null) {
@@ -1193,13 +1193,13 @@ public abstract class WSITAuthContextBase  {
               throw new RuntimeException(LogStringsMessages.WSITPVD_0014_KEYSTORE_URL_NULL_CONFIG_ASSERTION());
              */
         }
-        
+
         if (store.getType() != null) {
             props.put(DefaultCallbackHandler.KEYSTORE_TYPE, store.getType());
         } else {
             props.put(DefaultCallbackHandler.KEYSTORE_TYPE, "JKS");
         }
-        
+
         if (store.getPassword() != null) {
             props.put(DefaultCallbackHandler.KEYSTORE_PASSWORD, new String(store.getPassword()));
         } else {
@@ -1209,7 +1209,7 @@ public abstract class WSITAuthContextBase  {
               throw new RuntimeException(LogStringsMessages.WSITPVD_0015_KEYSTORE_PASSWORD_NULL_CONFIG_ASSERTION() );
              */
         }
-        
+
         if (store.getAlias() != null) {
             props.put(DefaultCallbackHandler.MY_ALIAS, store.getAlias());
         } else {
@@ -1219,16 +1219,16 @@ public abstract class WSITAuthContextBase  {
         if (store.getKeyPassword() != null) {
             props.put(DefaultCallbackHandler.KEY_PASSWORD, store.getKeyPassword());
         }
-        
+
         if (store.getAliasSelectorClassName() != null) {
             props.put(DefaultCallbackHandler.KEYSTORE_CERTSELECTOR, store.getAliasSelectorClassName());
-        }        
+        }
     }
-    
+
     @SuppressWarnings("unchecked")
     protected ProcessingContext initializeInboundProcessingContext(Packet packet)  {
         ProcessingContextImpl ctx = null;
-        
+
         if(optimized){
             ctx = new JAXBFilterProcessingContext(packet.invocationProperties);
             ((JAXBFilterProcessingContext)ctx).setAddressingVersion(addVer);
@@ -1237,7 +1237,7 @@ public abstract class WSITAuthContextBase  {
             ((JAXBFilterProcessingContext)ctx).setDisableIncPrefix(disableIncPrefix);
             ((JAXBFilterProcessingContext)ctx).setEncHeaderContent(encHeaderContent);
             ((JAXBFilterProcessingContext)ctx).setAllowMissingTimestamp(allowMissingTimestamp);
-            ((JAXBFilterProcessingContext)ctx).setMustUnderstandValue(securityMUValue);        
+            ((JAXBFilterProcessingContext)ctx).setMustUnderstandValue(securityMUValue);
         }else{
             ctx = new ProcessingContextImpl( packet.invocationProperties);
         }
@@ -1247,15 +1247,15 @@ public abstract class WSITAuthContextBase  {
             action = getAction(packet);
             ctx.setAction(action);
         }
-        if(isSCRenew(packet)){            
-            ctx.isExpired(true);            
+        if(isSCRenew(packet)){
+            ctx.isExpired(true);
         }*/
         ctx.setAddressingEnabled(this.isAddressingEnabled());
         ctx.setWsscVer(this.wsscVer);
 
-        // Set the SecurityPolicy version namespace in processingContext 
+        // Set the SecurityPolicy version namespace in processingContext
         ctx.setSecurityPolicyVersion(spVersion.namespaceUri);
-        
+
         // set the policy, issued-token-map, and extraneous properties
         // try { policy need not be set apriori after moving to new policverification code
         /* Issue 1081 Move this to Action Header Processor
@@ -1299,8 +1299,8 @@ TR/SCT"))) && this.bootStrapAlgoSuite != null){            ctx.setAlgorithmSuite
         }
         return ctx;
     }
-    
-    private void populateTruststoreProps(Properties props, TrustStore store) { 
+
+    private void populateTruststoreProps(Properties props, TrustStore store) {
         if (store.getLocation() != null) {
             props.put(DefaultCallbackHandler.TRUSTSTORE_URL, store.getLocation());
         } else {
@@ -1311,13 +1311,13 @@ TR/SCT"))) && this.bootStrapAlgoSuite != null){            ctx.setAlgorithmSuite
               throw new RuntimeException(LogStringsMessages.WSITPVD_0016_TRUSTSTORE_URL_NULL_CONFIG_ASSERTION() );
              */
         }
-        
+
         if (store.getType() != null) {
             props.put(DefaultCallbackHandler.TRUSTSTORE_TYPE, store.getType());
         } else {
             props.put(DefaultCallbackHandler.TRUSTSTORE_TYPE, "JKS");
         }
-        
+
         if (store.getPassword() != null) {
             props.put(DefaultCallbackHandler.TRUSTSTORE_PASSWORD, new String(store.getPassword()));
         } else {
@@ -1327,24 +1327,24 @@ TR/SCT"))) && this.bootStrapAlgoSuite != null){            ctx.setAlgorithmSuite
               throw new RuntimeException(LogStringsMessages.WSITPVD_0017_TRUSTSTORE_PASSWORD_NULL_CONFIG_ASSERTION() );
              */
         }
-        
+
         if (store.getPeerAlias() != null) {
             props.put(DefaultCallbackHandler.PEER_ENTITY_ALIAS, store.getPeerAlias());
         }
-        
+
         if (store.getSTSAlias() != null) {
             props.put(DefaultCallbackHandler.STS_ALIAS, store.getSTSAlias());
         }
-        
+
         if (store.getServiceAlias() != null) {
             props.put(DefaultCallbackHandler.SERVICE_ALIAS, store.getServiceAlias());
         }
-        
+
         if (store.getCertSelectorClassName() != null) {
             props.put(DefaultCallbackHandler.TRUSTSTORE_CERTSELECTOR, store.getCertSelectorClassName());
-        }        
+        }
     }
-    
+
     private String  populateCallbackHandlerProps(Properties props, CallbackHandlerConfiguration conf) {
         if (conf.getTimestampTimeout() != null) {
             //milliseconds
@@ -1421,24 +1421,24 @@ TR/SCT"))) && this.bootStrapAlgoSuite != null){            ctx.setAlgorithmSuite
         }
         return null;
     }
-    
+
     private void populateValidatorProps(Properties props, ValidatorConfiguration conf) {
         if (conf.getMaxClockSkew() != null) {
             props.put(DefaultCallbackHandler.MAX_CLOCK_SKEW_PROPERTY, conf.getMaxClockSkew());
         }
-        
+
         if (conf.getTimestampFreshnessLimit() != null) {
             props.put(DefaultCallbackHandler.TIMESTAMP_FRESHNESS_LIMIT_PROPERTY, conf.getTimestampFreshnessLimit());
         }
-        
+
         if (conf.getMaxNonceAge() != null) {
             props.put(DefaultCallbackHandler.MAX_NONCE_AGE_PROPERTY, conf.getMaxNonceAge());
         }
-        
+
         if (conf.getRevocationEnabled() != null) {
             props.put(DefaultCallbackHandler.REVOCATION_ENABLED, conf.getRevocationEnabled());
         }
-        
+
         Iterator it = conf.getValidators();
         for (; it.hasNext();) {
             PolicyAssertion p = (PolicyAssertion)it.next();
@@ -1465,7 +1465,7 @@ TR/SCT"))) && this.bootStrapAlgoSuite != null){            ctx.setAlgorithmSuite
             }
         }
     }
-    
+
     private void populateCertStoreProps(Properties props, CertStoreConfig certStoreConfig) {
         if (certStoreConfig.getCallbackHandlerClassName() != null) {
             props.put(DefaultCallbackHandler.CERTSTORE_CBH, certStoreConfig.getCallbackHandlerClassName());
@@ -1477,7 +1477,7 @@ TR/SCT"))) && this.bootStrapAlgoSuite != null){            ctx.setAlgorithmSuite
             props.put(DefaultCallbackHandler.CERTSTORE_CRLSELECTOR,certStoreConfig.getCRLSelectorClassName());
         }
     }
-    
+
     protected com.sun.xml.wss.impl.AlgorithmSuite getAlgoSuite(AlgorithmSuite suite) {
         if (suite == null) {
             return null;
@@ -1490,14 +1490,14 @@ TR/SCT"))) && this.bootStrapAlgoSuite != null){            ctx.setAlgorithmSuite
         als.setSignatureAlgorithm(suite.getSignatureAlgorithm());
         return als;
     }
-    
+
     protected com.sun.xml.wss.impl.WSSAssertion getWssAssertion(WSSAssertion asser) {
         com.sun.xml.wss.impl.WSSAssertion assertion = new com.sun.xml.wss.impl.WSSAssertion(
                 asser.getRequiredProperties(),
                 asser.getType());
         return assertion;
     }
-    
+
     //TODO: Duplicate information copied from Pipeline Assembler
     private boolean isReliableMessagingEnabled(WSDLPort port) {
         if (port != null && port.getBinding() != null) {
@@ -1514,23 +1514,23 @@ TR/SCT"))) && this.bootStrapAlgoSuite != null){            ctx.setAlgorithmSuite
         }
         return false;
     }
-    
+
     protected boolean bindingHasIssuedTokenPolicy() {
         return hasIssuedTokens;
     }
-    
+
     protected boolean bindingHasSecureConversationPolicy() {
         return hasSecureConversation;
     }
-    
+
     protected boolean hasKerberosTokenPolicy(){
         return hasKerberosToken;
     }
-    
+
     protected boolean bindingHasRMPolicy() {
         return hasReliableMessaging;
     }
-    
+
     protected Class loadClass(String classname) throws Exception {
         if (classname == null) {
             return null;
@@ -1557,7 +1557,7 @@ TR/SCT"))) && this.bootStrapAlgoSuite != null){            ctx.setAlgorithmSuite
                 LogStringsMessages.WSITPVD_0011_COULD_NOT_FIND_USER_CLASS(), classname);
         throw new XWSSecurityException(LogStringsMessages.WSITPVD_0011_COULD_NOT_FIND_USER_CLASS() +" : " +classname);
     }
-    
+
     protected WSDLBoundOperation getOperation(Message message, Packet packet){
         WSDLBoundOperation op = cachedOperation(packet);
         if(op == null){
@@ -1576,16 +1576,16 @@ TR/SCT"))) && this.bootStrapAlgoSuite != null){            ctx.setAlgorithmSuite
             ((JAXBFilterProcessingContext)ctx).setDisableIncPrefix(disableIncPrefix);
             ((JAXBFilterProcessingContext)ctx).setEncHeaderContent(encHeaderContent);
             ((JAXBFilterProcessingContext)ctx).setAllowMissingTimestamp(allowMissingTimestamp);
-            ((JAXBFilterProcessingContext)ctx).setMustUnderstandValue(securityMUValue);    
+            ((JAXBFilterProcessingContext)ctx).setMustUnderstandValue(securityMUValue);
         }else{
             ctx = new ProcessingContextImpl( packet.invocationProperties);
         }
        if (addVer != null) {
             ctx.setAction(getAction(packet));
         }
-        // Set the SecurityPolicy version namespace in processingContext 
+        // Set the SecurityPolicy version namespace in processingContext
         ctx.setSecurityPolicyVersion(spVersion.namespaceUri);
-        
+
         ctx.setTimestampTimeout(this.timestampTimeOut);
         ctx.setiterationsForPDK(iterationsForPDK);
         // set the policy, issued-token-map, and extraneous properties
@@ -1616,7 +1616,7 @@ TR/SCT"))) && this.bootStrapAlgoSuite != null){            ctx.setAlgorithmSuite
                 policy = holder.getMessagePolicy();
             }else if(isSCRenew(packet)){
                 policy = getOutgoingXWSSecurityPolicy(packet, isSCMessage);
-                ctx.isExpired(true);                
+                ctx.isExpired(true);
             }else{
                 policy = getOutgoingXWSSecurityPolicy(packet, isSCMessage);
             }
@@ -1637,11 +1637,11 @@ TR/SCT"))) && this.bootStrapAlgoSuite != null){            ctx.setAlgorithmSuite
         }
         return ctx;
     }
-    
+
     protected MessagePolicy getOutgoingXWSSecurityPolicy(
             Packet packet, boolean isSCMessage) {
-        
-        
+
+
         if (isSCMessage) {
             Token scToken = (Token)packet.invocationProperties.get(Constants.SC_ASSERTION);
             return getOutgoingXWSBootstrapPolicy(scToken);
@@ -1653,9 +1653,9 @@ TR/SCT"))) && this.bootStrapAlgoSuite != null){            ctx.setAlgorithmSuite
         }else{
             operation =message.getOperation(pipeConfig.getWSDLPort());
         }
-        
+
         //Review : Will this return operation name in all cases , doclit,rpclit, wrap / non wrap ?
-        
+
         MessagePolicy mp = null;
         PolicyAlternativeHolder applicableAlternative =
                     resolveAlternative(packet,isSCMessage);
@@ -1676,13 +1676,13 @@ TR/SCT"))) && this.bootStrapAlgoSuite != null){            ctx.setAlgorithmSuite
         mp = sph.getMessagePolicy();
         return mp;
     }
-    
+
     protected MessagePolicy getOutgoingXWSBootstrapPolicy(Token scAssertion) {
         return ((SCTokenWrapper)scAssertion).getMessagePolicy();
     }
-    
+
     protected SOAPFaultException getSOAPFaultException(WssSoapFaultException sfe) {
-        
+
         SOAPFault fault = null;
         try {
             if (isSOAP12) {
@@ -1696,9 +1696,9 @@ TR/SCT"))) && this.bootStrapAlgoSuite != null){            ctx.setAlgorithmSuite
             throw new RuntimeException(LogStringsMessages.WSITPVD_0002_INTERNAL_SERVER_ERROR(), e);
         }
         return new SOAPFaultException(fault);
-        
+
     }
-    
+
     protected SOAPFaultException getSOAPFaultException(XWSSecurityException xwse) {
         QName qname = null;
         if (xwse.getCause() instanceof PolicyViolationException) {
@@ -1706,14 +1706,14 @@ TR/SCT"))) && this.bootStrapAlgoSuite != null){            ctx.setAlgorithmSuite
         } else {
             qname = MessageConstants.WSSE_FAILED_AUTHENTICATION;
         }
-        
+
         com.sun.xml.wss.impl.WssSoapFaultException wsfe =
                 SecurableSoapMessage.newSOAPFaultException(
                 qname, xwse.getMessage(), xwse);
         //TODO: MISSING-LOG
         return getSOAPFaultException(wsfe);
     }
-    
+
     protected SOAPMessage secureOutboundMessage(SOAPMessage message, ProcessingContext ctx){
         try {
             ctx.setSOAPMessage(message);
@@ -1731,7 +1731,7 @@ TR/SCT"))) && this.bootStrapAlgoSuite != null){            ctx.setAlgorithmSuite
             throw wsfe;
         }
     }
-    
+
     protected Message secureOutboundMessage(Message message, ProcessingContext ctx){
         try{
             JAXBFilterProcessingContext  context = (JAXBFilterProcessingContext)ctx;
@@ -1755,9 +1755,9 @@ TR/SCT"))) && this.bootStrapAlgoSuite != null){            ctx.setAlgorithmSuite
             throw wsfe;
         }
     }
-    
+
     protected SOAPFault getSOAPFault(WssSoapFaultException sfe) {
-        
+
         SOAPFault fault = null;
         try {
             if (isSOAP12) {
@@ -1772,62 +1772,62 @@ TR/SCT"))) && this.bootStrapAlgoSuite != null){            ctx.setAlgorithmSuite
         }
         return fault;
     }
-    
-    
-    
+
+
+
     protected CallbackHandler loadGFHandler(boolean isClientAuthModule, String jmacHandler) {
-        
+
         String classname =  DEFAULT_JMAC_HANDLER;
         if (jmacHandler != null) {
             classname = jmacHandler;
         }
         Class ret = null;
         try {
-            
+
             ClassLoader loader = Thread.currentThread().getContextClassLoader();
             try {
                 if (loader != null) {
                     ret = loader.loadClass(classname);
                 }
             }catch(ClassNotFoundException e) {
-                
+
             }
-            
+
             if (ret == null) {
                 // if context classloader didnt work, try this
                 loader = this.getClass().getClassLoader();
                 ret = loader.loadClass(classname);
             }
-            
+
             if (ret != null) {
                 CallbackHandler handler = (CallbackHandler)ret.newInstance();
                 return handler;
             }
         } catch (ClassNotFoundException e) {
             // ignore
-            
+
         } catch(InstantiationException | IllegalAccessException e) {
-            
+
         }
         log.log(Level.SEVERE,
                 LogStringsMessages.WSITPVD_0023_COULD_NOT_LOAD_CALLBACK_HANDLER_CLASS(classname));
         throw new RuntimeException(
                 LogStringsMessages.WSITPVD_0023_COULD_NOT_LOAD_CALLBACK_HANDLER_CLASS(classname));
     }
-    
+
     protected Packet getRequestPacket(MessageInfo messageInfo) {
         return (Packet)messageInfo.getMap().get(REQ_PACKET);
     }
-    
+
     protected Packet getResponsePacket(MessageInfo messageInfo) {
         return (Packet)messageInfo.getMap().get(RES_PACKET);
     }
-    
+
     @SuppressWarnings("unchecked")
     protected void setRequestPacket(MessageInfo messageInfo, Packet ret) {
         messageInfo.getMap().put(REQ_PACKET, ret);
     }
-    
+
     @SuppressWarnings("unchecked")
     protected void setResponsePacket(MessageInfo messageInfo, Packet ret) {
         messageInfo.getMap().put(RES_PACKET, ret);
@@ -1846,15 +1846,15 @@ TR/SCT"))) && this.bootStrapAlgoSuite != null){            ctx.setAlgorithmSuite
         }
         return cancelMSP;
     }
-    
+
     protected abstract void addIncomingFaultPolicy(Policy effectivePolicy,SecurityPolicyHolder sph,WSDLFault fault)throws PolicyException;
-    
+
     protected abstract void addOutgoingFaultPolicy(Policy effectivePolicy,SecurityPolicyHolder sph,WSDLFault fault)throws PolicyException;
-    
+
     protected abstract void addIncomingProtocolPolicy(Policy effectivePolicy,String protocol, PolicyAlternativeHolder ph)throws PolicyException;
-    
+
     protected abstract void addOutgoingProtocolPolicy(Policy effectivePolicy,String protocol, PolicyAlternativeHolder ph)throws PolicyException;
-    
+
     protected abstract String getAction(WSDLOperation operation, boolean isIncomming) ;
 
     protected PolicyAlternativeHolder resolveAlternative(Packet packet, boolean isSCMessage) {
@@ -1877,5 +1877,5 @@ TR/SCT"))) && this.bootStrapAlgoSuite != null){            ctx.setAlgorithmSuite
             return null;
         }
     }
-    
+
 }

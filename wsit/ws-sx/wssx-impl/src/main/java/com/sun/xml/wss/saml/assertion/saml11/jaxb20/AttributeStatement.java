@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -35,7 +35,7 @@ import jakarta.xml.bind.JAXBContext;
  */
 public class AttributeStatement extends AttributeStatementType
     implements com.sun.xml.wss.saml.AttributeStatement {
-    
+
     protected static final Logger log = Logger.getLogger(
             LogDomainConstants.WSS_API_DOMAIN,
             LogDomainConstants.WSS_API_DOMAIN_BUNDLE);
@@ -45,7 +45,7 @@ public class AttributeStatement extends AttributeStatementType
     private void setAttributes(List attr) {
         this.attribute = attr;
     }
-    
+
     /**
      *Dafault constructor
      */
@@ -61,7 +61,7 @@ public class AttributeStatement extends AttributeStatementType
         }
         setAttributes(attStmtType.getAttribute());
     }
-    
+
     /**
      * Constructs an <code>AttributStatement</code> element from an existing
      * XML block
@@ -72,14 +72,14 @@ public class AttributeStatement extends AttributeStatementType
     public static AttributeStatementType fromElement(Element element) throws SAMLException {
         try {
             JAXBContext jc = SAMLJAXBUtil.getJAXBContext();
-                    
+
             jakarta.xml.bind.Unmarshaller u = jc.createUnmarshaller();
             return (AttributeStatementType)u.unmarshal(element);
         } catch ( Exception ex) {
             throw new SAMLException(ex.getMessage());
         }
     }
-        
+
     @Override
     public List<Attribute> getAttributes(){
         if(attValueList == null){
@@ -89,16 +89,16 @@ public class AttributeStatement extends AttributeStatementType
         }
         Iterator it = super.getAttribute().iterator();
         while(it.hasNext()){
-            com.sun.xml.wss.saml.assertion.saml11.jaxb20.Attribute obj = 
+            com.sun.xml.wss.saml.assertion.saml11.jaxb20.Attribute obj =
                     new com.sun.xml.wss.saml.assertion.saml11.jaxb20.Attribute((AttributeType)it.next());
             attValueList.add(obj);
         }
-        return attValueList;                 
+        return attValueList;
     }
 
     @Override
     public Subject getSubject() {
         //Subject subj = new Subject(super.getSubject());
         return (Subject) super.getSubject();
-    }   
+    }
 }

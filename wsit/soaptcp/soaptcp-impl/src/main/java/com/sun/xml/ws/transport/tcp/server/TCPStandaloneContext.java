@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -29,50 +29,50 @@ import java.util.zip.ZipFile;
  * @author Alexey Stashok
  */
 public final class TCPStandaloneContext implements TCPContext {
-    
+
     private final ClassLoader classloader;
     private final Map<String, Object> attributes = new HashMap<>();
-    
+
     public TCPStandaloneContext(final ClassLoader classloader) {
         this.classloader = classloader;
     }
-    
+
     @Override
     public InputStream getResourceAsStream(final String resource) {
         return classloader.getResourceAsStream(resource);
     }
-    
+
     @Override
     public Set<String> getResourcePaths(final String path) {
         try {
             return populateResourcePaths(path);
         } catch (Exception ex) {
         }
-        
+
         return Collections.emptySet();
     }
-    
-    
+
+
     @Override
     public URL getResource(String resource) {
         if (resource.charAt(0) == '/') {
             resource = resource.substring(1, resource.length());
         }
-        
+
         return classloader.getResource(resource);
     }
-    
+
     private Enumeration<URL> getResources(String resource) throws IOException {
         if (resource.charAt(0) == '/') {
             resource = resource.substring(1, resource.length());
         }
-        
+
         return classloader.getResources(resource);
     }
-    
+
     private Set<String> populateResourcePaths(final String path) throws Exception {
         final Set<String> resources = new HashSet<>();
-        
+
         for(final Enumeration<URL> initResources = getResources(path); initResources.hasMoreElements(); ) {
             final URI resourceURI = initResources.nextElement().toURI();
             if (resourceURI.getScheme().equals("file")) {
@@ -81,10 +81,10 @@ public final class TCPStandaloneContext implements TCPContext {
                 gatherResourcesWithJarMode(path, resourceURI, resources);
             }
         }
-        
+
         return resources;
     }
-    
+
     private void gatherResourcesWithFileMode(final String path, final URI resourceURI, final Set<String> resources) {
         final File file = new File(resourceURI);
         final String[] list = file.list(new FilenameFilter() {
@@ -93,21 +93,21 @@ public final class TCPStandaloneContext implements TCPContext {
                 return name.charAt(0) != '.';
             }
         });
-        
+
         for(String filename : list) {
             resources.add(path + filename);
         }
     }
-    
+
     private void gatherResourcesWithJarMode(final String path, final URI resourceURI, final Set<String> resources) {
         final String resourceURIAsString = resourceURI.toASCIIString();
         final int pathDelim = resourceURIAsString.indexOf('!');
         final String zipFile = resourceURIAsString.substring("jar:file:/".length(), (pathDelim != -1) ? pathDelim : resourceURIAsString.length());
         ZipFile file = null;
-        
+
         try {
             file = new ZipFile(zipFile);
-            
+
             String pathToCompare = path;
             if (pathToCompare.charAt(0) == '/') {
                 pathToCompare = pathToCompare.substring(1, pathToCompare.length());
@@ -115,7 +115,7 @@ public final class TCPStandaloneContext implements TCPContext {
             if (!pathToCompare.endsWith("/")) {
                 pathToCompare = pathToCompare + "/";
             }
-            
+
             for(final Enumeration<? extends ZipEntry> e = file.entries(); e.hasMoreElements(); ) {
                 final ZipEntry entry = e.nextElement();
                 if (entry.getName().startsWith(pathToCompare) && !entry.getName().equals(pathToCompare)) {
@@ -132,12 +132,12 @@ public final class TCPStandaloneContext implements TCPContext {
             }
         }
     }
-    
+
     @Override
     public Object getAttribute(final String name) {
         return attributes.get(name);
     }
-    
+
     @Override
     public void setAttribute(final String name, final Object value) {
         attributes.put(name, value);

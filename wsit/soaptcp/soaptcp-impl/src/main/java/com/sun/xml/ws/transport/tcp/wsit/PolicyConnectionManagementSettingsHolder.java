@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -30,7 +30,7 @@ import javax.xml.namespace.QName;
 
 /**
  * SOAP/TCP connection cache settings holder.
- * Implements holder, which gets connection settings from 
+ * Implements holder, which gets connection settings from
  * correspondent WS policy map.
  *
  * @author Alexey Stashok
@@ -45,14 +45,14 @@ public class PolicyConnectionManagementSettingsHolder
 
     volatile ConnectionManagementSettings clientSettings;
     volatile ConnectionManagementSettings serverSettings;
-    
-    private static final PolicyConnectionManagementSettingsHolder instance = 
+
+    private static final PolicyConnectionManagementSettingsHolder instance =
             new PolicyConnectionManagementSettingsHolder();
-    
+
     public static PolicyConnectionManagementSettingsHolder getInstance() {
         return instance;
     }
-    
+
     @Override
     public ConnectionManagementSettings getClientSettings() {
         return clientSettings;
@@ -72,7 +72,7 @@ public class PolicyConnectionManagementSettingsHolder
         return serverSettings;
     }
 
-    
+
     @NotNull
     static ConnectionManagementSettings createSettingsInstance(final @NotNull WSDLPort port) {
         try {

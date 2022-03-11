@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -37,24 +37,24 @@ import java.util.logging.Level;
  * @author  XWS-Security Team
  */
 public class TextPlainCanonicalizer extends Canonicalizer {
-    
+
     public TextPlainCanonicalizer() {}
-    
+
     public TextPlainCanonicalizer(String charset) {
         super(charset);
     }
-    
+
     @Override
     public InputStream canonicalize(InputStream input, OutputStream outputStream)
     throws javax.xml.crypto.dsig.TransformException   {
-        
+
         int len=0;
         byte [] data= null;
         try{
             data = new byte[128];
             len = input.read(data);
-        } catch (IOException e) {                        
-            log.log(Level.SEVERE, "WSS1002.error.canonicalizing.textplain", 
+        } catch (IOException e) {
+            log.log(Level.SEVERE, "WSS1002.error.canonicalizing.textplain",
                     new Object[] {e.getMessage()});
             throw new javax.xml.crypto.dsig.TransformException(e);
         }
@@ -66,25 +66,25 @@ public class TextPlainCanonicalizer extends Canonicalizer {
         }else{
             crlfOutStream = new CRLFOutputStream(outputStream);
         }
-        
+
         while(len > 0){
             try {
                 crlfOutStream.write(data,0,len);
                 len = input.read(data);
             } catch (IOException e) {
-                log.log(Level.SEVERE, "WSS1002.error.canonicalizing.textplain", 
+                log.log(Level.SEVERE, "WSS1002.error.canonicalizing.textplain",
                     new Object[] {e.getMessage()});
                 throw new javax.xml.crypto.dsig.TransformException(e);
             }
         }
-        
+
         if(outputStream == null){
             byte [] inputData = bout.toByteArray();
             return new ByteArrayInputStream(inputData);
         }
         return null;
     }
-    
+
     /*
      * Important aspects of "text" media type canonicalization include line
      * ending normalization to <CR><LF>.
@@ -97,11 +97,11 @@ public class TextPlainCanonicalizer extends Canonicalizer {
         try {
             crlfOutStream.write(inputBytes);
         } catch (IOException e) {
-            log.log(Level.SEVERE, "WSS1002.error.canonicalizing.textplain", 
+            log.log(Level.SEVERE, "WSS1002.error.canonicalizing.textplain",
                     new Object[] {e.getMessage()});
             throw new XWSSecurityException(e);
         }
         return bout.toByteArray();
     }
-    
+
 }
