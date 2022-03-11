@@ -499,10 +499,8 @@ implements SecurityToken, Token {
         byte[] bytesToHash;
         if (decodedNonce != null) {
             bytesToHash = new byte[utf8Bytes.length + 18];
-            for (int i = 0; i < 18; i++)
-                bytesToHash[i] = decodedNonce[i];
-            for (int i = 18; i < utf8Bytes.length + 18; i++)
-                bytesToHash[i] = utf8Bytes[i - 18];
+            System.arraycopy(decodedNonce, 0, bytesToHash, 0, 18);
+            System.arraycopy(utf8Bytes, 0, bytesToHash, 18, utf8Bytes.length + 18 - 18);
         } else {
             bytesToHash = utf8Bytes;
         }

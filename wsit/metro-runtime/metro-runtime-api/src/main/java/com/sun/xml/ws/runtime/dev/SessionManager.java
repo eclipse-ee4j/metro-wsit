@@ -176,10 +176,9 @@ public abstract class SessionManager extends AbstractMOMRegistrationAware {
         synchronized (LOCK) {
             try {
                 LOGGER.entering();
-                Object o = SESSION_MANAGERS.remove(endpoint);
+                SessionManager sessionManager = SESSION_MANAGERS.remove(endpoint);
                 LOGGER.config(String.format("removeSessionManager(%s): %s",
-                                            endpoint, o));
-                SessionManager sessionManager = (SessionManager) o;
+                                            endpoint, sessionManager));
                 if (sessionManager != null && sessionManager.isRegisteredAtMOM()) {
                     listener.unregisterFromMOM(sessionManager, endpoint);
                 }

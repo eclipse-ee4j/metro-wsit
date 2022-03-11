@@ -64,18 +64,12 @@ public class DefaultRealmAuthenticationAdapter extends RealmAuthenticationAdapte
 
     private boolean isGlassfish() {
         String val = System.getProperty("com.sun.aas.installRoot");
-        if (val != null) {
-            return true;
-        }
-        return false;
+        return val != null;
     }
     private boolean isTomcat() {
         String val = System.getProperty("catalina.home");
         String val1 = System.getProperty("com.sun.aas.installRoot");
-        if ((val1 == null) && (val != null)) {
-            return true;
-        }
-        return false;
+        return (val1 == null) && (val != null);
     }
 
     private boolean authenticateFromTomcatUsersXML(
@@ -187,8 +181,7 @@ public class DefaultRealmAuthenticationAdapter extends RealmAuthenticationAdapte
             }
 
             if (ret != null) {
-                CallbackHandler handler = (CallbackHandler)ret.newInstance();
-                return handler;
+                return (CallbackHandler)ret.newInstance();
             }
         } catch (ClassNotFoundException e) {
             // ignore

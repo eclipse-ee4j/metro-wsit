@@ -39,7 +39,7 @@ import com.sun.xml.wss.impl.config.DeclarativeSecurityConfiguration;
 import com.sun.xml.wss.impl.configuration.StaticApplicationContext;
 import com.sun.xml.wss.impl.misc.SecurityUtil;
 import com.sun.xml.wss.impl.policy.SecurityPolicy;
-import com.sun.xml.xwss.SecurityConfiguration;
+
 import java.net.URL;
 import javax.xml.namespace.QName;
 import jakarta.xml.soap.MessageFactory;
@@ -84,7 +84,7 @@ public class XWSSClientTube extends AbstractFilterTubeImpl {
         binding = bnd;
 
         soapVersion = bnd.getSOAPVersion();
-        isSOAP12 = (soapVersion == SOAPVersion.SOAP_12) ? true : false;
+        isSOAP12 = soapVersion == SOAPVersion.SOAP_12;
         soapFactory = soapVersion.saajSoapFactory;
         messageFactory = soapVersion.saajMessageFactory;
 
@@ -340,7 +340,7 @@ public class XWSSClientTube extends AbstractFilterTubeImpl {
             throw new XWSSecurityException(
                     "No body element identifying an operation is found");
         }
-        StringBuilder tmp = new StringBuilder("");
+        StringBuilder tmp = new StringBuilder();
         String operation = "";
 
         for (; node != null; node = node.getNextSibling()) {

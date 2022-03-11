@@ -79,9 +79,8 @@ final class Wsrm200502ProtocolHandler extends WsrmProtocolHandler {
 
     @Override
     public Packet toPacket(CreateSequenceData data, @Nullable Packet requestPacket) throws RxRuntimeException {
-        Packet packet = communicator.createRequestPacket(requestPacket, new CreateSequenceElement(data), rmVersion.protocolVersion.createSequenceAction, true);
 
-        return packet;
+        return communicator.createRequestPacket(requestPacket, new CreateSequenceElement(data), rmVersion.protocolVersion.createSequenceAction, true);
     }
 
     @Override

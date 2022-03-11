@@ -323,9 +323,7 @@ public class DerivedKey implements  com.sun.xml.ws.security.opt.api.keyinfo.Deri
                     String valueType = ki.getValueType();
                     if(valueType.equals(MessageConstants.WSSE_SAML_KEY_IDENTIFIER_VALUE_TYPE) ||
                             valueType.equals(MessageConstants.WSSE_SAML_v2_0_KEY_IDENTIFIER_VALUE_TYPE)){
-                        if(id.equals(ki.getValue())){
-                            return true;
-                        }
+                        return id.equals(ki.getValue());
                     }
                 }
             }

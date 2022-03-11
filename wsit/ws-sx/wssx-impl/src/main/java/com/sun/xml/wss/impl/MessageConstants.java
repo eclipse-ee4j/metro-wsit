@@ -24,7 +24,7 @@ import javax.xml.namespace.QName;
  */
 public class MessageConstants {
 
-    public static final long MAX_NONCE_AGE=900000;;
+    public static final long MAX_NONCE_AGE=900000;
     public static final int NOT_OPTIMIZED = 0 ;
     public static final int SIGN_BODY = 1;
     public static final int SIGN_ENCRYPT_BODY = 2;

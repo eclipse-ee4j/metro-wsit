@@ -394,8 +394,7 @@ public class WSATGatewayRM implements XAResource, WSATRuntimeConfig.RecoveryEven
         // return all pending Xids on first call, empty array otherwise
         if ((flag & XAResource.TMSTARTRSCAN) != 0) {
             if (WSATHelper.isDebugEnabled()) debug("WSAT recover(" + flag + ") returning " + pendingXids);
-            Xid[] xids = pendingXids.toArray(new Xid[0]);
-            return xids;
+            return pendingXids.toArray(new Xid[0]);
         }
         if (WSATHelper.isDebugEnabled()) debug("recover() returning empty array");
         return new Xid[0];

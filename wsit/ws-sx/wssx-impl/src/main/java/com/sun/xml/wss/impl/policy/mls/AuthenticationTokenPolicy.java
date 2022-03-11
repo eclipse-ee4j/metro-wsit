@@ -696,19 +696,19 @@ public class AuthenticationTokenPolicy extends WSSFeatureBindingExtension {
                 }
                 X509CertificateBinding ctBinding = (X509CertificateBinding) policy;
 
-                boolean b1 = _valueType.equals("") ? true : _valueType.equals(ctBinding.getValueType());
+                boolean b1 = _valueType.equals("") || _valueType.equals(ctBinding.getValueType());
                 if (!b1) {
                     return false;
                 }
-                boolean b2 = _encodingType.equals("") ? true : _encodingType.equals(ctBinding.getEncodingType());
+                boolean b2 = _encodingType.equals("") || _encodingType.equals(ctBinding.getEncodingType());
                 if (!b2) {
                     return false;
                 }
-                boolean b3 = _referenceType.equals("") ? true : _referenceType.equals(ctBinding.getReferenceType());
+                boolean b3 = _referenceType.equals("") || _referenceType.equals(ctBinding.getReferenceType());
                 if (!b3) {
                     return false;
                 }
-                boolean b4 = _keyAlgorithm.equals("") ? true : _keyAlgorithm.equals(ctBinding.getKeyAlgorithm());
+                boolean b4 = _keyAlgorithm.equals("") || _keyAlgorithm.equals(ctBinding.getKeyAlgorithm());
                 if (!b4) {
                     return false;
                 }
@@ -968,15 +968,15 @@ public class AuthenticationTokenPolicy extends WSSFeatureBindingExtension {
                 }
                 KerberosTokenBinding ktBinding = (KerberosTokenBinding) policy;
 
-                boolean b1 = _valueType.equals("") ? true : _valueType.equals(ktBinding.getValueType());
+                boolean b1 = _valueType.equals("") || _valueType.equals(ktBinding.getValueType());
                 if (!b1) {
                     return false;
                 }
-                boolean b2 = _encodingType.equals("") ? true : _encodingType.equals(ktBinding.getEncodingType());
+                boolean b2 = _encodingType.equals("") || _encodingType.equals(ktBinding.getEncodingType());
                 if (!b2) {
                     return false;
                 }
-                boolean b3 = _keyAlgorithm.equals("") ? true : _keyAlgorithm.equals(ktBinding.getKeyAlgorithm());
+                boolean b3 = _keyAlgorithm.equals("") || _keyAlgorithm.equals(ktBinding.getKeyAlgorithm());
                 if (!b3) {
                     return false;
                 }
@@ -1268,27 +1268,27 @@ public class AuthenticationTokenPolicy extends WSSFeatureBindingExtension {
                 SAMLAssertionBinding sBinding = (SAMLAssertionBinding) policy;
 
                 // this kind of equals is still incorrect
-                boolean b1 = _type.equals("") ? true : _type.equals(sBinding.getAssertionType());
+                boolean b1 = _type.equals("") || _type.equals(sBinding.getAssertionType());
                 if (!b1) {
                     return false;
                 }
-                boolean b2 = _authorityIdentifier.equals("") ? true : _authorityIdentifier.equals(sBinding.getAuthorityIdentifier());
+                boolean b2 = _authorityIdentifier.equals("") || _authorityIdentifier.equals(sBinding.getAuthorityIdentifier());
                 if (!b2) {
                     return false;
                 }
-                boolean b3 = _referenceType.equals("") ? true : _referenceType.equals(sBinding.getReferenceType());
+                boolean b3 = _referenceType.equals("") || _referenceType.equals(sBinding.getReferenceType());
                 if (!b3) {
                     return false;
                 }
-                boolean b6 = _keyAlgorithm.equals("") ? true : _keyAlgorithm.equals(sBinding.getKeyAlgorithm());
+                boolean b6 = _keyAlgorithm.equals("") || _keyAlgorithm.equals(sBinding.getKeyAlgorithm());
                 if (!b6) {
                     return false;
                 }
-                boolean b7 = (strId == null) ? true : strId.equals(sBinding.getSTRID());
+                boolean b7 = strId == null || strId.equals(sBinding.getSTRID());
                 if (!b7) {
                     return false;
                 }
-                boolean b8 = (assertionId == null) ? true : assertionId.equals(sBinding.getAssertionId());
+                boolean b8 = assertionId == null || assertionId.equals(sBinding.getAssertionId());
                 if (!b8) {
                     return false;
                 }
@@ -1521,15 +1521,15 @@ public class AuthenticationTokenPolicy extends WSSFeatureBindingExtension {
                 }
                 KeyValueTokenBinding rsaTokenBinding = (KeyValueTokenBinding) policy;
 
-                boolean b1 = _valueType.equals("") ? true : _valueType.equals(rsaTokenBinding.getValueType());
+                boolean b1 = _valueType.equals("") || _valueType.equals(rsaTokenBinding.getValueType());
                 if (!b1) {
                     return false;
                 }
-                boolean b2 = _encodingType.equals("") ? true : _encodingType.equals(rsaTokenBinding.getEncodingType());
+                boolean b2 = _encodingType.equals("") || _encodingType.equals(rsaTokenBinding.getEncodingType());
                 if (!b2) {
                     return false;
                 }
-                boolean b3 = _referenceType.equals("") ? true : _referenceType.equals(rsaTokenBinding.getReferenceType());
+                boolean b3 = _referenceType.equals("") || _referenceType.equals(rsaTokenBinding.getReferenceType());
                 if (!b3) {
                     return false;
                 }

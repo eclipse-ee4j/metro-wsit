@@ -8,10 +8,6 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-/*
- * $Id: Assertion.java,v 1.2 2010-10-21 15:38:03 snajper Exp $
- */
-
 package com.sun.xml.wss.saml.assertion.saml20.jaxb20;
 
 import com.sun.xml.wss.core.SecurityTokenReference;
@@ -188,20 +184,17 @@ public class Assertion extends AssertionType implements com.sun.xml.wss.saml.Ass
 
     @Override
     public Conditions getConditions(){
-        Conditions cond = new Conditions(super.getConditions());
-        return cond;
+        return new Conditions(super.getConditions());
     }
 
     @Override
     public Advice getAdvice(){
-        Advice adv = new Advice(super.getAdvice());
-        return adv;
+        return new Advice(super.getAdvice());
     }
 
     @Override
     public Subject getSubject(){
-        Subject subj = new Subject(super.getSubject());
-        return subj;
+        return new Subject(super.getSubject());
     }
 
     /**
@@ -512,7 +505,7 @@ public class Assertion extends AssertionType implements com.sun.xml.wss.saml.Ass
     }
 
     public boolean isSigned() {
-        return signature != null?true:false;
+        return signature != null;
     }
 
     /**
@@ -661,7 +654,7 @@ public class Assertion extends AssertionType implements com.sun.xml.wss.saml.Ass
         Class _nodeSetClass = null;
         String optNSClassName = "org.apache.jcp.xml.dsig.internal.dom.DOMSubTreeData";
         Constructor _constructor = null;
-        Boolean  _false = Boolean.valueOf(false);
+        Boolean  _false = Boolean.FALSE;
         DSigResolver(Map map,Element elem){
             this.elem = elem;
             this.map = map;
@@ -693,7 +686,7 @@ public class Assertion extends AssertionType implements com.sun.xml.wss.saml.Ass
         }
         Data dereferenceURI(String uri, XMLCryptoContext context) throws URIReferenceException{
             if(uri.charAt(0) == '#'){
-                uri =  uri.substring(1,uri.length());
+                uri =  uri.substring(1);
                 Element el = elem.getOwnerDocument().getElementById(uri);
                 if(el == null){
                     el = (Element)map.get(uri);
@@ -808,8 +801,7 @@ public class Assertion extends AssertionType implements com.sun.xml.wss.saml.Ass
             // unmarshal the XMLSignature
             XMLSignature xmlSignature = signatureFactory.unmarshalXMLSignature(validationContext);
             validationContext.setURIDereferencer(new DSigResolver(map, samlAssertion));
-            boolean coreValidity = xmlSignature.validate(validationContext);
-            return coreValidity;
+            return xmlSignature.validate(validationContext);
         } catch (Exception ex) {
             throw new SAMLException(ex);
         }

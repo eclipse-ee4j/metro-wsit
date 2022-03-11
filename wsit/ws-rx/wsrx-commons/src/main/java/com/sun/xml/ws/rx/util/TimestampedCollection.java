@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -53,7 +53,7 @@ public class TimestampedCollection<K, V> {
 
         @Override
         public int compareTo(TimestampedRegistration<K, V> other) {
-            return this.timestamp < other.timestamp ? -1 : this.timestamp == other.timestamp ? 0 : 1;
+            return Long.compare(this.timestamp, other.timestamp);
         }
     }
     /**

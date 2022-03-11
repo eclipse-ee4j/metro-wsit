@@ -20,10 +20,10 @@ import java.math.BigInteger;
 import java.security.Key;
 import java.security.KeyFactory;
 import java.security.NoSuchAlgorithmException;
-import java.security.PublicKey;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.RSAPublicKeySpec;
 import java.util.logging.Logger;
+import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 import javax.xml.stream.XMLStreamWriter;
@@ -135,7 +135,7 @@ public class KeyValueProcessor {
                         sb = new StringBuilder();
 
 
-                        while(reader.getEventType() == reader.CHARACTERS && reader.getEventType() != reader.END_ELEMENT){
+                        while(reader.getEventType() == XMLStreamConstants.CHARACTERS && reader.getEventType() != XMLStreamConstants.END_ELEMENT){
                             charSeq = ((XMLStreamReaderEx)reader).getPCDATA();
                             for(int i=0;i<charSeq.length();i++){
                                 if(charSeq.charAt(i)== '\n'){
@@ -179,7 +179,7 @@ public class KeyValueProcessor {
                     }else {
                         sb = new StringBuilder();
 
-                        while(reader.getEventType() == reader.CHARACTERS && reader.getEventType() != reader.END_ELEMENT){
+                        while(reader.getEventType() == XMLStreamConstants.CHARACTERS && reader.getEventType() != XMLStreamConstants.END_ELEMENT){
                             charSeq = ((XMLStreamReaderEx)reader).getPCDATA();
                             for(int i=0;i<charSeq.length();i++){
                                 sb.append(charSeq.charAt(i));
@@ -214,8 +214,7 @@ public class KeyValueProcessor {
         try{
             KeyFactory rsaFactory = KeyFactory.getInstance("RSA");
             RSAPublicKeySpec rsaKeyspec = new RSAPublicKeySpec(modulus,exponent);
-            PublicKey pk = rsaFactory.generatePublic(rsaKeyspec);
-            return pk;
+            return rsaFactory.generatePublic(rsaKeyspec);
         }catch (NoSuchAlgorithmException ex) {
             logger.log(Level.SEVERE, LogStringsMessages.WSS_1607_ERROR_RSAPUBLIC_KEY(),ex);
             throw new XWSSecurityException(LogStringsMessages.WSS_1607_ERROR_RSAPUBLIC_KEY(), ex);
@@ -253,21 +252,15 @@ public class KeyValueProcessor {
     }
 
     private boolean isRSAKeyValue(XMLStreamReader reader) {
-        if(reader.getLocalName() == RSA_KEY_VALUE){
-            return true;
-        }
-        return false;
+        return reader.getLocalName() == RSA_KEY_VALUE;
     }
 
     private boolean isKeyValue(XMLStreamReader reader) {
-        if(reader.getLocalName() == KEY_VALUE){
-            return true;
-        }
-        return false;
+        return reader.getLocalName() == KEY_VALUE;
     }
 
     private boolean _breaKeyValue(XMLStreamReader reader)throws XMLStreamException{
-        if(reader.getEventType() == XMLStreamReader.END_ELEMENT && isKeyValue(reader)){
+        if(reader.getEventType() == XMLStreamConstants.END_ELEMENT && isKeyValue(reader)){
             if(canonWriter != null){
                 StreamUtil.writeCurrentEvent(reader,canonWriter);
             }
@@ -277,7 +270,7 @@ public class KeyValueProcessor {
     }
 
     private boolean _breakRSAKeyValue(XMLStreamReader reader)throws XMLStreamException{
-        if(reader.getEventType() == XMLStreamReader.END_ELEMENT && isRSAKeyValue(reader)){
+        if(reader.getEventType() == XMLStreamConstants.END_ELEMENT && isRSAKeyValue(reader)){
             if(canonWriter != null){
                 StreamUtil.writeCurrentEvent(reader,canonWriter);
             }

@@ -97,7 +97,6 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 import java.io.ByteArrayOutputStream;
-import java.io.OutputStream;
 
 
 /**
@@ -192,8 +191,7 @@ public class WSSPolicyConsumerImpl {
             NoSuchAlgorithmException,InvalidAlgorithmParameterException,XWSSecurityException {
 
         if(PolicyTypeUtil.signaturePolicy(fpContext.getSecurityPolicy())) {
-            SignedInfo signInfo = generateSignedInfo(fpContext);
-            return signInfo;
+            return generateSignedInfo(fpContext);
         }
         return null;
     }
@@ -227,8 +225,7 @@ public class WSSPolicyConsumerImpl {
 
             DOMStructure domKeyInfo = new DOMStructure(reference.getAsSoapElement());
 
-            KeyInfo keyInfo = keyFactory.newKeyInfo(Collections.singletonList(domKeyInfo));
-            return keyInfo;
+            return keyFactory.newKeyInfo(Collections.singletonList(domKeyInfo));
 
         }
 
@@ -251,9 +248,7 @@ public class WSSPolicyConsumerImpl {
             java.util.List list = new java.util.ArrayList();
             list.add(keyName);
 
-            KeyInfo keyInfo = keyFactory.newKeyInfo(list);
-
-            return keyInfo;
+            return keyFactory.newKeyInfo(list);
 
         }
 
@@ -487,10 +482,9 @@ public class WSSPolicyConsumerImpl {
 
         SignatureMethod signatureMethod = signatureFactory.newSignatureMethod(keyAlgo, null);
         //Note : Signature algorithm parameters null for now , fix me.
-        SignedInfo signedInfo = signatureFactory.newSignedInfo(canonicalMethod,signatureMethod,
-                generateReferenceList(targetList,signatureFactory,secureMessage,fpContext,false, featureBinding.isEndorsingSignature()),null);
         //Note : Id is now null , check ?,
-        return signedInfo;
+        return signatureFactory.newSignedInfo(canonicalMethod,signatureMethod,
+                generateReferenceList(targetList,signatureFactory,secureMessage,fpContext,false, featureBinding.isEndorsingSignature()),null);
     }
 
      /*
@@ -694,11 +688,8 @@ attribute.getNamespaceURI().equals(MessageConstants.NAMESPACES_NS)) {
                 NodeList nodes  = null;
                 if( signatureType == SignatureTarget.TARGET_TYPE_VALUE_QNAME){
                     String targetValue = signatureTarget.getValue();
-                    boolean optimized = false;
-                    if(fpContext.getConfigType() == MessageConstants.SIGN_BODY || fpContext.getConfigType() == MessageConstants.SIGN_ENCRYPT_BODY){
-                        optimized = true;
-                    }
-//                    if(targetValue.equals(SignatureTarget.BODY) && optimized){
+                    boolean optimized = fpContext.getConfigType() == MessageConstants.SIGN_BODY || fpContext.getConfigType() == MessageConstants.SIGN_ENCRYPT_BODY;
+                    //                    if(targetValue.equals(SignatureTarget.BODY) && optimized){
 //                        Reference ref =  new JAXWSDigestProcessor(fpContext,signatureTarget , digestMethod, signatureFactory).handleJAXWSSOAPBody();
 //                        references.add(ref);
 //                        continue;
@@ -1038,11 +1029,11 @@ attribute.getNamespaceURI().equals(MessageConstants.NAMESPACES_NS)) {
             }
             Transformer transformer = WSITXMLFactory.createTransformerFactory(WSITXMLFactory.DISABLE_SECURE_PROCESSING).newTransformer();
             transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-            OutputStream baos = new ByteArrayOutputStream();
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
             transformer.transform(new DOMSource(node), new StreamResult(baos));
-            byte[] bytes = ((ByteArrayOutputStream)baos).toByteArray();
+            byte[] bytes = baos.toByteArray();
             if(logger.isLoggable(Level.FINEST)){
-            logger.log(Level.FINEST, new String(bytes));
+            logger.log(Level.FINEST, baos.toString());
             logger.log(Level.FINEST, "\n");
             }
         }catch(Exception ex){

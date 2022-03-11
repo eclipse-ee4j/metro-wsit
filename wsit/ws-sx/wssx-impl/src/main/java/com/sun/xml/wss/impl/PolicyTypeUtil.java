@@ -58,18 +58,12 @@ public  class PolicyTypeUtil {
     public static boolean isPrimaryPolicy(WSSPolicy policy) {
         if (policy == null) return false;
 
-        if (signaturePolicy(policy) || encryptionPolicy(policy))
-            return true;
-
-        return false;
+        return signaturePolicy(policy) || encryptionPolicy(policy);
     }
 
     public static boolean isSecondaryPolicy(WSSPolicy policy) {
         if (policy == null) return false;
-        if (authenticationTokenPolicy(policy) || timestampPolicy(policy))
-            return true;
-
-        return false;
+        return authenticationTokenPolicy(policy) || timestampPolicy(policy);
     }
 
     public static boolean signaturePolicyFeatureBinding(SecurityPolicy policy) {

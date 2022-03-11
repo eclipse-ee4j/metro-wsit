@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -26,9 +26,10 @@ import com.sun.xml.ws.policy.sourcemodel.AssertionData;
 import com.sun.xml.ws.policy.subject.WsdlBindingSubject;
 import com.sun.xml.ws.api.transport.tcp.SelectOptimalTransportFeature;
 import com.sun.xml.ws.transport.tcp.wsit.TCPConstants;
-import java.util.Arrays;
+
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.logging.Level;
 import javax.xml.namespace.QName;
 
@@ -93,7 +94,7 @@ public class OptimalTransportPolicyMapConfigurator implements PolicyMapConfigura
      * @return A policy that contains one policy assertion that corresponds to the given assertion name.
      */
     private Policy createOptimalTransportPolicy(final QName bindingName) {
-        return Policy.createPolicy(null, bindingName.getLocalPart() + "_OptimalTransport_Policy", Arrays.asList(AssertionSet.createAssertionSet(Arrays.asList(new OptimalTransportAssertion()))));
+        return Policy.createPolicy(null, bindingName.getLocalPart() + "_OptimalTransport_Policy", List.of(AssertionSet.createAssertionSet(List.of(new OptimalTransportAssertion()))));
     }
 
     public static class OptimalTransportAssertion extends SimpleAssertion {

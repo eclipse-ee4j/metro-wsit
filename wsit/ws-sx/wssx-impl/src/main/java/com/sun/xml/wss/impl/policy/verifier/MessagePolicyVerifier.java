@@ -116,9 +116,7 @@ public class MessagePolicyVerifier implements PolicyVerifier{
            EncryptionPolicy pol = (EncryptionPolicy)inferredPol;
            EncryptionPolicy.FeatureBinding fb =
                    (EncryptionPolicy.FeatureBinding)pol.getFeatureBinding();
-           if (fb.encryptsSignature()) {
-               return true;
-           }
+           return fb.encryptsSignature();
        }
        return false;
     }
@@ -165,14 +163,14 @@ public class MessagePolicyVerifier implements PolicyVerifier{
                                     null, true);
                         }
                         //SP1.3
-                        if(actual.getUseCreated() == true && inferred.getUseCreated() == false ){
+                        if(actual.getUseCreated() && !inferred.getUseCreated()){
                             throw SOAPUtil.newSOAPFaultException(
                                     MessageConstants.WSSE_INVALID_SECURITY_TOKEN,
                                     "Invalid Username Password Token. Missing Created ",
                                     null, true);
                         }
 
-                        if( actual.getUseNonce() == true && inferred.getUseNonce() == false){
+                        if( actual.getUseNonce() && !inferred.getUseNonce()){
                             throw SOAPUtil.newSOAPFaultException(
                                     MessageConstants.WSSE_INVALID_SECURITY_TOKEN,
                                     "Invalid Username Password Token. Missing Nonce ",
@@ -248,7 +246,7 @@ public class MessagePolicyVerifier implements PolicyVerifier{
             boolean isPrimary = ((SignaturePolicy.FeatureBinding)actualSignPolicy.getFeatureBinding()).isPrimarySignature();
             int nth = 0;
             WSSPolicy pol = getFirstPrimaryPolicy(inferredSecurityPolicy, isEndorsing, nth++);
-            if(pol == null && isOptionalPolicy(actualSignPolicy) == true){
+            if(pol == null && isOptionalPolicy(actualSignPolicy)){
                     return;
             }
             if(pol == null){
@@ -264,7 +262,7 @@ public class MessagePolicyVerifier implements PolicyVerifier{
                         false);
                 while(!isKBTrue && !isPrimary){
                     pol = getFirstPrimaryPolicy(inferredSecurityPolicy, isEndorsing, nth++);
-                    if (pol == null && isOptionalPolicy(actualSignPolicy) == true) {
+                    if (pol == null && isOptionalPolicy(actualSignPolicy)) {
                         return;
                     }
                     if(pol == null){
@@ -425,9 +423,9 @@ public class MessagePolicyVerifier implements PolicyVerifier{
                 UsernameTokenBinding act = (UsernameTokenBinding) actualKeyBinding;
                 UsernameTokenBinding inf = (UsernameTokenBinding) inferredKeyBinding;
 
-                if (act.getUseCreated() == true && inf.getUseCreated() == false) { //SP13
+                if (act.getUseCreated() && !inf.getUseCreated()) { //SP13
                     throw new XWSSecurityException("Policy verification error: Invalid Usernametoken, Missing Created");
-                } else if (act.getUseNonce() == true && inf.getUseNonce() == false) {
+                } else if (act.getUseNonce() && !inf.getUseNonce()) {
                     throw new XWSSecurityException("Policy verification error: Invalid Usernametoken, Missing Nonce");
                 } else {
                     verified = true;
@@ -800,21 +798,13 @@ public class MessagePolicyVerifier implements PolicyVerifier{
         } catch (Exception ex) {
             //ignore for now;
         }
-        if (pol instanceof TimestampPolicy) {
-            return true;
-        }
-        return false;
+        return pol instanceof TimestampPolicy;
     }
 
     private boolean isOptionalPolicy(SignaturePolicy actualSignPolicy) throws PolicyGenerationException {
         if (((WSSPolicy) actualSignPolicy.getKeyBinding()).isOptional()) {
             return true;
         }
-        if (actualSignPolicy.getKeyBinding().getKeyBinding() != null && ((WSSPolicy) actualSignPolicy.getKeyBinding().getKeyBinding()).isOptional()) {
-            return true;
-        }
-
-
-        return false;
+        return actualSignPolicy.getKeyBinding().getKeyBinding() != null && ((WSSPolicy) actualSignPolicy.getKeyBinding().getKeyBinding()).isOptional();
     }
 }

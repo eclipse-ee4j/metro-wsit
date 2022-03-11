@@ -17,8 +17,8 @@ public abstract class KeyIdentifierSPI {
     public static final String vmVendor = System.getProperty("java.vendor.url");
     public static final String sunVmVendor = "http://java.sun.com/";
     public static final String ibmVmVendor = "http://www.ibm.com/";
-    public static final boolean isSunVM = sunVmVendor.equals(vmVendor) ? true: false;
-    public static final boolean isIBMVM = ibmVmVendor.equals(vmVendor) ? true : false;
+    public static final boolean isSunVM = sunVmVendor.equals(vmVendor);
+    public static final boolean isIBMVM = ibmVmVendor.equals(vmVendor);
 
     private static final String sunKeyIdentifierSPIClass = "com.sun.wsit.security.SunKeyIdentifierSPI";
     private static final String ibmKeyIdentifierSPIClass = "com.sun.wsit.security.IBMKeyIdentifierSPI";
@@ -68,7 +68,7 @@ public abstract class KeyIdentifierSPI {
             if (spiClass == null) {
                 spiClass = Class.forName(className);
             }
-            return (spiClass != null) ? true : false;
+            return spiClass != null;
         } catch (Exception x) {
             return false;
         }

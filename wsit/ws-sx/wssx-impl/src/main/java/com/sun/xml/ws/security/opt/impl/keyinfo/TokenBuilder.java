@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -201,8 +201,7 @@ public abstract class TokenBuilder implements com.sun.xml.ws.security.opt.api.ke
      * @return SecurityTokenReference
      */
     protected SecurityTokenReference buildSTR(Reference ref) {
-        SecurityTokenReference str = elementFactory.createSecurityTokenReference(ref);
-        return str;
+        return elementFactory.createSecurityTokenReference(ref);
     }
 
     /**

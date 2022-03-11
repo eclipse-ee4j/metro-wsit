@@ -800,9 +800,8 @@ public class KeySelectorImpl extends KeySelector {
                 // get the key
                 String ekSha1RefValue = (String) context.getExtraneousProperty("EncryptedKeySHA1");
                 Key secretKey = (Key) context.getExtraneousProperty("SecretKey");
-                String keyRefValue = referenceValue;
                 if (ekSha1RefValue != null && secretKey != null) {
-                    if (ekSha1RefValue.equals(keyRefValue)) {
+                    if (ekSha1RefValue.equals(referenceValue)) {
                         returnKey = secretKey;
                         //Cannot determine whether the original key was X509 or PasswordDerivedKey
                         skBinding.usesEKSHA1KeyBinding(true);
@@ -830,7 +829,7 @@ public class KeySelectorImpl extends KeySelector {
                 }
                 // TODO:
                 SecurityHeaderElement she = resolveToken(referenceValue, xc);
-                if (she != null && she instanceof SAMLAssertion) {
+                if (she instanceof SAMLAssertion) {
                     SAMLAssertion samlAssertion = (SAMLAssertion) she;
                     returnKey = samlAssertion.getKey();
                     if (strId != null && strId.length() > 0) {
@@ -878,12 +877,8 @@ public class KeySelectorImpl extends KeySelector {
         if (algName.equalsIgnoreCase("DSA") &&
                 algURI.equalsIgnoreCase(SignatureMethod.DSA_SHA1)) {
             return true;
-        } else if (algName.equalsIgnoreCase("RSA") &&
-                algURI.equalsIgnoreCase(SignatureMethod.RSA_SHA1)) {
-            return true;
-        } else {
-            return false;
-        }
+        } else return algName.equalsIgnoreCase("RSA") &&
+                algURI.equalsIgnoreCase(SignatureMethod.RSA_SHA1);
     }
 
     private static Key resolveUsernameToken(JAXBFilterProcessingContext wssContext, UsernameTokenHeader token, Purpose purpose, boolean isSymmetric)
@@ -927,15 +922,12 @@ public class KeySelectorImpl extends KeySelector {
                 untBinding.setSecretKey(sKey);
                 wssContext.setUsernameTokenBinding(untBinding);
                 byte[] secretKey = untBinding.getSecretKey().getEncoded();
-                SecretKey key = pdk.generate16ByteKeyforEncryption(secretKey);
-                sKey = key;
+                sKey = pdk.generate16ByteKeyforEncryption(secretKey);
             } else {
                 byte[] decSignature = null;
                 decSignature = pdk.generate160BitKey(password, iterations, salt);
                 byte[] keyof128Bits = new byte[16];
-                for (int i = 0; i < 16; i++) {
-                    keyof128Bits[i] = decSignature[i];
-                }
+                System.arraycopy(decSignature, 0, keyof128Bits, 0, 16);
                 untBinding.setSecretKey(keyof128Bits);
                 sKey = untBinding.getSecretKey(SecurityUtil.getSecretKeyAlgorithm(algo));
                 untBinding.setSecretKey(sKey);
@@ -953,9 +945,7 @@ public class KeySelectorImpl extends KeySelector {
             byte[] key = null;
             key = pdk.generate160BitKey(password, iterations, salt);
             byte[] sKeyof16ByteLength = new byte[16];
-            for (int i = 0; i < 16; i++) {
-                sKeyof16ByteLength[i] = key[i];
-            }
+            System.arraycopy(key, 0, sKeyof16ByteLength, 0, 16);
             untBinding.setSecretKey(sKeyof16ByteLength);
             sKey = untBinding.getSecretKey(SecurityUtil.getSecretKeyAlgorithm(algo));
         }
@@ -1089,8 +1079,7 @@ public class KeySelectorImpl extends KeySelector {
                         MessageConstants.KERBEROS_V5_GSS_APREQ.equals(token.getValueType())) {
                     return (KerberosBinarySecurityToken) token;
                 } else {
-                    X509BinarySecurityToken x509bst = (X509BinarySecurityToken) token;
-                    return x509bst;
+                    return (X509BinarySecurityToken) token;
                 }
             } else if (MessageConstants.ENCRYPTEDKEY_LNAME.equals(she.getLocalPart())) {
                 return she;
@@ -1121,11 +1110,8 @@ public class KeySelectorImpl extends KeySelector {
     private static boolean isSecurityTokenReference(JAXBElement reference) {
         String local = reference.getName().getLocalPart();
         String uri = reference.getName().getNamespaceURI();
-        if (MessageConstants.WSSE_SECURITY_TOKEN_REFERENCE_LNAME.equals(local) &&
-                MessageConstants.WSSE_NS.equals(uri)) {
-            return true;
-        }
-        return false;
+        return MessageConstants.WSSE_SECURITY_TOKEN_REFERENCE_LNAME.equals(local) &&
+                MessageConstants.WSSE_NS.equals(uri);
     }
 
     @SuppressWarnings("unchecked")
@@ -1219,8 +1205,7 @@ public class KeySelectorImpl extends KeySelector {
         if (wssContext.getAlgorithmSuite() != null) {
             algo = SecurityUtil.getSecretKeyAlgorithm(wssContext.getAlgorithmSuite().getEncryptionAlgorithm());
         }
-        SecretKeySpec key = new SecretKeySpec(proofKey, algo);
-        return key;
+        return new SecretKeySpec(proofKey, algo);
     }
 
     private static Key resolveKerberosToken(JAXBFilterProcessingContext wssContext, KerberosBinarySecurityToken token) throws XWSSecurityException {

@@ -53,12 +53,12 @@ public final class Invocation {
         if (methodType == XmlStreamWriterMethodType.WRITE_CHARACTERS && args.length == 3) {
             final Integer start = (Integer) args[1];
             final Integer length = (Integer) args[2];
-            final char[] charArrayCopy = new char[length.intValue()];
+            final char[] charArrayCopy = new char[length];
             System.arraycopy(args[0], start, charArrayCopy, 0, length);
 
             arguments = new Object[3];
             arguments[0] = charArrayCopy;
-            arguments[1] = Integer.valueOf(0);
+            arguments[1] = 0;
             arguments[2] = length;
         } else {
             arguments = args;
@@ -178,10 +178,9 @@ public final class Invocation {
      */
     @Override
     public String toString() {
-        String retValue = "invocation { method='" + method.getName() + "', args=" + argsToString() +
-                '}';
 
-        return retValue;
+        return "invocation { method='" + method.getName() + "', args=" + argsToString() +
+                '}';
     }
 
     /**

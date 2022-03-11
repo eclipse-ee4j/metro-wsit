@@ -57,8 +57,7 @@ public class WSATClientHelper implements WSATClient {
             e.printStackTrace();
             return new ArrayList();
         }
-        List<Header> addedHeaders = processTransactionalRequest(transactionalAttribute, map);
-        return addedHeaders;
+        return processTransactionalRequest(transactionalAttribute, map);
     }
 
     @Override
@@ -84,13 +83,11 @@ public class WSATClientHelper implements WSATClient {
     }
 
    private Transaction getWSATTransactionFromMap(Map map) {
-      Transaction transaction = (Transaction)map.get(WSATConstants.WSAT_TRANSACTION);
-      return transaction;
+       return (Transaction)map.get(WSATConstants.WSAT_TRANSACTION);
    }
 
    private Xid getWSATXidFromMap(Map map) {
-      Xid xid = (Xid)map.get(WSATConstants.WSAT_TRANSACTION_XID);
-      return xid;
+       return (Xid)map.get(WSATConstants.WSAT_TRANSACTION_XID);
    }
 
    /**
@@ -152,7 +149,7 @@ public class WSATClientHelper implements WSATClient {
         String txId;
         byte[] activityId = WSATHelper.assignUUID().getBytes();
         LOGGER.info("WS-AT activityId:" + activityId);
-        Xid xid = new XidImpl(1234, new String(System.currentTimeMillis() + "-" + counter++).getBytes(), new byte[]{});
+        Xid xid = new XidImpl(1234, (System.currentTimeMillis() + "-" + counter++).getBytes(), new byte[]{});
         txId = TransactionIdHelper.getInstance().xid2wsatid(xid);
         long ttl = 0;
         ttl = TransactionImportManager.getInstance().getTransactionRemainingTimeout();

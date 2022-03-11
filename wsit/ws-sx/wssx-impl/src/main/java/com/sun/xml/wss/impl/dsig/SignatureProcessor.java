@@ -8,10 +8,6 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-/*
- * $Id: SignatureProcessor.java,v 1.2 2010-10-21 15:37:28 snajper Exp $
- */
-
 package com.sun.xml.wss.impl.dsig;
 
 import com.sun.xml.wss.impl.policy.mls.KeyBindingBase;
@@ -77,6 +73,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -732,7 +729,7 @@ public class SignatureProcessor{
     @SuppressWarnings("unchecked")
     public static int verify(FilterProcessingContext context) throws XWSSecurityException {
         try{
-            WSSPolicyConsumerImpl dsigUtil = WSSPolicyConsumerImpl.getInstance();;
+            WSSPolicyConsumerImpl dsigUtil = WSSPolicyConsumerImpl.getInstance();
             SOAPElement signElement = context.getSecurableSoapMessage().findSecurityHeader().getCurrentHeaderElement();
             if(signElement == null || signElement.getLocalName()== null || !"Signature".equals(signElement.getLocalName()) ){
                 //throw new XWSSecurityException("No Signature Element found");
@@ -784,7 +781,7 @@ public class SignatureProcessor{
 
 
             // Check core validation status
-            if (coreValidity == false) {
+            if (!coreValidity) {
 
                 if(logger.isLoggable(Level.FINEST)){
                     logger.log(Level.FINEST,"Signature failed core validation");
@@ -875,7 +872,7 @@ public class SignatureProcessor{
 
                 Throwable t2 = t1.getCause();
 
-                if(t2 != null && t2 instanceof WssSoapFaultException){
+                if(t2 instanceof WssSoapFaultException){
                     logger.log(Level.SEVERE, LogStringsMessages.WSS_1338_ERROR_VERIFY());
                     throw (WssSoapFaultException)t2;
                 }else{
@@ -1110,9 +1107,7 @@ public class SignatureProcessor{
             }
 
             if (nsd1Root != null && nsd2Root != null) {
-                if(nsd1Root.isSameNode(nsd2Root) || nsd1Root.isEqualNode(nsd2Root)){
-                    return true;
-                }
+                return nsd1Root.isSameNode(nsd2Root) || nsd1Root.isEqualNode(nsd2Root);
             }
             return false;
                         /*
@@ -1206,7 +1201,7 @@ public class SignatureProcessor{
                 String alg1 = tr1.getAlgorithm();
                 String alg2 = tr2.getAlgorithm();
                 i++;
-                if(alg1 == alg2 || (alg1 != null && alg1.equals(alg2))){
+                if(Objects.equals(alg1, alg2)){
                 }else{
                     logger.log(Level.SEVERE,LogStringsMessages.WSS_1342_ILLEGAL_UNMATCHED_TRANSFORMS());
                     throw new XWSSecurityException("Receiver Requirements for the transforms are not met");
@@ -1279,7 +1274,7 @@ public class SignatureProcessor{
             // Validate the XMLSignature (generated above)
             validationContext.put(MessageConstants.WSS_PROCESSING_CONTEXT, context);
             boolean coreValidity = signature.validate(validationContext);
-            if (coreValidity == false){
+            if (!coreValidity){
 
                 if(logger.isLoggable(Level.FINEST)){
                     logger.log(Level.FINEST,"Signature failed core validation");
@@ -1902,99 +1897,104 @@ public class SignatureProcessor{
         }
 
         try{
-            if(referenceType.equals("Direct")){
-                DirectReference reference = new DirectReference();
-                // this is an X509 certificate binding
-                String valueType= certInfo.getValueType();
-                if(valueType==null||valueType.equals("")){
-                    valueType=MessageConstants.X509v3_NS;
-
-                }
-                reference.setValueType(valueType);
-                //Use DirectReferenceStrategy -
-                //Revisit :: Move is generation to filters.
-                String id = certInfo.getUUID();
-                if(id == null || id.equals("")){
-                    id = secureMessage.generateId();
-                }
-                reference.setURI("#"+id);
-                SecurityTokenReference secTokenRef = new SecurityTokenReference(secureMessage.getSOAPPart());
-                secTokenRef.setReference(reference);
-                secTokenRef.setWsuId(strId);
-                keyInfo = dsigHelper.constructKeyInfo(signaturePolicy,secTokenRef);
-                X509SecurityToken token =  null;
-                token = (X509SecurityToken)tokenCache.get(id);
-                if(token == null){
-                    valueType = certInfo.getValueType();
-                    if(valueType==null||valueType.equals("")){
-                        //default valueType for X509 as v3
+            switch (referenceType) {
+                case "Direct": {
+                    DirectReference reference = new DirectReference();
+                    // this is an X509 certificate binding
+                    String valueType = certInfo.getValueType();
+                    if (valueType == null || valueType.equals("")) {
                         valueType = MessageConstants.X509v3_NS;
+
                     }
-                    token = new X509SecurityToken(secureMessage.getSOAPPart(),certInfo.getX509Certificate(),id, valueType);
-                    tokenCache.put(id, token);
+                    reference.setValueType(valueType);
+                    //Use DirectReferenceStrategy -
+                    //Revisit :: Move is generation to filters.
+                    String id = certInfo.getUUID();
+                    if (id == null || id.equals("")) {
+                        id = secureMessage.generateId();
+                    }
+                    reference.setURI("#" + id);
+                    SecurityTokenReference secTokenRef = new SecurityTokenReference(secureMessage.getSOAPPart());
+                    secTokenRef.setReference(reference);
+                    secTokenRef.setWsuId(strId);
+                    keyInfo = dsigHelper.constructKeyInfo(signaturePolicy, secTokenRef);
+                    X509SecurityToken token = null;
+                    token = (X509SecurityToken) tokenCache.get(id);
+                    if (token == null) {
+                        valueType = certInfo.getValueType();
+                        if (valueType == null || valueType.equals("")) {
+                            //default valueType for X509 as v3
+                            valueType = MessageConstants.X509v3_NS;
+                        }
+                        token = new X509SecurityToken(secureMessage.getSOAPPart(), certInfo.getX509Certificate(), id, valueType);
+                        tokenCache.put(id, token);
+                    }
+                    if (insertedX509Cache.get(id) == null) {
+                        secureMessage.findOrCreateSecurityHeader().insertHeaderBlock(token);
+                        insertedX509Cache.put(id, token);
+                    }
+                    nextSibling = token.getAsSoapElement().getNextSibling();
+                    nxtSiblingContainer[0] = nextSibling;
+                    return keyInfo;
                 }
-                if(insertedX509Cache.get(id) == null){
-                    secureMessage.findOrCreateSecurityHeader().insertHeaderBlock(token);
-                    insertedX509Cache.put(id, token);
+                case "Identifier": {
+                    String valueType = certInfo.getValueType();
+                    if (valueType == MessageConstants.X509v1_NS || valueType.equals(MessageConstants.X509v1_NS)) {
+                        logger.log(Level.SEVERE, LogStringsMessages.WSS_1333_UNSUPPORTED_KEYIDENTIFER_X_509_V_1());
+                        throw new XWSSecurityException("Key Identifier reference Type is not allowed for X509v1 Certificates");
+                    }
+                    KeyIdentifierStrategy keyIdentifier =
+                            new KeyIdentifierStrategy(certInfo.getCertificateIdentifier(), true);
+                    keyIdentifier.setCertificate(certInfo.getX509Certificate());
+                    SecurityTokenReference secTokenRef = new SecurityTokenReference(secureMessage.getSOAPPart());
+                    keyIdentifier.insertKey(secTokenRef, secureMessage);
+                    secTokenRef.setWsuId(strId);
+                    X509SubjectKeyIdentifier re = (X509SubjectKeyIdentifier) secTokenRef.getReference();
+                    String id = re.getReferenceValue();
+                    tokenCache.put(id, re);
+                    re.setCertificate(certInfo.getX509Certificate());
+                    keyInfo = dsigHelper.constructKeyInfo(signaturePolicy, secTokenRef);
+                    nextSibling = securityHeader.getNextSiblingOfTimestamp();
+                    nxtSiblingContainer[0] = nextSibling;
+                    return keyInfo;
                 }
-                nextSibling = token.getAsSoapElement().getNextSibling();
-                nxtSiblingContainer[0] = nextSibling;
-                return keyInfo;
-            }else if(referenceType.equals("Identifier")){
-                String valueType = certInfo.getValueType();
-                if(valueType==MessageConstants.X509v1_NS||valueType.equals(MessageConstants.X509v1_NS)) {
-                    logger.log(Level.SEVERE, LogStringsMessages.WSS_1333_UNSUPPORTED_KEYIDENTIFER_X_509_V_1());
-                    throw new XWSSecurityException("Key Identifier reference Type is not allowed for X509v1 Certificates");
+                case MessageConstants.THUMB_PRINT_TYPE: {
+                    String valueType = certInfo.getValueType();
+                    if (valueType == MessageConstants.X509v1_NS || valueType.equals(MessageConstants.X509v1_NS)) {
+                        logger.log(Level.SEVERE, LogStringsMessages.WSS_1348_ILLEGAL_THUMBPRINT_X_509_V_1());
+                        throw new XWSSecurityException("Thumb reference Type is not allowed for X509v1 Certificates");
+                    }
+                    KeyIdentifierStrategy keyIdentifier = new KeyIdentifierStrategy(certInfo.getCertificateIdentifier(), true, true);
+                    keyIdentifier.setCertificate(certInfo.getX509Certificate());
+                    SecurityTokenReference secTokenRef = new SecurityTokenReference(secureMessage.getSOAPPart());
+                    keyIdentifier.insertKey(secTokenRef, secureMessage);
+                    secTokenRef.setWsuId(strId);
+                    X509ThumbPrintIdentifier re = (X509ThumbPrintIdentifier) secTokenRef.getReference();
+                    String id = re.getReferenceValue();
+                    tokenCache.put(id, re);
+                    re.setCertificate(certInfo.getX509Certificate());
+                    keyInfo = dsigHelper.constructKeyInfo(signaturePolicy, secTokenRef);
+                    nextSibling = securityHeader.getNextSiblingOfTimestamp();
+                    nxtSiblingContainer[0] = nextSibling;
+                    return keyInfo;
                 }
-                KeyIdentifierStrategy keyIdentifier =
-                        new KeyIdentifierStrategy(certInfo.getCertificateIdentifier(),true);
-                keyIdentifier.setCertificate(certInfo.getX509Certificate());
-                SecurityTokenReference secTokenRef = new SecurityTokenReference(secureMessage.getSOAPPart());
-                keyIdentifier.insertKey(secTokenRef, secureMessage);
-                secTokenRef.setWsuId(strId);
-                X509SubjectKeyIdentifier re = (X509SubjectKeyIdentifier)secTokenRef.getReference();
-                String id = re.getReferenceValue();
-                tokenCache.put(id, re);
-                re.setCertificate(certInfo.getX509Certificate());
-                keyInfo = dsigHelper.constructKeyInfo(signaturePolicy,secTokenRef);
-                nextSibling = securityHeader.getNextSiblingOfTimestamp();
-                nxtSiblingContainer[0] = nextSibling;
-                return keyInfo;
-            }else if(referenceType.equals(MessageConstants.THUMB_PRINT_TYPE)){
-                String valueType = certInfo.getValueType();
-                if(valueType==MessageConstants.X509v1_NS||valueType.equals(MessageConstants.X509v1_NS)) {
-                    logger.log(Level.SEVERE,LogStringsMessages.WSS_1348_ILLEGAL_THUMBPRINT_X_509_V_1());
-                    throw new XWSSecurityException("Thumb reference Type is not allowed for X509v1 Certificates");
+                case MessageConstants.X509_ISSUER_TYPE: {
+                    X509Certificate xCert = certInfo.getX509Certificate();
+                    X509IssuerSerial xis = new X509IssuerSerial(secureMessage.getSOAPPart(),
+                            xCert.getIssuerDN().getName(), xCert.getSerialNumber());
+                    SecurityTokenReference secTokenRef = new SecurityTokenReference(secureMessage.getSOAPPart());
+                    secTokenRef.setReference(xis);
+                    secTokenRef.setWsuId(strId);
+                    xis.setCertificate(xCert);
+                    tokenCache.put(xis.getIssuerName() + xis.getSerialNumber(), xis);
+                    keyInfo = dsigHelper.constructKeyInfo(signaturePolicy, secTokenRef);
+                    nextSibling = securityHeader.getNextSiblingOfTimestamp();
+                    nxtSiblingContainer[0] = nextSibling;
+                    return keyInfo;
                 }
-                KeyIdentifierStrategy keyIdentifier = new KeyIdentifierStrategy(certInfo.getCertificateIdentifier(),true, true);
-                keyIdentifier.setCertificate(certInfo.getX509Certificate());
-                SecurityTokenReference secTokenRef = new SecurityTokenReference(secureMessage.getSOAPPart());
-                keyIdentifier.insertKey(secTokenRef, secureMessage);
-                secTokenRef.setWsuId(strId);
-                X509ThumbPrintIdentifier re = (X509ThumbPrintIdentifier)secTokenRef.getReference();
-                String id = re.getReferenceValue();
-                tokenCache.put(id, re);
-                re.setCertificate(certInfo.getX509Certificate());
-                keyInfo = dsigHelper.constructKeyInfo(signaturePolicy,secTokenRef);
-                nextSibling = securityHeader.getNextSiblingOfTimestamp();
-                nxtSiblingContainer[0] = nextSibling;
-                return keyInfo;
-            }else if(referenceType.equals(MessageConstants.X509_ISSUER_TYPE)){
-                X509Certificate xCert = certInfo.getX509Certificate();
-                X509IssuerSerial xis = new X509IssuerSerial(secureMessage.getSOAPPart(),
-                        xCert.getIssuerDN().getName(),xCert.getSerialNumber());
-                SecurityTokenReference secTokenRef = new SecurityTokenReference(secureMessage.getSOAPPart());
-                secTokenRef.setReference(xis);
-                secTokenRef.setWsuId(strId);
-                xis.setCertificate(xCert);
-                tokenCache.put(xis.getIssuerName()+xis.getSerialNumber(),xis);
-                keyInfo = dsigHelper.constructKeyInfo(signaturePolicy,secTokenRef);
-                nextSibling = securityHeader.getNextSiblingOfTimestamp();
-                nxtSiblingContainer[0] = nextSibling;
-                return keyInfo;
-            }else{
-                logger.log(Level.SEVERE, LogStringsMessages.WSS_1308_UNSUPPORTED_REFERENCE_MECHANISM());
-                throw new XWSSecurityException("Reference type "+referenceType+"not supported");
+                default:
+                    logger.log(Level.SEVERE, LogStringsMessages.WSS_1308_UNSUPPORTED_REFERENCE_MECHANISM());
+                    throw new XWSSecurityException("Reference type " + referenceType + "not supported");
             }
         } catch(Exception e){
             logger.log(Level.SEVERE, LogStringsMessages.WSS_1349_ERROR_HANDLING_X_509_BINDING(), e);
@@ -2008,7 +2008,6 @@ public class SignatureProcessor{
         return ekSha1Ref;
     }
 
-    @SuppressWarnings("unchecked")
     private static void verifySignatureAlgorithm(XMLSignature signature)
             throws XWSSecurityException {
         if (null == signature) {
@@ -2113,8 +2112,7 @@ public class SignatureProcessor{
             throws XWSSecurityException {
         // WSS_1300_DSIG_TRANSFORM_PARAM_ERROR()
         AlgorithmParameterSpec algoParaSpec = tr.getParameterSpec();
-        if ((null == algoParaSpec)
-                || !(algoParaSpec instanceof DOMSTRTransform.STRTransformParameterSpec)) {
+        if (!(algoParaSpec instanceof DOMSTRTransform.STRTransformParameterSpec)) {
             String errorStr = LogStringsMessages
                     .WSS_1300_DSIG_TRANSFORM_PARAM_ERROR()
                     + " at ds:Transform/wsse:TransformationParameters";

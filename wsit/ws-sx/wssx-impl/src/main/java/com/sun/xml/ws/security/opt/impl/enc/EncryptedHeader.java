@@ -129,7 +129,7 @@ public class EncryptedHeader
     @Override
     public void writeTo(XMLStreamWriter streamWriter) throws XMLStreamException {
         try {
-            if (streamWriter instanceof Map && !(dep != null)) {
+            if (streamWriter instanceof Map && dep == null) {
                 OutputStream os = (OutputStream) ((Map) streamWriter).get("sjsxp-outputstream");
                 if (os != null) {
                     streamWriter.writeCharacters("");        // Force completion of open elems

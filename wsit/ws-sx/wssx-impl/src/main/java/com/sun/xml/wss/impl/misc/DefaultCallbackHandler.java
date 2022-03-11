@@ -655,11 +655,7 @@ public class DefaultCallbackHandler implements CallbackHandler {
                 new SignatureKeyCallback.DefaultPrivKeyCertRequest();
         getDefaultPrivKeyCert(request, runtimeProps);
         X509Certificate cert = request.getX509Certificate();
-        if (cert != null && cert.equals(certificate)) {
-            return true;
-        }
-
-        return false;
+        return cert != null && cert.equals(certificate);
     }
 
     /**
@@ -820,7 +816,7 @@ public class DefaultCallbackHandler implements CallbackHandler {
             //check here if trustStorePassword is a CBH className
             Class cbh = this.loadClassSilent(trustStorePassword);
             if (cbh != null) {
-                CallbackHandler hdlr = (CallbackHandler) cbh.newInstance();
+                CallbackHandler hdlr = (CallbackHandler) cbh.getConstructor().newInstance();
                 javax.security.auth.callback.PasswordCallback pc =
                         new javax.security.auth.callback.PasswordCallback("TrustStorePassword", false);
                 Callback[] cbs = new Callback[]{pc};
@@ -876,7 +872,7 @@ public class DefaultCallbackHandler implements CallbackHandler {
             //check here if keyStorePassword is a CBH className
             Class cbh = this.loadClassSilent(keyStorePassword);
             if (cbh != null) {
-                CallbackHandler hdlr = (CallbackHandler) cbh.newInstance();
+                CallbackHandler hdlr = (CallbackHandler) cbh.getConstructor().newInstance();
                 javax.security.auth.callback.PasswordCallback pc =
                         new javax.security.auth.callback.PasswordCallback("KeyStorePassword", false);
                 Callback[] cbs = new Callback[]{pc};
@@ -1321,7 +1317,7 @@ public class DefaultCallbackHandler implements CallbackHandler {
                 if (this.keystoreCertSelectorClass != null) {
                     AliasSelector selector = null;
                     try {
-                        selector = (AliasSelector) this.keystoreCertSelectorClass.newInstance();
+                        selector = (AliasSelector) this.keystoreCertSelectorClass.getConstructor().newInstance();
                     } catch (IllegalAccessException ex) {
                         log.log(Level.SEVERE, LogStringsMessages.WSS_1532_EXCEPTION_INSTANTIATING_ALIASSELECTOR(), ex);
                         throw new RuntimeException(ex);
@@ -1866,14 +1862,14 @@ public class DefaultCallbackHandler implements CallbackHandler {
         try {
 
             if (usernameCbHandler != null) {
-                usernameHandler = (CallbackHandler) usernameCbHandler.newInstance();
+                usernameHandler = (CallbackHandler) usernameCbHandler.getConstructor().newInstance();
             } else {
                 if (log.isLoggable(Level.FINE)) {
                     log.log(Level.FINE, "Got NULL for Username Callback Handler");
                 }
             }
             if (passwordCbHandler != null) {
-                passwordHandler = (CallbackHandler) passwordCbHandler.newInstance();
+                passwordHandler = (CallbackHandler) passwordCbHandler.getConstructor().newInstance();
             } else {
                 if (log.isLoggable(Level.FINE)) {
                     log.log(Level.FINE, "Got NULL for Password Callback Handler");
@@ -1881,37 +1877,37 @@ public class DefaultCallbackHandler implements CallbackHandler {
             }
 
             if (samlCbHandler != null) {
-                samlHandler = (CallbackHandler) samlCbHandler.newInstance();
+                samlHandler = (CallbackHandler) samlCbHandler.getConstructor().newInstance();
             }
 
             if (usernameValidator != null) {
-                pwValidator = (PasswordValidationCallback.PasswordValidator) usernameValidator.newInstance();
+                pwValidator = (PasswordValidationCallback.PasswordValidator) usernameValidator.getConstructor().newInstance();
             }
 
             if (timestampValidator != null) {
-                tsValidator = (TimestampValidationCallback.TimestampValidator) timestampValidator.newInstance();
+                tsValidator = (TimestampValidationCallback.TimestampValidator) timestampValidator.getConstructor().newInstance();
             }
 
             if (samlValidator != null) {
-                sValidator = (SAMLAssertionValidator) samlValidator.newInstance();
+                sValidator = (SAMLAssertionValidator) samlValidator.getConstructor().newInstance();
             }
 
             if (certificateValidator != null) {
-                certValidator = (CertificateValidationCallback.CertificateValidator) certificateValidator.newInstance();
+                certValidator = (CertificateValidationCallback.CertificateValidator) certificateValidator.getConstructor().newInstance();
             } else {
                 // fallback to the default instance
                 certValidator = new X509CertificateValidatorImpl();
             }
 
             if (this.certstoreCbHandler != null) {
-                this.certstoreHandler = (CallbackHandler) this.certstoreCbHandler.newInstance();
+                this.certstoreHandler = (CallbackHandler) this.certstoreCbHandler.getConstructor().newInstance();
             }
 
             if (this.keystoreCbHandler != null) {
-                this.keystoreHandler = (CallbackHandler) this.keystoreCbHandler.newInstance();
+                this.keystoreHandler = (CallbackHandler) this.keystoreCbHandler.getConstructor().newInstance();
             }
             if (this.truststoreCbHandler != null) {
-                this.truststoreHandler = (CallbackHandler) this.truststoreCbHandler.newInstance();
+                this.truststoreHandler = (CallbackHandler) this.truststoreCbHandler.getConstructor().newInstance();
             }
 
 
@@ -2010,8 +2006,7 @@ public class DefaultCallbackHandler implements CallbackHandler {
                     //PrivateKey key = (PrivateKey) keyStore.getKey(alias, this.keyPassword);
                     Certificate cert = keyStore.getCertificate(alias);
                     if (pk.equals(cert.getPublicKey())) {
-                        PrivateKey key = getPrivateKey(runtimeProps, alias);
-                        return key;
+                        return getPrivateKey(runtimeProps, alias);
                     }
                 }
             }
@@ -2029,8 +2024,7 @@ public class DefaultCallbackHandler implements CallbackHandler {
         if (url.startsWith("$WSIT_HOME")) {
             String wsitHome = System.getProperty("WSIT_HOME");
             if (wsitHome != null) {
-                String ret = url.replace("$WSIT_HOME", wsitHome);
-                return ret;
+                return url.replace("$WSIT_HOME", wsitHome);
             } else {
                 log.log(Level.SEVERE, LogStringsMessages.WSS_1524_UNABLETO_RESOLVE_URI_WSIT_HOME_NOTSET());
                 throw new RuntimeException("The following config URL: " + url + " in the WSDL could not be resolved because System Property WSIT_HOME was not set");
@@ -2046,7 +2040,7 @@ public class DefaultCallbackHandler implements CallbackHandler {
         try {
             Class cbh = this.loadClassSilent(this.keyPwd);
             if (cbh != null) {
-                CallbackHandler hdlr = (CallbackHandler) cbh.newInstance();
+                CallbackHandler hdlr = (CallbackHandler) cbh.getConstructor().newInstance();
                 javax.security.auth.callback.PasswordCallback pc =
                         new javax.security.auth.callback.PasswordCallback("KeyPassword", false);
                 Callback[] cbs = new Callback[]{pc};
@@ -2056,18 +2050,9 @@ public class DefaultCallbackHandler implements CallbackHandler {
                 //the user supplied value is a Password for the key alias
                 this.keyPassword = this.keyPwd.toCharArray();
             }
-        } catch (java.lang.InstantiationException ex) {
+        } catch (ReflectiveOperationException | IOException | UnsupportedCallbackException ex) {
             log.log(Level.SEVERE, LogStringsMessages.WSS_1528_FAILED_INITIALIZE_KEY_PASSWORD(), ex);
             throw new RuntimeException(ex);
-        } catch (java.io.IOException e) {
-            log.log(Level.SEVERE, LogStringsMessages.WSS_1528_FAILED_INITIALIZE_KEY_PASSWORD(), e);
-            throw new RuntimeException(e);
-        } catch (java.lang.IllegalAccessException ie) {
-            log.log(Level.SEVERE, LogStringsMessages.WSS_1528_FAILED_INITIALIZE_KEY_PASSWORD(), ie);
-            throw new RuntimeException(ie);
-        } catch (javax.security.auth.callback.UnsupportedCallbackException ue) {
-            log.log(Level.SEVERE, LogStringsMessages.WSS_1528_FAILED_INITIALIZE_KEY_PASSWORD(), ue);
-            throw new RuntimeException(ue);
         }
     }
 

@@ -20,7 +20,6 @@ import com.sun.xml.security.core.xenc.EncryptionMethodType;
 import com.sun.xml.ws.api.SOAPVersion;
 import com.sun.xml.ws.security.IssuedTokenContext;
 import com.sun.xml.ws.security.opt.api.SecurityHeaderElement;
-import com.sun.xml.ws.security.opt.api.keyinfo.SecurityTokenReference;
 import com.sun.xml.ws.security.opt.crypto.dsig.Signature;
 import com.sun.xml.ws.security.opt.crypto.dsig.keyinfo.DSAKeyValue;
 import com.sun.xml.ws.security.opt.crypto.dsig.keyinfo.KeyInfo;
@@ -33,6 +32,7 @@ import com.sun.xml.ws.security.opt.impl.dsig.EnvelopedSignedMessageHeader;
 import com.sun.xml.ws.security.opt.impl.dsig.JAXBSignatureHeaderElement;
 import com.sun.xml.ws.security.opt.impl.enc.JAXBEncryptedData;
 import com.sun.xml.ws.security.opt.impl.keyinfo.SAMLToken;
+import com.sun.xml.ws.security.opt.impl.keyinfo.SecurityTokenReference;
 import com.sun.xml.ws.security.opt.impl.reference.KeyIdentifier;
 import com.sun.xml.ws.security.opt.impl.util.NamespaceContextEx;
 import com.sun.xml.ws.security.opt.impl.util.WSSElementFactory;
@@ -399,7 +399,7 @@ public class SBIssuedSamlTokenContractImpl extends IssueSamlTokenContract{
         keyIdentifier.updateReferenceValue(cert);
         keyIdentifier.setEncodingType(MessageConstants.BASE64_ENCODING_NS);
         final SecurityTokenReference str = wef.createSecurityTokenReference(keyIdentifier);
-        keyInfo = wef.createKeyInfo((com.sun.xml.ws.security.opt.impl.keyinfo.SecurityTokenReference) str);
+        keyInfo = wef.createKeyInfo(str);
 
         return wef.createEncryptedKey(null,MessageConstants.RSA_OAEP_KEY_TRANSPORT,keyInfo,cert.getPublicKey(),key);
     }

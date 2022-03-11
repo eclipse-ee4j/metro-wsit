@@ -188,7 +188,7 @@ public abstract class BindingProcessor {
             if (uuid != null) {
                 SignatureTargetCreator stc = iAP.getTargetCreator();
                 SignatureTarget st = stc.newURISignatureTarget(uuid);
-                if (strIgnore != true) {
+                if (!strIgnore) {
                     stc.addSTRTransform(st);
                     st.setPolicyQName(qName);
                 }else {
@@ -211,7 +211,7 @@ public abstract class BindingProcessor {
                 st = stc.newURISignatureTarget(uuid);
             }
             if (st != null) {  //when st is null, request simply goes with out signing the token;
-               if (strIgnore != true) {
+               if (!strIgnore) {
                     stc.addSTRTransform(st);
                     st.setPolicyQName(qName);
                 } else {
@@ -226,9 +226,8 @@ public abstract class BindingProcessor {
     protected abstract EncryptionPolicy getSecondaryEncryptionPolicy() throws PolicyException;
 
     private String generateSAMLSTRID() {
-        String sb = "SAML" +
+        return "SAML" +
                 pid.generateID();
-        return sb;
     }
 
     protected void addPrimaryTargets() throws PolicyException {
@@ -287,9 +286,7 @@ public abstract class BindingProcessor {
 
     protected boolean requireSC() {
         if (wss11 != null && wss11.getRequiredProperties() != null) {
-            if (wss11.getRequiredProperties().contains(WSSAssertion.REQUIRE_SIGNATURE_CONFIRMATION)) {
-                return true;
-            }
+            return wss11.getRequiredProperties().contains(WSSAssertion.REQUIRE_SIGNATURE_CONFIRMATION);
         }
         return false;
     }
@@ -371,10 +368,7 @@ public abstract class BindingProcessor {
     protected abstract void close();
 
     public boolean isWSS11() {
-        if (wss11 != null) {
-            return true;
-        }
-        return false;
+        return wss11 != null;
     }
 
     public void setWSS11(WSSAssertion wss11) {

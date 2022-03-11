@@ -10,8 +10,6 @@
 
 package com.sun.xml.ws.security.policy;
 
-import com.sun.xml.ws.security.policy.Lifetime;
-
 /**
  * Contains information to be sent in message to the token issuer when requesting for IssuedTokens
  * @author K.Venugopal@sun.com

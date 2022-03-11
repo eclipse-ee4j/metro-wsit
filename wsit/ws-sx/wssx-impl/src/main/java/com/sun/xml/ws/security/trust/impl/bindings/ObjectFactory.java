@@ -14,34 +14,6 @@ import jakarta.xml.bind.JAXBElement;
 import jakarta.xml.bind.annotation.XmlElementDecl;
 import jakarta.xml.bind.annotation.XmlRegistry;
 import javax.xml.namespace.QName;
-import com.sun.xml.ws.security.trust.impl.bindings.AllowPostdatingType;
-import com.sun.xml.ws.security.trust.impl.bindings.AuthenticatorType;
-import com.sun.xml.ws.security.trust.impl.bindings.BinaryExchangeType;
-import com.sun.xml.ws.security.trust.impl.bindings.BinarySecretType;
-import com.sun.xml.ws.security.trust.impl.bindings.CancelTargetType;
-import com.sun.xml.ws.security.trust.impl.bindings.ClaimsType;
-import com.sun.xml.ws.security.trust.impl.bindings.DelegateToType;
-import com.sun.xml.ws.security.trust.impl.bindings.EncryptionType;
-import com.sun.xml.ws.security.trust.impl.bindings.EntropyType;
-import com.sun.xml.ws.security.trust.impl.bindings.KeyExchangeTokenType;
-import com.sun.xml.ws.security.trust.impl.bindings.LifetimeType;
-import com.sun.xml.ws.security.trust.impl.bindings.OnBehalfOfType;
-import com.sun.xml.ws.security.trust.impl.bindings.ParticipantType;
-import com.sun.xml.ws.security.trust.impl.bindings.ParticipantsType;
-import com.sun.xml.ws.security.trust.impl.bindings.ProofEncryptionType;
-import com.sun.xml.ws.security.trust.impl.bindings.RenewTargetType;
-import com.sun.xml.ws.security.trust.impl.bindings.RenewingType;
-import com.sun.xml.ws.security.trust.impl.bindings.RequestKETType;
-import com.sun.xml.ws.security.trust.impl.bindings.RequestSecurityTokenResponseCollectionType;
-import com.sun.xml.ws.security.trust.impl.bindings.RequestSecurityTokenResponseType;
-import com.sun.xml.ws.security.trust.impl.bindings.RequestSecurityTokenType;
-import com.sun.xml.ws.security.trust.impl.bindings.RequestedProofTokenType;
-import com.sun.xml.ws.security.trust.impl.bindings.RequestedReferenceType;
-import com.sun.xml.ws.security.trust.impl.bindings.RequestedSecurityTokenType;
-import com.sun.xml.ws.security.trust.impl.bindings.RequestedTokenCancelledType;
-import com.sun.xml.ws.security.trust.impl.bindings.SignChallengeType;
-import com.sun.xml.ws.security.trust.impl.bindings.StatusType;
-import com.sun.xml.ws.security.trust.impl.bindings.UseKeyType;
 
 /**
  * This object contains factory methods for each
@@ -399,7 +371,6 @@ public class ObjectFactory {
      * Create an instance of {@link JAXBElement }{@code <}{@link RequestSecurityTokenResponseCollectionType }{@code >}}
      *
      */
-    @SuppressWarnings("unchecked")
     @XmlElementDecl(namespace = "http://schemas.xmlsoap.org/ws/2005/02/trust", name = "IssuedTokens")
     public JAXBElement<RequestSecurityTokenResponseCollectionType> createIssuedTokens(RequestSecurityTokenResponseCollectionType value) {
         return new JAXBElement<>(_IssuedTokens_QNAME, RequestSecurityTokenResponseCollectionType.class, null, value);

@@ -308,10 +308,7 @@ public class XWSSPolicyGenerator {
             return false;
         }
 
-        if(!isServer && isIncoming){
-            return false;
-        }
-        return true;
+        return isServer || !isIncoming;
     }
 
     protected com.sun.xml.wss.impl.AlgorithmSuite getAlgoSuite(AlgorithmSuite suite) {
@@ -325,10 +322,9 @@ public class XWSSPolicyGenerator {
     }
 
     protected com.sun.xml.wss.impl.WSSAssertion getWssAssertion(WSSAssertion asser) {
-        com.sun.xml.wss.impl.WSSAssertion assertion = new com.sun.xml.wss.impl.WSSAssertion(
+        return new com.sun.xml.wss.impl.WSSAssertion(
                 asser.getRequiredProperties(),
                 asser.getType());
-        return assertion;
     }
 
     protected com.sun.xml.wss.impl.MessageLayout getLayout(

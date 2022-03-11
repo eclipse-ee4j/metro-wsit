@@ -191,7 +191,7 @@ public class RequestSecurityTokenTemplate extends PolicyAssertion implements com
                     if ( PolicyUtil.isKeyType(assertion) ) {
                         this.keyType = assertion.getValue();
                     } else if ( PolicyUtil.isKeySize(assertion) ) {
-                        this.keySize = Integer.valueOf(assertion.getValue());
+                        this.keySize = Integer.parseInt(assertion.getValue());
                     }  else if ( PolicyUtil.isEncryption(assertion) ) {
                         this.isEncRequired = true;
                     } else if ( PolicyUtil.isProofEncryption(assertion) ) {

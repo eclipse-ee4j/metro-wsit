@@ -270,7 +270,6 @@ public final class HighlyAvailableMap<K extends Serializable, V> implements Map<
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public boolean containsValue(Object value) {
         throw new UnsupportedOperationException();
     }

@@ -287,9 +287,7 @@ public class KeyIdentifier extends KeyIdentifierType
         String valueType =this.getValueType();
         if(MessageConstants.WSSE_SAML_KEY_IDENTIFIER_VALUE_TYPE.equals(valueType) ||
                 MessageConstants.WSSE_SAML_v2_0_KEY_IDENTIFIER_VALUE_TYPE.equals(valueType)){
-            if(this.getValue().equals(id)){
-                return true;
-            }
+            return this.getValue().equals(id);
         }
         return false;
     }

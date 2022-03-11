@@ -230,7 +230,7 @@ public class TCPTransportPipe extends AbstractTubeImpl {
     private @Nullable String getSOAPAction(String soapAction, Packet packet) {
         Boolean useAction = (Boolean) packet.invocationProperties.get(BindingProvider.SOAPACTION_USE_PROPERTY);
         String sAction = null;
-        boolean use = (useAction != null) ? useAction.booleanValue() : false;
+        boolean use = (useAction != null) ? useAction : false;
 
         if (use) {
             //TODO check if it needs to be quoted

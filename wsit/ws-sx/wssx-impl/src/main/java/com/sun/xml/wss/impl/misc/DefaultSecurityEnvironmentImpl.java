@@ -8,10 +8,6 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-/*
- * $Id: DefaultSecurityEnvironmentImpl.java,v 1.4 2010-10-21 15:37:30 snajper Exp $
- */
-
 package com.sun.xml.wss.impl.misc;
 
 import org.apache.xml.security.exceptions.Base64DecodingException;
@@ -810,8 +806,7 @@ public class DefaultSecurityEnvironmentImpl implements SecurityEnvironment {
             if (set != null) {
                 Iterator it = set.iterator();
                 if (it.hasNext()) {
-                    X500PrivateCredential cred = (X500PrivateCredential) it.next();
-                    return cred;
+                    return (X500PrivateCredential) it.next();
                 }
             }
         }
@@ -865,10 +860,7 @@ public class DefaultSecurityEnvironmentImpl implements SecurityEnvironment {
             return false;
         }
 
-        if (Arrays.equals(keyIdMatch, keyId)) {
-            return true;
-        }
-        return false;
+        return Arrays.equals(keyIdMatch, keyId);
     }
 
     private boolean matchesThumbPrint(
@@ -881,10 +873,7 @@ public class DefaultSecurityEnvironmentImpl implements SecurityEnvironment {
             return false;
         }
 
-        if (Arrays.equals(keyIdMatch, keyId)) {
-            return true;
-        }
-        return false;
+        return Arrays.equals(keyIdMatch, keyId);
     }
 
     private void updateUsernameInSubject(
@@ -1128,7 +1117,7 @@ public class DefaultSecurityEnvironmentImpl implements SecurityEnvironment {
             RealmAuthenticationAdapter adapter = passwordValidationCallback.getRealmAuthenticationAdapter();
             if (passwordValidationCallback.getValidator() != null) {
                 result = passwordValidationCallback.getResult();
-                if (result == true) {
+                if (result) {
                     updateUsernameInSubject(getSubject(context), username, null);
                 }
             } else if (adapter != null) {
@@ -1163,7 +1152,7 @@ public class DefaultSecurityEnvironmentImpl implements SecurityEnvironment {
             RealmAuthenticationAdapter adapter = passwordValidationCallback.getRealmAuthenticationAdapter();
             if (passwordValidationCallback.getValidator() != null) {
                 result = passwordValidationCallback.getResult();
-                if (result == true) {
+                if (result) {
                     updateUsernameInSubject(getSubject(context), username, password);
                 }
             } else if (adapter != null) {
@@ -1196,7 +1185,7 @@ public class DefaultSecurityEnvironmentImpl implements SecurityEnvironment {
             if (passwordValidationCallback.getValidator() != null) {
                 result = passwordValidationCallback.getResult();
 
-                if (result == true) {
+                if (result) {
                 updateUsernameInSubject(getSubject(context), username, null);
                 }
             }
@@ -1517,11 +1506,7 @@ public class DefaultSecurityEnvironmentImpl implements SecurityEnvironment {
             return true;
         }
 
-        if ((expires != null) && expires.before(created)) {
-            return true;
-        }
-
-        return false;
+        return (expires != null) && expires.before(created);
     }
 
 
@@ -1708,7 +1693,7 @@ public class DefaultSecurityEnvironmentImpl implements SecurityEnvironment {
     public KerberosContext doKerberosLogin() throws XWSSecurityException {
         String loginModule = configAssertions.getProperty(DefaultCallbackHandler.KRB5_LOGIN_MODULE);
         String servicePrincipal = configAssertions.getProperty(DefaultCallbackHandler.KRB5_SERVICE_PRINCIPAL);
-        boolean credentialDelegation = Boolean.valueOf(configAssertions.getProperty(DefaultCallbackHandler.KRB5_CREDENTIAL_DELEGATION));
+        boolean credentialDelegation = Boolean.parseBoolean(configAssertions.getProperty(DefaultCallbackHandler.KRB5_CREDENTIAL_DELEGATION));
         if (loginModule == null || loginModule.equals("")) {
             throw new XWSSecurityException("Login Module for Kerberos login is not set or could not be obtained");
         }

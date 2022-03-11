@@ -58,7 +58,7 @@ public class SecurityContextImpl implements SecurityContext {
                 return null;
             }
             Boolean didServerGenerateCredentials = (Boolean)serverGenCred.invoke(currentSC, args);
-            if (!didServerGenerateCredentials.booleanValue()) {
+            if (!didServerGenerateCredentials) {
                 s = (Subject)getSubject.invoke(currentSC, args);
             }
             return s;

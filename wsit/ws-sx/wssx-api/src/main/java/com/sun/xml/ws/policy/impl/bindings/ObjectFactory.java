@@ -22,12 +22,6 @@ import jakarta.xml.bind.JAXBElement;
 import jakarta.xml.bind.annotation.XmlElementDecl;
 import jakarta.xml.bind.annotation.XmlRegistry;
 import javax.xml.namespace.QName;
-import com.sun.xml.ws.policy.impl.bindings.AppliesTo;
-import com.sun.xml.ws.policy.impl.bindings.OperatorContentType;
-import com.sun.xml.ws.policy.impl.bindings.Policy;
-import com.sun.xml.ws.policy.impl.bindings.PolicyAttachment;
-import com.sun.xml.ws.policy.impl.bindings.PolicyReference;
-import com.sun.xml.ws.policy.impl.bindings.UsingPolicy;
 
 
 /**

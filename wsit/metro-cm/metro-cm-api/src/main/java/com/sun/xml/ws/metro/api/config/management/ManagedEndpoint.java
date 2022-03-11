@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -69,7 +69,7 @@ public class ManagedEndpoint<T> extends WSEndpoint<T>{
     private final Collection<ReconfigNotifier> reconfigNotifiers = new LinkedList<>();
 
 //     Delay before dispose is called on a replaced endpoint delegate. Defaults to 2 minutes.
-    private static final long ENDPOINT_DISPOSE_DELAY_DEFAULT = 120000l;
+    private static final long ENDPOINT_DISPOSE_DELAY_DEFAULT = 120000L;
     private long endpointDisposeDelay = ENDPOINT_DISPOSE_DELAY_DEFAULT;
     private volatile ScheduledExecutorService executorService;
     private final EndpointCreationAttributes creationAttributes;

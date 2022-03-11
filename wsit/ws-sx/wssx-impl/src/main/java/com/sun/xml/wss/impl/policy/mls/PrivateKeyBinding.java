@@ -122,9 +122,9 @@ public class PrivateKeyBinding extends WSSPolicy {
 
             PrivateKeyBinding policy = (PrivateKeyBinding) binding;
 
-            boolean b1 = _keyIdentifier.equals("") ? true : _keyIdentifier.equals(policy.getKeyIdentifier());
+            boolean b1 = _keyIdentifier.equals("") || _keyIdentifier.equals(policy.getKeyIdentifier());
             if (!b1) return false;
-            boolean b2 = _keyAlgorithm.equals("") ? true : _keyAlgorithm.equals(policy.getKeyAlgorithm());
+            boolean b2 = _keyAlgorithm.equals("") || _keyAlgorithm.equals(policy.getKeyAlgorithm());
             if (!b2) return false;
         } catch (Exception e) {}
 

@@ -71,10 +71,7 @@ public class SamlToken extends PolicyAssertion implements com.sun.xml.ws.securit
     @Override
     public boolean isRequireDerivedKeys() {
         populate();
-        if (rdKey != null ) {
-            return true;
-        }
-        return false;
+        return rdKey != null;
     }
 
     @Override

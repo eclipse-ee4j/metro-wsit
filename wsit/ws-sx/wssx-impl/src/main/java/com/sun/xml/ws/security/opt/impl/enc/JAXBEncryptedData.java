@@ -133,7 +133,7 @@ public class JAXBEncryptedData implements EncryptedData,
     public void writeTo(javax.xml.stream.XMLStreamWriter streamWriter) throws javax.xml.stream.XMLStreamException {
         try {
 
-            if (streamWriter instanceof Map && !(dep != null)) {
+            if (streamWriter instanceof Map && dep == null) {
                 OutputStream os = (OutputStream) ((Map) streamWriter).get("sjsxp-outputstream");
                 if (os != null) {
                     streamWriter.writeCharacters("");        // Force completion of open elems

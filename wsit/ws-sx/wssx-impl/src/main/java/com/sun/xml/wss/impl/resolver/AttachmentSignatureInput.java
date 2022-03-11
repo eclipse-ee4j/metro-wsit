@@ -13,7 +13,6 @@ package com.sun.xml.wss.impl.resolver;
 import java.util.Vector;
 import java.util.Iterator;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.io.ByteArrayOutputStream;
 
 import jakarta.xml.soap.SOAPException;
@@ -54,10 +53,10 @@ public class AttachmentSignatureInput extends XMLSignatureInput {
 
        // extract Content
        //Object content = _part.getContent();
-       OutputStream baos = new ByteArrayOutputStream();
+       ByteArrayOutputStream baos = new ByteArrayOutputStream();
        _part.getDataHandler().writeTo(baos);
 
-       return new Object[] {mhs, ((ByteArrayOutputStream)baos).toByteArray()};
+       return new Object[] {mhs, baos.toByteArray()};
    }
 }
 

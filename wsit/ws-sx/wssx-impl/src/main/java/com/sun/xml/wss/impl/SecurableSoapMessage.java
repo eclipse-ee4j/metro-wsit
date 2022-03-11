@@ -499,8 +499,7 @@ public final class SecurableSoapMessage extends SOAPMessage {
 
 
         int intRandom = rnd.nextInt();
-        String id = "XWSSGID-"+ System.currentTimeMillis() + intRandom;
-        return id;
+        return "XWSSGID-"+ System.currentTimeMillis() + intRandom;
     }
 
     /**
@@ -771,95 +770,98 @@ public final class SecurableSoapMessage extends SOAPMessage {
         boolean throwFault = false;
         boolean headersOnly = target.isSOAPHeadersOnly();
 
-        if (type.equals(Target.TARGET_TYPE_VALUE_QNAME)) {
+        switch (type) {
+            case Target.TARGET_TYPE_VALUE_QNAME:
 
-            try {
-                if(value == Target.BODY){
+                try {
+                    if (value == Target.BODY) {
 
-                    final SOAPElement se;
+                        final SOAPElement se;
 //                    if(!isOptimized()){
-                        se= this.getSOAPBody();
+                        se = this.getSOAPBody();
 //                    }
 //                    else{
 //                        se = ((com.sun.xml.messaging.saaj.soap.ExpressMessage)soapMessage).getEMBody();
 //                    }
-                    retValue = new NodeList(){
-                        Node node = se;
-                        @Override
-                        public int getLength(){
-                            return 1;
-                        }
-                        @Override
-                        public Node item(int num){
-                            if(num == 0){
-                                return node;
-                            }else{
-                                return null;
+                        retValue = new NodeList() {
+                            Node node = se;
+
+                            @Override
+                            public int getLength() {
+                                return 1;
                             }
-                        }
-                    };
-                }else{
-                    QName name = QName.valueOf(value);
-                    if(!headersOnly){
-                        if ("".equals(name.getNamespaceURI())) {
-                            retValue = this.getSOAPPart().getElementsByTagNameNS("*", name.getLocalPart());
+
+                            @Override
+                            public Node item(int num) {
+                                if (num == 0) {
+                                    return node;
+                                } else {
+                                    return null;
+                                }
+                            }
+                        };
+                    } else {
+                        QName name = QName.valueOf(value);
+                        if (!headersOnly) {
+                            if ("".equals(name.getNamespaceURI())) {
+                                retValue = this.getSOAPPart().getElementsByTagNameNS("*", name.getLocalPart());
+                            } else {
+                                retValue = this.getSOAPPart().getElementsByTagNameNS(name.getNamespaceURI(), name.getLocalPart());
+                            }
                         } else {
-                            retValue = this.getSOAPPart().getElementsByTagNameNS(name.getNamespaceURI(), name.getLocalPart());
-                        }
-                    } else{
-                        // process headers of a SOAPMessage
-                        retValue = new NodeListImpl();
-                        NodeList hdrChilds = this.getSOAPHeader().getChildNodes();
-                        for(int i = 0; i < hdrChilds.getLength(); i++){
-                            Node child = hdrChilds.item(i);
-                            if(child.getNodeType() ==  Node.ELEMENT_NODE){
-                                if("".equals(name.getNamespaceURI())){
-                                    if(name.getLocalPart().equals(child.getLocalName()))
-                                        ((NodeListImpl)retValue).add(child);
-                                } else{
-                                    // FIXME: Hack to get addressing members from both namespaces, as microsoft uses both of them in a soap message
-                                    if(name.getNamespaceURI().equals(MessageConstants.ADDRESSING_MEMBER_SUBMISSION_NAMESPACE) ||
-                                            name.getNamespaceURI().equals(MessageConstants.ADDRESSING_W3C_NAMESPACE)){
-                                        if((child.getNamespaceURI().equals(MessageConstants.ADDRESSING_MEMBER_SUBMISSION_NAMESPACE) ||
-                                                child.getNamespaceURI().equals(MessageConstants.ADDRESSING_W3C_NAMESPACE))) {
-                                            if(!"".equals(name.getLocalPart())){
-                                                if(name.getLocalPart().equals(child.getLocalName()))
-                                                    ((NodeListImpl)retValue).add(child);
-                                            } else{
-                                                ((NodeListImpl)retValue).add(child);
+                            // process headers of a SOAPMessage
+                            retValue = new NodeListImpl();
+                            NodeList hdrChilds = this.getSOAPHeader().getChildNodes();
+                            for (int i = 0; i < hdrChilds.getLength(); i++) {
+                                Node child = hdrChilds.item(i);
+                                if (child.getNodeType() == Node.ELEMENT_NODE) {
+                                    if ("".equals(name.getNamespaceURI())) {
+                                        if (name.getLocalPart().equals(child.getLocalName()))
+                                            ((NodeListImpl) retValue).add(child);
+                                    } else {
+                                        // FIXME: Hack to get addressing members from both namespaces, as microsoft uses both of them in a soap message
+                                        if (name.getNamespaceURI().equals(MessageConstants.ADDRESSING_MEMBER_SUBMISSION_NAMESPACE) ||
+                                                name.getNamespaceURI().equals(MessageConstants.ADDRESSING_W3C_NAMESPACE)) {
+                                            if ((child.getNamespaceURI().equals(MessageConstants.ADDRESSING_MEMBER_SUBMISSION_NAMESPACE) ||
+                                                    child.getNamespaceURI().equals(MessageConstants.ADDRESSING_W3C_NAMESPACE))) {
+                                                if (!"".equals(name.getLocalPart())) {
+                                                    if (name.getLocalPart().equals(child.getLocalName()))
+                                                        ((NodeListImpl) retValue).add(child);
+                                                } else {
+                                                    ((NodeListImpl) retValue).add(child);
+                                                }
                                             }
-                                        }
-                                    } else{
-                                        if(!"".equals(name.getLocalPart())){
-                                            if(name.getNamespaceURI().equals(child.getNamespaceURI()) &&
-                                                    name.getLocalPart().equals(child.getLocalName()))
-                                                ((NodeListImpl)retValue).add(child);
-                                        } else{
-                                             if(name.getNamespaceURI().equals(child.getNamespaceURI()))
-                                                ((NodeListImpl)retValue).add(child);
+                                        } else {
+                                            if (!"".equals(name.getLocalPart())) {
+                                                if (name.getNamespaceURI().equals(child.getNamespaceURI()) &&
+                                                        name.getLocalPart().equals(child.getLocalName()))
+                                                    ((NodeListImpl) retValue).add(child);
+                                            } else {
+                                                if (name.getNamespaceURI().equals(child.getNamespaceURI()))
+                                                    ((NodeListImpl) retValue).add(child);
+                                            }
                                         }
                                     }
                                 }
                             }
                         }
                     }
+                } catch (Exception e) {
+                    log.log(Level.SEVERE, LogStringsMessages.WSS_0288_FAILED_GET_MESSAGE_PARTS_QNAME(), e);
+                    throw new XWSSecurityRuntimeException(e);
                 }
-            } catch (Exception e) {
-                log.log(Level.SEVERE, LogStringsMessages.WSS_0288_FAILED_GET_MESSAGE_PARTS_QNAME(), e);
-                throw new XWSSecurityRuntimeException(e);
-            }
-            if (retValue == null || ((NodeList)retValue).getLength() == 0) throwFault = true;
+                if (retValue == null || ((NodeList) retValue).getLength() == 0) throwFault = true;
 
-        } else
-            if (type.equals(Target.TARGET_TYPE_VALUE_XPATH)) {
-            try {
-                XPath xpath = xpathFactory.newXPath();
+                break;
+            case Target.TARGET_TYPE_VALUE_XPATH:
+                try {
+                    XPath xpath = xpathFactory.newXPath();
 
-                xpath.setNamespaceContext(getNamespaceContext());
-                //              XPathExpression expr = xpath.compile("//*[@wsu:Id]");
-                //XPathExpression expr = xpath.compile("//*");
-                XPathExpression xpathExpr = xpath.compile(value);
-                retValue = xpathExpr.evaluate(this.getSOAPPart(),XPathConstants.NODESET);
+                    xpath.setNamespaceContext(getNamespaceContext());
+                    //              XPathExpression expr = xpath.compile("//*[@wsu:Id]");
+                    //XPathExpression expr = xpath.compile("//*");
+                    XPathExpression xpathExpr = xpath.compile(value);
+                    retValue = xpathExpr.evaluate(this.getSOAPPart(), XPathConstants.NODESET);
 
 
                 /*    retValue =
@@ -867,24 +869,26 @@ public final class SecurableSoapMessage extends SOAPMessage {
                     this.getSOAPPart(),
                     value,
                     this.getNSContext());*/
-            } catch (Exception e) {
-                log.log(Level.SEVERE, LogStringsMessages.WSS_0289_FAILED_GET_MESSAGE_PARTS_X_PATH(), e);
-                throw new XWSSecurityRuntimeException(e);
-            }
-            if (retValue == null || ((NodeList)retValue).getLength() == 0) throwFault = true;
-            } else if (type.equals(Target.TARGET_TYPE_VALUE_URI)) {
-            try {
-                retValue = this.getElementById(value);
-            } catch (XWSSecurityException xwse) {
-                try {
-                    retValue = getAttachmentPart(value);
-                    if (retValue == null) throwFault = true;
-                } catch (Exception se) {
-                    log.log(Level.SEVERE, LogStringsMessages.WSS_0290_FAILED_GET_MESSAGE_PARTS_URI(), se);
-                    throw new XWSSecurityException("No message part can be identified by the Target: " + value);
+                } catch (Exception e) {
+                    log.log(Level.SEVERE, LogStringsMessages.WSS_0289_FAILED_GET_MESSAGE_PARTS_X_PATH(), e);
+                    throw new XWSSecurityRuntimeException(e);
                 }
-            }
-            }
+                if (retValue == null || ((NodeList) retValue).getLength() == 0) throwFault = true;
+                break;
+            case Target.TARGET_TYPE_VALUE_URI:
+                try {
+                    retValue = this.getElementById(value);
+                } catch (XWSSecurityException xwse) {
+                    try {
+                        retValue = getAttachmentPart(value);
+                        if (retValue == null) throwFault = true;
+                    } catch (Exception se) {
+                        log.log(Level.SEVERE, LogStringsMessages.WSS_0290_FAILED_GET_MESSAGE_PARTS_URI(), se);
+                        throw new XWSSecurityException("No message part can be identified by the Target: " + value);
+                    }
+                }
+                break;
+        }
 
         if (throwFault) {
             if(log.isLoggable(Level.FINE)){

@@ -342,10 +342,7 @@ public class SecurityClientTube extends SecurityTubeBase implements SecureConver
     }
 
     public Packet processClientResponsePacket(Packet ret) {
-        boolean isTrustMsg = false;
-        if ("true".equals(ret.invocationProperties.get(WSTrustConstants.IS_TRUST_MESSAGE))) {
-            isTrustMsg = true;
-        }
+        boolean isTrustMsg = "true".equals(ret.invocationProperties.get(WSTrustConstants.IS_TRUST_MESSAGE));
 
         // Could be OneWay
         if (ret.getInternalMessage() == null) {
@@ -598,7 +595,7 @@ public class SecurityClientTube extends SecurityTubeBase implements SecureConver
             }
 
             // Create the configuration to use
-            STSIssuedTokenConfiguration config = null;
+            DefaultSTSIssuedTokenConfiguration config = null;
             if (issuedTokenContextMap.get(((Token) issuedTokenAssertion).getTokenId()) == null || rtConfig != null) {
                 try {
                     // Get STS information from the request message context
@@ -627,13 +624,13 @@ public class SecurityClientTube extends SecurityTubeBase implements SecureConver
                     X509Certificate x509ServerCertificate = (X509Certificate) props.get(PipeConstants.SERVER_CERT);
                     // and make sure the  validition of the server certificate happens only once
                     if (x509ServerCertificate != null) {
-                        if (isCertValidityVerified == false) {
+                        if (!isCertValidityVerified) {
                             CertificateRetriever cr = new CertificateRetriever();
                             isCertValid = cr.setServerCertInTheSTSConfig(config, secEnv, x509ServerCertificate);
                             cr = null;
                             isCertValidityVerified = true;
                         } else {
-                            if (isCertValid == true) {
+                            if (isCertValid) {
                                 config.getOtherOptions().put("Identity", x509ServerCertificate);
                             }
                         }
@@ -643,7 +640,7 @@ public class SecurityClientTube extends SecurityTubeBase implements SecureConver
                     if (rtConfig != null) {
                         rtConfig.getOtherOptions().put(STSIssuedTokenConfiguration.ISSUED_TOKEN, config);
                         rtConfig.getOtherOptions().put(STSIssuedTokenConfiguration.APPLIES_TO, packet.endpointAddress.toString());
-                        ((DefaultSTSIssuedTokenConfiguration) config).copy(rtConfig);
+                        config.copy(rtConfig);
 
                         config.getOtherOptions().put("RunTimeConfig", rtConfig);
                     }

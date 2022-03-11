@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -203,6 +203,6 @@ public class McClientTube extends AbstractFilterTubeImpl implements WsmcRuntimeP
 
     private Boolean isBooleanFlagSet(Packet packet, String flag) {
         Boolean value = (Boolean) packet.invocationProperties.get(flag);
-        return value != null && value.booleanValue();
+        return value != null && value;
     }
 }

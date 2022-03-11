@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -61,59 +61,68 @@ public class X509TokenBuilder extends TokenBuilder {
             logger.log(Level.FINEST, LogStringsMessages.WSS_1851_REFERENCETYPE_X_509_TOKEN(referenceType));
         }
         BuilderResult result = new BuilderResult();
-        if (referenceType.equals("Direct")) {
-            BinarySecurityToken bst = createBinarySecurityToken(binding, binding.getX509Certificate());
-            if (bst == null) {
-                logger.log(Level.SEVERE, LogStringsMessages.WSS_1802_WRONG_TOKENINCLUSION_POLICY(), "creating binary security token failed");
-                throw new XWSSecurityException(LogStringsMessages.WSS_1802_WRONG_TOKENINCLUSION_POLICY());
-            }
-            DirectReference dr = buildDirectReference(bst.getId(), MessageConstants.X509v3_NS);
-            buildKeyInfo(dr, binding.getSTRID());
-        } else if (referenceType.equals("Identifier")) {
-            BinarySecurityToken bst = createBinarySecurityToken(binding, binding.getX509Certificate());
-            buildKeyInfoWithKI(binding, MessageConstants.X509SubjectKeyIdentifier_NS);
-            try {
-                if (binding.getSTRID() != null) {
-                    SecurityElement bsToken = elementFactory.createBinarySecurityToken(null, binding.getX509Certificate().getEncoded());
-                    SSEData data = new SSEData(bsToken, false, context.getNamespaceContext());
-                    context.getSTRTransformCache().put(binding.getSTRID(), data);
+        switch (referenceType) {
+            case "Direct": {
+                BinarySecurityToken bst = createBinarySecurityToken(binding, binding.getX509Certificate());
+                if (bst == null) {
+                    logger.log(Level.SEVERE, LogStringsMessages.WSS_1802_WRONG_TOKENINCLUSION_POLICY(), "creating binary security token failed");
+                    throw new XWSSecurityException(LogStringsMessages.WSS_1802_WRONG_TOKENINCLUSION_POLICY());
                 }
-            } catch (CertificateEncodingException ce) {
-                logger.log(Level.SEVERE, LogStringsMessages.WSS_1814_ERROR_ENCODING_CERTIFICATE(), ce);
-                throw new XWSSecurityException(LogStringsMessages.WSS_1814_ERROR_ENCODING_CERTIFICATE(), ce);
+                DirectReference dr = buildDirectReference(bst.getId(), MessageConstants.X509v3_NS);
+                buildKeyInfo(dr, binding.getSTRID());
+                break;
             }
-        } else if (referenceType.equals(MessageConstants.THUMB_PRINT_TYPE)) {
-            BinarySecurityToken bst = createBinarySecurityToken(binding, binding.getX509Certificate());
-            KeyIdentifier ki = buildKeyInfoWithKI(binding, MessageConstants.ThumbPrintIdentifier_NS);
-            try {
-                if (binding.getSTRID() != null) {
-                    SecurityElement bsToken = elementFactory.createBinarySecurityToken(null, binding.getX509Certificate().getEncoded());
-                    SSEData data = new SSEData(bsToken, false, context.getNamespaceContext());
-                    context.getSTRTransformCache().put(binding.getSTRID(), data);
+            case "Identifier": {
+                BinarySecurityToken bst = createBinarySecurityToken(binding, binding.getX509Certificate());
+                buildKeyInfoWithKI(binding, MessageConstants.X509SubjectKeyIdentifier_NS);
+                try {
+                    if (binding.getSTRID() != null) {
+                        SecurityElement bsToken = elementFactory.createBinarySecurityToken(null, binding.getX509Certificate().getEncoded());
+                        SSEData data = new SSEData(bsToken, false, context.getNamespaceContext());
+                        context.getSTRTransformCache().put(binding.getSTRID(), data);
+                    }
+                } catch (CertificateEncodingException ce) {
+                    logger.log(Level.SEVERE, LogStringsMessages.WSS_1814_ERROR_ENCODING_CERTIFICATE(), ce);
+                    throw new XWSSecurityException(LogStringsMessages.WSS_1814_ERROR_ENCODING_CERTIFICATE(), ce);
                 }
-            } catch (CertificateEncodingException ce) {
-                logger.log(Level.SEVERE, LogStringsMessages.WSS_1814_ERROR_ENCODING_CERTIFICATE(), ce);
-                throw new XWSSecurityException(LogStringsMessages.WSS_1814_ERROR_ENCODING_CERTIFICATE(), ce);
+                break;
             }
-        } else if (referenceType.equals(MessageConstants.X509_ISSUER_TYPE)) {
-            BinarySecurityToken bst = createBinarySecurityToken(binding, binding.getX509Certificate());
-            X509Certificate xCert = binding.getX509Certificate();
-            X509IssuerSerial xis = elementFactory.createX509IssuerSerial(xCert.getIssuerDN().getName(), xCert.getSerialNumber());
-            X509Data x509Data = elementFactory.createX509DataWithIssuerSerial(xis);
-            buildKeyInfo(x509Data, binding.getSTRID());
-            try {
-                if (binding.getSTRID() != null) {
-                    SecurityElement bsToken = elementFactory.createBinarySecurityToken(null, binding.getX509Certificate().getEncoded());
-                    SSEData data = new SSEData(bsToken, false, context.getNamespaceContext());
-                    context.getSTRTransformCache().put(binding.getSTRID(), data);
+            case MessageConstants.THUMB_PRINT_TYPE: {
+                BinarySecurityToken bst = createBinarySecurityToken(binding, binding.getX509Certificate());
+                KeyIdentifier ki = buildKeyInfoWithKI(binding, MessageConstants.ThumbPrintIdentifier_NS);
+                try {
+                    if (binding.getSTRID() != null) {
+                        SecurityElement bsToken = elementFactory.createBinarySecurityToken(null, binding.getX509Certificate().getEncoded());
+                        SSEData data = new SSEData(bsToken, false, context.getNamespaceContext());
+                        context.getSTRTransformCache().put(binding.getSTRID(), data);
+                    }
+                } catch (CertificateEncodingException ce) {
+                    logger.log(Level.SEVERE, LogStringsMessages.WSS_1814_ERROR_ENCODING_CERTIFICATE(), ce);
+                    throw new XWSSecurityException(LogStringsMessages.WSS_1814_ERROR_ENCODING_CERTIFICATE(), ce);
                 }
-            } catch (CertificateEncodingException ce) {
-                logger.log(Level.SEVERE, LogStringsMessages.WSS_1814_ERROR_ENCODING_CERTIFICATE(), ce);
-                throw new XWSSecurityException(LogStringsMessages.WSS_1814_ERROR_ENCODING_CERTIFICATE(), ce);
+                break;
             }
-        } else {
-            logger.log(Level.SEVERE, LogStringsMessages.WSS_1803_UNSUPPORTED_REFERENCE_TYPE(referenceType));
-            throw new XWSSecurityException(LogStringsMessages.WSS_1803_UNSUPPORTED_REFERENCE_TYPE(referenceType));
+            case MessageConstants.X509_ISSUER_TYPE: {
+                BinarySecurityToken bst = createBinarySecurityToken(binding, binding.getX509Certificate());
+                X509Certificate xCert = binding.getX509Certificate();
+                X509IssuerSerial xis = elementFactory.createX509IssuerSerial(xCert.getIssuerDN().getName(), xCert.getSerialNumber());
+                X509Data x509Data = elementFactory.createX509DataWithIssuerSerial(xis);
+                buildKeyInfo(x509Data, binding.getSTRID());
+                try {
+                    if (binding.getSTRID() != null) {
+                        SecurityElement bsToken = elementFactory.createBinarySecurityToken(null, binding.getX509Certificate().getEncoded());
+                        SSEData data = new SSEData(bsToken, false, context.getNamespaceContext());
+                        context.getSTRTransformCache().put(binding.getSTRID(), data);
+                    }
+                } catch (CertificateEncodingException ce) {
+                    logger.log(Level.SEVERE, LogStringsMessages.WSS_1814_ERROR_ENCODING_CERTIFICATE(), ce);
+                    throw new XWSSecurityException(LogStringsMessages.WSS_1814_ERROR_ENCODING_CERTIFICATE(), ce);
+                }
+                break;
+            }
+            default:
+                logger.log(Level.SEVERE, LogStringsMessages.WSS_1803_UNSUPPORTED_REFERENCE_TYPE(referenceType));
+                throw new XWSSecurityException(LogStringsMessages.WSS_1803_UNSUPPORTED_REFERENCE_TYPE(referenceType));
         }
         result.setKeyInfo(keyInfo);
         return result;

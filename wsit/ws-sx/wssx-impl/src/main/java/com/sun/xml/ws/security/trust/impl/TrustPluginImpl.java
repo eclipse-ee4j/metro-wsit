@@ -661,8 +661,7 @@ public class TrustPluginImpl implements TrustPlugin {
         }
         List<KeyValue> kvs = new ArrayList<>();
         kvs.add(kv);
-        KeyInfo ki = kif.newKeyInfo(kvs);
-        return ki;
+        return kif.newKeyInfo(kvs);
     }
 
     private String getAction(WSTrustVersion wstVer, String requestType){

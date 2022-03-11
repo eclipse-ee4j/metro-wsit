@@ -147,7 +147,7 @@ public class TCPAdapter extends Adapter<TCPAdapter.TCPToolkit> {
             connection.setStatus(TCPConstants.ONE_WAY);
             isClosed = true;
         }
-    };
+    }
 
     public static final AdapterFactory<TCPAdapter> FACTORY = new TCPAdapterList();
 }

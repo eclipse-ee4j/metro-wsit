@@ -244,10 +244,7 @@ public class SAXC14nCanonicalizerImpl extends BaseCanonicalizer  implements Cont
     public void startPrefixMapping (String prefix, String uri) throws SAXException {
 
         String dURI = nsContext.getURI (prefix);
-        boolean add = false;
-        if(dURI == null || !uri.equals (dURI)){
-            add = true;
-        }
+        boolean add = dURI == null || !uri.equals(dURI);
 
         if(add && !_ncContextState[_depth]){
             nsContext.pushContext ();

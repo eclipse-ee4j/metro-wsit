@@ -228,9 +228,7 @@ public final class StaticApplicationContext implements StaticPolicyContext {
                  (serviceIdentifier.equalsIgnoreCase (ctx.getServiceIdentifier()) &&
                   portIdentifier.equalsIgnoreCase (ctx.getPortIdentifier()) &&
                   operationIdentifier.equalsIgnoreCase (ctx.getOperationIdentifier()));
-        if (!b2) return false;
-
-        return true;
+        return b2;
     }
 
     // TODO : this hashcode is not unique, change it later, but it works for now
@@ -247,10 +245,9 @@ public final class StaticApplicationContext implements StaticPolicyContext {
     }
 
     public String toString() {
-        String ret =  "isService=" + isService + "\nisPort=" + isPort + "\nisOperation=" + isOperation +
+        return "isService=" + isService + "\nisPort=" + isPort + "\nisOperation=" + isOperation +
                       "\nUUID=" + UUID + "\nserviceIdentifier=" + serviceIdentifier +
                       "\nportIdentifier=" + portIdentifier + "\noperationIdentifier=" + operationIdentifier;
-        return ret;
     }
 
 }

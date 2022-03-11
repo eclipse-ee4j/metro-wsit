@@ -258,7 +258,7 @@ public abstract class WSITAuthContextBase  {
     static {
         try {
             //TODO: system property maynot be appropriate for server side.
-            debug = Boolean.valueOf(System.getProperty("DebugSecurity"));
+            debug = Boolean.parseBoolean(System.getProperty("DebugSecurity"));
             //ISSUE_REQUEST_URI = new URI(WSTrustConstants.REQUEST_SECURITY_TOKEN_ISSUE_ACTION);
             //CANCEL_REQUEST_URI = new URI(WSTrustConstants.CANCEL_REQUEST);
             jaxbContext = WSTrustElementFactory.getContext();
@@ -287,7 +287,7 @@ public abstract class WSITAuthContextBase  {
         }
 
         soapVersion = pipeConfig.getBinding().getSOAPVersion();
-        isSOAP12 = (soapVersion == SOAPVersion.SOAP_12) ? true : false;
+        isSOAP12 = soapVersion == SOAPVersion.SOAP_12;
         wsPolicyMap = pipeConfig.getPolicyMap();
         soapFactory = pipeConfig.getBinding().getSOAPVersion().saajSoapFactory;
 
@@ -742,9 +742,8 @@ public abstract class WSITAuthContextBase  {
         //WSDLOutput output = wsdlOperation.getOutput();
         //QName inputMessageName = input.getMessage().getName();
         //QName outputMessageName = output.getMessage().getName();
-        PolicyMapKey messageKey =  PolicyMap.createWsdlMessageScopeKey(
+        return PolicyMap.createWsdlMessageScopeKey(
                 serviceName,portName,wsdlOperation.getName());
-        return messageKey;
 
     }
 
@@ -796,8 +795,7 @@ public abstract class WSITAuthContextBase  {
             }
 
             PolicyMerger pm = PolicyMerger.getMerger();
-            Policy ep = pm.merge(pl);
-            return ep;
+            return pm.merge(pl);
         } catch (Exception e) {
             log.log(Level.SEVERE, LogStringsMessages.WSITPVD_0007_PROBLEM_GETTING_EFF_BOOT_POLICY(), e);
             throw new PolicyException(LogStringsMessages.WSITPVD_0007_PROBLEM_GETTING_EFF_BOOT_POLICY(), e);
@@ -854,8 +852,7 @@ public abstract class WSITAuthContextBase  {
     }
 
     protected final WSDLBoundOperation cachedOperation(Packet packet) {
-        WSDLBoundOperation op = (WSDLBoundOperation)packet.invocationProperties.get("WSDL_BOUND_OPERATION");
-        return op;
+        return (WSDLBoundOperation)packet.invocationProperties.get("WSDL_BOUND_OPERATION");
     }
 
     protected boolean isSCMessage(Packet packet){
@@ -869,10 +866,7 @@ public abstract class WSITAuthContextBase  {
         }
 
         String action = getAction(packet);
-        if (Constants.rstSCTURI.equals(action)){
-            return true;
-        }
-        return false;
+        return Constants.rstSCTURI.equals(action);
     }
 
     protected boolean isSCRenew(Packet packet){
@@ -886,11 +880,8 @@ public abstract class WSITAuthContextBase  {
         }
 
         String action = getAction(packet);
-        if(wsscVer.getSCTRenewResponseAction().equals(action) ||
-                wsscVer.getSCTRenewRequestAction().equals(action)) {
-            return true;
-        }
-        return false;
+        return wsscVer.getSCTRenewResponseAction().equals(action) ||
+                wsscVer.getSCTRenewRequestAction().equals(action);
     }
 
     protected boolean isSCCancel(Packet packet){
@@ -904,11 +895,8 @@ public abstract class WSITAuthContextBase  {
         }
 
         String action = getAction(packet);
-        if(wsscVer.getSCTCancelResponseAction().equals(action) ||
-                wsscVer.getSCTCancelRequestAction().equals(action)) {
-            return true;
-        }
-        return false;
+        return wsscVer.getSCTCancelResponseAction().equals(action) ||
+                wsscVer.getSCTCancelRequestAction().equals(action);
     }
 
     protected boolean isAddressingEnabled() {
@@ -928,12 +916,8 @@ public abstract class WSITAuthContextBase  {
         }
 
          // Validate
-         if(wsTrustVer.getValidateRequestAction().equals(action) ||
-                wsTrustVer.getValidateFinalResoponseAction().equals(action)){
-            return true;
-        }
-
-        return false;
+        return wsTrustVer.getValidateRequestAction().equals(action) ||
+                wsTrustVer.getValidateFinalResoponseAction().equals(action);
 
     }
 
@@ -962,8 +946,7 @@ public abstract class WSITAuthContextBase  {
 
         MessageHeaders hl = packet.getMessage().getHeaders();
         //String action =  hl.getAction(pipeConfig.getBinding().getAddressingVersion(), pipeConfig.getBinding().getSOAPVersion());
-        String action =  AddressingUtils.getAction(hl, addVer, pipeConfig.getBinding().getSOAPVersion());
-        return action;
+        return AddressingUtils.getAction(hl, addVer, pipeConfig.getBinding().getSOAPVersion());
     }
 
     protected WSDLBoundOperation getWSDLOpFromAction(Packet packet ,boolean isIncomming){
@@ -1273,13 +1256,13 @@ TR/SCT"))) && this.bootStrapAlgoSuite != null){            ctx.setAlgorithmSuite
         ctx.setSecurityEnvironment(secEnv);
         //set the server certificate in the context ;
         if (serverCert != null) {
-            if (isCertValidityVerified == false) {
+            if (!isCertValidityVerified) {
                 CertificateRetriever cr = new CertificateRetriever();
                 isCertValid = cr.setServerCertInTheContext(ctx, secEnv, serverCert);
                 cr = null;
                 isCertValidityVerified = true;
             }else {
-                if(isCertValid == true){
+                if(isCertValid){
                     ctx.getExtraneousProperties().put(XWSSConstants.SERVER_CERTIFICATE_PROPERTY, serverCert);
                 }
             }
@@ -1492,25 +1475,22 @@ TR/SCT"))) && this.bootStrapAlgoSuite != null){            ctx.setAlgorithmSuite
     }
 
     protected com.sun.xml.wss.impl.WSSAssertion getWssAssertion(WSSAssertion asser) {
-        com.sun.xml.wss.impl.WSSAssertion assertion = new com.sun.xml.wss.impl.WSSAssertion(
+        return new com.sun.xml.wss.impl.WSSAssertion(
                 asser.getRequiredProperties(),
                 asser.getType());
-        return assertion;
     }
 
     //TODO: Duplicate information copied from Pipeline Assembler
     private boolean isReliableMessagingEnabled(WSDLPort port) {
         if (port != null && port.getBinding() != null) {
-            boolean enabled = port.getBinding().getFeatures().isEnabled(com.sun.xml.ws.rx.rm.api.ReliableMessagingFeature.class);
-            return enabled;
+            return port.getBinding().getFeatures().isEnabled(com.sun.xml.ws.rx.rm.api.ReliableMessagingFeature.class);
         }
         return false;
     }
 
      private boolean isMakeConnectionEnabled(WSDLPort port) {
         if (port != null && port.getBinding() != null) {
-            boolean enabled = port.getBinding().getFeatures().isEnabled(com.sun.xml.ws.rx.mc.api.MakeConnectionSupportedFeature.class);
-            return enabled;
+            return port.getBinding().getFeatures().isEnabled(com.sun.xml.ws.rx.mc.api.MakeConnectionSupportedFeature.class);
         }
         return false;
     }
@@ -1593,13 +1573,13 @@ TR/SCT"))) && this.bootStrapAlgoSuite != null){            ctx.setAlgorithmSuite
         ctx.setAlgorithmSuite(getAlgoSuite(getBindingAlgorithmSuite(packet)));
         //set the server certificate in the context ;
         if (serverCert != null) {
-            if (isCertValidityVerified == false) {
+            if (!isCertValidityVerified) {
                 CertificateRetriever cr = new CertificateRetriever();
                 isCertValid = cr.setServerCertInTheContext(ctx, secEnv, serverCert);
                 cr = null;
                 isCertValidityVerified = true;
             }else {
-                 if(isCertValid == true){
+                 if(isCertValid){
                     ctx.getExtraneousProperties().put(XWSSConstants.SERVER_CERTIFICATE_PROPERTY, serverCert);
                 }
             }
@@ -1724,11 +1704,9 @@ TR/SCT"))) && this.bootStrapAlgoSuite != null){            ctx.setAlgorithmSuite
         } catch (XWSSecurityException xwse) {
             log.log(Level.SEVERE,
                     LogStringsMessages.WSITPVD_0029_ERROR_SECURING_OUTBOUND_MSG(), xwse);
-            WssSoapFaultException wsfe =
-                    SecurableSoapMessage.newSOAPFaultException(
-                    MessageConstants.WSSE_INTERNAL_SERVER_ERROR,
-                    xwse.getMessage(), xwse);
-            throw wsfe;
+            throw SecurableSoapMessage.newSOAPFaultException(
+            MessageConstants.WSSE_INTERNAL_SERVER_ERROR,
+            xwse.getMessage(), xwse);
         }
     }
 
@@ -1748,11 +1726,9 @@ TR/SCT"))) && this.bootStrapAlgoSuite != null){            ctx.setAlgorithmSuite
         } catch(XWSSecurityException xwse){
             log.log(Level.SEVERE,
                     LogStringsMessages.WSITPVD_0029_ERROR_SECURING_OUTBOUND_MSG(), xwse);
-            WssSoapFaultException wsfe =
-                    SecurableSoapMessage.newSOAPFaultException(
-                    MessageConstants.WSSE_INTERNAL_SERVER_ERROR,
-                    xwse.getMessage(), xwse);
-            throw wsfe;
+            throw SecurableSoapMessage.newSOAPFaultException(
+            MessageConstants.WSSE_INTERNAL_SERVER_ERROR,
+            xwse.getMessage(), xwse);
         }
     }
 
@@ -1800,8 +1776,7 @@ TR/SCT"))) && this.bootStrapAlgoSuite != null){            ctx.setAlgorithmSuite
             }
 
             if (ret != null) {
-                CallbackHandler handler = (CallbackHandler)ret.newInstance();
-                return handler;
+                return (CallbackHandler)ret.newInstance();
             }
         } catch (ClassNotFoundException e) {
             // ignore
@@ -1823,12 +1798,10 @@ TR/SCT"))) && this.bootStrapAlgoSuite != null){            ctx.setAlgorithmSuite
         return (Packet)messageInfo.getMap().get(RES_PACKET);
     }
 
-    @SuppressWarnings("unchecked")
     protected void setRequestPacket(MessageInfo messageInfo, Packet ret) {
         messageInfo.getMap().put(REQ_PACKET, ret);
     }
 
-    @SuppressWarnings("unchecked")
     protected void setResponsePacket(MessageInfo messageInfo, Packet ret) {
         messageInfo.getMap().put(RES_PACKET, ret);
     }

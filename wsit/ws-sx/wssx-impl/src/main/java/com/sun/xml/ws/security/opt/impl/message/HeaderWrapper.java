@@ -254,7 +254,6 @@ public class HeaderWrapper implements com.sun.xml.ws.api.message.Header  {
      * Reads the header as a JAXB object by using the given unmarshaller.
      */
     @Override
-    @SuppressWarnings("unchecked")
     public <T> T readAsJAXB(Unmarshaller unmarshaller) throws JAXBException{
         if(header != null){
             return header.readAsJAXB(unmarshaller);

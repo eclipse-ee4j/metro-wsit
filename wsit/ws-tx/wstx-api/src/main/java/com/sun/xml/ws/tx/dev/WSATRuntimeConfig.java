@@ -85,10 +85,10 @@ public final class WSATRuntimeConfig {
         }
     }
     private static WSATRuntimeConfig instance;
-    private static boolean isWsatRecoveryEnabled = Boolean.valueOf(System.getProperty("wsat.recovery.enabled", "true"));
+    private static boolean isWsatRecoveryEnabled = Boolean.parseBoolean(System.getProperty("wsat.recovery.enabled", "true"));
     private static TxlogLocationProvider txLogLocationProvider;
-    private static boolean isWsatSslEnabled = Boolean.valueOf(System.getProperty("wsat.ssl.enabled", "false"));
-    private static boolean isRollbackOnFailedPrepare = Boolean.valueOf(System.getProperty("wsat.rollback.on.failed.prepare", "true"));
+    private static boolean isWsatSslEnabled = Boolean.getBoolean("wsat.ssl.enabled");
+    private static boolean isRollbackOnFailedPrepare = Boolean.parseBoolean(System.getProperty("wsat.rollback.on.failed.prepare", "true"));
     private static String domainName = "domain1";
     private static String hostName = "localhost";
     private static int httpPort = 8080;

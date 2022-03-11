@@ -153,12 +153,9 @@ public final class OutboundConnectionCacheBlockingImpl<C extends Connection>
     private boolean internalCanCreateNewConnection( final CacheEntry<C> entry ) {
         final int totalConnectionsInEntry = entry.totalConnections() ;
 
-        final boolean createNewConnection =
-                (totalConnectionsInEntry == 0) ||
-                ((numberOfConnections() < highWaterMark()) &&
-                (totalConnectionsInEntry < maxParallelConnections)) ;
-
-        return createNewConnection ;
+        return (totalConnectionsInEntry == 0) ||
+        ((numberOfConnections() < highWaterMark()) &&
+        (totalConnectionsInEntry < maxParallelConnections));
     }
 
     private CacheEntry<C> getEntry( final ContactInfo<C> cinfo

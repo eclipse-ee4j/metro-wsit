@@ -66,7 +66,6 @@ public class NonceCache extends TimerTask {
         MAX_NONCE_AGE = maxNonceAge;
     }
 
-    @SuppressWarnings("unchecked")
     public boolean validateAndCacheNonce(String nonce, String created) throws NonceException {
         if (nonceCache.containsKey(nonce) || oldNonceCache.containsKey(nonce)) {
             log.log(Level.WARNING, LogStringsMessages.WSS_0815_NONCE_REPEATED_ERROR(nonce));

@@ -128,9 +128,8 @@ public class MetadataServerPipe extends AbstractFilterTubeImpl {
             writer.flush();
 
             final Message responseMessage = Messages.create(buffer);
-            final Packet response = request.createServerResponse(
+            return request.createServerResponse(
                 responseMessage, adVersion, soapVersion, MetadataConstants.GET_RESPONSE);
-            return response;
         } catch (XMLStreamException streamE) {
             final String exceptionMessage =
                 MessagesMessages.MEX_0001_RESPONSE_WRITING_FAILURE(address);

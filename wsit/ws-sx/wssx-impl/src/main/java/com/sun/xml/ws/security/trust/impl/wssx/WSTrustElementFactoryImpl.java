@@ -140,8 +140,7 @@ public class WSTrustElementFactoryImpl extends WSTrustElementFactory {
                                                    Claims claims, Entropy entropy, Lifetime lt) {
        // if (tokenType==null || scopes==null)
          //   throw new WSTrustException("TokenType and AppliesTo cannot be both null");
-        RequestSecurityToken rst = new RequestSecurityTokenImpl(tokenType, requestType, context, scopes, claims, entropy, lt, null);
-        return rst;
+        return new RequestSecurityTokenImpl(tokenType, requestType, context, scopes, claims, entropy, lt, null);
     }
 
     /**
@@ -177,9 +176,7 @@ public class WSTrustElementFactoryImpl extends WSTrustElementFactory {
      */
     @Override
     public  RequestSecurityTokenResponse createRSTRForRenew(URI tokenType, final URI context, RequestedSecurityToken token, final RequestedAttachedReference attachedReference, final RequestedUnattachedReference unattachedRef, final RequestedProofToken proofToken, final Entropy entropy, final Lifetime lifetime) {
-        final RequestSecurityTokenResponse rstr =
-                new RequestSecurityTokenResponseImpl(tokenType, context, token, null, attachedReference, unattachedRef, proofToken, entropy, lifetime, null);
-        return rstr;
+        return new RequestSecurityTokenResponseImpl(tokenType, context, token, null, attachedReference, unattachedRef, proofToken, entropy, lifetime, null);
     }
 
     /**
@@ -413,11 +410,11 @@ public class WSTrustElementFactoryImpl extends WSTrustElementFactory {
 
     @Override
     public RequestSecurityTokenResponseCollection createRSTRC(List<RequestSecurityTokenResponse> rstrs){
-        RequestSecurityTokenResponseCollection rstrc = new RequestSecurityTokenResponseCollectionImpl();
+        RequestSecurityTokenResponseCollectionImpl rstrc = new RequestSecurityTokenResponseCollectionImpl();
         //rstrc.getRequestSecurityTokenResponses().addAll(rstrs);
 
         for (int i = 0; i < rstrs.size(); i++) {
-            ((RequestSecurityTokenResponseCollectionImpl)rstrc).addRequestSecurityTokenResponse(rstrs.get(i));
+            rstrc.addRequestSecurityTokenResponse(rstrs.get(i));
         }
         return rstrc;
     }

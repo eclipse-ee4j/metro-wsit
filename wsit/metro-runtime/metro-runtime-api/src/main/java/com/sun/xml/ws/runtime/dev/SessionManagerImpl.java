@@ -315,7 +315,7 @@ public class SessionManagerImpl extends SessionManager {
         issuedTokenContextMap.put(key, itctx);
         SecurityContextTokenInfo sctInfo = itctx.getSecurityContextTokenInfo();
         if(sctInfo.getInstance() != null){
-            String sctInfoKey = sctInfo.getIdentifier().toString()+"_"+ sctInfo.getInstance();
+            String sctInfoKey = sctInfo.getIdentifier() +"_"+ sctInfo.getInstance();
             //securityContextTokenInfoMap.put(((SecurityContextToken)itctx.getSecurityToken()).getInstance(), itctx.getSecurityContextTokenInfo());
             securityContextTokenInfoMap.put(sctInfoKey, sctInfo);
         }
@@ -450,10 +450,9 @@ public class SessionManagerImpl extends SessionManager {
 
         @Override
         public String toString(){
-            String str = "Identifier=" + identifier + " : Secret=" + Arrays.toString(secret) +
+            return "Identifier=" + identifier + " : Secret=" + Arrays.toString(secret) +
                          " : ExternalId=" +  this.extId + " : Creation Time=" +
                          this.creationTime + " : Expiration Time=" + this.expirationTime;
-            return str;
         }
     }
 

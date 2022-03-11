@@ -56,7 +56,7 @@ public final class TCPStandaloneContext implements TCPContext {
     @Override
     public URL getResource(String resource) {
         if (resource.charAt(0) == '/') {
-            resource = resource.substring(1, resource.length());
+            resource = resource.substring(1);
         }
 
         return classloader.getResource(resource);
@@ -64,7 +64,7 @@ public final class TCPStandaloneContext implements TCPContext {
 
     private Enumeration<URL> getResources(String resource) throws IOException {
         if (resource.charAt(0) == '/') {
-            resource = resource.substring(1, resource.length());
+            resource = resource.substring(1);
         }
 
         return classloader.getResources(resource);
@@ -103,10 +103,8 @@ public final class TCPStandaloneContext implements TCPContext {
         final String resourceURIAsString = resourceURI.toASCIIString();
         final int pathDelim = resourceURIAsString.indexOf('!');
         final String zipFile = resourceURIAsString.substring("jar:file:/".length(), (pathDelim != -1) ? pathDelim : resourceURIAsString.length());
-        ZipFile file = null;
 
-        try {
-            file = new ZipFile(zipFile);
+        try (ZipFile file = new ZipFile(zipFile)) {
 
             String pathToCompare = path;
             if (pathToCompare.charAt(0) == '/') {
@@ -116,20 +114,13 @@ public final class TCPStandaloneContext implements TCPContext {
                 pathToCompare = pathToCompare + "/";
             }
 
-            for(final Enumeration<? extends ZipEntry> e = file.entries(); e.hasMoreElements(); ) {
+            for (final Enumeration<? extends ZipEntry> e = file.entries(); e.hasMoreElements(); ) {
                 final ZipEntry entry = e.nextElement();
                 if (entry.getName().startsWith(pathToCompare) && !entry.getName().equals(pathToCompare)) {
                     resources.add("/" + entry.getName());
                 }
             }
-        } catch(IOException e) {
-        } finally {
-            if (file != null) {
-                try {
-                    file.close();
-                } catch (IOException ex) {
-                }
-            }
+        } catch (IOException e) {
         }
     }
 

@@ -73,9 +73,7 @@ public class ReferenceListProcessor {
 
     public boolean _exit(XMLStreamReader reader){
         if(reader.getEventType() == XMLStreamReader.END_ELEMENT){
-            if(reader.getLocalName() == "ReferenceList" && reader.getNamespaceURI() == MessageConstants.XENC_NS){
-               return true;
-            }
+            return reader.getLocalName() == "ReferenceList" && reader.getNamespaceURI() == MessageConstants.XENC_NS;
         }
         return false;
     }

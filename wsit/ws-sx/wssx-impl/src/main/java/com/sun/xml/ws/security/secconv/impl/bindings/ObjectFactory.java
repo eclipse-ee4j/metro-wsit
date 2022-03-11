@@ -22,9 +22,6 @@ import jakarta.xml.bind.JAXBElement;
 import jakarta.xml.bind.annotation.XmlElementDecl;
 import jakarta.xml.bind.annotation.XmlRegistry;
 import javax.xml.namespace.QName;
-import com.sun.xml.ws.security.secconv.impl.bindings.DerivedKeyTokenType;
-import com.sun.xml.ws.security.secconv.impl.bindings.PropertiesType;
-import com.sun.xml.ws.security.secconv.impl.bindings.SecurityContextTokenType;
 
 
 /**

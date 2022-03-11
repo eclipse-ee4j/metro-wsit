@@ -451,9 +451,7 @@ public class SAMLAssertion2_2FactoryImpl extends SAMLAssertionFactory {
     public Assertion createAssertion(XMLStreamReader reader) throws SAMLException {
         try {
             Element samlElement = SAMLUtil.createSAMLAssertion(reader);
-            Assertion samlAssertion =
-                    com.sun.xml.wss.saml.assertion.saml20.jaxb20.Assertion.fromElement(samlElement);
-            return samlAssertion;
+            return com.sun.xml.wss.saml.assertion.saml20.jaxb20.Assertion.fromElement(samlElement);
         } catch (XWSSecurityException | XMLStreamException ex) {
             throw new SAMLException(ex);
         }

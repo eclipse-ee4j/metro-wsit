@@ -295,12 +295,11 @@ public abstract class ConfigHelper /*implements RegistrationListener*/ {
     }
 
     protected CallbackHandler loadGFHandler(String jmacHandler, ClassLoader loader) {
-        String classname =  jmacHandler;
         Class ret = null;
         try {
             try {
                 if (loader != null) {
-                    ret = loader.loadClass(classname);
+                    ret = loader.loadClass(jmacHandler);
                 }
             }catch(ClassNotFoundException e) {
 
@@ -309,12 +308,11 @@ public abstract class ConfigHelper /*implements RegistrationListener*/ {
             if (ret == null) {
                 // if context classloader didnt work, try this
                 loader = this.getClass().getClassLoader();
-                ret = loader.loadClass(classname);
+                ret = loader.loadClass(jmacHandler);
             }
 
             if (ret != null) {
-                CallbackHandler handler = (CallbackHandler)ret.newInstance();
-                return handler;
+                return (CallbackHandler)ret.newInstance();
             }
         } catch (ClassNotFoundException e) {
             // ignore
@@ -322,10 +320,10 @@ public abstract class ConfigHelper /*implements RegistrationListener*/ {
         } catch(InstantiationException | IllegalAccessException e) {
 
         }
-        if (DEFAULT_HANDLER_CLASS.equals(classname)) {
+        if (DEFAULT_HANDLER_CLASS.equals(jmacHandler)) {
             return null;
         }
-        throw new RuntimeException("Failed to Load CallbackHandler:" + classname);
+        throw new RuntimeException("Failed to Load CallbackHandler:" + jmacHandler);
     }
 
     private static class ConfigData {

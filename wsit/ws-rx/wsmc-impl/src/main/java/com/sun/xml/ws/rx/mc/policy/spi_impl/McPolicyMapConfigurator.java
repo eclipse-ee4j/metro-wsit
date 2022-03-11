@@ -23,9 +23,10 @@ import com.sun.xml.ws.policy.jaxws.spi.PolicyMapConfigurator;
 import com.sun.xml.ws.policy.subject.WsdlBindingSubject;
 import com.sun.xml.ws.rx.mc.api.MakeConnectionSupportedFeature;
 import com.sun.xml.ws.rx.mc.policy.wsmc200702.MakeConnectionSupportedAssertion;
-import java.util.Arrays;
+
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.logging.Level;
 import javax.xml.namespace.QName;
 
@@ -58,7 +59,7 @@ public class McPolicyMapConfigurator implements PolicyMapConfigurator {
      * @return A policy that contains one policy assertion that corresponds to the given assertion name.
      */
     private Policy createMakeConnectionPolicy(final QName bindingName) {
-        return Policy.createPolicy(null, bindingName.getLocalPart() + "_MCSupported_Policy", Arrays.asList(AssertionSet.createAssertionSet(Arrays.asList(new MakeConnectionSupportedAssertion()))));
+        return Policy.createPolicy(null, bindingName.getLocalPart() + "_MCSupported_Policy", List.of(AssertionSet.createAssertionSet(List.of(new MakeConnectionSupportedAssertion()))));
     }
 
     private void updateMakeConnectionSettings(Collection<PolicySubject> subjects, WSBinding wsBinding, SEIModel model, PolicyMap policyMap) throws PolicyException, IllegalArgumentException {

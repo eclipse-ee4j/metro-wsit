@@ -51,9 +51,7 @@ public class PasswordDerivedKey {
         salt = new byte[16];
         salt[0] = 0;
         byte[] temp = generateRandomSaltof15Bytes();
-        for (int i = 1; i < 16; i++) {
-            salt[i] = temp[i-1];
-        }
+        System.arraycopy(temp, 0, salt, 1, 15);
     }
 
     public  byte[] generate160BitKey(String password, int iteration, byte[] reqsalt) {
@@ -90,8 +88,7 @@ public class PasswordDerivedKey {
     }
     public SecretKey generate16ByteKeyforEncryption(byte[] keyof20Bytes){
         byte[] keyof16Bytes = new byte[16];
-        for(int i=0;i<16;i++)
-            keyof16Bytes[i] = keyof20Bytes[i];
+        System.arraycopy(keyof20Bytes, 0, keyof16Bytes, 0, 16);
         AuthenticationTokenPolicy.UsernameTokenBinding untBinding = new AuthenticationTokenPolicy.UsernameTokenBinding();
         untBinding.setSecretKey(keyof16Bytes);
         SecretKey sKey = untBinding.getSecretKey(SecurityUtil.getSecretKeyAlgorithm(MessageConstants.AES_BLOCK_ENCRYPTION_128));
@@ -112,14 +109,10 @@ public class PasswordDerivedKey {
 
         }
         reqsalt[0] = 02;
-        for (int i = 1; i < 16; i++) {
-            reqsalt[i] = salt[i];
-        }
+        System.arraycopy(salt, 1, reqsalt, 1, 15);
 
         keyof160bits = generate160BitKey(password, iteration, reqsalt);
-        for (int i = 0; i < 16; i++) {
-            keyof128length[i] = keyof160bits[i];
-        }
+        System.arraycopy(keyof160bits, 0, keyof128length, 0, 16);
 
         if (testAlgorithm(algorithm)) {
             keySpec = new SecretKeySpec(keyof128length, algorithm);
@@ -142,9 +135,7 @@ public class PasswordDerivedKey {
             generate16ByteSalt();
         }
         reqsalt[0] = 01;
-        for (int i = 1; i < 16; i++) {
-            reqsalt[i] = salt[i];
-        }
+        System.arraycopy(salt, 1, reqsalt, 1, 15);
         keyof160bits = generate160BitKey(password, iteration, reqsalt);
         keySpec = new SecretKeySpec(keyof160bits, "AES");
 
@@ -152,9 +143,7 @@ public class PasswordDerivedKey {
         mac.init(keySpec, keylength);
         mac.update(data);
 
-        byte[] signature = mac.sign();
-
-        return signature;
+        return mac.sign();
 
     }
 
@@ -169,11 +158,8 @@ public class PasswordDerivedKey {
         receivedSalt[0]=02;
         keyof160bits = generate160BitKey(password, iterate, receivedSalt);
         byte[] keyof128length = new byte[16];
-        for (int i = 0; i < 16; i++) {
-            keyof128length[i] = keyof160bits[i];
-        }
-        SecretKey keySpec = new SecretKeySpec(keyof128length, "AES");
-        return keySpec;
+        System.arraycopy(keyof160bits, 0, keyof128length, 0, 16);
+        return new SecretKeySpec(keyof128length, "AES");
 
     }
 
@@ -195,12 +181,6 @@ public class PasswordDerivedKey {
 
     public boolean testAlgorithm(String algo) {
 
-        if (algo.equalsIgnoreCase("AES") || algo.equalsIgnoreCase("Aes128")||algo.startsWith("A")||algo.startsWith("a")) {
-            return true;
-        } else {
-
-            return false;
-
-        }
+        return algo.equalsIgnoreCase("AES") || algo.equalsIgnoreCase("Aes128") || algo.startsWith("A") || algo.startsWith("a");
     }
 }

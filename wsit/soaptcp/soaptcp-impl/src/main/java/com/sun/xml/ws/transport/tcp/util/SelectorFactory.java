@@ -76,7 +76,7 @@ public final class SelectorFactory{
                     }
                     attempts++;
                 }
-            } catch (InterruptedException ex){};
+            } catch (InterruptedException ex){}
             return s;
         }
     }

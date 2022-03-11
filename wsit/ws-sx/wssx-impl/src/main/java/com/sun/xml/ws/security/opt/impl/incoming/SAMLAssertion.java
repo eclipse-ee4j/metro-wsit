@@ -228,10 +228,7 @@ public class SAMLAssertion implements SecurityHeaderElement,PolicyBuilder,TokenV
     }
 
     public boolean isHOK(){
-        if(sig != null){
-            return true;
-        }
-        return false;
+        return sig != null;
     }
 
     public boolean validateSignature()throws XWSSecurityException{
@@ -424,9 +421,7 @@ public class SAMLAssertion implements SecurityHeaderElement,PolicyBuilder,TokenV
         if(reader.getEventType() == reader.END_ELEMENT){
             if(reader.getLocalName() == MessageConstants.SAML_ASSERTION_LNAME ){
                 String uri = reader.getNamespaceURI();
-                if( uri == MessageConstants.SAML_v2_0_NS || uri ==MessageConstants.SAML_v1_0_NS || uri == MessageConstants.SAML_v1_1_NS ){
-                    return true;
-                }
+                return uri == MessageConstants.SAML_v2_0_NS || uri == MessageConstants.SAML_v1_0_NS || uri == MessageConstants.SAML_v1_1_NS;
             }
         }
         return false;

@@ -1043,8 +1043,7 @@ public class EncryptionProcessor {
         //convert to a 2 loop - Venu
         while (i.hasNext()) {
             EncryptionTarget target = (EncryptionTarget)i.next();
-            boolean contentOnly = target.getContentOnly();
-            Boolean cOnly = Boolean.valueOf(contentOnly);
+            Boolean cOnly = target.getContentOnly();
             if(MessageConstants.PROCESS_ALL_ATTACHMENTS.equals(target.getValue())){
                 Iterator itr = secureMsg.getAttachments();
                 while(itr.hasNext()){
@@ -1152,7 +1151,7 @@ public class EncryptionProcessor {
         while (_apartsI.hasNext()) {
             Object[] s = (Object[])_apartsI.next();
             AttachmentPart p = (AttachmentPart)s[0];
-            boolean b = ((Boolean)s[1]).booleanValue();
+            boolean b = (Boolean) s[1];
 
             // create n push an ED
 
@@ -1199,7 +1198,7 @@ public class EncryptionProcessor {
         while (_dnodeI.hasNext()) {
             Object[] s = (Object[])_dnodeI.next();
             Node     n = (Node)s[0];
-            boolean  b = ((Boolean)s[1]).booleanValue();
+            boolean  b = (Boolean) s[1];
             //TODO :Add Transforms here.
             Element ed = null;
             boolean _fi = false;

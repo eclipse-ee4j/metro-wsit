@@ -8,12 +8,6 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-/*
- * WSSCPlugin.java
- *
- * Created on February 7, 2006, 4:09 PM
- */
-
 package com.sun.xml.ws.security.secconv;
 
 import com.sun.xml.ws.api.addressing.AddressingVersion;

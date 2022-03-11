@@ -51,7 +51,7 @@ public class SecuredMessage {
         this(msg, sh);
         this.body = new SOAPBody(msg, soapVersion);
         this.soapVersion = soapVersion;
-        boolean isSOAP12 = (soapVersion == SOAPVersion.SOAP_12) ? true : false;
+        boolean isSOAP12 = soapVersion == SOAPVersion.SOAP_12;
     }
 
     @SuppressWarnings("unchecked")

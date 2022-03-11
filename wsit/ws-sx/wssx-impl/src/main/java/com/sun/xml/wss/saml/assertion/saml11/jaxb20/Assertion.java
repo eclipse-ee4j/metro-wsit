@@ -171,14 +171,12 @@ public class Assertion  extends com.sun.xml.wss.saml.internal.saml11.jaxb20.Asse
 
     @Override
     public Conditions getConditions(){
-        Conditions cond = new Conditions(super.getConditions());
-        return cond;
+        return new Conditions(super.getConditions());
     }
 
     @Override
     public Advice getAdvice(){
-        Advice advice = new Advice(super.getAdvice());
-        return advice;
+        return new Advice(super.getAdvice());
     }
 
     @Override
@@ -477,7 +475,7 @@ public class Assertion  extends com.sun.xml.wss.saml.internal.saml11.jaxb20.Asse
     }
 
     public boolean isSigned() {
-        return signature != null?true:false;
+        return signature != null;
     }
 
     /**
@@ -657,7 +655,7 @@ public class Assertion  extends com.sun.xml.wss.saml.internal.saml11.jaxb20.Asse
         Class _nodeSetClass = null;
         String optNSClassName = "org.apache.jcp.xml.dsig.internal.dom.DOMSubTreeData";
         Constructor _constructor = null;
-        Boolean  _false = Boolean.valueOf(false);
+        Boolean  _false = Boolean.FALSE;
         DSigResolver(Map map,Element elem){
             this.elem = elem;
             this.map = map;
@@ -689,7 +687,7 @@ public class Assertion  extends com.sun.xml.wss.saml.internal.saml11.jaxb20.Asse
         }
         Data dereferenceURI(String uri, XMLCryptoContext context) throws URIReferenceException{
             if(uri.charAt(0) == '#'){
-                uri =  uri.substring(1,uri.length());
+                uri =  uri.substring(1);
                 Element el = elem.getOwnerDocument().getElementById(uri);
                 if(el == null){
                     el = (Element)map.get(uri);
@@ -773,8 +771,7 @@ public class Assertion  extends com.sun.xml.wss.saml.internal.saml11.jaxb20.Asse
             // unmarshal the XMLSignature
             XMLSignature xmlSignature = signatureFactory.unmarshalXMLSignature(validationContext);
             validationContext.setURIDereferencer(new DSigResolver(map, samlAssertion));
-            boolean coreValidity = xmlSignature.validate(validationContext);
-            return coreValidity;
+            return xmlSignature.validate(validationContext);
         } catch (Exception ex) {
             throw new SAMLException(ex);
         }

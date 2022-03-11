@@ -535,13 +535,13 @@ public abstract class SecurityTubeBase extends AbstractFilterTubeImpl {
 
         //set the server certificate in the context ;
         if (serverCert != null) {
-            if (isCertValidityVerified == false) {
+            if (!isCertValidityVerified) {
                 CertificateRetriever cr = new CertificateRetriever();
                 isCertValid = cr.setServerCertInTheContext(ctx, secEnv, serverCert);
                 cr = null;
                 isCertValidityVerified = true;
             } else {
-                if (isCertValid == true) {
+                if (isCertValid) {
                     ctx.getExtraneousProperties().put(XWSSConstants.SERVER_CERTIFICATE_PROPERTY, serverCert);
                 }
             }
@@ -605,13 +605,13 @@ public abstract class SecurityTubeBase extends AbstractFilterTubeImpl {
         ctx.setAlgorithmSuite(getAlgoSuite(getBindingAlgorithmSuite(packet)));
         //set the server certificate in the context ;
         if (serverCert != null) {
-            if (isCertValidityVerified == false) {
+            if (!isCertValidityVerified) {
                 CertificateRetriever cr = new CertificateRetriever();
                 isCertValid = cr.setServerCertInTheContext(ctx, secEnv, serverCert);
                 cr = null;
                 isCertValidityVerified = true;
             } else {
-                if (isCertValid == true) {
+                if (isCertValid) {
                     ctx.getExtraneousProperties().put(XWSSConstants.SERVER_CERTIFICATE_PROPERTY, serverCert);
                 }
             }

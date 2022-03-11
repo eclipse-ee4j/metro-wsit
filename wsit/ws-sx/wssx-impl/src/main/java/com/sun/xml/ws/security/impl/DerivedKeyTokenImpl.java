@@ -8,12 +8,6 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-/*
- * DerivedKeyTokenImpl.java
- *
- * Created on December 23, 2005, 7:11 PM
- */
-
 package com.sun.xml.ws.security.impl;
 
 import com.sun.xml.ws.security.DerivedKeyToken;
@@ -144,11 +138,9 @@ public class DerivedKeyTokenImpl implements DerivedKeyToken {
            byte[] tempBytes = SecurityUtil.P_SHA1(secret, seed, (int)(offset + length));
            byte[] key = new byte[(int)length];
 
-           for(int i = 0; i < key.length; i++)
-               key[i] = tempBytes[i+(int)offset];
+           System.arraycopy(tempBytes, (int) offset, key, 0, key.length);
 
-           SecretKeySpec keySpec = new SecretKeySpec(key, algorithm);
-           return keySpec;
+        return new SecretKeySpec(key, algorithm);
 
     }
 

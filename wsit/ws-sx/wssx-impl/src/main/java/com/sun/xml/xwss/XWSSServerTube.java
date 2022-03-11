@@ -91,7 +91,7 @@ public class XWSSServerTube extends AbstractFilterTubeImpl {
             throw new WebServiceException(ex);
         }
         soapVersion = endPoint.getBinding().getSOAPVersion();
-        isSOAP12 = (soapVersion == SOAPVersion.SOAP_12) ? true : false;
+        isSOAP12 = soapVersion == SOAPVersion.SOAP_12;
         soapFactory = soapVersion.saajSoapFactory;
         messageFactory = soapVersion.saajMessageFactory;
     }
@@ -147,9 +147,7 @@ public class XWSSServerTube extends AbstractFilterTubeImpl {
                 serverConfig = "/WEB-INF/" + serviceName + "_security_config.xml";
                 url = ctxt.getResource(serverConfig);
             }
-            if (url != null) {
-                return url;
-            }
+            return url;
         } else {
             //this could be an EJB or JDK6 endpoint
             //so let us try to locate the config from META-INF classpath
@@ -159,11 +157,8 @@ public class XWSSServerTube extends AbstractFilterTubeImpl {
                 serverConfig = "META-INF/" + serviceName + "_security_config.xml";
                 url = SecurityUtil.loadFromClasspath(serverConfig);
             }
-            if (url != null) {
-                return url;
-            }
+            return url;
         }
-        return null;
     }
 
 
@@ -442,7 +437,7 @@ public class XWSSServerTube extends AbstractFilterTubeImpl {
                     "No body element identifying an operation is found");
         }
 
-        StringBuilder tmp = new StringBuilder("");
+        StringBuilder tmp = new StringBuilder();
         String operation = "";
 
         for (; node != null; node = node.getNextSibling()) {

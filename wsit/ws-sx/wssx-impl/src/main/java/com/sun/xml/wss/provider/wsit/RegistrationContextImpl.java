@@ -61,7 +61,7 @@ final class RegistrationContextImpl implements RegistrationContext {
     }
 
     public boolean equals(Object o) {
-        if (o == null || !(o instanceof RegistrationContext)) {
+        if (!(o instanceof RegistrationContext)) {
             return false;
         }
         RegistrationContext target = (RegistrationContext) o;

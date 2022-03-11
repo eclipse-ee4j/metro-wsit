@@ -51,6 +51,7 @@ import com.sun.xml.ws.security.secext10.SecurityTokenReferenceType;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Objects;
 import java.util.logging.Level;
 
 import jakarta.xml.ws.EndpointReference;
@@ -579,7 +580,7 @@ public class ServerTube extends AbstractFilterTubeImpl {
      */
     private void validateSecurityContextTokenId(String expectedSctId, Packet packet) throws RmSecurityException {
         String actualSctId = validator.getSecurityContextTokenId(packet);
-        boolean isValid = (expectedSctId != null) ? expectedSctId.equals(actualSctId) : actualSctId == null;
+        boolean isValid = Objects.equals(expectedSctId, actualSctId);
 
         if (!isValid) {
             throw new RmSecurityException(LocalizationMessages.WSRM_1131_SECURITY_TOKEN_AUTHORIZATION_ERROR(actualSctId, expectedSctId));

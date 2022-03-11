@@ -85,17 +85,18 @@ public final class ChannelSettings {
     }
 
     public String toString() {
-        String sb = "TargetURI: " +
-                targetWSURI +
-                " wsServiceName: " +
-                wsServiceName +
-                " channelId: " +
-                channelId +
-                " negotiatedParams: " +
-                negotiatedParams +
-                " negotiatedMimeTypes: " +
-                negotiatedMimeTypes;
+        StringBuilder sb = new StringBuilder();
+        sb = sb.append("TargetURI: ")
+                .append(targetWSURI)
+                .append(" wsServiceName: ")
+                .append(wsServiceName)
+                .append(" channelId: ")
+                .append(channelId)
+                .append(" negotiatedParams: ")
+                .append(negotiatedParams)
+                .append(" negotiatedMimeTypes: ")
+                .append(negotiatedMimeTypes);
 
-        return sb;
+        return sb.toString();
     }
 }

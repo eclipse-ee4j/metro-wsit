@@ -140,9 +140,8 @@ public class ManagementWSDLPatcher extends XMLStreamReaderToXMLStreamWriter {
     protected void handleAttribute(int i) throws XMLStreamException {
         final QName attributeName = this.in.getAttributeName(i);
         final XmlToken policyToken = NamespaceVersion.resolveAsToken(attributeName);
-        switch (policyToken) {
-            case PolicyUris:
-                return;
+        if (policyToken == XmlToken.PolicyUris) {
+            return;
         }
         super.handleAttribute(i);
     }

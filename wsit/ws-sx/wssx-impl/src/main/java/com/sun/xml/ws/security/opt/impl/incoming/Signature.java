@@ -382,10 +382,7 @@ public class Signature implements SecurityHeaderElement,NamespaceContextInfo, Se
                 }
             }
         }
-        if(sip.getReferenceList().size() == 0){
-            return true;
-        }
-        return false;
+        return sip.getReferenceList().size() == 0;
     }
 
     public boolean verifyReferences(){

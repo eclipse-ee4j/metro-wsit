@@ -40,9 +40,7 @@ public class PublicKeyCertSelector implements CertSelector {
         }
         if (cert instanceof X509Certificate) {
             X509Certificate x509Cert = (X509Certificate)cert;
-            if (key.equals(x509Cert.getPublicKey())) {
-                return true;
-            }
+            return key.equals(x509Cert.getPublicKey());
         }
         return false;
     }

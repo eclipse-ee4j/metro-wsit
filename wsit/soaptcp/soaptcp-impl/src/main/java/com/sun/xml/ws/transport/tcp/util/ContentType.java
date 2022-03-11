@@ -61,7 +61,7 @@ public final class ContentType {
 
     @Override
     public boolean equals(Object o) {
-        if (o != null && o instanceof ContentType) {
+        if (o instanceof ContentType) {
             ContentType ctToCompare = (ContentType) o;
             return mimeType.equals(ctToCompare.mimeType) && ctToCompare.parameters.equals(parameters);
         }

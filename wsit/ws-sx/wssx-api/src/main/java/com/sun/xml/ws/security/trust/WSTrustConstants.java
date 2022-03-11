@@ -107,7 +107,7 @@ public class WSTrustConstants {
     /**
      * List of STS Properties
      */
-    public enum STS_PROPERTIES  { PROPERTY_URL, PROPERTY_PORT_NAME, PROPERTY_SERVICE_NAME, PROPERTY_SERVICE_END_POINT };
+    public enum STS_PROPERTIES  { PROPERTY_URL, PROPERTY_PORT_NAME, PROPERTY_SERVICE_NAME, PROPERTY_SERVICE_END_POINT }
 
     public static final String IS_TRUST_MESSAGE = "isTrustMessage";
 

@@ -469,7 +469,7 @@ public class KeyInfoHeaderBlock  extends SecurityHeaderBlockImpl {
         } catch (XMLSecurityException e) {
             log.log(Level.SEVERE,
                     "WSS0357.error.getting.keyvalue",
-                    new Object[] {Integer.valueOf(index), e.getMessage()});
+                    new Object[] {index, e.getMessage()});
             throw new XWSSecurityException(e);
         }
     }
@@ -564,7 +564,7 @@ public class KeyInfoHeaderBlock  extends SecurityHeaderBlockImpl {
         } catch (XMLSecurityException e) {
             log.log(Level.SEVERE,
                     "WSS0358.error.getting.x509data",
-                    new Object[] {Integer.valueOf(index), e.getMessage()});
+                    new Object[] {index, e.getMessage()});
             throw new XWSSecurityException(e);
         }
     }

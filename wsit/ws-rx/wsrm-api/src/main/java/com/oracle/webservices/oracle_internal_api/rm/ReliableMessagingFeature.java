@@ -105,8 +105,7 @@ public class ReliableMessagingFeature
         if (enabled != that.enabled) return false;
         if (sequenceManagerMaintenancePeriod != that.sequenceManagerMaintenancePeriod) return false;
         if (maxConcurrentSession != that.maxConcurrentSession) return false;
-        if (userTransactionTimeout != that.userTransactionTimeout) return false;
-        return true;
+        return userTransactionTimeout == that.userTransactionTimeout;
     }
 
     @Override

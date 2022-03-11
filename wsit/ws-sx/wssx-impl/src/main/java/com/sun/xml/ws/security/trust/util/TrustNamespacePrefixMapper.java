@@ -47,10 +47,6 @@ public class TrustNamespacePrefixMapper extends NamespacePrefixMapper {
             return "sc";
         }
 
-        if( "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd".equals(namespaceUri) ) {
-            return "wsse";
-        }
-
         if( "http://schemas.xmlsoap.org/ws/2004/09/policy".equals(namespaceUri) ) {
             return "wsp";
         }

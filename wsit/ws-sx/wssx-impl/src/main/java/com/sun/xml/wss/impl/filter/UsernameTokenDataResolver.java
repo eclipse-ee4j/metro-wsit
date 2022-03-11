@@ -185,9 +185,7 @@ public class UsernameTokenDataResolver {
         }
         salt[0] = MessageConstants.VALUE_FOR_ENCRYPTION;
         encSignature = pdk.generate160BitKey(password, iterations, salt);
-        for (int i = 0; i < 16; i++) {
-            keyof128bits[i] = encSignature[i];
-        }
+        System.arraycopy(encSignature, 0, keyof128bits, 0, 16);
         untBinding.setSecretKey(keyof128bits);
         return untBinding;
   }

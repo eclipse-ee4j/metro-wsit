@@ -69,8 +69,7 @@ public class RMPolicyResolver {
         }catch (IOException ex) {
             throw new PolicyException(ex);
         }
-        Policy mbp = ModelTranslator.getTranslator().translate(model);
-        return mbp;
+        return ModelTranslator.getTranslator().translate(model);
     }
 
     private PolicySourceModel unmarshalPolicy(String resource) throws PolicyException, IOException {

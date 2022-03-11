@@ -191,7 +191,7 @@ public class PipeHelper extends ConfigHelper {
             WSDLPort wsdlModel =
                 (WSDLPort) getProperty(PipeConstants.WSDL_MODEL);
             if (wsdlModel != null) {
-                twoWay = (m.isOneWay(wsdlModel) ? false : true);
+                twoWay = (!m.isOneWay(wsdlModel));
             }
         }
         return twoWay;
@@ -252,7 +252,6 @@ public class PipeHelper extends ConfigHelper {
         return rvalue;
     }
 
-    @SuppressWarnings("unchecked")
     private static void addModel(MessageInfo info, Map<String, Object> map) {
         Object model = map.get(PipeConstants.WSDL_MODEL);
         if (model != null) {

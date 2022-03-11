@@ -66,10 +66,7 @@ public class AttributeNS implements Cloneable , Comparable {
         if(this.uri == null || this.prefix == null){
             return false;
         }
-        if(this.prefix.equals(attrNS.getPrefix()) && this.uri.equals(attrNS.getUri())){
-            return true;
-        }
-        return false;
+        return this.prefix.equals(attrNS.getPrefix()) && this.uri.equals(attrNS.getUri());
     }
 
     public int hashCode(){

@@ -8,13 +8,6 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-/*
- * STSConfiguration.java
- *
- * Created on March 24, 2006, 1:19 PM
- *
- */
-
 package com.sun.xml.ws.security.trust.impl;
 
 import com.sun.xml.ws.api.security.trust.config.STSConfiguration;

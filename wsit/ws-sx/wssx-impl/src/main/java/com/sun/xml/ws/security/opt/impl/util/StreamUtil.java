@@ -82,30 +82,22 @@ public class StreamUtil {
 
 
     public static boolean isStartElement(XMLStreamReader reader){
-        if(reader.getEventType() == XMLStreamReader.START_ELEMENT){
-            return true;
-        }
-        return false;
+        return reader.getEventType() == XMLStreamReader.START_ELEMENT;
     }
 
 
     public static boolean _break(XMLStreamReader reader,String localName,String uri) {
         if(reader.getEventType() == XMLStreamReader.END_ELEMENT){
-            if(reader.getLocalName() == localName &&
-                    (reader.getNamespaceURI() == uri || reader.getNamespaceURI() == MessageConstants.WSSC_13NS)){
-                return true;
-            }
+            return reader.getLocalName() == localName &&
+                    (reader.getNamespaceURI() == uri || reader.getNamespaceURI() == MessageConstants.WSSC_13NS);
         }
         return false;
     }
 
 
     private static boolean move(XMLStreamReader reader) {
-        if(reader.getEventType() == XMLStreamReader.START_ELEMENT ||
-                reader.getEventType() == XMLStreamReader.END_ELEMENT){
-            return false;
-        }
-        return true;
+        return reader.getEventType() != XMLStreamReader.START_ELEMENT &&
+                reader.getEventType() != XMLStreamReader.END_ELEMENT;
     }
 
 

@@ -52,8 +52,7 @@ public class SubjectAccessor {
 
             jakarta.xml.ws.handler.MessageContext msgContext = (jakarta.xml.ws.handler.MessageContext)context;
 
-            Subject subject =(Subject)msgContext.get(MessageConstants.AUTH_SUBJECT);
-            return subject;
+            return (Subject)msgContext.get(MessageConstants.AUTH_SUBJECT);
 
         } else if ( context instanceof jakarta.xml.ws.WebServiceContext) {
             try {
@@ -61,8 +60,7 @@ public class SubjectAccessor {
                     jakarta.xml.ws.WebServiceContext wsCtx = (jakarta.xml.ws.WebServiceContext) context;
                     jakarta.xml.ws.handler.MessageContext msgContext = wsCtx.getMessageContext();
                     if (msgContext != null) {
-                        Subject subject =(Subject)msgContext.get(MessageConstants.AUTH_SUBJECT);
-                        return subject;
+                        return (Subject)msgContext.get(MessageConstants.AUTH_SUBJECT);
                     } else {
                         return null;
                     }

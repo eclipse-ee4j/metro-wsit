@@ -113,7 +113,8 @@ public class SecurityPolicyAssertionCreator implements PolicyAssertionCreator{
         implementedAssertions.add(Constants.IssuerName);
         implementedAssertions.add(Constants.Claims);
 
-    };
+    }
+
     /** Creates a new instance of SecurityPolicyAssertionCreator */
 
     public SecurityPolicyAssertionCreator() {

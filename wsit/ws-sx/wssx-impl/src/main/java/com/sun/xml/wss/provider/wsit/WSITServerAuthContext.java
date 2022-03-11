@@ -41,7 +41,6 @@ import com.sun.xml.ws.security.secconv.WSSCFactory;
 import com.sun.xml.ws.security.secconv.WSSecureConversationException;
 import com.sun.xml.ws.security.trust.WSTrustConstants;
 import com.sun.xml.ws.security.trust.WSTrustElementFactory;
-import com.sun.xml.ws.security.trust.elements.BaseSTSRequest;
 import com.sun.xml.ws.security.trust.elements.BaseSTSResponse;
 import com.sun.xml.ws.security.trust.elements.RequestSecurityToken;
 import com.sun.xml.wss.NonceManager;
@@ -121,10 +120,7 @@ public class WSITServerAuthContext extends WSITAuthContextBase implements Server
         //this.subject = subject;
         //this.map = map;
         endPoint = new WeakReference(map.get("ENDPOINT"));
-        boolean isSC = false;
-        if (!this.getInBoundSCP(null).isEmpty()|| !this.getOutBoundSCP(null).isEmpty()){
-                isSC = true;
-        }
+        boolean isSC = !this.getInBoundSCP(null).isEmpty() || !this.getOutBoundSCP(null).isEmpty();
 
 
         //need to merge config assertions from all alternatives
@@ -368,14 +364,13 @@ public class WSITServerAuthContext extends WSITAuthContextBase implements Server
         }
 
         if (thereWasAFault) {
-            sharedState.put("THERE_WAS_A_FAULT", Boolean.valueOf(thereWasAFault));
+            sharedState.put("THERE_WAS_A_FAULT", thereWasAFault);
             if (this.isAddressingEnabled()) {
                 if (optimized) {
                     packet.setMessage(((JAXBFilterProcessingContext)ctx).getPVMessage());
                 }
-                Packet ret = packet.createServerResponse(
+                return packet.createServerResponse(
                         msg, this.addVer, this.soapVersion, this.addVer.getDefaultFaultAction());
-                return ret;
             } else {
                 packet.setMessage(msg);
                 return packet;
@@ -454,13 +449,13 @@ public class WSITServerAuthContext extends WSITAuthContextBase implements Server
 
     public Packet secureResponse(Packet retPacket, Subject serviceSubject, Map<String, Object> sharedState) {
 
-        boolean isSCIssueMessage = (sharedState.get("IS_SC_ISSUE") != null) ? true : false;
-        boolean isSCCancelMessage =(sharedState.get("IS_SC_CANCEL") != null) ? true : false;
-        boolean isTrustMessage =(sharedState.get("IS_TRUST_MESSAGE") != null) ? true: false;
+        boolean isSCIssueMessage = sharedState.get("IS_SC_ISSUE") != null;
+        boolean isSCCancelMessage = sharedState.get("IS_SC_CANCEL") != null;
+        boolean isTrustMessage = sharedState.get("IS_TRUST_MESSAGE") != null;
 
         Packet packet = (Packet)sharedState.get("VALIDATE_REQ_PACKET");
         Boolean thereWasAFaultSTR = (Boolean)sharedState.get("THERE_WAS_A_FAULT");
-        boolean thereWasAFault =  (thereWasAFaultSTR != null) ? thereWasAFaultSTR.booleanValue(): false;
+        boolean thereWasAFault = thereWasAFaultSTR != null && thereWasAFaultSTR;
 
         if (thereWasAFault) {
             return retPacket;
@@ -494,7 +489,7 @@ public class WSITServerAuthContext extends WSITAuthContextBase implements Server
                 }
             }
         } catch (WssSoapFaultException ex) {
-            sharedState.put("THERE_WAS_A_FAULT", Boolean.valueOf(true));
+            sharedState.put("THERE_WAS_A_FAULT", Boolean.TRUE);
             msg = Messages.create(getSOAPFault(ex));
         } catch(SOAPException se) {
             // internal error
@@ -668,12 +663,10 @@ public class WSITServerAuthContext extends WSITAuthContextBase implements Server
             }
             SecurityPolicyHolder sph = applicableAlternative.getOutMessagePolicyMap().get(cachedOp);
             if (fault == null) {
-                MessagePolicy faultPolicy1 = (sph != null)?(sph.getMessagePolicy()):new MessagePolicy();
-                return faultPolicy1;
+                return (sph != null)?(sph.getMessagePolicy()):new MessagePolicy();
             }
             SecurityPolicyHolder faultPolicyHolder = sph.getFaultPolicy(fault);
-            MessagePolicy faultPolicy = (faultPolicyHolder == null) ? new MessagePolicy() : faultPolicyHolder.getMessagePolicy();
-            return faultPolicy;
+            return (faultPolicyHolder == null) ? new MessagePolicy() : faultPolicyHolder.getMessagePolicy();
         }
         return null;
 
@@ -733,9 +726,9 @@ public class WSITServerAuthContext extends WSITAuthContextBase implements Server
 
             WSTrustElementFactory wsscEleFac = WSTrustElementFactory.newInstance(wsscVer);
             JAXBElement rstEle = msg.readPayloadAsJAXB(WSTrustElementFactory.getContext(wsTrustVer).createUnmarshaller());
-            BaseSTSRequest rst = wsscEleFac.createRSTFrom(rstEle);
+            RequestSecurityToken rst = wsscEleFac.createRSTFrom(rstEle);
 
-            URI requestType = ((RequestSecurityToken)rst).getRequestType();
+            URI requestType = rst.getRequestType();
             BaseSTSResponse rstr = null;
             WSSCContract scContract = WSSCFactory.newWSSCContract(wsscVer);
             scContract.setWSSCServerConfig((Iterator)packet.invocationProperties.get(

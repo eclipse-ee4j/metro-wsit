@@ -80,7 +80,7 @@ class ManagedHttpMetadataPublisher extends HttpMetadataPublisher implements Comp
      * @return True if the query string is init-cm. False otherwise.
      */
     private boolean isInitQuery(String query) {
-        return query != null && query.toLowerCase().equals("init-cm");
+        return query != null && query.equalsIgnoreCase("init-cm");
     }
 
     /**

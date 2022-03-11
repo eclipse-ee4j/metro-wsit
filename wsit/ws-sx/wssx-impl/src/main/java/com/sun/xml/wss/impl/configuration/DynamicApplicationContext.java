@@ -112,8 +112,6 @@ public class DynamicApplicationContext extends DynamicPolicyContext {
         boolean b2 =
             (messageIdentifier.equalsIgnoreCase (ctx.getMessageIdentifier()) &&
                 inBoundMessage == ctx.inBoundMessage);
-        if (!b2) return false;
-
-        return true;
+        return b2;
     }
 }

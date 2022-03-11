@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -70,7 +70,7 @@ public class XidImpl implements Xid, Serializable {
     @Override
     public boolean equals(Object obj) {
     if (obj == this) return true;
-    if (obj == null || !(obj instanceof Xid)) return false;
+    if (!(obj instanceof Xid)) return false;
     Xid thatXid = (Xid) obj;
         final boolean formatId = getFormatId() == thatXid.getFormatId();
         final boolean gtrid = Arrays.equals(getGlobalTransactionId(), thatXid.getGlobalTransactionId());

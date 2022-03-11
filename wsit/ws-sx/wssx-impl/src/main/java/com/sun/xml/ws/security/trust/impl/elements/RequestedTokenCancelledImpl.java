@@ -8,14 +8,6 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-/*
- * RequestedTokenCancelledImpl.java
- *
- * Created on February 12, 2006, 8:21 PM
- *
- *
- */
-
 package com.sun.xml.ws.security.trust.impl.elements;
 
 import com.sun.xml.ws.security.trust.impl.bindings.RequestedTokenCancelledType;

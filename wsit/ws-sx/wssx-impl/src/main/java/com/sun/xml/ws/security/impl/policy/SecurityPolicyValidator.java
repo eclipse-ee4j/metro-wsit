@@ -454,7 +454,7 @@ public class SecurityPolicyValidator implements PolicyAssertionValidator{
     public Fitness validateServerSide(PolicyAssertion policyAssertion) {
         String uri = policyAssertion.getName().getNamespaceURI();
 
-        if(uri.equals(Constants.SUN_WSS_SECURITY_CLIENT_POLICY_NS) || uri.equals(Constants.SUN_WSS_SECURITY_CLIENT_POLICY_NS)
+        if(uri.equals(Constants.SUN_WSS_SECURITY_CLIENT_POLICY_NS)
                 || uri.equals(Constants.SUN_SECURE_CLIENT_CONVERSATION_POLICY_NS) || uri.equals(Constants.SUN_TRUST_CLIENT_SECURITY_POLICY_NS)){
             return Fitness.UNSUPPORTED;
         }

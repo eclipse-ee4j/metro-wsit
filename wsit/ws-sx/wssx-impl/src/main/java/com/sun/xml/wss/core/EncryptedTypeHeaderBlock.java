@@ -333,15 +333,18 @@ public abstract class EncryptedTypeHeaderBlock extends SecurityHeaderBlockImpl {
 
                 if ((se == null) || !(se.getNodeType() == Node.ELEMENT_NODE)) break;
 
-                if (se.getLocalName().equals("EncryptionMethod"))
-                    encryptionMethod = (SOAPElement)se;
-                else
-                if (se.getLocalName().equals("CipherData"))
-                    cipherData = (SOAPElement)se;
-                else
-                if (se.getLocalName().equals("KeyInfo"))
-                    keyInfo = new KeyInfoHeaderBlock(
-                                   new org.apache.xml.security.keys.KeyInfo((Element)se, null));
+                switch (se.getLocalName()) {
+                    case "EncryptionMethod":
+                        encryptionMethod = (SOAPElement) se;
+                        break;
+                    case "CipherData":
+                        cipherData = (SOAPElement) se;
+                        break;
+                    case "KeyInfo":
+                        keyInfo = new KeyInfoHeaderBlock(
+                                new org.apache.xml.security.keys.KeyInfo((Element) se, null));
+                        break;
+                }
             }
 
         } catch (Exception e) {

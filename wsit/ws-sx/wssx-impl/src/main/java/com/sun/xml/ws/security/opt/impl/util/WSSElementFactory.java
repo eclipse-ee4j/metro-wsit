@@ -155,8 +155,7 @@ public class WSSElementFactory {
     }
 
     public SecurityTokenReference createSecurityTokenReference(){
-        SecurityTokenReference str = new SecurityTokenReference(soapVersion);
-        return str;
+        return new SecurityTokenReference(soapVersion);
     }
 
     /**
@@ -312,8 +311,7 @@ public class WSSElementFactory {
         }else if(soapVersion == SOAPVersion.SOAP_12){
             eht.setMustUnderstand12(true);
         }
-        EncryptedHeader eh =  new EncryptedHeader(eht, data, key, soapVersion);
-        return eh;
+        return new EncryptedHeader(eht, data, key, soapVersion);
     }
 
     public EncryptedKey createEncryptedKey(String id , String keyEncAlgo,KeyInfo keyInfo,Key dkEK, Key dataEncKey) throws XWSSecurityException{

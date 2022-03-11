@@ -58,12 +58,8 @@ public enum EjbTransactionType {
         }
 
         // No TransactionManagement annotation. Default is CONTAINER for EJB.
-        if (c.getAnnotation(Stateful.class) != null || c.getAnnotation(Stateless.class) != null) {
-            //TODO: Are there any other EJB annotations?
-            return true;
-        } else {
-            // servlet endpoint
-            return false;
-        }
+        //TODO: Are there any other EJB annotations?
+        // servlet endpoint
+        return c.getAnnotation(Stateful.class) != null || c.getAnnotation(Stateless.class) != null;
     }
 }

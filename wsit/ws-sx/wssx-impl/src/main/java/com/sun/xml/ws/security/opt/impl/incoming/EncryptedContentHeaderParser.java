@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -86,8 +86,7 @@ import javax.xml.stream.XMLStreamWriter;
 
             InputStream finalContent = new ByteArrayInputStream(tmpOut.toByteArray());
             XMLInputFactory xif = XMLInputFactory.newInstance();
-            XMLStreamReader reader = xif.createXMLStreamReader(finalContent);
-            return reader;
+            return xif.createXMLStreamReader(finalContent);
         }
 
         void writeStartElement(XMLStreamWriter xsw) throws XMLStreamException, XWSSecurityException{

@@ -57,9 +57,7 @@ public class Header extends PolicyAssertion implements com.sun.xml.ws.security.p
         if(object instanceof Header){
             Header header = (Header)object;
             if(header.getLocalName() != null && header.getLocalName().equals(getLocalName())){
-                if(header.getURI().equals(getURI())){
-                    return true;
-                }
+                return header.getURI().equals(getURI());
             }
         }
         return false;

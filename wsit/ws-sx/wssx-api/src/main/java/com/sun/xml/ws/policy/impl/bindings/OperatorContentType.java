@@ -27,8 +27,6 @@ import jakarta.xml.bind.annotation.XmlAnyElement;
 import jakarta.xml.bind.annotation.XmlElementRef;
 import jakarta.xml.bind.annotation.XmlElementRefs;
 import jakarta.xml.bind.annotation.XmlType;
-import com.sun.xml.ws.policy.impl.bindings.Policy;
-import com.sun.xml.ws.policy.impl.bindings.PolicyReference;
 
 
 /**

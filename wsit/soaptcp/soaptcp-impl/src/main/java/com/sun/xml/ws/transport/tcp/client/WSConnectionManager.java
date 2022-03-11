@@ -52,7 +52,6 @@ import jakarta.xml.ws.Holder;
 /**
  * @author Alexey Stashok
  */
-@SuppressWarnings({"unchecked"})
 public class WSConnectionManager implements ConnectionFinder<ConnectionSession>,
         SessionCloseListener<ConnectionSession> {
     private static final Logger logger = Logger.getLogger(

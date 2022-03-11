@@ -268,10 +268,7 @@ public class SecurityHeaderProcessor {
      * @return boolean
      */
     private boolean isTimeStamp(XMLStreamReader reader){
-        if(reader.getLocalName() == MessageConstants.TIMESTAMP_LNAME && reader.getNamespaceURI() == MessageConstants.WSU_NS){
-            return true;
-        }
-        return false;
+        return reader.getLocalName() == MessageConstants.TIMESTAMP_LNAME && reader.getNamespaceURI() == MessageConstants.WSU_NS;
     }
 
     /**
@@ -280,10 +277,7 @@ public class SecurityHeaderProcessor {
      * @return boolean
      */
     private boolean isBST(XMLStreamReader reader){
-        if(reader.getLocalName() == MessageConstants.WSSE_BINARY_SECURITY_TOKEN_LNAME && reader.getNamespaceURI() == MessageConstants.WSSE_NS){
-            return true;
-        }
-        return false;
+        return reader.getLocalName() == MessageConstants.WSSE_BINARY_SECURITY_TOKEN_LNAME && reader.getNamespaceURI() == MessageConstants.WSSE_NS;
     }
     /**
      * checks the given XMLStreamReader is of type Signature or not
@@ -291,10 +285,7 @@ public class SecurityHeaderProcessor {
      * @return boolean
      */
     private boolean isSignature(XMLStreamReader reader){
-        if(reader.getLocalName() == MessageConstants.SIGNATURE_LNAME && reader.getNamespaceURI() == MessageConstants.DSIG_NS){
-            return true;
-        }
-        return false;
+        return reader.getLocalName() == MessageConstants.SIGNATURE_LNAME && reader.getNamespaceURI() == MessageConstants.DSIG_NS;
     }
     /**
      * checks the given XMLStreamReader is of type EncryptedKey or not
@@ -302,10 +293,7 @@ public class SecurityHeaderProcessor {
      * @return boolean
      */
     private boolean isEncryptedKey(XMLStreamReader reader){
-        if(reader.getLocalName() == MessageConstants.ENCRYPTEDKEY_LNAME && reader.getNamespaceURI() == MessageConstants.XENC_NS){
-            return true;
-        }
-        return false;
+        return reader.getLocalName() == MessageConstants.ENCRYPTEDKEY_LNAME && reader.getNamespaceURI() == MessageConstants.XENC_NS;
     }
     /**
      * checks the given XMLStreamReader is of type EncryptedData or not
@@ -313,10 +301,7 @@ public class SecurityHeaderProcessor {
      * @return boolean
      */
     private boolean isEncryptedData(XMLStreamReader reader){
-        if(reader.getLocalName() == MessageConstants.ENCRYPTED_DATA_LNAME && reader.getNamespaceURI() == MessageConstants.XENC_NS){
-            return true;
-        }
-        return false;
+        return reader.getLocalName() == MessageConstants.ENCRYPTED_DATA_LNAME && reader.getNamespaceURI() == MessageConstants.XENC_NS;
     }
     /**
      * checks the given XMLStreamReader is of type UsernameToken or not
@@ -324,10 +309,7 @@ public class SecurityHeaderProcessor {
      * @return boolean
      */
     private boolean isUsernameToken(XMLStreamReader reader){
-        if(reader.getLocalName() == MessageConstants.USERNAME_TOKEN_LNAME && reader.getNamespaceURI() == MessageConstants.WSSE_NS){
-            return true;
-        }
-        return false;
+        return reader.getLocalName() == MessageConstants.USERNAME_TOKEN_LNAME && reader.getNamespaceURI() == MessageConstants.WSSE_NS;
     }
     /**
      * checks the given XMLStreamReader is of type DerivedKey or not
@@ -335,10 +317,7 @@ public class SecurityHeaderProcessor {
      * @return boolean
      */
     private boolean isDerivedKey(XMLStreamReader reader){
-        if(reader.getLocalName() == MessageConstants.DERIVEDKEY_TOKEN_LNAME && reader.getNamespaceURI() == MessageConstants.WSSC_NS){
-            return true;
-        }
-        return false;
+        return reader.getLocalName() == MessageConstants.DERIVEDKEY_TOKEN_LNAME && reader.getNamespaceURI() == MessageConstants.WSSC_NS;
     }
     /**
      * checks the given XMLStreamReader is of type SignatureConfirmation or not
@@ -346,19 +325,13 @@ public class SecurityHeaderProcessor {
      * @return boolean
      */
     private boolean isSignatureConfirmation(XMLStreamReader reader){
-        if(reader.getLocalName() == MessageConstants.SIGNATURE_CONFIRMATION_LNAME && reader.getNamespaceURI() == MessageConstants.WSSE11_NS){
-            return true;
-        }
-        return false;
+        return reader.getLocalName() == MessageConstants.SIGNATURE_CONFIRMATION_LNAME && reader.getNamespaceURI() == MessageConstants.WSSE11_NS;
     }
     /**
      * checks the given XMLStreamReader is of type SecurityContextToken or not
      */
     private boolean isSCT(XMLStreamReader reader){
-        if(reader.getLocalName() == MessageConstants.SECURITY_CONTEXT_TOKEN_LNAME && reader.getNamespaceURI() == MessageConstants.WSSC_NS){
-            return true;
-        }
-        return false;
+        return reader.getLocalName() == MessageConstants.SECURITY_CONTEXT_TOKEN_LNAME && reader.getNamespaceURI() == MessageConstants.WSSC_NS;
     }
     /**
      * checks the given XMLStreamReader is of type SAML or not
@@ -368,9 +341,7 @@ public class SecurityHeaderProcessor {
     private boolean isSAML(XMLStreamReader message){
         if(message.getLocalName() == MessageConstants.SAML_ASSERTION_LNAME ){
             String uri = message.getNamespaceURI();
-            if( uri == MessageConstants.SAML_v2_0_NS || uri ==MessageConstants.SAML_v1_0_NS || uri == MessageConstants.SAML_v1_1_NS ){
-                return true;
-            }
+            return uri == MessageConstants.SAML_v2_0_NS || uri == MessageConstants.SAML_v1_0_NS || uri == MessageConstants.SAML_v1_1_NS;
         }
         return false;
     }

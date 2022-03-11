@@ -306,7 +306,7 @@ public class SecurityHeader {
     private void laxTimestampLast(){
         strict();
         SecurityHeaderElement timestamp = this.secHeaderContent.get(0);
-        if(timestamp != null && (timestamp instanceof Timestamp )){
+        if((timestamp instanceof Timestamp)){
             this.secHeaderContent.remove(0);
             this.secHeaderContent.add(timestamp);
         }
@@ -439,10 +439,7 @@ public class SecurityHeader {
     }
 
     private boolean refersToEncryptedElement(SecurityHeaderElement securityElementOne,SecurityHeaderElement securityElementTwo){
-        if(securityElementOne.refersToSecHdrWithId(((JAXBEncryptedData)securityElementTwo).getEncryptedId())){
-            return true;
-        }
-        return false;
+        return securityElementOne.refersToSecHdrWithId(((JAXBEncryptedData) securityElementTwo).getEncryptedId());
     }
     private void movePrevHeader(SecurityHeaderElement toBeMoved, int index){
         int prevIndex = secHeaderContent.indexOf(toBeMoved);
@@ -472,10 +469,7 @@ public class SecurityHeader {
             return true;
         }
         if(localPart == MessageConstants.ENCRYPTEDKEY_LNAME){
-            if (((JAXBEncryptedKey)she).hasReferenceList()) {
-            return false;
-            }
-            return true;
+            return !((JAXBEncryptedKey) she).hasReferenceList();
         }
         if(localPart == MessageConstants.DERIVEDKEY_TOKEN_LNAME ){
             return true;
@@ -490,9 +484,6 @@ public class SecurityHeader {
         if(localPart.equals( MessageConstants.SAML_ASSERTION_LNAME)){
             return true;
         }
-        if(localPart == MessageConstants.USERNAME_TOKEN_LNAME){
-            return true;
-        }
-        return false;
+        return localPart == MessageConstants.USERNAME_TOKEN_LNAME;
     }
 }

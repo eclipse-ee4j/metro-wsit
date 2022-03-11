@@ -209,7 +209,7 @@ public class StAXC14nCanonicalizerImpl extends BaseCanonicalizer implements XMLS
 
         try {
             _stream .write('<');
-            if((prefix != null && prefix.length() == 0) || prefix == null){
+            if(prefix == null || prefix.length() == 0){
                 writeStringToUtf8(localName,_stream);
             }else{
                 writeStringToUtf8(prefix,_stream);
@@ -220,7 +220,7 @@ public class StAXC14nCanonicalizerImpl extends BaseCanonicalizer implements XMLS
 
             _stream .write('>');
             _stream .write(_END_TAG);
-            if((prefix != null && prefix.length() == 0) || prefix == null){
+            if(prefix == null || prefix.length() == 0){
                 writeStringToUtf8(localName,_stream);
             }else{
                 writeStringToUtf8(prefix,_stream);
@@ -276,10 +276,7 @@ public class StAXC14nCanonicalizerImpl extends BaseCanonicalizer implements XMLS
     @SuppressWarnings("unchecked")
     public void writeNamespace(String prefix, String namespaceURI) {
         String duri = nsContext.getURI(prefix);
-        boolean add= false;
-        if(duri == null || !duri.equals(namespaceURI)){
-            add= true;
-        }
+        boolean add= duri == null || !duri.equals(namespaceURI);
         if(add && !_ncContextState[_depth-1]){
             nsContext.pushContext();
             _ncContextState[_depth-1]=true;

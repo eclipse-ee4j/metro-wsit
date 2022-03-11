@@ -50,7 +50,6 @@ import com.sun.xml.ws.security.trust.elements.RequestedAttachedReference;
 import com.sun.xml.ws.security.trust.elements.RequestedUnattachedReference;
 import com.sun.xml.ws.security.trust.elements.RequestSecurityToken;
 import com.sun.xml.ws.security.trust.elements.RequestSecurityTokenResponse;
-import com.sun.xml.ws.security.trust.elements.RequestSecurityTokenResponseCollection;
 import com.sun.xml.ws.security.trust.elements.RequestedSecurityToken;
 import com.sun.xml.ws.security.trust.elements.SecondaryParameters;
 import com.sun.xml.ws.security.trust.elements.UseKey;
@@ -413,9 +412,8 @@ public abstract class IssueSamlTokenContract implements com.sun.xml.ws.api.secur
         if (wstVer.getNamespaceURI().equals(WSTrustVersion.WS_TRUST_13.getNamespaceURI())){
             List<RequestSecurityTokenResponse> list = new ArrayList<>();
             list.add(rstr);
-            RequestSecurityTokenResponseCollection rstrc = eleFac.createRSTRC(list);
 
-            return rstrc;
+            return eleFac.createRSTRC(list);
         }
         return rstr;
     }

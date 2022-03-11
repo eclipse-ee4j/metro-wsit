@@ -36,7 +36,6 @@ import com.sun.xml.ws.security.trust.elements.Lifetime;
 import com.sun.xml.ws.security.trust.elements.OnBehalfOf;
 import com.sun.xml.ws.security.trust.elements.RequestSecurityToken;
 import com.sun.xml.ws.security.trust.elements.RequestSecurityTokenResponse;
-import com.sun.xml.ws.security.trust.elements.RequestSecurityTokenResponseCollection;
 import com.sun.xml.ws.security.trust.elements.RequestedAttachedReference;
 import com.sun.xml.ws.security.trust.elements.RequestedProofToken;
 import com.sun.xml.ws.security.trust.elements.RequestedSecurityToken;
@@ -505,9 +504,8 @@ public class WSTrustContractImpl implements WSTrustContract<BaseSTSRequest, Base
         if (wstVer.getNamespaceURI().equals(WSTrustVersion.WS_TRUST_13.getNamespaceURI())){
             List<RequestSecurityTokenResponse> list = new ArrayList<>();
             list.add(rstr);
-            RequestSecurityTokenResponseCollection rstrc = eleFac.createRSTRC(list);
 
-            return rstrc;
+            return eleFac.createRSTRC(list);
         }
 
         return rstr;
@@ -579,9 +577,8 @@ public class WSTrustContractImpl implements WSTrustContract<BaseSTSRequest, Base
         if (wstVer.getNamespaceURI().equals(WSTrustVersion.WS_TRUST_13.getNamespaceURI())){
             List<RequestSecurityTokenResponse> list = new ArrayList<>();
             list.add(rstr);
-            RequestSecurityTokenResponseCollection rstrc = eleFac.createRSTRC(list);
 
-            return rstrc;
+            return eleFac.createRSTRC(list);
         }
 
         return rstr;

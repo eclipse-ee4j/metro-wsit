@@ -208,8 +208,7 @@ public class SCTokenProviderImpl implements IssuedTokenProvider {
     }
 
     private SecurityContextTokenInfo getSecurityContextTokenInfo(String key){
-        SecurityContextTokenInfo ctx = securityContextTokenMap.get(key);
-        return ctx;
+        return securityContextTokenMap.get(key);
     }
 
     private void appendEndorsingSCTRenewPolicy(final MessagePolicy policy) throws PolicyGenerationException{

@@ -203,7 +203,7 @@ public class SignatureElementFactory {
             logger.log(Level.SEVERE, LogStringsMessages.WSS_1703_UNSUPPORTED_KEYBINDING_SIGNATUREPOLICY(keyBinding));
             throw new XWSSecurityException("Unsupported KeyBinding for SignaturePolicy");
         }
-        C14NMethodParameterSpec spec = null;
+        ExcC14NParameterSpec spec = null;
         if (MessageConstants.TRANSFORM_C14N_EXCL_OMIT_COMMENTS.equalsIgnoreCase(canonicalAlgo)) {
             if(!fpContext.getDisableIncPrefix()){
                 List inc = new ArrayList();
@@ -215,16 +215,15 @@ public class SignatureElementFactory {
         CanonicalizationMethod canonicalMethod =
                 signatureFactory.newCanonicalizationMethod(canonicalAlgo,spec);
         if(!fpContext.getDisableIncPrefix()){
-            List contentList = setInclusiveNamespaces((ExcC14NParameterSpec)spec);
+            List contentList = setInclusiveNamespaces(spec);
             ((com.sun.xml.ws.security.opt.crypto.dsig.CanonicalizationMethod)canonicalMethod).setContent(contentList);
         }
 
         SignatureMethod signatureMethod = signatureFactory.newSignatureMethod(keyAlgo, null);
         //Note : Signature algorithm parameters null for now , fix me.
-        SignedInfo signedInfo = signatureFactory.newSignedInfo(canonicalMethod,signatureMethod,
-                generateReferenceList(cloneList, signatureFactory, fpContext, false), null);
         //Note : Id is now null
-        return signedInfo;
+        return signatureFactory.newSignedInfo(canonicalMethod,signatureMethod,
+                generateReferenceList(cloneList, signatureFactory, fpContext, false), null);
     }
 
     /**
@@ -363,11 +362,8 @@ public class SignatureElementFactory {
                 List<SignedMessagePart> targets = new ArrayList<>();
 
                 String targetValue = signatureTarget.getValue();
-                boolean optimized = false;
-                if(fpContext.getConfigType() == MessageConstants.SIGN_BODY ||
-                        fpContext.getConfigType() == MessageConstants.SIGN_ENCRYPT_BODY){
-                    optimized = true;
-                }
+                boolean optimized = fpContext.getConfigType() == MessageConstants.SIGN_BODY ||
+                        fpContext.getConfigType() == MessageConstants.SIGN_ENCRYPT_BODY;
 
                 if(targetValue.equals(SignatureTarget.BODY )){
                     Object body = secMessage.getBody();

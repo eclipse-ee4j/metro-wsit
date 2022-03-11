@@ -121,8 +121,7 @@ class SourceMessageHandler implements MessageHandler {
             ackDataBuilder.ackReqestedSequenceId(outboundSequenceId);
             outboundSequence.updateLastAcknowledgementRequestTime();
         }
-        final AcknowledgementData acknowledgementData = ackDataBuilder.build();
-        return acknowledgementData;
+        return ackDataBuilder.build();
     }
 
     @Override

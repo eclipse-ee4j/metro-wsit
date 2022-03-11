@@ -119,26 +119,30 @@ public class DecryptionProcessor {
         }*/
 
         SecretKey key =null;
-        if(MessageConstants.ENCRYPTED_DATA_LNAME.equals(localName)){
-            processEncryptedData(headerElement,key,context);
-        }else if(MessageConstants.XENC_ENCRYPTED_KEY_LNAME.equals(localName)){
-            if (context.getMode() == FilterProcessingContext.WSDL_POLICY) {
-                inferredPolicy = new EncryptionPolicy();
-                context.getInferredSecurityPolicy().append(inferredPolicy);
-            }
-            processEncryptedKey(context,headerElement);
-        }else if(MessageConstants.XENC_REFERENCE_LIST_LNAME.equals(localName)){
-            if (context.getMode() == FilterProcessingContext.WSDL_POLICY) {
-                inferredPolicy = new EncryptionPolicy();
-                context.getInferredSecurityPolicy().append(inferredPolicy);
-            }
-            decryptReferenceList(headerElement,key,null,context);
-        }else{
-            context.setPVE(new PolicyViolationException(
-                    "Expected one of EncryptedKey,EncryptedData,ReferenceList as per receiver"+
-                    "requirements, found "+localName));
-            context.isPrimaryPolicyViolation(true);
-            return;
+        switch (localName) {
+            case MessageConstants.ENCRYPTED_DATA_LNAME:
+                processEncryptedData(headerElement, key, context);
+                break;
+            case MessageConstants.XENC_ENCRYPTED_KEY_LNAME:
+                if (context.getMode() == FilterProcessingContext.WSDL_POLICY) {
+                    inferredPolicy = new EncryptionPolicy();
+                    context.getInferredSecurityPolicy().append(inferredPolicy);
+                }
+                processEncryptedKey(context, headerElement);
+                break;
+            case MessageConstants.XENC_REFERENCE_LIST_LNAME:
+                if (context.getMode() == FilterProcessingContext.WSDL_POLICY) {
+                    inferredPolicy = new EncryptionPolicy();
+                    context.getInferredSecurityPolicy().append(inferredPolicy);
+                }
+                decryptReferenceList(headerElement, key, null, context);
+                break;
+            default:
+                context.setPVE(new PolicyViolationException(
+                        "Expected one of EncryptedKey,EncryptedData,ReferenceList as per receiver" +
+                                "requirements, found " + localName));
+                context.isPrimaryPolicyViolation(true);
+                return;
         }
 
         if(context.getMode() == FilterProcessingContext.ADHOC){
@@ -443,7 +447,6 @@ public class DecryptionProcessor {
         }
     }
 
-    @SuppressWarnings("unchecked")
     public static EncryptedData processEncryptedData(SOAPElement encDataElement,SecretKey key,
             XMLCipher dataCipher,FilterProcessingContext context,ArrayList requiredTargets,
             ArrayList optionalTargets,EncryptionPolicy encryptionPolicy,boolean updateSH) throws XWSSecurityException {
@@ -606,8 +609,7 @@ public class DecryptionProcessor {
             if(isAttachment){
                 return new AttachmentData(encryptedAttachment.getContentId(),contentOnly);
             }
-            EncryptedElement encryptedElement =  new EncryptedElement(actualEncrypted, contentOnly);
-            return encryptedElement;
+            return new EncryptedElement(actualEncrypted, contentOnly);
         } else if(context.getMode() == FilterProcessingContext.WSDL_POLICY){
             QName qname = new QName(actualEncrypted.getNamespaceURI(), actualEncrypted.getLocalName());
             EncryptionPolicy.FeatureBinding featureBinding =
@@ -969,11 +971,8 @@ public class DecryptionProcessor {
         }
 
         public boolean equals(AttachmentData data){
-            if(cid != null && cid.equals(data.getCID()) &&
-                    (contentOnly == data.isContentOnly())){
-                return true;
-            }
-            return false;
+            return cid != null && cid.equals(data.getCID()) &&
+                    (contentOnly == data.isContentOnly());
         }
 
         @Override
@@ -1006,9 +1005,8 @@ public class DecryptionProcessor {
         }
 
         public boolean equals(EncryptedElement element) {
-            EncryptedElement encryptedElement = element;
-            return (encryptedElement.getElement() == this.element &&
-                    encryptedElement.getContentOnly() == this.contentOnly);
+            return (element.getElement() == this.element &&
+                    element.getContentOnly() == this.contentOnly);
             //&& this.policy.equals(encryptedElement.getPolicy()));
 
         }

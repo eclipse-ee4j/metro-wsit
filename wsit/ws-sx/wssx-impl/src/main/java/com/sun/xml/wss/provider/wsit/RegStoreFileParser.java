@@ -355,7 +355,7 @@ public final class RegStoreFileParser {
         Map<String, String> properties = new HashMap<>();
         while (line != null && !line.equals("}")) {
             properties.put(line.substring(0, line.indexOf(SEP)),
-                line.substring(line.indexOf(SEP) + 1, line.length()));
+                line.substring(line.indexOf(SEP) + 1));
             line = reader.readLine().trim();
         }
         return properties;
@@ -390,8 +390,8 @@ public final class RegStoreFileParser {
         String nextLine = reader.readLine();
         String line = (nextLine != null)? nextLine.trim():null;
         while (line != null && !line.equals("}")) {
-            String value = line.substring(line.indexOf(SEP) + 1,
-                line.length());
+            String value = line.substring(line.indexOf(SEP) + 1
+            );
             if (line.startsWith(LAYER)) {
                 layer = value;
             } else if (line.startsWith(APP_CTX)) {

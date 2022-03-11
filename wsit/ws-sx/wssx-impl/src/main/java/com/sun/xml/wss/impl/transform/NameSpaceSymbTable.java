@@ -324,4 +324,4 @@ class NameSpaceSymbEntry implements Cloneable {
     boolean rendered=false;
     /**The attribute to include.*/
     Attr n;
-};
+}

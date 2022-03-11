@@ -53,12 +53,13 @@ public class WSTCPError {
     }
 
     public String toString() {
-        String sb = "Code: " +
-                code +
-                " SubCode: " +
-                subCode +
-                " Description: " +
-                description;
-        return sb;
+        StringBuilder sb = new StringBuilder();
+        sb = sb.append("Code: ")
+                .append(code)
+                .append(" SubCode: ")
+                .append(subCode)
+                .append(" Description: ")
+                .append(description);
+        return sb.toString();
     }
 }

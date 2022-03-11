@@ -128,11 +128,7 @@ public class SecurityPolicyHolder {
         if(configAssertions == null){
             configAssertions = new HashMap<>();
         }
-        Set<PolicyAssertion> assertions = configAssertions.get(assertion.getName().getNamespaceURI());
-        if(assertions == null){
-            assertions = new HashSet<>();
-            configAssertions.put(assertion.getName().getNamespaceURI(),assertions);
-        }
+        Set<PolicyAssertion> assertions = configAssertions.computeIfAbsent(assertion.getName().getNamespaceURI(), k -> new HashSet<>());
         assertions.add(assertion);
     }
 

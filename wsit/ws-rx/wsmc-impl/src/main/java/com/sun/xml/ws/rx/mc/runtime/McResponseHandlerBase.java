@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -66,7 +66,6 @@ abstract class McResponseHandlerBase extends AbstractResponseHandler implements 
         }
 
         try {
-            @SuppressWarnings("unchecked")
             T result = header.readAsJAXB(configuration.getRuntimeVersion().getUnmarshaller(configuration.getAddressingVersion()));
             return result;
         } catch (JAXBException ex) {

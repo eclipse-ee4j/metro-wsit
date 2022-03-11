@@ -90,9 +90,9 @@ public class WSATHelper<T> {
     private Map<Xid, WSATSynchronization> m_volatileParticipantSynchronizationMap = new HashMap<>();
     private final Object m_volatileParticipantSynchronizationMapLock = new Object();
     private final int m_waitForReplyTimeout =
-            new Integer(System.getProperty("com.sun.xml.ws.tx.at.reply.timeout", "120"));
+            Integer.getInteger("com.sun.xml.ws.tx.at.reply.timeout", 120);
     private final boolean m_isUseLocalServerAddress =
-            Boolean.valueOf(System.getProperty("com.sun.xml.ws.tx.at.use.local.server.address", "false"));
+            Boolean.getBoolean("com.sun.xml.ws.tx.at.use.local.server.address");
     protected WSATVersion<T> builderFactory;
     private Map<Xid, Transaction> m_xidToTransactionMap = new HashMap<>();
 
@@ -474,8 +474,7 @@ public class WSATHelper<T> {
         if (!headers.hasNext()) {
             throw new WebServiceException("txid does not exist in header");
         }
-        String txId = headers.next().getStringContent();
-        return txId;
+        return headers.next().getStringContent();
     }
 
     /**
@@ -535,8 +534,7 @@ public class WSATHelper<T> {
      * @return Transaction associated with Xid
      */
     public Transaction getFromXidToTransactionMap(Xid xid) {
-        Transaction transaction = m_xidToTransactionMap.get(xid);
-        return transaction;
+        return m_xidToTransactionMap.get(xid);
     }
 
     public void removeFromXidToTransactionMap(Xid xid) {

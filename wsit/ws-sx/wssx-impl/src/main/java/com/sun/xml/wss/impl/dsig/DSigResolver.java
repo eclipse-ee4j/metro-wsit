@@ -77,7 +77,7 @@ public class DSigResolver implements URIDereferencer{
     private String optNSClassName = "org.apache.jcp.xml.dsig.internal.dom.DOMSubTreeData";
     private Class _nodeSetClass = null;
     private Constructor _constructor = null;
-    private Boolean  _false = Boolean.valueOf(false);
+    private Boolean  _false = Boolean.FALSE;
 
     /** Creates a new instance of DSigResolver */
     @SuppressWarnings("unchecked")

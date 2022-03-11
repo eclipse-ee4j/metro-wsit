@@ -58,8 +58,7 @@ public class EncryptedKeyToken extends SecurityHeaderBlockImpl implements Securi
             if (xmlc == null){
                 throw new XWSSecurityException("XMLCipher is null while getting SecretKey from EncryptedKey");
             }
-            SecretKey symmetricKey = (SecretKey) xmlc.decryptKey(encryptedKey, dataEncAlgo);
-            return symmetricKey;
+            return (SecretKey) xmlc.decryptKey(encryptedKey, dataEncAlgo);
         } catch (Exception ex) {
             ex.printStackTrace();
             throw new XWSSecurityException("Error while getting SecretKey from EncryptedKey");

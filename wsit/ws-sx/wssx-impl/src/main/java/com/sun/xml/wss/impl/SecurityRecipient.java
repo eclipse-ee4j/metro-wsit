@@ -587,11 +587,8 @@ public class SecurityRecipient {
                 }
             }
         }
-        if(inferredNodeSet.size() != 0){
-            //throw XWSSecurityException
-            return false;
-        }
-        return true;
+        //throw XWSSecurityException
+        return inferredNodeSet.size() == 0;
     }
 
     static boolean verifyEncryptionTargets(WSSPolicy inferred, WSSPolicy configured,  SecurableSoapMessage message) {
@@ -631,11 +628,8 @@ public class SecurityRecipient {
             }
         }
 
-        if(inferredNodeSet.size() != 0){
-            //throw XWSSecurityException
-            return false;
-        }
-        return true;
+        //throw XWSSecurityException
+        return inferredNodeSet.size() == 0;
     }
 
     /*
@@ -839,10 +833,7 @@ public class SecurityRecipient {
                             fpContext.setSecurityPolicy(wssPolicy);
                             HarnessUtil.processDeep(fpContext);
 
-                            boolean keepCurrent = false;
-                            if(MessageConstants.ENCRYPTED_DATA_LNAME.equals(current.getLocalName())){
-                                keepCurrent = true;
-                            }
+                            boolean keepCurrent = MessageConstants.ENCRYPTED_DATA_LNAME.equals(current.getLocalName());
 
                             if (fpContext.isPrimaryPolicyViolation()) {
                                 log.log(Level.SEVERE, LogStringsMessages.WSS_0265_ERROR_PRIMARY_POLICY());
@@ -896,10 +887,7 @@ public class SecurityRecipient {
                             fpContext.setSecurityPolicy(wssPolicy);
                             HarnessUtil.processDeep(fpContext);
 
-                            boolean keepCurrent = false;
-                            if(MessageConstants.ENCRYPTED_DATA_LNAME.equals(current.getLocalName())){
-                                keepCurrent = true;
-                            }
+                            boolean keepCurrent = MessageConstants.ENCRYPTED_DATA_LNAME.equals(current.getLocalName());
 
                             if (fpContext.isPrimaryPolicyViolation()) {
                                 log.log(Level.SEVERE, LogStringsMessages.WSS_0265_ERROR_PRIMARY_POLICY());
@@ -1303,11 +1291,8 @@ public class SecurityRecipient {
         }
 
         public boolean equals(AttachmentData data){
-            if(cid != null && cid.equals(data.getCID()) &&
-                    (contentOnly == data.isContentOnly())){
-                return true;
-            }
-            return false;
+            return cid != null && cid.equals(data.getCID()) &&
+                    (contentOnly == data.isContentOnly());
         }
 
         @Override
@@ -1340,9 +1325,8 @@ public class SecurityRecipient {
         }
 
         public boolean equals(EncryptedElement element) {
-            EncryptedElement encryptedElement = element;
-            return (encryptedElement.getElement()== this.element &&
-                    encryptedElement.getContentOnly() == this.contentOnly);
+            return (element.getElement()== this.element &&
+                    element.getContentOnly() == this.contentOnly);
             //&& this.policy.equals(encryptedElement.getPolicy()));
 
         }

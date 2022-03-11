@@ -8,10 +8,6 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-/*
- * $Id: AuthorizationDecisionStatement.java,v 1.2 2010-10-21 15:38:00 snajper Exp $
- */
-
 package com.sun.xml.wss.saml.assertion.saml11.jaxb20;
 
 import com.sun.xml.wss.saml.Action;
@@ -128,8 +124,7 @@ public class AuthorizationDecisionStatement extends AuthorizationDecisionStateme
 
     @Override
     public Evidence getEvidence(){
-        Evidence eve = new Evidence(super.getEvidence());
-        return eve;
+        return new Evidence(super.getEvidence());
     }
 
     @Override

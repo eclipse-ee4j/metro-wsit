@@ -26,7 +26,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
-
 public class WSATXAResource implements WSATConstants, XAResource, Serializable {
 
     private static final Logger LOGGER = Logger.getLogger(WSATXAResource.class);
@@ -103,13 +102,15 @@ public class WSATXAResource implements WSATConstants, XAResource, Serializable {
         try {
             synchronized (this) {
                 // we received a reply already
-                if (m_status.equals(READONLY)) {
-                    return XAResource.XA_RDONLY;
-                } else if (m_status.equals(PREPARED)) {
-                    if (WSATHelper.isDebugEnabled()) LOGGER.info(LocalizationMessages.WSAT_4540_PREPARED_BEFORE_WAIT(m_epr.toString(), m_xid));
-                    return XAResource.XA_OK;
-                } else if (m_status.equals(ABORTED)) {
-                    throw newFailedStateXAExceptionForMethodNameAndErrorcode("prepare", XAException.XA_RBROLLBACK);
+                switch (m_status) {
+                    case READONLY:
+                        return XAResource.XA_RDONLY;
+                    case PREPARED:
+                        if (WSATHelper.isDebugEnabled())
+                            LOGGER.info(LocalizationMessages.WSAT_4540_PREPARED_BEFORE_WAIT(m_epr.toString(), m_xid));
+                        return XAResource.XA_OK;
+                    case ABORTED:
+                        throw newFailedStateXAExceptionForMethodNameAndErrorcode("prepare", XAException.XA_RBROLLBACK);
                 }
                 if (WSATHelper.isDebugEnabled()) LOGGER.info(LocalizationMessages.WSAT_4541_PREPARE_WAITING_FOR_REPLY(
                     m_epr.toString(), m_xid));
@@ -119,14 +120,15 @@ public class WSATXAResource implements WSATConstants, XAResource, Serializable {
             }
             if (WSATHelper.isDebugEnabled()) LOGGER.info(LocalizationMessages.WSAT_4543_PREPARE_RECEIVED_REPLY_STATUS(
                 m_status, m_epr.toString(), m_xid));
-            if (m_status.equals(READONLY)) {
-                logSuccess("preparereadonly");
-                return XAResource.XA_RDONLY;
-            } else if (m_status.equals(PREPARED)) {
-                logSuccess("prepareprepared");
-                return XAResource.XA_OK;
-            } else if (m_status.equals(ABORTED)) {
-                throw newFailedStateXAExceptionForMethodNameAndErrorcode("prepare", XAException.XA_RBROLLBACK);
+            switch (m_status) {
+                case READONLY:
+                    logSuccess("preparereadonly");
+                    return XAResource.XA_RDONLY;
+                case PREPARED:
+                    logSuccess("prepareprepared");
+                    return XAResource.XA_OK;
+                case ABORTED:
+                    throw newFailedStateXAExceptionForMethodNameAndErrorcode("prepare", XAException.XA_RBROLLBACK);
             }
             LOGGER.severe(LocalizationMessages.WSAT_4544_FAILED_STATE_FOR_PREPARE(m_status, m_epr.toString(), m_xid));
             throw newFailedStateXAExceptionForMethodNameAndErrorcode("prepare", XAException.XAER_RMFAIL);

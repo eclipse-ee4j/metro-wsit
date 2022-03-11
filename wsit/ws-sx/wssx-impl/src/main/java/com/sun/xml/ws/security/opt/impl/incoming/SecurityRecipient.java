@@ -1013,7 +1013,6 @@ public final class SecurityRecipient {
     }
 
     // replace uri target types with qname target types
-    @SuppressWarnings("unchecked")
     private void modifyTargets(ArrayList targets) {
         for (int i = 0; i < targets.size(); i++) {
             Target target = (Target) targets.get(i);
@@ -1157,16 +1156,12 @@ public final class SecurityRecipient {
         return true;
     }
 
-    @SuppressWarnings("unchecked")
     private boolean isPrimary(SecurityHeaderElement she) {
         if (MessageConstants.SIGNATURE_LNAME.equals(she.getLocalPart())) {
             return true;
         } else if (MessageConstants.ENCRYPTEDKEY_LNAME.equals(she.getLocalPart())) {
             return true;
-        } else if (MessageConstants.XENC_REFERENCE_LIST_LNAME.equals(she.getLocalPart())) {
-            return true;
-        }
-        return false;
+        } else return MessageConstants.XENC_REFERENCE_LIST_LNAME.equals(she.getLocalPart());
     }
 
     @SuppressWarnings("unchecked")
@@ -1345,97 +1340,59 @@ public final class SecurityRecipient {
     }
 
     private boolean isTimeStamp() {
-        if (MessageConstants.TIMESTAMP_LNAME.equals(message.getLocalName()) && MessageConstants.WSU_NS.equals(message.getNamespaceURI())) {
-            return true;
-        }
-        return false;
+        return MessageConstants.TIMESTAMP_LNAME.equals(message.getLocalName()) && MessageConstants.WSU_NS.equals(message.getNamespaceURI());
     }
 
     private boolean isBST() {
-        if (MessageConstants.WSSE_BINARY_SECURITY_TOKEN_LNAME.equals(message.getLocalName()) && MessageConstants.WSSE_NS.equals(message.getNamespaceURI())) {
-            return true;
-        }
-        return false;
+        return MessageConstants.WSSE_BINARY_SECURITY_TOKEN_LNAME.equals(message.getLocalName()) && MessageConstants.WSSE_NS.equals(message.getNamespaceURI());
     }
 
     private boolean isUsernameToken() {
-        if (MessageConstants.USERNAME_TOKEN_LNAME.equals(message.getLocalName()) && MessageConstants.WSSE_NS.equals(message.getNamespaceURI())) {
-            return true;
-        }
-        return false;
+        return MessageConstants.USERNAME_TOKEN_LNAME.equals(message.getLocalName()) && MessageConstants.WSSE_NS.equals(message.getNamespaceURI());
     }
 
     private boolean isSignature() {
-        if (MessageConstants.SIGNATURE_LNAME.equals(message.getLocalName()) && MessageConstants.DSIG_NS.equals(message.getNamespaceURI())) {
-            return true;
-        }
-        return false;
+        return MessageConstants.SIGNATURE_LNAME.equals(message.getLocalName()) && MessageConstants.DSIG_NS.equals(message.getNamespaceURI());
     }
 
     private boolean isEncryptedKey() {
-        if (MessageConstants.ENCRYPTEDKEY_LNAME.equals(message.getLocalName()) && MessageConstants.XENC_NS.equals(message.getNamespaceURI())) {
-            return true;
-        }
-        return false;
+        return MessageConstants.ENCRYPTEDKEY_LNAME.equals(message.getLocalName()) && MessageConstants.XENC_NS.equals(message.getNamespaceURI());
     }
 
     private boolean isReferenceList() {
-        if (MessageConstants.XENC_REFERENCE_LIST_LNAME.equals(message.getLocalName()) && MessageConstants.XENC_NS.equals(message.getNamespaceURI())) {
-            return true;
-        }
-        return false;
+        return MessageConstants.XENC_REFERENCE_LIST_LNAME.equals(message.getLocalName()) && MessageConstants.XENC_NS.equals(message.getNamespaceURI());
     }
 
     private boolean isEncryptedData() {
-        if (MessageConstants.ENCRYPTED_DATA_LNAME.equals(message.getLocalName()) && MessageConstants.XENC_NS.equals(message.getNamespaceURI())) {
-            return true;
-        }
-        return false;
+        return MessageConstants.ENCRYPTED_DATA_LNAME.equals(message.getLocalName()) && MessageConstants.XENC_NS.equals(message.getNamespaceURI());
     }
 
     private boolean isDerivedKey() {
-        if (MessageConstants.DERIVEDKEY_TOKEN_LNAME.equals(message.getLocalName()) &&
-                (MessageConstants.WSSC_NS.equals(message.getNamespaceURI()) || MessageConstants.WSSC_13NS.equals(message.getNamespaceURI()))) {
-            return true;
-        }
-        return false;
+        return MessageConstants.DERIVEDKEY_TOKEN_LNAME.equals(message.getLocalName()) &&
+                (MessageConstants.WSSC_NS.equals(message.getNamespaceURI()) || MessageConstants.WSSC_13NS.equals(message.getNamespaceURI()));
     }
 
     private boolean isSignatureConfirmation() {
-        if (MessageConstants.SIGNATURE_CONFIRMATION_LNAME.equals(message.getLocalName()) && MessageConstants.WSSE11_NS.equals(message.getNamespaceURI())) {
-            return true;
-        }
-        return false;
+        return MessageConstants.SIGNATURE_CONFIRMATION_LNAME.equals(message.getLocalName()) && MessageConstants.WSSE11_NS.equals(message.getNamespaceURI());
     }
 
     private boolean isSCT() {
-        if (MessageConstants.SECURITY_CONTEXT_TOKEN_LNAME.equals(message.getLocalName()) &&
-                (MessageConstants.WSSC_NS.equals(message.getNamespaceURI()) || MessageConstants.WSSC_13NS.equals(message.getNamespaceURI()))) {
-            return true;
-        }
-        return false;
+        return MessageConstants.SECURITY_CONTEXT_TOKEN_LNAME.equals(message.getLocalName()) &&
+                (MessageConstants.WSSC_NS.equals(message.getNamespaceURI()) || MessageConstants.WSSC_13NS.equals(message.getNamespaceURI()));
     }
 
     private boolean isEncryptedHeader() {
-        if (MessageConstants.ENCRYPTED_HEADER_LNAME.equals(message.getLocalName()) && MessageConstants.WSSE11_NS.equals(message.getNamespaceURI())) {
-            return true;
-        }
-        return false;
+        return MessageConstants.ENCRYPTED_HEADER_LNAME.equals(message.getLocalName()) && MessageConstants.WSSE11_NS.equals(message.getNamespaceURI());
     }
 
     private boolean isSTR() {
-        if (MessageConstants.WSSE_SECURITY_TOKEN_REFERENCE_LNAME.equals(message.getLocalName()) && MessageConstants.WSSE_NS.equals(message.getNamespaceURI())) {
-            return true;
-        }
-        return false;
+        return MessageConstants.WSSE_SECURITY_TOKEN_REFERENCE_LNAME.equals(message.getLocalName()) && MessageConstants.WSSE_NS.equals(message.getNamespaceURI());
     }
 
     private boolean isSAML() {
         if (MessageConstants.SAML_ASSERTION_LNAME.equals(message.getLocalName())) {
             String uri = message.getNamespaceURI();
-            if (MessageConstants.SAML_v2_0_NS.equals(uri) || MessageConstants.SAML_v1_0_NS.equals(uri) || MessageConstants.SAML_v1_1_NS.equals(uri)) {
-                return true;
-            }
+            return MessageConstants.SAML_v2_0_NS.equals(uri) || MessageConstants.SAML_v1_0_NS.equals(uri) || MessageConstants.SAML_v1_1_NS.equals(uri);
         }
         return false;
     }
@@ -1609,7 +1566,6 @@ public final class SecurityRecipient {
         }
     }
 
-    @SuppressWarnings("unchecked")
     private GenericSecuredHeader processEncryptedSOAPHeader(GenericSecuredHeader header,
             SecurityHeaderElement ekOrRlh) throws XWSSecurityException {
         EncryptedKey ek = null;

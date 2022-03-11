@@ -70,11 +70,7 @@ public class DataWrapper{
      * @return if Data is AttachmentData
      */
     public boolean isAttachmentData(){
-        if(type ==MessageConstants.ATTACHMENT_DATA ){
-            return true;
-        }else{
-            return false;
-        }
+        return type == MessageConstants.ATTACHMENT_DATA;
     }
 
     /**
@@ -82,11 +78,7 @@ public class DataWrapper{
      * @return true if Data is NodeSetData.
      */
     public boolean isNodesetData(){
-        if(type == MessageConstants.NODE_SET_DATA ){
-            return true;
-        }else{
-            return false;
-        }
+        return type == MessageConstants.NODE_SET_DATA;
     }
 
     /**
@@ -94,11 +86,7 @@ public class DataWrapper{
      * @return true if Data is OctetStreamData.
      */
     public boolean isOctectData(){
-        if(type == MessageConstants.OCTECT_STREAM_DATA ){
-            return true;
-        }else{
-            return false;
-        }
+        return type == MessageConstants.OCTECT_STREAM_DATA;
     }
 
     /**

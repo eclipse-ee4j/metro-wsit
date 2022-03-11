@@ -145,8 +145,7 @@ public class ConcurrentQueueBlockingImpl<V> implements ConcurrentQueue<V> {
     // so we don't need to synchronize here.
     first.next = null ;
     first.prev = null ;
-    V value = first.handle().value() ;
-    return value ;
+        return first.handle().value();
     }
 }
 
