@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -26,31 +26,31 @@ public interface Authenticator {
 
     /**
      * Gets the value of the any property.
-     * 
+     *
      * <p>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
      * This is why there is not a <CODE>set</CODE> method for the any property.
-     * 
+     *
      * <p>
      * For example, to add a new item, do as follows:
      * <pre>
      *    getAny().add(newItem);
      * </pre>
-     * 
-     * 
+     *
+     *
      * <p>
      * Objects of the following type(s) are allowed in the list
      * {@link Object }
-     * 
-     * 
+     *
+     *
      */
     List<Object> getAny();
 
     /**
      * Gets the raw value of the combinedHash property.
-     * 
+     *
      * @return
      *     possible object is
      *     byte[]
@@ -58,8 +58,8 @@ public interface Authenticator {
     byte[] getRawCombinedHash();
 
     /**
-     * Sets the value of the combinedHash property. 
-     * 
+     * Sets the value of the combinedHash property.
+     *
      * @param rawCombinedHash
      *     allowed object is
      *     byte[]

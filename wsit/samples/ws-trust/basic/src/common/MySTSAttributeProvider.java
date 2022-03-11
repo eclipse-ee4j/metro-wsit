@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -27,11 +27,11 @@ import javax.xml.namespace.*;
  */
 
 public class MySTSAttributeProvider implements STSAttributeProvider {
-    
+
     public Map<QName, List<String>> getClaimedAttributes(Subject subject, String appliesTo, String tokenType, Claims claims)
     {
-        String name = null; 
-        
+        String name = null;
+
         Set<Principal> principals = subject.getPrincipals();
         if (principals != null){
             final Iterator iterator = principals.iterator();
@@ -40,9 +40,9 @@ public class MySTSAttributeProvider implements STSAttributeProvider {
                 int pos = cnName.indexOf("=");
                 name = cnName.substring(pos+1);
                 break;
-            }       
+            }
         }
-        
+
         Map<QName, List<String>> attrs = new HashMap<QName, List<String>>();
 
         QName nameIdQName = new QName("http://sun.com",STSAttributeProvider.NAME_IDENTIFIER);
@@ -68,30 +68,30 @@ public class MySTSAttributeProvider implements STSAttributeProvider {
             }
         }
         return attrs;
-    }  
-    
+    }
+
     private String getUserPseduoName(String userName){
-        
+
         if ("alice".equals(userName)){
             return "123";
         }
-        
+
         if ("bob".equals(userName)){
             return "231";
         }
-        
+
         return "456";
     }
-    
+
     private String getUserRole(String userName){
         if ("alice".equals(userName)){
             return "staff ";
         }
-        
+
         if ("bob".equals(userName)){
             return "manager";
         }
-        
+
         return "staff";
     }
 

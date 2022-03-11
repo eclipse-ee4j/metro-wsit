@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -33,12 +33,12 @@ import com.sun.xml.wss.impl.SecurityTokenException;
 import com.sun.xml.wss.impl.misc.SecurityHeaderBlockImpl;
 
 /**
- * A wsse:BinarySecurityToken.  
+ * A wsse:BinarySecurityToken.
  *
  * @author Manveen Kaur
  * @author Edwin Goei
  */
-public class BinarySecurityToken extends SecurityHeaderBlockImpl 
+public class BinarySecurityToken extends SecurityHeaderBlockImpl
                                  implements SecurityToken {
 
     /**
@@ -48,12 +48,12 @@ public class BinarySecurityToken extends SecurityHeaderBlockImpl
      *     #PKCS7
      */
     protected String valueType = null;
-    
+
     /** Default encoding */
     protected String encodingType = MessageConstants.BASE64_ENCODING_NS;
-    
+
     protected String wsuId = null;
-    
+
     protected String encodedText = null;
 
     protected Document soapDoc = null;
@@ -62,16 +62,16 @@ public class BinarySecurityToken extends SecurityHeaderBlockImpl
         Logger.getLogger(
             LogDomainConstants.WSS_API_DOMAIN,
             LogDomainConstants.WSS_API_DOMAIN_BUNDLE);
-    
+
     BinarySecurityToken(
         Document document,
-        String wsuId,                    
+        String wsuId,
         String valueType) {
 
         this.soapDoc = document;
         this.wsuId = wsuId;
         setValueType(valueType);
-        
+
         // BSP:R3029 :EncodingType MUST always be specified.
         setEncodingType(encodingType);
     }
@@ -80,7 +80,7 @@ public class BinarySecurityToken extends SecurityHeaderBlockImpl
         throws SecurityTokenException {
         this(binTokenSoapElement, false);
     }
-    
+
     BinarySecurityToken(SOAPElement binTokenSoapElement, boolean isBSP)
         throws SecurityTokenException {
 
@@ -88,11 +88,11 @@ public class BinarySecurityToken extends SecurityHeaderBlockImpl
         this.soapDoc = getOwnerDocument();
 
         setTextValue(XMLUtil.getFullTextFromChildren(this));
-       
+
         String wsuId = getAttributeNS(MessageConstants.WSU_NS, "Id");
         if (!"".equals(wsuId))
             setId(wsuId);
-        
+
         String valueType = getAttribute("ValueType");
 
         // BSP:3031: ValueType MUST always be specified
@@ -100,15 +100,15 @@ public class BinarySecurityToken extends SecurityHeaderBlockImpl
             log.log(Level.SEVERE, "BSP3031.ValueType.NotPresent");
             throw new SecurityTokenException("Any wsse:BinarySecurityToken in a SECURE_ENVELOPE MUST have an ValueType attribute.");
         }
-         
-        if (!"".equals(valueType)) {        
+
+        if (!"".equals(valueType)) {
             setValueType(valueType);
         }
-        
+
         if (isBSP) {
             String encoding = getAttribute("EncodingType");
 
-            // BSP:R3029: encodingType MUST be specified.                
+            // BSP:R3029: encodingType MUST be specified.
             if (encodingType.length()<1) {
                 log.log(Level.SEVERE, "BSP3029.EncodingType.NotPresent");
                 throw new SecurityTokenException("Any wsse:BinarySecurityToken in a SECURE_ENVELOPE MUST have an EncodingType attribute.");
@@ -117,33 +117,33 @@ public class BinarySecurityToken extends SecurityHeaderBlockImpl
             if (!encodingType.equalsIgnoreCase(MessageConstants.BASE64_ENCODING_NS))
             {
                 log.log(Level.SEVERE, "BSP3030.EncodingType.Invalid");
-                throw new SecurityTokenException("EncodingType attribute value in wsse:BinarySecurityToken is invalid.");            
+                throw new SecurityTokenException("EncodingType attribute value in wsse:BinarySecurityToken is invalid.");
             }
-            
+
             if (!"".equals(encoding)) {
                 setEncodingType(encoding);
-            }                
-        }        
+            }
+        }
     }
 
     public String getValueType() {
         return this.valueType;
     }
-    
+
     protected void setValueType(String valueType) {
-        if (!(MessageConstants.X509v3_NS.equals(valueType)||MessageConstants.X509v1_NS.equals(valueType))) { 
+        if (!(MessageConstants.X509v3_NS.equals(valueType)||MessageConstants.X509v1_NS.equals(valueType))) {
             log.log(Level.SEVERE,"WSS0342.valtype.invalid");
             throw new RuntimeException("Unsupported value type: " + valueType);
         }
         this.valueType = valueType;
     }
-    
+
     public String getEncodingType() {
         return this.encodingType;
     }
-    
+
     protected void setEncodingType(String encodingType) {
-        
+
         if (!MessageConstants.BASE64_ENCODING_NS.equals(encodingType)) {
             log.log(Level.SEVERE,"WSS0316.enctype.invalid");
             throw new RuntimeException("Encoding type invalid");
@@ -155,25 +155,25 @@ public class BinarySecurityToken extends SecurityHeaderBlockImpl
     public String getId() {
         return this.wsuId;
     }
-    
+
     protected void setId(String wsuId) {
         this.wsuId = wsuId;
     }
-        
+
     /** returns the decoded value of the text node.*/
     public byte[] getRawValue() throws SecurityTokenException {
         try {
             return Base64.decode(encodedText);
         } catch (Base64DecodingException bde) {
-            log.log(Level.SEVERE, "WSS0344.error.decoding.bst");  
+            log.log(Level.SEVERE, "WSS0344.error.decoding.bst");
             throw new SecurityTokenException(bde);
         }
     }
-    
+
     protected void setRawValue(byte[] rawText) {
         this.encodedText = Base64.encode(rawText);
     }
-    
+
     /**
      * get the actual value of the text node. This will typically be encoded.
      * It is the onus of the filter to decode this before operation upon it.
@@ -181,20 +181,20 @@ public class BinarySecurityToken extends SecurityHeaderBlockImpl
     public String getTextValue() throws XWSSecurityException {
         return encodedText;
     }
-    
+
     /**
-     * set the value of the text node. It is assumed that the 
+     * set the value of the text node. It is assumed that the
      * filter would have already encoded the value appropriately.
      */
     protected void setTextValue(String encodedText) {
         this.encodedText = encodedText;
     }
-        
+
     @Override
     public SOAPElement getAsSoapElement() throws SecurityTokenException {
-           
+
         if (null != delegateElement)
-            return delegateElement; 
+            return delegateElement;
         try {
             setSOAPElement(
                 (SOAPElement) soapDoc.createElementNS(
@@ -203,26 +203,26 @@ public class BinarySecurityToken extends SecurityHeaderBlockImpl
             addNamespaceDeclaration(
                 MessageConstants.WSSE_PREFIX,
                 MessageConstants.WSSE_NS);
-            
+
             if (null != valueType)
                 setAttributeNS(null, "ValueType", valueType);
 
             if (encodingType != null) {
                setAttributeNS(null, "EncodingType", encodingType);
             }
-            
+
             if (wsuId != null) {
                 setWsuIdAttr(this, wsuId);
             }
-            
+
             addTextNode(getTextValue());
-            
-        } catch (Exception e) {            
-            log.log(Level.SEVERE,"WSS0343.error.creating.bst", e.getMessage());            
+
+        } catch (Exception e) {
+            log.log(Level.SEVERE,"WSS0343.error.creating.bst", e.getMessage());
             throw new SecurityTokenException(
                 "There was an error in creating the BinarySecurityToken "  +
                 e.getMessage());
         }
-        return delegateElement;        
+        return delegateElement;
     }
 }

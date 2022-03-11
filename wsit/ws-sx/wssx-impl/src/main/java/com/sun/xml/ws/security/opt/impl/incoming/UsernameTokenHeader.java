@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -48,23 +48,23 @@ import java.util.logging.Logger;
  */
 public class UsernameTokenHeader implements com.sun.xml.ws.security.opt.api.tokens.UsernameToken, SecurityHeaderElement,
         TokenValidator, PolicyBuilder, NamespaceContextInfo, SecurityElementWriter{
-    
+
     private static Logger log = Logger.getLogger(
             LogDomainConstants.IMPL_FILTER_DOMAIN,
             LogDomainConstants.IMPL_FILTER_DOMAIN_BUNDLE);
-    
+
     private String localPart = null;
     private String namespaceURI = null;
     private String id = "";
-    
+
     private XMLStreamBuffer mark = null;
     private UsernameTokenProcessor filter = new UsernameTokenProcessor();
-    
+
     private AuthenticationTokenPolicy.UsernameTokenBinding utPolicy = null;
-    
+
     private HashMap<String,String> nsDecls;
     //private UsernameToken unToken;
-    
+
     /** Creates a new instance of UsernameTokenHeader */
     @SuppressWarnings("unchecked")
     public UsernameTokenHeader(XMLStreamReader reader, StreamReaderBufferCreator creator,
@@ -72,28 +72,28 @@ public class UsernameTokenHeader implements com.sun.xml.ws.security.opt.api.toke
         localPart = reader.getLocalName();
         namespaceURI = reader.getNamespaceURI();
         id = reader.getAttributeValue(MessageConstants.WSU_NS,"Id");
-        
+
         mark = new XMLStreamBufferMark(nsDecls,creator);
         XMLStreamReader utReader = XMLStreamReaderFactory.createFilteredXMLStreamReader(reader,filter) ;
         creator.createElementFragment(utReader,true);
         this.nsDecls = nsDecls;
-        
+
         utPolicy = new AuthenticationTokenPolicy.UsernameTokenBinding();
         utPolicy.setUUID(id);
-        
+
         utPolicy.setUsername(filter.getUsername());
-        utPolicy.setPassword(filter.getPassword());        
+        utPolicy.setPassword(filter.getPassword());
         if (MessageConstants.PASSWORD_DIGEST_NS.equals(filter.getPasswordType())){
             utPolicy.setDigestOn(true);
         }
         if(filter.getNonce() != null){
             utPolicy.setUseNonce(true);
-        }        
+        }
         if(filter.getCreated() != null){
             utPolicy.setUseCreated(true);
-        }        
+        }
     }
-    
+
     @Override
     public void validate(ProcessingContext context) throws XWSSecurityException {
         boolean authenticated = false;
@@ -103,7 +103,7 @@ public class UsernameTokenHeader implements com.sun.xml.ws.security.opt.api.toke
         if (filter.getSalt() != null) {
             utPolicy.setNoPassword(false);
         }
-        
+
         if (filter.getPassword() == null && filter.getCreated() == null &&
             MessageConstants.PASSWORD_DIGEST_NS.equals(filter.getPasswordType())) {
                  throw SOAPUtil.newSOAPFaultException(
@@ -111,7 +111,7 @@ public class UsernameTokenHeader implements com.sun.xml.ws.security.opt.api.toke
                         "Cannot validate Password Digest since Creation Time was not Specified",
                         null, true);
         }
-        
+
         if(filter.getNonce() != null || filter.getCreated() != null){ //SP1.3
             validateNonceOrCreated(context);
         }
@@ -136,80 +136,80 @@ public class UsernameTokenHeader implements com.sun.xml.ws.security.opt.api.toke
                         MessageConstants.WSSE_FAILED_AUTHENTICATION,
                         "Authentication of Username Password Token Failed",
                         null, true);
-                
+
             }
         }
-        
-        
+
+
         if (MessageConstants.debug) {
             log.log(Level.FINEST, "Password Validated.....");
         }
-        
+
         context.getSecurityEnvironment().updateOtherPartySubject(
                 DefaultSecurityEnvironmentImpl.getSubject((FilterProcessingContext)context),filter.getUsername(), filter.getPassword());
     }
-    
+
     @Override
     public WSSPolicy getPolicy() {
         return utPolicy;
     }
-    
+
     @Override
     public boolean refersToSecHdrWithId(String id) {
         throw new UnsupportedOperationException();
     }
-    
+
     @Override
     public String getId() {
         return id;
     }
-    
+
     @Override
     public void setId(String id) {
         throw new UnsupportedOperationException();
     }
-    
+
     @Override
     public String getNamespaceURI() {
         return namespaceURI;
     }
-    
+
     @Override
     public String getLocalPart() {
         return localPart;
     }
-    
-    
+
+
     @Override
     public XMLStreamReader readHeader() throws XMLStreamException {
         return mark.readAsXMLStreamReader();
     }
-    
+
     @Override
     public void writeTo(OutputStream os) {
         throw new UnsupportedOperationException();
     }
-    
+
     @Override
     public void writeTo(XMLStreamWriter streamWriter) throws XMLStreamException {
         mark.writeToXMLStreamWriter(streamWriter);
     }
-    
+
     @Override
     public String getUsernameValue() {
         return filter.getUsername();
     }
-    
+
     @Override
     public void setUsernameValue(String username) {
         throw new UnsupportedOperationException();
     }
-    
+
     @Override
     public String getPasswordValue() {
         return filter.getPassword();
     }
-    
+
     @Override
     public void setPasswordValue(String passwd) {
         throw new UnsupportedOperationException();
@@ -225,7 +225,7 @@ public class UsernameTokenHeader implements com.sun.xml.ws.security.opt.api.toke
     }
     public String getIterations(){
         return filter.getIterations();
-    }    
+    }
     @Override
     public HashMap<String, String> getInscopeNSContext() {
         return nsDecls;
@@ -233,7 +233,7 @@ public class UsernameTokenHeader implements com.sun.xml.ws.security.opt.api.toke
     @Override
     public void writeTo(javax.xml.stream.XMLStreamWriter streamWriter, HashMap props) {
         throw new UnsupportedOperationException();
-    }  
+    }
 
     private void validateNonceOrCreated(ProcessingContext context) throws XWSSecurityException {
         if (filter.getCreated() != null) {

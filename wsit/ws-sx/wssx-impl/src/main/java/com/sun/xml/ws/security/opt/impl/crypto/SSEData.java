@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -28,13 +28,13 @@ import java.util.List;
  * @author K.Venugopal@sun.com
  */
 public class SSEData implements StreamWriterData {
-    
+
     private NamespaceContextEx nsContext;
     private boolean contentOnly;
     private SecurityElement data;
     private XMLStreamBuffer buffer = null;
     private HashMap props = new HashMap();
-    
+
     /** Creates a new instance of SSEData */
     public SSEData(SecurityElement se , boolean contentOnly,NamespaceContextEx ns ) {
         this.data = se;
@@ -42,23 +42,23 @@ public class SSEData implements StreamWriterData {
         this.contentOnly = contentOnly;
         //props.put("org.glassfish.jaxb.namespacePrefixMapper", new WSSNSPrefixWrapper(JAXBUtil.prefixMapper11));
     }
-    
+
     public SSEData(SecurityElement se , boolean contentOnly,NamespaceContextEx ns, HashMap props ) {
         this.data = se;
         this.nsContext = ns;
         this.contentOnly = contentOnly;
         this.props = props;
     }
-    
+
     public SSEData(XMLStreamBuffer buffer){
         this.buffer = buffer;
     }
-    
+
     @Override
     public NamespaceContextEx getNamespaceContext() {
         return nsContext;
     }
-    
+
     public SecurityElement getSecurityElement(){
         return data;
     }
@@ -68,7 +68,7 @@ public class SSEData implements StreamWriterData {
         if(buffer != null){
             buffer.writeToXMLStreamWriter(writer);
         }
-        
+
         if(contentOnly){
             XMLStreamWriter fw;
             if(data instanceof SignedMessagePart && writer instanceof StAXEXC14nCanonicalizerImpl){
@@ -100,5 +100,5 @@ public class SSEData implements StreamWriterData {
             }
         }
     }
-    
+
 }

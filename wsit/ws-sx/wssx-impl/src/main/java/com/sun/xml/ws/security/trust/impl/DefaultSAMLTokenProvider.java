@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -69,7 +69,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-/** 
+/**
  *
  * @author Jiandong Guo
  */
@@ -85,26 +85,26 @@ public class DefaultSAMLTokenProvider implements STSTokenProvider {
     protected static final String SAML_BEARER_2_0 = "urn:oasis:names:tc:SAML:2.0:cm:bearer";
     protected static final String SAML_SENDER_VOUCHES_1_0 = "urn:oasis:names:tc:SAML:1.0:cm:sender-vouches";
     protected static final String SAML_SENDER_VOUCHES_2_0 = "urn:oasis:names:tc:SAML:2.0:cm:sender-vouches";
-    
+
     @Override
     public void generateToken(IssuedTokenContext ctx) throws WSTrustException {
-           
+
         String issuer = ctx.getTokenIssuer();
         String appliesTo = ctx.getAppliesTo();
-        String tokenType = ctx.getTokenType(); 
+        String tokenType = ctx.getTokenType();
         String keyType = ctx.getKeyType();
         int tokenLifeSpan = (int)(ctx.getExpirationTime().getTime() - ctx.getCreationTime().getTime());
         String confirMethod = (String)ctx.getOtherProperties().get(IssuedTokenContext.CONFIRMATION_METHOD);
         @SuppressWarnings("unchecked") Map<QName, List<String>> claimedAttrs = (Map<QName, List<String>>) ctx.getOtherProperties().get(IssuedTokenContext.CLAIMED_ATTRUBUTES);
         WSTrustVersion wstVer = (WSTrustVersion)ctx.getOtherProperties().get(IssuedTokenContext.WS_TRUST_VERSION);
        // WSTrustElementFactory eleFac = WSTrustElementFactory.newInstance(wstVer);
-        
+
         // Create the KeyInfo for SubjectConfirmation
         final KeyInfo keyInfo = createKeyInfo(ctx);
-        
+
         // Create AssertionID
         final String assertionId = "uuid-" + UUID.randomUUID();
-        
+
         // Create SAML assertion and the reference to the SAML assertion
         Assertion assertion = null;
         SecurityTokenReference samlReference = null;
@@ -124,16 +124,16 @@ public class DefaultSAMLTokenProvider implements STSTokenProvider {
             log.log(Level.SEVERE, LogStringsMessages.WST_0031_UNSUPPORTED_TOKEN_TYPE(tokenType, appliesTo));
             throw new WSTrustException(LogStringsMessages.WST_0031_UNSUPPORTED_TOKEN_TYPE(tokenType, appliesTo));
         }
-            
+
         // Get the STS's certificate and private key
         final X509Certificate stsCert = (X509Certificate)ctx.getOtherProperties().get(IssuedTokenContext.STS_CERTIFICATE);
         final PrivateKey stsPrivKey = (PrivateKey)ctx.getOtherProperties().get(IssuedTokenContext.STS_PRIVATE_KEY);
-            
+
         // Sign the assertion with STS's private key
         Element signedAssertion = null;
-        try{            
-            signedAssertion = assertion.sign(stsCert, stsPrivKey, true, ctx.getSignatureAlgorithm(), ctx.getCanonicalizationAlgorithm());            
-            //signedAssertion = assertion.sign(stsCert, stsPrivKey, true);            
+        try{
+            signedAssertion = assertion.sign(stsCert, stsPrivKey, true, ctx.getSignatureAlgorithm(), ctx.getCanonicalizationAlgorithm());
+            //signedAssertion = assertion.sign(stsCert, stsPrivKey, true);
             //signedAssertion = assertion.sign(stsCert, stsPrivKey);
         }catch (SAMLException ex){
             log.log(Level.SEVERE,
@@ -153,40 +153,40 @@ public class DefaultSAMLTokenProvider implements STSTokenProvider {
     public void isValideToken(IssuedTokenContext ctx) throws WSTrustException {
         WSTrustVersion wstVer = (WSTrustVersion)ctx.getOtherProperties().get(IssuedTokenContext.WS_TRUST_VERSION);
         WSTrustElementFactory eleFac = WSTrustElementFactory.newInstance(wstVer);
-        
-        // Get the token to be validated 
+
+        // Get the token to be validated
         Token token = ctx.getTarget();
-        
+
         // Validate the token and create the Status
-        // Only for SAML tokens for now: verify the signature and check 
+        // Only for SAML tokens for now: verify the signature and check
         // the time stamp
         Element element = eleFac.toElement(token.getTokenValue());
-        
+
         String code = wstVer.getValidStatusCodeURI();
         String reason = "The Trust service successfully validate the input";
-        
+
         // Check if it is an SAML assertion
         if (!isSAMLAssertion(element)){
             code = wstVer.getInvalidStatusCodeURI();
             reason = "The Trust service did not successfully validate the input";
         }
-        
+
         //==============================
         // validate the SAML asserttion
         //==============================
-        
+
         // Get the STS's certificate and private key
         final X509Certificate stsCert = (X509Certificate)ctx.getOtherProperties().get(IssuedTokenContext.STS_CERTIFICATE);
-       
+
        try{
             boolean isValid = true;
 
             // Verify the signature of the SAML assertion
             isValid = SAMLUtil.verifySignature(element, stsCert.getPublicKey());
-        
+
             // validate time in Conditions
             isValid = SAMLUtil.validateTimeInConditionsStatement(element);
-           
+
             if (!isValid){
                  code = wstVer.getInvalidStatusCodeURI();
                  reason = "The Trust service did not successfully validate the input";
@@ -194,16 +194,16 @@ public class DefaultSAMLTokenProvider implements STSTokenProvider {
         }catch (XWSSecurityException ex){
             throw new WSTrustException(ex.getMessage());
         }
-        
+
         // Create the Status
         Status status = eleFac.createStatus(code, reason);
-        
+
         // Get TokenType
         String tokenType = ctx.getTokenType();
         if (!wstVer.getValidateStatuesTokenType().equals(tokenType)){
             // Todo: create a token of the required type
         }
-        
+
         // populate the IssuedTokenContext
         ctx.getOtherProperties().put(IssuedTokenContext.STATUS, status);
     }
@@ -217,17 +217,17 @@ public class DefaultSAMLTokenProvider implements STSTokenProvider {
     public void invalidateToken(IssuedTokenContext ctx) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
-    
+
     protected Assertion createSAML11Assertion(final WSTrustVersion wstVer, final int lifeSpan, String confirMethod, final String assertionId, final String issuer, final String appliesTo, final KeyInfo keyInfo, final Map<QName, List<String>> claimedAttrs, String keyType) throws WSTrustException{
         Assertion assertion = null;
         try{
             final SAMLAssertionFactory samlFac = SAMLAssertionFactory.newInstance(SAMLAssertionFactory.SAML1_1);
-            
+
             final TimeZone utcTimeZone = TimeZone.getTimeZone("UTC");
             final GregorianCalendar issuerInst = new GregorianCalendar(utcTimeZone);
             final GregorianCalendar notOnOrAfter = new GregorianCalendar(utcTimeZone);
             notOnOrAfter.add(Calendar.MILLISECOND, lifeSpan);
-            
+
             List<AudienceRestrictionCondition> arc = null;
             if (appliesTo != null){
                 arc = new ArrayList<>();
@@ -248,13 +248,13 @@ public class DefaultSAMLTokenProvider implements STSTokenProvider {
                 }
             }
             confirmMethods.add(confirMethod);
-            
+
             final SubjectConfirmation subjectConfirm = samlFac.createSubjectConfirmation(
                     confirmMethods, null, keyInfoEle);
             final Conditions conditions =
                     samlFac.createConditions(issuerInst, notOnOrAfter, null, arc, null);
             final Advice advice = samlFac.createAdvice(null, null, null);
-            
+
             com.sun.xml.wss.saml.Subject subj = null;
             //final List<Attribute> attrs = new ArrayList<Attribute>();
             QName idName = null;
@@ -297,7 +297,7 @@ public class DefaultSAMLTokenProvider implements STSTokenProvider {
            //if (attrs.isEmpty()){
             if (claimedAttrs.isEmpty()){
                 final AuthenticationStatement statement = samlFac.createAuthenticationStatement(null, issuerInst, subj, null, null);
-                statements.add(statement); 
+                statements.add(statement);
             }else{
                 final AttributeStatement statement = samlFac.createAttributeStatement(subj, null);
                 statements.add(statement);
@@ -318,21 +318,21 @@ public class DefaultSAMLTokenProvider implements STSTokenProvider {
             throw new WSTrustException(
                     LogStringsMessages.WST_0032_ERROR_CREATING_SAML_ASSERTION(), ex);
         }
-        
+
         return assertion;
     }
-    
+
     protected Assertion createSAML20Assertion(final WSTrustVersion wstVer, final int lifeSpan, String confirMethod, final String assertionId, final String issuer, final String appliesTo, final KeyInfo keyInfo, final  Map<QName, List<String>> claimedAttrs, String keyType, String authnCtx) throws WSTrustException{
         Assertion assertion = null;
         try{
             final SAMLAssertionFactory samlFac = SAMLAssertionFactory.newInstance(SAMLAssertionFactory.SAML2_0);
-            
+
             // Create Conditions
             final TimeZone utcTimeZone = TimeZone.getTimeZone("UTC");
             final GregorianCalendar issueInst = new GregorianCalendar(utcTimeZone);
             final GregorianCalendar notOnOrAfter = new GregorianCalendar(utcTimeZone);
             notOnOrAfter.add(Calendar.MILLISECOND, lifeSpan);
-            
+
             List<AudienceRestriction> arc = null;
             if (appliesTo != null){
                 arc = new ArrayList<>();
@@ -350,13 +350,13 @@ public class DefaultSAMLTokenProvider implements STSTokenProvider {
                 if (keyInfo != null){
                     keyInfoConfData = samlFac.createKeyInfoConfirmationData(keyInfo.getElement());
                 }
-            }         
-            
+            }
+
             final Conditions conditions = samlFac.createConditions(issueInst, notOnOrAfter, null, arc, null, null);
-               
+
             final SubjectConfirmation subjectConfirm = samlFac.createSubjectConfirmation(
                     null, keyInfoConfData, confirMethod);
-            
+
             com.sun.xml.wss.saml.Subject subj = null;
             //final List<Attribute> attrs = new ArrayList<Attribute>();
             QName idName = null;
@@ -397,20 +397,20 @@ public class DefaultSAMLTokenProvider implements STSTokenProvider {
                 claimedAttrs.remove(idName);
             }
             subj = samlFac.createSubject(nameId, subjectConfirm);
-        
+
             final List<Object> statements = new ArrayList<>();
             //if (attrs.isEmpty()){
             if (claimedAttrs.isEmpty()){
                 AuthnContext ctx = samlFac.createAuthnContext(authnCtx, null);
                 final AuthnStatement statement = samlFac.createAuthnStatement(issueInst, null, ctx, null, null);
-                statements.add(statement); 
+                statements.add(statement);
             }else{
                 final AttributeStatement statement = samlFac.createAttributeStatement(null);
                 statements.add(statement);
             }
-            
+
             final NameID issuerID = samlFac.createNameID(issuer, null, null);
-            
+
             // Create Assertion
             assertion =
                     samlFac.createAssertion(assertionId, issuerID, issueInst, conditions, null, null, statements);
@@ -429,10 +429,10 @@ public class DefaultSAMLTokenProvider implements STSTokenProvider {
             throw new WSTrustException(
                     LogStringsMessages.WST_0032_ERROR_CREATING_SAML_ASSERTION(), ex);
         }
-        
+
         return assertion;
     }
-     
+
     private KeyInfo createKeyInfo(final IssuedTokenContext ctx)throws WSTrustException{
         Element kiEle = (Element)ctx.getOtherProperties().get("ConfirmationKeyInfo");
         if (kiEle != null && "KeyInfo".equals(kiEle.getLocalName())){
@@ -444,16 +444,16 @@ public class DefaultSAMLTokenProvider implements STSTokenProvider {
             }
         }
         final DocumentBuilderFactory docFactory = WSITXMLFactory.createDocumentBuilderFactory(WSITXMLFactory.DISABLE_SECURE_PROCESSING);
-        
+
         Document doc = null;
         try{
             doc = docFactory.newDocumentBuilder().newDocument();
         }catch(ParserConfigurationException ex){
-            log.log(Level.SEVERE, 
+            log.log(Level.SEVERE,
                     LogStringsMessages.WST_0039_ERROR_CREATING_DOCFACTORY(), ex);
             throw new WSTrustException(LogStringsMessages.WST_0039_ERROR_CREATING_DOCFACTORY(), ex);
         }
-        
+
         final String appliesTo = ctx.getAppliesTo();
         final KeyInfo keyInfo = new KeyInfo(doc);
         if (kiEle != null){
@@ -482,17 +482,17 @@ public class DefaultSAMLTokenProvider implements STSTokenProvider {
             }
             keyInfo.add(x509data);
         }
-        
+
         return keyInfo;
     }
-    
+
     private boolean isSAMLAssertion(Element token){
-        if (token.getLocalName().equals("Assertion") && 
+        if (token.getLocalName().equals("Assertion") &&
             (token.getNamespaceURI().equals(WSTrustConstants.SAML10_ASSERTION_TOKEN_TYPE) ||
              token.getNamespaceURI().equals(WSTrustConstants.SAML20_ASSERTION_TOKEN_TYPE))){
             return true;
         }
-        
+
         return false;
     }
 }

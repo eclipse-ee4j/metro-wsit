@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -11,7 +11,7 @@
 package com.sun.xml.ws.tx.coord.v11.types;
 
 import com.sun.istack.logging.Logger;
-import com.sun.xml.ws.tx.at.localization.LocalizationMessages; 
+import com.sun.xml.ws.tx.at.localization.LocalizationMessages;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -52,7 +52,7 @@ public class RegistrationServiceV11
     }
 
     /**
-     * 
+     *
      * @return
      *     returns RegistrationPortType
      */
@@ -62,7 +62,7 @@ public class RegistrationServiceV11
     }
 
     /**
-     * 
+     *
      * @param features
      *     A list of {@link jakarta.xml.ws.WebServiceFeature} to configure on the proxy.  Supported features not in the <code>features</code> parameter will have their default values.
      * @return
@@ -74,7 +74,7 @@ public class RegistrationServiceV11
     }
 
     /**
-     * 
+     *
      * @return
      *     returns RegistrationCoordinatorPortType
      */
@@ -84,7 +84,7 @@ public class RegistrationServiceV11
     }
 
     /**
-     * 
+     *
      * @param features
      *     A list of {@link jakarta.xml.ws.WebServiceFeature} to configure on the proxy.  Supported features not in the <code>features</code> parameter will have their default values.
      * @return
@@ -96,7 +96,7 @@ public class RegistrationServiceV11
     }
 
     /**
-     * 
+     *
      * @return
      *     returns RegistrationRequesterPortType
      */
@@ -106,7 +106,7 @@ public class RegistrationServiceV11
     }
 
     /**
-     * 
+     *
      * @param features
      *     A list of {@link jakarta.xml.ws.WebServiceFeature} to configure on the proxy.  Supported features not in the <code>features</code> parameter will have their default values.
      * @return

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -12,7 +12,7 @@ package com.sun.xml.ws.tx.coord.common;
 
 import com.sun.xml.ws.tx.coord.common.types.BaseRegisterResponseType;
 import com.sun.istack.logging.Logger;
-import com.sun.xml.ws.tx.at.localization.LocalizationMessages; 
+import com.sun.xml.ws.tx.at.localization.LocalizationMessages;
 
 import jakarta.xml.ws.WebServiceException;
 import java.util.concurrent.ConcurrentHashMap;
@@ -81,7 +81,7 @@ public class PendingRequestManager {
                     throw new WebServiceException(e);
                 }
             }
-            
+
             return type;
         }
     }

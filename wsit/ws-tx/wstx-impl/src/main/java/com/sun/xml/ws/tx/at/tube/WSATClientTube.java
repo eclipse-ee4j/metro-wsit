@@ -92,7 +92,7 @@ public class WSATClientTube extends AbstractFilterTubeImpl implements WSATConsta
     public NextAction processException(Throwable t) {
         Map<String, Object> map = com.sun.xml.ws.api.pipe.Fiber.current().getPacket().invocationProperties;
         m_wsatClientHelper.doHandleResponse(map);
-        return super.processException(t);   
+        return super.processException(t);
     }
 
     @Override

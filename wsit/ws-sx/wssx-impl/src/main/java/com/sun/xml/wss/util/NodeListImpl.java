@@ -20,16 +20,16 @@ import org.w3c.dom.NodeList;
  * @author ashutosh.shahi@sun.com
  */
 public class NodeListImpl implements NodeList{
-    
+
     private List<Node> nodes;
-    
+
     /**
      * Creates a new instance of NodeListImpl
      */
     public NodeListImpl() {
         nodes = new ArrayList<>();
     }
-    
+
     /**
      * get the size of the nodeList
      */
@@ -37,7 +37,7 @@ public class NodeListImpl implements NodeList{
     public int getLength(){
         return nodes.size();
     }
-    
+
     /**
      * get the ith item from NodeList
      */
@@ -45,18 +45,18 @@ public class NodeListImpl implements NodeList{
     public Node item(int i){
         return nodes.get(i);
     }
-    
+
     /**
      * add node to the end of NodeList
      */
     public void add(Node node){
         nodes.add(node);
     }
-    
+
     public void merge(NodeList nodeList){
         for(int i = 0; i < nodeList.getLength(); i++){
             nodes.add(nodeList.item(i));
         }
     }
-    
+
 }

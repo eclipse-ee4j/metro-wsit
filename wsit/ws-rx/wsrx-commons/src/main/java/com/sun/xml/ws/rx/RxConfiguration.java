@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -23,12 +23,12 @@ import org.glassfish.gmbal.ManagedObjectManager;
  */
 public interface RxConfiguration {
     String ACK_REQUESTED_HEADER_SET = RxConfiguration.class.getName() + ".ACK_REQUESTED_HEADER_SET";
-    
+
     /**
      * @see ReliableMessagingFeature
      */
     boolean isReliableMessagingEnabled();
-    
+
     /**
      * @see MakeConnectionSupportedFeature
      */
@@ -36,26 +36,26 @@ public interface RxConfiguration {
 
     /**
      * Provides information about the SOAP protocol version used on the endpoint.
-     * 
+     *
      * @return the SOAP protocol version used on the RM-enabled endpoint
      */
     SOAPVersion getSoapVersion();
 
     /**
      * Provides information about the WS-Addressing protocol version used on the endpoint.
-     * 
+     *
      * @return the WS-Addressing protocol version used on the RM-enabled endpoint
      */
     AddressingVersion getAddressingVersion();
-    
+
     /**
-     * Provides information if the port, which this configuration belongs to, has 
+     * Provides information if the port, which this configuration belongs to, has
      * any request/response operations.
      *
      * @return {@code true} in case the port has any request/response operations; {@code false} otherwise
      */
     boolean requestResponseOperationsDetected();
-    
+
     /**
      * Returns GMBAL/JMX manager
      *

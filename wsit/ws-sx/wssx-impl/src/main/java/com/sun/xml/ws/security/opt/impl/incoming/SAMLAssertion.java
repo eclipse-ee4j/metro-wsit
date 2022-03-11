@@ -49,7 +49,7 @@ import javax.xml.stream.XMLOutputFactory;
  */
 public class SAMLAssertion implements SecurityHeaderElement,PolicyBuilder,TokenValidator,NamespaceContextInfo,
         SecurityElementWriter{
-    
+
     private String id ="";
     private String localName= "";
     private String namespaceURI="";
@@ -60,12 +60,12 @@ public class SAMLAssertion implements SecurityHeaderElement,PolicyBuilder,TokenV
     private Signature sig = null;
     private MutableXMLStreamBuffer buffer = null;
     private boolean signatureNSinReader = false;
-    
+
     private AuthenticationTokenPolicy.SAMLAssertionBinding samlPolicy = null;
-    
+
     private static final String KEYINFO_ELEMENT = "KeyInfo";
     private static final String SUBJECT_CONFIRMATION_ELEMENT = "SubjectConfirmation";
-    
+
     /** Creates a new instance of SAMLAssertion */
     @SuppressWarnings("unchecked")
     public SAMLAssertion(XMLStreamReader reader, JAXBFilterProcessingContext jpc,StreamReaderBufferCreator creator ,HashMap nsDecl) throws XWSSecurityException{
@@ -78,29 +78,29 @@ public class SAMLAssertion implements SecurityHeaderElement,PolicyBuilder,TokenV
         namespaceURI = reader.getNamespaceURI();
         localName = reader.getLocalName();
         samlHeaderNSContext = new HashMap<>();
-        samlHeaderNSContext.putAll(nsDecl);        
+        samlHeaderNSContext.putAll(nsDecl);
         if (reader.getNamespaceCount() > 0) {
-            for (int i = 0; i < reader.getNamespaceCount(); i++) {                
+            for (int i = 0; i < reader.getNamespaceCount(); i++) {
                 samlHeaderNSContext.put(reader.getNamespacePrefix(i), reader.getNamespaceURI(i));
                 if("ds".equals(reader.getNamespacePrefix(i)) && "http://www.w3.org/2000/09/xmldsig#".equals(reader.getNamespaceURI(i))){
                     signatureNSinReader = true;
                 }
             }
         }
-        
+
         samlPolicy = new AuthenticationTokenPolicy.SAMLAssertionBinding();
         samlPolicy.setUUID(id);
-        
+
         //to be picked up from pool of buffers.
         buffer = new MutableXMLStreamBuffer();
         //StreamWriterBufferCreator bCreator = new StreamWriterBufferCreator(buffer);
-        try {            
+        try {
             buffer.createFromXMLStreamReader(reader);
-            process(buffer.readAsXMLStreamReader());                        
+            process(buffer.readAsXMLStreamReader());
         } catch (XMLStreamException xe) {
             throw new XWSSecurityException("Error occurred while reading SAMLAssertion",xe);
         }
-        
+
     }
 
     public XMLStreamReader getSamlReader() throws XMLStreamException, XWSSecurityException {
@@ -152,49 +152,49 @@ public class SAMLAssertion implements SecurityHeaderElement,PolicyBuilder,TokenV
         }
         return samlReader;
     }
-    
+
     private boolean isSignatureNSinReader(){
         return this.signatureNSinReader;
     }
     public SAMLAssertion(){
     }
-   
-    
+
+
     @Override
     public boolean refersToSecHdrWithId(String id) {
         return false;
     }
-    
+
     @Override
     public String getId() {
         return id;
     }
-    
+
     @Override
     public void setId(final String id) {
         throw new UnsupportedOperationException("not implemented");
     }
-    
+
     @Override
     public String getNamespaceURI() {
         return namespaceURI;
     }
-    
+
     @Override
     public String getLocalPart() {
         return localName;
     }
-    
+
     @Override
     public XMLStreamReader readHeader() throws XMLStreamException {
         return buffer.readAsXMLStreamReader();
-    }    
-    
+    }
+
     @Override
     public WSSPolicy getPolicy() {
         return samlPolicy;
     }
-    
+
     @Override
     public void validate(ProcessingContext context) throws XWSSecurityException {
         try{
@@ -205,47 +205,47 @@ public class SAMLAssertion implements SecurityHeaderElement,PolicyBuilder,TokenV
             throw new XWSSecurityException("Error occurred while trying to validate SAMLAssertion",xe);
         }
     }
-    
+
     @Override
     public HashMap<String, String> getInscopeNSContext() {
         return samlHeaderNSContext;
     }
-    
+
     @Override
     public void writeTo(XMLStreamWriter streamWriter) throws XMLStreamException {
         buffer.writeToXMLStreamWriter(streamWriter);
     }
-    
+
     @Override
     public void writeTo(XMLStreamWriter streamWriter, HashMap props) throws XMLStreamException {
         //is this ok?
         writeTo(streamWriter);
     }
-    
+
     @Override
     public void writeTo(OutputStream os) {
         throw new UnsupportedOperationException();
     }
-    
+
     public boolean isHOK(){
         if(sig != null){
             return true;
         }
         return false;
     }
-    
+
     public boolean validateSignature()throws XWSSecurityException{
         if(isHOK()){
             return sig.validate();
         }
         return false;
     }
-    
+
     public void processNoValidation(XMLStreamReader reader,XMLStreamWriter buffer) throws XWSSecurityException{
-       
+
         try{
             StreamUtil.writeCurrentEvent(reader,buffer);
-            while(reader.hasNext()){               
+            while(reader.hasNext()){
                 reader.next();
                 if(_break(reader)){
                     StreamUtil.writeCurrentEvent(reader,buffer);
@@ -259,30 +259,30 @@ public class SAMLAssertion implements SecurityHeaderElement,PolicyBuilder,TokenV
             throw new XWSSecurityException("Error occurred while reading SAMLAssertion",xe);
         }
     }
-    
-    /*public void process(XMLStreamReader reader,XMLStreamWriter buffer) throws XWSSecurityException{       
-        
+
+    /*public void process(XMLStreamReader reader,XMLStreamWriter buffer) throws XWSSecurityException{
+
         try{
             StreamUtil.writeCurrentEvent(reader,buffer);
-            while(reader.hasNext()){               
+            while(reader.hasNext()){
                 reader.next();
                 switch(reader.getEventType()){
-                    case XMLStreamReader.START_ELEMENT :{                        
+                    case XMLStreamReader.START_ELEMENT :{
                         if(reader.getLocalName() == SIGNATURE_LNAME && reader.getNamespaceURI() == DSIG_NS){
                             sig = new Signature(jpc,samlHeaderNSContext,creator,false);
                             jpc.isSamlSignatureKey(true);
-                            sig.process(reader, false);  
+                            sig.process(reader, false);
                             jpc.isSamlSignatureKey(false);
                         }
                         break;
-                    }                    
+                    }
                 }
                 if(_break(reader)){
                     StreamUtil.writeCurrentEvent(reader,buffer);
                     reader.next();
                     break;
                 }else{
-                    if(reader.getEventType() == reader.START_ELEMENT && reader.getLocalName().equals("Advice")){                        
+                    if(reader.getEventType() == reader.START_ELEMENT && reader.getLocalName().equals("Advice")){
                         StreamUtil.writeCurrentEvent(reader,buffer);
                         skipAdviceValidation(reader, buffer);
                     }else{
@@ -294,22 +294,22 @@ public class SAMLAssertion implements SecurityHeaderElement,PolicyBuilder,TokenV
             throw new XWSSecurityException("Error occurred while reading SAMLAssertion",xe);
         }
     }*/
-    
-    public void process(XMLStreamReader reader) throws XWSSecurityException{       
-        
+
+    public void process(XMLStreamReader reader) throws XWSSecurityException{
+
         try{
-            while(reader.hasNext()){               
+            while(reader.hasNext()){
                 reader.next();
                 switch(reader.getEventType()){
-                    case XMLStreamReader.START_ELEMENT :{                        
+                    case XMLStreamReader.START_ELEMENT :{
                         if(reader.getLocalName() == MessageConstants.SIGNATURE_LNAME && reader.getNamespaceURI() == MessageConstants.DSIG_NS){
                             sig = new Signature(jpc,samlHeaderNSContext,creator,false);
                             jpc.isSamlSignatureKey(true);
-                            sig.process(reader, false);  
+                            sig.process(reader, false);
                             jpc.isSamlSignatureKey(false);
                         }
                         break;
-                    }                    
+                    }
                 }
                 if(_break(reader)){
                     reader.next();
@@ -322,15 +322,15 @@ public class SAMLAssertion implements SecurityHeaderElement,PolicyBuilder,TokenV
             }
         }catch(XMLStreamException xe){
             throw new XWSSecurityException("Error occurred while reading SAMLAssertion",xe);
-        }        
+        }
     }
-    
+
     /*public void skipAdviceValidation(XMLStreamReader reader,XMLStreamWriter buffer) throws XWSSecurityException{
         int adviceElementCount = 1;
         try{
-            while(!(reader.getLocalName().equals("Advice") && 
-                        reader.getEventType() == reader.END_ELEMENT && 
-                            adviceElementCount == 0)){                
+            while(!(reader.getLocalName().equals("Advice") &&
+                        reader.getEventType() == reader.END_ELEMENT &&
+                            adviceElementCount == 0)){
                 reader.next();
                 if(reader.getEventType() == reader.START_ELEMENT && reader.getLocalName().equals("Advice")){
                     adviceElementCount++;
@@ -344,13 +344,13 @@ public class SAMLAssertion implements SecurityHeaderElement,PolicyBuilder,TokenV
             throw new XWSSecurityException("Error occurred while reading SAMLAssertion",xe);
         }
     }*/
-    
+
     public void skipAdviceValidation(XMLStreamReader reader) throws XWSSecurityException{
         int adviceElementCount = 1;
         try{
-            while(!(reader.getLocalName().equals("Advice") && 
-                        reader.getEventType() == reader.END_ELEMENT && 
-                            adviceElementCount == 0)){                
+            while(!(reader.getLocalName().equals("Advice") &&
+                        reader.getEventType() == reader.END_ELEMENT &&
+                            adviceElementCount == 0)){
                 reader.next();
                 if(reader.getEventType() == reader.START_ELEMENT && reader.getLocalName().equals("Advice")){
                     adviceElementCount++;
@@ -363,7 +363,7 @@ public class SAMLAssertion implements SecurityHeaderElement,PolicyBuilder,TokenV
             throw new XWSSecurityException("Error occurred while reading SAMLAssertion",xe);
         }
     }
-    
+
     public Key getKey()throws XWSSecurityException{
         if(key == null){
             try{
@@ -419,7 +419,7 @@ public class SAMLAssertion implements SecurityHeaderElement,PolicyBuilder,TokenV
         }
         return key;
     }
-    
+
     private boolean _break(XMLStreamReader reader) {
         if(reader.getEventType() == reader.END_ELEMENT){
             if(reader.getLocalName() == MessageConstants.SAML_ASSERTION_LNAME ){
@@ -431,5 +431,5 @@ public class SAMLAssertion implements SecurityHeaderElement,PolicyBuilder,TokenV
         }
         return false;
     }
-    
+
 }

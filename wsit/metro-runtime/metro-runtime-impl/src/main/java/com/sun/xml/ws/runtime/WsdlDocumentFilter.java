@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -36,7 +36,7 @@ import com.sun.xml.ws.xmlfilter.PrivateElementFilteringStateMachine;
  */
 public class WsdlDocumentFilter implements SDDocumentFilter {
     private static final Logger LOGGER = Logger.getLogger(WsdlDocumentFilter.class);
-    
+
     private static final InvocationProcessorFactory FILTERING_FACTORY = new InvocationProcessorFactory() {
         @Override
         public InvocationProcessor createInvocationProcessor(final XMLStreamWriter writer) throws XMLStreamException {
@@ -74,7 +74,7 @@ public class WsdlDocumentFilter implements SDDocumentFilter {
                 );
         }
     };
-    
+
     @Override
     public XMLStreamWriter filter(final SDDocument sdDocument, final XMLStreamWriter xmlStreamWriter) throws XMLStreamException {
         if (LOGGER.isMethodCallLoggable()) {

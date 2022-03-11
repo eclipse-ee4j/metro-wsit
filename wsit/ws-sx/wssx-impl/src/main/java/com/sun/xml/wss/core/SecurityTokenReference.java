@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -47,21 +47,21 @@ import com.sun.xml.wss.core.reference.X509SubjectKeyIdentifier;
  */
 public class SecurityTokenReference extends SecurityHeaderBlockImpl implements com.sun.xml.ws.security.SecurityTokenReference {
         //implements com.sun.xml.ws.security.SecurityTokenReference {
-    
+
     protected static final Logger log =
             Logger.getLogger(
             LogDomainConstants.WSS_API_DOMAIN,
             LogDomainConstants.WSS_API_DOMAIN_BUNDLE);
-    
+
     /**
      * Assumes that there is only one reference child element.
      */
     private ReferenceElement refElement;
     private Element samlAuthorityBinding;
-    
+
     private static final String authorityBinding =
             "AuthorityBinding".intern();
-    
+
     /**
      * Creates an "empty" SecurityTokenReference element
      */
@@ -80,7 +80,7 @@ public class SecurityTokenReference extends SecurityHeaderBlockImpl implements c
             throw new XWSSecurityException(e);
         }
     }
-    
+
     /**
      * Creates an "empty" SecurityTokenReference element whose owner document
      * is doc
@@ -99,53 +99,53 @@ public class SecurityTokenReference extends SecurityHeaderBlockImpl implements c
             throw new XWSSecurityException(e);
         }
     }
-    
+
     /**
      * Takes a SOAPElement which has the required structure of a
      * SecurityTokenReference (including the reference element).
      */
     public SecurityTokenReference(SOAPElement element, boolean isBSP)
     throws XWSSecurityException {
-        
+
         super(element);
-        
+
         if (!(element.getLocalName().equals("SecurityTokenReference") &&
                 XMLUtil.inWsseNS(element))) {
             log.log(Level.SEVERE, "WSS0379.error.creating.str", element.getTagName());
             throw new XWSSecurityException("Invalid tokenRef passed");
         }
-        
+
         isBSP(isBSP);
-        
+
         Iterator eachChild = getChildElements();
         if (!eachChild.hasNext()) {
             throw new XWSSecurityException("Error: A SECURITY_TOKEN_REFERENCE with No child elements encountered");
         }
 
         jakarta.xml.soap.Node node = null;
-        
+
         // reference mechanisms found in the STR
         int refMechanismFound = 0;
-        
+
         while (eachChild.hasNext()) {
-            
+
             if (isBSP && refMechanismFound >1) {
                 throw new XWSSecurityException("Violation of BSP R3061: "
                         + " A SECURITY_TOKEN_REFERENCE MUST have exactly one child element");
             }
-            
+
             node = (jakarta.xml.soap.Node) eachChild.next();
-            
+
             if (node == null) {
                 log.log(Level.SEVERE, "WSS0379.error.creating.str");
                 throw new XWSSecurityException(
                         "Passed tokenReference does not contain a refElement");
             }
-            
+
             if (node.getNodeType() != Node.ELEMENT_NODE) {
                 continue;
-            }                     
-            
+            }
+
             if (authorityBinding == node.getLocalName() || authorityBinding.equals(node.getLocalName())) {
                 try {
                     if (MessageConstants.debug) {
@@ -161,16 +161,16 @@ public class SecurityTokenReference extends SecurityHeaderBlockImpl implements c
             }
         }
     }
-    
+
     public SecurityTokenReference(SOAPElement element)
     throws XWSSecurityException {
         this(element, false);
     }
-    
+
     public ReferenceElement getReference() {
         return refElement;
     }
-    
+
     public void setSamlAuthorityBinding(Element binding, Document doc)
     throws XWSSecurityException {
         if (samlAuthorityBinding != null) {
@@ -188,21 +188,21 @@ public class SecurityTokenReference extends SecurityHeaderBlockImpl implements c
         }
         samlAuthorityBinding = binding;
     }
-    
+
     public Element getSamlAuthorityBinding() {
         return samlAuthorityBinding;
     }
-    
-    
+
+
     public void setReference(ReferenceElement referenceElement)
     throws XWSSecurityException {
-        
+
         if (refElement != null) {
             log.log(Level.SEVERE, "WSS0380.error.setting.reference");
             throw new XWSSecurityException(
                     "Reference element is already present");
         }
-        
+
         try {
             addTextNode("\n");
             addChildElement(referenceElement.getAsSoapElement());
@@ -211,10 +211,10 @@ public class SecurityTokenReference extends SecurityHeaderBlockImpl implements c
             log.log(Level.SEVERE, "WSS0381.error.setting.reference");
             throw new XWSSecurityException(e);
         }
-        
+
         refElement = referenceElement;
     }
-    
+
     public void setWsuId(String wsuId) {
         setAttributeNS(
                 MessageConstants.NAMESPACES_NS,
@@ -225,7 +225,7 @@ public class SecurityTokenReference extends SecurityHeaderBlockImpl implements c
                 MessageConstants.WSU_ID_QNAME,
                 wsuId);
     }
-    
+
     /*
      * set the WSS 1.1 Token type for SecurityTokenRerference
      */
@@ -239,7 +239,7 @@ public class SecurityTokenReference extends SecurityHeaderBlockImpl implements c
                 MessageConstants.WSSE11_TOKEN_TYPE,
                 tokenType);
     }
-    
+
     /*
      * get the WSS 1.1 Token type for SecurityTokenRerference
      */
@@ -248,13 +248,13 @@ public class SecurityTokenReference extends SecurityHeaderBlockImpl implements c
                 MessageConstants.WSSE11_NS,
                 "TokenType");
     }
-    
+
     public static SecurityHeaderBlock fromSoapElement(SOAPElement element)
     throws XWSSecurityException {
         return SecurityHeaderBlockImpl.fromSoapElement(
                 element, SecurityTokenReference.class);
     }
-    
+
     /**
      * Creates an appropriate instance of ReferenceElement depending on the
      * qualified name of the SOAPElement.
@@ -262,7 +262,7 @@ public class SecurityTokenReference extends SecurityHeaderBlockImpl implements c
     private ReferenceElement getReferenceElementfromSoapElement(
             SOAPElement element, boolean isBSP)
             throws XWSSecurityException {
-        
+
         String name = element.getLocalName();
         if (name.equals("KeyIdentifier"))
             return getKeyIdentifier(element, isBSP);
@@ -286,28 +286,28 @@ public class SecurityTokenReference extends SecurityHeaderBlockImpl implements c
                     xwsse);
         }
     }
-    
+
     private KeyIdentifier getKeyIdentifier(SOAPElement element, boolean isBSP)
     throws XWSSecurityException {
-        
+
         String keyIdValueType = element.getAttribute("ValueType");
         if (isBSP && (keyIdValueType.length() < 1)) {
             throw new XWSSecurityException("Voilation of BSP R3054 " +
                     ": A wsse:KeyIdentifier element in a SECURITY_TOKEN_REFERENCE MUST specify a ValueType attribute");
         }
-        
+
         String keyIdEncodingType = element.getAttribute("EncodingType");
         if (isBSP && (keyIdEncodingType.length() < 1)) {
             throw new XWSSecurityException("Voilation of BSP R3070 " +
                     ": A wsse:KeyIdentifier element in a SECURITY_TOKEN_REFERENCE MUST specify an EncodingType attribute. ");
         }
-        
+
         if (isBSP && !(keyIdEncodingType.equals(MessageConstants.BASE64_ENCODING_NS))) {
             throw new XWSSecurityException("Voilation of BSP R3071 " +
                     ": An EncodingType attribute on a wsse:KeyIdentifier element in a SECURITY_TOKEN_REFERENCE MUST have a value of http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary");
         }
-        
-        if (keyIdValueType.equals(MessageConstants.WSSE_SAML_KEY_IDENTIFIER_VALUE_TYPE) || 
+
+        if (keyIdValueType.equals(MessageConstants.WSSE_SAML_KEY_IDENTIFIER_VALUE_TYPE) ||
                 keyIdValueType.equals(MessageConstants.WSSE_SAML_v2_0_KEY_IDENTIFIER_VALUE_TYPE)) {
             return new SamlKeyIdentifier(element);
         } else if ((keyIdValueType.equals(MessageConstants.X509SubjectKeyIdentifier_NS)) ||
@@ -341,7 +341,7 @@ public class SecurityTokenReference extends SecurityHeaderBlockImpl implements c
         //TODO: Implement this method
         return null;
     }
-   
+
     @Override
     public Object getTokenValue() {
         //TODO: Implement this method
@@ -350,7 +350,7 @@ public class SecurityTokenReference extends SecurityHeaderBlockImpl implements c
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         }
-    } 
-    
+    }
+
 }
 

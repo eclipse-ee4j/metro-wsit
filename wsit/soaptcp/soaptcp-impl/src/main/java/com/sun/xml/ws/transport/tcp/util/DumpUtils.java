@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -21,7 +21,7 @@ public final class DumpUtils {
         for(int i=0; i<bb.length; i++) {
             stringBuffer.append(dumpBytes(bb[i]));
         }
-        
+
         return stringBuffer.toString();
     }
 
@@ -43,7 +43,7 @@ public final class DumpUtils {
         for(int i=0; i<bb.length; i++) {
             stringBuffer.append(dumpOctets(bb[i]));
         }
-        
+
         return stringBuffer.toString();
     }
 
@@ -65,7 +65,7 @@ public final class DumpUtils {
         for(int i=0; i<bb.length; i++) {
             stringBuffer.append(dump(bb[i]));
         }
-        
+
         return stringBuffer.toString();
     }
 
@@ -81,11 +81,11 @@ public final class DumpUtils {
         buffer.position(position);
         return dump(array);
     }
-    
+
     public static String dump(final byte[] buffer) {
         return dump(buffer, 0, buffer.length);
     }
-    
+
     public static String dump(final byte[] buffer, final int offset, final int length) {
         final StringBuilder stringBuffer = new StringBuilder();
         for(int i=0; i<length; i++) {
@@ -98,7 +98,7 @@ public final class DumpUtils {
             stringBuffer.append(')');
             stringBuffer.append(' ');
         }
-        
+
         return stringBuffer.toString();
     }
 
@@ -115,7 +115,7 @@ public final class DumpUtils {
             stringBuffer.append(str);
             stringBuffer.append(' ');
         }
-        
+
         return stringBuffer.toString();
     }
 
@@ -129,7 +129,7 @@ public final class DumpUtils {
             final int value = buffer[offset + i] & 0xFF;
             stringBuffer.append((char) value);
         }
-        
+
         return stringBuffer.toString();
     }
 }

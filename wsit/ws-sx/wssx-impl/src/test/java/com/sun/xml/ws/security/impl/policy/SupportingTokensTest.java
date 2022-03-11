@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -32,44 +32,44 @@ import junit.framework.*;
  * @author mayank
  */
 public class SupportingTokensTest extends TestCase {
-    
+
     public SupportingTokensTest(String testName) {
         super(testName);
     }
-    
+
     @Override
     protected void setUp() {
     }
-    
+
     @Override
     protected void tearDown() {
     }
-    
+
     public static Test suite() {
         TestSuite suite = new TestSuite(SupportingTokensTest.class);
-        
+
         return suite;
     }
-    
+
     private PolicySourceModel unmarshalPolicyResource(String resource) throws PolicyException, IOException {
         Reader reader = getResourceReader(resource);
         PolicySourceModel model = ModelUnmarshaller.getUnmarshaller().unmarshalModel(reader);
         reader.close();
         return model;
     }
-    
+
     private Reader getResourceReader(String resourceName) {
         return new InputStreamReader(Thread.currentThread().getContextClassLoader().getResourceAsStream(resourceName));
     }
-    
+
     public Policy unmarshalPolicy(String xmlFile)throws Exception{
         PolicySourceModel model =  unmarshalPolicyResource(
                 xmlFile);
         Policy mbp = ModelTranslator.getTranslator().translate(model);
         return mbp;
-        
+
     }
-    
+
     public void testSupportingToken() throws Exception {
         String fileName="security/SupportingTokenAssertion.xml";
         Policy policy = unmarshalPolicy(fileName);
@@ -79,15 +79,15 @@ public class SupportingTokensTest extends TestCase {
             for(PolicyAssertion assertion : as) {
                 assertEquals("Invalid assertion", "SupportingTokens",assertion.getName().getLocalPart());
                 SupportingTokens stk = (SupportingTokens)assertion;
-                
+
                 AlgorithmSuite aSuite = stk.getAlgorithmSuite();
                 assertEquals("Unmatched Algorithm",aSuite.getEncryptionAlgorithm(), AlgorithmSuiteValue.TripleDesRsa15.getEncAlgorithm());
-                
+
                 Iterator itrTkn = stk.getTokens();
                 if(itrTkn.hasNext()) {
                     assertTrue(((com.sun.xml.ws.security.policy.UserNameToken)itrTkn.next()).getType().equals(com.sun.xml.ws.security.policy.UserNameToken.WSS_USERNAME_TOKEN_10));
                 }
-                
+
                 Iterator itrSparts = stk.getSignedParts();
                 if(itrSparts.hasNext()) {
                     assertEquals("Body not found ",true,((SignedParts)itrSparts.next()).hasBody());
@@ -95,5 +95,5 @@ public class SupportingTokensTest extends TestCase {
             }
         }
     }
- 
+
 }

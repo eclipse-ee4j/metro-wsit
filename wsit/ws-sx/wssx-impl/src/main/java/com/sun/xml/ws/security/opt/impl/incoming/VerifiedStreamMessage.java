@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -70,12 +70,12 @@ public final class VerifiedStreamMessage extends AbstractMessageImpl {
      * The reader will be positioned at
      * the first child of the SOAP body
      */
-    private 
+    private
     @NotNull
     XMLStreamReader reader;
     private MutableXMLStreamBuffer buffer = null;
     // lazily created
-    private 
+    private
     @Nullable
     MessageHeaders headers;
     private final String payloadLocalName;
@@ -90,7 +90,7 @@ public final class VerifiedStreamMessage extends AbstractMessageImpl {
      * If the creator of this object didn't care about those,
      * we use stock values.
      */
-    private /*almost final*/ 
+    private /*almost final*/
     @NotNull
     TagInfoset envelopeTag,  headerTag,  bodyTag;
 
@@ -109,9 +109,9 @@ public final class VerifiedStreamMessage extends AbstractMessageImpl {
      *      if there's no payload)
      */
     public VerifiedStreamMessage(
-            @Nullable MessageHeaders headers, 
-            @NotNull AttachmentSet attachmentSet, 
-            @NotNull XMLStreamReader reader, 
+            @Nullable MessageHeaders headers,
+            @NotNull AttachmentSet attachmentSet,
+            @NotNull XMLStreamReader reader,
             @NotNull SOAPVersion soapVersion,  Map<String, String> bodyEnvNs) {
         super(soapVersion);
         this.headers = headers;
@@ -162,12 +162,12 @@ public final class VerifiedStreamMessage extends AbstractMessageImpl {
      *
      */
     public VerifiedStreamMessage(
-            @NotNull TagInfoset envelopeTag, 
-            @Nullable TagInfoset headerTag, 
-            @NotNull AttachmentSet attachmentSet, 
-            @Nullable MessageHeaders headers, 
-            @NotNull TagInfoset bodyTag, 
-            @NotNull XMLStreamReader reader, 
+            @NotNull TagInfoset envelopeTag,
+            @Nullable TagInfoset headerTag,
+            @NotNull AttachmentSet attachmentSet,
+            @Nullable MessageHeaders headers,
+            @NotNull TagInfoset bodyTag,
+            @NotNull XMLStreamReader reader,
             @NotNull SOAPVersion soapVersion,  Map<String, String> bodyEnvNs) {
         this(headers, attachmentSet, reader, soapVersion, bodyEnvNs);
         assert envelopeTag != null && bodyTag != null;
@@ -192,7 +192,7 @@ public final class VerifiedStreamMessage extends AbstractMessageImpl {
     }
 
     @Override
-    public 
+    public
     @NotNull
     AttachmentSet getAttachments() {
         return attachmentSet;

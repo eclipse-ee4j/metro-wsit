@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -20,21 +20,21 @@ package com.sun.xml.ws.transport.tcp.connectioncache.spi.concurrent;
 public interface ConcurrentQueue<V> {
     /** A Handle provides the capability to delete an element of a ConcurrentQueue
      * very quickly.  Typically, the handle is stored in the element, so that an
-     * element located from another data structure can be quickly deleted from 
+     * element located from another data structure can be quickly deleted from
      * a ConcurrentQueue.
      */
     interface Handle<V> {
-	/** Return the value that corresponds to this handle.
-	 */
-	V value() ;
+    /** Return the value that corresponds to this handle.
+     */
+    V value() ;
 
-	/** Delete the element corresponding to this handle 
-	 * from the queue.  Takes constant time.  Returns
-	 * true if the removal succeeded, or false if it failed.
-	 * which can occur if another thread has already called
-	 * poll or remove on this element.
-	 */
-	boolean remove() ;
+    /** Delete the element corresponding to this handle
+     * from the queue.  Takes constant time.  Returns
+     * true if the removal succeeded, or false if it failed.
+     * which can occur if another thread has already called
+     * poll or remove on this element.
+     */
+    boolean remove() ;
     }
 
     /** Return the number of elements in the queue.
@@ -50,4 +50,4 @@ public interface ConcurrentQueue<V> {
      * The element is removed from the queue.
      */
     V poll() ;
-} 
+}

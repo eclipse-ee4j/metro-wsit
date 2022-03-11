@@ -47,21 +47,21 @@ import com.sun.xml.wss.logging.impl.opt.LogStringsMessages;
 public class KerberosBinarySecurityToken implements com.sun.xml.ws.security.opt.api.keyinfo.KerberosBinarySecurityToken,
         SecurityHeaderElement,PolicyBuilder,TokenValidator,NamespaceContextInfo,
         SecurityElementWriter{
-    
+
     private String valueType = null;
     private String encodingType = null;
     private String id = "";
     private XMLStreamBuffer mark = null;
     private String namespaceURI = null;
     private String localPart = null;
-    
+
     private AuthenticationTokenPolicy.KerberosTokenBinding ktPolicy = null;
     private HashMap<String,String> nsDecls;
-    private byte [] bstValue = null;    
-    
+    private byte [] bstValue = null;
+
     private static final Logger logger = Logger.getLogger(LogDomainConstants.IMPL_OPT_DOMAIN,
             LogDomainConstants.IMPL_OPT_DOMAIN_BUNDLE);
-    
+
     /** Creates a new instance of KerberosBinarySecurityToken */
     @SuppressWarnings("unchecked")
     public KerberosBinarySecurityToken(XMLStreamReader reader, StreamReaderBufferCreator creator,HashMap nsDecl,
@@ -82,82 +82,82 @@ public class KerberosBinarySecurityToken implements com.sun.xml.ws.security.opt.
         bstReader.next();
         digestBST(bstReader);
     }
-    
+
     @Override
     public String getValueType() {
         return valueType;
     }
-    
+
     @Override
     public String getEncodingType() {
         return encodingType;
     }
-    
+
     @Override
     public byte[] getTokenValue() {
         return bstValue;
     }
-    
+
     @Override
     public String getId() {
         return id;
     }
-    
+
     @Override
     public boolean refersToSecHdrWithId(final String id) {
         throw new UnsupportedOperationException();
     }
-    
+
     @Override
     public void setId(final String id) {
         throw new UnsupportedOperationException();
     }
-    
+
     @Override
     public String getNamespaceURI() {
         return namespaceURI;
     }
-    
+
     @Override
     public String getLocalPart() {
         return localPart;
     }
-    
+
     @Override
     public XMLStreamReader readHeader() throws XMLStreamException {
         return mark.readAsXMLStreamReader();
     }
-    
+
     @Override
     public WSSPolicy getPolicy() {
         return ktPolicy;
     }
-    
+
     @Override
     public void validate(ProcessingContext context) {
         //TODO
     }
-    
+
     @Override
     public HashMap<String, String> getInscopeNSContext() {
         return nsDecls;
     }
-    
+
     @Override
     public void writeTo(XMLStreamWriter streamWriter) throws XMLStreamException {
         mark.writeToXMLStreamWriter(streamWriter);
     }
-    
+
     @Override
     public void writeTo(XMLStreamWriter streamWriter, HashMap props) {
         throw new UnsupportedOperationException();
     }
-    
+
     @Override
     public void writeTo(OutputStream os) {
         throw new UnsupportedOperationException();
     }
-    
+
     private void digestBST(XMLStreamReader reader) throws XMLStreamException{
         if(reader.getEventType() == XMLStreamReader.START_ELEMENT){
             reader.next();
@@ -173,7 +173,7 @@ public class KerberosBinarySecurityToken implements com.sun.xml.ws.security.opt.
             }
             try {
                 bstValue = Base64.decode(StreamUtil.getCV(reader));
-                
+
             } catch (Base64DecodingException ex) {
                 logger.log(Level.SEVERE, LogStringsMessages.WSS_1604_ERROR_DECODING_BASE_64_DATA(ex));
                 throw new XWSSecurityRuntimeException(LogStringsMessages.WSS_1604_ERROR_DECODING_BASE_64_DATA(ex));
@@ -185,10 +185,10 @@ public class KerberosBinarySecurityToken implements com.sun.xml.ws.security.opt.
              logger.log(Level.SEVERE, LogStringsMessages.WSS_1603_ERROR_READING_STREAM(null));
              throw new XWSSecurityRuntimeException(LogStringsMessages.WSS_1603_ERROR_READING_STREAM(null));
         }
-        
+
         if(reader.getEventType() != reader.END_ELEMENT){
             reader.next();
         }        //else it is end of BST.
     }
-    
+
 }

@@ -25,10 +25,10 @@ import com.sun.xml.wss.RealmAuthenticationAdapter;
 
 /**
  * This Callback is intended for Username-Password validation.
- * A validator that implements the PasswordValidator interface 
+ * A validator that implements the PasswordValidator interface
  * should be set on the callback by the callback handler.
  *
- * <p>Note: A validator for WSS Digested Username-Password is provided 
+ * <p>Note: A validator for WSS Digested Username-Password is provided
  * as part of this callback.
  *
  * @author XWS-Security Team
@@ -39,7 +39,7 @@ public class PasswordValidationCallback extends XWSSCallback implements Callback
     private boolean result = false;
     private PasswordValidator validator;
     private RealmAuthenticationAdapter authenticator = null;
-    
+
     public PasswordValidationCallback(Request request) {
         this.request = request;
     }
@@ -70,15 +70,15 @@ public class PasswordValidationCallback extends XWSSCallback implements Callback
             ((ValidatorExtension)this.validator).setRuntimeProperties(this.getRuntimeProperties());
         }
     }
-    
+
     public PasswordValidator getValidator() {
         return this.validator;
     }
-    
+
     public void setRealmAuthentcationAdapter(RealmAuthenticationAdapter adapter) {
         this.authenticator = adapter;
     }
-    
+
     public RealmAuthenticationAdapter getRealmAuthenticationAdapter() {
         return this.authenticator;
     }
@@ -143,7 +143,7 @@ public class PasswordValidationCallback extends XWSSCallback implements Callback
          *
          * @param userName <code>java.lang.String</code> representing Username.
          * @param digest <code>java.lang.String</code> Base64 encoded form of Digested Password.
-         * @param nonce <code>java.lang.String</code> representation of unique Nonce 
+         * @param nonce <code>java.lang.String</code> representation of unique Nonce
          * used for calculating Digested password.
          * @param created <code>java.security.String</code> representation of created time
          * used for password digest calculation.
@@ -223,7 +223,7 @@ public class PasswordValidationCallback extends XWSSCallback implements Callback
      * Interface for validating password.
      */
     public interface PasswordValidator {
-        
+
         /**
          * @param request PasswordValidationRequest
          * @return true if password validation succeeds else false
@@ -286,13 +286,13 @@ public class PasswordValidationCallback extends XWSSCallback implements Callback
                       "Password Digest could not be created" + e);
               }
               return (passwordDigest.equals(Base64.encode(hash)));
-         }   
-         
+         }
+
     }
-    
+
     public abstract static class WsitDigestPasswordValidator extends DigestPasswordValidator {
-            
-         public abstract void setPassword(Request request); 
+
+         public abstract void setPassword(Request request);
     }
 
     public abstract static class DerivedKeyPasswordValidator implements PasswordValidator {
@@ -310,7 +310,7 @@ public class PasswordValidationCallback extends XWSSCallback implements Callback
         public PasswordValidationException(String message, Throwable cause) {
             super(message, cause);
         }
-    
+
         public PasswordValidationException(Throwable cause) {
             super(cause);
         }

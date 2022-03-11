@@ -26,7 +26,7 @@ import com.sun.xml.ws.security.policy.SecurityAssertionValidator;
  */
 
 public class Layout extends PolicyAssertion implements SecurityAssertionValidator {
-    
+
     MessageLayout ml;
     private AssertionFitness fitness = AssertionFitness.IS_VALID;
     private boolean populated = false;
@@ -37,7 +37,7 @@ public class Layout extends PolicyAssertion implements SecurityAssertionValidato
     public Layout() {
         spVersion = SecurityPolicyVersion.SECURITYPOLICY200507;
     }
-    
+
     public Layout(AssertionData name,Collection<PolicyAssertion> nestedAssertions, AssertionSet nestedAlternative) {
         super(name,nestedAssertions,nestedAlternative);
         String nsUri = getName().getNamespaceURI();
@@ -47,7 +47,7 @@ public class Layout extends PolicyAssertion implements SecurityAssertionValidato
         populate();
         return ml;
     }
-    
+
     @Override
     public AssertionFitness validate(boolean isServer) {
         return populate(isServer);
@@ -55,7 +55,7 @@ public class Layout extends PolicyAssertion implements SecurityAssertionValidato
     private void populate(){
         populate(false);
     }
-    
+
     private synchronized AssertionFitness populate(boolean isServer) {
         if(!populated){
             NestedPolicy policy = this.getNestedPolicy();

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -20,7 +20,7 @@ import java.util.Map;
  * @author Jiandong Guo
  */
 public abstract class STSIssuedTokenConfiguration implements IssuedTokenConfiguration{
-    
+
     public static final String PROTOCOL_10 = "http://schemas.xmlsoap.org/ws/2005/02/trust";
     public static final String PROTOCOL_13 = "http://docs.oasis-open.org/ws-sx/ws-trust/200512";
 
@@ -37,25 +37,25 @@ public abstract class STSIssuedTokenConfiguration implements IssuedTokenConfigur
     public static final String STS_NAMESPACE ="sts-namespace";
     public static final String LIFE_TIME = "LifeTime";
     public static final String MAX_CLOCK_SKEW = "MaxClockSkew";
-    
+
     protected String protocol;
-    
+
     protected String stsEndpoint;
-    
+
     protected String stsMEXAddress = null;
-    
+
     protected String stsWSDLLocation = null;;
-    
+
     protected String stsServiceName = null;
-    
+
     protected String stsPortName = null;
-    
+
     protected String stsNamespace = null;
 
     protected SecondaryIssuedTokenParameters sisPara = null;
 
     private Map<String, Object> otherOptions = new HashMap<>();
-    
+
     protected STSIssuedTokenConfiguration(){
 
     }
@@ -67,13 +67,13 @@ public abstract class STSIssuedTokenConfiguration implements IssuedTokenConfigur
         this.stsEndpoint = stsEndpoint;
         this.stsMEXAddress = stsMEXAddress;
     }
-    
-    protected STSIssuedTokenConfiguration(String stsEndpoint, 
+
+    protected STSIssuedTokenConfiguration(String stsEndpoint,
                           String stsWSDLLocation, String stsServiceName, String stsPortName, String stsNamespace){
         this(PROTOCOL_10, stsEndpoint, stsWSDLLocation, stsServiceName, stsPortName, stsNamespace);
     }
-    
-    protected STSIssuedTokenConfiguration(String protocol, String stsEndpoint, 
+
+    protected STSIssuedTokenConfiguration(String protocol, String stsEndpoint,
                           String stsWSDLLocation, String stsServiceName, String stsPortName, String stsNamespace){
         this.protocol = protocol;
         this.stsEndpoint = stsEndpoint;
@@ -82,32 +82,32 @@ public abstract class STSIssuedTokenConfiguration implements IssuedTokenConfigur
         this.stsPortName = stsPortName;
         this.stsNamespace = stsNamespace;
     }
-    
+
     @Override
     public String getProtocol(){
         return protocol;
     }
-     
+
     public String getSTSEndpoint(){
         return this.stsEndpoint;
     }
-    
+
     public String getSTSMEXAddress(){
         return this.stsMEXAddress;
     }
-    
+
     public String getSTSWSDLLocation(){
         return this.stsWSDLLocation;
     }
-    
+
     public String getSTSServiceName(){
         return this.stsServiceName;
     }
-    
+
     public String getSTSPortName(){
         return this.stsPortName;
     }
-    
+
     public String getSTSNamespace(){
         return this.stsNamespace;
     }
@@ -119,26 +119,26 @@ public abstract class STSIssuedTokenConfiguration implements IssuedTokenConfigur
     public Map<String, Object> getOtherOptions(){
         return this.otherOptions;
     }
-    
+
     public abstract String getTokenType();
-    
+
     public abstract String getKeyType();
-    
+
     public abstract long getKeySize();
-    
+
     public abstract String getSignatureAlgorithm();
-    
+
     public abstract String getEncryptionAlgorithm();
-    
+
     public abstract String getCanonicalizationAlgorithm();
-    
+
     public abstract String getKeyWrapAlgorithm();
-    
+
     public abstract String getSignWith();
-    
+
     public abstract String getEncryptWith();
-    
+
     public abstract Claims getClaims();
-    
+
     public abstract Token getOBOToken();
 }

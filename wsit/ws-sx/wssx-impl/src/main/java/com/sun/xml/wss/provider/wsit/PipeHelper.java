@@ -148,8 +148,8 @@ public class PipeHelper extends ConfigHelper {
     }
 
     public void getSessionToken(Map<String, Object> m,
-				MessageInfo info,
-				Subject s) throws AuthException {
+                MessageInfo info,
+                Subject s) throws AuthException {
         ClientAuthConfig c = (ClientAuthConfig) getAuthConfig(false);
         if (c != null) {
             m.putAll(map);

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -33,29 +33,29 @@ import jakarta.xml.bind.JAXBContext;
  */
 public class SubjectConfirmation extends SubjectConfirmationType
         implements com.sun.xml.wss.saml.SubjectConfirmation {
-    
-    protected PublicKey keyInfoKeyValue = null;  
-    
+
+    protected PublicKey keyInfoKeyValue = null;
+
     protected static final Logger log = Logger.getLogger(
             LogDomainConstants.WSS_API_DOMAIN,
             LogDomainConstants.WSS_API_DOMAIN_BUNDLE);
-      
+
     public SubjectConfirmation(){
-        
+
     }
-    
+
 /**
      * From scratch constructor for a single confirmation method.
      *
      */
     public SubjectConfirmation(NameID nameID, java.lang.String method) {
-        
+
 //        List cm = new LinkedList();
 //        cm.add(method);
         setNameID(nameID);
         setMethod(method);
     }
-    
+
     /**
      * Constructs a subject confirmation element from an existing
      * XML block.
@@ -67,14 +67,14 @@ public class SubjectConfirmation extends SubjectConfirmationType
     throws SAMLException {
         try {
             JAXBContext jc = SAML20JAXBUtil.getJAXBContext();
-                    
+
             jakarta.xml.bind.Unmarshaller u = jc.createUnmarshaller();
             return (SubjectConfirmationType)u.unmarshal(element);
         } catch ( Exception ex) {
             throw new SAMLException(ex.getMessage());
         }
     }
-    
+
     /**
      * Constructs an <code>SubjectConfirmation</code> instance.
      *
@@ -88,10 +88,10 @@ public class SubjectConfirmation extends SubjectConfirmationType
     public SubjectConfirmation(
             NameID nameID, SubjectConfirmationData subjectConfirmationData,
             java.lang.String confirmationMethod) throws SAMLException {
-        
+
        // JAXBContext jc = null;
         //jakarta.xml.bind.Unmarshaller u = null;
-        
+
         //Unmarshal to JAXB KeyInfo Object and set it
        // try {
         //    jc = SAML20JAXBUtil.getJAXBContext();
@@ -99,7 +99,7 @@ public class SubjectConfirmation extends SubjectConfirmationType
         //} catch ( Exception ex) {
          //   throw new SAMLException(ex.getMessage());
         //}
-        
+
 //        try {
 //            if ( keyInfo != null) {
 //                setKeyInfo((KeyInfoType)((JAXBElement)u.unmarshal(keyInfo)).getValue());
@@ -111,42 +111,42 @@ public class SubjectConfirmation extends SubjectConfirmationType
 //            // log here
 //            throw new SAMLException(ex);
 //        }
-        setNameID(nameID); 
+        setNameID(nameID);
         if ( subjectConfirmationData != null)
             setSubjectConfirmationData(subjectConfirmationData);
         setMethod(confirmationMethod);
     }
-    
+
      public SubjectConfirmation(
             NameID nameID, KeyInfoConfirmationData keyInfoConfirmationData,
             java.lang.String confirmationMethod) throws SAMLException {
-        
-        setNameID(nameID); 
+
+        setNameID(nameID);
         if (keyInfoConfirmationData != null)
             setSubjectConfirmationData(keyInfoConfirmationData);
         setMethod(confirmationMethod);
     }
-     
-     
-    public SubjectConfirmation(SubjectConfirmationType subConfType){      
+
+
+    public SubjectConfirmation(SubjectConfirmationType subConfType){
         if(subConfType.getNameID() != null){
             NameID nameId = new NameID(subConfType.getNameID());
-            setNameID(nameId); 
+            setNameID(nameId);
         }
         if(subConfType.getSubjectConfirmationData() != null){
             SubjectConfirmationData subConData = new SubjectConfirmationData(subConfType.getSubjectConfirmationData());
             setSubjectConfirmationData(subConData);
-        }        
+        }
         setMethod(subConfType.getMethod());
     }
-    
+
     @Override
     public List<String> getConfirmationMethod() {
          List<String> confirmMethods = new ArrayList<>();
          confirmMethods.add(super.getMethod());
         return confirmMethods;
     }
-           
+
     @Override
     public Object getSubjectConfirmationDataForSAML11() {
         throw new UnsupportedOperationException("Not supported for SAML 2.0");

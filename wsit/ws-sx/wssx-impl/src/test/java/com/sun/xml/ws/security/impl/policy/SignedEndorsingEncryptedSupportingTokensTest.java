@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -33,24 +33,24 @@ import junit.framework.TestSuite;
  * @author ashutosh.shahi@sun.com
  */
 public class SignedEndorsingEncryptedSupportingTokensTest extends TestCase {
-    
+
     public SignedEndorsingEncryptedSupportingTokensTest(String testName) {
         super(testName);
     }
-    
+
     @Override
     protected void setUp() {
     }
-    
+
     @Override
     protected void tearDown() {
     }
-    
+
     public static Test suite() {
-        TestSuite suite = new TestSuite(SignedEndorsingEncryptedSupportingTokensTest.class);        
+        TestSuite suite = new TestSuite(SignedEndorsingEncryptedSupportingTokensTest.class);
         return suite;
     }
-    
+
     public boolean hasXPathTarget(String xpathExpr , Iterator itr){
         while(itr.hasNext()){
             if(xpathExpr.equals(itr.next())){
@@ -59,25 +59,25 @@ public class SignedEndorsingEncryptedSupportingTokensTest extends TestCase {
         }
         return false;
     }
-    
+
     private PolicySourceModel unmarshalPolicyResource(String resource) throws PolicyException, IOException {
         Reader reader = getResourceReader(resource);
         PolicySourceModel model = ModelUnmarshaller.getUnmarshaller().unmarshalModel(reader);
         reader.close();
         return model;
     }
-    
+
     private Reader getResourceReader(String resourceName) {
         return new InputStreamReader(Thread.currentThread().getContextClassLoader().getResourceAsStream(resourceName));
     }
-    
+
     public Policy unmarshalPolicy(String xmlFile)throws Exception{
         PolicySourceModel model =  unmarshalPolicyResource(
                 xmlFile);
         Policy mbp = ModelTranslator.getTranslator().translate(model);
-        return mbp;        
+        return mbp;
     }
-    
+
     public void testSignedEndorsingEncryptedSupportingToken() throws Exception {
         String fileName="security/SignedEndorsingEncryptedSupportingTokenSP12.xml";
         Policy policy = unmarshalPolicy(fileName);
@@ -87,15 +87,15 @@ public class SignedEndorsingEncryptedSupportingTokensTest extends TestCase {
             for(PolicyAssertion assertion : as) {
                 assertEquals("Invalid assertion", "SignedEndorsingEncryptedSupportingTokens",assertion.getName().getLocalPart());
                 SignedEndorsingEncryptedSupportingTokens sst = (SignedEndorsingEncryptedSupportingTokens)assertion;
-                
+
                 AlgorithmSuite aSuite = (AlgorithmSuite) sst.getAlgorithmSuite();
                 assertEquals("Unmatched Algorithm",aSuite.getEncryptionAlgorithm(), AlgorithmSuiteValue.TripleDesRsa15.getEncAlgorithm());
-                
+
                 Iterator itrest = sst.getTokens();
                 if(itrest.hasNext()) {
                     assertTrue(X509Token.WSSX509V3TOKEN10.equals(((X509Token)itrest.next()).getTokenType()));
                 }
-                
+
                 Iterator itrSparts = sst.getSignedElements();
                 if(itrSparts.hasNext()) {
                     SignedElements se = (SignedElements)itrSparts.next();

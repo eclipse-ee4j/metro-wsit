@@ -47,17 +47,17 @@ import com.sun.xml.ws.api.addressing.WSEndpointReference;
  * @author K.Venugopal@sun.com
  */
 public class Header implements com.sun.xml.ws.api.message.Header {
-    
+
     private com.sun.xml.ws.api.message.Header  wrappedHeader = null;
     private SecurityHeaderElement she = null;
-    
+
     private String localName;
     private String uri;
     private String prefix;
     private Vector attrList = new Vector();
     private Vector attrNSList = new Vector();
     private boolean parsed = false;
-    
+
     /**
      *
      * @param header represents the Header element whose content is either signed or encrypted
@@ -67,7 +67,7 @@ public class Header implements com.sun.xml.ws.api.message.Header {
         this.wrappedHeader = header;
         this.she = she;
     }
-    
+
     /**
      * Checks if this header is ignorable for us (IOW, make sure
      * that this header has a problematic "mustUnderstand" header value
@@ -113,7 +113,7 @@ public class Header implements com.sun.xml.ws.api.message.Header {
     public boolean isIgnorable(@NotNull SOAPVersion soapVersion, @NotNull Set<String> roles){
         return this.wrappedHeader.isIgnorable(soapVersion,roles);
     }
-    
+
     /**
      * Gets the value of the soap:role attribute (or soap:actor for SOAP 1.1).
      *
@@ -132,7 +132,7 @@ public class Header implements com.sun.xml.ws.api.message.Header {
     public @NotNull String getRole(@NotNull SOAPVersion soapVersion){
         return this.wrappedHeader.getRole(soapVersion);
     }
-    
+
     /**
      * True if this header is to be relayed if not processed.
      * For SOAP 1.1 messages, this method always return false.
@@ -154,7 +154,7 @@ public class Header implements com.sun.xml.ws.api.message.Header {
     public boolean isRelay(){
         return this.wrappedHeader.isRelay();
     }
-    
+
     /**
      * Gets the namespace URI of this header element.
      *
@@ -173,7 +173,7 @@ public class Header implements com.sun.xml.ws.api.message.Header {
         }
         return uri;
     }
-    
+
     /**
      * Gets the local name of this header element.
      *
@@ -192,7 +192,7 @@ public class Header implements com.sun.xml.ws.api.message.Header {
         }
         return localName;
     }
-    
+
     /**
      * Gets the attribute value on the header element.
      *
@@ -212,7 +212,7 @@ public class Header implements com.sun.xml.ws.api.message.Header {
     public  @Nullable String getAttribute(@NotNull String nsUri, @NotNull String localName){
         throw new UnsupportedOperationException();
     }
-    
+
     /**
      * Gets the attribute value on the header element.
      *
@@ -228,7 +228,7 @@ public class Header implements com.sun.xml.ws.api.message.Header {
     public  @Nullable String getAttribute(@NotNull QName name){
         throw new UnsupportedOperationException();
     }
-    
+
     /**
      * Reads the header as a {@link XMLStreamReader}.
      *
@@ -259,9 +259,9 @@ public class Header implements com.sun.xml.ws.api.message.Header {
     public XMLStreamReader readHeader() {
         throw new UnsupportedOperationException();
         //We should avoid such operations for Security operated headers.
-        
+
     }
-    
+
     /**
      * Reads the header as a JAXB object by using the given unmarshaller.
      */
@@ -278,7 +278,7 @@ public class Header implements com.sun.xml.ws.api.message.Header {
     public <T> T readAsJAXB(Bridge<T> bridge, BridgeContext context) {
         throw new UnsupportedOperationException();
     }
-    
+
     /**
      * Reads the header as a JAXB object by using the given unmarshaller.
      */
@@ -286,7 +286,7 @@ public class Header implements com.sun.xml.ws.api.message.Header {
     public <T> T readAsJAXB(Bridge<T> bridge) {
         throw new UnsupportedOperationException();
     }
-    
+
     /**
      * Writes out the header.
      *
@@ -303,7 +303,7 @@ public class Header implements com.sun.xml.ws.api.message.Header {
         ((SecurityElementWriter)she).writeTo(w);
         writeEndElement(w);
     }
-    
+
     /**
      * Writes out the header to the given SOAPMessage.
      *
@@ -320,7 +320,7 @@ public class Header implements com.sun.xml.ws.api.message.Header {
     public void writeTo(SOAPMessage saaj) throws SOAPException{
         throw new UnsupportedOperationException("use writeTo(XMLStreamWriter w) ");
     }
-    
+
     /**
      * Writes out the header as SAX events.
      *
@@ -350,7 +350,7 @@ public class Header implements com.sun.xml.ws.api.message.Header {
     public void writeTo(ContentHandler contentHandler, ErrorHandler errorHandler) {
         throw new UnsupportedOperationException("use writeTo(XMLStreamWriter w) ");
     }
-    
+
     @Override
     public String getStringContent(){
         throw new UnsupportedOperationException();
@@ -391,7 +391,7 @@ public class Header implements com.sun.xml.ws.api.message.Header {
                         attr.setUri(uri);
                         attrList.add(attr);
                     }
-                    
+
                     count = 0;
                     count = reader.getNamespaceCount();
                     for(int i=0;i<count ;i++){
@@ -412,14 +412,14 @@ public class Header implements com.sun.xml.ws.api.message.Header {
                     break;
                 }
             }
-            
+
         }
     }
-    
+
     private void writeEndElement(XMLStreamWriter xsw) throws XMLStreamException{
         xsw.writeEndElement();
     }
-    
+
     private void writeStartElement(XMLStreamWriter xsw) throws XMLStreamException{
         xsw.writeStartElement(prefix,localName,uri);
         for(int i=0;i<attrNSList.size();i++){
@@ -432,8 +432,8 @@ public class Header implements com.sun.xml.ws.api.message.Header {
         }
     }
 
-	@Override
+    @Override
     public <T> T readAsJAXB(XMLBridge<T> arg0) {
         throw new UnsupportedOperationException();
-	}
+    }
 }

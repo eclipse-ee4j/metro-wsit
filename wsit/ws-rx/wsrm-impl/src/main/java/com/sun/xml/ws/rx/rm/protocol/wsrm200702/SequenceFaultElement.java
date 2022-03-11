@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -27,9 +27,9 @@ import jakarta.xml.soap.Detail;
 
 /**
  * <p>Java class for SequenceFaultType complex type.
- * 
+ *
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ *
  * <pre>{@code
  * <complexType name="SequenceFaultType">
  *   <complexContent>
@@ -43,8 +43,8 @@ import jakarta.xml.soap.Detail;
  *   </complexContent>
  * </complexType>
  * }</pre>
- * 
- * 
+ *
+ *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "SequenceFaultType", propOrder = {
@@ -67,7 +67,7 @@ public class SequenceFaultElement {
     public SequenceFaultElement() {
         // empty
     }
-    
+
     public SequenceFaultElement(QName faultCode) {
         this.faultCode = faultCode;
     }
@@ -84,14 +84,14 @@ public class SequenceFaultElement {
             }
         }
     }
-  
+
     /**
      * Gets the value of the faultCode property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link QName }
-     *     
+     *
      */
     public QName getFaultCode() {
         return faultCode;
@@ -99,11 +99,11 @@ public class SequenceFaultElement {
 
     /**
      * Sets the value of the faultCode property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link QName }
-     *     
+     *
      */
     public void setFaultCode(QName value) {
         this.faultCode = value;
@@ -111,11 +111,11 @@ public class SequenceFaultElement {
 
     /**
      * Gets the value of the detail property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link DetailType }
-     *     
+     *
      */
     public DetailType getDetail() {
         return detail;
@@ -123,11 +123,11 @@ public class SequenceFaultElement {
 
     /**
      * Sets the value of the detail property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link DetailType }
-     *     
+     *
      */
     public void setDetail(DetailType value) {
         this.detail = value;
@@ -135,26 +135,26 @@ public class SequenceFaultElement {
 
     /**
      * Gets the value of the any property.
-     * 
+     *
      * <p>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
      * This is why there is not a <CODE>set</CODE> method for the any property.
-     * 
+     *
      * <p>
      * For example, to add a new item, do as follows:
      * <pre>
      *    getAny().add(newItem);
      * </pre>
-     * 
-     * 
+     *
+     *
      * <p>
      * Objects of the following type(s) are allowed in the list
      * {@link Object }
      * {@link org.w3c.dom.Element }
-     * 
-     * 
+     *
+     *
      */
     public List<Object> getAny() {
         if (any == null) {
@@ -165,15 +165,15 @@ public class SequenceFaultElement {
 
     /**
      * Gets a map that contains attributes that aren't bound to any typed property on this class.
-     * 
+     *
      * <p>
-     * the map is keyed by the name of the attribute and 
+     * the map is keyed by the name of the attribute and
      * the value is the string value of the attribute.
-     * 
+     *
      * the map returned by this method is live, and you can add new attribute
      * by updating the map directly. Because of this design, there's no setter.
-     * 
-     * 
+     *
+     *
      * @return
      *     always non-null
      */

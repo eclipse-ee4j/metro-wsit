@@ -16,17 +16,17 @@ import com.sun.xml.wss.impl.PolicyTypeUtil;
  *
  */
 public class IssuedTokenKeyBinding extends KeyBindingBase implements LazyKeyBinding {
-    
+
     String strId = null;
     private String realId;
     private String tokenType;
-    
-    
+
+
     /** Creates a new instance of IssuedTokenKeyBinding */
     public IssuedTokenKeyBinding() {
         setPolicyIdentifier(PolicyTypeUtil.ISSUED_TOKEN_KEY_BINDING);
     }
-    
+
     @Override
     public Object clone() {
         IssuedTokenKeyBinding itb = new IssuedTokenKeyBinding();
@@ -37,27 +37,27 @@ public class IssuedTokenKeyBinding extends KeyBindingBase implements LazyKeyBind
         itb.setSTRID(this.strId);
         return itb;
     }
-    
+
     @Override
     public boolean equals(WSSPolicy policy) {
         if ( !PolicyTypeUtil.issuedTokenKeyBinding(policy)) {
             return false;
         }
-        
+
         //TODO: Check the contents of IssuedTokenContext
         return true;
     }
-    
+
     @Override
     public boolean equalsIgnoreTargets(WSSPolicy policy) {
         return equals(policy);
     }
-    
+
     @Override
     public String getType() {
         return PolicyTypeUtil.ISSUED_TOKEN_KEY_BINDING;
     }
-    
+
         /*
          * @param id the wsu:id of the wsse:SecurityTokenReference to
          * be generated for this Issued Token. Applicable while
@@ -67,10 +67,10 @@ public class IssuedTokenKeyBinding extends KeyBindingBase implements LazyKeyBind
             if (isReadOnly()) {
                 throw new RuntimeException("Can not set Issued Token STRID : Policy is ReadOnly");
             }
-            
+
             this.strId = id;
         }
-        
+
         /*
          * @return the wsu:id of the wsse:SecurityTokenReference to
          * be generated for this Issued Token, if specified,

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -26,7 +26,7 @@ import javax.xml.namespace.QName;
  * Assertion which replaces acknowledgement interval attribute of WS-RMP v1.0 RMAssertion.
  * The same assertion is used by .Net framework which could simplify the interoperability.
  *
- * <pre>{@code 
+ * <pre>{@code
  * <netrmp:AcknowledgementInterval Milliseconds="200" xmlns:netrmp="http://schemas.microsoft.com/ws-rx/wsrmp/200702"/>
  * }</pre>
  */

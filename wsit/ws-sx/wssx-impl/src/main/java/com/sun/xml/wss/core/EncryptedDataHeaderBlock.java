@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -26,7 +26,7 @@ import jakarta.xml.soap.SOAPException;
 import com.sun.xml.wss.impl.misc.SecurityHeaderBlockImpl;
 
 /**
- * Corresponds to Schema definition for EncryptedData. 
+ * Corresponds to Schema definition for EncryptedData.
  * Schema definition for EncryptedData is as follows:
  * <p>
  * <pre>{@code
@@ -43,7 +43,7 @@ import com.sun.xml.wss.impl.misc.SecurityHeaderBlockImpl;
  */
 public class EncryptedDataHeaderBlock extends EncryptedTypeHeaderBlock {
 
-            
+
     /**
      * Create an empty EncryptedData element.
      *
@@ -65,8 +65,8 @@ public class EncryptedDataHeaderBlock extends EncryptedTypeHeaderBlock {
             throw new XWSSecurityException(e);
         }
     }
-    
-    
+
+
 
     /**
      * @throws XWSSecurityException
@@ -80,7 +80,7 @@ public class EncryptedDataHeaderBlock extends EncryptedTypeHeaderBlock {
         if (!(element.getLocalName().equals(
                   MessageConstants.ENCRYPTED_DATA_LNAME) &&
               XMLUtil.inEncryptionNS(element))) {
-            log.log(Level.SEVERE, "WSS0346.error.creating.edhb", element.getTagName());  
+            log.log(Level.SEVERE, "WSS0346.error.creating.edhb", element.getTagName());
             throw new XWSSecurityException("Invalid EncryptedData passed");
         }
         initializeEncryptedType(element);
@@ -107,7 +107,7 @@ public class EncryptedDataHeaderBlock extends EncryptedTypeHeaderBlock {
                     addTextNode("\n    ");
                 }
                 if (cipherData == null) {
-                    log.log(Level.SEVERE, 
+                    log.log(Level.SEVERE,
                             "WSS0347.missing.cipher.data");
                     throw new XWSSecurityException(
                         "CipherData is not present inside EncryptedType");
@@ -124,6 +124,6 @@ public class EncryptedDataHeaderBlock extends EncryptedTypeHeaderBlock {
             }
         }
         return super.getAsSoapElement();
-    }  
-        
+    }
+
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -31,7 +31,7 @@ public class AckRequestedElement {
     protected Identifier identifier;
     @XmlElement(name = "MaxMessageNumberUsed", namespace = "http://schemas.xmlsoap.org/ws/2005/02/rm")
     protected BigInteger maxMessageNumberUsed;
-    
+
     @XmlAnyElement(lax = true)
     protected List<Object> any;
     @XmlAnyAttribute
@@ -71,9 +71,9 @@ public class AckRequestedElement {
 
     /**
      * Gets the value of the Identifier property.
-     * 
+     *
      * @return The value of the property
-     *     
+     *
      */
     public Identifier getIdentifier() {
         return identifier;
@@ -81,9 +81,9 @@ public class AckRequestedElement {
 
     /**
      * Sets the value of the identifier property.
-     * 
+     *
      * @param value The new value.
-     *     
+     *
      */
     public void setIdentifier(Identifier value) {
         this.identifier = value;
@@ -91,9 +91,9 @@ public class AckRequestedElement {
 
     /**
      * Gets the value of the maxMessageNumberUsed property.
-     * 
+     *
      * @return The value of the property.
-     *     
+     *
      */
     public BigInteger getMaxMessageNumberUsed() {
         return maxMessageNumberUsed;
@@ -101,7 +101,7 @@ public class AckRequestedElement {
 
     /**
      * Sets the value of the maxMessageNumberUsed property.
-     * 
+     *
      * @param value The new value.
      */
     public void setMaxMessageNumberUsed(BigInteger value) {

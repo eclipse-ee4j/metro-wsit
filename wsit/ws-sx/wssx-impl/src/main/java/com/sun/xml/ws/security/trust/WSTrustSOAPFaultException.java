@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -21,7 +21,7 @@ import javax.xml.namespace.QName;
  * @author Kumar Jayanti
  */
 public class WSTrustSOAPFaultException extends RuntimeException {
-    
+
     public static final QName WS_TRUST_INVALID_REQUEST_FAULT = new QName(WSTrustConstants.WST_NAMESPACE, "InvalidRequest", WSTrustConstants.WST_PREFIX);
     public static final QName WS_TRUST_FAILED_AUTHENTICATION_FAULT = new QName(WSTrustConstants.WST_NAMESPACE, "FailedAuthentication", WSTrustConstants.WST_PREFIX);
     public static final QName WS_TRUST_REQUEST_FAILED_FAULT = new QName(WSTrustConstants.WST_NAMESPACE, "RequestFailed", WSTrustConstants.WST_PREFIX);
@@ -34,7 +34,7 @@ public class WSTrustSOAPFaultException extends RuntimeException {
     public static final QName WS_TRUST_UNABLE_TO_RENEW_FAULT = new QName(WSTrustConstants.WST_NAMESPACE, "UnableToRenew", WSTrustConstants.WST_PREFIX);
     public static final QName WS_TRUST_BAD_REQUEST_FAULT = new QName(WSTrustConstants.WST_NAMESPACE, "BadRequest", WSTrustConstants.WST_PREFIX);
 
-    
+
     public static final String WS_TRUST_INVALID_REQUEST_FAULTSTRING = "The request was invalid or malformed";
     public static final String WS_TRUST_FAILED_AUTHENTICATION_FAULTSTRING = "Authentication Failed";
     public static final String WS_TRUST_REQUEST_FAILED_FAULTSTRING = "The specified request failed";
@@ -51,28 +51,28 @@ public class WSTrustSOAPFaultException extends RuntimeException {
 
     private final QName faultCode;
     private final String faultString;
-    
-    /** 
-     * Creates a new instance of WSTrustSOAPFaultException 
+
+    /**
+     * Creates a new instance of WSTrustSOAPFaultException
      */
     public WSTrustSOAPFaultException(String message, Throwable cause, QName faultCode, String faultString) {
         super(message,cause);
         this.faultCode = faultCode;
         this.faultString = faultString;
     }
-    
+
     /**
      * Get the FaultString for this exception
      */
     public String getFaultString() {
         return faultString;
     }
-    
+
     /**
      * Get the FaultCode (QName) for this exception
      */
     public QName getFaultCode() {
         return faultCode;
     }
-    
+
 }

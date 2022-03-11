@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -32,7 +32,7 @@ present, the issuer is asserting that the statement is true of both subjects
 being identified. A {@code <Subject>} element SHOULD NOT identify more than one
 principal.
  *
- * <p>The following schema fragment specifies the expected content contained within 
+ * <p>The following schema fragment specifies the expected content contained within
  * SAML Subject element.
  *
  * <pre>{@code
@@ -54,9 +54,9 @@ principal.
 public interface Subject {
 
     SubjectConfirmation getSubjectConfirmation();
-    
+
     NameIdentifier getNameIdentifier();
-    
+
     NameID getNameId();
-        
+
 }

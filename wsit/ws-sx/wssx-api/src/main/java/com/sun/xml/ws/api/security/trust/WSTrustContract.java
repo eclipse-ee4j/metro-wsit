@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -17,13 +17,13 @@ import java.util.Map;
 
 
 /**
- *    The Contract (SPI) to be used by an STS to handle an Incoming WS-Trust request and 
+ *    The Contract (SPI) to be used by an STS to handle an Incoming WS-Trust request and
  *    send the corresponding response.
  */
 public interface WSTrustContract<K, V> {
 
     void init(STSConfiguration config);
-    
+
     /** Issue a Token */
     V issue(K rst, IssuedTokenContext context) throws WSTrustException;
 
@@ -39,8 +39,8 @@ public interface WSTrustContract<K, V> {
     V validate(K request, IssuedTokenContext context)
             throws WSTrustException;
 
-    /** 
-     * handle an unsolicited RSTR like in the case of 
+    /**
+     * handle an unsolicited RSTR like in the case of
      * Client Initiated Secure Conversation.
      */
     void handleUnsolicited(V rstr, IssuedTokenContext context)

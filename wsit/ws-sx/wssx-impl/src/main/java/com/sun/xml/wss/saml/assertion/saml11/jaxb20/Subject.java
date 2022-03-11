@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -46,14 +46,14 @@ principal.
 */
 public class Subject extends SubjectType
     implements com.sun.xml.wss.saml.Subject {
-    
+
     private NameIdentifier nameIdentifier;
     private SubjectConfirmation subjectConfirmation;
-    
+
     protected static final Logger log = Logger.getLogger(
             LogDomainConstants.WSS_API_DOMAIN,
             LogDomainConstants.WSS_API_DOMAIN_BUNDLE);
-    
+
     /**
      * Constructs a Subject object from a <code>NameIdentifier</code>
      * object and a <code>SubjectConfirmation</code> object.
@@ -65,17 +65,17 @@ public class Subject extends SubjectType
         NameIdentifier nameIdentifier, SubjectConfirmation subjectConfirmation)
         {
         ObjectFactory factory = new ObjectFactory();
-        
+
         if ( nameIdentifier != null)
             getContent().add(factory.createNameIdentifier(nameIdentifier));
-        
+
         if ( subjectConfirmation != null)
             getContent().add(factory.createSubjectConfirmation(subjectConfirmation));
     }
 
     public Subject(SubjectType subjectType){
         Iterator it = subjectType.getContent().iterator();
-        
+
         while(it.hasNext()){
             Object obj = it.next();
             if(obj instanceof JAXBElement){
@@ -85,7 +85,7 @@ public class Subject extends SubjectType
                 }else if(object instanceof SubjectConfirmationType){
                     subjectConfirmation = new SubjectConfirmation((SubjectConfirmationType)object);
                 }
-            }else{                
+            }else{
                 if(obj instanceof NameIdentifierType){
                     nameIdentifier = new NameIdentifier((NameIdentifierType)obj);
                 }else if(obj instanceof SubjectConfirmationType){
@@ -94,23 +94,23 @@ public class Subject extends SubjectType
             }
         }
     }
-    
-    
+
+
     @Override
     public NameIdentifier getNameIdentifier(){
         return nameIdentifier;
     }
-    
+
     @Override
     public NameID getNameId(){
         return null;
     }
-    
+
     @Override
     public SubjectConfirmation getSubjectConfirmation(){
         return subjectConfirmation;
     }
-            
+
     /**
      * This constructor builds a subject element from an existing XML block
      * which has already been built into a DOM.
@@ -124,7 +124,7 @@ public class Subject extends SubjectType
         throws SAMLException {
         try {
             JAXBContext jc = SAMLJAXBUtil.getJAXBContext();
-                    
+
             jakarta.xml.bind.Unmarshaller u = jc.createUnmarshaller();
             return (SubjectType)u.unmarshal(element);
         } catch ( Exception ex) {

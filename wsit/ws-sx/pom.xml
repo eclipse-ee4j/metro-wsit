@@ -33,7 +33,7 @@
         <module>wssx-api</module>
         <module>wssx-impl</module>
     </modules>
-    
+
     <!--dependencies></dependencies-->
     <!--properties></properties-->
 </project>

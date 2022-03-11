@@ -50,12 +50,12 @@ public abstract class XWSSUtil {
     protected static final Logger log =  Logger.getLogger(
             LogDomainConstants.WSS_API_DOMAIN,LogDomainConstants.WSS_API_DOMAIN_BUNDLE);
     /**
-     * 
+     *
      * @param ski byte[] representing SubjectKeyIdentifier
-     * @param trustStore java.security.KeyStore 
+     * @param trustStore java.security.KeyStore
      * @return X509Certificate from trustStore if present otherwise null.
      */
-    
+
     public static X509Certificate getCertificateFromTrustStore(byte[] ski, KeyStore trustStore)
         throws IOException {
 
@@ -82,10 +82,10 @@ public abstract class XWSSUtil {
         }
         return null;
     }
-    
-    
+
+
     /**
-     * 
+     *
      * @param issuerName Certificate Issuer Name
      * @param serialNumber Serial number of the certificate
      * @param trustStore java.security.Keystore
@@ -105,13 +105,13 @@ public abstract class XWSSUtil {
                     continue;
                 }
                 X509Certificate x509Cert = (X509Certificate) cert;
-                
-                
+
+
                 X500Principal thisIssuerPrincipal = x509Cert.getIssuerX500Principal();
                 X500Principal issuerPrincipal = new X500Principal(issuerName);
 
-                BigInteger thisSerialNumber = x509Cert.getSerialNumber();              
-               
+                BigInteger thisSerialNumber = x509Cert.getSerialNumber();
+
                 if (thisIssuerPrincipal.equals(issuerPrincipal)
                         && thisSerialNumber.equals(serialNumber)) {
                     return x509Cert;
@@ -122,7 +122,7 @@ public abstract class XWSSUtil {
         }
         return null;
      }
-     
+
     /**
      *
      */
@@ -154,8 +154,8 @@ public abstract class XWSSUtil {
         }
         return null;
      }
-     
-     
+
+
     /**
      *
      */
@@ -175,7 +175,7 @@ public abstract class XWSSUtil {
                     continue;
                 }
                 X509Certificate x509Cert = (X509Certificate) cert;
-                
+
                 X500Principal thisIssuerPrincipal = x509Cert.getIssuerX500Principal();
                 X500Principal issuerPrincipal = new X500Principal(issuerName);
 
@@ -191,8 +191,8 @@ public abstract class XWSSUtil {
         }
         return null;
      }
-     
-     
+
+
     /**
      *
      */
@@ -214,7 +214,7 @@ public abstract class XWSSUtil {
         }
         return null;
      }
-     
+
     /**
      *
      */
@@ -268,7 +268,7 @@ public abstract class XWSSUtil {
         if (obj instanceof X509Certificate) {
             X509Certificate cert = (X509Certificate) obj;
             if (cert.getSerialNumber().equals(serialNumber)) {
-               
+
                 X500Principal thisIssuerPrincipal = cert.getIssuerX500Principal();
                 X500Principal issuerPrincipal = new X500Principal(issuerName);
                 if (thisIssuerPrincipal.equals(issuerPrincipal)) {
@@ -342,5 +342,5 @@ public abstract class XWSSUtil {
         }
     }
 
-     
+
 }

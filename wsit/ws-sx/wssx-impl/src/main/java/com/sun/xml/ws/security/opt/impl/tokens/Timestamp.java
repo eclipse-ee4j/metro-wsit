@@ -45,24 +45,24 @@ import java.util.TimeZone;
  * @author Ashutosh.Shahi@sun.com
  */
 public class Timestamp extends TimestampType
-          implements com.sun.xml.ws.security.opt.api.tokens.Timestamp, 
+          implements com.sun.xml.ws.security.opt.api.tokens.Timestamp,
           SecurityHeaderElement, SecurityElementWriter{
-    
+
     private static final TimeZone utc = TimeZone.getTimeZone("UTC");
     private static Calendar utcCalendar = new GregorianCalendar(utc);
-    public static final SimpleDateFormat calendarFormatter1 
+    public static final SimpleDateFormat calendarFormatter1
             = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
     private static final SimpleDateFormat utcCalendarFormatter1
             = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
-    
+
     static {
         utcCalendarFormatter1.setTimeZone(utc);
     }
-    
+
     private long timeout = 0;
     private SOAPVersion soapVersion = SOAPVersion.SOAP_11;
     private ObjectFactory objFac = new ObjectFactory();
-    
+
     /**
      * Creates a new instance of Timestamp
      * @param sv the soapVersion for this message
@@ -70,9 +70,9 @@ public class Timestamp extends TimestampType
     public Timestamp(SOAPVersion sv) {
         this.soapVersion = sv;
     }
-    
+
     /**
-     * 
+     *
      * @param created set the creation time on timestamp
      */
     @Override
@@ -81,9 +81,9 @@ public class Timestamp extends TimestampType
         timeCreated.setValue(created);
         setCreated(timeCreated);
     }
-    
+
     /**
-     * 
+     *
      * @param expires set the expiry time on timestamp
      */
     @Override
@@ -92,9 +92,9 @@ public class Timestamp extends TimestampType
         timeExpires.setValue(expires);
         setExpires(timeExpires);
     }
-    
+
     /**
-     * 
+     *
      * @return the creation time value
      */
     @Override
@@ -105,9 +105,9 @@ public class Timestamp extends TimestampType
             createdValue = created.getValue();
         return createdValue;
     }
-    
+
     /**
-     * 
+     *
      * @return the expiry time value
      */
     @Override
@@ -118,55 +118,55 @@ public class Timestamp extends TimestampType
             expiresValue = expires.getValue();
         return expiresValue;
     }
-    
+
     /**
      * The timeout is assumed to be in seconds
      */
     public void setTimeout(long timeout) {
         this.timeout = timeout;
     }
-    
+
     @Override
     public String getNamespaceURI() {
         return MessageConstants.WSU_NS;
     }
-    
+
     @Override
     public String getLocalPart() {
         return MessageConstants.TIMESTAMP_LNAME;
     }
-    
+
     public String getAttribute(String nsUri, String localName) {
         QName qname = new QName(nsUri, localName);
         Map<QName, String> otherAttributes = this.getOtherAttributes();
         return otherAttributes.get(qname);
     }
-    
+
     public String getAttribute(QName name) {
         Map<QName, String> otherAttributes = this.getOtherAttributes();
         return otherAttributes.get(name);
     }
-    
+
     @Override
     public javax.xml.stream.XMLStreamReader readHeader() throws javax.xml.stream.XMLStreamException {
         XMLStreamBufferResult xbr = new XMLStreamBufferResult();
         JAXBElement<TimestampType> tsElem = new ObjectFactory().createTimestamp(this);
         try{
             getMarshaller().marshal(tsElem, xbr);
-            
+
         } catch(JAXBException je){
             throw new XMLStreamException(je);
         }
         return xbr.getXMLStreamBuffer().readAsXMLStreamReader();
     }
-    
+
     /**
      *
      */
     @Override
     public void writeTo(OutputStream os) {
     }
-    
+
     /**
      * Writes out the header.
      *
@@ -187,17 +187,17 @@ public class Timestamp extends TimestampType
                     return;
                 }
             }
-            
+
             getMarshaller().marshal(tsElem,streamWriter);
         } catch (JAXBException e) {
             throw new XMLStreamException(e);
         }
     }
-    
+
     private Marshaller getMarshaller() throws JAXBException{
         return JAXBUtil.createMarshaller(soapVersion);
     }
-    
+
     /*
      * The <wsu:Created> element specifies a timestamp used to
      * indicate the creation time. It is defined as part of the
@@ -209,19 +209,19 @@ public class Timestamp extends TimestampType
     public void createDateTime() {
         if (created == null) {
             synchronized (utcCalendar) {
-                
+
                 // always send UTC/GMT time
                 long currentTime = System.currentTimeMillis();
                 utcCalendar.setTimeInMillis(currentTime);
-                
+
                 setCreated(utcCalendarFormatter1.format(utcCalendar.getTime()));
-                
+
                 utcCalendar.setTimeInMillis(currentTime + timeout);
                 setExpires(utcCalendarFormatter1.format(utcCalendar.getTime()));
             }
         }
     }
-    
+
     /**
      *
      */
@@ -248,5 +248,5 @@ public class Timestamp extends TimestampType
             throw new XMLStreamException(jbe);
         }
     }
-    
+
 }

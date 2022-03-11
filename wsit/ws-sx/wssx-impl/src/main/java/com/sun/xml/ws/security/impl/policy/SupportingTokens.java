@@ -30,7 +30,7 @@ import javax.xml.namespace.QName;
  * @author K.Venugopal@sun.com
  */
 public class SupportingTokens extends PolicyAssertion implements com.sun.xml.ws.security.policy.SupportingTokens{
-    
+
     private AlgorithmSuite algSuite;
     private List<com.sun.xml.ws.security.policy.SignedParts> spList = new ArrayList<>(1);
     private List<com.sun.xml.ws.security.policy.EncryptedParts> epList = new ArrayList<>(1);
@@ -40,30 +40,30 @@ public class SupportingTokens extends PolicyAssertion implements com.sun.xml.ws.
     private List<Token> _tokenList;
     private boolean populated;
     private SecurityPolicyVersion spVersion = SecurityPolicyVersion.SECURITYPOLICY200507;
-    
+
     /**
      * Creates a new instance of SupportingTokens
      */
     public SupportingTokens() {
     }
-    
+
     public SupportingTokens(AssertionData name,Collection<PolicyAssertion> nestedAssertions, AssertionSet nestedAlternative) {
         super(name,nestedAssertions,nestedAlternative);
         String nsUri = getName().getNamespaceURI();
         spVersion = PolicyUtil.getSecurityPolicyVersion(nsUri);
     }
-    
+
     public void setAlgorithmSuite(AlgorithmSuite algSuite) {
         this.algSuite =algSuite;
     }
-    
+
     @Override
     public AlgorithmSuite getAlgorithmSuite() {
         populate();
         return algSuite;
     }
-    
-    
+
+
     public void addToken(Token token) {
         if(_tokenList == null){
             _tokenList = new ArrayList<>();
@@ -73,7 +73,7 @@ public class SupportingTokens extends PolicyAssertion implements com.sun.xml.ws.
         //Workaround - comment
         _tokenList.add(token);
     }
-    
+
     @Override
     public Iterator getTokens() {
         populate();
@@ -82,9 +82,9 @@ public class SupportingTokens extends PolicyAssertion implements com.sun.xml.ws.
         }
         return Collections.emptyList().iterator();
     }
-    
+
     private synchronized void populate(){
-        
+
         if(!populated){
             NestedPolicy policy = this.getNestedPolicy();
             if(policy == null){
@@ -151,38 +151,38 @@ public class SupportingTokens extends PolicyAssertion implements com.sun.xml.ws.
             populated = true;
         }
     }
-    
+
     @Override
     public String getIncludeToken() {
         return "";
     }
-    
+
     public void setIncludeToken(String type) {
     }
-    
+
     @Override
     public String getTokenId() {
         return "";
     }
-    
+
     @Override
     public Iterator<com.sun.xml.ws.security.policy.SignedParts> getSignedParts() {
         populate();
         return spList.iterator();
     }
-    
+
     @Override
     public Iterator<com.sun.xml.ws.security.policy.SignedElements> getSignedElements() {
         populate();
         return seList.iterator();
     }
-    
+
     @Override
     public Iterator<com.sun.xml.ws.security.policy.EncryptedParts> getEncryptedParts() {
         populate();
         return epList.iterator();
     }
-    
+
     @Override
     public Iterator<com.sun.xml.ws.security.policy.EncryptedElements> getEncryptedElements() {
         populate();
@@ -193,5 +193,5 @@ public class SupportingTokens extends PolicyAssertion implements com.sun.xml.ws.
     public SecurityPolicyVersion getSecurityPolicyVersion() {
         return spVersion;
     }
-    
+
 }

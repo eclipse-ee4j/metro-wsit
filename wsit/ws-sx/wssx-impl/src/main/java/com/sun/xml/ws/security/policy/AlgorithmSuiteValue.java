@@ -143,8 +143,8 @@ public enum AlgorithmSuiteValue {
             Constants.PSHA1_L192,
             Constants.PSHA1_L192,
             192);
-            
-    
+
+
     private final String dsigAlgorithm;
     private final String encAlgorithm;
     private final String symKWAlgorithm;
@@ -152,8 +152,8 @@ public enum AlgorithmSuiteValue {
     private final String encKDAlgorithm;
     private final String sigKDAlgorithm;
     private final int minSKLAlgorithm;
-    
-    
+
+
     AlgorithmSuiteValue(
             String dsigAlgorithm,
             String encAlgorithm,
@@ -162,7 +162,7 @@ public enum AlgorithmSuiteValue {
             String encKDAlgorithm,
             String sigKDAlgorithm,
             int minSKLAlgorithm) {
-        
+
         this.dsigAlgorithm = dsigAlgorithm;
         this.encAlgorithm = encAlgorithm;
         this.symKWAlgorithm = symKWAlgorithm;

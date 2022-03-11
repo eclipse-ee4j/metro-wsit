@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -25,7 +25,7 @@ import java.util.logging.Logger;
 
 public class LocalStringManagerImpl implements LocalStringManager {
 
-    
+
     private static Logger _logger = Logger.getLogger(LogDomainConstants.WSS_API_DOMAIN,
             LogDomainConstants.WSS_API_DOMAIN_BUNDLE);
 
@@ -37,7 +37,7 @@ public class LocalStringManagerImpl implements LocalStringManager {
      * @param defaultClass Class whose package has default localized strings
      */
     public LocalStringManagerImpl(Class defaultClass) {
-	this.defaultClass = defaultClass;
+    this.defaultClass = defaultClass;
     }
 
     /**
@@ -49,7 +49,7 @@ public class LocalStringManagerImpl implements LocalStringManager {
      *
      * <p>This simplifies access to resources, at the cost of checking for
      * the resource bundle of several classes upon each call. However, due
-     * to the caching performed by <code>ResourceBundle</code> this seems 
+     * to the caching performed by <code>ResourceBundle</code> this seems
      * reasonable.
      *
      * <p>Due to that, sub-classes <strong>must</strong> make sure they don't
@@ -62,41 +62,41 @@ public class LocalStringManagerImpl implements LocalStringManager {
      */
     @Override
     public String getLocalString(
-	Class callerClass,
-	String key,
-	String defaultValue
+    Class callerClass,
+    String key,
+    String defaultValue
     ) {
-	Class stopClass  = defaultClass.getSuperclass();
-	Class startClass = ((callerClass != null) ? callerClass : 
-			    defaultClass);
-	ResourceBundle resources  = null;
-	boolean globalDone = false;
-	for (Class c = startClass; 
-	     c != stopClass && c != null;
-	     c = c.getSuperclass()) {
-	    globalDone = (c == defaultClass);
-	    try {
-		// Construct the bundle name as LocalStrings in the
-		// caller class's package.
+    Class stopClass  = defaultClass.getSuperclass();
+    Class startClass = ((callerClass != null) ? callerClass :
+                defaultClass);
+    ResourceBundle resources  = null;
+    boolean globalDone = false;
+    for (Class c = startClass;
+         c != stopClass && c != null;
+         c = c.getSuperclass()) {
+        globalDone = (c == defaultClass);
+        try {
+        // Construct the bundle name as LocalStrings in the
+        // caller class's package.
 
             resources = ResourceBundle.getBundle(c.getName().substring(0, c.getName().lastIndexOf(".")) + ".LocalStrings", Locale.getDefault(), c.getClassLoader());
-		if ( resources != null ) {
-		    String value = resources.getString(key);
-		    if ( value != null )
-			return value;
-		}
-	    } catch (Exception ex) {
-	    }
-	} 
+        if ( resources != null ) {
+            String value = resources.getString(key);
+            if ( value != null )
+            return value;
+        }
+        } catch (Exception ex) {
+        }
+    }
 
-	// Look for a global resource (defined by defaultClass)
-	if ( ! globalDone ) {
-	    return getLocalString(null, key, defaultValue);
-	} else {
+    // Look for a global resource (defined by defaultClass)
+    if ( ! globalDone ) {
+        return getLocalString(null, key, defaultValue);
+    } else {
       if (_logger.isLoggable(Level.FINE))
-	        _logger.log(Level.FINE, "No local string for {0}", key);
-	    return defaultValue;
-	}
+            _logger.log(Level.FINE, "No local string for {0}", key);
+        return defaultValue;
+    }
     }
 
     /**
@@ -107,7 +107,7 @@ public class LocalStringManagerImpl implements LocalStringManager {
      */
     @Override
     public String getLocalString(String key, String defaultValue) {
-	return getLocalString(null, key, defaultValue);
+    return getLocalString(null, key, defaultValue);
     }
 
     /**
@@ -120,23 +120,23 @@ public class LocalStringManagerImpl implements LocalStringManager {
      */
     @Override
     public String getLocalString(
-	Class callerClass,
-	String key,
-	String defaultFormat,
-	Object... arguments
+    Class callerClass,
+    String key,
+    String defaultFormat,
+    Object... arguments
     ) {
-	MessageFormat f = new MessageFormat(
-	    getLocalString(callerClass, key, defaultFormat));
-	for (int i = 0; i < arguments.length; i++) {
-	    if ( arguments[i] == null ) {
-		arguments[i] = "null";
-	    } else if  ( !(arguments[i] instanceof String) &&
-		 !(arguments[i] instanceof Number) &&
-		 !(arguments[i] instanceof java.util.Date)) {
-		arguments[i] = arguments[i].toString();
-	    }
-	}
-	return f.format(arguments);
+    MessageFormat f = new MessageFormat(
+        getLocalString(callerClass, key, defaultFormat));
+    for (int i = 0; i < arguments.length; i++) {
+        if ( arguments[i] == null ) {
+        arguments[i] = "null";
+        } else if  ( !(arguments[i] instanceof String) &&
+         !(arguments[i] instanceof Number) &&
+         !(arguments[i] instanceof java.util.Date)) {
+        arguments[i] = arguments[i].toString();
+        }
+    }
+    return f.format(arguments);
     }
 
     /**
@@ -148,11 +148,11 @@ public class LocalStringManagerImpl implements LocalStringManager {
      * @return A formatted localized string
      */
     public String getLocalString(
-	String key,
-	String defaultFormat,
-	Object... arguments
+    String key,
+    String defaultFormat,
+    Object... arguments
     ) {
-	return getLocalString(null, key, defaultFormat, arguments);
+    return getLocalString(null, key, defaultFormat, arguments);
     }
 }
 

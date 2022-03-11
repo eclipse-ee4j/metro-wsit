@@ -18,9 +18,9 @@ import jakarta.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement(name="SignatureProperties")
 public class SignatureProperties extends com.sun.xml.security.core.dsig.SignaturePropertiesType {
-    
+
     /** Creates a new instance of SignatureProperties */
     public SignatureProperties() {
     }
-    
+
 }

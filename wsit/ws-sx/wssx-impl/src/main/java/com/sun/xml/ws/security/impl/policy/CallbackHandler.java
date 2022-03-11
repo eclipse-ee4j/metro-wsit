@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -21,25 +21,25 @@ import javax.xml.namespace.QName;
  * @author K.Venugopal@sun.com
  */
 public class CallbackHandler extends PolicyAssertion implements com.sun.xml.ws.security.policy.CallbackHandler{
-    
+
     private static QName name = new QName("name");
     private static QName className = new QName("classname");
     /** Creates a new instance of CallbackHandler */
     public CallbackHandler() {
     }
-    
+
     public CallbackHandler(AssertionData name,Collection<PolicyAssertion> nestedAssertions, AssertionSet nestedAlternative) {
         super(name,nestedAssertions,nestedAlternative);
     }
-    
+
     @Override
     public String getHandlerName() {
         return this.getAttributeValue(name);
     }
-    
+
     @Override
     public String getHandler() {
         return this.getAttributeValue(className);
-    }   
-   
+    }
+
 }

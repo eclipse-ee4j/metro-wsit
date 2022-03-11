@@ -60,7 +60,7 @@ public class JAXBEncryptedData implements EncryptedData,
         SecurityHeaderElement, SecurityElementWriter {
     private static final Logger logger = Logger.getLogger(LogDomainConstants.IMPL_OPT_CRYPTO_DOMAIN,
             LogDomainConstants.IMPL_OPT_CRYPTO_DOMAIN_BUNDLE);
-    
+
     private EncryptedDataType  edt = null;
     private Data data = null;
     private Key key = null;
@@ -73,13 +73,13 @@ public class JAXBEncryptedData implements EncryptedData,
         this.data = data;
         this.soapVersion = soapVersion;
     }
-    
+
     public JAXBEncryptedData(EncryptedDataType edt,Data data,SOAPVersion soapVersion) {
         this.edt = edt;
         this.data = data;
         this.soapVersion = soapVersion;
     }
-    
+
     public String getEncryptedLocalName(){
         if(data instanceof SSEData){
             SecurityElement se = ((SSEData)data).getSecurityElement();
@@ -87,7 +87,7 @@ public class JAXBEncryptedData implements EncryptedData,
         }
         return "";
     }
-    
+
     public String getEncryptedId(){
         if(data instanceof SSEData){
             SecurityElement se = ((SSEData)data).getSecurityElement();
@@ -95,32 +95,32 @@ public class JAXBEncryptedData implements EncryptedData,
         }
         return "";
     }
-    
+
     @Override
     public void encrypt() {
     }
-    
+
     @Override
     public void decrypt() {
     }
-    
+
     @Override
     public String getId() {
         return edt.getId();
     }
-    
+
     @Override
     public void setId(String id) {
         if(edt.getId() == null || edt.getId().length() ==0){
             edt.setId(id);
         }
-    }    
-    
+    }
+
     @Override
     public String getNamespaceURI() {
         return MessageConstants.XENC_NS;
-    }    
-    
+    }
+
     @Override
     public String getLocalPart() {
         return MessageConstants.ENCRYPTED_DATA_LNAME;
@@ -132,7 +132,7 @@ public class JAXBEncryptedData implements EncryptedData,
     @Override
     public void writeTo(javax.xml.stream.XMLStreamWriter streamWriter) throws javax.xml.stream.XMLStreamException {
         try {
-            
+
             if (streamWriter instanceof Map && !(dep != null)) {
                 OutputStream os = (OutputStream) ((Map) streamWriter).get("sjsxp-outputstream");
                 if (os != null) {
@@ -142,15 +142,15 @@ public class JAXBEncryptedData implements EncryptedData,
                 }
             }
             Marshaller writer = getMarshaller();
-            
+
             if(dep == null){
                 dep = new CryptoProcessor(Cipher.ENCRYPT_MODE, edt.getEncryptionMethod().getAlgorithm(), data, key);
-                
+
                 if(streamWriter instanceof StAXEXC14nCanonicalizerImpl){
                     ByteArrayOutputStream bos = new ByteArrayOutputStream();
                     try{
                         dep.encryptData(bos);
-                        
+
                     }catch(IOException ie){
                         logger.log(Level.SEVERE, LogStringsMessages.WSS_1920_ERROR_CALCULATING_CIPHERVALUE(),ie);
                         throw new XMLStreamException("Error occurred while calculating Cipher Value");
@@ -160,7 +160,7 @@ public class JAXBEncryptedData implements EncryptedData,
             }
             CVAdapter adapter = new CVAdapter(dep);
             writer.setAdapter(CVAdapter.class,adapter);
-            
+
             com.sun.xml.security.core.xenc.ObjectFactory obj = new com.sun.xml.security.core.xenc.ObjectFactory();
             JAXBElement ed = obj.createEncryptedData(edt);
             writer.marshal(ed,streamWriter);
@@ -198,9 +198,9 @@ public class JAXBEncryptedData implements EncryptedData,
         try {
             Marshaller writer = getMarshaller();
             CryptoProcessor dep;
-            
+
             dep = new CryptoProcessor(Cipher.ENCRYPT_MODE, edt.getEncryptionMethod().getAlgorithm(), data, key);
-            
+
             CVAdapter adapter = new CVAdapter(dep);
             writer.setAdapter(CVAdapter.class,adapter);
             com.sun.xml.security.core.xenc.ObjectFactory obj = new com.sun.xml.security.core.xenc.ObjectFactory();
@@ -210,27 +210,27 @@ public class JAXBEncryptedData implements EncryptedData,
             logger.log(Level.SEVERE, LogStringsMessages.WSS_1919_ERROR_WRITING_ENCRYPTEDDATA(ex.getMessage()), ex);
         }
     }
-    
+
     public void writeTo(jakarta.xml.soap.SOAPMessage saaj) throws jakarta.xml.soap.SOAPException {
         throw new UnsupportedOperationException();
     }
-    
+
     public void writeTo(ContentHandler contentHandler, ErrorHandler errorHandler) {
         throw new UnsupportedOperationException();
     }
-    
+
     public byte[] canonicalize(String algorithm, List<AttributeNS> namespaceDecls) {
         throw new UnsupportedOperationException();
     }
-    
+
     public boolean isCanonicalized() {
         return false;
     }
-    
-    private Marshaller getMarshaller() throws JAXBException{        
+
+    private Marshaller getMarshaller() throws JAXBException{
         return JAXBUtil.createMarshaller(soapVersion);
     }
-    
+
     @Override
     public javax.xml.stream.XMLStreamReader readHeader() {
         throw new UnsupportedOperationException();
@@ -253,7 +253,7 @@ public class JAXBEncryptedData implements EncryptedData,
                    }
                 }
             }
-        }        
+        }
         if(data instanceof SSEData){
             SecurityElement se = ((SSEData)data).getSecurityElement();
             if(se instanceof SecurityHeaderElement ){
@@ -262,5 +262,5 @@ public class JAXBEncryptedData implements EncryptedData,
         }
         return false;
     }
-        
+
 }

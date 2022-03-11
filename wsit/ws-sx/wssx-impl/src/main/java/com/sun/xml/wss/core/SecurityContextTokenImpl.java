@@ -29,22 +29,22 @@ import java.net.URI;
 import java.util.ArrayList;
 
 /**
- *&lt;wsc:SecurityContextToken wsu:Id="..." ...&gt; 
- *    &lt;wsc:Identifier&gt;...&lt;/wsc:Identifier&gt; 
- *    &lt;wsc:Instance&gt;...&lt;/wsc:Instance&gt; 
- *    ... 
+ *&lt;wsc:SecurityContextToken wsu:Id="..." ...&gt;
+ *    &lt;wsc:Identifier&gt;...&lt;/wsc:Identifier&gt;
+ *    &lt;wsc:Instance&gt;...&lt;/wsc:Instance&gt;
+ *    ...
  *&lt;/wsc:SecurityContextToken&gt;
  *
  */
-public class SecurityContextTokenImpl extends SecurityHeaderBlockImpl 
+public class SecurityContextTokenImpl extends SecurityHeaderBlockImpl
     implements SecurityContextToken, SecurityToken {
-    
+
     private String securityContextId = null;
     private String instance = null;
     private List extElements = null;
-    
+
     private String wsuId = null;
-    
+
     /**
      *
      */
@@ -53,10 +53,10 @@ public class SecurityContextTokenImpl extends SecurityHeaderBlockImpl
         return SecurityHeaderBlockImpl.fromSoapElement(
                 element, SecurityContextTokenImpl.class);
     }
-    
+
     private Document contextDocument = null;
-    
-    
+
+
     public SecurityContextTokenImpl(
         Document contextDocument, String contextId, String instance, String wsuId, List extElements) {
         securityContextId = contextId;
@@ -65,33 +65,33 @@ public class SecurityContextTokenImpl extends SecurityHeaderBlockImpl
         this.extElements = extElements;
         this.contextDocument = contextDocument;
     }
-    
+
     @SuppressWarnings("unchecked")
     public SecurityContextTokenImpl(SOAPElement sct) throws XWSSecurityException {
-        
+
         setSOAPElement(sct);
-        
+
         this.contextDocument = getOwnerDocument();
-        
+
         if (!("SecurityContextToken".equals(getLocalName()) &&
                 XMLUtil.inWsscNS(this))) {
             throw new SecurityTokenException(
                     "Expected wsc:SecurityContextToken Element, but Found " + getPrefix() + ":" + getLocalName());
         }
-        
+
         String wsuIdVal = getAttributeNS(MessageConstants.WSU_NS, "Id");
         if (!"".equals(wsuIdVal)) {
             this.wsuId = wsuIdVal;
         }
-        
+
         Iterator children = getChildElements();
         Node object;
-        
+
         while (children.hasNext()) {
 
             object = (Node)children.next();
             if (object.getNodeType() == Node.ELEMENT_NODE) {
-                
+
                 SOAPElement element = (SOAPElement) object;
                 if ("Identifier".equals(element.getLocalName()) &&
                         XMLUtil.inWsscNS(element)) {
@@ -107,17 +107,17 @@ public class SecurityContextTokenImpl extends SecurityHeaderBlockImpl
                 }
             }
         }
-        
+
         if (securityContextId == null) {
             throw new XWSSecurityException("Missing Identifier subelement in SecurityContextToken");
         }
     }
-    
+
     @Override
     public SOAPElement getAsSoapElement() throws XWSSecurityException {
         if ( delegateElement != null )
             return delegateElement;
-        
+
         try {
             setSOAPElement(
                     (SOAPElement) contextDocument.createElementNS(
@@ -138,11 +138,11 @@ public class SecurityContextTokenImpl extends SecurityHeaderBlockImpl
             if (this.instance != null) {
                 addChildElement("Instance", MessageConstants.WSSC_PREFIX).addTextNode(this.instance);
             }
-            
+
             if (wsuId != null) {
                 setWsuIdAttr(this, wsuId);
             }
-            
+
             if (extElements != null) {
                 for (int i=0; i<extElements.size(); i++) {
                     Element element = (Element)extElements.get(i);
@@ -150,16 +150,16 @@ public class SecurityContextTokenImpl extends SecurityHeaderBlockImpl
                     appendChild(newElement);
                 }
             }
-            
+
         } catch (SOAPException se) {
             throw new SecurityTokenException(
                     "There was an error creating SecurityContextToken " +
                     se.getMessage());
         }
-        
+
         return super.getAsSoapElement();
     }
-    
+
     public Document getContextDocument() {
         return contextDocument;
     }
@@ -173,11 +173,11 @@ public class SecurityContextTokenImpl extends SecurityHeaderBlockImpl
     public Object getTokenValue() {
         return this;
     }
-    
+
     public void setId(String wsuId) {
         this.wsuId = wsuId;
     }
-    
+
     @Override
     public String getWsuId() {
         return this.wsuId;
@@ -206,5 +206,5 @@ public class SecurityContextTokenImpl extends SecurityHeaderBlockImpl
     public List getExtElements() {
         return extElements;
     }
-    
+
 }

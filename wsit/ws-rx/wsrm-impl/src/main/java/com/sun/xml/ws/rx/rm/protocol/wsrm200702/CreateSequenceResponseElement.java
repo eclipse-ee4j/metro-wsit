@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -28,9 +28,9 @@ import javax.xml.namespace.QName;
 
 /**
  * <p>Java class for CreateSequenceResponseElement complex type.
- * 
+ *
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ *
  * <pre>{@code
  * <complexType name="CreateSequenceResponseType">
  *   <complexContent>
@@ -46,8 +46,8 @@ import javax.xml.namespace.QName;
  *   </complexContent>
  * </complexType>
  * }</pre>
- * 
- * 
+ *
+ *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CreateSequenceResponseType", propOrder = {
@@ -109,16 +109,16 @@ public class CreateSequenceResponseElement {
             dataBuilder.incompleteSequenceBehavior(incompleteSequenceBehavior.translate());
         }
 
-        return dataBuilder;        
+        return dataBuilder;
     }
 
     /**
      * Gets the value of the identifier property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link Identifier }
-     *     
+     *
      */
     public Identifier getIdentifier() {
         return identifier;
@@ -126,11 +126,11 @@ public class CreateSequenceResponseElement {
 
     /**
      * Sets the value of the identifier property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link Identifier }
-     *     
+     *
      */
     public void setIdentifier(Identifier value) {
         this.identifier = value;
@@ -138,11 +138,11 @@ public class CreateSequenceResponseElement {
 
     /**
      * Gets the value of the expires property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link Expires }
-     *     
+     *
      */
     public Expires getExpires() {
         return expires;
@@ -150,11 +150,11 @@ public class CreateSequenceResponseElement {
 
     /**
      * Sets the value of the expires property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link Expires }
-     *     
+     *
      */
     public void setExpires(Expires value) {
         this.expires = value;
@@ -162,11 +162,11 @@ public class CreateSequenceResponseElement {
 
     /**
      * Gets the value of the incompleteSequenceBehavior property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link IncompleteSequenceBehaviorType }
-     *     
+     *
      */
     public IncompleteSequenceBehaviorType getIncompleteSequenceBehavior() {
         return incompleteSequenceBehavior;
@@ -174,11 +174,11 @@ public class CreateSequenceResponseElement {
 
     /**
      * Sets the value of the incompleteSequenceBehavior property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link IncompleteSequenceBehaviorType }
-     *     
+     *
      */
     public void setIncompleteSequenceBehavior(IncompleteSequenceBehaviorType value) {
         this.incompleteSequenceBehavior = value;
@@ -186,11 +186,11 @@ public class CreateSequenceResponseElement {
 
     /**
      * Gets the value of the accept property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link AcceptType }
-     *     
+     *
      */
     public AcceptType getAccept() {
         return accept;
@@ -198,11 +198,11 @@ public class CreateSequenceResponseElement {
 
     /**
      * Sets the value of the accept property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link AcceptType }
-     *     
+     *
      */
     public void setAccept(AcceptType value) {
         this.accept = value;
@@ -210,26 +210,26 @@ public class CreateSequenceResponseElement {
 
     /**
      * Gets the value of the any property.
-     * 
+     *
      * <p>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
      * This is why there is not a <CODE>set</CODE> method for the any property.
-     * 
+     *
      * <p>
      * For example, to add a new item, do as follows:
      * <pre>
      *    getAny().add(newItem);
      * </pre>
-     * 
-     * 
+     *
+     *
      * <p>
      * Objects of the following type(s) are allowed in the list
      * {@link Object }
      * {@link org.w3c.dom.Element }
-     * 
-     * 
+     *
+     *
      */
     public List<Object> getAny() {
         if (any == null) {
@@ -240,15 +240,15 @@ public class CreateSequenceResponseElement {
 
     /**
      * Gets a map that contains attributes that aren't bound to any typed property on this class.
-     * 
+     *
      * <p>
-     * the map is keyed by the name of the attribute and 
+     * the map is keyed by the name of the attribute and
      * the value is the string value of the attribute.
-     * 
+     *
      * the map returned by this method is live, and you can add new attribute
      * by updating the map directly. Because of this design, there's no setter.
-     * 
-     * 
+     *
+     *
      * @return
      *     always non-null
      */

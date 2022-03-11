@@ -223,7 +223,7 @@ public abstract class SecurityTubeBase extends AbstractFilterTubeImpl {
             //debug = Boolean.valueOf(System.getProperty("DebugSecurity"));
             //ISSUE_REQUEST_URI = new URI(WSTrustConstants.REQUEST_SECURITY_TOKEN_ISSUE_ACTION);
             //CANCEL_REQUEST_URI = new URI(WSTrustConstants.CANCEL_REQUEST);
-            //jaxbContext = WSTrustElementFactory.getContext();            
+            //jaxbContext = WSTrustElementFactory.getContext();
             securityPolicyNamespaces = new ArrayList<>();
             securityPolicyNamespaces.add(SecurityPolicyVersion.SECURITYPOLICY200507.namespaceUri);
 
@@ -516,8 +516,8 @@ public abstract class SecurityTubeBase extends AbstractFilterTubeImpl {
             action = getAction(packet);
             ctx.setAction(action);
         }*/
-        
-        // Set the SecurityPolicy version namespace in processingContext 
+
+        // Set the SecurityPolicy version namespace in processingContext
         ctx.setSecurityPolicyVersion(spVersion.namespaceUri);
         //ctx.setIssuedTokenContextMap(issuedTokenContextMap);
         ctx.setiterationsForPDK(this.iterationsForPDK);
@@ -530,7 +530,7 @@ public abstract class SecurityTubeBase extends AbstractFilterTubeImpl {
         }*/
         ctx.setBootstrapAlgoSuite(getAlgoSuite(this.bootStrapAlgoSuite));
         ctx.setAlgorithmSuite(getAlgoSuite(getBindingAlgorithmSuite(packet)));
- 
+
 
 
         //set the server certificate in the context ;
@@ -555,7 +555,7 @@ public abstract class SecurityTubeBase extends AbstractFilterTubeImpl {
             ctx.isTrustMessage(true);
         }*/
         ctx.setWsTrustVer(this.wsTrustVer);
-        
+
         if (tubeConfig.getWSDLPort() != null) {
             ctx.getExtraneousProperties().put(SecurityTubeBase.WSDLPORT, tubeConfig.getWSDLPort());
         }
@@ -596,7 +596,7 @@ public abstract class SecurityTubeBase extends AbstractFilterTubeImpl {
         if (addVer != null) {
             ctx.setAction(getAction(packet));
         }
-        // Set the SecurityPolicy version namespace in processingContext 
+        // Set the SecurityPolicy version namespace in processingContext
         ctx.setSecurityPolicyVersion(spVersion.namespaceUri);
         ctx.setTimestampTimeout(this.timestampTimeOut);
         ctx.setiterationsForPDK(this.iterationsForPDK);
@@ -1219,13 +1219,13 @@ public abstract class SecurityTubeBase extends AbstractFilterTubeImpl {
         }
         String action = getAction(packet);
 
-        // Issue 
+        // Issue
         if (wsTrustVer.getIssueRequestAction().equals(action) ||
                 wsTrustVer.getIssueFinalResoponseAction().equals(action)) {
             return true;
         }
 
-        // Validate 
+        // Validate
         return wsTrustVer.getValidateRequestAction().equals(action) ||
                 wsTrustVer.getValidateFinalResoponseAction().equals(action);
 
@@ -1447,9 +1447,9 @@ public abstract class SecurityTubeBase extends AbstractFilterTubeImpl {
     }
     private void populateSessionMgrProps(Properties props, SessionManagerStore smStore) {
         if(smStore.getSessionTimeOut() != null) {
-            props.put(SessionManager.TIMEOUT_INTERVAL, smStore.getSessionTimeOut());            
+            props.put(SessionManager.TIMEOUT_INTERVAL, smStore.getSessionTimeOut());
         }
-        if(smStore.getSessionThreshold() != null) {           
+        if(smStore.getSessionThreshold() != null) {
             props.put(SessionManager.SESSION_THRESHOLD, smStore.getSessionThreshold());
         }
     }

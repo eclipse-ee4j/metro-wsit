@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -23,22 +23,22 @@ import com.sun.xml.ws.security.Token;
  * @author WS-Trust Implementation Team
  */
 public interface UseKey {
-    
+
     /**
      * Set the Token as the contents of UseKey
      */
     void setToken(Token token);
-    
+
     /**
      * Get the Token contained in the element, null otherwise.
      */
-    Token getToken();    
-    
+    Token getToken();
+
     /**
      * Set the option Sig attribute of UseKey
      */
     void setSignatureID(URI sigID);
-    
+
     /**
      * get the Sig attribute value if set, null otherwise
      */

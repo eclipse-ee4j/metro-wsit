@@ -30,15 +30,15 @@ import java.security.cert.CertificateEncodingException;
  * @author Kumar Jayanti
  */
 public class DigestCertSelector implements CertSelector {
-    
+
     private final byte[] keyId;
     private final String algorithm;
      /** logger */
     protected static final Logger log =  Logger.getLogger(
             LogDomainConstants.WSS_API_DOMAIN,LogDomainConstants.WSS_API_DOMAIN_BUNDLE);
-    
-    
-    
+
+
+
     /** Creates a new instance of KeyIdentifierCertSelector */
     public DigestCertSelector(byte[] keyIdValue, String algo) {
         this.keyId = keyIdValue;
@@ -49,7 +49,7 @@ public class DigestCertSelector implements CertSelector {
     public boolean match(Certificate cert) {
         if (cert instanceof X509Certificate) {
             byte[] thumbPrintIdentifier = null;
-                                                                                                                      
+
             try {
                 thumbPrintIdentifier = MessageDigest.getInstance(this.algorithm).digest(cert.getEncoded());
             } catch ( NoSuchAlgorithmException ex ) {
@@ -59,14 +59,14 @@ public class DigestCertSelector implements CertSelector {
                 log.log(Level.SEVERE, LogStringsMessages.WSS_0709_ERROR_GETTING_RAW_CONTENT(),ex);
                 throw new RuntimeException("Error while getting certificate's raw content");
             }
-        
+
             if (Arrays.equals(thumbPrintIdentifier, keyId)) {
                 return true;
-            }  
+            }
         }
         return false;
     }
-    
+
     @Override
     public Object clone() {
         return new DigestCertSelector(this.keyId, this.algorithm);

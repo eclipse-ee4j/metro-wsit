@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -35,9 +35,9 @@ public class SecurityConfiguration implements XWSSecurityConfiguration {
     private CallbackHandler callbackhandler = null;
     private SecurityEnvironment securityEnvironment = null;
     private boolean configEmpty = false;
-    
+
     public SecurityConfiguration(URL configUrl)throws XWSSecurityException {
-        
+
         if (configUrl == null) {
             configEmpty = true;
             return;
@@ -46,12 +46,12 @@ public class SecurityConfiguration implements XWSSecurityConfiguration {
        InputStream config = null;
        try {
            config = configUrl.openStream();
-           
+
            if (config == null) {
                configEmpty = true;
                return;
            }
-           
+
            configuration = SecurityConfigurationXmlReader.
                    createApplicationSecurityConfiguration(config);
            callbackhandler = (CallbackHandler)Class.forName(
@@ -59,7 +59,7 @@ public class SecurityConfiguration implements XWSSecurityConfiguration {
                    Thread.currentThread().getContextClassLoader()).newInstance();
            securityEnvironment =
                    new DefaultSecurityEnvironmentImpl(callbackhandler);
-           
+
        } catch (Exception e) {
            throw new XWSSecurityException(e);
        } finally {
@@ -71,16 +71,16 @@ public class SecurityConfiguration implements XWSSecurityConfiguration {
                //do nothing
            }
        }
-    } 
-    
+    }
+
     /**
-     * 
+     *
      * @param config XWSS Security Configuration.
      * @throws com.sun.xml.wss.XWSSecurityException is XWS-Security configuration file is not wellformed.
      */
-    public SecurityConfiguration(InputStream config) 
+    public SecurityConfiguration(InputStream config)
         throws XWSSecurityException {
-          
+
         if (config == null) {
             configEmpty = true;
             return;
@@ -90,9 +90,9 @@ public class SecurityConfiguration implements XWSSecurityConfiguration {
             configuration = SecurityConfigurationXmlReader.
                 createApplicationSecurityConfiguration(config);
             callbackhandler = (CallbackHandler)Class.forName(
-                configuration.getSecurityEnvironmentHandler(),true, 
+                configuration.getSecurityEnvironmentHandler(),true,
                 Thread.currentThread().getContextClassLoader()).newInstance();
-            securityEnvironment =  
+            securityEnvironment =
                 new DefaultSecurityEnvironmentImpl(callbackhandler);
         } catch (Exception e) {
             throw new XWSSecurityException(e);
@@ -100,7 +100,7 @@ public class SecurityConfiguration implements XWSSecurityConfiguration {
     }
 
     /**
-     * 
+     *
      * @return digested form XWS-Security configuration.
      */
     public ApplicationSecurityConfiguration getSecurityConfiguration() {
@@ -108,12 +108,12 @@ public class SecurityConfiguration implements XWSSecurityConfiguration {
     }
 
     /**
-     * 
-     * @return  instance of SecurityEnvironment configured in the XWS-Security Configuration 
+     *
+     * @return  instance of SecurityEnvironment configured in the XWS-Security Configuration
      * file.
      */
     public SecurityEnvironment getSecurityEnvironment() {
-         return securityEnvironment;        
+         return securityEnvironment;
     }
 
     /**

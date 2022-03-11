@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -53,7 +53,7 @@ public class SignatureVerificationKeyCallback extends XWSSCallback implements Ca
         /**
          * Set the X509Certificate used for Signature Verification.
          *
-         * @param certificate <code>java.security.X509Certificate</code> representing 
+         * @param certificate <code>java.security.X509Certificate</code> representing
          * X509Certificate to be used for Signature Verification.
          *
          */
@@ -81,7 +81,7 @@ public class SignatureVerificationKeyCallback extends XWSSCallback implements Ca
 
         private byte[] x509Thumbprint;
 
-        /** 
+        /**
          * Constructor.
          * It takes the byte stream of X509ThumbPrint.
          */
@@ -98,7 +98,7 @@ public class SignatureVerificationKeyCallback extends XWSSCallback implements Ca
             return x509Thumbprint;
         }
     }
-    
+
     /**
      * Request for an X.509 certificate whose X.509 Subject Key Identifier
      * value is given.
@@ -141,7 +141,7 @@ public class SignatureVerificationKeyCallback extends XWSSCallback implements Ca
 
         /**
          * Constructor.
-         * 
+         *
          * @param issuerName <code>java.lang.String</code> representing Certificate Issuer Name.
          * @param serialNumber <code>java.math.BigInteger</code> representing the setial
          * number of X509Certificate.
@@ -177,9 +177,9 @@ public class SignatureVerificationKeyCallback extends XWSSCallback implements Ca
      * This is an optional request and need not be handled
      * by the handler.
      *
-     * The runtime makes a callback with this request to obtain 
-     * the certificate corresponding to the PublicKey. The returned 
-     * certificate is stored in the requestor Subject for later use 
+     * The runtime makes a callback with this request to obtain
+     * the certificate corresponding to the PublicKey. The returned
+     * certificate is stored in the requestor Subject for later use
      * by the  Application.
      */
     public static class PublicKeyBasedRequest
@@ -200,7 +200,7 @@ public class SignatureVerificationKeyCallback extends XWSSCallback implements Ca
         /**
          * Get the PublicKey stored in this Request.
          *
-         * @return <code>java.security.PublicKey</code> representing the PublicKey used 
+         * @return <code>java.security.PublicKey</code> representing the PublicKey used
          * for Signature Verification.
          */
         public PublicKey getPublicKey() {

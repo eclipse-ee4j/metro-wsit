@@ -30,7 +30,7 @@ import javax.xml.namespace.QName;
  */
 
 public class X509Token extends PolicyAssertion implements com.sun.xml.ws.security.policy.X509Token,Cloneable, SecurityAssertionValidator{
-    
+
     private AssertionFitness fitness = AssertionFitness.IS_VALID;
     private boolean populated = false;
     private String tokenType = null;
@@ -45,89 +45,89 @@ public class X509Token extends PolicyAssertion implements com.sun.xml.ws.securit
     private boolean reqDK=false;
     /**
      * Creates a new instance of X509Token
-     */    
-    
+     */
+
     public X509Token() {
         id= PolicyUtil.randomUUID();
         itQname = new QName(spVersion.namespaceUri, Constants.IncludeToken);
         includeToken = spVersion.includeTokenAlways;
         referenceType = new HashSet<>();
     }
-    
+
     public X509Token(AssertionData name,Collection<PolicyAssertion> nestedAssertions, AssertionSet nestedAlternative) {
         super(name,nestedAssertions,nestedAlternative);
-        
+
         id= PolicyUtil.randomUUID();
         referenceType = new HashSet<>();
-        
+
         String nsUri = getName().getNamespaceURI();
         spVersion = PolicyUtil.getSecurityPolicyVersion(nsUri);
         itQname = new QName(spVersion.namespaceUri, Constants.IncludeToken);
         includeToken = spVersion.includeTokenAlways;
     }
-    
-    
-    
+
+
+
     public void addTokenReferenceType(String tokenRefType) {
         referenceType.add(tokenRefType);
     }
-    
+
     public void setTokenType(String tokenType) {
         this.tokenType = tokenType;
     }
-    
+
     @Override
     public String getTokenType() {
         populate();
         return tokenType;
     }
-    
+
     @Override
     public Set getTokenRefernceType() {
         populate();
         return referenceType;
     }
-    
+
     @Override
     public String getIncludeToken() {
         populate();
         return includeToken;
     }
-    
+
     public void setIncludeToken(String type) {
         includeToken = type;
     }
-    
-    
+
+
     @Override
     public String getTokenId() {
         return id;
     }
-    
+
     @Override
     public boolean isRequireDerivedKeys() {
         populate();
         return reqDK;
     }
-    
+
     @Override
     public Issuer getIssuer() {
         populate();
         return issuer;
     }
-    
+
     @Override
     public IssuerName getIssuerName() {
         populate();
         return issuerName;
     }
-    
+
     @Override
     public Claims getClaims(){
         populate();
         return claims;
     }
-    
+
     @Override
     public AssertionFitness validate(boolean isServer) {
         return populate(isServer);
@@ -135,7 +135,7 @@ public class X509Token extends PolicyAssertion implements com.sun.xml.ws.securit
     private void populate(){
         populate(false);
     }
-    
+
     private synchronized AssertionFitness populate(boolean isServer) {
         if(!populated){
             if(this.getAttributeValue(itQname)!=null){
@@ -172,7 +172,7 @@ public class X509Token extends PolicyAssertion implements com.sun.xml.ws.securit
                         issuer = (Issuer)assertion;
                     } else if(PolicyUtil.isIssuerName(assertion, spVersion)){
                         issuerName = (IssuerName)assertion;
-                    } else if(PolicyUtil.isClaimsElement(assertion) && 
+                    } else if(PolicyUtil.isClaimsElement(assertion) &&
                             SecurityPolicyVersion.SECURITYPOLICY12NS.namespaceUri.equals(spVersion.namespaceUri) ){
                         claims = (Claims)assertion;
                     }
@@ -186,7 +186,7 @@ public class X509Token extends PolicyAssertion implements com.sun.xml.ws.securit
         }
         return fitness;
     }
-    
+
     @Override
     public Object clone() {
         throw new UnsupportedOperationException("Fix me");

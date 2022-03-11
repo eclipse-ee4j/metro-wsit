@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -34,7 +34,7 @@ import jakarta.xml.bind.JAXBContext;
  */
 public class AuthzDecisionStatement extends AuthzDecisionStatementType
     implements com.sun.xml.wss.saml.AuthnDecisionStatement {
-    
+
     protected static final Logger log = Logger.getLogger(
             LogDomainConstants.WSS_API_DOMAIN,
             LogDomainConstants.WSS_API_DOMAIN_BUNDLE);
@@ -58,7 +58,7 @@ public class AuthzDecisionStatement extends AuthzDecisionStatementType
         throws SAMLException {
         try {
             JAXBContext jc = SAML20JAXBUtil.getJAXBContext();
-                    
+
             jakarta.xml.bind.Unmarshaller u = jc.createUnmarshaller();
             return (AuthzDecisionStatementType)u.unmarshal(element);
         } catch ( Exception ex) {
@@ -70,7 +70,7 @@ public class AuthzDecisionStatement extends AuthzDecisionStatementType
     private void setAction(List action) {
         this.action = action;
     }
-    
+
     /**
      * Constructs an instance of <code>AuthzDecisionStatement</code>.
      *
@@ -87,14 +87,14 @@ public class AuthzDecisionStatement extends AuthzDecisionStatementType
     public AuthzDecisionStatement(
         String resource, String decision, List action,
         Evidence evidence) {
-                
+
         setResource(resource);
         setDecision(DecisionType.fromValue(decision));
         setAction(action);
         setEvidence(evidence);
     }
-    
-    public AuthzDecisionStatement(AuthzDecisionStatementType authDesStmt) {       
+
+    public AuthzDecisionStatement(AuthzDecisionStatementType authDesStmt) {
         setResource(authDesStmt.getResource());
         setDecision(authDesStmt.getDecision());
         setAction(authDesStmt.getAction());
@@ -110,7 +110,7 @@ public class AuthzDecisionStatement extends AuthzDecisionStatementType
          }
          Iterator it = super.getAction().iterator();
          while(it.hasNext()){
-             com.sun.xml.wss.saml.assertion.saml20.jaxb20.Action obj = 
+             com.sun.xml.wss.saml.assertion.saml20.jaxb20.Action obj =
                      new com.sun.xml.wss.saml.assertion.saml20.jaxb20.Action((ActionType)it.next());
              actionList.add(obj);
          }
@@ -127,7 +127,7 @@ public class AuthzDecisionStatement extends AuthzDecisionStatementType
     public String getDecisionValue() {
         return super.getDecision().value();
     }
-    
+
     @Override
     public String getResource(){
         return super.getResource();

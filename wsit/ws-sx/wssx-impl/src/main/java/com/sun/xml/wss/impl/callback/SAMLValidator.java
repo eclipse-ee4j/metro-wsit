@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -23,7 +23,7 @@ public interface SAMLValidator  extends SAMLAssertionValidator {
 
         /**
          * Note: The runtime already validates the Enveloped Signature for a HOK assertion before
-         * calling this validate() method 
+         * calling this validate() method
          * @param assertion The assertion as a DOM Element
          * @param runtimeProps the runtime properties associated with this request
          * @param clientSubject the Subject of the sender which can be updated after validation
@@ -34,7 +34,7 @@ public interface SAMLValidator  extends SAMLAssertionValidator {
 
         /**
          * Note: The runtime already validates the Enveloped Signature for a HOK assertion before
-         * calling this validate() method 
+         * calling this validate() method
          * @param assertion The assertion as an XMLStreamReader
          * @param runtimeProps the runtime properties associated with this request
          * @param clientSubject the Subject of the sender which can be updated after validation

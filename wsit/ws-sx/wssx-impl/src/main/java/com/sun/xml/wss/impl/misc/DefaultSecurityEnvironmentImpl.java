@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -97,7 +97,7 @@ public class DefaultSecurityEnvironmentImpl implements SecurityEnvironment {
         }
         offset = calculatedOffset;
     }
-  
+
     /** logger */
     protected static final Logger log = Logger.getLogger(
             LogDomainConstants.WSS_API_DOMAIN, LogDomainConstants.WSS_API_DOMAIN_BUNDLE);
@@ -108,14 +108,14 @@ public class DefaultSecurityEnvironmentImpl implements SecurityEnvironment {
     private boolean isDefaultHandler = false;
     private X509Certificate selfCertificate = null;
     private Properties configAssertions = null;
-    
+
     private long maxNonceAge = MessageConstants.MAX_NONCE_AGE;
-    private String mnaProperty = null;    
+    private String mnaProperty = null;
     private String JAASLoginModuleForKeystore;
     private Subject loginContextSubjectForKeystore;
     private String keyStoreCBH;
     private CallbackHandler keystoreCbHandlerClass;
-    
+
     public DefaultSecurityEnvironmentImpl(CallbackHandler cHandler) {
         callbackHandler = cHandler;
         if (callbackHandler instanceof DefaultCallbackHandler) {
@@ -143,7 +143,7 @@ public class DefaultSecurityEnvironmentImpl implements SecurityEnvironment {
         if (callbackHandler instanceof DefaultCallbackHandler) {
             isDefaultHandler = true;
         }
-        //store the relevant config assertions here        
+        //store the relevant config assertions here
         this.mnaProperty = configAssertions.getProperty(DefaultCallbackHandler.MAX_NONCE_AGE_PROPERTY);
         if (this.mnaProperty != null) {
             try {
@@ -156,7 +156,7 @@ public class DefaultSecurityEnvironmentImpl implements SecurityEnvironment {
 
         JAASLoginModuleForKeystore = configAssertions.getProperty(DefaultCallbackHandler.JAAS_KEYSTORE_LOGIN_MODULE);
         keyStoreCBH = configAssertions.getProperty(DefaultCallbackHandler.KEYSTORE_CBH);
-        loginContextSubjectForKeystore = initJAASKeyStoreLoginModule();        
+        loginContextSubjectForKeystore = initJAASKeyStoreLoginModule();
         // keep the self certificate handy
 //        if (callbackHandler != null && myAlias != null && (callbackHandler instanceof DefaultCallbackHandler)) {
 //            try {
@@ -359,7 +359,7 @@ public class DefaultSecurityEnvironmentImpl implements SecurityEnvironment {
         if(cert != null){
             return cert;
         }
-        if (forSigning) {            
+        if (forSigning) {
             SignatureKeyCallback.PrivKeyCertRequest certRequest =
                     new SignatureKeyCallback.AliasPrivKeyCertRequest(alias);
             SignatureKeyCallback sigKeyCallback = new SignatureKeyCallback(certRequest);
@@ -376,7 +376,7 @@ public class DefaultSecurityEnvironmentImpl implements SecurityEnvironment {
                 throw new XWSSecurityException(e);
             }
             cert = certRequest.getX509Certificate();
-        } else {           
+        } else {
             EncryptionKeyCallback.X509CertificateRequest certRequest =
                     new EncryptionKeyCallback.AliasX509CertificateRequest(alias);
             EncryptionKeyCallback encKeyCallback = new EncryptionKeyCallback(certRequest);
@@ -411,7 +411,7 @@ public class DefaultSecurityEnvironmentImpl implements SecurityEnvironment {
 
     @Override
     public X509Certificate getCertificate(Map context, PublicKey publicKey, boolean forSign)
-            throws XWSSecurityException {       
+            throws XWSSecurityException {
         X509Certificate cert = getPublicCredentialsFromLCSubject();
         if(cert != null && cert.getPublicKey().equals(publicKey)){
             return cert;
@@ -435,7 +435,7 @@ public class DefaultSecurityEnvironmentImpl implements SecurityEnvironment {
                 throw new XWSSecurityException(e);
             }
             return pubKeyReq.getX509Certificate();
-        } else {            
+        } else {
             EncryptionKeyCallback.PublicKeyBasedRequest pubKeyReq =
                     new EncryptionKeyCallback.PublicKeyBasedRequest(publicKey);
             EncryptionKeyCallback encCallback = new EncryptionKeyCallback(pubKeyReq);
@@ -582,13 +582,13 @@ public class DefaultSecurityEnvironmentImpl implements SecurityEnvironment {
     @Override
     public PrivateKey getPrivateKey(Map context, BigInteger serialNumber, String issuerName)
             throws XWSSecurityException {
-        
+
         X500PrivateCredential cred = getPKCredentialsFromLCSubject();
         if (cred != null) {
             X509Certificate x509Cert = cred.getCertificate();
             BigInteger serialNo = x509Cert.getSerialNumber();
-            
-            //Fix for WSIT issue 
+
+            //Fix for WSIT issue
             X500Principal currentIssuerPrincipal = x509Cert.getIssuerX500Principal();
             X500Principal issuerPrincipal = new X500Principal(issuerName);
             if (serialNo.equals(serialNumber) &&
@@ -604,7 +604,7 @@ public class DefaultSecurityEnvironmentImpl implements SecurityEnvironment {
         DecryptionKeyCallback decryptKeyCallback = new DecryptionKeyCallback(privKeyRequest);
 //        if (!isDefaultHandler) {
         ProcessingContext.copy(decryptKeyCallback.getRuntimeProperties(), context);
-//        }       
+//        }
         Callback[] callbacks = new Callback[]{decryptKeyCallback};
         try {
             callbackHandler.handle(callbacks);
@@ -656,7 +656,7 @@ public class DefaultSecurityEnvironmentImpl implements SecurityEnvironment {
         } catch (Base64DecodingException ex) {
             log.log(Level.SEVERE, LogStringsMessages.WSS_0816_BASE_64_DECODING_ERROR(), ex);
             throw new XWSSecurityException(ex);
-        } 
+        }
 
         SignatureVerificationKeyCallback.X509CertificateRequest certRequest =
                 new SignatureVerificationKeyCallback.ThumbprintBasedRequest(identifier);
@@ -697,7 +697,7 @@ public class DefaultSecurityEnvironmentImpl implements SecurityEnvironment {
         } catch (Base64DecodingException ex) {
             log.log(Level.SEVERE, LogStringsMessages.WSS_0816_BASE_64_DECODING_ERROR(), ex);
             throw new XWSSecurityException(ex);
-        } 
+        }
 
         SignatureVerificationKeyCallback.X509CertificateRequest certRequest =
                 new SignatureVerificationKeyCallback.X509SubjectKeyIdentifierBasedRequest(keyIdentifier);
@@ -738,17 +738,17 @@ public class DefaultSecurityEnvironmentImpl implements SecurityEnvironment {
 
         X509Certificate cert = null;
         cert = getPublicCredentialsFromLCSubject();
-        
+
         if (cert != null) {
             BigInteger serialNo = cert.getSerialNumber();
-            //Fix for WSIT issue 
+            //Fix for WSIT issue
             X500Principal currentIssuerPrincipal = cert.getIssuerX500Principal();
             X500Principal issuerPrincipal = new X500Principal(issuerName);
             if (serialNo.equals(serialNumber) &&
                     currentIssuerPrincipal.equals(issuerPrincipal)) {
                 return cert;
             }
-        }       
+        }
 
         SignatureVerificationKeyCallback.X509CertificateRequest certRequest =
                 new SignatureVerificationKeyCallback.X509IssuerSerialBasedRequest(issuerName, serialNumber);
@@ -795,7 +795,7 @@ public class DefaultSecurityEnvironmentImpl implements SecurityEnvironment {
             log.log(Level.FINE, "Certificate Validation called on certificate {0}", cert.getSubjectDN());
         }
         return certValCallback.getResult();
-        
+
     }
 
     @Override
@@ -937,7 +937,7 @@ public class DefaultSecurityEnvironmentImpl implements SecurityEnvironment {
             final Subject subject,
             final Assertion assertion) {
          if (callbackHandler instanceof DefaultCallbackHandler) {
-                if (((DefaultCallbackHandler)callbackHandler).getSAMLValidator() 
+                if (((DefaultCallbackHandler)callbackHandler).getSAMLValidator()
                         instanceof SAMLValidator)
                 return;
         }
@@ -1078,7 +1078,7 @@ public class DefaultSecurityEnvironmentImpl implements SecurityEnvironment {
                 throw new XWSSecurityException(e);
             }
             return req.getPrivateKey();
-        } else {            
+        } else {
             DecryptionKeyCallback.PublicKeyBasedPrivKeyRequest req =
                     new DecryptionKeyCallback.PublicKeyBasedPrivKeyRequest(publicKey);
             DecryptionKeyCallback dkc = new DecryptionKeyCallback(req);
@@ -1199,7 +1199,7 @@ public class DefaultSecurityEnvironmentImpl implements SecurityEnvironment {
                 if (result == true) {
                 updateUsernameInSubject(getSubject(context), username, null);
                 }
-            } 
+            }
         } catch (Exception e) {
             log.log(Level.SEVERE, LogStringsMessages.WSS_0225_FAILED_PASSWORD_VALIDATION_CALLBACK(), e);
             throw new XWSSecurityException(e);
@@ -1227,7 +1227,7 @@ public class DefaultSecurityEnvironmentImpl implements SecurityEnvironment {
                 } catch (java.text.ParseException ex) {
                     log.log(Level.SEVERE, LogStringsMessages.WSS_0226_FAILED_VALIDATING_DEFAULT_CREATION_TIME(), ex);
                     throw new XWSSecurityException(ex);
-                    
+
                 }
             }
         }
@@ -1284,7 +1284,7 @@ public class DefaultSecurityEnvironmentImpl implements SecurityEnvironment {
             log.log(Level.SEVERE, LogStringsMessages.WSS_0226_FAILED_VALIDATING_DEFAULT_CREATION_TIME());
             throw new XWSSecurityException(e);
         }
-        
+
         if (unSupported) {
             defaultValidateCreationTime(creationTime, maxClockSkew, timestampFreshnessLimit);
             return;
@@ -1416,7 +1416,7 @@ public class DefaultSecurityEnvironmentImpl implements SecurityEnvironment {
         try {
             callbackHandler.handle(callbacks);
         } catch (UnsupportedCallbackException e) {
-            unSupported = true;    
+            unSupported = true;
         } catch (Exception e) {
             log.log(Level.SEVERE,LogStringsMessages.WSS_0229_FAILED_VALIDATING_TIME_STAMP(), e);
             throw new XWSSecurityException(e);
@@ -1428,7 +1428,7 @@ public class DefaultSecurityEnvironmentImpl implements SecurityEnvironment {
             defaultValidateExpirationTime(expires, maxClockSkew, freshnessLimit);
             return;
         }
-        
+
         try {
             timestampValidationCallback.getResult();
         } catch (TimestampValidationCallback.TimestampValidationException e) {
@@ -1524,7 +1524,7 @@ public class DefaultSecurityEnvironmentImpl implements SecurityEnvironment {
         return false;
     }
 
-    
+
     @Override
     public void validateSAMLAssertion(Map context, Element assertion) throws XWSSecurityException {
 
@@ -1609,7 +1609,7 @@ public class DefaultSecurityEnvironmentImpl implements SecurityEnvironment {
     public CallbackHandler getCallbackHandler() {
         return callbackHandler;
     }
-    
+
     private void validateSamlVersion(Assertion assertion) {
         BigInteger major = assertion.getMajorVersion();
         BigInteger minor = assertion.getMinorVersion();
@@ -1678,7 +1678,7 @@ public class DefaultSecurityEnvironmentImpl implements SecurityEnvironment {
     @Override
     public void updateOtherPartySubject(final Subject subject, final XMLStreamReader assertion) {
         if (callbackHandler instanceof DefaultCallbackHandler) {
-                if (((DefaultCallbackHandler)callbackHandler).getSAMLValidator() 
+                if (((DefaultCallbackHandler)callbackHandler).getSAMLValidator()
                         instanceof SAMLValidator)
                 return;
         }
@@ -1723,7 +1723,7 @@ public class DefaultSecurityEnvironmentImpl implements SecurityEnvironment {
         String loginModule = configAssertions.getProperty(DefaultCallbackHandler.KRB5_LOGIN_MODULE);
         return new KerberosLogin().login(loginModule, tokenValue);
     }
-    
+
     @Override
     public void updateOtherPartySubject(final Subject subject,
                                         final GSSName clientCred,
@@ -1749,8 +1749,8 @@ public class DefaultSecurityEnvironmentImpl implements SecurityEnvironment {
             nonceMgr = NonceManager.getInstance(this.maxNonceAge, (WSEndpoint)context.get(MessageConstants.WSENDPOINT));
         } else {
             nonceMgr = NonceManager.getInstance(nonceAge, (WSEndpoint)context.get(MessageConstants.WSENDPOINT));
-        }   
-        
+        }
+
         return nonceMgr.validateNonce(nonce, created);
     }
 
@@ -1786,6 +1786,6 @@ public class DefaultSecurityEnvironmentImpl implements SecurityEnvironment {
         log.log(Level.SEVERE, com.sun.xml.wss.logging.impl.misc.LogStringsMessages.WSS_1521_ERROR_GETTING_USER_CLASS());
         throw new XWSSecurityException("Could not find User Class " + classname);
     }
-       
-        
+
+
 }

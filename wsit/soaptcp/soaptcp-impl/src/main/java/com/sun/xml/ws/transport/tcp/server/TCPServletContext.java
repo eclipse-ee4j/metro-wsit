@@ -23,35 +23,35 @@ import jakarta.servlet.ServletContext;
  */
 @SuppressWarnings({"unchecked"})
 public final class TCPServletContext implements TCPContext {
-    
+
     private final ServletContext servletContext;
     private final Map<String, Object> attributes = new HashMap<>();
-    
+
     public TCPServletContext(final ServletContext servletContext) {
         this.servletContext = servletContext;
     }
-    
+
     @Override
     public InputStream getResourceAsStream(final String resource) {
         return servletContext.getResourceAsStream(resource);
     }
-    
+
     @Override
     public Set<String> getResourcePaths(final String path) {
         return servletContext.getResourcePaths(path);
     }
-    
+
     @Override
     public URL getResource(final String resource) throws MalformedURLException {
         return servletContext.getResource(resource);
     }
-    
-    
+
+
     @Override
     public Object getAttribute(final String name) {
         return attributes.get(name);
     }
-    
+
     @Override
     public void setAttribute(final String name, final Object value) {
         attributes.put(name, value);

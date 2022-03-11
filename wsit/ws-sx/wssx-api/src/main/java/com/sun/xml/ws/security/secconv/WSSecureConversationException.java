@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -22,11 +22,11 @@ public class WSSecureConversationException extends WSTrustException {
     public WSSecureConversationException(String msg, Throwable cause) {
         super(msg,cause);
     }
-    
+
      public WSSecureConversationException(String msg) {
         super(msg);
     }
-     
+
     public WSSecureConversationException(WSTrustException tex){
         super(tex.getMessage(), tex.getCause());
     }

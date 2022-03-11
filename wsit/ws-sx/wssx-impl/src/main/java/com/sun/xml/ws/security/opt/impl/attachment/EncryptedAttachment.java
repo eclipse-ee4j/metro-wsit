@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -34,17 +34,17 @@ import javax.xml.transform.stream.StreamSource;
  * @author Ashutosh.Shahi@sun.com
  */
 public class EncryptedAttachment implements Attachment {
-    
+
     private Attachment attachment;
     private String dataAlgo;
     private Key key;
     private byte[] data;
-    
+
     public EncryptedAttachment(Attachment attachment, String dataAlgo, Key key) throws XWSSecurityException{
         this.attachment = attachment;
         this.dataAlgo = dataAlgo;
         this.key = key;
-        
+
         doEncryption();
     }
 
@@ -90,9 +90,9 @@ public class EncryptedAttachment implements Attachment {
         part.setContentId(getContentId());
         saaj.addAttachmentPart(part);
     }
-    
+
     private void doEncryption() throws XWSSecurityException{
-        CryptoProcessor dep = new CryptoProcessor(Cipher.ENCRYPT_MODE, dataAlgo, key); 
+        CryptoProcessor dep = new CryptoProcessor(Cipher.ENCRYPT_MODE, dataAlgo, key);
         data = dep.encryptData(attachment.asByteArray());
     }
 

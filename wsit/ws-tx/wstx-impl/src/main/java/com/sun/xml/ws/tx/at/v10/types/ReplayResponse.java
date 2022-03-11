@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -19,9 +19,9 @@ import jakarta.xml.bind.annotation.XmlType;
 
 /**
  * <p>Java class for anonymous complex type.
- * 
+ *
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ *
  * <pre>{@code
  * <complexType>
  *   <complexContent>
@@ -31,8 +31,8 @@ import jakarta.xml.bind.annotation.XmlType;
  *   </complexContent>
  * </complexType>
  * }</pre>
- * 
- * 
+ *
+ *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "")
@@ -44,11 +44,11 @@ public class ReplayResponse {
 
     /**
      * Gets the value of the outcome property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link Outcome }
-     *     
+     *
      */
     public Outcome getOutcome() {
         return outcome;
@@ -56,11 +56,11 @@ public class ReplayResponse {
 
     /**
      * Sets the value of the outcome property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link Outcome }
-     *     
+     *
      */
     public void setOutcome(Outcome value) {
         this.outcome = value;

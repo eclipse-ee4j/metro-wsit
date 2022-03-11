@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -21,7 +21,7 @@ import javax.xml.namespace.QName;
  * @author K.Venugopal@sun.com
  */
 public class TrustStore extends KeyStore implements com.sun.xml.ws.security.policy.TrustStore{
-    
+
     private static QName  peerAlias = new QName("peeralias");
     private static QName  stsAlias = new QName("stsalias");
     private static QName  serviceAlias = new QName("servicealias");
@@ -30,7 +30,7 @@ public class TrustStore extends KeyStore implements com.sun.xml.ws.security.poli
     /** Creates a new instance of TrustStore */
     public TrustStore() {
     }
-    
+
     public TrustStore(AssertionData name,Collection<PolicyAssertion> nestedAssertions, AssertionSet nestedAlternative) {
         super(name,nestedAssertions,nestedAlternative);
     }
@@ -38,17 +38,17 @@ public class TrustStore extends KeyStore implements com.sun.xml.ws.security.poli
     public String getPeerAlias() {
         return this.getAttributeValue(peerAlias);
     }
-    
+
     @Override
     public String getSTSAlias() {
         return this.getAttributeValue(stsAlias);
     }
-    
+
     @Override
     public String getServiceAlias() {
         return this.getAttributeValue(serviceAlias);
     }
-    
+
     @Override
     public String getCertSelectorClassName() {
         return this.getAttributeValue(certSelector);

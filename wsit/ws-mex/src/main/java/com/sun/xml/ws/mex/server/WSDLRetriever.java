@@ -38,10 +38,10 @@ import com.sun.xml.ws.mex.MessagesMessages;
 public class WSDLRetriever {
 
     private final WSEndpoint endpoint;
-    
+
     private static final Logger logger =
         Logger.getLogger(WSDLRetriever.class.getName());
-    
+
     /*
      * This class is used by the SDDocument object in the
      * jax-ws runtime. The agreement we have is to return
@@ -54,22 +54,22 @@ public class WSDLRetriever {
         @Override
         public String getRelativeAddressFor(final SDDocument doc1,
                                             final SDDocument doc2) {
-            
+
             return null;
         }
     };
-    
+
     public WSDLRetriever(WSEndpoint endpoint) {
         this.endpoint = endpoint;
     }
-    
+
     /*
      * This method is called by the server pipe to write out
      * the wsdl and schema documents to the mex response.
      */
     void addDocuments(final XMLStreamWriter writer, final Packet request,
         final String address) throws XMLStreamException {
-        
+
         final ServiceDefinition sDef = endpoint.getServiceDefinition();
         if (sDef == null) {
             return;
@@ -79,7 +79,7 @@ public class WSDLRetriever {
             writeDoc(writer, docs.next(), address);
         }
     }
-    
+
     /*
      * This method writes out each individual document, which
      * must be wrapped in a MetadataSection element within
@@ -89,7 +89,7 @@ public class WSDLRetriever {
      */
     private void writeDoc(final XMLStreamWriter writer, final SDDocument doc,
         final String address) throws XMLStreamException {
-        
+
         try {
             writer.writeStartElement(MetadataConstants.MEX_PREFIX,
                 "MetadataSection", MetadataConstants.MEX_NAMESPACE);

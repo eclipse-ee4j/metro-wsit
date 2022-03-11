@@ -32,11 +32,11 @@ import com.sun.xml.security.core.dsig.ObjectFactory;
  *
  * @author Ashutosh.Shahi@sun.com
  */
-public class X509IssuerSerial extends com.sun.xml.ws.security.opt.crypto.dsig.keyinfo.X509IssuerSerial 
+public class X509IssuerSerial extends com.sun.xml.ws.security.opt.crypto.dsig.keyinfo.X509IssuerSerial
         implements SecurityHeaderElement, SecurityElementWriter{
-    
+
     private SOAPVersion soapVersion = SOAPVersion.SOAP_11;
-    
+
     /** Creates a new instance of X509IssuerSerial */
     public X509IssuerSerial(SOAPVersion sv) {
         this.soapVersion = sv;
@@ -70,11 +70,11 @@ public class X509IssuerSerial extends com.sun.xml.ws.security.opt.crypto.dsig.ke
     @Override
     public XMLStreamReader readHeader() throws XMLStreamException {
         XMLStreamBufferResult xbr = new XMLStreamBufferResult();
-        JAXBElement<com.sun.xml.ws.security.opt.crypto.dsig.keyinfo.X509IssuerSerial> 
+        JAXBElement<com.sun.xml.ws.security.opt.crypto.dsig.keyinfo.X509IssuerSerial>
                 issuerSerialElem = new ObjectFactory().createX509DataTypeX509IssuerSerial(this);
         try{
             getMarshaller().marshal(issuerSerialElem, xbr);
-            
+
         } catch(JAXBException je){
             throw new XMLStreamException(je);
         }
@@ -83,7 +83,7 @@ public class X509IssuerSerial extends com.sun.xml.ws.security.opt.crypto.dsig.ke
 
     @Override
     public void writeTo(XMLStreamWriter streamWriter) throws XMLStreamException {
-        JAXBElement<com.sun.xml.ws.security.opt.crypto.dsig.keyinfo.X509IssuerSerial> 
+        JAXBElement<com.sun.xml.ws.security.opt.crypto.dsig.keyinfo.X509IssuerSerial>
                 issuerSerialElem = new ObjectFactory().createX509DataTypeX509IssuerSerial(this);
         try {
             // If writing to Zephyr, get output stream and use JAXB UTF-8 writer
@@ -95,7 +95,7 @@ public class X509IssuerSerial extends com.sun.xml.ws.security.opt.crypto.dsig.ke
                     return;
                 }
             }
-            
+
             getMarshaller().marshal(issuerSerialElem,streamWriter);
         } catch (JAXBException e) {
             throw new XMLStreamException(e);
@@ -120,9 +120,9 @@ public class X509IssuerSerial extends com.sun.xml.ws.security.opt.crypto.dsig.ke
     @Override
     public void writeTo(OutputStream os) {
     }
-    
+
     private Marshaller getMarshaller() throws JAXBException{
         return JAXBUtil.createMarshaller(soapVersion);
     }
-    
+
 }

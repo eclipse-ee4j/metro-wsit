@@ -1,6 +1,6 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2010, 2021 The Apache Software Foundation
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 The Apache Software Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -203,7 +203,7 @@ public abstract class EncryptedTypeHeaderBlock extends SecurityHeaderBlockImpl {
             throw new XWSSecurityException("Cipher Value not present");
         }
 
-        return getFullTextChildrenFromElement((SOAPElement) cipherValues.next()); 
+        return getFullTextChildrenFromElement((SOAPElement) cipherValues.next());
     }
 
     public SOAPElement getCipherData(boolean create) throws XWSSecurityException {
@@ -217,7 +217,7 @@ public abstract class EncryptedTypeHeaderBlock extends SecurityHeaderBlockImpl {
             } catch (SOAPException e) {
             log.log(Level.SEVERE, "WSS0395.creating.cipherData");
             throw new XWSSecurityException(e);
-            }  
+            }
         }
 
         return cipherData;
@@ -225,7 +225,7 @@ public abstract class EncryptedTypeHeaderBlock extends SecurityHeaderBlockImpl {
 
     public SOAPElement getCipherReference(boolean create, String uri) throws XWSSecurityException {
         SOAPElement cipherReference = null;
-        if (create) { 
+        if (create) {
             try {
                 cipherReference =
                     getSoapFactory().createElement(
@@ -244,29 +244,29 @@ public abstract class EncryptedTypeHeaderBlock extends SecurityHeaderBlockImpl {
             if (cipherData == null) {
                 // log
                 throw new XWSSecurityException("CipherData is not present");
-            } 
+            }
 
             // need to check
-            //Iterator i = cipherData.getChildElements();  
+            //Iterator i = cipherData.getChildElements();
             //cipherReference = (SOAPElement)i.next();
             NodeList nl =  cipherData.getElementsByTagNameNS(MessageConstants.XENC_NS, "CipherReference");
             if(nl.getLength() > 0)return (SOAPElement)nl.item(0);
         }
 
-        return cipherReference; 
+        return cipherReference;
     }
 
     public void addTransform(String algorithmURI) throws XWSSecurityException {
         SOAPElement cipherReference = getCipherReference(false, null);
-    
+
         try {
-           SOAPElement dsTransform = 
+           SOAPElement dsTransform =
                 getSoapFactory().createElement(
                     "Transform",
                     MessageConstants.DSIG_PREFIX,
                     MessageConstants.DSIG_NS);
 
-           dsTransform.setAttribute("Algorithm", algorithmURI); 
+           dsTransform.setAttribute("Algorithm", algorithmURI);
 
            // need to check
            SOAPElement xencTransforms = null;
@@ -283,7 +283,7 @@ public abstract class EncryptedTypeHeaderBlock extends SecurityHeaderBlockImpl {
                xencTransforms = (SOAPElement)i.next();
 
            xencTransforms.addChildElement(dsTransform);
-           
+
         } catch (SOAPException e) {
            // log
            throw new XWSSecurityException(e);
@@ -292,14 +292,14 @@ public abstract class EncryptedTypeHeaderBlock extends SecurityHeaderBlockImpl {
 
     public Iterator getTransforms() throws XWSSecurityException {
         SOAPElement cr =  getCipherReference(false, null);
-        if(cr != null) {            
+        if(cr != null) {
            Iterator it = cr.getChildElements();
            if(it.hasNext()){
                SOAPElement transforms = (SOAPElement)it.next();
                return transforms.getChildElements();
            }
         }
-        return null;        
+        return null;
     }
 
     public SOAPElement getEncryptionProperties() {
@@ -332,7 +332,7 @@ public abstract class EncryptedTypeHeaderBlock extends SecurityHeaderBlockImpl {
                 while (cnodes.hasNext() && !(se.getNodeType() == Node.ELEMENT_NODE)) se = (Node)cnodes.next();
 
                 if ((se == null) || !(se.getNodeType() == Node.ELEMENT_NODE)) break;
-                       
+
                 if (se.getLocalName().equals("EncryptionMethod"))
                     encryptionMethod = (SOAPElement)se;
                 else
@@ -342,12 +342,12 @@ public abstract class EncryptedTypeHeaderBlock extends SecurityHeaderBlockImpl {
                 if (se.getLocalName().equals("KeyInfo"))
                     keyInfo = new KeyInfoHeaderBlock(
                                    new org.apache.xml.security.keys.KeyInfo((Element)se, null));
-            }  
+            }
 
         } catch (Exception e) {
             log.log(Level.SEVERE, "WSS0354.error.initializing.encryptedType", e.getMessage());
             throw new XWSSecurityException(e);
-        } 
+        }
     }
 
     /*
@@ -357,8 +357,8 @@ public abstract class EncryptedTypeHeaderBlock extends SecurityHeaderBlockImpl {
     public void initializeEncryptedType(SOAPElement element)
         throws XWSSecurityException {
 
-        try {   
-        
+        try {
+
             Iterator encryptionMethods =
                 getChildElements(
                     getSoapFactory().createName(
@@ -378,7 +378,7 @@ public abstract class EncryptedTypeHeaderBlock extends SecurityHeaderBlockImpl {
                 this.keyInfo =
                     new KeyInfoHeaderBlock((SOAPElement) keyInfos.next());
 
-            Iterator cipherDatas = 
+            Iterator cipherDatas =
                 getChildElements(
                     getSoapFactory().createName(
                         "CipherData",
@@ -400,7 +400,7 @@ public abstract class EncryptedTypeHeaderBlock extends SecurityHeaderBlockImpl {
                         MessageConstants.XENC_NS));
             if (allEncryptionProperties.hasNext())
                 this.encryptionProperties =
-                    (SOAPElement) allEncryptionProperties.next(); 
+                    (SOAPElement) allEncryptionProperties.next();
 
         } catch (SOAPException e) {
             log.log(Level.SEVERE, "WSS0354.error.initializing.encryptedType", e.getMessage());

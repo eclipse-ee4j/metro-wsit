@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -21,33 +21,33 @@ import jakarta.activation.DataSource;
  * @author K.Venugopal@sun.com
  */
 public class CVDataHandler implements DataContentHandler {
-    
+
     /** Creates a new instance of CVDataHandler */
     public CVDataHandler() {
     }
-    
+
     @Override
     public Object getContent(DataSource ds) {
         throw new UnsupportedOperationException();
     }
-    
+
     @Override
     public Object getTransferData(ActivationDataFlavor df, DataSource ds) {
         throw new UnsupportedOperationException();
     }
-    
+
     @Override
     public ActivationDataFlavor[] getTransferDataFlavors() {
         throw new UnsupportedOperationException();
     }
-    
+
     @Override
     public void writeTo(Object obj, String mimeType, OutputStream os)throws IOException{
         if(obj instanceof CryptoProcessor){
-            CryptoProcessor cp = (CryptoProcessor) obj;            
-            cp.encrypt(os);            
+            CryptoProcessor cp = (CryptoProcessor) obj;
+            cp.encrypt(os);
         }else{
             throw new UnsupportedOperationException();
         }
-    }    
+    }
 }

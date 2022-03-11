@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -23,7 +23,7 @@ import javax.xml.namespace.QName;
  * @author K.Venugopal@sun.com
  */
 public class CallbackHandlerConfiguration extends PolicyAssertion implements com.sun.xml.ws.security.policy.CallbackHandlerConfiguration, SecurityAssertionValidator{
-    
+
     private static final QName timestampTimeout  =  new QName("timestampTimeout");
     private boolean populated = false;
     private static final QName useXWSSCallbacks = new QName("useXWSSCallbacks");
@@ -32,21 +32,21 @@ public class CallbackHandlerConfiguration extends PolicyAssertion implements com
     /** Creates a new instance of CallbackHandlerConfiguration */
     public CallbackHandlerConfiguration() {
     }
-    
+
     public CallbackHandlerConfiguration(AssertionData name,Collection<PolicyAssertion> nestedAssertions, AssertionSet nestedAlternative) {
         super(name,nestedAssertions,nestedAlternative);
     }
-    
+
     @Override
     public Iterator<? extends PolicyAssertion> getCallbackHandlers() {
         return this.getParametersIterator();
     }
-    
+
     @Override
     public AssertionFitness validate(boolean isServer) {
         return populate(isServer);
     }
-    
+
     private synchronized AssertionFitness populate(boolean isServer) {
         if(!populated){
             populated  = true;

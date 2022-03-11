@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -100,7 +100,7 @@ public class KeyInfoHeaderBlock  extends SecurityHeaderBlockImpl {
      */
     private Document document;
 
-    /** 
+    /**
      * constructor that creates an empty KeyInfo
      * @param ownerDoc the OwnerDocument of the KeyInfo
      */
@@ -116,10 +116,10 @@ public class KeyInfoHeaderBlock  extends SecurityHeaderBlockImpl {
                 "WSS0318.exception.while.creating.keyinfoblock",
                 e);
             throw new XWSSecurityException(e);
-        }       
+        }
     }
 
-    /** 
+    /**
      * constructor that takes Apache KeyInfo
      * @param keyinfo the KeyInfo from XML DSIG
      */
@@ -138,7 +138,7 @@ public class KeyInfoHeaderBlock  extends SecurityHeaderBlockImpl {
         delegateKeyInfo.addKeyName(keynameString);
         dirty = true;
     }
-    
+
     /**
      * Method addBinarySecret
      *
@@ -154,12 +154,12 @@ public class KeyInfoHeaderBlock  extends SecurityHeaderBlockImpl {
      */
     public void addKeyName(SOAPElement keyname) throws XWSSecurityException {
         try {
-            KeyName keynm = new KeyName(keyname,null); 
+            KeyName keynm = new KeyName(keyname,null);
             delegateKeyInfo.add(keynm);
             dirty = true;
         } catch (XMLSecurityException e) {
             log.log(Level.SEVERE, "WSS0319.exception.adding.keyname", e);
-            throw new XWSSecurityException(e);  
+            throw new XWSSecurityException(e);
         }
     }
 
@@ -185,16 +185,16 @@ public class KeyInfoHeaderBlock  extends SecurityHeaderBlockImpl {
      * Method add
      *
      */
-    public void addDSAKeyValue(SOAPElement dsakeyvalue) 
+    public void addDSAKeyValue(SOAPElement dsakeyvalue)
         throws XWSSecurityException{
         try {
             DSAKeyValue dsaKval = new DSAKeyValue(dsakeyvalue, null);
             delegateKeyInfo.add(dsaKval);
             dirty = true;
         } catch(XMLSecurityException e) {
-            log.log(Level.SEVERE, 
-                    "WSS0355.error.creating.keyvalue", 
-                    new Object[] {"DSA", e.getMessage()}); 
+            log.log(Level.SEVERE,
+                    "WSS0355.error.creating.keyvalue",
+                    new Object[] {"DSA", e.getMessage()});
             throw new XWSSecurityException(e);
         }
     }
@@ -203,15 +203,15 @@ public class KeyInfoHeaderBlock  extends SecurityHeaderBlockImpl {
      * Method add
      *
      */
-    public void addRSAKeyValue(SOAPElement rsakeyvalue) 
+    public void addRSAKeyValue(SOAPElement rsakeyvalue)
         throws XWSSecurityException{
         try {
              RSAKeyValue rsaKval = new RSAKeyValue(rsakeyvalue, null);
              delegateKeyInfo.add(rsaKval);
              dirty = true;
         } catch(XMLSecurityException e) {
-            log.log(Level.SEVERE, 
-                    "WSS0355.error.creating.keyvalue", 
+            log.log(Level.SEVERE,
+                    "WSS0355.error.creating.keyvalue",
                     new Object[] {"RSA", e.getMessage()});
             throw new XWSSecurityException(e);
         }
@@ -221,15 +221,15 @@ public class KeyInfoHeaderBlock  extends SecurityHeaderBlockImpl {
      * Method addKeyValue
      *
      */
-    public void addKeyValue(SOAPElement keyvalue) 
+    public void addKeyValue(SOAPElement keyvalue)
         throws XWSSecurityException {
         try {
             KeyValue kval = new KeyValue(keyvalue,null);
             delegateKeyInfo.add(kval);
             dirty = true;
         } catch(XMLSecurityException e) {
-            log.log(Level.SEVERE, 
-                    "WSS0355.error.creating.keyvalue", 
+            log.log(Level.SEVERE,
+                    "WSS0355.error.creating.keyvalue",
                     new Object[] {"", e.getMessage()});
             throw new XWSSecurityException(e);
         }
@@ -429,7 +429,7 @@ public class KeyInfoHeaderBlock  extends SecurityHeaderBlockImpl {
      * Method getKeyNameString
      *
      * @param index
-     * 0 is the lowest index 
+     * 0 is the lowest index
      *
      */
     public String getKeyNameString(int index) throws XWSSecurityException {
@@ -467,8 +467,8 @@ public class KeyInfoHeaderBlock  extends SecurityHeaderBlockImpl {
         try {
             return delegateKeyInfo.itemKeyValue(index);
         } catch (XMLSecurityException e) {
-            log.log(Level.SEVERE, 
-                    "WSS0357.error.getting.keyvalue", 
+            log.log(Level.SEVERE,
+                    "WSS0357.error.getting.keyvalue",
                     new Object[] {Integer.valueOf(index), e.getMessage()});
             throw new XWSSecurityException(e);
         }
@@ -478,7 +478,7 @@ public class KeyInfoHeaderBlock  extends SecurityHeaderBlockImpl {
      * Method getMgmtData
      *
      * @param index
-     * 0 is the lowest index 
+     * 0 is the lowest index
      *
      */
     public SOAPElement getMgmtData(int index) throws XWSSecurityException {
@@ -508,7 +508,7 @@ public class KeyInfoHeaderBlock  extends SecurityHeaderBlockImpl {
      * Method getRetrievalMethod
      *
      * @param index
-     * 0 is the lowest index 
+     * 0 is the lowest index
      *
      */
     public SOAPElement getRetrievalMethod(int index)
@@ -525,7 +525,7 @@ public class KeyInfoHeaderBlock  extends SecurityHeaderBlockImpl {
      * Method getSPKIData
      *
      * @param index
-     * 0 is the lowest index 
+     * 0 is the lowest index
      *
      */
     public SOAPElement getSPKIData(int index) throws XWSSecurityException {
@@ -562,8 +562,8 @@ public class KeyInfoHeaderBlock  extends SecurityHeaderBlockImpl {
         try {
             return delegateKeyInfo.itemX509Data(index);
         } catch (XMLSecurityException e) {
-            log.log(Level.SEVERE, 
-                    "WSS0358.error.getting.x509data", 
+            log.log(Level.SEVERE,
+                    "WSS0358.error.getting.x509data",
                     new Object[] {Integer.valueOf(index), e.getMessage()});
             throw new XWSSecurityException(e);
         }
@@ -671,7 +671,7 @@ public class KeyInfoHeaderBlock  extends SecurityHeaderBlockImpl {
      * Method addSecurityTokenReference
      *
      */
-    public void addSecurityTokenReference(SecurityTokenReference reference) 
+    public void addSecurityTokenReference(SecurityTokenReference reference)
         throws XWSSecurityException {
         delegateKeyInfo.addUnknownElement(reference.getAsSoapElement());
         dirty = true;
@@ -698,12 +698,12 @@ public class KeyInfoHeaderBlock  extends SecurityHeaderBlockImpl {
 
                if (lName.equals(
                    MessageConstants.WSSE_SECURITY_TOKEN_REFERENCE_LNAME) &&
-                   nspac.equals(MessageConstants.WSSE_NS)) { 
+                   nspac.equals(MessageConstants.WSSE_NS)) {
                 if (res == index) {
                     return new SecurityTokenReference((SOAPElement) current);
                 }
                 res++;
-              }   
+              }
             }
           }
         return null;
@@ -740,7 +740,7 @@ public class KeyInfoHeaderBlock  extends SecurityHeaderBlockImpl {
     public boolean containsSecurityTokenReference() {
         return (securityTokenReferenceCount() > 0);
     }
-    
+
     /**
      * Method addEncryptedKey
      *
@@ -749,7 +749,7 @@ public class KeyInfoHeaderBlock  extends SecurityHeaderBlockImpl {
         delegateKeyInfo.addUnknownElement(reference.getAsSoapElement());
         dirty = true;
     }
-    
+
     /**
      * Method getEncryptedKey
      *
@@ -770,17 +770,17 @@ public class KeyInfoHeaderBlock  extends SecurityHeaderBlockImpl {
 
                if (lName.equals(
                    MessageConstants.XENC_ENCRYPTED_KEY_LNAME) &&
-                   nspac.equals(MessageConstants.XENC_NS)) { 
+                   nspac.equals(MessageConstants.XENC_NS)) {
                 if (res == index) {
                     return new EncryptedKeyToken((SOAPElement) current);
                 }
                 res++;
-              }   
+              }
             }
           }
         return null;
     }
-    
+
     /**
      * Method encryptedKeyTokenCount
      *
@@ -813,20 +813,20 @@ public class KeyInfoHeaderBlock  extends SecurityHeaderBlockImpl {
         return (encryptedKeyTokenCount() > 0);
     }
 
-   
+
     public BinarySecret getBinarySecret(int index)
         throws XWSSecurityException {
         org.w3c.dom.Element delegateElement = delegateKeyInfo.getElement();
         int res = 0;
         NodeList nl = delegateElement.getChildNodes();
-                                                                                                                        
+
         for (int j = 0; j < nl.getLength(); j++) {
             Node current = nl.item(j);
             if (current.getNodeType() == Node.ELEMENT_NODE) {
-                                                                                                                        
+
                String lName = current.getLocalName();
                String nspac = current.getNamespaceURI();
-                                                                                                                        
+
                if (lName.equals(
                    MessageConstants.BINARY_SECRET_LNAME) &&
                    nspac.equals(WSTrustConstants.WST_NAMESPACE)) {
@@ -843,7 +843,7 @@ public class KeyInfoHeaderBlock  extends SecurityHeaderBlockImpl {
           }
         return null;
     }
-                                                                                                                        
+
     /**
      * Method binarySecretCount
      *
@@ -853,14 +853,14 @@ public class KeyInfoHeaderBlock  extends SecurityHeaderBlockImpl {
         org.w3c.dom.Element delegateElement = delegateKeyInfo.getElement();
         int res = 0;
         NodeList nl = delegateElement.getChildNodes();
-                                                                                                                        
+
         for (int j = 0; j < nl.getLength(); j++) {
             Node current = nl.item(j);
             if ((current.getNodeType() == Node.ELEMENT_NODE) &&
                  MessageConstants.BINARY_SECRET_LNAME.equals(
                      current.getLocalName()) &&
                  WSTrustConstants.WST_NAMESPACE.equals(current.getNamespaceURI())) {
-                                                                                                                        
+
                 res++;
             }
         }
@@ -954,14 +954,14 @@ public class KeyInfoHeaderBlock  extends SecurityHeaderBlockImpl {
             // The BaseURI in Apache KeyInfo is seems optional
             // However the purpose of it is not clear
             this.document = element.getOwnerDocument();
-            delegateKeyInfo = 
+            delegateKeyInfo =
                 new KeyInfo(element,baseURI);
         } catch (XMLSecurityException e) {
             log.log(
                 Level.SEVERE,
                 "WSS0318.exception.while.creating.keyinfoblock",
                 e);
-          throw new XWSSecurityException(e); 
+          throw new XWSSecurityException(e);
         }
     }
 
@@ -972,14 +972,14 @@ public class KeyInfoHeaderBlock  extends SecurityHeaderBlockImpl {
     * inside the keyInfo, this method should be called to reflect changes
     * when getAsSoapElement() is called finally.
     *
-    */ 
+    */
     public void saveChanges() {
         dirty = true;
     }
 
     public static SecurityHeaderBlock fromSoapElement(SOAPElement element)
         throws XWSSecurityException {
-        return SecurityHeaderBlockImpl.fromSoapElement(element, 
+        return SecurityHeaderBlockImpl.fromSoapElement(element,
             KeyInfoHeaderBlock.class);
     }
 

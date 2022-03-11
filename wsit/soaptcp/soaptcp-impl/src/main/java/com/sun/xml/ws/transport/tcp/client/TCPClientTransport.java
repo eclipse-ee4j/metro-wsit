@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -34,39 +34,39 @@ import jakarta.xml.soap.SOAPMessage;
 public class TCPClientTransport extends DistributedPropertySet {
     private ChannelContext channelContext;
     private Connection connection;
-    
+
     private InputStream inputStream;
     private OutputStream outputStream;
-    
+
     // Response status
     private int status;
     // Request/response content type
     private String contentType;
-    
+
     private WSTCPError error;
-    
+
     public TCPClientTransport() {
     }
-    
+
     public TCPClientTransport(final @NotNull ChannelContext channelContext) {
         setup(channelContext);
     }
-    
+
     public void setup(final @Nullable ChannelContext channelContext) {
         this.channelContext = channelContext;
         if (channelContext != null) {
             this.connection = channelContext.getConnection();
         }
     }
-    
+
     public int getStatus() {
         return status;
     }
-    
+
     public void setStatus(final int status) {
         this.status = status;
     }
-    
+
     /*
      * Getting output stream.
      * Making some stream preparation before
@@ -75,11 +75,11 @@ public class TCPClientTransport extends DistributedPropertySet {
         connection.setChannelId(channelContext.getChannelId());
         connection.setMessageId(FrameType.MESSAGE);
         channelContext.setContentType(contentType);
-        
+
         outputStream = connection.openOutputStream();
         return outputStream;
     }
-    
+
     /*
      * Getting input stream.
      * Making some stream preparation before
@@ -92,31 +92,31 @@ public class TCPClientTransport extends DistributedPropertySet {
         if (FrameType.isFrameContainsParams(messageId)) {
             contentType = channelContext.getContentType();
         }
-        
+
         if (status == TCPConstants.ERROR) {
             error = parseErrorMessagePayload();
         }
-        
+
         return inputStream;
     }
-    
+
     public void send() throws IOException {
         connection.flush();
     }
-    
+
     public void close() {
         error = null;
         // Perform some cleanings
     }
-    
+
     public void setContentType(final @NotNull String contentType) {
         this.contentType = contentType;
     }
-    
+
     public @Nullable String getContentType() {
         return contentType;
     }
-    
+
     public @Nullable WSTCPError getError() {
         return error;
     }
@@ -127,10 +127,10 @@ public class TCPClientTransport extends DistributedPropertySet {
         final int errorCode = params[0];
         final int errorSubCode = params[1];
         final int errorDescriptionBufferLength = params[2];
-        
+
         final byte[] errorDescriptionBuffer = new byte[errorDescriptionBufferLength];
         DataInOutUtils.readFully(inputStream, errorDescriptionBuffer);
-        
+
         String errorDescription = new String(errorDescriptionBuffer, StandardCharsets.UTF_8);
         return WSTCPError.createError(errorCode, errorSubCode, errorDescription);
     }
@@ -141,20 +141,20 @@ public class TCPClientTransport extends DistributedPropertySet {
         } else if (messageId == FrameType.ERROR) {
             return TCPConstants.ERROR;
         }
-        
+
         return TCPConstants.OK;
     }
-    
+
     @com.sun.xml.ws.api.PropertySet.Property(TCPConstants.CHANNEL_CONTEXT)
     public ChannelContext getConnectionContext() {
         return channelContext;
     }
-    
+
     private static final PropertyMap model;
     static {
         model = parse(TCPClientTransport.class);
     }
-    
+
     @Override
     public DistributedPropertySet.PropertyMap getPropertyMap() {
         return model;
@@ -168,5 +168,5 @@ public class TCPClientTransport extends DistributedPropertySet {
     public void setSOAPMessage(SOAPMessage soap) {
        throw new UnsupportedOperationException();
     }
-    
+
 }

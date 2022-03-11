@@ -21,17 +21,17 @@ import com.sun.xml.ws.policy.PolicyConstants;
  */
 public class PrivateAttributeFilteringStateMachine implements FilteringStateMachine {
     private static final Logger LOGGER = Logger.getLogger(PrivateAttributeFilteringStateMachine.class);
-    
+
     private int depth; // indicates the depth in which we are currently nested in the element that should be filtered out
     private boolean filteringOn; // indicates that currently processed elements will be filtered out.
     private boolean cmdBufferingOn; // indicates whether the commands should be buffered or whether they can be directly executed on the underlying XML output stream
-    
-    
+
+
     /** Creates a new instance of PrivateAttributeFilteringStateMachine */
     public PrivateAttributeFilteringStateMachine() {
         // nothing to initialize
     }
-    
+
     @Override
     public ProcessingStateChange getStateChange(final Invocation invocation, final XMLStreamWriter writer) {
         LOGGER.entering(invocation);
@@ -80,13 +80,13 @@ public class PrivateAttributeFilteringStateMachine implements FilteringStateMach
                 default:
                     break;
             }
-            
-            return resultingState;            
+
+            return resultingState;
         } finally {
             LOGGER.exiting(resultingState);
         }
     }
-    
+
     private boolean startFiltering(final Invocation invocation, final XMLStreamWriter writer) {
         final XmlFilteringUtils.AttributeInfo attributeInfo = XmlFilteringUtils.getAttributeNameToWrite(invocation, XmlFilteringUtils.getDefaultNamespaceURI(writer));
         return PolicyConstants.VISIBILITY_ATTRIBUTE.equals(attributeInfo.getName()) && PolicyConstants.VISIBILITY_VALUE_PRIVATE.equals(attributeInfo.getValue());

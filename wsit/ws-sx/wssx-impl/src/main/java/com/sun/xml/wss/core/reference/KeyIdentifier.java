@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -53,7 +53,7 @@ public abstract class KeyIdentifier extends ReferenceElement {
                     MessageConstants.WSSE_PREFIX + ":KeyIdentifier"));
         } catch (Exception e) {
             log.log(Level.SEVERE,
-                    "WSS0750.soap.exception", 
+                    "WSS0750.soap.exception",
                     new Object[] {"wsse:KeyIdentifier", e.getMessage()});
             throw new XWSSecurityException(e);
         }
@@ -111,7 +111,7 @@ public abstract class KeyIdentifier extends ReferenceElement {
         } catch (SOAPException e) {
             log.log(Level.SEVERE,
                     "WSS0757.error.setting.reference",
-                    e.getMessage());  
+                    e.getMessage());
             throw new XWSSecurityException(e);
         }
     }
@@ -149,26 +149,26 @@ public abstract class KeyIdentifier extends ReferenceElement {
         if (encType == null) {
             return getReferenceValue();
         }
-                                                                                                                                          
+
         String encodedText= XMLUtil.getFullTextFromChildren(this);
         if (MessageConstants.BASE64_ENCODING_NS.equals(encType)) {
             return new String(getDecodedBase64EncodedData(encodedText));
         } else {
             log.log(Level.SEVERE,
-                    "WSS0762.unsupported.encodingType", 
-                     new Object[] {encType});             
+                    "WSS0762.unsupported.encodingType",
+                     new Object[] {encType});
             throw new XWSSecurityException("Unsupported EncodingType: " + encType + " On KeyIdentifier");
         }
     }
-                                                                                                                                          
+
     private static byte[] getDecodedBase64EncodedData(String encodedData)
         throws XWSSecurityException {
         try {
             return Base64.decode(encodedData);
         } catch (Base64DecodingException e) {
             log.log(Level.SEVERE,
-                "WSS0144.unableto.decode.base64.data", 
-                new Object[] {e.getMessage()});             
+                "WSS0144.unableto.decode.base64.data",
+                new Object[] {e.getMessage()});
             throw new XWSSecurityException(
                 "Unable to decode Base64 encoded data",
                 e);
@@ -176,4 +176,4 @@ public abstract class KeyIdentifier extends ReferenceElement {
     }
 
 
-} 
+}

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -88,13 +88,13 @@ public final class Rm11Assertion extends ComplexAssertion implements RmConfigura
                 }
             }
         }
-        
+
         if (deliveryAssuranceAssertion == null) {
             deliveryAssurance = DeliveryAssurance.getDefault();
             isOrderedDelivery = false;
         } else {
             deliveryAssurance = deliveryAssuranceAssertion.getDeliveryAssurance();
-            isOrderedDelivery = deliveryAssuranceAssertion.isOrderedDelivery();            
+            isOrderedDelivery = deliveryAssuranceAssertion.isOrderedDelivery();
         }
 
         securityBinding = _securityBinding;
@@ -132,7 +132,7 @@ public final class Rm11Assertion extends ComplexAssertion implements RmConfigura
 
         return builder.deliveryAssurance(deliveryAssurance).securityBinding(securityBinding);
     }
-    
+
     @Override
     public boolean isCompatibleWith(RmProtocolVersion version) {
         return RmProtocolVersion.WSRM200702 == version;

@@ -90,7 +90,7 @@ public class JMACAuthConfigFactory extends AuthConfigFactory {
      * layer and application context.
      *
      * @param layer a String identifying the message layer
-     *		for which the registered AuthConfigProvider is
+     *        for which the registered AuthConfigProvider is
      *          to be returned. This argument may be null.
      *
      * @param appContext a String that identifys the application messaging
@@ -218,7 +218,7 @@ public class JMACAuthConfigFactory extends AuthConfigFactory {
      *          type String.
      *
      * @param layer a String identifying the message layer
-     *		for which the provider will be registered at the factory.
+     *        for which the provider will be registered at the factory.
      *          A null value may be passed as an argument for this parameter,
      *          in which case, the provider is registered at all layers.
      *
@@ -236,13 +236,13 @@ public class JMACAuthConfigFactory extends AuthConfigFactory {
      *          used to remove the registration from the provider.
      *
      * @exception SecurityException if the caller does not have
-     *		permission to register a provider at the factory.
+     *        permission to register a provider at the factory.
      */
     @Override
     public String registerConfigProvider(String className,
-					 Map<String, String> properties,
-					 String layer, String appContext,
-					 String description) {
+                     Map<String, String> properties,
+                     String layer, String appContext,
+                     String description) {
         //XXX do we need doPrivilege here
         AuthConfigProvider provider = _constructProvider(className, properties, null);
         return _register(provider, properties, layer, appContext, description, true);
@@ -311,7 +311,7 @@ public class JMACAuthConfigFactory extends AuthConfigFactory {
      *          invalid.
      *
      * @exception SecurityException if the caller does not have
-     *		permission to unregister the provider at the factory.
+     *        permission to unregister the provider at the factory.
      *
      */
     @Override
@@ -337,7 +337,7 @@ public class JMACAuthConfigFactory extends AuthConfigFactory {
      *          the listener was not removed from any registrations.
      *
      * @exception SecurityException if the caller does not have
-     *		permission to detach the listener from the factory.
+     *        permission to detach the listener from the factory.
      *
      */
     @Override
@@ -425,7 +425,7 @@ public class JMACAuthConfigFactory extends AuthConfigFactory {
      * properties has occured.
      *
      * @exception SecurityException if the caller does not have permission
-     *		to refresh the factory.
+     *        to refresh the factory.
      */
     @Override
     public void refresh() {
@@ -544,11 +544,11 @@ public class JMACAuthConfigFactory extends AuthConfigFactory {
 
     //XXX need to update persistent state and notify effected listeners
     private static String _register(AuthConfigProvider provider,
-				    Map<String, String> properties,
-				    String layer,
-				    String appContext,
-				    String description,
-				    boolean persist) {
+                    Map<String, String> properties,
+                    String layer,
+                    String appContext,
+                    String description,
+                    boolean persist) {
 
         String regisID = getRegistrationID(layer, appContext);
         RegistrationContext rc = new RegistrationContextImpl(layer, appContext, description, persist);

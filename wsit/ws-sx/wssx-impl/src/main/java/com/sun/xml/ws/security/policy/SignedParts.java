@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -34,31 +34,31 @@ import java.util.Iterator;
 
 
 public interface SignedParts extends Target {
- 
+
     /**
      *
      * @return true if the body is to be integrity protected.
      */
     boolean hasBody();
-    
+
     /**
-     * 
+     *
      *  @return true if the attachments are to be integrity protected
      */
     boolean hasAttachments();
-    
+
     /**
-     * 
+     *
      * @return the URI of transform to be applied on attachment, the default is
      *  Attachment-Complete-Transform
      */
     String attachmentProtectionType();
-    
+
     /**
      * {@link java.util.Iterator } over list of Headers that identify targets in the SOAP header
      * to be integrity protected.
      * @return {@link java.util.Iterator }
      */
     Iterator  getHeaders();
-    
+
 }

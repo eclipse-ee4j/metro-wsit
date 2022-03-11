@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -51,43 +51,43 @@ public class WsdlDocumentFilterTest extends TestCase {
         "policy_3",
         "policy_4"
     };
-    
+
     private static final String[] testWsdlResources = new String[] {
         "PingService",
         "W2JRLR2010TestService"
     };
-    
+
     private static final SDDocumentFilter filter = new WsdlDocumentFilter();
-    
+
     public WsdlDocumentFilterTest(String testName) {
         super(testName);
     }
-    
+
     /**
      * Test of createProxy method, of class com.sun.xml.ws.policy.jaxws.documentfilter.FilteringXmlStreamWriterProxy.
      */
     public void testCreateProxy() throws Exception {
         XMLStreamWriter result = openFilteredWriter(new StringWriter(), filter);
-        
+
         assertNotNull(result);
     }
-    
+
     public void testFilterPolicyExpression() throws Exception {
         performResourceBasedTest(testPolicyResources, "", ".xml", filter);
     }
-    
+
     public void testFilterWSDL() throws Exception {
         for (String wsdlResource : testWsdlResources) {
             StringWriter filteredBuffer = new StringWriter();
             StringWriter unfilteredBuffer = new StringWriter();
-            
+
             readAndWriteWsdl(wsdlResource, filteredBuffer, true);
             readAndWriteWsdl(wsdlResource + "_expected", unfilteredBuffer, false);
-            
+
             assertEquals(unfilteredBuffer.toString(), filteredBuffer.toString());
         }
     }
-    
+
     private void readAndWriteWsdl(String wsdlName, StringWriter buffer, boolean filter) throws Exception {
         XMLStreamReader reader = null;
         XMLStreamWriter writer = null;
@@ -99,18 +99,18 @@ public class WsdlDocumentFilterTest extends TestCase {
             if (filter) {
                 writer = new WsdlDocumentFilter().filter(null, writer);
             }
-            
+
             new XMLStreamReaderToXMLStreamWriter().bridge(reader, writer);
-            
+
             writer.writeEndDocument();
         } finally {
             if (writer != null) try {writer.close();} finally {
                 if (reader != null) reader.close();
             }
         }
-        
+
     }
-    
+
     private XMLStreamWriter openFilteredWriter(Writer outputStream, InvocationProcessorFactory factory) throws XMLStreamException {
         XMLStreamWriter writer = XMLOutputFactory.newInstance().createXMLStreamWriter(outputStream);
         return EnhancedXmlStreamWriterProxy.createProxy(writer, factory);

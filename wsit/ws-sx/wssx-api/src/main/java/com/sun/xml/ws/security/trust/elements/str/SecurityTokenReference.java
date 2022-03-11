@@ -14,16 +14,16 @@ import com.sun.xml.ws.security.Token;
 import javax.xml.namespace.QName;
 
 public interface SecurityTokenReference extends Token {
-    
+
     String KEYIDENTIFIER = "KeyIdentifier";
     String REFERENCE = "Reference";
     QName TOKEN_TYPE = new QName("http://docs.oasis-open.org/wss/oasis-wss-wssecurity-secext-1.1.xsd","TokenType");
-    
+
     void setReference(Reference ref);
-    
+
     Reference getReference();
 
     void setTokenType(String tokenType);
 
-    String getTokenType();   
+    String getTokenType();
 }

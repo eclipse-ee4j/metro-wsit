@@ -39,7 +39,7 @@ public class PolicyViolationException extends XWSSecurityException {
     public PolicyViolationException(String message, Throwable cause) {
         super(message, cause);
     }
-    
+
     /**
      * Constructor specifying a nested exception
      * @param cause the nested exception as a Throwable

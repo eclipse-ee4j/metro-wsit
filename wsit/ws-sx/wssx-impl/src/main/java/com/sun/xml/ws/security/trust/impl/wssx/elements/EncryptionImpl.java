@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -27,44 +27,44 @@ import jakarta.xml.bind.JAXBElement;
  * @author Manveen Kaur
  */
 public class EncryptionImpl extends EncryptionType implements Encryption {
-    
+
     private String targetType = null;
-    
+
     private SecurityTokenReference str = null;
     private Token token = null;
-    
+
     public EncryptionImpl(SecurityTokenReference str) {
         setSecurityTokenReference(str);
         setTargetType(WSTrustConstants.STR_TYPE);
     }
-    
+
     public EncryptionImpl(Token token) {
         setToken(token);
         setTargetType(WSTrustConstants.TOKEN_TYPE);
     }
-    
+
     public EncryptionImpl (EncryptionType encType) {
         JAXBElement obj = (JAXBElement)encType.getAny();
         String local = obj.getName().getLocalPart();
         if ("SecurityTokenReference".equals(local)) {
-            SecurityTokenReference str = 
+            SecurityTokenReference str =
                         new SecurityTokenReferenceImpl((SecurityTokenReferenceType)obj.getValue());
             setSecurityTokenReference(str);
             setTargetType(WSTrustConstants.STR_TYPE);
         } else {
             //ToDo
-        } 
+        }
     }
-    
+
     @Override
     public String getTargetType() {
         return targetType;
     }
-    
+
     public void setTargetType(String ttype) {
         targetType = ttype;
     }
-    
+
     @Override
     public void setSecurityTokenReference(SecurityTokenReference ref) {
         if (ref != null) {
@@ -76,12 +76,12 @@ public class EncryptionImpl extends EncryptionType implements Encryption {
         setTargetType(WSTrustConstants.STR_TYPE);
         token = null;
     }
-    
+
     @Override
     public SecurityTokenReference getSecurityTokenReference() {
         return str;
     }
-    
+
     @Override
     public void setToken(Token token) {
         if (token != null) {
@@ -91,11 +91,11 @@ public class EncryptionImpl extends EncryptionType implements Encryption {
         setTargetType(WSTrustConstants.TOKEN_TYPE);
         str = null;
     }
-    
+
     @Override
     public Token getToken() {
         return token;
     }
-    
-    
+
+
 }

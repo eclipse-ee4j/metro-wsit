@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -33,7 +33,7 @@ import jakarta.xml.bind.JAXBContext;
  */
 public class Evidence extends EvidenceType
     implements com.sun.xml.wss.saml.Evidence {
-    
+
     protected static final Logger log = Logger.getLogger(
             LogDomainConstants.WSS_API_DOMAIN,
             LogDomainConstants.WSS_API_DOMAIN_BUNDLE);
@@ -52,7 +52,7 @@ public class Evidence extends EvidenceType
         throws SAMLException {
         try {
             JAXBContext jc = SAML20JAXBUtil.getJAXBContext();
-                
+
             jakarta.xml.bind.Unmarshaller u = jc.createUnmarshaller();
             return (EvidenceType)u.unmarshal(element);
         } catch ( Exception ex) {
@@ -64,8 +64,8 @@ public class Evidence extends EvidenceType
     private void setAssertionIDReferenceOrAssertion(List evidence) {
         this.assertionIDRefOrAssertionURIRefOrAssertion = evidence;
     }
-    
-    
+
+
     /**
      * Constructs an Evidence from a Set of <code>Assertion</code> and
      * <code>AssertionIDReference</code> objects.
@@ -75,13 +75,13 @@ public class Evidence extends EvidenceType
      */
     public Evidence(List assertionIDRef, List assertion)
         {
-        
+
         if ( assertionIDRef != null)
             setAssertionIDReferenceOrAssertion(assertionIDRef);
         else if ( assertion != null)
             setAssertionIDReferenceOrAssertion(assertion);
     }
-    
+
     public Evidence(EvidenceType eveType){
         setAssertionIDReferenceOrAssertion(eveType.getAssertionIDRefOrAssertionURIRefOrAssertion());
     }

@@ -16,15 +16,15 @@ package com.sun.xml.ws.security.policy;
  * @author Abhijit Das
  */
 public interface Lifetime {
-    
+
     /**
      * Get creation time
      *
      * @return String representing created time
      */
     String getCreated();
-    
-    
+
+
     /**
      *
      * Get Expires time

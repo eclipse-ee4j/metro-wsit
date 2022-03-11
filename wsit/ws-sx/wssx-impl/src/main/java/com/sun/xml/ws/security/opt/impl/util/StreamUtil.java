@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -22,11 +22,11 @@ import org.jvnet.staxex.XMLStreamWriterEx;
  * @author K.Venugopal@sun.com
  */
 public class StreamUtil {
-    
+
     /** Creates a new instance of StreamUtil */
     public StreamUtil() {
     }
-    
+
     public static boolean moveToNextElement(XMLStreamReader reader) throws XMLStreamException{
         if(reader.hasNext()){
             reader.next();
@@ -42,7 +42,7 @@ public class StreamUtil {
             return false;
         }
     }
-    
+
     public static boolean moveToNextStartOREndElement(XMLStreamReader reader) throws XMLStreamException{
         if(reader.hasNext()){
             reader.next();
@@ -58,7 +58,7 @@ public class StreamUtil {
             return false;
         }
     }
-    
+
     public static boolean moveToNextStartOREndElement(XMLStreamReader reader,XMLStreamWriter writer ) throws XMLStreamException{
         if(writer == null){
             return moveToNextStartOREndElement(reader);
@@ -79,27 +79,27 @@ public class StreamUtil {
             return false;
         }
     }
-    
-    
+
+
     public static boolean isStartElement(XMLStreamReader reader){
         if(reader.getEventType() == XMLStreamReader.START_ELEMENT){
             return true;
         }
         return false;
     }
-    
-    
+
+
     public static boolean _break(XMLStreamReader reader,String localName,String uri) {
         if(reader.getEventType() == XMLStreamReader.END_ELEMENT){
-            if(reader.getLocalName() == localName && 
+            if(reader.getLocalName() == localName &&
                     (reader.getNamespaceURI() == uri || reader.getNamespaceURI() == MessageConstants.WSSC_13NS)){
                 return true;
             }
         }
         return false;
     }
-    
-    
+
+
     private static boolean move(XMLStreamReader reader) {
         if(reader.getEventType() == XMLStreamReader.START_ELEMENT ||
                 reader.getEventType() == XMLStreamReader.END_ELEMENT){
@@ -107,17 +107,17 @@ public class StreamUtil {
         }
         return true;
     }
-    
-    
-    public static void writeStartElement(XMLStreamReader reader,XMLStreamWriter writer) throws XMLStreamException{        
+
+
+    public static void writeStartElement(XMLStreamReader reader,XMLStreamWriter writer) throws XMLStreamException{
         String pref = reader.getPrefix();
         if (pref == null) {
             pref = "";
         }
         writer.writeStartElement(pref, reader.getLocalName(), reader.getNamespaceURI());
-        
+
         int nsCount = reader.getNamespaceCount();
-        
+
         for(int i=0;i< nsCount ;i++){
             String prefix = reader.getNamespacePrefix(i);
             if(prefix == null)prefix ="";
@@ -129,15 +129,15 @@ public class StreamUtil {
                 writer.writeAttribute(reader.getAttributeLocalName(i),reader.getAttributeValue(i));
             }else{
                 writer.writeAttribute(reader.getAttributePrefix(i),reader.getAttributeNamespace(i),reader.getAttributeLocalName(i),reader.getAttributeValue(i));
-            }            
+            }
         }
-        
+
     }
-    
+
     public static void writeCurrentEvent(XMLStreamReader reader , XMLStreamWriter writer) throws XMLStreamException{
         int event = reader.getEventType();
         switch(event){
-            
+
             case XMLStreamReader.CDATA:{
                 writer.writeCData(reader.getText());
                 break;
@@ -192,7 +192,7 @@ public class StreamUtil {
                 break;
             }
             case XMLStreamReader.START_DOCUMENT:{
-                
+
                 break;
             }
             case XMLStreamReader.START_ELEMENT:{
@@ -201,12 +201,12 @@ public class StreamUtil {
             }
         }
     }
-    
-    
+
+
     public static void writeCurrentEvent(XMLStreamReaderEx reader , XMLStreamWriterEx writer) throws XMLStreamException{
         int event = reader.getEventType();
         switch(event){
-            
+
             case XMLStreamReader.CDATA:{
                 writer.writeCData(reader.getText());
                 break;
@@ -249,7 +249,7 @@ public class StreamUtil {
                 break;
             }
             case XMLStreamReader.START_DOCUMENT:{
-                
+
                 break;
             }
             case XMLStreamReader.START_ELEMENT:{
@@ -258,15 +258,15 @@ public class StreamUtil {
             }
         }
     }
-    
+
     public static String getWsuId(XMLStreamReader reader){
         return reader.getAttributeValue(MessageConstants.WSU_NS,"Id");
     }
-    
+
     public static String getId(XMLStreamReader reader){
         return reader.getAttributeValue(null,"Id");
     }
-    
+
     public static String getCV(XMLStreamReader reader) throws  XMLStreamException{
         StringBuilder content = new StringBuilder();
         int eventType = reader.getEventType();
@@ -284,7 +284,7 @@ public class StreamUtil {
         }
         return content.toString();
     }
-    
+
     public static String getCV(XMLStreamReaderEx reader) throws  XMLStreamException{
         StringBuilder sb = new StringBuilder();
         while(reader.getEventType() == reader.CHARACTERS && reader.getEventType() != reader.END_ELEMENT){
@@ -296,20 +296,20 @@ public class StreamUtil {
         }
         return sb.toString();
     }
-    
-    public static String convertDigestAlgorithm(String algo){        
+
+    public static String convertDigestAlgorithm(String algo){
         if(MessageConstants.SHA1_DIGEST.equals(algo)){
             return MessageConstants.SHA_1;
         }
         if(MessageConstants.SHA256.equals(algo)){
             return MessageConstants.SHA_256;
         }
-        
+
         if(MessageConstants.SHA512.equals(algo)){
             return MessageConstants.SHA_512;
         }
-        
+
         return MessageConstants.SHA_1;
     }
-    
+
 }

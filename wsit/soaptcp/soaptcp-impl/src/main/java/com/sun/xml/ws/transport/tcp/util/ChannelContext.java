@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -30,43 +30,43 @@ import javax.xml.namespace.QName;
 public class ChannelContext implements WSTCPFastInfosetStreamReaderRecyclable.RecycleAwareListener {
     private static final Logger logger = Logger.getLogger(
             com.sun.xml.ws.transport.tcp.util.TCPConstants.LoggingDomain);
-    
+
     // tcp connection session this channel belongs to
     private final ConnectionSession connectionSession;
-    
+
     /**
      * Channel settings aggreed during client-service handshaking
      */
     private final ChannelSettings channelSettings;
-    
+
     /**
      * Codec used to encode/decode messages on this channel
      */
     private Codec codec;
-    
+
     // Temp storage for decode content type from String representation
     private final ContentType contentType = new ContentType();
-    
+
     public ChannelContext(@NotNull final ConnectionSession connectionSession,
             @NotNull final ChannelSettings channelSettings) {
         this.connectionSession = connectionSession;
         this.channelSettings = channelSettings;
     }
-    
+
     /**
      * Return TCP session object where which this virual channel is open on
      */
     public @NotNull ConnectionSession getConnectionSession() {
         return connectionSession;
     }
-    
+
     /**
      * Return channel settings, which were aggreed during handshake phase
      */
     public @NotNull ChannelSettings getChannelSettings() {
         return channelSettings;
     }
-    
+
     /**
      * Return message Codec, which is used for encoding/decoding messages
      * on this virtual channel
@@ -74,43 +74,43 @@ public class ChannelContext implements WSTCPFastInfosetStreamReaderRecyclable.Re
     public @Nullable Codec getCodec() {
         return codec;
     }
-    
+
     private void setCodec(@NotNull final Codec codec) {
         this.codec = codec;
     }
-    
+
     /**
      * Return TCP connection object, where this virtual channel is acting on
      */
     public @NotNull Connection getConnection() {
         return connectionSession.getConnection();
     }
-    
+
     /**
      * Return channel id
      */
     public int getChannelId() {
         return channelSettings.getChannelId();
     }
-    
+
     /**
      * Return virtual channel's correspondent service name
      */
     public @NotNull QName getWSServiceName() {
         return channelSettings.getWSServiceName();
     }
-    
+
     public void setWSServiceName(@NotNull final QName wsServiceName) {
         channelSettings.setWSServiceName(wsServiceName);
     }
-    
+
     /**
      * Return correspondent WS's URI
      */
     public @Nullable WSTCPURI getTargetWSURI() {
         return channelSettings.getTargetWSURI();
     }
-    
+
     /**
      * Sets message's content type to TCP protocol specific representation
      */
@@ -120,21 +120,21 @@ public class ChannelContext implements WSTCPFastInfosetStreamReaderRecyclable.Re
             logger.log(Level.FINEST, MessagesMessages.WSTCP_1120_CHANNEL_CONTEXT_ENCODE_CT(contentTypeS));
         }
         contentType.parse(contentTypeS);
-        
+
         int mt = encodeMimeType(contentType.getMimeType());
-        
+
         connection.setContentId(mt);
         final Map<String, String> parameters = contentType.getParameters();
         for(Map.Entry<String, String> parameter : parameters.entrySet()) {
             final int paramId = encodeParam(parameter.getKey());
             connection.setContentProperty(paramId, parameter.getValue());
         }
-        
+
         if (logger.isLoggable(Level.FINEST)) {
             logger.log(Level.FINEST, MessagesMessages.WSTCP_1121_CHANNEL_CONTEXT_ENCODED_CT(mt, parameters));
         }
     }
-    
+
     /**
      * Gets message's content type from TCP protocol specific representation
      */
@@ -142,13 +142,13 @@ public class ChannelContext implements WSTCPFastInfosetStreamReaderRecyclable.Re
         Connection connection = connectionSession.getConnection();
         final int mimeId = connection.getContentId();
         Map<Integer, String> params = connection.getContentProperties();
-        
+
         if (logger.isLoggable(Level.FINEST)) {
             logger.log(Level.FINEST, MessagesMessages.WSTCP_1122_CHANNEL_CONTEXT_DECODE_CT(mimeId, params));
         }
-        
+
         String mimeType = decodeMimeType(mimeId);
-        
+
         String contentTypeStr = mimeType;
         if (params.size() > 0) {
             final StringBuilder ctBuf = new StringBuilder(contentTypeStr);
@@ -162,26 +162,26 @@ public class ChannelContext implements WSTCPFastInfosetStreamReaderRecyclable.Re
             }
             contentTypeStr = ctBuf.toString();
         }
-        
+
         if (logger.isLoggable(Level.FINEST)) {
             logger.log(Level.FINEST, MessagesMessages.WSTCP_1123_CHANNEL_CONTEXT_DECODED_CT(contentTypeStr));
         }
         return contentTypeStr;
     }
-    
+
     public int encodeMimeType(@NotNull final String mimeType) throws WSTCPException {
         int contentId = channelSettings.getNegotiatedMimeTypes().indexOf(mimeType);
         if (contentId != -1) {
             return contentId;
         }
-        
+
         throw new WSTCPException(WSTCPError.createNonCriticalError(TCPConstants.UNKNOWN_CONTENT_ID,
                 MessagesMessages.WSTCP_0011_UNKNOWN_CONTENT_TYPE(mimeType)));
     }
-    
+
     public @NotNull String decodeMimeType(final int contentId) throws WSTCPException {
         String mimeType = channelSettings.getNegotiatedMimeTypes().get(contentId);
-        
+
         if (mimeType != null) {
             return mimeType;
         }
@@ -194,21 +194,21 @@ public class ChannelContext implements WSTCPFastInfosetStreamReaderRecyclable.Re
         if (paramId != -1) {
             return paramId;
         }
-        
+
         throw new WSTCPException(WSTCPError.createNonCriticalError(TCPConstants.UNKNOWN_PARAMETER_ID,
                 MessagesMessages.WSTCP_0010_UNKNOWN_PARAMETER(paramStr)));
     }
-    
+
     public @NotNull String decodeParam(final int paramId) throws WSTCPException {
         String paramStr = channelSettings.getNegotiatedParams().get(paramId);
-        
+
         if (paramStr != null) {
             return paramStr;
         }
         throw new WSTCPException(WSTCPError.createNonCriticalError(TCPConstants.UNKNOWN_PARAMETER_ID,
                 MessagesMessages.WSTCP_0010_UNKNOWN_PARAMETER(paramId)));
     }
-    
+
     /**
      * Configure Codec according to channel settings
      */
@@ -233,16 +233,16 @@ public class ChannelContext implements WSTCPFastInfosetStreamReaderRecyclable.Re
                 return;
             }
         }
-        
+
         logger.log(Level.FINEST, "ChannelContext.configureCodec: default");
         channelContext.setCodec(defaultCodec);
     }
-    
+
     @Override
     public String toString() {
         return String.format("ID: %d\nURI: %s\nCodec:%s", getChannelId(), getTargetWSURI(), getCodec());
     }
-    
+
     @Override
     public void onRecycled() {
         connectionSession.onReadCompleted();

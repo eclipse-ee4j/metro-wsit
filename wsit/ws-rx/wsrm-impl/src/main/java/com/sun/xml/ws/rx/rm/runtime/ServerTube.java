@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -127,7 +127,7 @@ public class ServerTube extends AbstractFilterTubeImpl {
                 null);
 
         this.rc.setSequenceManager(sequenceManager);
-        
+
         // TODO instead of default, consider adding Metro impl to the container
         validator = context.getEndpoint().getContainer().getSPI(STRValidationHelper.class);
         if (validator == null) {
@@ -193,7 +193,7 @@ public class ServerTube extends AbstractFilterTubeImpl {
                     }
                 }
             }
-            
+
             boolean persistenceEnabled = rc.configuration.getRmFeature().isPersistenceEnabled();
             try {
                 rc.destinationMessageHandler.registerMessage(message, !persistenceEnabled);
@@ -279,7 +279,7 @@ public class ServerTube extends AbstractFilterTubeImpl {
             }
         }
 
-        // Microsoft replay model behavior where a request is sent only to give a ride to a 
+        // Microsoft replay model behavior where a request is sent only to give a ride to a
         // previously generated and retained response
         final Sequence outboundSequence = rc.sequenceManager().getBoundSequence(message.getSequenceId());
         if (outboundSequence != null) {
@@ -322,7 +322,7 @@ public class ServerTube extends AbstractFilterTubeImpl {
 
     private Packet processProtocolMessage(Packet request, String wsaAction) throws AbstractSoapFaultException {
         Packet responsePacket = null;
-        
+
         if (rc.rmVersion.protocolVersion.createSequenceAction.equals(wsaAction)) {
             responsePacket = handleCreateSequenceAction(request);
         } else if (rc.rmVersion.protocolVersion.closeSequenceAction.equals(wsaAction)) {
@@ -338,7 +338,7 @@ public class ServerTube extends AbstractFilterTubeImpl {
         } else {
             throw LOGGER.logSevereException(new RxRuntimeException(LocalizationMessages.WSRM_1134_UNSUPPORTED_PROTOCOL_MESSAGE(wsaAction)));
         }
-        
+
         responsePacket.setIsProtocolMessage();
         return responsePacket;
     }
@@ -427,14 +427,14 @@ public class ServerTube extends AbstractFilterTubeImpl {
 
         return rc.protocolHandler.toPacket(responseBuilder.build(), request, false);
     }
-    
+
     private class MetroSTRValidationHelper implements STRValidationHelper {
         @Override
         public String getSecurityContextTokenId(final Packet packet) {
             final Session session = getSession(packet);
             return (session != null) ? session.getSecurityInfo().getIdentifier() : null;
         }
-    
+
         @Override
         public String extractSecurityTokenId(final SecurityTokenReferenceType str) throws Exception {
             return Utilities.extractSecurityContextTokenId(str);
@@ -602,7 +602,7 @@ public class ServerTube extends AbstractFilterTubeImpl {
     private boolean isTransactionConfigEnabled() {
         boolean internalRmFeatureExists = (rc.configuration.getInternalRmFeature() != null);
         DeliveryAssurance deliveryAssurance = rc.configuration.getRmFeature().getDeliveryAssurance();
-        boolean noDupQoS = 
+        boolean noDupQoS =
                 (deliveryAssurance.equals(DeliveryAssurance.EXACTLY_ONCE) ||
                         deliveryAssurance.equals(DeliveryAssurance.AT_MOST_ONCE));
         return internalRmFeatureExists && noDupQoS;

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -25,7 +25,7 @@ public final class XmlFilteringUtils {
     public static final class AttributeInfo {
         private final QName name;
         private final String value;
-        
+
         AttributeInfo(QName name, String value) {
             this.name = name;
             this.value = value;
@@ -39,23 +39,23 @@ public final class XmlFilteringUtils {
             return value;
         }
     }
-    
+
     private static final Logger LOGGER = Logger.getLogger(XmlFilteringUtils.class);
-   
-    /** 
-     * Prevents creation of a new instance of XmlFilteringUtils 
+
+    /**
+     * Prevents creation of a new instance of XmlFilteringUtils
      */
     private XmlFilteringUtils() {
         // nothing to initialize
     }
-    
+
     public static String getDefaultNamespaceURI(final XMLStreamWriter writer) {
         return writer.getNamespaceContext().getNamespaceURI(XMLConstants.DEFAULT_NS_PREFIX);
     }
-    
+
     public static QName getElementNameToWrite(final Invocation invocation, final String defaultNamespaceURI) {
         checkInvocationParameter(invocation, XmlStreamWriterMethodType.WRITE_START_ELEMENT);
-        
+
         /*
           void writeStartElement(String localName)
           void writeStartElement(String namespaceURI, String localName)
@@ -64,7 +64,7 @@ public final class XmlFilteringUtils {
         final int argumentsCount = invocation.getArgumentsCount();
         final String namespaceURI;
         final String localName;
-        
+
         switch (argumentsCount) {
             case 1:
                 namespaceURI = defaultNamespaceURI;
@@ -81,13 +81,13 @@ public final class XmlFilteringUtils {
             default:
                 throw LOGGER.logSevereException(new IllegalArgumentException(LocalizationMessages.XMLF_5003_UNEXPECTED_ARGUMENTS_COUNT(XmlStreamWriterMethodType.WRITE_START_ELEMENT + "(...)", argumentsCount)));
         }
-        
+
         return new QName(namespaceURI, localName);
     }
-    
+
     public static AttributeInfo getAttributeNameToWrite(final Invocation invocation, final String defaultNamespaceURI) {
         checkInvocationParameter(invocation, XmlStreamWriterMethodType.WRITE_ATTRIBUTE);
-        
+
         /*
          * void writeAttribute(String localName, String value)
          * void writeAttribute(String namespaceURI, String localName, String value)
@@ -95,7 +95,7 @@ public final class XmlFilteringUtils {
          */
         final int argumentsCount = invocation.getArgumentsCount();
         String namespaceURI, localName, value;
-        
+
         switch (argumentsCount) {
             case 2:
                 namespaceURI = defaultNamespaceURI;
@@ -115,10 +115,10 @@ public final class XmlFilteringUtils {
             default:
                 throw LOGGER.logSevereException(new IllegalArgumentException(LocalizationMessages.XMLF_5003_UNEXPECTED_ARGUMENTS_COUNT(XmlStreamWriterMethodType.WRITE_ATTRIBUTE + "(...)", argumentsCount)));
         }
-        
+
         return new AttributeInfo(new QName(namespaceURI, localName), value);
     }
-    
+
     private static void checkInvocationParameter(final Invocation invocation, final XmlStreamWriterMethodType expectedType) {
         if (invocation == null) {
             throw LOGGER.logSevereException(new IllegalArgumentException(LocalizationMessages.XMLF_5012_METHOD_PARAMETER_CANNOT_BE_NULL("Invocation parameter")));

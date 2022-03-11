@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -29,27 +29,27 @@ public final class MexImportFilteringXmlStreamWriterTest extends AbstractFilteri
     private String[] testResources = new String[] {
         "import_element_01"
     };
-    
+
     private static final InvocationProcessorFactory factory = new InvocationProcessorFactory() {
         @Override
         public InvocationProcessor createInvocationProcessor(XMLStreamWriter writer) throws XMLStreamException {
             return new FilteringInvocationProcessor(writer, new MexImportFilteringStateMachine());
         }
     };
-    
+
     public MexImportFilteringXmlStreamWriterTest(String testName) {
         super(testName);
     }
-    
+
     /**
      * Test of createProxy method, of class com.sun.xml.ws.policy.jaxws.documentfilter.FilteringXmlStreamWriterProxy.
      */
     public void testCreateProxy() throws Exception {
         XMLStreamWriter result = openFilteredWriter(new StringWriter(), factory);
-        
+
         assertNotNull(result);
     }
-    
+
     public void testFilterPrivateAssertionsFromPolicyExpression() throws Exception {
         performResourceBasedTest(testResources, "mex_filtering/", ".xml", factory);
     }

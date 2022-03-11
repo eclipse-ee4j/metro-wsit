@@ -47,7 +47,7 @@ import com.sun.xml.wss.logging.LogStringsMessages;
  * @see ProcessingContext
  */
 public class NewSecurityRecipient {
-    
+
     private static Logger log = Logger.getLogger(
             LogDomainConstants.WSS_API_DOMAIN,
             LogDomainConstants.WSS_API_DOMAIN_BUNDLE);
@@ -55,20 +55,20 @@ public class NewSecurityRecipient {
     private static SOAPFactory sFactory = null;
 
     static {
-        try { 
-            sFactory = SOAPFactory.newInstance();            
+        try {
+            sFactory = SOAPFactory.newInstance();
         } catch(Exception ex) {
             log.log(Level.SEVERE, LogStringsMessages.WSS_0397_SOAP_FACTORY_EXCEPTION(), ex);
             throw new RuntimeException(ex);
         }
     }
-    
+
     /**
      * Validate security in an Inbound SOAPMessage.
      * <P>
      * Calling code should create com.sun.xml.wss.ProcessingContext object with
      * runtime properties. Specifically, it should set SecurityPolicy, application
-     * CallbackHandler Or a SecurityEnvironment 
+     * CallbackHandler Or a SecurityEnvironment
      * The SecurityPolicy instance can be of the following types:
      * <UL>
      *  <LI> A MessagePolicy
@@ -86,7 +86,7 @@ public class NewSecurityRecipient {
     @SuppressWarnings("static-access")
     public static void validateMessage(ProcessingContext context)
     throws XWSSecurityException {
-        
+
         HarnessUtil.validateContext(context);
         FilterProcessingContext fpContext = new FilterProcessingContext(context);
         fpContext.isInboundMessage(true);
@@ -112,9 +112,9 @@ public class NewSecurityRecipient {
         fpContext.setMode(FilterProcessingContext.WSDL_POLICY);
 
         pProcess(fpContext);
-        
+
         if(PolicyUtils.isEmpty(pol)){
-            PolicyResolver opResolver = 
+            PolicyResolver opResolver =
                     (PolicyResolver)fpContext.getExtraneousProperty(fpContext.OPERATION_RESOLVER);
             if(opResolver != null){
                 pol = opResolver.resolvePolicy(fpContext);
@@ -134,7 +134,7 @@ public class NewSecurityRecipient {
         try {
             if (msgPolicy == null ||
                     (msgPolicy.size() == 0 && fpContext.getSOAPMessage().getSOAPBody().hasFault())) {
-                
+
                 fpContext.getSecurableSoapMessage().deleteSecurityHeader();
                 fpContext.getSOAPMessage().saveChanges();
                 return;
@@ -146,7 +146,7 @@ public class NewSecurityRecipient {
 
         // for Policy verfication
         TargetResolver targetResolver = new TargetResolverImpl(context);
-        MessagePolicyVerifier mpv = new MessagePolicyVerifier(context, targetResolver);   
+        MessagePolicyVerifier mpv = new MessagePolicyVerifier(context, targetResolver);
         /*
         try{
             System.out.println("Inferred Security Policy");
@@ -155,8 +155,8 @@ public class NewSecurityRecipient {
             throw new XWSSecurityException(e);
         }
         System.out.println("==================================");
-       
-        
+
+
         try{
             System.out.println("Actual SecurityPolicy");
             mpv.printInferredSecurityPolicy(msgPolicy);
@@ -168,7 +168,7 @@ public class NewSecurityRecipient {
         //if(!isTrust){
             mpv.verifyPolicy(fpContext.getInferredSecurityPolicy(), msgPolicy);
         //}
-        
+
 
         try {
             fpContext.getSecurableSoapMessage().deleteSecurityHeader();
@@ -178,8 +178,8 @@ public class NewSecurityRecipient {
             throw new XWSSecurityException(ex);
         }
     }
-    
-    
+
+
     /*
      * @param fpContext com.sun.xml.wss.FilterProcessingContext
      * @param isSecondary boolean
@@ -192,9 +192,9 @@ public class NewSecurityRecipient {
      */
     private static void processCurrentHeader(
         FilterProcessingContext fpContext, SOAPElement current, boolean isSecondary) throws XWSSecurityException {
-        
+
         String elementName = current.getLocalName();
-        
+
         if (isSecondary) {
             if (MessageConstants.USERNAME_TOKEN_LNAME.equals(elementName)) {
                 AuthenticationTokenFilter.processUserNameToken(fpContext);
@@ -227,10 +227,10 @@ public class NewSecurityRecipient {
                 if(iter.hasNext()){
                     EncryptionFilter.process(fpContext);
                 }
-                
+
             } else if (MessageConstants.XENC_REFERENCE_LIST_LNAME.equals(elementName)) {
                 EncryptionFilter.process(fpContext);
-                
+
             } else if (MessageConstants.ENCRYPTED_DATA_LNAME.equals(elementName)) {
                 EncryptionFilter.process(fpContext);
             }  else {
@@ -240,9 +240,9 @@ public class NewSecurityRecipient {
                 }
             }
         }
-        
+
     }
-    
+
     /*
      * Validation of wsse:UsernameToken/wsu:Timestamp protected by
      * signature/encryption should follow post verification of
@@ -260,10 +260,10 @@ public class NewSecurityRecipient {
      */
     private static void pProcess(FilterProcessingContext fpContext)
     throws XWSSecurityException {
-        
+
         SecurityHeader header = fpContext.getSecurableSoapMessage().findSecurityHeader();
         MessagePolicy policy = (MessagePolicy)fpContext.getSecurityPolicy();
-        
+
         if (header == null) {
             if (policy != null) {
                 if (PolicyTypeUtil.messagePolicy(policy)) {
@@ -272,7 +272,7 @@ public class NewSecurityRecipient {
                         throw new XWSSecurityException(
                                 "Message does not conform to configured policy: " +
                                 "No Security Header found in incoming message");
-                        
+
                     }
                 } else {
                     log.log(Level.SEVERE, LogStringsMessages.WSS_0253_INVALID_MESSAGE());
@@ -281,36 +281,36 @@ public class NewSecurityRecipient {
                             "No Security Header found in incoming message");
                 }
             }
-            
+
             return;
         }
-        
+
         if ((policy != null) && policy.dumpMessages()) {
             DumpFilter.process(fpContext);
         }
         SOAPElement current = header.getCurrentHeaderBlockElement();
         SOAPElement first = current;
-        
+
         while (current != null) {
             processCurrentHeader(fpContext, current, false);
             current = header.getCurrentHeaderBlockElement();
         }
-        
+
         current = first;
         header.setCurrentHeaderElement(current);
-        
+
         while (current != null) {
             processCurrentHeader(fpContext, current, true);
             current = header.getCurrentHeaderBlockElement();
         }
-        
+
     }
-    
-     
+
+
     /*
      * @param context Processing Context
      */
     public static void handleFault(ProcessingContext context) {
     }
-    
+
 }

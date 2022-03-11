@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -32,12 +32,12 @@ public class XWSSProcessor2_0Impl implements XWSSProcessor {
     private DeclarativeSecurityConfiguration declSecConfig = null;
     private CallbackHandler handler = null;
     private SecurityEnvironment secEnv = null;
-    
+
     protected XWSSProcessor2_0Impl(
-        InputStream securityConfig, CallbackHandler handler) 
+        InputStream securityConfig, CallbackHandler handler)
         throws XWSSecurityException {
         try {
-            declSecConfig = 
+            declSecConfig =
                 SecurityConfigurationXmlReader.createDeclarativeConfiguration(securityConfig);
             this.handler = handler;
             secEnv = new DefaultSecurityEnvironmentImpl(this.handler);
@@ -55,7 +55,7 @@ public class XWSSProcessor2_0Impl implements XWSSProcessor {
 
     @Override
     public SOAPMessage secureOutboundMessage(
-        ProcessingContext context) 
+        ProcessingContext context)
         throws XWSSecurityException {
 
         //resolve the policy first
@@ -67,18 +67,18 @@ public class XWSSProcessor2_0Impl implements XWSSProcessor {
             //log
             throw new XWSSecurityException("Security Policy Unknown");
         }
-                                                                                                      
+
         if (resolvedPolicy == null) {
             // log that no outbound security specified ?
             return context.getSOAPMessage();
         }
-        
+
         if (context.getHandler() == null  && context.getSecurityEnvironment() == null) {
             context.setSecurityEnvironment(secEnv);
         }
 
         context.setSecurityPolicy(resolvedPolicy);
- 
+
         try {
             SecurityAnnotator.secureMessage(context);
         } catch (Exception e) {
@@ -99,7 +99,7 @@ public class XWSSProcessor2_0Impl implements XWSSProcessor {
 
     @Override
     public SOAPMessage verifyInboundMessage(
-        ProcessingContext context) 
+        ProcessingContext context)
         throws XWSSecurityException {
 
         MessagePolicy resolvedPolicy = null;
@@ -114,11 +114,11 @@ public class XWSSProcessor2_0Impl implements XWSSProcessor {
         if (context.getHandler() == null  && context.getSecurityEnvironment() == null) {
             context.setSecurityEnvironment(secEnv);
         }
-        
+
         if (declSecConfig.retainSecurityHeader()) {
             context.retainSecurityHeader(true);
         }
-        
+
         if (declSecConfig.resetMustUnderstand()) {
             context.resetMustUnderstand(true);
         }

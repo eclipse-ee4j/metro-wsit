@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -38,7 +38,7 @@ public final class WSATRuntimeConfig {
 
         public Initializer httpPort(String value) {
             if (value != null && value.trim().length() > 0) {
-                WSATRuntimeConfig.httpPort = Integer.parseInt(value.trim());               
+                WSATRuntimeConfig.httpPort = Integer.parseInt(value.trim());
             } else {
                 LOGGER.config(String.format("Could not set HTTP port value to '%1s'. Rolling back to default: %2d", value, WSATRuntimeConfig.httpPort));
             }
@@ -56,9 +56,9 @@ public final class WSATRuntimeConfig {
             return this;
         }
 
-        public Initializer txLogLocation(final TxlogLocationProvider provider) { 
+        public Initializer txLogLocation(final TxlogLocationProvider provider) {
             WSATRuntimeConfig.txLogLocationProvider = provider;
-            
+
             return this;
         }
 
@@ -133,23 +133,23 @@ public final class WSATRuntimeConfig {
     }
 
     /**
-     * Returns the current domain name as provided by the container 
-     * @return the current domain name as provided by the container 
+     * Returns the current domain name as provided by the container
+     * @return the current domain name as provided by the container
      */
     public static String getDomainName() {
         return domainName;
     }
 
     /**
-     * Returns the current instance/host name as provided by the container 
-     * @return container the current instance/host name as provided by the container 
+     * Returns the current instance/host name as provided by the container
+     * @return container the current instance/host name as provided by the container
      */
     public static String getHostName() {
         return hostName;
     }
 
     /**
-     * Returns the current HTTP name as used by the container 
+     * Returns the current HTTP name as used by the container
      * @return the current HTTP name as used by the container
      */
     public static int getHttpPort() {

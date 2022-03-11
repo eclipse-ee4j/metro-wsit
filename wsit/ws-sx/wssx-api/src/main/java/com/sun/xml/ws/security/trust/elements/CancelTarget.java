@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -23,56 +23,56 @@ import com.sun.xml.ws.security.Token;
  * @author WS-Trust Implementation Team
  */
 public interface CancelTarget {
-    
+
     /**
      *Constants denoting type of Cancel Target
      */
     String STR_TARGET_TYPE="SecurityTokenReference";
     String CUSTOM_TARGET_TYPE = "Custom";
-    
+
     /**
      * Get the type of the Cancel Target information item
      */
     String getTargetType();
-    
+
     /**
      * Gets the value of the any property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link Object }
-     *     
+     *
      */
     Object getAny();
 
     /**
      * Sets the value of the any property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link Object }
-     *     
+     *
      */
     void setAny(Object value);
-    
+
      /**
      * Set the STR for the Token to be Cancelled
      */
     void setSecurityTokenReference(SecurityTokenReference ref);
-    
+
     /**
      * Get the STR for the Token to be Cancelled
      */
     SecurityTokenReference getSecurityTokenReference();
-    
+
     /**
      * Set the token to be Cancelled
      */
     void setToken(Token token);
-    
+
      /**
      * Get the token to be Cancelled
      */
     Token getToken();
-    
+
 }

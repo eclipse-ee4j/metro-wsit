@@ -47,10 +47,10 @@ import com.sun.xml.wss.logging.impl.opt.LogStringsMessages;
  * @author K.Venugopal@sun.com
  */
 public class SecurityHeaderProcessor {
-    
+
     private static final Logger logger = Logger.getLogger(LogDomainConstants.IMPL_OPT_DOMAIN,
             LogDomainConstants.IMPL_OPT_DOMAIN_BUNDLE);
-    
+
     private static final  int TIMESTAMP_ELEMENT = 1;
     private static final  int USERNAMETOKEN_ELEMENT = 2;
     private static final  int BINARYSECURITY_TOKEN_ELEMENT = 3;
@@ -68,7 +68,7 @@ public class SecurityHeaderProcessor {
     private StreamReaderBufferCreator creator = null;
     private BasicSecurityProfile bspContext = null;
     /** Creates a new instance of SecurityHeaderProcessor */
-    
+
     public SecurityHeaderProcessor(JAXBFilterProcessingContext context,Map<String,String> namespaceList,XMLInputFactory xi,StreamReaderBufferCreator sbc) {
         this.context = context;
         this.currentParentNS = namespaceList;
@@ -84,7 +84,7 @@ public class SecurityHeaderProcessor {
      */
     @SuppressWarnings("unchecked")
     public SecurityHeaderElement createHeader(XMLStreamReader message)throws XWSSecurityException{
-        
+
         int eventType = getSecurityElementType(message);
         try{
             while(eventType != -1){
@@ -99,7 +99,7 @@ public class SecurityHeaderProcessor {
                         context.getSecurityContext().getProcessedSecurityHeaders().add(timestamp);
                         context.getInferredSecurityPolicy().append(timestamp.getPolicy());
                         return timestamp;
-                        
+
                     }
                     case BINARYSECURITY_TOKEN_ELEMENT : {
                         String valueType = message.getAttributeValue(MessageConstants.WSSE_NS,MessageConstants.WSE_VALUE_TYPE);
@@ -159,11 +159,11 @@ public class SecurityHeaderProcessor {
                         UsernameTokenHeader ut = new UsernameTokenHeader(message,creator,(HashMap) currentParentNS, staxIF);
                         ut.validate(context);
                         if(context.isTrustMessage() && !context.isClient()){
-                            IssuedTokenContext ctx = null;                            
+                            IssuedTokenContext ctx = null;
                             if(context.getTrustContext() == null){
                                 ctx = new IssuedTokenContextImpl();
                                 if(context.isSecure()){
-                                    ctx.setAuthnContextClass(MessageConstants.PASSWORD_PROTECTED_TRANSPORT_AUTHTYPE);    
+                                    ctx.setAuthnContextClass(MessageConstants.PASSWORD_PROTECTED_TRANSPORT_AUTHTYPE);
                                 }else{
                                     ctx.setAuthnContextClass(MessageConstants.PASSWORD_AUTH_TYPE);
                                 }
@@ -188,14 +188,14 @@ public class SecurityHeaderProcessor {
                         DerivedKeyToken dkt = new DerivedKeyToken(message, context, (HashMap) currentParentNS);
                         context.getSecurityContext().getProcessedSecurityHeaders().add(dkt);
                         return dkt;
-                        
+
                     }
                     case SIGNATURE_CONFIRMATION_ELEMENT:{
                         SignatureConfirmation signConfirm = new SignatureConfirmation(message,creator,(HashMap) currentParentNS, staxIF);
                         signConfirm.validate(context);
                         context.getSecurityContext().getProcessedSecurityHeaders().add(signConfirm);
                         return signConfirm;
-                        
+
                     }
                     case SECURITY_CONTEXT_TOKEN:{
                         SecurityContextToken sct = new SecurityContextToken(message, context, (HashMap) currentParentNS);
@@ -236,7 +236,7 @@ public class SecurityHeaderProcessor {
                                     ctx.setAuthnContextClass(MessageConstants.PREVIOUS_SESSION_AUTH_TYPE);
                                     context.setTrustContext(ctx);
                                 }
-                            }                            
+                            }
                         } else if(!context.isTrustMessage()){
                             context.getInferredSecurityPolicy().append(samlAssertion.getPolicy());
                         }
@@ -257,11 +257,11 @@ public class SecurityHeaderProcessor {
             logger.log(Level.SEVERE, LogStringsMessages.WSS_1608_ERROR_SECURITY_HEADER(),xbe);
             throw new XWSSecurityException(LogStringsMessages.WSS_1608_ERROR_SECURITY_HEADER(),xbe);
         }
-        
+
         return null;
     }
-    
-    
+
+
     /**
      * checks the given XMLStreamReader is of type TimeStamp or not
      * @param reader XMLStreamReader
@@ -273,7 +273,7 @@ public class SecurityHeaderProcessor {
         }
         return false;
     }
-    
+
     /**
      * checks the given XMLStreamReader is of type BinarySecurityToken or not
      * @param reader XMLStreamReader
@@ -374,7 +374,7 @@ public class SecurityHeaderProcessor {
         }
         return false;
     }
-    
+
     private void moveToNextElement(XMLStreamReader reader) throws XMLStreamException{
         reader.next();
         while(reader.getEventType() != XMLStreamReader.START_ELEMENT){
@@ -390,35 +390,35 @@ public class SecurityHeaderProcessor {
         if(isTimeStamp(reader)){
             return TIMESTAMP_ELEMENT;
         }
-        
+
         if(isBST(reader)){
             return BINARYSECURITY_TOKEN_ELEMENT;
         }
-        
+
         if(isSignature(reader)){
             return SIGNATURE_ELEMENT;
         }
-        
+
         if(isEncryptedKey(reader)){
             return ENCRYPTED_KEY_ELEMENT;
         }
-        
+
         if(isEncryptedData(reader)){
             return ENCRYPTED_DATA_ELEMENT;
         }
-        
+
         if(isUsernameToken(reader)){
             return USERNAMETOKEN_ELEMENT;
         }
-        
+
         if(isSignatureConfirmation(reader)){
             return SIGNATURE_CONFIRMATION_ELEMENT;
         }
-        
+
         if(isDerivedKey(reader)){
             return DERIVED_KEY_ELEMENT;
         }
-        
+
         if(isSCT(reader)){
             return SECURITY_CONTEXT_TOKEN;
         }
@@ -427,6 +427,6 @@ public class SecurityHeaderProcessor {
         }
         return -1;
     }
-    
-    
+
+
 }

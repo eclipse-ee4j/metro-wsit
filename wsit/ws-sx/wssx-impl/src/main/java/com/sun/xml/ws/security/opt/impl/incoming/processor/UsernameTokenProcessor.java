@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -20,7 +20,7 @@ import javax.xml.stream.XMLStreamReader;
  */
 
 public class UsernameTokenProcessor implements StreamFilter{
-    
+
     String username = null;
     String password = null;
     String passwordDigest = null;
@@ -31,7 +31,7 @@ public class UsernameTokenProcessor implements StreamFilter{
     String Iterations;
     String Salt;
     String currentElement = "";
-    
+
     private static String USERNAME = "Username".intern();
     private static String PASSWORD = "Password".intern();
     private static String NONCE = "Nonce".intern();
@@ -39,7 +39,7 @@ public class UsernameTokenProcessor implements StreamFilter{
     private static String SALT = "Salt".intern();
     private static String ITERATION = "Iteration".intern();
     private static String ITERATIONS = "Iterations".intern();
-    
+
     /** Creates a new instance of UsernameTokenProcessor */
     public UsernameTokenProcessor() {
     }
@@ -50,9 +50,9 @@ public class UsernameTokenProcessor implements StreamFilter{
      */
     @Override
     public boolean accept(XMLStreamReader reader) {
-        
+
         if(reader.getEventType() == XMLStreamReader.START_ELEMENT){
-            
+
             if("Username".equals(reader.getLocalName())){
                 currentElement = USERNAME;
             } else if("Password".equals(reader.getLocalName())){
@@ -70,7 +70,7 @@ public class UsernameTokenProcessor implements StreamFilter{
                 currentElement = ITERATIONS;
             }
         }
-        
+
         if(reader.getEventType() == XMLStreamReader.CHARACTERS){
             if(currentElement == USERNAME){
                 username = reader.getText();
@@ -102,27 +102,27 @@ public class UsernameTokenProcessor implements StreamFilter{
         }
         return true;
     }
-    
+
     public String getUsername(){
         return username;
     }
-    
+
     public String getPassword(){
-        return password;        
+        return password;
     }
-    
+
     public String getPasswordDigest(){
         return passwordDigest;
     }
-    
+
     public String getPasswordType(){
         return passwordType;
     }
-    
+
     public String getNonce(){
         return nonce;
     }
-    
+
     public String getCreated(){
         return created;
     }

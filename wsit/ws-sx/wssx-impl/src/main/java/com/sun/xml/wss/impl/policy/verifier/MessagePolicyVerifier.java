@@ -49,11 +49,11 @@ import java.util.logging.Logger;
 public class MessagePolicyVerifier implements PolicyVerifier{
     private ProcessingContext ctx = null;
     private TargetResolver targetResolver;
-    
+
     private static Logger log = Logger.getLogger(
             LogDomainConstants.WSS_API_DOMAIN,
             LogDomainConstants.WSS_API_DOMAIN_BUNDLE);
-    
+
     /** Creates a new instance of MessagePolicyVerifier */
     public MessagePolicyVerifier(ProcessingContext ctx, TargetResolver targetResolver) {
         this.ctx = ctx;
@@ -66,7 +66,7 @@ public class MessagePolicyVerifier implements PolicyVerifier{
      */
     @Override
     public void verifyPolicy(SecurityPolicy ip, SecurityPolicy ap) throws PolicyViolationException {
-        
+
         MessagePolicy actualPolicy = (MessagePolicy)ap;
         MessagePolicy inferredSecurityPolicy = (MessagePolicy)ip;
         JAXBFilterProcessingContext context = null;
@@ -103,7 +103,7 @@ public class MessagePolicyVerifier implements PolicyVerifier{
                         processPrimaryPolicy(actualPol, inferredSecurityPolicy);
                     }
                 }
-                
+
             } catch(Exception e){
                 throw new PolicyViolationException(e);
             }
@@ -111,10 +111,10 @@ public class MessagePolicyVerifier implements PolicyVerifier{
     }
 
     private boolean isEncryptedSignature(WSSPolicy actualPol, WSSPolicy inferredPol) {
-       if (PolicyTypeUtil.signaturePolicy(actualPol) && 
+       if (PolicyTypeUtil.signaturePolicy(actualPol) &&
                PolicyTypeUtil.encryptionPolicy(inferredPol)) {
            EncryptionPolicy pol = (EncryptionPolicy)inferredPol;
-           EncryptionPolicy.FeatureBinding fb = 
+           EncryptionPolicy.FeatureBinding fb =
                    (EncryptionPolicy.FeatureBinding)pol.getFeatureBinding();
            if (fb.encryptsSignature()) {
                return true;
@@ -122,7 +122,7 @@ public class MessagePolicyVerifier implements PolicyVerifier{
        }
        return false;
     }
-    
+
     /**
      * processes secondary policies
      * @param actualPol WSSPolicy
@@ -131,7 +131,7 @@ public class MessagePolicyVerifier implements PolicyVerifier{
     private  void processSecondaryPolicy(WSSPolicy actualPol,
             MessagePolicy inferredSecurityPolicy) throws XWSSecurityException{
         try{
-            if(PolicyTypeUtil.timestampPolicy(actualPol)){  
+            if(PolicyTypeUtil.timestampPolicy(actualPol)){
                 boolean found = false;
                 for(int j = 0; j < inferredSecurityPolicy.size(); j++) {
                     WSSPolicy pol = (WSSPolicy)inferredSecurityPolicy.get(j);
@@ -163,7 +163,7 @@ public class MessagePolicyVerifier implements PolicyVerifier{
                                     MessageConstants.WSSE_FAILED_AUTHENTICATION,
                                     "Empty Password specified, Authentication of Username Password Token Failed",
                                     null, true);
-                        }                        
+                        }
                         //SP1.3
                         if(actual.getUseCreated() == true && inferred.getUseCreated() == false ){
                             throw SOAPUtil.newSOAPFaultException(
@@ -171,14 +171,14 @@ public class MessagePolicyVerifier implements PolicyVerifier{
                                     "Invalid Username Password Token. Missing Created ",
                                     null, true);
                         }
-                        
+
                         if( actual.getUseNonce() == true && inferred.getUseNonce() == false){
                             throw SOAPUtil.newSOAPFaultException(
                                     MessageConstants.WSSE_INVALID_SECURITY_TOKEN,
                                     "Invalid Username Password Token. Missing Nonce ",
                                     null, true);
                         }
-                        
+
                         inferredSecurityPolicy.remove(pol);
                         found = true;
                         break;
@@ -188,7 +188,7 @@ public class MessagePolicyVerifier implements PolicyVerifier{
                     if(!((WSSPolicy)actualPol.getFeatureBinding()).isOptional()){
                        throw new XWSSecurityException("Policy Verification error:"
                             + "UsernameToken not found in message but occurs in configured policy");
-                    }                    
+                    }
                 }
             } else if (PolicyTypeUtil.samlTokenPolicy(actualPol.getFeatureBinding())) {
                 boolean found = false;
@@ -240,7 +240,7 @@ public class MessagePolicyVerifier implements PolicyVerifier{
      @SuppressWarnings("unchecked")
     private  void processPrimaryPolicy(WSSPolicy actualPol,
             MessagePolicy inferredSecurityPolicy) throws XWSSecurityException{
-        
+
         //WSSAssertion wssAssertion = ((ProcessingContextImpl)ctx).getWSSAssertion();
         if(PolicyTypeUtil.signaturePolicy(actualPol)){
             SignaturePolicy actualSignPolicy = (SignaturePolicy)actualPol;
@@ -256,14 +256,14 @@ public class MessagePolicyVerifier implements PolicyVerifier{
                 throw new XWSSecurityException("Policy verification error:" +
                         "Missing Signature Element");
                 }
-            
+
             if(PolicyTypeUtil.signaturePolicy(pol)){
                 SignaturePolicy inferredPol = (SignaturePolicy)pol;
                 // verify key binding
                 boolean isKBTrue = verifyKeyBinding(actualSignPolicy.getKeyBinding(), inferredPol.getKeyBinding(),
-                        false);                
+                        false);
                 while(!isKBTrue && !isPrimary){
-                    pol = getFirstPrimaryPolicy(inferredSecurityPolicy, isEndorsing, nth++);                    
+                    pol = getFirstPrimaryPolicy(inferredSecurityPolicy, isEndorsing, nth++);
                     if (pol == null && isOptionalPolicy(actualSignPolicy) == true) {
                         return;
                     }
@@ -281,7 +281,7 @@ public class MessagePolicyVerifier implements PolicyVerifier{
                 // verify target binding
                 boolean isTBTrue = verifySignTargetBinding((SignaturePolicy.FeatureBinding)actualSignPolicy.getFeatureBinding(),
                         (SignaturePolicy.FeatureBinding)inferredPol.getFeatureBinding());
-                
+
                 inferredSecurityPolicy.remove(pol);
                 if(!isKBTrue){
                     log.log(Level.SEVERE, LogStringsMessages.WSS_0206_POLICY_VIOLATION_EXCEPTION());
@@ -316,7 +316,7 @@ public class MessagePolicyVerifier implements PolicyVerifier{
                 throw new XWSSecurityException("Encryption Policy verification error:" +
                         "Missing encryption element");
             }
-            
+
             if(PolicyTypeUtil.encryptionPolicy(pol)){
                 EncryptionPolicy inferredPol = (EncryptionPolicy)pol;
                 //verify key binding
@@ -325,7 +325,7 @@ public class MessagePolicyVerifier implements PolicyVerifier{
                 // verify target binding
                 boolean isTBTrue = verifyEncTargetBinding((EncryptionPolicy.FeatureBinding)actualEncryptionPolicy.getFeatureBinding(),
                         (EncryptionPolicy.FeatureBinding)inferredPol.getFeatureBinding());
-                
+
                 inferredSecurityPolicy.remove(pol);
                 if(!isKBTrue){
                     log.log(Level.SEVERE, LogStringsMessages.WSS_0206_POLICY_VIOLATION_EXCEPTION());
@@ -375,36 +375,36 @@ public class MessagePolicyVerifier implements PolicyVerifier{
                             + " in Security header, but found " +  pol +  ".");
                 }
             }
-            
+
         }
-        
+
     }
      @SuppressWarnings("unchecked")
     private void checkTargets(WSSPolicy actualPol, WSSPolicy inferredPol) throws XWSSecurityException{
-        
+
         List<Target> inferredTargets = null;
         List<Target> actualTargets = null;
-        
+
         if(PolicyTypeUtil.signaturePolicy(actualPol)){
-            
+
             SignaturePolicy.FeatureBinding inferredFeatureBinding =
                     (SignaturePolicy.FeatureBinding)inferredPol.getFeatureBinding();
             SignaturePolicy.FeatureBinding actualFeatureBinding =
                     (SignaturePolicy.FeatureBinding)actualPol.getFeatureBinding();
-            
+
             inferredTargets = (List<Target>)inferredFeatureBinding.getTargetBindings();
             actualTargets = (List<Target>)actualFeatureBinding.getTargetBindings();
-            
+
         }else if(PolicyTypeUtil.encryptionPolicy(actualPol)){
-            
+
             EncryptionPolicy.FeatureBinding inferredFeatureBinding =
                     (EncryptionPolicy.FeatureBinding)inferredPol.getFeatureBinding();
             EncryptionPolicy.FeatureBinding actualFeatureBinding =
                     (EncryptionPolicy.FeatureBinding)actualPol.getFeatureBinding();
-            
+
             inferredTargets = (List<Target>)inferredFeatureBinding.getTargetBindings();
             actualTargets = (List<Target>)actualFeatureBinding.getTargetBindings();
-            
+
         }
         targetResolver.resolveAndVerifyTargets(actualTargets, inferredTargets, actualPol);
     }
@@ -424,7 +424,7 @@ public class MessagePolicyVerifier implements PolicyVerifier{
                     PolicyTypeUtil.usernameTokenBinding(inferredKeyBinding)) {
                 UsernameTokenBinding act = (UsernameTokenBinding) actualKeyBinding;
                 UsernameTokenBinding inf = (UsernameTokenBinding) inferredKeyBinding;
-                
+
                 if (act.getUseCreated() == true && inf.getUseCreated() == false) { //SP13
                     throw new XWSSecurityException("Policy verification error: Invalid Usernametoken, Missing Created");
                 } else if (act.getUseNonce() == true && inf.getUseNonce() == false) {
@@ -446,8 +446,8 @@ public class MessagePolicyVerifier implements PolicyVerifier{
                     correctIncludeTokenPolicy(actualX509Bind, wssAssertion);
                     if(actualX509Bind.getReferenceType().equals(inferredX509Bind.getReferenceType()))*/
                 verified =  true;
-            } else if(PolicyTypeUtil.kerberosTokenBinding(actualKeyBinding) && 
-                    PolicyTypeUtil.kerberosTokenBinding(inferredKeyBinding)){ 
+            } else if(PolicyTypeUtil.kerberosTokenBinding(actualKeyBinding) &&
+                    PolicyTypeUtil.kerberosTokenBinding(inferredKeyBinding)){
                 verified = true;
             } else if(PolicyTypeUtil.symmetricKeyBinding(actualKeyBinding) &&
                     PolicyTypeUtil.symmetricKeyBinding(inferredKeyBinding)){
@@ -459,15 +459,15 @@ public class MessagePolicyVerifier implements PolicyVerifier{
                 }
             } else if(PolicyTypeUtil.issuedTokenKeyBinding(actualKeyBinding) &&
                     PolicyTypeUtil.issuedTokenKeyBinding(inferredKeyBinding)){
-                
+
                 verified = true;
             } else if(PolicyTypeUtil.secureConversationTokenKeyBinding(actualKeyBinding) &&
                     PolicyTypeUtil.secureConversationTokenKeyBinding(inferredKeyBinding)){
-                
+
                 verified = true;
             } else if(PolicyTypeUtil.derivedTokenKeyBinding(actualKeyBinding) &&
                     PolicyTypeUtil.derivedTokenKeyBinding(inferredKeyBinding)){
-                
+
                 verified = verifyKeyBinding(((DerivedTokenKeyBinding)actualKeyBinding).getOriginalKeyBinding(),
                         ((DerivedTokenKeyBinding)inferredKeyBinding).getOriginalKeyBinding(),
                         isEncryptPolicy);
@@ -497,7 +497,7 @@ public class MessagePolicyVerifier implements PolicyVerifier{
                 }
             } else if (PolicyTypeUtil.samlTokenPolicy(actualKeyBinding) &&
                     PolicyTypeUtil.samlTokenPolicy(inferredKeyBinding)){
-                
+
                 verified = true;
             } else if (PolicyTypeUtil.symmetricKeyBinding(actualKeyBinding) &&
                     PolicyTypeUtil.usernameTokenBinding(inferredKeyBinding)) {
@@ -523,7 +523,7 @@ public class MessagePolicyVerifier implements PolicyVerifier{
                 verified = true;
             }
         }
-        
+
         return verified;
     }
     /**
@@ -536,7 +536,7 @@ public class MessagePolicyVerifier implements PolicyVerifier{
             SignaturePolicy.FeatureBinding inferredFeatureBinding) throws XWSSecurityException {
         String actualCanonAlgo = actualFeatureBinding.getCanonicalizationAlgorithm();
         String inferredCanonAlgo = inferredFeatureBinding.getCanonicalizationAlgorithm();
-        
+
         if(actualCanonAlgo == null || inferredCanonAlgo == null){
             throw new XWSSecurityException("ActualCanonicalizationAlgorithm or InferredCanonicalizationAlgorithm "
                     +" is null while verifying SignatureTargetBinding");
@@ -549,7 +549,7 @@ public class MessagePolicyVerifier implements PolicyVerifier{
                 return false;
             }
         }
-        
+
         return true;
     }
     /**
@@ -574,7 +574,7 @@ public class MessagePolicyVerifier implements PolicyVerifier{
         }
         return true;
     }
-    
+
     private EncryptionPolicy getNthEncryptionPolicy(MessagePolicy securityPolicy, int nth) throws XWSSecurityException{
         try{
             int count = nth;
@@ -596,11 +596,11 @@ public class MessagePolicyVerifier implements PolicyVerifier{
         }
         return null;
     }
-    
+
     private WSSPolicy getFirstPrimaryPolicy(MessagePolicy securityPolicy, boolean isEndorsingSign,
             int nth) throws XWSSecurityException{
         try{
-            
+
             int count = nth;
             if(!isEndorsingSign){
                 for(int i = 0; i < securityPolicy.size(); i++){
@@ -638,7 +638,7 @@ public class MessagePolicyVerifier implements PolicyVerifier{
         }
         return null;
     }
-    
+
     @SuppressWarnings("static-access")
     private void correctIncludeTokenPolicy(AuthenticationTokenPolicy.X509CertificateBinding x509Bind,
             WSSAssertion wssAssertion){
@@ -663,7 +663,7 @@ public class MessagePolicyVerifier implements PolicyVerifier{
             x509Bind.setReferenceType(MessageConstants.DIRECT_REFERENCE_TYPE);
         }
     }
-    
+
     public void printInferredSecurityPolicy(MessagePolicy inferredSecurityPolicy) throws Exception{
         StringBuffer buffer = new StringBuffer();
         if(inferredSecurityPolicy == null){
@@ -690,7 +690,7 @@ public class MessagePolicyVerifier implements PolicyVerifier{
                         buffer.append("\t  Value:").append(target.getValue()).append("\n");
                         buffer.append("\t  DigestAlgorithm:").append(target.getDigestAlgorithm()).append("\n");
                         ArrayList transforms = target.getTransforms();
-                        
+
                         if(transforms != null){
                             buffer.append("\t  " + "Transforms::\n");
                             for(int k = 0; k < transforms.size(); k++){
@@ -733,7 +733,7 @@ public class MessagePolicyVerifier implements PolicyVerifier{
             System.out.println(buffer);
         }
     }
-    
+
     private void printKeyBinding(MLSPolicy keyBinding, StringBuffer buffer){
         if(keyBinding != null){
             if(keyBinding instanceof AuthenticationTokenPolicy.X509CertificateBinding){
@@ -760,10 +760,10 @@ public class MessagePolicyVerifier implements PolicyVerifier{
                 }
             } else if(keyBinding instanceof IssuedTokenKeyBinding){
                 buffer.append("\t  IssuedTokenKeyBinding\n");
-                
+
             } else if(keyBinding instanceof SecureConversationTokenKeyBinding){
                 buffer.append("\t  SecureConversationTokenKeyBinding\n");
-                
+
             }else if(keyBinding instanceof DerivedTokenKeyBinding){
                 buffer.append("\t  DerivedTokenKeyBinding\n");
                 DerivedTokenKeyBinding dtkBinding = (DerivedTokenKeyBinding)keyBinding;
@@ -785,7 +785,7 @@ public class MessagePolicyVerifier implements PolicyVerifier{
                     (EncryptionPolicy.FeatureBinding)actualPol.getFeatureBinding();
             actualTargets = (List<Target>)actualFeatureBinding.getTargetBindings();
         }
-        
+
         return targetResolver.isTargetPresent(actualTargets);
     }
 

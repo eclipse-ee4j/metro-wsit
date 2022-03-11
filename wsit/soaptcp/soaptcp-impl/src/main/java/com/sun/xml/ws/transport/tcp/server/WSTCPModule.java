@@ -22,15 +22,15 @@ import javax.xml.namespace.QName;
 
 /**
  * WSTCPModule. Singlton class, which contains SOAP/TCP related information.
- * 
+ *
  * @author Alexey Stashok
  */
 public abstract class WSTCPModule {
     private static volatile WSTCPModule instance;
-    
+
     protected static final Logger logger = Logger.getLogger(
             com.sun.xml.ws.transport.tcp.util.TCPConstants.LoggingDomain + ".server");
-    
+
     /**
      * Method returns initialized WSTCPModule instance
      * @throws IllegalStateException if instance was not initialized
@@ -39,14 +39,14 @@ public abstract class WSTCPModule {
         if (instance == null) {
             throw new IllegalStateException(MessagesMessages.WSTCP_0007_TRANSPORT_MODULE_NOT_INITIALIZED());
         }
-        
+
         return instance;
     }
-    
+
     protected static void setInstance(WSTCPModule instance) {
         WSTCPModule.instance = instance;
     }
-    
+
     public WSEndpoint<ServiceChannelWSImpl> createServiceChannelEndpoint() {
         final QName serviceName = WSEndpoint.getDefaultServiceName(ServiceChannelWSImpl.class);
         final QName portName = WSEndpoint.getDefaultPortName(serviceName, ServiceChannelWSImpl.class);
@@ -61,13 +61,13 @@ public abstract class WSTCPModule {
 
     public abstract void register(@NotNull final String contextPath,
             @NotNull final List<TCPAdapter> adapters);
-    
+
     public abstract void free(@NotNull final String contextPath,
             @NotNull final List<TCPAdapter> adapters);
-    
+
     /**
      * Returns port, SOAP/TCP is listening on.
-     * 
+     *
      * @return the port, SOAP/TCP is linstening on. -1 if SOAP/TCP doesn't open
      * own TCP port, but uses connections provided by runtime.
      */

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -36,19 +36,19 @@ public final class RuntimeContext {
 
     public static final class Builder {
 
-        private final 
+        private final
         @NotNull
         RmConfiguration configuration;
-        private final 
+        private final
         @NotNull
         Communicator communicator;
-        private 
+        private
         @Nullable
         SequenceManager sequenceManager;
-        private 
+        private
         @Nullable
         SourceMessageHandler sourceMessageHandler;
-        private 
+        private
         @Nullable
         DestinationMessageHandler destinationMessageHandler;
         private

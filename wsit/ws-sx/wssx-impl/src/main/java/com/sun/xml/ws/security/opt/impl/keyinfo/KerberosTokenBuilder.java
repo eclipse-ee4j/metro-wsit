@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -26,9 +26,9 @@ import java.util.logging.Level;
  * @author ashutosh.shahi@sun.com
  */
 public class KerberosTokenBuilder extends TokenBuilder {
-    
+
     AuthenticationTokenPolicy.KerberosTokenBinding binding = null;
-    
+
     public KerberosTokenBuilder(JAXBFilterProcessingContext context,
             AuthenticationTokenPolicy.KerberosTokenBinding binding) {
         super(context);
@@ -45,15 +45,15 @@ public class KerberosTokenBuilder extends TokenBuilder {
         if(id == null || id.equals("")){
         id = context.generateID();
         }*/
-        
+
         setIncludeTokenPolicy();
-        
+
         String referenceType = binding.getReferenceType();
         if(logger.isLoggable(Level.FINEST)){
             logger.log(Level.FINEST, LogStringsMessages.WSS_1853_REFERENCETYPE_KERBEROS_TOKEN(referenceType));
         }
         BuilderResult result = new BuilderResult();
-        
+
         if(referenceType.equals(MessageConstants.DIRECT_REFERENCE_TYPE)){
             BinarySecurityToken bst = createKerberosBST(binding, binding.getTokenValue());
             if(bst == null){
@@ -86,11 +86,11 @@ public class KerberosTokenBuilder extends TokenBuilder {
             return;
         }
         String itVersion = binding.getIncludeToken();
-        if(binding.INCLUDE_ALWAYS.equals(itVersion) 
+        if(binding.INCLUDE_ALWAYS.equals(itVersion)
                 || binding.INCLUDE_ALWAYS_TO_RECIPIENT.equals(itVersion)
                 || binding.INCLUDE_ALWAYS_VER2.equals(itVersion)
                 || binding.INCLUDE_ALWAYS_TO_RECIPIENT_VER2.equals(itVersion)){
-            // This should never happen as Always and AlwaysToRecipient 
+            // This should never happen as Always and AlwaysToRecipient
             // are not allowed for Kerberos Tokens
             logger.log(Level.SEVERE, LogStringsMessages.WSS_1822_KERBEROS_ALWAYS_NOTALLOWED());
             throw new XWSSecurityException(LogStringsMessages.WSS_1822_KERBEROS_ALWAYS_NOTALLOWED());
@@ -102,5 +102,5 @@ public class KerberosTokenBuilder extends TokenBuilder {
             binding.setReferenceType(MessageConstants.DIRECT_REFERENCE_TYPE);
         }
     }
-    
+
 }

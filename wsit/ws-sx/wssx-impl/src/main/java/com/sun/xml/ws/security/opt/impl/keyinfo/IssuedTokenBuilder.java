@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -58,7 +58,7 @@ public class IssuedTokenBuilder extends TokenBuilder {
         byte[] proofKey = context.getTrustContext().getProofKey();
         Key dataProtectionKey = null;
         SecurityTokenReferenceType str = null;
-        Key cacheKey = null;        
+        Key cacheKey = null;
         //For Encryption proofKey will be null.
         if (proofKey == null) {
              KeyPair keyPair = context.getTrustContext().getProofKeyPair();
@@ -87,7 +87,7 @@ public class IssuedTokenBuilder extends TokenBuilder {
             cacheKey = dataProtectionKey;
             //SecurityUtil.updateSamlVsKeyCache(str, context, dataProtectionKey);
         }
-        
+
         SecurityHeaderElement issuedTokenElement = null;
         GenericToken issuedToken = (GenericToken)context.getTrustContext().getSecurityToken();
         if(issuedToken != null){
@@ -104,7 +104,7 @@ public class IssuedTokenBuilder extends TokenBuilder {
                 throw new XWSSecurityException("ID attribute not set");
             }
             context.getTokenCache().put(ikb.getUUID(), issuedTokenElement);
-            
+
             HashMap sentSamlKeys = (HashMap) context.getExtraneousProperty(MessageConstants.STORED_SAML_KEYS);
             if(sentSamlKeys == null){
                 sentSamlKeys = new HashMap();
@@ -118,7 +118,7 @@ public class IssuedTokenBuilder extends TokenBuilder {
                                 KeyBindingBase.INCLUDE_ALWAYS_VER2.equals(itType) ||
                                 KeyBindingBase.INCLUDE_ALWAYS_TO_RECIPIENT_VER2.equals(itType)
                                 );
-        
+
         if (includeToken) {
             str = (SecurityTokenReferenceType)context.getTrustContext().
                     getAttachedSecurityTokenReference();
@@ -126,7 +126,7 @@ public class IssuedTokenBuilder extends TokenBuilder {
             str = (SecurityTokenReferenceType)context.getTrustContext().
                     getUnAttachedSecurityTokenReference();
         }
-        
+
         if (issuedToken != null && includeToken) {
             if( context.getSecurityHeader().getChildElement(issuedTokenElement.getId()) == null){
                 context.getSecurityHeader().add(issuedTokenElement);

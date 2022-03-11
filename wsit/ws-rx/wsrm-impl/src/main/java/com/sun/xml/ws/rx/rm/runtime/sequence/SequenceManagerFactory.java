@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -33,7 +33,7 @@ public enum SequenceManagerFactory {
 
     private final WSEndpointCollectionBasedMOMListener listener;
     private final WeakHashMap<WSEndpoint, SequenceManager> sequenceManagersForDeferredRegistration = new WeakHashMap<>();
-        
+
     SequenceManagerFactory() {
         // TODO: load from external configuration and revert to default if not present
 
@@ -59,17 +59,17 @@ public enum SequenceManagerFactory {
             } else {
                 result = new InVmSequenceManager(uniqueEndpointId, inboundQueueBuilder, outboundQueueBuilder, configuration, container, localIDManager);
             }
-            
+
             ManagedObjectManager mom = configuration.getManagedObjectManager();
             handleMOMRegistration(result, mom, true);
 
             return result;
         }
     }
-    
+
     /**
      * Disposes the sequence manager properly and unregisters it from the ManagedOnjectManager
-     * 
+     *
      * @param manager {@link SequenceManager} instance to be disposed
      */
     public void dispose(SequenceManager manager, RmConfiguration configuration) {
@@ -83,7 +83,7 @@ public enum SequenceManagerFactory {
 
     /**
      * Handles (un)registration process of {@code SequenceManager} in {@link ManagedObjectManager}.
-     * 
+     *
      * @param manager SequenceManager to be (un)registered
      * @param managedObjectManager ManagedObjectManager instance where SequenceManager will be registered at
      * @param register {@code true} if the manager should be registered, {@code false} for unregistration
@@ -116,5 +116,5 @@ public enum SequenceManagerFactory {
             }
         }
     }
-    
+
 }

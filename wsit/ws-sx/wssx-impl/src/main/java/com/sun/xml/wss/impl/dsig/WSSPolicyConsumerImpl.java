@@ -130,14 +130,14 @@ public class WSSPolicyConsumerImpl {
         //since this code needs to compile with JDK5 and on JDK5
         // XMLSignatureFactory.getInstance().getProvider() would throw
         //NoSuchMechanismException: Mechanism type DOM not available
-    	  
-    	//Replace of jsr105 implementation with Apache XML Security 
+
+        //Replace of jsr105 implementation with Apache XML Security
         providerName = /*vendorIsIBM ? ibmProvider :*/
                 System.getProperty("jsr105Provider", defaultJSR105Provider);
         pMT = System.getProperty("jsr105MechanismType","DOM");
 
         try {
-            
+
             ClassLoader loader = this.getClass().getClassLoader();
             Class providerClass = Class.forName(providerName, true, loader);
             provider = (Provider) providerClass.newInstance();
@@ -155,7 +155,7 @@ public class WSSPolicyConsumerImpl {
             logger.log(Level.FINEST, "JSR 105 provider is : " + providerName);
             logger.log(Level.FINEST, "JSR 105 provider mechanism is : " + pMT);
         }
-        
+
         AccessController.doPrivileged(new java.security.PrivilegedAction<>() {
             @Override
             public Object run() {
@@ -170,7 +170,7 @@ public class WSSPolicyConsumerImpl {
             }
         });
     }
-    
+
     /**
      * @return instance of WSSPolicyConsumerImpl
      */
@@ -184,20 +184,20 @@ public class WSSPolicyConsumerImpl {
         }
         return wpcInstance;
     }
-    
+
     /**
      *
      */
     public SignedInfo constructSignedInfo(FilterProcessingContext fpContext)throws
             NoSuchAlgorithmException,InvalidAlgorithmParameterException,XWSSecurityException {
-        
+
         if(PolicyTypeUtil.signaturePolicy(fpContext.getSecurityPolicy())) {
             SignedInfo signInfo = generateSignedInfo(fpContext);
             return signInfo;
         }
         return null;
     }
-    
+
     /**
      *
      * @return XMLSignature
@@ -213,36 +213,36 @@ public class WSSPolicyConsumerImpl {
     public XMLSignature constructSignature(SignedInfo signInfo,KeyInfo keyInfo, String id){
         return getSignatureFactory().newXMLSignature(signInfo,keyInfo, null, id, null);
     }
-    
+
     /**
      *
      * @return KeyInfo
      */
     public KeyInfo constructKeyInfo(MLSPolicy signaturePolicy,SecurityTokenReference reference) throws SOAPException,XWSSecurityException {
-        
+
         if(PolicyTypeUtil.signaturePolicy(signaturePolicy)) {
             //SignaturePolicy.FeatureBinding featureBinding = (SignaturePolicy.FeatureBinding)signaturePolicy.getFeatureBinding();
             //WSSPolicy keyBinding =(WSSPolicy) signaturePolicy.getKeyBinding();
             KeyInfoFactory keyFactory = getKeyInfoFactory();
-            
+
             DOMStructure domKeyInfo = new DOMStructure(reference.getAsSoapElement());
-            
+
             KeyInfo keyInfo = keyFactory.newKeyInfo(Collections.singletonList(domKeyInfo));
             return keyInfo;
-            
+
         }
-        
+
         return null;
-        
+
     }
-    
+
     /**
      *
      * @return KeyInfo
      */
      @SuppressWarnings("unchecked")
     public KeyInfo constructKeyInfo(MLSPolicy signaturePolicy,String KeyName) throws SOAPException {
-        
+
         if(PolicyTypeUtil.signaturePolicy(signaturePolicy)) {
             //SignaturePolicy.FeatureBinding featureBinding = (SignaturePolicy.FeatureBinding)signaturePolicy.getFeatureBinding();
             //WSSPolicy keyBinding =(WSSPolicy) signaturePolicy.getKeyBinding();
@@ -250,24 +250,24 @@ public class WSSPolicyConsumerImpl {
             javax.xml.crypto.dsig.keyinfo.KeyName keyName = keyFactory.newKeyName(KeyName);
             java.util.List list = new java.util.ArrayList();
             list.add(keyName);
-            
+
             KeyInfo keyInfo = keyFactory.newKeyInfo(list);
-            
+
             return keyInfo;
-            
+
         }
-        
+
         return null;
-        
+
     }
-    
+
     /**
      *
      * @return XMLSignatureFactory
      */
     public XMLSignatureFactory getSignatureFactory() {
         try {
-            
+
             return XMLSignatureFactory.getInstance("DOM",provider);
             //XMLSignatureFactory.getInstance (pMT,providerName);
         }catch(Exception ex) {
@@ -275,7 +275,7 @@ public class WSSPolicyConsumerImpl {
             throw new RuntimeException(ex);
         }
     }
-    
+
     /**
      *
      * @return KeyInfoFactory
@@ -288,7 +288,7 @@ public class WSSPolicyConsumerImpl {
             throw new RuntimeException(ex);
         }
     }
-    
+
     /**
      * @return SignaturePolicy
      */
@@ -297,12 +297,12 @@ public class WSSPolicyConsumerImpl {
         constructSignaturePolicy(signedInfo,isBSP,policy);
         return policy;
     }
-    
+
     public void constructSignaturePolicy(SignedInfo signedInfo, boolean isBSP,SignaturePolicy policy){
         List referencesList = signedInfo.getReferences();
         //SignatureMethod sm = signedInfo.getSignatureMethod();
         CanonicalizationMethod cm = signedInfo.getCanonicalizationMethod();
-        
+
         policy.isBSP(isBSP);
         SignaturePolicy.FeatureBinding featureBinding = (SignaturePolicy.FeatureBinding )policy.getFeatureBinding();
         featureBinding.setCanonicalizationAlgorithm(cm.getAlgorithm());
@@ -316,22 +316,22 @@ public class WSSPolicyConsumerImpl {
                 target.addTransform(transform);
             }
             target.setDigestAlgorithm(ref.getDigestMethod().getAlgorithm());
-			if(ref.getURI().length() >0){
+            if(ref.getURI().length() >0){
                target.setValue(SecurableSoapMessage.getIdFromFragmentRef(ref.getURI()));
-			}else{
+            }else{
                target.setValue(ref.getURI());
-			}
+            }
             target.setType(SignatureTarget.TARGET_TYPE_VALUE_URI);
             featureBinding.addTargetBinding(target);
         }
     }
-    
+
     public void constructSignaturePolicy(SignedInfo signedInfo, SignaturePolicy policy,
             SecurableSoapMessage secMsg) throws XWSSecurityException{
         List referencesList = signedInfo.getReferences();
         //SignatureMethod sm = signedInfo.getSignatureMethod();
         CanonicalizationMethod cm = signedInfo.getCanonicalizationMethod();
-        
+
         //policy.isBSP(isBSP);
         SignaturePolicy.FeatureBinding featureBinding = (SignaturePolicy.FeatureBinding )policy.getFeatureBinding();
         featureBinding.setCanonicalizationAlgorithm(cm.getAlgorithm());
@@ -356,7 +356,7 @@ public class WSSPolicyConsumerImpl {
                             se.getNamespaceURI().equals(MessageConstants.WSU_NS)){
                         target.setValue("#" + Id);
                         target.setType(SignatureTarget.TARGET_TYPE_VALUE_URI);
-                        
+
                     } else{
                         QName qname = new QName(se.getNamespaceURI(), se.getLocalName());
                         target.setQName(qname);
@@ -367,12 +367,12 @@ public class WSSPolicyConsumerImpl {
                     throw new XWSSecurityException("Policy verification for Signature failed: Element with Id: " + Id
                             + "not found in message" );
                 }
-	    }
-            
+        }
+
             featureBinding.addTargetBinding(target);
         }
     }
-    
+
     /**
      *
      * @return Transform
@@ -393,7 +393,7 @@ public class WSSPolicyConsumerImpl {
         }
         return transform;
     }
-    
+
     /**
      *
      */
@@ -408,7 +408,7 @@ public class WSSPolicyConsumerImpl {
             paramList.put("XPATH2",spec.getXPathList());
         }
     }
-    
+
     private SignedInfo generateSignedInfo(FilterProcessingContext fpContext)
     throws NoSuchAlgorithmException,InvalidAlgorithmParameterException ,XWSSecurityException{
         SignaturePolicy signaturePolicy = (SignaturePolicy) fpContext.getSecurityPolicy();
@@ -427,7 +427,7 @@ public class WSSPolicyConsumerImpl {
         }
 
         keyAlgo = SecurityUtil.getKeyAlgo(algo);
-                
+
         if(PolicyTypeUtil.x509CertificateBinding(keyBinding)) {
             AuthenticationTokenPolicy.X509CertificateBinding certificateBinding =
                     (AuthenticationTokenPolicy.X509CertificateBinding)keyBinding;
@@ -446,7 +446,7 @@ public class WSSPolicyConsumerImpl {
                 keyAlgo = symmetricKeybinding.getKeyAlgorithm();
             } else {
                 keyAlgo = MessageConstants.HMAC_SHA1_SIGMETHOD;
-            }     
+            }
         } else if (PolicyTypeUtil.secureConversationTokenKeyBinding(keyBinding)) {
             keyAlgo = MessageConstants.HMAC_SHA1_SIGMETHOD;
         } else if (PolicyTypeUtil.derivedTokenKeyBinding(keyBinding)) {
@@ -454,7 +454,7 @@ public class WSSPolicyConsumerImpl {
            if(PolicyTypeUtil.issuedTokenKeyBinding(((DerivedTokenKeyBinding)keyBinding).getOriginalKeyBinding())){
                if(fpContext.getTrustContext().getProofKey() == null){
                    keyAlgo = MessageConstants.RSA_SHA1_SIGMETHOD;
-               }                           
+               }
            }
        } else if (PolicyTypeUtil.issuedTokenKeyBinding(keyBinding)) {
            //TODO: verify if this is always correct
@@ -462,11 +462,11 @@ public class WSSPolicyConsumerImpl {
            if(fpContext.getTrustContext().getProofKey() == null){
                keyAlgo = MessageConstants.RSA_SHA1_SIGMETHOD;
            }
-       } else { 
+       } else {
             logger.log(Level.SEVERE, LogStringsMessages.WSS_1335_UNSUPPORTED_KEYBINDING_SIGNATUREPOLICY());
             throw new XWSSecurityException("Unsupported KeyBinding for SignaturePolicy");
        }
-        
+
         C14NMethodParameterSpec spec = null;
         if (MessageConstants.TRANSFORM_C14N_EXCL_OMIT_COMMENTS.equalsIgnoreCase(canonicalAlgo)) {
             //List inc = getInclusiveNamespacePrefixes(secureMessage.findSecurityHeader(), false);
@@ -484,7 +484,7 @@ public class WSSPolicyConsumerImpl {
         }
         CanonicalizationMethod canonicalMethod=
                 signatureFactory.newCanonicalizationMethod(canonicalAlgo,spec);
-        
+
         SignatureMethod signatureMethod = signatureFactory.newSignatureMethod(keyAlgo, null);
         //Note : Signature algorithm parameters null for now , fix me.
         SignedInfo signedInfo = signatureFactory.newSignedInfo(canonicalMethod,signatureMethod,
@@ -492,7 +492,7 @@ public class WSSPolicyConsumerImpl {
         //Note : Id is now null , check ?,
         return signedInfo;
     }
-   
+
      /*
       * Calculate the list of inclusive namespace prefixes.
       * Inclusive Prefixes are those that are not not visibly utilized.
@@ -504,7 +504,7 @@ public class WSSPolicyConsumerImpl {
         NamedNodeMap attributes;
         Node attribute;
         Node parent = target;
-        
+
         while (!(parent instanceof Document)) {
             attributes = parent.getAttributes();
             for (int i = 0; i < attributes.getLength(); i++) {
@@ -529,7 +529,7 @@ attribute.getNamespaceURI().equals(MessageConstants.NAMESPACES_NS)) {
                       result.remove(attribute.getLocalName());
                 }
             }
-          
+
             if (target.getPrefix() == null) {
                 result.remove(MessageConstants.XMLNS_TAG);
             } else {
@@ -539,24 +539,24 @@ attribute.getNamespaceURI().equals(MessageConstants.NAMESPACES_NS)) {
           */
         return result;
     }
-    
-    
+
+
      /*
       * Calculate the list of visible namespace prefixes in target.
       * to be included in ds:Reference.
       */
     public static List getReferenceNamespacePrefixes(Node target) {
         ArrayList result = new ArrayList();
-        
+
         traverseSubtree(target , result);
-        
+
         return result;
     }
      @SuppressWarnings("unchecked")
     private static void traverseSubtree(Node node, List result) {
         SOAPElement element = (SOAPElement) node;
         Iterator visible =  element.getVisibleNamespacePrefixes();
-        
+
         while (visible.hasNext()) {
             String  prefix = (String)visible.next();
             if (!result.contains(prefix)) {
@@ -564,7 +564,7 @@ attribute.getNamespaceURI().equals(MessageConstants.NAMESPACES_NS)) {
             }
         }
         Iterator children = element.getChildElements();
-        
+
         while (children.hasNext()) {
             Node child = (Node)children.next();
             if (!(child instanceof jakarta.xml.soap.Text)) {
@@ -572,22 +572,22 @@ attribute.getNamespaceURI().equals(MessageConstants.NAMESPACES_NS)) {
             }
         }
     }
-    
+
     public List generateReferenceList(List targetList,SecurableSoapMessage secureMessage,FilterProcessingContext fpContext,
             boolean verify, boolean isEndorsing)
     throws NoSuchAlgorithmException,InvalidAlgorithmParameterException,XWSSecurityException {
         XMLSignatureFactory factory = getSignatureFactory();
         return generateReferenceList(targetList,factory,secureMessage,fpContext,verify, isEndorsing);
     }
-    
+
     //Time to refactor this method
     //bloated toomuch.
      @SuppressWarnings("unchecked")
     private List generateReferenceList(List targetList,XMLSignatureFactory signatureFactory,
-            SecurableSoapMessage secureMessage,FilterProcessingContext fpContext,boolean verify, 
+            SecurableSoapMessage secureMessage,FilterProcessingContext fpContext,boolean verify,
             boolean isEndorsing)
             throws NoSuchAlgorithmException,InvalidAlgorithmParameterException,XWSSecurityException {
-        
+
         SignaturePolicy signaturePolicy = (SignaturePolicy) fpContext.getSecurityPolicy();
         SignaturePolicy.FeatureBinding featureBinding = (SignaturePolicy.FeatureBinding)signaturePolicy.getFeatureBinding();
         ListIterator iterator = targetList.listIterator();
@@ -595,9 +595,9 @@ attribute.getNamespaceURI().equals(MessageConstants.NAMESPACES_NS)) {
         if(logger.isLoggable(Level.FINEST)) {
             logger.log(Level.FINEST, "Number of Targets is"+targetList.size());
         }
-        
+
         while(iterator.hasNext()) {
-            
+
             SignatureTarget signatureTarget = (SignatureTarget)iterator.next();
             String digestAlgo = signatureTarget.getDigestAlgorithm();
             if(logger.isLoggable(Level.FINEST)){
@@ -611,7 +611,7 @@ attribute.getNamespaceURI().equals(MessageConstants.NAMESPACES_NS)) {
                 logger.log(Level.SEVERE,LogStringsMessages.WSS_1301_INVALID_DIGEST_ALGO(digestAlgo),ex);
                 throw new XWSSecurityException(ex.getMessage());
             }
-            
+
             boolean exclTransformToBeAdded = false;
             ArrayList transforms = signatureTarget.getTransforms();
             ListIterator transformIterator = transforms.listIterator();
@@ -621,21 +621,21 @@ attribute.getNamespaceURI().equals(MessageConstants.NAMESPACES_NS)) {
                 SignatureTarget.Transform transformInfo = (SignatureTarget.Transform)transformIterator.next();
                 String transformAlgo = transformInfo.getTransform();
                 Transform transform = null;
-                
+
                 if(logger.isLoggable(Level.FINEST))
                     logger.log(Level.FINEST, "Transform Algorithm is "+transformAlgo);
                 if(transformAlgo == Transform.XPATH || transformAlgo.equals(Transform.XPATH)){
                     TransformParameterSpec spec =(TransformParameterSpec) transformInfo.getAlgorithmParameters();
                     //XPathFilterParameterSpec spec = null;
-                    
+
                     if(spec == null){
                         logger.log(Level.SEVERE,LogStringsMessages.WSS_1367_ILLEGAL_XPATH());
                         throw new XWSSecurityException("XPATH parameters cannot be null");
-                        
+
                     }
                     //XPATH2,XSLTC , ..
                     transform = signatureFactory.newTransform(transformAlgo,spec);
-                    
+
                 }else if(transformAlgo == Transform.XPATH2 || transformAlgo.equals(Transform.XPATH2)){
                     TransformParameterSpec transformParams = (TransformParameterSpec)transformInfo.getAlgorithmParameters();
                     transform= signatureFactory.newTransform(transformAlgo,transformParams);
@@ -689,7 +689,7 @@ attribute.getNamespaceURI().equals(MessageConstants.NAMESPACES_NS)) {
             SOAPMessage msg = secureMessage.getSOAPMessage();
             boolean headersOnly = signatureTarget.isSOAPHeadersOnly();
             if(signatureType.equals(SignatureTarget.TARGET_TYPE_VALUE_QNAME) || signatureType.equals(SignatureTarget.TARGET_TYPE_VALUE_XPATH)){
-                
+
                 String expr = null;
                 NodeList nodes  = null;
                 if( signatureType == SignatureTarget.TARGET_TYPE_VALUE_QNAME){
@@ -703,13 +703,13 @@ attribute.getNamespaceURI().equals(MessageConstants.NAMESPACES_NS)) {
 //                        references.add(ref);
 //                        continue;
 //                    }
-                    
-                    
+
+
                     if(targetValue.equals(SignatureTarget.BODY )){
                         try{
-                            
+
                             final SOAPElement se = msg.getSOAPBody();
-                            
+
                             nodes = new NodeList(){
                                 Node node = se;
                                 @Override
@@ -738,7 +738,7 @@ attribute.getNamespaceURI().equals(MessageConstants.NAMESPACES_NS)) {
                              //continue;
                         }
                     }else{
-                        
+
                         QName name = QName.valueOf(targetValue);
                         if(!headersOnly){
                             if("".equals(name.getNamespaceURI())){
@@ -747,7 +747,7 @@ attribute.getNamespaceURI().equals(MessageConstants.NAMESPACES_NS)) {
                                 if(!"".equals(name.getLocalPart()))
                                     nodes = msg.getSOAPPart().getElementsByTagNameNS(name.getNamespaceURI(), name.getLocalPart());
                                 else
-                                    nodes = msg.getSOAPPart().getElementsByTagNameNS(name.getNamespaceURI(), "*");                            
+                                    nodes = msg.getSOAPPart().getElementsByTagNameNS(name.getNamespaceURI(), "*");
                             }
                         } else{
                             //process headers of soap message
@@ -764,7 +764,7 @@ attribute.getNamespaceURI().equals(MessageConstants.NAMESPACES_NS)) {
                                            // FIXME: Hack to get addressing members from both namespaces, as microsoft uses both of them in a soap message
                                            if(name.getNamespaceURI().equals(MessageConstants.ADDRESSING_MEMBER_SUBMISSION_NAMESPACE) ||
                                                    name.getNamespaceURI().equals(MessageConstants.ADDRESSING_W3C_NAMESPACE)){
-                                               if((child.getNamespaceURI().equals(MessageConstants.ADDRESSING_MEMBER_SUBMISSION_NAMESPACE) || 
+                                               if((child.getNamespaceURI().equals(MessageConstants.ADDRESSING_MEMBER_SUBMISSION_NAMESPACE) ||
                                                        child.getNamespaceURI().equals(MessageConstants.ADDRESSING_W3C_NAMESPACE))) {
                                                    if(!"".equals(name.getLocalPart())){
                                                        if(name.getLocalPart().equals(child.getLocalName()))
@@ -775,7 +775,7 @@ attribute.getNamespaceURI().equals(MessageConstants.NAMESPACES_NS)) {
                                                }
                                            } else{
                                                if(!"".equals(name.getLocalPart())){
-                                                   if(name.getNamespaceURI().equals(child.getNamespaceURI()) && 
+                                                   if(name.getNamespaceURI().equals(child.getNamespaceURI()) &&
                                                            name.getLocalPart().equals(child.getLocalName()))
                                                        ((NodeListImpl)nodes).add(child);
                                                } else{
@@ -783,7 +783,7 @@ attribute.getNamespaceURI().equals(MessageConstants.NAMESPACES_NS)) {
                                                        ((NodeListImpl)nodes).add(child);
                                                }
                                            }
-                                       } 
+                                       }
                                     }
                                 }
                             } catch (SOAPException se){
@@ -793,9 +793,9 @@ attribute.getNamespaceURI().equals(MessageConstants.NAMESPACES_NS)) {
                         }
                     }
                 }else{
-                    
+
                     expr = signatureTarget.getValue();
-                    
+
                     try{
                         XPathFactory xpathFactory = WSITXMLFactory.createXPathFactory(WSITXMLFactory.DISABLE_SECURE_PROCESSING);
                         XPath xpath = xpathFactory.newXPath();
@@ -823,7 +823,7 @@ attribute.getNamespaceURI().equals(MessageConstants.NAMESPACES_NS)) {
                     } else{
                         continue;
                     }
-                    
+
                      // we dont throw error since WSSecurityPolicy allows this
                      //logger.log(Level.WARNING, "Signed Part with QName/XPath " + signatureTarget.getValue() +
                      //  " is not in the message");
@@ -866,9 +866,9 @@ attribute.getNamespaceURI().equals(MessageConstants.NAMESPACES_NS)) {
                             w3cElem = true;
                             id = ((Element)nodeRef).getAttribute("Id");
                         }
-                        
+
                     }
-                    
+
                     if (id == null || id.equals("")) {
                         id = secureMessage.generateId();
                         if(!verify){
@@ -882,12 +882,12 @@ attribute.getNamespaceURI().equals(MessageConstants.NAMESPACES_NS)) {
                             elementCache.put(id, nodeRef);
                         }
                     }
-                    
+
                     if(logger.isLoggable(Level.FINEST))
                         logger.log(Level.FINEST, "SignedInfo val id "+id);
-                    
+
                     targetURI = "#"+id;
-                    
+
                     byte [] digestValue = fpContext.getDigestValue();
                     Reference reference = null;
                     if(!verify && digestValue != null){
@@ -897,10 +897,10 @@ attribute.getNamespaceURI().equals(MessageConstants.NAMESPACES_NS)) {
                     }
                     references.add(reference);
                 }
-                continue;   
+                continue;
             }else if(signatureType ==SignatureTarget.TARGET_TYPE_VALUE_URI){
                 targetURI = signatureTarget.getValue();
-                
+
                 if(targetURI == null){
                     targetURI="";
                 }
@@ -940,7 +940,7 @@ attribute.getNamespaceURI().equals(MessageConstants.NAMESPACES_NS)) {
 //                        transformList.add(transform);
                         SOAPElement dataElement = null;
                         if (featureBinding != null && featureBinding.isBSP()) {
-                            
+
 //                            try {
                                 String _uri = targetURI;
                                 if(targetURI.length() > 0 && targetURI.charAt(0)=='#'){
@@ -983,7 +983,7 @@ attribute.getNamespaceURI().equals(MessageConstants.NAMESPACES_NS)) {
                     }
                 }
             }
-            
+
             byte [] digestValue = fpContext.getDigestValue();
             Reference reference = null;
             if(!verify && digestValue != null){
@@ -991,7 +991,7 @@ attribute.getNamespaceURI().equals(MessageConstants.NAMESPACES_NS)) {
             }else{
                 reference = signatureFactory.newReference(targetURI,digestMethod,transformList,null,null);
             }
-            
+
             //Note :: Id is null.
             references.add(reference);
         }
@@ -1004,7 +1004,7 @@ attribute.getNamespaceURI().equals(MessageConstants.NAMESPACES_NS)) {
 
         return references;
     }
-    
+
     /**
      *
      * @return String
@@ -1021,7 +1021,7 @@ attribute.getNamespaceURI().equals(MessageConstants.NAMESPACES_NS)) {
         }
         return id;
     }
-    
+
     public URIDereferencer getDefaultResolver(){
         if(externalURIResolver == null){
             externalURIResolver = getSignatureFactory().getURIDereferencer();
@@ -1050,9 +1050,9 @@ attribute.getNamespaceURI().equals(MessageConstants.NAMESPACES_NS)) {
             throw new RuntimeException(ex);
         }
     }
-    
+
 //    public class JAXWSDigestProcessor {
-//        
+//
 //        FilterProcessingContext fpContext= null;
 //        SignatureTarget target = null;
 //        DigestMethod dm  = null;
@@ -1066,12 +1066,12 @@ attribute.getNamespaceURI().equals(MessageConstants.NAMESPACES_NS)) {
 //            this.signatureFactory = sf;
 //            this.msg = fpContext.getSOAPMessage();
 //        }
-//        
+//
 //        public Reference handleJAXWSSOAPBody()throws XWSSecurityException{
 //            try{
-//                
+//
 //                SOAPBody body = ((com.sun.xml.messaging.saaj.soap.ExpressMessage)msg).getEMBody();
-//                
+//
 //                int optCase = fpContext.getConfigType();
 //                switch(optCase){
 //                    case 1 : {
@@ -1096,34 +1096,34 @@ attribute.getNamespaceURI().equals(MessageConstants.NAMESPACES_NS)) {
 //                }else{
 //                    //throw error
 //                }
-//                
-//                
+//
+//
 //                com.sun.xml.jaxws.JAXWSMessage jxm = ((com.sun.xml.messaging.saaj.soap.ExpressMessage)msg).getJAXWSMessage();
 //                byte[] canonData = jxm.getCanonicalizedBody();
 //                int len = jxm.getCBLength();
 //                if(MessageConstants.SIGN_ENCRYPT_BODY == optCase ){
 //                    byte [] data = null;
 //                    jxm.setCanonicalizedBody(data,0);
-//                    
+//
 //                }
 //                digester.update(canonData,0,len);
 //                byte[] digestValue = digester.digest();
-//                
+//
 //                ExcC14NParameterSpec spec = null;
-//                
+//
 //                //new ExcC14NParameterSpec(getReferenceNamespacePrefixes(nodeRef));
-//                
+//
 //                Transform transform = signatureFactory.newTransform(transformAlgo,spec);
 //                transformList.add(transform);
 //                Reference reference = signatureFactory.newReference(targetURI,dm,transformList,null,null,digestValue);
 //                return reference;
-//                
-//                
+//
+//
 //            }catch(Exception ex){
 //                throw new RuntimeException(ex);
 //            }
 //        }
-//        
+//
 //        private void signBody(SOAPBody body)throws IOException,XMLStreamException,XWSSecurityException,SOAPException{
 //            com.sun.xml.wss.impl.c14n.StAXEXC14nCanonicalizerImpl canonicalizer = new com.sun.xml.wss.impl.c14n.StAXEXC14nCanonicalizerImpl();
 //            UnsyncByteArrayOutputStream baos = new UnsyncByteArrayOutputStream();
@@ -1138,9 +1138,9 @@ attribute.getNamespaceURI().equals(MessageConstants.NAMESPACES_NS)) {
 //            canonicalizer.writeEndDocument();
 //            byte [] data = baos.getBytes();
 //            jxm.setCanonicalizedBody(data,baos.getLength());
-//            
+//
 //        }
-//        
+//
 //        private void signEncryptBody(SOAPBody body)throws IOException,XMLStreamException,XWSSecurityException,SOAPException{
 //            com.sun.xml.wss.impl.c14n.StAXEXC14nCanonicalizerImpl canonicalizer = new com.sun.xml.wss.impl.c14n.StAXEXC14nCanonicalizerImpl();
 //            UnsyncByteArrayOutputStream baos = new UnsyncByteArrayOutputStream();
@@ -1150,7 +1150,7 @@ attribute.getNamespaceURI().equals(MessageConstants.NAMESPACES_NS)) {
 //            canonicalizer.writeCharacters("");
 //            byte [] bodyTag = baos.toByteArray();
 //            baos.reset();
-//            
+//
 //            if(!jxm.isBodyUsed()){
 //                jxm.writeJAXWSBody(canonicalizer);
 //                // jxm.setBodyUsed(true);
@@ -1170,18 +1170,18 @@ attribute.getNamespaceURI().equals(MessageConstants.NAMESPACES_NS)) {
 //            fpContext.setCanonicalizedData(bodyContent);
 //            //  System.out.println("Canonicalized Data is "+new String(bodyContent  ));
 //        }
-//        
+//
 //        private void cBodyTag(XMLStreamWriter canonicalizer,SOAPBody body)throws IOException,XMLStreamException,XWSSecurityException,SOAPException{
 //            String id = body.getAttributeNS(MessageConstants.WSU_NS, "Id");
-//            
+//
 //            if(id == null || id.length() == 0){
 //                if(body.getNamespaceURI() == MessageConstants.DSIG_NS ||
 //                        body.getNamespaceURI() == MessageConstants.XENC_NS){
-//                    
+//
 //                    id = (body).getAttribute("Id");
 //                }
 //            }
-//            
+//
 //            if (id == null || id.equals("")) {
 //                id = fpContext.getSecurableSoapMessage().generateId();
 //                XMLUtil.setWsuIdAttr(body, id);
@@ -1190,7 +1190,7 @@ attribute.getNamespaceURI().equals(MessageConstants.NAMESPACES_NS)) {
 //            NamedNodeMap nodes =  body.getAttributes();
 //            Vector attrs = new Vector();
 //            Vector attrsNS = new Vector();
-//            
+//
 //            for(int i=0;i< nodes.getLength();i++){
 //                Attr attr = (Attr)nodes.item(i);
 //                //System.out.println("URI"+attr.getNamespaceURI());
@@ -1201,11 +1201,11 @@ attribute.getNamespaceURI().equals(MessageConstants.NAMESPACES_NS)) {
 //                    attrs.add(attr);
 //                }
 //            }
-//            
+//
 //            SOAPEnvelope env = msg.getSOAPPart().getEnvelope();
 //            NamedNodeMap parentAttrs = env.getAttributes();
-//            
-//            
+//
+//
 //            for(int i=0;i< parentAttrs.getLength();i++){
 //                Attr attr = (Attr)parentAttrs.item(i);
 //                //System.out.println("URI"+attr.getNamespaceURI());
@@ -1214,11 +1214,11 @@ attribute.getNamespaceURI().equals(MessageConstants.NAMESPACES_NS)) {
 //                    canonicalizer.writeNamespace(attr.getLocalName(),attr.getValue());
 //                }
 //            }
-//            
+//
 //            canonicalizer.writeStartDocument();
 //            canonicalizer.writeStartElement(body.getPrefix(),body.getLocalName(),body.getNamespaceURI());
-//            
-//            
+//
+//
 //            Iterator nsItr = attrsNS.iterator();
 //            while(nsItr.hasNext()){
 //                Attr attr = (Attr)nsItr.next();
@@ -1231,7 +1231,7 @@ attribute.getNamespaceURI().equals(MessageConstants.NAMESPACES_NS)) {
 //            }
 //        }
 //    }
-//    
+//
     /**
      * Provider to register STRTransform,Attachment-Complete and Attachment-ContentOnly Transforms
      * into XMLDSIG implementation.
@@ -1249,12 +1249,12 @@ attribute.getNamespaceURI().equals(MessageConstants.NAMESPACES_NS)) {
             final Map map = new HashMap();
             map.put("TransformService."+MessageConstants.ATTACHMENT_COMPLETE_TRANSFORM_URI, "com.sun.xml.wss.impl.transform.ACTransform");
             map.put("TransformService."+MessageConstants.ATTACHMENT_COMPLETE_TRANSFORM_URI+" MechanismType", "DOM");
-            
+
             map.put("TransformService."+MessageConstants.STR_TRANSFORM_URI, "com.sun.xml.wss.impl.transform.DOMSTRTransform");
             map.put("TransformService."+MessageConstants.STR_TRANSFORM_URI +" MechanismType", "DOM");
             map.put("TransformService."+MessageConstants.ATTACHMENT_CONTENT_ONLY_TRANSFORM_URI, "com.sun.xml.wss.impl.transform.ACOTransform");
             map.put("TransformService."+MessageConstants.ATTACHMENT_CONTENT_ONLY_TRANSFORM_URI+" MechanismType", "DOM");
-            
+
             putAll(map);
         }
     }

@@ -29,11 +29,11 @@ public class ByteArray {
             length = length+ed.length;
         }
     }
-    
+
     public int getLength(){
         return length;
     }
-    
+
     public byte byteAt(int i){
         if(i < 0 || i > length){
             throw new ArrayIndexOutOfBoundsException("Index "+i +" is out of range");
@@ -42,7 +42,7 @@ public class ByteArray {
             return iv[i];
         }else if (iv == null || iv.length == 0){
             return ed[i];
-		}else{
+        }else{
             int index = i-iv.length;
             return ed[index];
         }

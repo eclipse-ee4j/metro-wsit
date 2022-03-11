@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -29,7 +29,7 @@ final class EntryInfo {
     private final String className;
     private final Map<String, String> properties;
     private List<RegistrationContext> regContexts;
-    
+
     /*
      * This will create a constructor entry. The className
      * must not be null.
@@ -42,7 +42,7 @@ final class EntryInfo {
         this.className = className;
         this.properties = properties;
     }
-    
+
     /*
      * This will create a registration entry. The list of
      * registration contexts must not be null or empty. Each registration
@@ -50,7 +50,7 @@ final class EntryInfo {
      */
     EntryInfo(String className, Map<String, String> properties,
         List<RegistrationContext> ctxs) {
-        
+
         if (ctxs == null || ctxs.isEmpty()) {
             throw new IllegalArgumentException(
                 "Registration entry must contain one or" +
@@ -60,7 +60,7 @@ final class EntryInfo {
         this.properties = properties;
         this.regContexts = ctxs;
     }
-    
+
     /*
      * A helper method for creating a registration entry with
      * one registration context. If the context is null, this
@@ -68,7 +68,7 @@ final class EntryInfo {
      */
     EntryInfo(String className, Map<String, String> properties,
         RegistrationContext ctx) {
-        
+
         this.className = className;
         this.properties = properties;
         if (ctx != null) {
@@ -81,11 +81,11 @@ final class EntryInfo {
             this.regContexts = newList;
         }
     }
-    
+
     boolean isConstructorEntry() {
         return (regContexts == null);
     }
-    
+
     String getClassName() {
         return className;
     }
@@ -97,7 +97,7 @@ final class EntryInfo {
     List<RegistrationContext> getRegContexts() {
         return regContexts;
     }
-    
+
     /*
      * Compares an entry info to this one. They are
      * considered equal if:
@@ -120,7 +120,7 @@ final class EntryInfo {
             matchStrings(className, target.getClassName()) &&
             matchMaps(properties, target.getProperties()) );
     }
-    
+
     /*
      * Utility method for comparing strings such that
      * two null strings are considered "equal."
@@ -134,7 +134,7 @@ final class EntryInfo {
         }
         return s1.equals(s2);
     }
-    
+
     /*
      * Utility method for comparing maps such that
      * two null maps are considered "equal."
@@ -148,6 +148,6 @@ final class EntryInfo {
         }
         return m1.equals(m2);
     }
-    
+
 
 }

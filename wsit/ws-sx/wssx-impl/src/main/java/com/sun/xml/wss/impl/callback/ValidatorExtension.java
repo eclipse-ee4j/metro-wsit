@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -13,7 +13,7 @@ package com.sun.xml.wss.impl.callback;
 import java.util.Map;
 
 /**
- * ValidatorExtension : provides a way to set RuntimeProperties for Validators 
+ * ValidatorExtension : provides a way to set RuntimeProperties for Validators
  */
 public interface ValidatorExtension {
     void setRuntimeProperties(Map props);

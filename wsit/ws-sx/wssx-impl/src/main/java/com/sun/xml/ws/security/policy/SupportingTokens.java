@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -18,14 +18,14 @@ import java.util.Iterator;
  * additional message parts to sign and/or encrypt.
  * @author K.Venugopal@sun.com
  */
-public interface SupportingTokens extends Token{    
-   
+public interface SupportingTokens extends Token{
+
     /**
      * returns the {@link AlgorithmSuite} which will identify algorithms to use.
      * @return {@link AlgorithmSuite} or null
      */
     AlgorithmSuite getAlgorithmSuite();
-  
+
     /**
      * List of targets that need to be protected.
      * @return {@link java.util.Iterator } over targets that need to be protected.
@@ -34,7 +34,7 @@ public interface SupportingTokens extends Token{
     Iterator<SignedElements> getSignedElements();
     Iterator<EncryptedParts> getEncryptedParts();
     Iterator<EncryptedElements> getEncryptedElements();
-   
+
     /**
      * All tokens are set.
      * @return {@link java.util.Iterator } over tokens that are to be included in the message

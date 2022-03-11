@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -46,21 +46,21 @@ public class JaxwsApplicationMessage extends ApplicationMessageBase {
         @Override
         public JaxwsApplicationMessage toMessage() {
             ByteArrayInputStream bais = new ByteArrayInputStream(data);
-            return JaxwsApplicationMessage.newInstance(bais, nextResendCount, correlationId, wsaAction, sequenceId, messageNumber);                        
+            return JaxwsApplicationMessage.newInstance(bais, nextResendCount, correlationId, wsaAction, sequenceId, messageNumber);
             // closing ByteArrayInputStream has no effect, so ignoring the redundant call
         }
 
         @Override
         public String toString() {
-            return "JaxwsApplicationMessageState" + 
-                    "{\n\tsequenceId=" + sequenceId + 
-                    ",\n\tmessageNumber=" + messageNumber + 
-                    ",\n\tnextResendCount=" + nextResendCount + 
-                    ",\n\tcorrelationId=" + correlationId + 
-                    ",\n\twsaAction=" + wsaAction + 
-                    ",\n\tmessage data=\n" + Converter.messageDataToString(data, Converter.UTF_8) + 
+            return "JaxwsApplicationMessageState" +
+                    "{\n\tsequenceId=" + sequenceId +
+                    ",\n\tmessageNumber=" + messageNumber +
+                    ",\n\tnextResendCount=" + nextResendCount +
+                    ",\n\tcorrelationId=" + correlationId +
+                    ",\n\twsaAction=" + wsaAction +
+                    ",\n\tmessage data=\n" + Converter.messageDataToString(data, Converter.UTF_8) +
                     "\n}";
-        }        
+        }
     }
     //
     private final SerializableMessage jaxwsMessage;
@@ -80,13 +80,13 @@ public class JaxwsApplicationMessage extends ApplicationMessageBase {
         this.jaxwsMessage = jaxwsMessage;
     }
 
-    public 
+    public
     @NotNull
     Message getJaxwsMessage() {
         return jaxwsMessage.getMessage();
     }
 
-    public 
+    public
     @NotNull
     Packet getPacket() {
         return jaxwsMessage.getPacket();
@@ -106,7 +106,7 @@ public class JaxwsApplicationMessage extends ApplicationMessageBase {
      * Returns WS-Addressing action header value - used in ServerTube as a workaround
      *
      * FIXME remove when no longer needed
-     * 
+     *
      * @return WS-Addressing action header value
      */
     public String getWsaAction() {

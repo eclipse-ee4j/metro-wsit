@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -31,7 +31,7 @@ import jakarta.xml.bind.JAXBContext;
  */
 public class AttributeDesignator extends AttributeDesignatorType
     implements com.sun.xml.wss.saml.AttributeDesignator {
-    
+
     protected static final Logger log = Logger.getLogger(
             LogDomainConstants.WSS_API_DOMAIN,
             LogDomainConstants.WSS_API_DOMAIN_BUNDLE);
@@ -54,7 +54,7 @@ public class AttributeDesignator extends AttributeDesignatorType
     public static AttributeDesignatorType fromElement(Element element) throws SAMLException {
         try {
             JAXBContext jc = SAMLJAXBUtil.getJAXBContext();
-                    
+
             jakarta.xml.bind.Unmarshaller u = jc.createUnmarshaller();
             return (AttributeDesignatorType)u.unmarshal(element);
         } catch ( Exception ex) {

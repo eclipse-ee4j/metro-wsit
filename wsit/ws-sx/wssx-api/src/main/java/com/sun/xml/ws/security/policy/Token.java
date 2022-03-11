@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -49,20 +49,20 @@ public interface Token{
     String WSS_USERNAME_TOKEN_10 ="WssUsernameToken10";
     String WSS_USERNAME_TOKEN_11 ="WssUsernameToken11";
     String RSA_KEYVALUE_TOKEN = "RsaKeyValue";
-    
+
     /**
      * returns the token inclusion value
      * @return one of <CODE>ONCE</CODE>,<CODE>NEVER</CODE>,<CODE>ALWAYS_TO_RECIPIENT</CODE>,<CODE>ALWAYS</CODE>
      */
     String getIncludeToken();
-    
-    
+
+
     /**
      * Unique Id assigned to the token.
      * @return String representation of the token id.
      */
     String getTokenId();
-    
+
     /**
      * @return version of SecurityPolicy being used
      */

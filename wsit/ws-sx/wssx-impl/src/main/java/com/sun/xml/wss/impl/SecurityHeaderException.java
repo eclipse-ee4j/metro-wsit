@@ -19,11 +19,11 @@ import com.sun.xml.wss.XWSSecurityException;
 /**
  * A SecurityHeaderException indicates that there is a problem with the
  * security header elements and subelements.
- * It indicates that there is an error in the input message to a MessageFilter.  
+ * It indicates that there is an error in the input message to a MessageFilter.
  * For example, a ds:keyInfo element may not contain a reference to a
  * security token. If such a reference is missing, then to
  * indicate this problem, an instance of this Exception would be thrown.
- * 
+ *
  * <p>
  * This is as opposed to a problem with processing the message itself.  An
  * example would be a MessageFilter that needs to look up data in a
@@ -44,7 +44,7 @@ public class SecurityHeaderException extends XWSSecurityException {
     public SecurityHeaderException(String message, Throwable cause) {
         super(message, cause);
     }
-    
+
     public SecurityHeaderException(Throwable cause) {
         super(cause);
     }

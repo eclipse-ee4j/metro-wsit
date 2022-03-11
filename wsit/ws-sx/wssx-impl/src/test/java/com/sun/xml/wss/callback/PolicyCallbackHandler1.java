@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -79,7 +79,7 @@ public  class PolicyCallbackHandler1 implements CallbackHandler {
 
     private static final String fileSeparator = System.getProperty("file.separator");
 
-    private static final UnsupportedCallbackException unsupported = 
+    private static final UnsupportedCallbackException unsupported =
         new UnsupportedCallbackException(null, "Unsupported Callback Type Encountered");
 
 
@@ -88,7 +88,7 @@ public  class PolicyCallbackHandler1 implements CallbackHandler {
         Properties properties = new Properties();
 
         if (side.equals("server")) {
-       String serverPropsFile ="security/keystore/server-security-env.properties";                
+       String serverPropsFile ="security/keystore/server-security-env.properties";
         properties.load(Thread.currentThread().getContextClassLoader().getResourceAsStream(serverPropsFile));
 
         } else {
@@ -112,14 +112,14 @@ public  class PolicyCallbackHandler1 implements CallbackHandler {
 
     @Override
     public void handle(Callback[] callbacks) throws IOException, UnsupportedCallbackException {
-        
+
         for (int i=0; i < callbacks.length; i++) {
-            
+
             if (callbacks[i] instanceof PasswordValidationCallback) {
                 PasswordValidationCallback cb = (PasswordValidationCallback) callbacks[i];
                 if (cb.getRequest() instanceof PasswordValidationCallback.PlainTextPasswordRequest) {
                     cb.setValidator(new PlainTextPasswordValidator());
-                    
+
                 } else if (cb.getRequest() instanceof PasswordValidationCallback.DigestPasswordRequest) {
                     PasswordValidationCallback.DigestPasswordRequest request =
                     (PasswordValidationCallback.DigestPasswordRequest) cb.getRequest();
@@ -131,14 +131,14 @@ public  class PolicyCallbackHandler1 implements CallbackHandler {
                 } else {
                     throw unsupported;
                 }
-                
+
             } else if (callbacks[i] instanceof TimestampValidationCallback) {
                 TimestampValidationCallback cb = (TimestampValidationCallback) callbacks[i];
                 cb.setValidator(new DefaultTimestampValidator());
-                                                                                
+
             } else if (callbacks[i] instanceof SignatureVerificationKeyCallback) {
                 SignatureVerificationKeyCallback cb = (SignatureVerificationKeyCallback)callbacks[i];
-                
+
                 if (cb.getRequest() instanceof SignatureVerificationKeyCallback.X509SubjectKeyIdentifierBasedRequest) {
                     // subject keyid request
                     SignatureVerificationKeyCallback.X509SubjectKeyIdentifierBasedRequest request =
@@ -149,7 +149,7 @@ public  class PolicyCallbackHandler1 implements CallbackHandler {
                     getCertificateFromTrustStore(
                     request.getSubjectKeyIdentifier());
                     request.setX509Certificate(cert);
-                    
+
                 } else if (cb.getRequest() instanceof SignatureVerificationKeyCallback.X509IssuerSerialBasedRequest) {
                     // issuer serial request
                     SignatureVerificationKeyCallback.X509IssuerSerialBasedRequest request =
@@ -161,7 +161,7 @@ public  class PolicyCallbackHandler1 implements CallbackHandler {
                     request.getIssuerName(),
                     request.getSerialNumber());
                     request.setX509Certificate(cert);
-                    
+
                 } else if (cb.getRequest() instanceof SignatureVerificationKeyCallback.ThumbprintBasedRequest) {
                     SignatureVerificationKeyCallback.ThumbprintBasedRequest request =
                     (SignatureVerificationKeyCallback.ThumbprintBasedRequest) cb.getRequest();
@@ -175,10 +175,10 @@ public  class PolicyCallbackHandler1 implements CallbackHandler {
                 } else  {
                     throw unsupported;
                 }
-                
+
             } else if (callbacks[i] instanceof SignatureKeyCallback) {
                 SignatureKeyCallback cb = (SignatureKeyCallback)callbacks[i];
-                
+
                 if (cb.getRequest() instanceof SignatureKeyCallback.DefaultPrivKeyCertRequest) {
                     // default priv key cert req
                     SignatureKeyCallback.DefaultPrivKeyCertRequest request =
@@ -186,7 +186,7 @@ public  class PolicyCallbackHandler1 implements CallbackHandler {
                     if (keyStore == null)
                         initKeyStore();
                     getDefaultPrivKeyCert(request);
-                    
+
                 } else if (cb.getRequest() instanceof SignatureKeyCallback.AliasPrivKeyCertRequest) {
                     SignatureKeyCallback.AliasPrivKeyCertRequest request =
                     (SignatureKeyCallback.AliasPrivKeyCertRequest) cb.getRequest();
@@ -204,14 +204,14 @@ public  class PolicyCallbackHandler1 implements CallbackHandler {
                     } catch (Exception e) {
                         throw new IOException(e.getMessage());
                     }
-                    
+
                 } else {
                     throw unsupported;
                 }
-                
+
             } else if (callbacks[i] instanceof DecryptionKeyCallback) {
                 DecryptionKeyCallback cb = (DecryptionKeyCallback)callbacks[i];
-                
+
                 if (cb.getRequest() instanceof  DecryptionKeyCallback.X509SubjectKeyIdentifierBasedRequest) {
                     DecryptionKeyCallback.X509SubjectKeyIdentifierBasedRequest request =
                     (DecryptionKeyCallback.X509SubjectKeyIdentifierBasedRequest) cb.getRequest();
@@ -220,7 +220,7 @@ public  class PolicyCallbackHandler1 implements CallbackHandler {
                         initKeyStore();
                     PrivateKey privKey = getPrivateKey(ski);
                     request.setPrivateKey(privKey);
-                    
+
                 } else if (cb.getRequest() instanceof DecryptionKeyCallback.X509IssuerSerialBasedRequest) {
                     DecryptionKeyCallback.X509IssuerSerialBasedRequest request =
                     (DecryptionKeyCallback.X509IssuerSerialBasedRequest) cb.getRequest();
@@ -230,7 +230,7 @@ public  class PolicyCallbackHandler1 implements CallbackHandler {
                         initKeyStore();
                     PrivateKey privKey = getPrivateKey(issuerName, serialNumber);
                     request.setPrivateKey(privKey);
-                    
+
                 } else if (cb.getRequest() instanceof DecryptionKeyCallback.X509CertificateBasedRequest) {
                     DecryptionKeyCallback.X509CertificateBasedRequest request =
                     (DecryptionKeyCallback.X509CertificateBasedRequest) cb.getRequest();
@@ -239,7 +239,7 @@ public  class PolicyCallbackHandler1 implements CallbackHandler {
                         initKeyStore();
                     PrivateKey privKey = getPrivateKey(cert);
                     request.setPrivateKey(privKey);
-                    
+
                 } else if (cb.getRequest() instanceof DecryptionKeyCallback.AliasSymmetricKeyRequest) {
                     DecryptionKeyCallback.AliasSymmetricKeyRequest request =
                     (DecryptionKeyCallback.AliasSymmetricKeyRequest) cb.getRequest();
@@ -254,7 +254,7 @@ public  class PolicyCallbackHandler1 implements CallbackHandler {
                     } catch (Exception e) {
                         throw new IOException(e.getMessage());
                     }
-                    
+
                 } else if (cb.getRequest() instanceof  DecryptionKeyCallback.ThumbprintBasedRequest) {
                     DecryptionKeyCallback.ThumbprintBasedRequest request =
                     (DecryptionKeyCallback.ThumbprintBasedRequest) cb.getRequest();
@@ -266,10 +266,10 @@ public  class PolicyCallbackHandler1 implements CallbackHandler {
                 } else  {
                     throw unsupported;
                 }
-                
+
             } else if (callbacks[i] instanceof EncryptionKeyCallback) {
                 EncryptionKeyCallback cb = (EncryptionKeyCallback)callbacks[i];
-                
+
                 if (cb.getRequest() instanceof EncryptionKeyCallback.AliasX509CertificateRequest) {
                     EncryptionKeyCallback.AliasX509CertificateRequest request =
                     (EncryptionKeyCallback.AliasX509CertificateRequest) cb.getRequest();
@@ -289,7 +289,7 @@ public  class PolicyCallbackHandler1 implements CallbackHandler {
                             throw new IOException(e.getMessage());
                         }
                     }
-                    
+
                 } else if (cb.getRequest() instanceof EncryptionKeyCallback.AliasSymmetricKeyRequest) {
                     EncryptionKeyCallback.AliasSymmetricKeyRequest request =
                     (EncryptionKeyCallback.AliasSymmetricKeyRequest) cb.getRequest();
@@ -304,22 +304,22 @@ public  class PolicyCallbackHandler1 implements CallbackHandler {
                     } catch (Exception e) {
                         throw new IOException(e.getMessage());
                     }
-                    
+
                 } else {
                     throw unsupported;
                 }
-                
+
             } else if (callbacks[i] instanceof CertificateValidationCallback) {
                 CertificateValidationCallback cb = (CertificateValidationCallback)callbacks[i];
                 cb.setValidator(new X509CertificateValidatorImpl());
-                
+
             } else  if (callbacks[i] instanceof DynamicPolicyCallback) {
                 DynamicPolicyCallback dp = (DynamicPolicyCallback)callbacks[i];
                 SecurityPolicy policy = dp.getSecurityPolicy();
                 // This simplistic callback will simply set a Dummy Assertion
                 // An actual implementation can locate the saml assertion and set it
                 if (policy instanceof AuthenticationTokenPolicy.SAMLAssertionBinding) {
-                                                                                                                        
+
                     AuthenticationTokenPolicy.SAMLAssertionBinding samlBinding =
                     (AuthenticationTokenPolicy.SAMLAssertionBinding)
                     ((AuthenticationTokenPolicy.SAMLAssertionBinding)policy).clone();
@@ -332,7 +332,7 @@ public  class PolicyCallbackHandler1 implements CallbackHandler {
                     } else {
                         throw new UnsupportedCallbackException(null, "Missing information from SAML Policy");
                     }
-                                                                                                                        
+
                 } else {
                     throw unsupported;
                 }
@@ -410,10 +410,10 @@ public  class PolicyCallbackHandler1 implements CallbackHandler {
                     continue;
                 }
                 X509Certificate x509Cert = (X509Certificate) cert;
-                
+
                 X500Principal thisIssuerPrincipal = x509Cert.getIssuerX500Principal();
-                X500Principal issuerPrincipal = new X500Principal(issuerName);          
-                
+                X500Principal issuerPrincipal = new X500Principal(issuerName);
+
                 BigInteger thisSerialNumber = x509Cert.getSerialNumber();
                 if (thisIssuerPrincipal.equals(issuerPrincipal) &&
                     thisSerialNumber.equals(serialNumber)) {
@@ -471,12 +471,12 @@ public  class PolicyCallbackHandler1 implements CallbackHandler {
                     continue;
                 }
                 X509Certificate x509Cert = (X509Certificate) cert;
-               
+
                 X500Principal thisIssuerPrincipal = x509Cert.getIssuerX500Principal();
-                X500Principal issuerPrincipal = new X500Principal(issuerName);          
-                
-                BigInteger thisSerialNumber = x509Cert.getSerialNumber();               
-                
+                X500Principal issuerPrincipal = new X500Principal(issuerName);
+
+                BigInteger thisSerialNumber = x509Cert.getSerialNumber();
+
                 if (thisIssuerPrincipal.equals(issuerPrincipal) &&
                     thisSerialNumber.equals(serialNumber)) {
                     return (PrivateKey) keyStore.getKey(alias, keyStorePassword.toCharArray());
@@ -510,10 +510,10 @@ public  class PolicyCallbackHandler1 implements CallbackHandler {
 
     private void getDefaultCertificateFromTrustStore(
         EncryptionKeyCallback.AliasX509CertificateRequest req) {
-           
+
             try {
                 Enumeration aliases = trustStore.aliases();
-	        while (aliases.hasMoreElements()) {
+            while (aliases.hasMoreElements()) {
                     String currentAlias = (String) aliases.nextElement();
                     if (!"certificate-authority".equals(currentAlias)) {
                         X509Certificate thisCertificate = (X509Certificate)
@@ -609,7 +609,7 @@ public  class PolicyCallbackHandler1 implements CallbackHandler {
 
         @Override
         public boolean validate(PasswordValidationCallback.Request request) {
-            
+
             PasswordValidationCallback.PlainTextPasswordRequest plainTextRequest =
                 (PasswordValidationCallback.PlainTextPasswordRequest) request;
             return "Ron".equals(plainTextRequest.getUsername()) &&
@@ -634,15 +634,15 @@ public  class PolicyCallbackHandler1 implements CallbackHandler {
             SimpleDateFormat calendarFormatter2 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'.'sss'Z'");
             Date created = null;
             Date expired = null;
- 
+
             try {
                 try {
                     created = calendarFormatter1.parse(utcTimestampRequest.getCreated());
-                    if ( utcTimestampRequest.getExpired() != null ) 
+                    if ( utcTimestampRequest.getExpired() != null )
                         expired = calendarFormatter1.parse(utcTimestampRequest.getExpired());
                 } catch (java.text.ParseException pe) {
                     created = calendarFormatter2.parse(utcTimestampRequest.getCreated());
-                    if ( utcTimestampRequest.getExpired() != null ) 
+                    if ( utcTimestampRequest.getExpired() != null )
                         expired = calendarFormatter2.parse(utcTimestampRequest.getExpired());
                 }
             } catch ( java.text.ParseException pe ) {
@@ -654,7 +654,7 @@ public  class PolicyCallbackHandler1 implements CallbackHandler {
 
             // validate creation time
             validateCreationTime(created, maxClockSkew, timestampFreshnessLimit);
-             
+
             // validate expiration time
             if ( expired != null )
                 validateExpirationTime(expired, maxClockSkew, timestampFreshnessLimit);
@@ -664,7 +664,7 @@ public  class PolicyCallbackHandler1 implements CallbackHandler {
     public void validateExpirationTime(
         Date expires, long maxClockSkew, long timestampFreshnessLimit)
         throws TimestampValidationCallback.TimestampValidationException {
-                
+
         //System.out.println("Validate Expiration time called");
         Date currentTime =
             getGMTDateWithSkewAdjusted(new GregorianCalendar(), maxClockSkew, false);
@@ -682,13 +682,13 @@ public  class PolicyCallbackHandler1 implements CallbackHandler {
 
         //System.out.println("Validate Creation time called");
         Date current = getFreshnessAndSkewAdjustedDate(maxClockSkew, timestampFreshnessLimit);
-            
+
         if (created.before(current)) {
             throw new TimestampValidationCallback.TimestampValidationException(
                 "The creation time is older than " +
                 " currenttime - timestamp-freshness-limit - max-clock-skew");
         }
-            
+
         Date currentTime =
             getGMTDateWithSkewAdjusted(new GregorianCalendar(), maxClockSkew, true);
         if (currentTime.before(created)) {
@@ -706,10 +706,10 @@ public  class PolicyCallbackHandler1 implements CallbackHandler {
         }
         long beforeTime = c.getTimeInMillis();
         long currentTime = beforeTime - offset;
-        
+
         long adjustedTime = currentTime - maxClockSkew - timestampFreshnessLimit;
         c.setTimeInMillis(adjustedTime);
-        
+
         return c.getTime();
     }
 
@@ -722,16 +722,16 @@ public  class PolicyCallbackHandler1 implements CallbackHandler {
         }
         long beforeTime = c.getTimeInMillis();
         long currentTime = beforeTime - offset;
-        
+
         if (addSkew)
             currentTime = currentTime + maxClockSkew;
         else
             currentTime = currentTime - maxClockSkew;
-        
+
         c.setTimeInMillis(currentTime);
         return c.getTime();
     }
-    
+
     private class X509CertificateValidatorImpl implements CertificateValidationCallback.CertificateValidator {
 
         @Override
@@ -741,7 +741,7 @@ public  class PolicyCallbackHandler1 implements CallbackHandler {
             if (isSelfCert(certificate)) {
                 return true;
             }
-                                                                                
+
             try {
                 certificate.checkValidity();
             } catch (CertificateExpiredException e) {
@@ -751,10 +751,10 @@ public  class PolicyCallbackHandler1 implements CallbackHandler {
                 e.printStackTrace();
                 throw new CertificateValidationCallback.CertificateValidationException("X509Certificate not yet valid", e);
             }
-                                                                                
+
             X509CertSelector certSelector = new X509CertSelector();
             certSelector.setCertificate(certificate);
-                                                                                
+
             PKIXBuilderParameters parameters;
             CertPathBuilder builder;
             try {
@@ -765,7 +765,7 @@ public  class PolicyCallbackHandler1 implements CallbackHandler {
                 e.printStackTrace();
                 throw new CertificateValidationCallback.CertificateValidationException(e.getMessage(), e);
             }
-                                                                                
+
             try {
                 PKIXCertPathBuilderResult result =
                     (PKIXCertPathBuilderResult) builder.build(parameters);
@@ -801,10 +801,10 @@ public  class PolicyCallbackHandler1 implements CallbackHandler {
         }
     }
 
-   
+
      private X509Certificate getCertificateFromTrustStoreForThumbprint(byte[] ski)
     throws IOException {
-                                                                                                                                         
+
         try {
             Enumeration aliases = trustStore.aliases();
             while (aliases.hasMoreElements()) {
@@ -833,7 +833,7 @@ public  class PolicyCallbackHandler1 implements CallbackHandler {
      public static byte[] getThumbprintIdentifier(X509Certificate cert)
        throws Exception {
         byte[] thumbPrintIdentifier = null;
-                                                                                                                      
+
         try {
             thumbPrintIdentifier = MessageDigest.getInstance("SHA-1").digest(cert.getEncoded());
         } catch ( NoSuchAlgorithmException ex ) {
@@ -843,10 +843,10 @@ public  class PolicyCallbackHandler1 implements CallbackHandler {
         }
         return thumbPrintIdentifier;
     }
-   
-    
+
+
     public PrivateKey getPrivateKeyForThumbprint(byte[] ski) throws IOException {
-                                                                                                                                         
+
         try {
             Enumeration aliases = keyStore.aliases();
             while (aliases.hasMoreElements()) {

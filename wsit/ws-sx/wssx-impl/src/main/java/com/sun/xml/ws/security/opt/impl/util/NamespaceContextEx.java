@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -43,21 +43,21 @@ public class NamespaceContextEx implements org.jvnet.staxex.NamespaceContextEx {
         this.add("S",MessageConstants.SOAP_1_1_NS );
         addDefaultNSDecl();
     }
-    
-    
+
+
     public NamespaceContextEx(boolean soap12Version) {
         if(soap12Version){
             this.add("S",MessageConstants.SOAP_1_2_NS );//SOAP 12
         }else{
             this.add("S",MessageConstants.SOAP_1_1_NS );
-        }    
+        }
         addDefaultNSDecl();
     }
-    
+
     private void addDefaultNSDecl(){
-        
+
     }
-    
+
     public void addWSSNS(){
         if(!addedWSSNS){
             this.add(MessageConstants.WSSE_PREFIX, MessageConstants.WSSE_NS);
@@ -65,21 +65,21 @@ public class NamespaceContextEx implements org.jvnet.staxex.NamespaceContextEx {
             addedWSSNS = true;
         }
     }
-    
+
     public void addWSS11NS(){
          if(!addedWSS11NS){
-            this.add(MessageConstants.WSSE11_PREFIX, MessageConstants.WSSE11_NS);            
+            this.add(MessageConstants.WSSE11_PREFIX, MessageConstants.WSSE11_NS);
             addedWSS11NS = true;
         }
     }
-    
+
     public void addXSDNS(){
         if(!addedXSDNS){
             this.add("xs", MessageConstants.XSD_NS);
             addedXSDNS = true;
         }
     }
-    
+
     public void addSignatureNS(){
         addWSSNS();
         if(!dsNS){
@@ -87,7 +87,7 @@ public class NamespaceContextEx implements org.jvnet.staxex.NamespaceContextEx {
             dsNS = true;
         }
     }
-    
+
     public void addEncryptionNS(){
         addWSSNS();
         if(!encNS){
@@ -95,37 +95,37 @@ public class NamespaceContextEx implements org.jvnet.staxex.NamespaceContextEx {
             encNS = true;
         }
     }
-    
+
     public void addSAMLNS(){
         if(!samlNS){
             this.add(MessageConstants.SAML_PREFIX, MessageConstants.SAML_v1_0_NS);
             samlNS = true;
         }
     }
-    
+
     public void addSCNS(){
         if(!scNS){
             this.add(MessageConstants.WSSC_PREFIX, MessageConstants.WSSC_NS);
             scNS = true;
         }
     }
-    
+
     public void addExc14NS(){
         if(!exc14NS){
             this.add("exc14n", MessageConstants.TRANSFORM_C14N_EXCL_OMIT_COMMENTS);
             exc14NS = true;
         }
     }
-    
+
     public void add(String prefix,String uri){
-        list.add(new BindingImpl(prefix,uri));   
+        list.add(new BindingImpl(prefix,uri));
     }
-    
+
     @Override
     public Iterator<org.jvnet.staxex.NamespaceContextEx.Binding> iterator() {
         return list.iterator();
     }
-    
+
     @Override
     public String getNamespaceURI(String prefix) {
         for(org.jvnet.staxex.NamespaceContextEx.Binding binding : list){
@@ -135,7 +135,7 @@ public class NamespaceContextEx implements org.jvnet.staxex.NamespaceContextEx {
         }
         return null;
     }
-    
+
     @Override
     public String getPrefix(String namespaceURI) {
         for(org.jvnet.staxex.NamespaceContextEx.Binding binding : list){
@@ -145,13 +145,13 @@ public class NamespaceContextEx implements org.jvnet.staxex.NamespaceContextEx {
         }
         return null;
     }
-    
+
     @Override
     public Iterator getPrefixes(final String namespaceURI) {
         return new Iterator(){
-            
+
             int index = 0;
-            
+
             @Override
             public boolean hasNext(){
                 if( ++index < list.size() && move()){
@@ -159,17 +159,17 @@ public class NamespaceContextEx implements org.jvnet.staxex.NamespaceContextEx {
                 }
                 return false;
             }
-            
+
             @Override
             public Object next(){
                 return list.get(index).getPrefix();
             }
-            
+
             @Override
             public void remove() {
                 throw new UnsupportedOperationException();
             }
-            
+
             private boolean move(){
                 boolean found = false;
                 do{
@@ -184,8 +184,8 @@ public class NamespaceContextEx implements org.jvnet.staxex.NamespaceContextEx {
             }
         };
     }
-    
-    
+
+
     static class BindingImpl implements org.jvnet.staxex.NamespaceContextEx.Binding{
         private String prefix="";
         private String uri="";
@@ -193,17 +193,17 @@ public class NamespaceContextEx implements org.jvnet.staxex.NamespaceContextEx {
             this.prefix = prefix;
             this.uri = uri;
         }
-        
+
         @Override
         public String getPrefix() {
             return prefix;
         }
-        
+
         @Override
         public String getNamespaceURI() {
             return uri;
         }
-        
+
     }
-    
+
 }

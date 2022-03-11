@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -22,7 +22,7 @@ import javax.xml.namespace.QName;
  * @author K.Venugopal@sun.com
  */
 public class KeyStore extends PolicyAssertion implements com.sun.xml.ws.security.policy.KeyStore{
-    
+
     private static QName loc = new QName("location");
     private static QName type = new QName("type");
     private static QName passwd = new QName("storepass");
@@ -30,13 +30,13 @@ public class KeyStore extends PolicyAssertion implements com.sun.xml.ws.security
     private static QName keypass = new QName("keypass");
     private static QName aliasSelector = new QName("aliasSelector");
     private static QName callbackHandler = new QName("callbackHandler");
-    
+
     private char [] password = null;
     private static QName keyStoreLoginModuleConfigName = new QName("keystoreloginmoduleconfig");
     /** Creates a new instance of KeyStore */
     public KeyStore() {
     }
-    
+
     public KeyStore(AssertionData name,Collection<PolicyAssertion> nestedAssertions, AssertionSet nestedAlternative) {
         super(name,nestedAssertions,nestedAlternative);
     }
@@ -44,12 +44,12 @@ public class KeyStore extends PolicyAssertion implements com.sun.xml.ws.security
     public String getLocation() {
         return this.getAttributeValue(loc);
     }
-    
+
     @Override
     public String getType() {
         return this.getAttributeValue(type);
     }
-    
+
     @Override
     public char[] getPassword() {
         if(password == null){
@@ -60,17 +60,17 @@ public class KeyStore extends PolicyAssertion implements com.sun.xml.ws.security
         }
         return password;
     }
-    
+
     @Override
     public String getAlias() {
         return this.getAttributeValue(alias);
-    }    
-    
+    }
+
     @Override
     public String getKeyPassword() {
         return this.getAttributeValue(keypass);
     }
-    
+
     @Override
     public String getAliasSelectorClassName() {
         return this.getAttributeValue(aliasSelector);

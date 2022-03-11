@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -29,7 +29,7 @@ public class PolicyAlternativeHolder {
     protected static final Logger log =
             Logger.getLogger(
             LogDomainConstants.WSIT_PVD_DOMAIN,
-            LogDomainConstants.WSIT_PVD_DOMAIN_BUNDLE);    
+            LogDomainConstants.WSIT_PVD_DOMAIN_BUNDLE);
     private HashMap<WSDLBoundOperation, SecurityPolicyHolder> outMessagePolicyMap = null;
     private HashMap<WSDLBoundOperation, SecurityPolicyHolder> inMessagePolicyMap = null;
     private HashMap<String, SecurityPolicyHolder> outProtocolPM = null;

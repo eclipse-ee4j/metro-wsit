@@ -17,7 +17,7 @@ import jakarta.xml.bind.JAXBElement;
  * @author Abhijit Das
  */
 public class JAXBStructure implements javax.xml.crypto.XMLStructure {
-    
+
     private final JAXBElement jbElement;
     /** Creates a new instance of JAXBStructure */
     public JAXBStructure(JAXBElement jbElement) {
@@ -25,7 +25,7 @@ public class JAXBStructure implements javax.xml.crypto.XMLStructure {
             throw new NullPointerException("JAXBElement cannot be null");
         this.jbElement = jbElement;
     }
-    
+
     /**
      * Returns the JAXBElement contained in this <code>JAXBStructure</code>.
      *
@@ -45,5 +45,5 @@ public class JAXBStructure implements javax.xml.crypto.XMLStructure {
             return false;
         }
     }
-    
+
 }

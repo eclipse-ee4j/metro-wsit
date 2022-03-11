@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -22,7 +22,7 @@ package com.sun.xml.wss.saml;
  * name within an attribute namespace. The element is used in an attribute query
  * to request that attribute values within a specific namespace be returned.
  *
- * <p>The following schema fragment specifies the expected content contained within SAML 
+ * <p>The following schema fragment specifies the expected content contained within SAML
  * AttributeDesignator element.
  *
  * <pre>
@@ -35,8 +35,8 @@ package com.sun.xml.wss.saml;
  *   &lt;/complexContent&gt;
  * &lt;/complexType&gt;
  * </pre>
- * 
+ *
  */
 public interface AttributeDesignator {
-    
+
 }

@@ -51,10 +51,10 @@ public class MetadataServerPipe extends AbstractFilterTubeImpl {
 
     private final WSDLRetriever wsdlRetriever;
     private final SOAPVersion soapVersion;
-    
+
     private static final Logger logger =
         Logger.getLogger(MetadataServerPipe.class.getName());
-    
+
     public MetadataServerPipe(WSEndpoint endpoint, Pipe next) {
         super(PipeAdapter.adapt(next));
         wsdlRetriever = new WSDLRetriever(endpoint);
@@ -85,7 +85,7 @@ public class MetadataServerPipe extends AbstractFilterTubeImpl {
         if (request.getMessage()==null || !request.getMessage().hasHeaders()) {
             return super.processRequest(request);
         }
-        
+
         // try w3c version of ws-a first, then member submission version
         final MessageHeaders headers = request.getMessage().getHeaders();
         String action = AddressingUtils.getAction(headers, AddressingVersion.W3C, soapVersion);
@@ -94,7 +94,7 @@ public class MetadataServerPipe extends AbstractFilterTubeImpl {
             action = AddressingUtils.getAction(headers, AddressingVersion.MEMBER, soapVersion);
             adVersion = AddressingVersion.MEMBER;
         }
-        
+
         if (action != null) {
             if (action.equals(MetadataConstants.GET_REQUEST)) {
                 final String toAddress = AddressingUtils.getTo(headers, adVersion, soapVersion);
@@ -116,7 +116,7 @@ public class MetadataServerPipe extends AbstractFilterTubeImpl {
      */
     private Packet processGetRequest(final Packet request,
         final String address, final AddressingVersion adVersion) {
-        
+
         try {
             final MutableXMLStreamBuffer buffer = new MutableXMLStreamBuffer();
             final XMLStreamWriter writer = buffer.createFromXMLStreamWriter();
@@ -156,7 +156,7 @@ public class MetadataServerPipe extends AbstractFilterTubeImpl {
         writer.writeStartElement(soapPrefix, "Body", soapVersion.nsUri);
         writer.writeStartElement(MetadataConstants.MEX_PREFIX, "Metadata", MetadataConstants.MEX_NAMESPACE);
     }
-    
+
     private void writeEndEnvelope(final XMLStreamWriter writer)
         throws XMLStreamException {
         writer.writeEndElement();

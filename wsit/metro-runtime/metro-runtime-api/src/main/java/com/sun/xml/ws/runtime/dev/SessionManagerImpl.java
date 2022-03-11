@@ -58,7 +58,7 @@ import org.glassfish.ha.store.api.BackingStoreFactory;
  * @author Mike Grogan
  */
 public class SessionManagerImpl extends SessionManager {
-    
+
     /**
      * Map of session id --> session
      */
@@ -76,9 +76,9 @@ public class SessionManagerImpl extends SessionManager {
             = new HashMap<>();
 
     private final BackingStore<StickyKey, HASecurityContextTokenInfo> sctBs;
-    
 
-    
+
+
     /** Creates a new instance of SessionManagerImpl */
     public SessionManagerImpl(WSEndpoint endpoint, boolean isSC) {
         if (isSC){
@@ -92,13 +92,13 @@ public class SessionManagerImpl extends SessionManager {
             sctBs = null;
         }
     }
-    
+
     /** Creates a new instance of SessionManagerImpl */
     public SessionManagerImpl(WSEndpoint endpoint, boolean isSC, Properties config) {
         this(endpoint,isSC);
         SessionManagerImpl.setConfig(config);
     }
-    
+
     /**
      * Returns an existing session identified by the Key else null
      *
@@ -153,8 +153,8 @@ public class SessionManagerImpl extends SessionManager {
      * @param key The Session key to be used.
      * @return The new Session.. <code>null</code> if the given
      * class cannot be instantiated.
-     * 
-     */ 
+     *
+     */
     @Override
     public  Session createSession(String key, Class clasz) {
         //Issue 17328 - clear expired sessions after timeout
@@ -170,7 +170,7 @@ public class SessionManagerImpl extends SessionManager {
             Calendar expCal = Calendar.getInstance(Locale.getDefault());
             expCal.setTimeInMillis(expDate.getTime());
             if(Calendar.getInstance(Locale.getDefault()).compareTo(expCal)> (timeOut * 60 * 1000)) {
-               terminateSession(session.getSessionKey()); 
+               terminateSession(session.getSessionKey());
             }
         }
         Session sess;
@@ -182,27 +182,27 @@ public class SessionManagerImpl extends SessionManager {
 
         sessionMap.put(key, sess);
         return sess;
-        
+
     }
-    
-    
+
+
     /**
      * Creates a Session with the given key, using the specified Object
      * as a holder for user-defined data.
      *
      * @param key The Session key to be used.
      * @param obj The object to use as a holder for user data in the session.
-     * @return The new Session. 
-     * 
-     */ 
+     * @return The new Session.
+     *
+     */
     @Override
     public Session createSession(String key, Object obj) {
         Session session = new Session(this, key, Collections.synchronizedMap(new HashMap<String, String>()));
         sessionMap.put(key, session);
-        
+
         return session;
     }
-    
+
     @Override
     public Session createSession(String key, SecurityContextTokenInfo sctInfo) {
         Session session = new Session(this, key, Collections.synchronizedMap(new HashMap<String, String>()));
@@ -220,24 +220,24 @@ public class SessionManagerImpl extends SessionManager {
                 HaContext.updateHaInfo(new HaInfo(stickyKey.getHashKey(), replicaId, false));
             }
         }
-        
+
         return session;
     }
-    
+
      /**
-     * Creates a Session with the given key, using an instance of 
+     * Creates a Session with the given key, using an instance of
      * synchronized {@code java.util.Map<String, String>} a sa holder for user-defined data.
      *
      * @param key The Session key to be used.
      * @return The new Session.
-     * 
-     */ 
+     *
+     */
     @Override
     public Session createSession(String key) {
        return createSession(key, Collections.synchronizedMap(new HashMap<String, String>()));
     }
-    
-     
+
+
     /**
      * Does nothing in this implementation.
      *
@@ -253,31 +253,31 @@ public class SessionManagerImpl extends SessionManager {
      * @param key The key of the security context to be looked
      * @return IssuedTokenContext for security context key
      */
-    
+
     @Override
     public IssuedTokenContext getSecurityContext(String key, boolean checkExpiry){
-        IssuedTokenContext ctx = issuedTokenContextMap.get(key);        
+        IssuedTokenContext ctx = issuedTokenContextMap.get(key);
         if(ctx == null){
             // recovery of security context in case of crash
             boolean recovered = false;
-            Session session = getSession(key);            
+            Session session = getSession(key);
             if (session != null) {
                 // recreate context info based on data stored in the session
                 SecurityContextTokenInfo sctInfo = session.getSecurityInfo();
                 if (sctInfo != null) {
                     ctx = sctInfo.getIssuedTokenContext();
-                    // Add it to the Session Manager's local cache, after possible crash                
-                    addSecurityContext(key, ctx);               
+                    // Add it to the Session Manager's local cache, after possible crash
+                    addSecurityContext(key, ctx);
                     recovered = true;
                 }
             }
-            
-            if (!recovered){                
+
+            if (!recovered){
                 throw new WebServiceException("Could not locate SecureConversation session for Id:" + key);
             }
         }else if (ctx.getSecurityContextTokenInfo() == null && ctx.getSecurityToken() != null){
             String sctInfoKey = ((SecurityContextToken)ctx.getSecurityToken()).getIdentifier().toString()+"_"+
-                            ((SecurityContextToken)ctx.getSecurityToken()).getInstance();                    
+                            ((SecurityContextToken)ctx.getSecurityToken()).getInstance();
             //ctx.setSecurityContextTokenInfo(securityContextTokenInfoMap.get(((SecurityContextToken)ctx.getSecurityToken()).getInstance()));
             ctx.setSecurityContextTokenInfo(securityContextTokenInfoMap.get(sctInfoKey));
         }
@@ -291,16 +291,16 @@ public class SessionManagerImpl extends SessionManager {
             }
             long beforeTime = c.getTimeInMillis();
             long currentTime = beforeTime - offset;
-            
+
             c.setTimeInMillis(currentTime);
-            
+
             Date currentTimeInDateFormat = c.getTime();
             if(!(currentTimeInDateFormat.after(ctx.getCreationTime())
                 && currentTimeInDateFormat.before(ctx.getExpirationTime()))){
                 throw new WSSecureConversationRuntimeException(new QName("RenewNeeded"), "The provided context token has expired");
-            }            
+            }
         }
-        
+
         return ctx;
     }
 
@@ -315,12 +315,12 @@ public class SessionManagerImpl extends SessionManager {
         issuedTokenContextMap.put(key, itctx);
         SecurityContextTokenInfo sctInfo = itctx.getSecurityContextTokenInfo();
         if(sctInfo.getInstance() != null){
-            String sctInfoKey = sctInfo.getIdentifier().toString()+"_"+ sctInfo.getInstance();                    
+            String sctInfoKey = sctInfo.getIdentifier().toString()+"_"+ sctInfo.getInstance();
             //securityContextTokenInfoMap.put(((SecurityContextToken)itctx.getSecurityToken()).getInstance(), itctx.getSecurityContextTokenInfo());
             securityContextTokenInfoMap.put(sctInfoKey, sctInfo);
         }
     }
-    
+
     static class HASecurityContextTokenInfo implements SecurityContextTokenInfo{
 
         private static final long serialVersionUID = 1877856944264153552L;
@@ -333,9 +333,9 @@ public class SessionManagerImpl extends SessionManager {
         Date expirationTime = null;
 
         public HASecurityContextTokenInfo() {
-            
+
         }
-        
+
         public HASecurityContextTokenInfo(SecurityContextTokenInfo sctInfo) {
             identifier = sctInfo.getIdentifier();
             extId = sctInfo.getExternalId();
@@ -349,12 +349,12 @@ public class SessionManagerImpl extends SessionManager {
             }
         }
 
-    
+
         @Override
         public String getIdentifier() {
             return identifier;
         }
-    
+
         @Override
         public void setIdentifier(final String identifier) {
             this.identifier = identifier;
@@ -372,7 +372,7 @@ public class SessionManagerImpl extends SessionManager {
         public void setExternalId(final String externalId) {
             this.extId = externalId;
         }
-    
+
         @Override
         public String getInstance() {
             return instance;
@@ -405,7 +405,7 @@ public class SessionManagerImpl extends SessionManager {
                 secretMap.put(instance, newKey);
             }
         }
-    
+
         @Override
         public Date getCreationTime() {
             return new Date(creationTime.getTime());
@@ -430,7 +430,7 @@ public class SessionManagerImpl extends SessionManager {
         public Set getInstanceKeys() {
           return secretMap.keySet();
         }
-    
+
         @Override
         public IssuedTokenContext getIssuedTokenContext() {
 
@@ -439,7 +439,7 @@ public class SessionManagerImpl extends SessionManager {
             itc.setExpirationTime(getExpirationTime());
             itc.setProofKey(getSecret());
             itc.setSecurityContextTokenInfo(this);
-        
+
             return itc;
         }
 
@@ -447,7 +447,7 @@ public class SessionManagerImpl extends SessionManager {
         public IssuedTokenContext getIssuedTokenContext(SecurityTokenReference reference) {
             return null;
         }
-        
+
         @Override
         public String toString(){
             String str = "Identifier=" + identifier + " : Secret=" + Arrays.toString(secret) +
@@ -456,7 +456,7 @@ public class SessionManagerImpl extends SessionManager {
             return str;
         }
     }
-    
+
     static class HAIssuedTokenContext implements IssuedTokenContext {
         X509Certificate x509Certificate = null;
         Token securityToken = null;
@@ -763,7 +763,7 @@ public class SessionManagerImpl extends SessionManager {
         @Override
         public String getSignWith(){
             return signWith;
-        }    
+        }
 
         @Override
         public void setEncryptWith(String encryptWithAlgo){

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -53,7 +53,7 @@ public abstract class SecurityHeaderBlockImpl extends SOAPElementExtension imple
 
     private static final Name idAttributeName;
     private static SOAPFactory soapFactory;
-    
+
     protected SOAPElement delegateElement;
 
     private boolean bsp = false;
@@ -496,7 +496,7 @@ public abstract class SecurityHeaderBlockImpl extends SOAPElementExtension imple
         return soapFactory;
     }
 
-    
+
     // DOM L3 methods from org.w3c.dom.Node
     @Override
     public String getBaseURI() {
@@ -564,17 +564,17 @@ public abstract class SecurityHeaderBlockImpl extends SOAPElementExtension imple
     }
 
     // DOM L3 methods from org.w3c.dom.Element
-                                                                                                                                     
+
     @Override
     public void setIdAttribute(String name, boolean isId) throws DOMException {
         delegateElement.setIdAttribute(name, isId);
     }
-                                                                                                                                     
+
     @Override
     public void setIdAttributeNode(Attr idAttr, boolean isId) throws DOMException {
         delegateElement.setIdAttributeNode(idAttr, isId);
     }
-                                                                                                                                     
+
     @Override
     public void setIdAttributeNS(String namespaceURI, String localName, boolean isId) throws DOMException {
         delegateElement.setIdAttributeNS(namespaceURI, localName, isId);

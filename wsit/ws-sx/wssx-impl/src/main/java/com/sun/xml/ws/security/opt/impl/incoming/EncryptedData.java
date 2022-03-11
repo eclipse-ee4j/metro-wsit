@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -49,17 +49,17 @@ import com.sun.xml.wss.logging.LogDomainConstants;
 public class EncryptedData implements SecurityHeaderElement, SecurityElementWriter {
     private static final Logger logger = Logger.getLogger(LogDomainConstants.IMPL_OPT_CRYPTO_DOMAIN,
             LogDomainConstants.IMPL_OPT_CRYPTO_DOMAIN_BUNDLE);
-    
+
     private static final String ENCRYPTION_METHOD = "EncryptionMethod".intern();
     private static final String CIPHER_DATA = "CipherData".intern();
     private static final String KEY_INFO = "KeyInfo".intern();
-    
+
     private static final int KEYINFO_ELEMENT = 1;
     private static final int ENCRYPTIONMETHOD_ELEMENT = 2;
     private static final int CIPHER_DATA_ELEMENT = 5;
-    
+
     private JAXBFilterProcessingContext pc = null;
-    
+
     private String id = "";
     private String namespaceURI = "";
     private String localName = "";
@@ -75,27 +75,27 @@ public class EncryptedData implements SecurityHeaderElement, SecurityElementWrit
     private String mimeType = null;
     private WSSPolicy inferredKB = null;
     HashMap<String,String> parentNS = null;
-    
+
     /** Creates a new instance of EncryptedData */
     public EncryptedData(XMLStreamReader reader,JAXBFilterProcessingContext pc, HashMap<String,String> parentNS) throws XMLStreamException, XWSSecurityException{
         this.pc = pc;
         this.parentNS = parentNS;
         process(reader);
     }
-    
+
     public EncryptedData(XMLStreamReader reader, Key dataEncKey,JAXBFilterProcessingContext pc, HashMap<String,String> parentNS) throws XMLStreamException, XWSSecurityException{
         this.dataEncKey = dataEncKey;
         this.pc = pc;
         this.parentNS = parentNS;
         process(reader);
     }
-    
+
     private void process(XMLStreamReader reader) throws XMLStreamException, XWSSecurityException{
         id = reader.getAttributeValue(null,"Id");
         namespaceURI = reader.getNamespaceURI();
         localName = reader.getLocalName();
         mimeType = reader.getAttributeValue(null, "MimeType");
-        
+
         if(StreamUtil.moveToNextElement(reader)){
             int refElement = getEventType(reader);
             while(reader.getEventType() != reader.END_DOCUMENT){
@@ -110,7 +110,7 @@ public class EncryptedData implements SecurityHeaderElement, SecurityElementWrit
                             logger.log(Level.SEVERE, LogStringsMessages.WSS_1925_EMPTY_ENCMETHOD_ED());
                             throw new XWSSecurityException(LogStringsMessages.WSS_1925_EMPTY_ENCMETHOD_ED());
                         }
-                        
+
                         if(pc.isBSP() && !(encryptionMethod.equals("http://www.w3.org/2001/04/xmlenc#tripledes-cbc") ||
                                 encryptionMethod.equals("http://www.w3.org/2001/04/xmlenc#aes128-cbc")||
                                 encryptionMethod.equals( "http://www.w3.org/2001/04/xmlenc#aes256-cbc"))){
@@ -144,7 +144,7 @@ public class EncryptedData implements SecurityHeaderElement, SecurityElementWrit
                     }
                     default :{
                         //    throw new XWSSecurityException("Element name "+reader.getName()+" is not recognized under EncryptedData");
-                        
+
                     }
                 }
                 if(shouldBreak(reader)){
@@ -153,11 +153,11 @@ public class EncryptedData implements SecurityHeaderElement, SecurityElementWrit
                 if(reader.getEventType() == XMLStreamReader.START_ELEMENT){
                     if(getEventType(reader) == -1)
                         reader.next();
-                    
+
                 }else{
                     reader.next();
                 }
-                
+
                 refElement = getEventType(reader);
             }
         }
@@ -165,7 +165,7 @@ public class EncryptedData implements SecurityHeaderElement, SecurityElementWrit
             reader.next();
         }
     }
-    
+
     public boolean shouldBreak(XMLStreamReader reader)throws XMLStreamException{
         if(StreamUtil._break(reader, "EncryptedData", MessageConstants.XENC_NS)){
             return true;
@@ -175,15 +175,15 @@ public class EncryptedData implements SecurityHeaderElement, SecurityElementWrit
         }
         return false;
     }
-    
+
     public String getEncryptionAlgorithm(){
         return encryptionMethod;
     }
-    
+
     public Key getKey(){
         return dataEncKey;
     }
-    
+
     public InputStream getCipherInputStream() throws XWSSecurityException{
         if(dataEncKey == null){
             logger.log(Level.SEVERE, LogStringsMessages.WSS_1926_ED_KEY_NOTSET());
@@ -196,15 +196,15 @@ public class EncryptedData implements SecurityHeaderElement, SecurityElementWrit
             logger.log(Level.SEVERE, LogStringsMessages.WSS_1927_ERROR_DECRYPT_ED("EncryptedData"));
             throw SOAPUtil.newSOAPFaultException(MessageConstants.WSSE_FAILED_CHECK,LogStringsMessages.WSS_1927_ERROR_DECRYPT_ED("EncryptedData"),ex);
         }
-        
+
         return cin;
     }
-    
+
     public InputStream getCipherInputStream(Key key) throws XWSSecurityException{
         dataEncKey = key;
         return getCipherInputStream();
     }
-    
+
     public XMLStreamReader getDecryptedData() throws XMLStreamException, XWSSecurityException{
         if(cin == null){
             cin = getCipherInputStream();
@@ -231,26 +231,26 @@ public class EncryptedData implements SecurityHeaderElement, SecurityElementWrit
         } catch(IOException ioe){
             throw new XWSSecurityException(ioe);
         }
-        
+
         DecryptedInputStream decryptedStream = new DecryptedInputStream(ccin, parentNS);
         XMLInputFactory xif = XMLInputFactory.newInstance();
         XMLStreamReader reader = xif.createXMLStreamReader(decryptedStream);
-        
+
         return new FilteredXMLStreamReader(reader);
     }
-    
+
     public XMLStreamReader getDecryptedData(Key key) throws XMLStreamException, XWSSecurityException{
         if(cin == null){
             cin = getCipherInputStream(key);
         }
         return getDecryptedData();
     }
-    
+
     public byte[] getDecryptedMimeData(Key key) throws XWSSecurityException{
         dataEncKey = key;
         return getDecryptedMimeData();
     }
-    
+
     public byte[] getDecryptedMimeData() throws XWSSecurityException{
         if(decryptedMimeData == null){
             if(dataEncKey == null){
@@ -267,87 +267,87 @@ public class EncryptedData implements SecurityHeaderElement, SecurityElementWrit
         }
         return decryptedMimeData;
     }
-    
+
     @Override
     public String getId() {
         return id;
     }
-    
+
     @Override
     public void setId(final String id) {
         throw new UnsupportedOperationException();
     }
-    
+
     @Override
     public String getNamespaceURI() {
         return namespaceURI;
     }
-    
+
     @Override
     public String getLocalPart() {
         return localName;
     }
-    
+
     @Override
     public XMLStreamReader readHeader() {
         throw new UnsupportedOperationException();
     }
-    
+
     @Override
     public void writeTo(OutputStream os) {
         throw new UnsupportedOperationException();
     }
-    
+
     @Override
     public void writeTo(XMLStreamWriter streamWriter) {
         throw new UnsupportedOperationException();
     }
-    
+
     private int getEventType(XMLStreamReader reader){
         if(reader.getEventType() == XMLStreamReader.START_ELEMENT){
             if(reader.getLocalName() == ENCRYPTION_METHOD){
                 return ENCRYPTIONMETHOD_ELEMENT;
             }
-            
+
             if(reader.getLocalName() == KEY_INFO){
                 return KEYINFO_ELEMENT;
             }
-            
+
             if(reader.getLocalName() == CIPHER_DATA){
                 return CIPHER_DATA_ELEMENT;
             }
         }
         return -1;
     }
-    
+
     @Override
     public boolean refersToSecHdrWithId(final String id) {
         throw new UnsupportedOperationException();
     }
-    
+
     @Override
     public void writeTo(javax.xml.stream.XMLStreamWriter streamWriter, HashMap props) {
         throw new UnsupportedOperationException();
     }
-    
+
     public WSSPolicy getInferredKB(){
         return inferredKB;
     }
-    
+
     public boolean hasCipherReference(){
         return hasCipherReference;
     }
-    
+
     public String getAttachmentContentId(){
         return attachmentContentId;
     }
-    
+
     public String getAttachmentContentType(){
         return attachmentContentType;
     }
-    
+
     public String getAttachmentMimeType(){
         return mimeType;
     }
-    
+
 }

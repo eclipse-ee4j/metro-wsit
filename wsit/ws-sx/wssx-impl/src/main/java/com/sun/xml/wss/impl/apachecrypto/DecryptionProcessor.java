@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -86,18 +86,18 @@ import org.w3c.dom.NodeList;
 public class DecryptionProcessor {
     protected static final Logger log =  Logger.getLogger( LogDomainConstants.IMPL_CRYPTO_DOMAIN,
             LogDomainConstants.IMPL_CRYPTO_DOMAIN_BUNDLE);
-    
-    
-    
+
+
+
     /** Creates a new instance of DecryptionProcessor */
     public DecryptionProcessor() {
     }
-    
+
     public static void decrypt(FilterProcessingContext context)throws XWSSecurityException{
         SecurableSoapMessage secureMessage = context.getSecurableSoapMessage();
         SecurityHeader wsseSecurity = secureMessage.findSecurityHeader();
         SOAPElement headerElement =  wsseSecurity.getCurrentHeaderElement();
-        
+
         String localName = headerElement.getLocalName();
         if (log.isLoggable(Level.FINEST)) {
             log.log(Level.FINEST, "EncryptionProcessor:decrypt : LocalName is "+localName);
@@ -117,7 +117,7 @@ public class DecryptionProcessor {
             inferredPolicy = new EncryptionPolicy();
             context.getInferredSecurityPolicy().append(inferredPolicy);
         }*/
-        
+
         SecretKey key =null;
         if(MessageConstants.ENCRYPTED_DATA_LNAME.equals(localName)){
             processEncryptedData(headerElement,key,context);
@@ -140,20 +140,20 @@ public class DecryptionProcessor {
             context.isPrimaryPolicyViolation(true);
             return;
         }
-        
+
         if(context.getMode() == FilterProcessingContext.ADHOC){
             new EncryptionPolicyVerifier(context).verifyPolicy(context.getSecurityPolicy(),context.getInferredPolicy());
         }
-        
+
     }
-    
+
     public static void processEncryptedKey(FilterProcessingContext context,
             SOAPElement xencEncryptedKey)throws XWSSecurityException{
         boolean isBSP = false;
         //EncryptionPolicy.FeatureBinding featureBinding  = null;
         try {
             xencEncryptedKey.normalize();
-            
+
             //For storing EKSHA1 in Subject
             Element cipherData = (Element)xencEncryptedKey.getChildElements(new QName(MessageConstants.XENC_NS, "CipherData", MessageConstants.XENC_PREFIX)).next();
             String cipherValue = cipherData.getElementsByTagNameNS(MessageConstants.XENC_NS, "CipherValue").item(0).getTextContent();
@@ -161,27 +161,27 @@ public class DecryptionProcessor {
             byte[] ekSha1 = MessageDigest.getInstance("SHA-1").digest(decodedCipher);
             String encEkSha1 = Base64.encode(ekSha1);
             context.setExtraneousProperty(MessageConstants.EK_SHA1_VALUE, encEkSha1);
-            
+
             EncryptedKeyHeaderBlock encKeyHB = new EncryptedKeyHeaderBlock(xencEncryptedKey);
             String encryptionAlgorithm = encKeyHB.getEncryptionMethodURI();
             SecurityPolicy securityPolicy = context.getSecurityPolicy();
-            
+
             if( securityPolicy != null && PolicyTypeUtil.encryptionPolicy(securityPolicy)) {
                 isBSP = ((EncryptionPolicy)securityPolicy).isBSP();
                 //featureBinding = (EncryptionPolicy.FeatureBinding )((EncryptionPolicy)securityPolicy).getFeatureBinding();
             }
-            
+
             //TODO: not sure what is happening here, was this introduced by manveen
             EncryptionPolicy infPolicy  = null;
-            
+
             if(context.getMode() != FilterProcessingContext.DEFAULT){
                 infPolicy = (EncryptionPolicy)context.getInferredPolicy();
-                
+
             }
 //            if(infPolicy != null){
 //                featureBinding = (EncryptionPolicy.FeatureBinding )infPolicy.getFeatureBinding();
 //            }
-            
+
             if (isBSP) {
                 if (! (MessageConstants.RSA_15_KEY_TRANSPORT.equals(encryptionAlgorithm)
                 || MessageConstants.RSA_OAEP_KEY_TRANSPORT.equals(encryptionAlgorithm)
@@ -193,14 +193,14 @@ public class DecryptionProcessor {
                             "MUST be one of #rsa-1_5,#rsa-oaep-mgf1p,#kw-tripledes,#kw-aes256,#kw-aes128");
                 }
             }
-            
+
             XMLCipher xmlCipher = XMLCipher.getInstance(encryptionAlgorithm);
             EncryptedKey encryptedKey = xmlCipher.loadEncryptedKey(xencEncryptedKey);
-            
+
             KeyInfoHeaderBlock keyInfo =  new KeyInfoHeaderBlock(encryptedKey.getKeyInfo());
             SOAPElement refListSoapElement = null;
             String commonDataEncAlgo = null;
-            
+
             refListSoapElement =   (SOAPElement) xencEncryptedKey.getChildElements(
                     SOAPFactory.newInstance().createName(MessageConstants.XENC_REFERENCE_LIST_LNAME,
                     MessageConstants.XENC_PREFIX, MessageConstants.XENC_NS)).next();
@@ -214,12 +214,12 @@ public class DecryptionProcessor {
                     throw new XWSSecurityException("Violation of BSP5620 for DataEncryption Algo permitted values");
                 }
             }
-            
+
             Key key =  KeyResolver.getKey(keyInfo, false, context);
             xmlCipher.init(XMLCipher.UNWRAP_MODE, key);
             if(infPolicy != null){
                 WSSPolicy keyBinding = (WSSPolicy)infPolicy.getKeyBinding();
-                
+
                 if(PolicyTypeUtil.x509CertificateBinding(keyBinding)){
                     ((AuthenticationTokenPolicy.X509CertificateBinding)keyBinding).setKeyAlgorithm(encryptionAlgorithm);
                 }else if(PolicyTypeUtil.samlTokenPolicy(keyBinding)){
@@ -228,7 +228,7 @@ public class DecryptionProcessor {
             }
             XMLCipher dataCipher = null;
             SecretKey symmetricKey;
-            
+
             try {
                 symmetricKey = (SecretKey) xmlCipher.decryptKey(encryptedKey,commonDataEncAlgo);
                 dataCipher =  initXMLCipher(symmetricKey, commonDataEncAlgo);
@@ -244,7 +244,7 @@ public class DecryptionProcessor {
             context.setExtraneousProperty(MessageConstants.SECRET_KEY_VALUE, symmetricKey);
             if(refListSoapElement != null)
                 decryptReferenceList(refListSoapElement,symmetricKey,dataCipher,context);
-            
+
         } catch (WssSoapFaultException wssSfe) {
             log.log(Level.SEVERE, "WSS1229.Error.Processing.EncrpytedKey");
             throw wssSfe;
@@ -253,7 +253,7 @@ public class DecryptionProcessor {
             throw new XWSSecurityException(e);
         }
     }
-    
+
     @SuppressWarnings("unchecked")
     private static void decryptReferenceList(SOAPElement refListSoapElement,
             SecretKey key,XMLCipher dataCipher, FilterProcessingContext context)
@@ -261,16 +261,16 @@ public class DecryptionProcessor {
 
         SecurableSoapMessage secureMessage = context.getSecurableSoapMessage();
         ReferenceListHeaderBlock refList =  new ReferenceListHeaderBlock(refListSoapElement);
-        
+
         NodeList dataRefElements = refList.getDataRefElements();
         int numberOfEncryptedElems = refList.size();
         EncryptionPolicy policy = null;
-        
+
         ArrayList targets = null;
         //Set references = new HashSet();
-        
+
         boolean partialReqsMet = false;
-        
+
         ArrayList optionalTargets =null;
         ArrayList requiredTargets =null;
         ArrayList attachmentTargets = null;
@@ -282,7 +282,7 @@ public class DecryptionProcessor {
             targets = ((EncryptionPolicy.FeatureBinding)policy.getFeatureBinding()).getTargetBindings();
             optionalTargets = new ArrayList();
             requiredTargets = new ArrayList();
-            
+
             int i=0;
             while(i < targets.size()){
                 EncryptionTarget et = (EncryptionTarget)targets.get(i++);
@@ -310,7 +310,7 @@ public class DecryptionProcessor {
             messagePolicy.append(policy);
             //policy is passed to processencryptedata method.
         }
-        
+
         for (int i = 0; i < numberOfEncryptedElems; i ++) {
             String refURI = ((SOAPElement) dataRefElements.item(i)).getAttribute("URI");
             SOAPElement encDataElement = null;
@@ -330,7 +330,7 @@ public class DecryptionProcessor {
             }else{
                 ed =processEncryptedData(encDataElement, key,dataCipher, context,requiredTargets,optionalTargets,policy,false);
             }
-            
+
             if(context.getMode() == FilterProcessingContext.ADHOC && verifyReq){
                 if(ed.isAttachmentData() && skipAttachments){
                     attachmentTargets.add(ed);
@@ -366,7 +366,7 @@ public class DecryptionProcessor {
                     "than present in the message");
         }
     }
-    
+
     @SuppressWarnings("unchecked")
     public static void processEncryptedData(SOAPElement encDataElement,SecretKey key,
             FilterProcessingContext context) throws XWSSecurityException {
@@ -410,12 +410,12 @@ public class DecryptionProcessor {
             String id = encDataElement.getAttribute("Id");
             EncryptedElement ed = (EncryptedElement)processEncryptedData(encDataElement,
                     key,null,context,requiredTargets,optionalTargets,policy,true);
-            
+
             if(requiredTargets.size() > 1){
                 log.log(Level.SEVERE, "WSS1240.failed.receiverReq.moretargets");
                 throw new XWSSecurityException("Receiver requirement has more targets specified");
             }
-            
+
             SecurableSoapMessage secureMsg = context.getSecurableSoapMessage();
             if(verifyReq && !verifyTargets(secureMsg,requiredTargets,ed,true)){
                 if(optionalTargets.size() == 0){
@@ -431,32 +431,32 @@ public class DecryptionProcessor {
                 }
             }
         } else if (context.getMode() == FilterProcessingContext.DEFAULT ) {
-            
+
             EncryptedElement ed = (EncryptedElement)processEncryptedData(encDataElement,
                     key,null,context,requiredTargets,optionalTargets,policy,true);
-            
+
         } else if (context.getMode() == FilterProcessingContext.WSDL_POLICY) {
             context.getInferredSecurityPolicy().append(new EncryptionPolicy());
             EncryptedElement ed = (EncryptedElement)processEncryptedData(encDataElement,
                     key,null,context,requiredTargets,optionalTargets,policy,true);
-            
+
         }
     }
-    
+
     @SuppressWarnings("unchecked")
     public static EncryptedData processEncryptedData(SOAPElement encDataElement,SecretKey key,
             XMLCipher dataCipher,FilterProcessingContext context,ArrayList requiredTargets,
             ArrayList optionalTargets,EncryptionPolicy encryptionPolicy,boolean updateSH) throws XWSSecurityException {
-        
+
         EncryptedDataHeaderBlock xencEncryptedData = new EncryptedDataHeaderBlock(encDataElement);
         SecurableSoapMessage secureMessage = context.getSecurableSoapMessage();
         KeyInfoHeaderBlock keyInfo = xencEncryptedData.getKeyInfo();
         String algorithm = null;
         algorithm = xencEncryptedData.getEncryptionMethodURI();
-        
+
         EncryptionPolicy inferredPolicy = (EncryptionPolicy)context.getInferredPolicy();
         EncryptionPolicy.FeatureBinding fb = null;
-        
+
         //used for WSDL_POLICY mode
         EncryptionPolicy inferredWsdlEncPolicy = null;
         if(context.getMode() == FilterProcessingContext.WSDL_POLICY){
@@ -468,11 +468,11 @@ public class DecryptionProcessor {
                 throw new XWSSecurityException(e);
             }
         }
-        
+
         if(inferredPolicy != null){
             fb = (EncryptionPolicy.FeatureBinding)inferredPolicy.getFeatureBinding();
             fb.setDataEncryptionAlgorithm(algorithm);
-            
+
         }
         SecretKey symmetricKey = null;
         if (keyInfo == null ) {
@@ -486,23 +486,23 @@ public class DecryptionProcessor {
             symmetricKey = (SecretKey) KeyResolver.getKey(keyInfo, false, context);
             context.setDataEncryptionAlgorithm(null);
         }
-        
+
         if (symmetricKey == null) {
             log.log(Level.SEVERE, "WSS1202.couldnot.locate.symmetrickey");
             throw new XWSSecurityException("Couldn't locate symmetricKey for decryption");
         }
-        
+
         boolean isAttachment = false;
         String type = xencEncryptedData.getType();
         if (type.equals(MessageConstants.ATTACHMENT_CONTENT_ONLY_URI) ||
                 type.equals(MessageConstants.ATTACHMENT_COMPLETE_URI)){
             isAttachment = true;
         }
-        
+
         Node parent = null;
         Node prevSibling = null;
         boolean contentOnly = false;
-        
+
         Element actualEncrypted = null;
         //String processedEncryptedDataId = xencEncryptedData.getId();
         AttachmentPart encryptedAttachment = null;
@@ -511,7 +511,7 @@ public class DecryptionProcessor {
             // decrypt attachment
             String uri = xencEncryptedData.getCipherReference(false, null).getAttribute("URI");
             contentOnly = type.equals(MessageConstants.ATTACHMENT_CONTENT_ONLY_URI);
-            
+
             try {
                 AttachmentPart p = secureMessage.getAttachmentPart(uri);
                 Iterator j = p.getAllMimeHeaders();
@@ -521,7 +521,7 @@ public class DecryptionProcessor {
                 }
                 _attachmentBuffer.setDataHandler(p.getDataHandler());
                 encryptedAttachment = decryptAttachment(secureMessage, xencEncryptedData, symmetricKey);
-                
+
             } catch (IOException | MessagingException | SOAPException ioe) {
                 log.log(Level.SEVERE, "WSS1232.failedto.decrypt.attachment", ioe);
                 throw new XWSSecurityException(ioe);
@@ -544,7 +544,7 @@ public class DecryptionProcessor {
                 }
             }
             decryptElementWithCipher(dataCipher, encDataElement, secureMessage);
-            
+
             SOAPElement currentNode = null;
             if(updateSH && secureMessage.findSecurityHeader().getCurrentHeaderBlockElement() ==
                     encDataElement){
@@ -555,7 +555,7 @@ public class DecryptionProcessor {
                 }
                 secureMessage.findSecurityHeader().setCurrentHeaderElement(currentNode);
             }
-            
+
             if (xencEncryptedData.getType().equals(MessageConstants.XENC_NS+"Content")) {
                 actualEncrypted = (Element)resolveEncryptedNode(parent,prevSibling,true);
                 contentOnly = true;
@@ -566,7 +566,7 @@ public class DecryptionProcessor {
                 }
             }
         }
-        
+
         if(context.getMode() == FilterProcessingContext.POSTHOC){
             //log;
             if(encryptionPolicy == null){
@@ -585,7 +585,7 @@ public class DecryptionProcessor {
                 encTarget.setValue(encryptedAttachment.getContentId());
             }else{
                 String id = actualEncrypted.getAttribute("Id");
-                
+
                 if("".equals(id)){
                     id = actualEncrypted.getAttributeNS(MessageConstants.WSU_NS, "Id");
                 }
@@ -627,7 +627,7 @@ public class DecryptionProcessor {
                 target.setQName(qname);
                 target.setType(EncryptionTarget.TARGET_TYPE_VALUE_QNAME);
             }
-            
+
             target.setDataEncryptionAlgorithm(algorithm);
             target.setContentOnly(contentOnly);
             featureBinding.addTargetBinding(target);
@@ -638,7 +638,7 @@ public class DecryptionProcessor {
         }
         return null;
     }
-    
+
     private static String getDataEncryptionAlgorithm(SOAPElement referenceList, SecurableSoapMessage secureMsg)
     throws XWSSecurityException {
         try{
@@ -646,7 +646,7 @@ public class DecryptionProcessor {
             NodeList dataRefElements = refList.getDataRefElements();
             Element dataRef = (Element)dataRefElements.item(0);
             String refURI = dataRef.getAttribute("URI");
-            
+
             SOAPElement encDataElement = null;
             encDataElement =(SOAPElement) secureMsg.getElementById(refURI.substring(1));
             NodeList nodeList = encDataElement.getElementsByTagNameNS(MessageConstants.XENC_NS,"EncryptionMethod");
@@ -670,12 +670,12 @@ public class DecryptionProcessor {
         }
         return MessageConstants.TRIPLE_DES_BLOCK_ENCRYPTION;
     }
-    
+
     private static AttachmentPart decryptAttachment(SecurableSoapMessage ssm,
             EncryptedDataHeaderBlock edhb, SecretKey symmetricKey)
             throws java.io.IOException,jakarta.xml.soap.SOAPException,
             jakarta.mail.MessagingException, XWSSecurityException {
-        
+
         String uri = edhb.getCipherReference(false, null).getAttribute("URI");
         boolean contentOnly = edhb.getType().equals(
                 MessageConstants.ATTACHMENT_CONTENT_ONLY_URI);
@@ -688,56 +688,56 @@ public class DecryptionProcessor {
                                            "in xenc:EncryptedData corresponding to " +
                                            "an AttachmentPart");
         }*/
-        
+
         if (!dsTransform.getAttribute("Algorithm").equals(
                 MessageConstants.ATTACHMENT_CONTENT_ONLY_TRANSFORM_URI)) {
             log.log(Level.SEVERE, "WSS1234.invalid.transform=");
             throw new XWSSecurityException("Unexpected ds:Transform, " + dsTransform.getAttribute("Algorithm"));
         }
-        
+
         AttachmentPart part = ssm.getAttachmentPart(uri);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         part.getDataHandler().writeTo(baos);
-        
+
         byte[] cipherInput  = baos.toByteArray();
         String tmp = edhb.getEncryptionMethodURI();
-        
+
         // initialize Cipher
         Cipher decryptor = null;
         byte[] cipherOutput = null;
         try {
             decryptor = XMLCipherAdapter.constructCipher(tmp);
-            
+
             //decryptor = Cipher.getInstance("DESede/CBC/ISO10126Padding");
-            
+
             int ivLen = decryptor.getBlockSize();
             byte[] ivBytes = new byte[ivLen];
-            
+
             System.arraycopy(cipherInput, 0, ivBytes, 0, ivLen);
             IvParameterSpec iv = new IvParameterSpec(ivBytes);
-            
+
             decryptor.init(Cipher.DECRYPT_MODE, symmetricKey, iv);
-            
+
             cipherOutput = decryptor.doFinal(cipherInput, ivLen, cipherInput.length-ivLen);
         } catch (Exception e) {
             log.log(Level.SEVERE, "WSS1232.failedto.decrypt.attachment", e);
             throw new XWSSecurityException(e);
         }
-        
+
         InputStream is = new ByteArrayInputStream(cipherOutput);
         if (contentOnly) {
             // update headers and content
             part.setContentType(mimeType);
             //jakarta.mail.internet.ContentType contentType = new jakarta.mail.internet.ContentType(mimeType);
-            
+
             String[] cLength = part.getMimeHeader(MimeConstants.CONTENT_LENGTH);
             if (cLength != null && !cLength[0].equals(""))
                 part.setMimeHeader(MimeConstants.CONTENT_LENGTH, Integer.toString(cipherOutput.length));
-            
-            
+
+
             part.clearContent();
             part.setDataHandler(new jakarta.activation.DataHandler(new _DS(cipherOutput, mimeType)));
-            
+
         } else {
             MimeBodyPart decryptedAttachment = new MimeBodyPart(is);
             // validate cid
@@ -746,9 +746,9 @@ public class DecryptionProcessor {
                 log.log(Level.SEVERE, "WSS1234.unmatched.content-id");
                 throw new XWSSecurityException("Content-Ids in encrypted and decrypted attachments donot match");
             }
-            
+
             part.removeAllMimeHeaders();
-            
+
             // copy headers
             Enumeration h_enum = decryptedAttachment.getAllHeaders();
             while (h_enum.hasMoreElements()) {
@@ -757,21 +757,21 @@ public class DecryptionProcessor {
                 String hvale = hdr.getValue();
                 part.setMimeHeader(hname, hvale);
             }
-            
+
             // set content
             part.clearContent();
             part.setDataHandler(decryptedAttachment.getDataHandler());
         }
-        
+
         return part;
     }
-    
+
     private static boolean verifyTargets(SecurableSoapMessage ssm,ArrayList reqTargets,
             EncryptedData encData,boolean requiredTarget) throws XWSSecurityException {
         boolean found = false;
         for(int et=0;et < reqTargets.size(); et++){
             EncryptionTarget encTarget = (EncryptionTarget)reqTargets.get(et);
-            
+
             if(encData.isElementData()){
                 EncryptedElement elementData = (EncryptedElement)encData;
                 if(encTarget.getType() == Target.TARGET_TYPE_VALUE_URI){
@@ -829,8 +829,8 @@ public class DecryptionProcessor {
         }
         return found;
     }
-    
-    
+
+
     private static boolean contains(List targetList,EncryptedElement ee){
         for(int i=0;i<targetList.size();i++){
             EncryptedElement ed = (EncryptedElement)targetList.get(i);
@@ -847,19 +847,19 @@ public class DecryptionProcessor {
         }
         return false;
     }
-    
-    
-    
+
+
+
     private static ArrayList getAllTargetElements( SecurableSoapMessage ssm,
             EncryptionTarget target, boolean reqElements) throws XWSSecurityException {
-        
+
         ArrayList result = new ArrayList();
-        
+
         boolean contentOnly = target.getContentOnly();
-        
+
         try {
             Object obj = ssm.getMessageParts(target);
-            
+
             if (obj instanceof SOAPElement){
                 contribute((Node)obj, result, contentOnly);
             }else if (obj instanceof NodeList){
@@ -873,10 +873,10 @@ public class DecryptionProcessor {
                 throw xwse;
             }
         }
-        
+
         return result;
     }
-    
+
     private static void contribute(NodeList targetElements,ArrayList result, boolean contentOnly) {
         for (int i = 0; i < targetElements.getLength(); i ++)
             contribute(targetElements.item(i), result, contentOnly);
@@ -891,7 +891,7 @@ public class DecryptionProcessor {
         AttachmentData targetElement =  new AttachmentData(element.getContentId(), contentOnly);
         result.add(targetElement);
     }
-    
+
     private static Node resolveEncryptedNode(Node parent,Node prevSibling,boolean contentOnly) {
         Node actualEncrypted = null;
         if (!contentOnly) {
@@ -903,16 +903,16 @@ public class DecryptionProcessor {
             actualEncrypted = parent;
         return actualEncrypted;
     }
-    
+
     private static XMLCipher initXMLCipher(Key key,String algorithm)
     throws XWSSecurityException {
-        
+
         XMLCipher xmlCipher;
         try {
             xmlCipher = XMLCipher.getInstance(algorithm);
             xmlCipher.init(XMLCipher.DECRYPT_MODE, key);
         } catch (XMLEncryptionException xee) {
-            
+
             log.log(
                     Level.SEVERE,
                     "WSS1203.unableto.decrypt.message",
@@ -921,11 +921,11 @@ public class DecryptionProcessor {
         }
         return xmlCipher;
     }
-    
+
     private static Document decryptElementWithCipher(
             XMLCipher xmlCipher,SOAPElement element,
             SecurableSoapMessage secureMessage) {
-        
+
         Document document = null;
         // TODO the following normalize() call is a workaround for a bug
         // in xmlsec.jar where it appears to fail unless all Text
@@ -938,7 +938,7 @@ public class DecryptionProcessor {
                     Level.SEVERE,
                     "WSS1203.unableto.decrypt.message",
                     new Object[] { e.getMessage()});
-            
+
             XWSSecurityException xse =
                     new XWSSecurityException("Unable to decrypt message", e);
             throw SecurableSoapMessage.newSOAPFaultException(
@@ -948,12 +948,12 @@ public class DecryptionProcessor {
         }
         return document;
     }
-    
+
     private interface EncryptedData{
         boolean isElementData();
         boolean isAttachmentData();
     }
-    
+
     private static class AttachmentData implements EncryptedData {
         private String cid = null;
         private boolean contentOnly = false;
@@ -967,7 +967,7 @@ public class DecryptionProcessor {
         public boolean isContentOnly(){
             return contentOnly;
         }
-        
+
         public boolean equals(AttachmentData data){
             if(cid != null && cid.equals(data.getCID()) &&
                     (contentOnly == data.isContentOnly())){
@@ -975,84 +975,84 @@ public class DecryptionProcessor {
             }
             return false;
         }
-        
+
         @Override
         public boolean isElementData(){
             return false;
         }
-        
+
         @Override
         public boolean isAttachmentData(){
             return true;
         }
     }
-    
+
     private static class EncryptedElement implements EncryptedData {
         private Element element;
         private boolean contentOnly;
         private EncryptionPolicy policy = null;
-        
+
         public EncryptedElement(Element element, boolean contentOnly) {
             this.element = element;
             this.contentOnly = contentOnly;
         }
-        
+
         public Element getElement() {
             return element;
         }
-        
+
         public boolean getContentOnly() {
             return contentOnly;
         }
-        
+
         public boolean equals(EncryptedElement element) {
             EncryptedElement encryptedElement = element;
             return (encryptedElement.getElement() == this.element &&
                     encryptedElement.getContentOnly() == this.contentOnly);
             //&& this.policy.equals(encryptedElement.getPolicy()));
-            
+
         }
-        
+
         public void setpolicy(EncryptionPolicy policy){
             this.policy = policy;
         }
-        
+
         public EncryptionPolicy getPolicy(){
             return policy;
         }
-        
+
         @Override
         public boolean isElementData(){
             return true;
         }
-        
+
         @Override
         public boolean isAttachmentData(){
             return false;
         }
     }
-    
+
     private static class _DS implements jakarta.activation.DataSource {
         byte[] _b = null;
         String _mt = null;
-        
+
         _DS(byte[] b, String mt) { this._b = b; this._mt = mt; }
-        
+
         @Override
         public java.io.InputStream getInputStream() {
             return new java.io.ByteArrayInputStream(_b);
         }
-        
+
         @Override
         public java.io.OutputStream getOutputStream() {
             java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
             baos.write(_b, 0, _b.length);
             return baos;
         }
-        
+
         @Override
         public String getName() { return "_DS"; }
-        
+
         @Override
         public String getContentType() { return _mt; }
     }

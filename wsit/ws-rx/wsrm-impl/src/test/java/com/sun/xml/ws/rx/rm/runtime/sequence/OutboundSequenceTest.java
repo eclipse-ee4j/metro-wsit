@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -125,7 +125,7 @@ public class OutboundSequenceTest extends TestCase {
         }
         assertTrue("IllegalMessageIdentifierException expected", passed);
     }
-    
+
     public void testSequenceStatusAfterCloseOperation() {
         sequence.close();
         assertEquals(Sequence.State.CLOSED, sequence.getState());
@@ -188,7 +188,7 @@ public class OutboundSequenceTest extends TestCase {
         for (i = 0; i < messages.length; i++) {
         Object actual = outboundSequence.retrieveMessage(i + 1);
         assertEquals("Retrieved message is not the same as stored message", null, actual);
-        }      
+        }
          */
     }
 
@@ -197,7 +197,7 @@ public class OutboundSequenceTest extends TestCase {
         sequenceManager.generateSequenceUID(),
         null,
         System.currentTimeMillis() + 1000);
-        
+
         assertFalse(inbound.isExpired());
 
         Thread.sleep(1100);

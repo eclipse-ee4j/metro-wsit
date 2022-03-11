@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -39,7 +39,7 @@ import org.w3c.dom.NamedNodeMap;
 public class STRTransformImpl {
     private static Logger logger = Logger.getLogger(LogDomainConstants.IMPL_SIGNATURE_DOMAIN,
             LogDomainConstants.IMPL_SIGNATURE_DOMAIN_BUNDLE);
-    
+
     protected static Data transform(Data data,XMLCryptoContext context,java.io.OutputStream outputStream)throws javax.xml.crypto.dsig.TransformException{
         try{
             Set nodeSet = getNodeSet(data);
@@ -80,7 +80,7 @@ public class STRTransformImpl {
             }catch(Exception ex){
                 logger.log(Level.SEVERE,LogStringsMessages.WSS_1322_STR_TRANSFORM(),ex);
                 throw new javax.xml.crypto.dsig.TransformException(ex.getMessage());
-                
+
             }
         }
         return nodeSet;

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -45,22 +45,22 @@ public class SecurityContextTokenInfoImpl implements SecurityContextTokenInfo {
     Map<String, byte[]> secretMap = new HashMap<>();
     Date creationTime = null;
     Date expirationTime = null;
-    
+
     // default constructor
     public SecurityContextTokenInfoImpl() {
         //empty constructor
     }
-    
+
     @Override
     public String getIdentifier() {
         return identifier;
     }
-    
+
     @Override
     public void setIdentifier(final String identifier) {
         this.identifier = identifier;
     }
-    
+
     /*
      * external Id corresponds to the wsu Id on the token.
      */
@@ -68,34 +68,34 @@ public class SecurityContextTokenInfoImpl implements SecurityContextTokenInfo {
     public String getExternalId() {
         return extId;
     }
-    
+
     @Override
     public void setExternalId(final String externalId) {
         this.extId = externalId;
     }
-    
+
     @Override
     public String getInstance() {
         return instance;
     }
-    
+
     @Override
     public void setInstance(final String instance) {
         this.instance = instance;
     }
-    
+
     @Override
     public byte[] getSecret() {
         byte [] newSecret = new byte[secret.length];
         System.arraycopy(secret,0,newSecret,0,secret.length);
         return newSecret;
     }
-    
+
     @Override
     public byte[] getInstanceSecret(final String instance) {
         return secretMap.get(instance);
     }
-    
+
     @Override
     public void addInstance(final String instance, final byte[] key) {
         byte [] newKey = new byte[key.length];
@@ -106,66 +106,66 @@ public class SecurityContextTokenInfoImpl implements SecurityContextTokenInfo {
             secretMap.put(instance, newKey);
         }
     }
-    
+
     @Override
     public Date getCreationTime() {
         return new Date(creationTime.getTime());
     }
-    
+
     @Override
     public void setCreationTime(final Date creationTime) {
         this.creationTime = new Date(creationTime.getTime());
     }
-    
+
     @Override
     public Date getExpirationTime() {
         return new Date(expirationTime.getTime());
     }
-    
+
     @Override
     public void setExpirationTime(final Date expirationTime) {
         this.expirationTime = new Date(expirationTime.getTime());
     }
-    
+
     @Override
     public Set getInstanceKeys() {
         return secretMap.keySet();
     }
-    
+
     @Override
     public IssuedTokenContext getIssuedTokenContext() {
-        
+
         final IssuedTokenContext itc = new IssuedTokenContextImpl();
         itc.setCreationTime(this.getCreationTime());
         itc.setExpirationTime(this.getExpirationTime());
         itc.setProofKey(this.getSecret());
         itc.setSecurityContextTokenInfo(this);
-        
+
         // create security token based on id and extId
         URI uri = URI.create(this.getIdentifier());
-        
+
         final SecurityContextToken token = WSTrustElementFactory.newInstance(WSSCVersion.WSSC_10).createSecurityContextToken(
                 uri, null , this.getExternalId());
         itc.setSecurityToken(token);
-        
+
         // Create references
         final SecurityTokenReference attachedReference = createSecurityTokenReference(token.getWsuId(),false);
         //RequestedAttachedReference rar = factory.createRequestedAttachedReference(attachedReference);
         final SecurityTokenReference unattachedRef = createSecurityTokenReference(token.getIdentifier().toString(), true);
         //RequestedUnattachedReference rur = factory.createRequestedUnattachedReference(unattachedRef);
-        
+
         itc.setAttachedSecurityTokenReference(attachedReference);
         itc.setUnAttachedSecurityTokenReference(unattachedRef);
-        
+
         return itc;
     }
-    
+
     private SecurityTokenReference createSecurityTokenReference(final String id, final boolean unattached){
         final String uri = (unattached?id:"#"+id);
         final Reference ref = WSTrustElementFactory.newInstance(WSSCVersion.WSSC_10).createDirectReference(WSSCConstants.SECURITY_CONTEXT_TOKEN_TYPE, uri);
         return WSTrustElementFactory.newInstance(WSSCVersion.WSSC_10).createSecurityTokenReference(ref);
     }
-    
+
     //public static IssuedTokenContext getIssuedTokenContext(SecurityTokenReference reference) {
     @Override
     public IssuedTokenContext getIssuedTokenContext(final com.sun.xml.ws.security.SecurityTokenReference reference) {
@@ -177,5 +177,5 @@ public class SecurityContextTokenInfoImpl implements SecurityContextTokenInfo {
              //   SessionManager.getSessionManager().getSession(id);
        // return session.getSecurityInfo().getIssuedTokenContext();
         return null;
-    }    
+    }
 }

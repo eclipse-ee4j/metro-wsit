@@ -22,52 +22,52 @@ public class StAXAttr implements Comparable{
     /** Creates a new instance of StAXAttr */
     public StAXAttr() {
     }
-    
+
     public String getPrefix() {
         return prefix;
     }
-    
+
     public void setPrefix(String prefix) {
         if(prefix == null){
             return;
         }
         this.prefix = prefix;
     }
-    
-    
-    
+
+
+
     public String getLocalName() {
         return localName;
     }
-    
+
     public void setLocalName(String localName) {
         this.localName = localName;
     }
-    
+
     public String getValue() {
         return value;
     }
-    
+
     public void setValue(String value) {
         this.value = value;
     }
-    
+
     public String getUri() {
         return uri;
     }
-    
+
     public void setUri(String uri) {
         if(uri == null){
             return;
         }
         this.uri = uri;
     }
-    
+
     @Override
     public int compareTo(Object cmp) {
         return sortAttributes(cmp, this);
     }
-    
+
     protected int sortAttributes(Object object, Object object0) {
         StAXAttr attr = (StAXAttr)object;
         StAXAttr attr0 = (StAXAttr)object0;
@@ -81,5 +81,5 @@ public class StAXAttr implements Comparable{
         }
         return result;
     }
-    
+
 }

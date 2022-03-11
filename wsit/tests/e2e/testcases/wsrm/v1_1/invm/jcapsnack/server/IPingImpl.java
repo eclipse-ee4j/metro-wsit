@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -28,17 +28,17 @@ public class IPingImpl {
     private static final AtomicBoolean FIRST_MESSAGE_RESEND_DETECTED = new AtomicBoolean(false);
     //
     @Resource WebServiceContext wsContext;
-    
+
     @WebMethod
     public void ping(String message) {
         MessageContext msgCtx = wsContext.getMessageContext();
-        
-        if (!message.equals("Negative")) {      
+
+        if (!message.equals("Negative")) {
             long msgNumber = (Long) msgCtx.get("com.sun.xml.ws.messagenumber");
 
             if (msgNumber == 1) {
                 if (FIRST_MESSAGE_ALREADY_REJECTED.compareAndSet(false, true)) {
-                    msgCtx.put("RM_ACK", "false");                
+                    msgCtx.put("RM_ACK", "false");
                     LOGGER.log(Level.ALL, String.format("Rejecting message '%s' with message number %d", message, msgNumber));
                 } else {
                     LOGGER.log(Level.ALL, String.format("Detected resent message '%s' with message number %d", message, msgNumber));
@@ -50,8 +50,8 @@ public class IPingImpl {
                 LOGGER.log(Level.ALL, errorMessage);
                 throw new RuntimeException(errorMessage);
             } else {
-                LOGGER.log(Level.ALL, String.format("Received expected message '%s' with message number %d", message, msgNumber));            
-            }      
+                LOGGER.log(Level.ALL, String.format("Received expected message '%s' with message number %d", message, msgNumber));
+            }
         } else {
             // Destined for ClassCastException in
             // com.sun.xml.ws.rx.rm.runtime.ServerDestinationDeliveryCallback.ResponseCallbackHandler.onCompletion(Packet)

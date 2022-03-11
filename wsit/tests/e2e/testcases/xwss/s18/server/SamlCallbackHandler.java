@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -288,7 +288,7 @@ public class SamlCallbackHandler implements CallbackHandler {
             Conditions cond = ass1.getConditions();
             System.out.println("cond.getNotBeforeDate() : "+cond.getNotBeforeDate());
             System.out.println("cond.getNotOnOrAfterDate() : "+cond.getNotOnOrAfterDate());
-            List<Object> condAbsList = cond.getConditions();            
+            List<Object> condAbsList = cond.getConditions();
             Iterator it = condAbsList.iterator();
             while(it.hasNext()){
                 Object obj = it.next();
@@ -311,8 +311,8 @@ public class SamlCallbackHandler implements CallbackHandler {
                         System.out.println("object1.getFriendlyName() : "+object1.getFriendlyName());
                         System.out.println("object1.getName() : "+object1.getName());
                         System.out.println("object1.getNameFormat() : "+object1.getNameFormat());
-                        System.out.println("object1.getAttributes() : "+object1.getAttributes());                        
-                    }                    
+                        System.out.println("object1.getAttributes() : "+object1.getAttributes());
+                    }
                     Subject sub = attStmt.getSubject();
                     NameIdentifier nameId = sub.getNameIdentifier();
                     if(nameId != null){
@@ -321,12 +321,12 @@ public class SamlCallbackHandler implements CallbackHandler {
                         System.out.println("nameId.getValue() : "+nameId.getValue());
                     }
                     SubjectConfirmation sc = sub.getSubjectConfirmation();
-                    if(sc != null){                                            
+                    if(sc != null){
                         System.out.println("sc.getConfirmationMethod() : "+sc.getConfirmationMethod());
                         System.out.println("sc.getSubjectConfirmationDataForSAML11() : "+sc.getSubjectConfirmationDataForSAML11());
                     }
                 }else if(object instanceof AuthenticationStatement){
-                    AuthenticationStatement authStmt = (AuthenticationStatement)object;                    
+                    AuthenticationStatement authStmt = (AuthenticationStatement)object;
                     System.out.println(authStmt.getAuthenticationInstantDate());
                     System.out.println(authStmt.getAuthenticationMethod());
                     System.out.println(authStmt.getSubjectLocalityDNSAddress());
@@ -340,7 +340,7 @@ public class SamlCallbackHandler implements CallbackHandler {
                     System.out.println("sc.getConfirmationMethod() : "+sc.getConfirmationMethod());
                     System.out.println("sc.getSubjectConfirmationDataForSAML11() : "+sc.getSubjectConfirmationDataForSAML11());
                 }else if(object instanceof AuthorizationDecisionStatement){
-                    AuthorizationDecisionStatement authDecStmt = (AuthorizationDecisionStatement)object;                    
+                    AuthorizationDecisionStatement authDecStmt = (AuthorizationDecisionStatement)object;
                     System.out.println(authDecStmt.getDecisionValue());
                     System.out.println(authDecStmt.getResource());
                     Subject sub = authDecStmt.getSubject();
@@ -350,7 +350,7 @@ public class SamlCallbackHandler implements CallbackHandler {
                     System.out.println("nameId.getValue() : "+nameId.getValue());
                     SubjectConfirmation sc = sub.getSubjectConfirmation();
                     System.out.println("sc.getConfirmationMethod() : "+sc.getConfirmationMethod());
-                    System.out.println("sc.getSubjectConfirmationDataForSAML11() : "+sc.getSubjectConfirmationDataForSAML11());                    
+                    System.out.println("sc.getSubjectConfirmationDataForSAML11() : "+sc.getSubjectConfirmationDataForSAML11());
                     Iterator<Action> it2 = (Iterator<Action>) authDecStmt.getActionList();
                     while(it2.hasNext()){
                         Action act = (Action)it2.next();

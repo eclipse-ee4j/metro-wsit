@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -18,16 +18,16 @@ import javax.security.auth.callback.Callback;
  * @author kumar jayanti
  */
 public class CertStoreCallback extends XWSSCallback implements Callback {
-    
+
     private CertStore certStore;
     /** Creates a new instance of CertStoreCallback */
     public CertStoreCallback() {
     }
-    
+
     public CertStore getCertStore() {
         return this.certStore;
     }
-    
+
     public void setCertStore(CertStore store) {
         this.certStore = store;
     }

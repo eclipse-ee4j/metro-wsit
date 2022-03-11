@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -51,7 +51,7 @@ public class WSATClientHelper implements WSATClient {
     @Override
     public List<Header> doHandleRequest(TransactionalAttribute transactionalAttribute, Map<String, Object> map) {
         try {
-            if (TransactionManagerImpl.getInstance().getTransactionManager().getTransaction()==null) 
+            if (TransactionManagerImpl.getInstance().getTransactionManager().getTransaction()==null)
                 return new ArrayList();
         } catch (SystemException e) {
             e.printStackTrace();
@@ -73,7 +73,7 @@ public class WSATClientHelper implements WSATClient {
     }
 
     private boolean resumeAndClearXidTxMap(Map<String, Object> map) {
-        if (WSATHelper.isDebugEnabled()) 
+        if (WSATHelper.isDebugEnabled())
             LOGGER.info(LocalizationMessages.WSAT_4569_INBOUND_APPLICATION_MESSAGE());
         Xid xid = getWSATXidFromMap(map);
         if (xid != null) {

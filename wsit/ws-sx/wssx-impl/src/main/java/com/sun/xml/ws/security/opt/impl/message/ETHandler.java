@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -58,10 +58,10 @@ import java.util.logging.Logger;
  * @author K.Venugopal@sun.com
  */
 public class ETHandler {
-    
+
     private static final Logger logger = Logger.getLogger(LogDomainConstants.IMPL_OPT_CRYPTO_DOMAIN,
             LogDomainConstants.IMPL_OPT_CRYPTO_DOMAIN_BUNDLE);
-    
+
     private WSSElementFactory wsf = null;
     private HashMap props = new HashMap();
     /** Creates a new instance of MessageETHandler */
@@ -74,10 +74,10 @@ public class ETHandler {
             props.put("org.glassfish.jaxb.namespacePrefixMapper", new WSSNSPrefixWrapper(JAXBUtil.prefixMapper12));
         }
     }
-    
+
     @SuppressWarnings("unchecked")
     public List buildEDList( EncryptionPolicy policy,final Target target ,JAXBFilterProcessingContext context,Key key,KeyInfo ki) throws XWSSecurityException{
-        
+
         SecuredMessage message = context.getSecuredMessage();
         ArrayList edList = new ArrayList();
         if(target.getType() == Target.TARGET_TYPE_VALUE_QNAME){
@@ -109,7 +109,7 @@ public class ETHandler {
                 }
                 return edList;
             }
-            
+
             // Look for Id or wsu:Id attribute in all elements
             java.util.Iterator headers = null;
             if(name.getNamespaceURI().equals(MessageConstants.ADDRESSING_MEMBER_SUBMISSION_NAMESPACE) ||
@@ -127,18 +127,18 @@ public class ETHandler {
                 else
                     headers = message.getHeaders(name.getNamespaceURI());
             }
-            
+
             while(headers.hasNext()){
                 Object header = headers.next();
                 SecurityHeaderElement ed = toMessageHeader(policy,target,context,key,header,ki, true);
                 edList.add(ed);
             }
-            
+
             if(!edList.isEmpty()){
                 return edList;
             }
             SecurityHeader sh = context.getSecurityHeader();
-            
+
             Iterator itr = sh.getHeaders(name.getLocalPart(),name.getNamespaceURI());
             while(itr.hasNext()){
                 SecurityHeaderElement hdr = (SecurityHeaderElement)itr.next();
@@ -149,7 +149,7 @@ public class ETHandler {
             }
             return edList;
         }else if(target.getType() == Target.TARGET_TYPE_VALUE_URI){
-            
+
             if(MessageConstants.PROCESS_ALL_ATTACHMENTS.equals(target.getValue())){
                 handleAttachments(context, edList, key,ki ,target);
             } else{
@@ -161,16 +161,16 @@ public class ETHandler {
             // throw new UnsupportedOperationException("Target Type "+target.getType() +" is not supported by EncryptionProcessor");
         }
         throw new UnsupportedOperationException("Target Type "+target.getType() +" is not supported by EncryptionProcessor");
-        
+
     }
-    
-    
+
+
     protected SecurityHeaderElement handleURI(EncryptionPolicy policy,Target target ,JAXBFilterProcessingContext context,Key key,KeyInfo ki) throws XWSSecurityException{
         String dataEncAlg =  SecurityUtil.getDataEncryptionAlgo(context);
         boolean contentOnly = target.getContentOnly();
         Object header = context.getSecurityHeader().getChildElement(target.getValue());
         if(header != null){
-            
+
             if(header instanceof SecurityTokenReference){
                 SecurityTokenReference str = (SecurityTokenReference)header;
                 Reference reference = str.getReference();
@@ -186,8 +186,8 @@ public class ETHandler {
                     }
                     header = context.getSecurityHeader().getChildElement(refValue);
                 }
-            }    
-            
+            }
+
             Data data = toData(header,contentOnly, context);
             SecurityHeaderElement ed = (SecurityHeaderElement) wsf.createEncryptedData(context.generateID(),data,dataEncAlg,ki,key,target.getContentOnly());
             context.getSecurityHeader().replace((SecurityHeaderElement) header, ed);
@@ -197,21 +197,21 @@ public class ETHandler {
             return toMessageHeader(policy,target,context,key,header,ki, true);
         }
     }
-    
+
     protected SecurityHeaderElement toMessageHeader(EncryptionPolicy policy,Target target ,JAXBFilterProcessingContext context,
             Key key,Object header,KeyInfo ki, boolean isEncryptedHeaders) throws XWSSecurityException{
         SecuredMessage message = context.getSecuredMessage();
         String dataEncAlg =  SecurityUtil.getDataEncryptionAlgo(context);
         boolean contentOnly = target.getContentOnly();
-        
+
         boolean encHeaderContent = context.getEncHeaderContent();
         if(encHeaderContent && !"true".equals(context.getExtraneousProperty("EnableWSS11PolicySender"))){
             contentOnly = true;
         }
-        
+
         Data data = toData(header,contentOnly, context);
         SecurityHeaderElement ed = null;
-        
+
         if(contentOnly){
             ed = (SecurityHeaderElement) wsf.createEncryptedData(context.generateID(),data,dataEncAlg,ki,key,contentOnly);
             if(header instanceof com.sun.xml.ws.security.opt.impl.message.Header){
@@ -223,7 +223,7 @@ public class ETHandler {
                 com.sun.xml.ws.security.opt.impl.message.Header hdr = new com.sun.xml.ws.security.opt.impl.message.Header((com.sun.xml.ws.api.message.Header)header,ed);
                 message.replaceHeader(header,hdr);
             }
-            
+
         }else{
             if(isEncryptedHeaders && "true".equals(context.getExtraneousProperty("EnableWSS11PolicySender"))){
                 ed = wsf.createEncryptedHeader(context.generateID(),context.generateID(),data,dataEncAlg,ki,key,contentOnly);
@@ -237,8 +237,8 @@ public class ETHandler {
         }
         return ed;
     }
-    
-    
+
+
     protected Data toData(Object header,boolean contentOnly, JAXBFilterProcessingContext context)throws XWSSecurityException{
         if(header instanceof SecurityElement){
             return new SSEData((SecurityElement)header,contentOnly, context.getNamespaceContext(), props);

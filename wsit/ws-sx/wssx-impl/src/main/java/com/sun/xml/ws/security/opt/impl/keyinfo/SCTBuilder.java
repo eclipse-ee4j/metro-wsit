@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -33,16 +33,16 @@ public class SCTBuilder extends TokenBuilder{
     /** Creates a new instance of SCTBuilder */
     public SCTBuilder(JAXBFilterProcessingContext context,SecureConversationTokenKeyBinding kb) {
         super(context);
-        this.sctBinding = kb;      
+        this.sctBinding = kb;
     }
     /**
-     * 
+     *
      * @return BuilderResult
      */
     @Override
     public BuilderResult process() throws XWSSecurityException {
-        BuilderResult sctResult = new BuilderResult();       
-        String dataEncAlgo = SecurityUtil.getDataEncryptionAlgo(context);       
+        BuilderResult sctResult = new BuilderResult();
+        String dataEncAlgo = SecurityUtil.getDataEncryptionAlgo(context);
         String sctPolicyId = sctBinding.getUUID();
         //Look for SCT in TokenCache
         SecurityElement sct = context.getSecurityHeader().getChildElement(sctPolicyId);
@@ -69,42 +69,42 @@ public class SCTBuilder extends TokenBuilder{
                     }else{
                         context.getSecurityHeader().add((SecurityContextToken)sct1);
                     }
-                } 
+                }
                 if(context.getSecurityPolicyVersion().equals(MessageConstants.SECURITYPOLICY_12_NS)){
                     sct = (SecurityContextToken13)sct1;
                 }else{
                     sct = (SecurityContextToken)sct1;
-                }                
+                }
             }
             //Add ext elements;
         }
-   
+
         String sctWsuId = sct.getId();
         if (sctWsuId == null) {
             sct.setId(context.generateID());
             sctWsuId = sct.getId();
-        }               
-        Key dataProtectionKey = null;       
+        }
+        Key dataProtectionKey = null;
         DirectReference directRef = elementFactory.createDirectReference();
         if(includeToken){
             directRef.setURI("#"+sctWsuId);
         } else{
-            directRef.setURI(sct1.getIdentifier().toString());  
-        }       
+            directRef.setURI(sct1.getIdentifier().toString());
+        }
         if (!KeyBindingBase.INCLUDE_ALWAYS_TO_RECIPIENT.equals(sctBinding.getIncludeToken()) ||
                 !KeyBindingBase.INCLUDE_ALWAYS.equals(sctBinding.getIncludeToken())) {
             if(context.getSecurityPolicyVersion().equals(MessageConstants.SECURITYPOLICY_12_NS)){
-                directRef.setValueType(MessageConstants.SCT_13_VALUETYPE);                
+                directRef.setValueType(MessageConstants.SCT_13_VALUETYPE);
             }else{
-                directRef.setValueType(MessageConstants.SCT_VALUETYPE);                
+                directRef.setValueType(MessageConstants.SCT_VALUETYPE);
             }
         }
-     
+
         if(sct1.getInstance() != null && !context.isExpired()){
             ((com.sun.xml.ws.security.opt.impl.reference.DirectReference)directRef).setAttribute(
                     context.getWSSCVersion(context.getSecurityPolicyVersion()), "Instance", sct1.getInstance());
-        }   
-        byte[] proofKey = null;    
+        }
+        byte[] proofKey = null;
         if(sct1.getInstance() != null){
             if(context.isExpired()){
                 proofKey = ictx.getProofKey();

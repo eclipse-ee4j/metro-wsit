@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -71,7 +71,7 @@ public class EncryptedKeyHeaderBlock extends EncryptedTypeHeaderBlock {
                 MessageConstants.XENC_PREFIX,
                 MessageConstants.XENC_NS);
         } catch (SOAPException e) {
-            log.log(Level.SEVERE, "WSS0348.error.creating.ekhb", e.getMessage()); 
+            log.log(Level.SEVERE, "WSS0348.error.creating.ekhb", e.getMessage());
             throw new XWSSecurityException(e);
         }
     }
@@ -111,7 +111,7 @@ public class EncryptedKeyHeaderBlock extends EncryptedTypeHeaderBlock {
             if (!(element.getLocalName().equals(
                       MessageConstants.XENC_ENCRYPTED_KEY_LNAME) &&
                   XMLUtil.inEncryptionNS(element))) {
-                log.log(Level.SEVERE, "WSS0349.error.creating.ekhb", element.getTagName());  
+                log.log(Level.SEVERE, "WSS0349.error.creating.ekhb", element.getTagName());
                 throw new XWSSecurityException("Invalid EncryptedKey passed");
             }
 
@@ -128,7 +128,7 @@ public class EncryptedKeyHeaderBlock extends EncryptedTypeHeaderBlock {
                     new ReferenceListHeaderBlock(
                         (SOAPElement) referenceLists.next());
 
-        
+
             Iterator carriedKeyNames =
                 getChildElements(
                     getSoapFactory().createName(
@@ -136,7 +136,7 @@ public class EncryptedKeyHeaderBlock extends EncryptedTypeHeaderBlock {
                         MessageConstants.XENC_PREFIX,
                         MessageConstants.XENC_NS));
             if (carriedKeyNames.hasNext())
-                this.carriedKeyName = (SOAPElement) carriedKeyNames.next(); 
+                this.carriedKeyName = (SOAPElement) carriedKeyNames.next();
 
         } catch (Exception e) {
             log.log(Level.SEVERE, "WSS0348.error.creating.ekhb", e.getMessage());
@@ -232,7 +232,7 @@ public class EncryptedKeyHeaderBlock extends EncryptedTypeHeaderBlock {
                     addTextNode("\n    ");
                 }
                 if (cipherData == null) {
-                    log.log(Level.SEVERE, 
+                    log.log(Level.SEVERE,
                             "WSS0347.missing.cipher.data");
                     throw new XWSSecurityException(
                         "CipherData is not present inside EncryptedType");

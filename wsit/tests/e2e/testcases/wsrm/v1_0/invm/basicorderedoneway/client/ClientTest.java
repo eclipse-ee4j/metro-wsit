@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -80,7 +80,7 @@ public class ClientTest extends TestCase {
                     LOGGER.info(String.format("Still need to wait for %d threads", latch.getCount()));
                     latch.await(600, TimeUnit.SECONDS);
                 } catch (InterruptedException ex) {
-                    Logger.getLogger(ClientTest.class.getName()).log(Level.SEVERE, null, ex);                    
+                    Logger.getLogger(ClientTest.class.getName()).log(Level.SEVERE, null, ex);
                     try {
                         ((java.io.Closeable) port).close();
                     } catch (IOException ioex) {

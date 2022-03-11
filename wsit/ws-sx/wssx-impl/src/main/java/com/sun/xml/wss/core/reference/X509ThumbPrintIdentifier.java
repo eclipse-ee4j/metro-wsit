@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -35,7 +35,7 @@ public class X509ThumbPrintIdentifier extends KeyIdentifier {
     private String encodingType = MessageConstants.BASE64_ENCODING_NS;
 
     private String valueType = MessageConstants.ThumbPrintIdentifier_NS;
-    
+
     private X509Certificate cert = null;
 
     /**
@@ -49,7 +49,7 @@ public class X509ThumbPrintIdentifier extends KeyIdentifier {
         setAttribute("ValueType", valueType);
     }
 
-    public X509ThumbPrintIdentifier(SOAPElement element) 
+    public X509ThumbPrintIdentifier(SOAPElement element)
         throws XWSSecurityException {
         super(element);
     }
@@ -71,7 +71,7 @@ public class X509ThumbPrintIdentifier extends KeyIdentifier {
      * @return the SubjectKeyIdentifier from cert or null if cert does not
      *         contain one
      */
-    public static byte[] getThumbPrintIdentifier(X509Certificate cert) 
+    public static byte[] getThumbPrintIdentifier(X509Certificate cert)
        throws XWSSecurityException {
         byte[] thumbPrintIdentifier = null;
 
@@ -82,15 +82,15 @@ public class X509ThumbPrintIdentifier extends KeyIdentifier {
         } catch ( CertificateEncodingException ex) {
             throw new XWSSecurityException("Error while getting certificate's raw content");
         }
-        
+
         return thumbPrintIdentifier;
     }
-    
+
     public void setCertificate(X509Certificate cert){
         this.cert = cert;
     }
- 
+
     public X509Certificate getCertificate(){
         return cert;
     }
-} 
+}

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -37,39 +37,39 @@ import com.sun.xml.wss.core.reference.EncryptedKeySHA1Identifier;
 import com.sun.xml.wss.logging.LogStringsMessages;
 
 public class KeyIdentifierStrategy extends KeyInfoStrategy {
-    
+
     public static final int THUMBPRINT = 0;
     public static final int ENCRYPTEDKEYSHA1 = 1;
-    
+
     protected static final Logger log =
             Logger.getLogger(
             LogDomainConstants.WSS_API_DOMAIN,
             LogDomainConstants.WSS_API_DOMAIN_BUNDLE);
-    
+
     X509Certificate cert = null;
     String alias = null;
     boolean forSigning;
     boolean thumbprint;
     boolean encryptedKey = false;
-    
+
     String samlAssertionId = null;
-    
+
     public KeyIdentifierStrategy(){
-        
+
     }
-    
+
     public KeyIdentifierStrategy(int value){
         if(value == THUMBPRINT)
             this.thumbprint = true;
         else if(value == ENCRYPTEDKEYSHA1)
             this.encryptedKey = true;
     }
-    
+
     public KeyIdentifierStrategy(String samlAssertionId) {
         this.samlAssertionId = samlAssertionId;
         forSigning = false;
     }
-    
+
     public KeyIdentifierStrategy(String alias, boolean forSigning) {
         this.alias = alias;
         this.forSigning = forSigning;
@@ -80,7 +80,7 @@ public class KeyIdentifierStrategy extends KeyInfoStrategy {
         this.forSigning = forSigning;
         this.thumbprint = thumbprint;
     }
-    
+
     @Override
     public void insertKey(
             SecurityTokenReference tokenRef, SecurableSoapMessage secureMsg)
@@ -95,16 +95,16 @@ public class KeyIdentifierStrategy extends KeyInfoStrategy {
         }
         tokenRef.setReference(keyIdentifier);
     }
-    
+
     @Override
     public void insertKey(
             KeyInfoHeaderBlock keyInfo,
             SecurableSoapMessage secureMsg,
             String x509TokenId) // x509TokenId can be ignored
             throws XWSSecurityException {
-        
+
         KeyIdentifier keyIdentifier = getKeyIdentifier(secureMsg);
-        
+
         if (keyIdentifier == null) {
             log.log(Level.SEVERE,
                      LogStringsMessages.WSS_0701_CANNOT_LOCATE_CERTIFICATE(alias),
@@ -118,18 +118,18 @@ public class KeyIdentifierStrategy extends KeyInfoStrategy {
         tokenRef.setReference(keyIdentifier);
         keyInfo.addSecurityTokenReference(tokenRef);
     }
-    
+
     private KeyIdentifier getKeyIdentifier(SecurableSoapMessage secureMsg)
     throws XWSSecurityException {
-        
-        KeyIdentifier keyIdentifier = null;        
+
+        KeyIdentifier keyIdentifier = null;
         if (samlAssertionId != null) {
             keyIdentifier =
                     new SamlKeyIdentifier(secureMsg.getSOAPPart());
             keyIdentifier.setReferenceValue(samlAssertionId);
             return keyIdentifier;
         }
-        
+
         if (cert != null) {
             if ( !thumbprint) {
                 byte[] subjectKeyIdentifier =
@@ -165,16 +165,16 @@ public class KeyIdentifierStrategy extends KeyInfoStrategy {
         }
         return keyIdentifier;
     }
-    
+
     @Override
     public void setCertificate(X509Certificate cert) {
         this.cert = cert;
     }
-    
+
     @Override
     public String getAlias() {
         return alias;
     }
-    
+
 
 }

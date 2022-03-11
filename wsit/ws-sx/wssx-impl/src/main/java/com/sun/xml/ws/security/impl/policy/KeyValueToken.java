@@ -25,7 +25,7 @@ import javax.xml.namespace.QName;
  * @author ashutosh.shahi@sun.com
  */
 public class KeyValueToken extends PolicyAssertion implements com.sun.xml.ws.security.policy.KeyValueToken,Cloneable, SecurityAssertionValidator{
-    
+
     private AssertionFitness fitness = AssertionFitness.IS_VALID;
     private boolean populated = false;
     private String tokenType = null;
@@ -34,55 +34,55 @@ public class KeyValueToken extends PolicyAssertion implements com.sun.xml.ws.sec
     private String includeToken;
     private String id = null;
     private boolean isServer = false;
-    
+
     /** Creates a new instance of KeyValueToken */
     public KeyValueToken() {
         id= PolicyUtil.randomUUID();
         itQname = new QName(spVersion.namespaceUri, Constants.IncludeToken);
         includeToken = spVersion.includeTokenAlways;
     }
-    
+
     public KeyValueToken(AssertionData name,Collection<PolicyAssertion> nestedAssertions, AssertionSet nestedAlternative) {
         super(name,nestedAssertions,nestedAlternative);
-        
+
         id= PolicyUtil.randomUUID();
-        
+
         String nsUri = getName().getNamespaceURI();
         spVersion = PolicyUtil.getSecurityPolicyVersion(nsUri);
         itQname = new QName(spVersion.namespaceUri, Constants.IncludeToken);
         includeToken = spVersion.includeTokenAlways;
     }
-    
+
     public void setTokenType(String tokenType) {
         this.tokenType = tokenType;
     }
-    
+
     @Override
     public String getTokenType() {
         populate();
         return tokenType;
     }
-    
+
     @Override
     public String getIncludeToken() {
         populate();
         return includeToken;
     }
-    
+
     public void setIncludeToken(String type) {
         includeToken = type;
     }
-    
+
     @Override
     public String getTokenId() {
         return id;
     }
-    
+
     @Override
     public SecurityPolicyVersion getSecurityPolicyVersion() {
         return spVersion;
     }
-    
+
     @Override
     public SecurityAssertionValidator.AssertionFitness validate(boolean isServer) {
         return populate(isServer);
@@ -120,5 +120,5 @@ public class KeyValueToken extends PolicyAssertion implements com.sun.xml.ws.sec
         }
         return fitness;
     }
-    
+
 }

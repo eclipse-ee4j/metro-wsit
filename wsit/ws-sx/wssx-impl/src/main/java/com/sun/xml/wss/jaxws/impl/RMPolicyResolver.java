@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -28,19 +28,19 @@ import java.io.Reader;
  * @author K.Venugopal@sun.com
  */
 public class RMPolicyResolver {
-    
+
     SecurityPolicyVersion spVersion;
     RmProtocolVersion rmVersion;
     McProtocolVersion mcVersion;
     boolean encrypt = false;
-    
+
     /** Creates a new instance of RMPolicyResolver */
     public RMPolicyResolver() {
         spVersion = SecurityPolicyVersion.SECURITYPOLICY200507;
         rmVersion = RmProtocolVersion.WSRM200502;
         mcVersion = McProtocolVersion.WSMC200702;
     }
-    
+
     public RMPolicyResolver(SecurityPolicyVersion spVersion, RmProtocolVersion rmVersion) {
         this.spVersion = spVersion;
         this.rmVersion = rmVersion;
@@ -53,7 +53,7 @@ public class RMPolicyResolver {
         this.mcVersion = mcVersion;
         this.encrypt = encrypt;
     }
-    
+
     public Policy getOperationLevelPolicy() throws PolicyException{
         PolicySourceModel model;
         try {
@@ -72,15 +72,15 @@ public class RMPolicyResolver {
         Policy mbp = ModelTranslator.getTranslator().translate(model);
         return mbp;
     }
-    
+
     private PolicySourceModel unmarshalPolicy(String resource) throws PolicyException, IOException {
         Reader reader = getResourceReader(resource);
         PolicySourceModel model = ModelUnmarshaller.getUnmarshaller().unmarshalModel(reader);
         reader.close();
         return model;
     }
-    
+
     private Reader getResourceReader(String resourceName) {
         return new InputStreamReader(Thread.currentThread().getContextClassLoader().getResourceAsStream(resourceName));
-    }    
+    }
 }

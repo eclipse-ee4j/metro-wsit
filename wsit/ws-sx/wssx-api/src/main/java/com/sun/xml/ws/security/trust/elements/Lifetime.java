@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -22,42 +22,42 @@ import com.sun.xml.ws.security.wsu10.AttributedDateTime;
 public interface Lifetime {
     /**
      * Gets the value of the created property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link AttributedDateTime }
-     *     
+     *
      */
     AttributedDateTime getCreated();
 
     /**
      * Gets the value of the expires property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link AttributedDateTime }
-     *     
+     *
      */
     AttributedDateTime getExpires();
 
     /**
      * Sets the value of the created property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link AttributedDateTime }
-     *     
+     *
      */
     void setCreated(AttributedDateTime value);
 
     /**
      * Sets the value of the expires property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link AttributedDateTime }
-     *     
+     *
      */
     void setExpires(AttributedDateTime value);
-    
+
 }

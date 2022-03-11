@@ -126,7 +126,7 @@ public class WssProviderSecurityEnvironment implements SecurityEnvironment {
         new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
     private static final SimpleDateFormat calendarFormatter2 =
         new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'.'SSS'Z'");
- 
+
     public WssProviderSecurityEnvironment(CallbackHandler handler, Map options) {
            _handler = new PriviledgedHandler(handler);
            _securityOptions = options;
@@ -134,21 +134,21 @@ public class WssProviderSecurityEnvironment implements SecurityEnvironment {
            if (_securityOptions != null) {
               String mo_aliases = (String)_securityOptions.get("ALIASES");
               String mo_keypwds = (String)_securityOptions.get("PASSWORDS");
-              
+
               if (mo_aliases != null && mo_keypwds != null) {
                  StringTokenizer aliases = new StringTokenizer(mo_aliases, " ");
                  StringTokenizer keypwds = new StringTokenizer(mo_keypwds, " ");
                  if (aliases.countTokens() != keypwds.countTokens())
                     ;// log.INFO
- 
-//                 while (aliases.hasMoreElements()) {                     
-//                    aliases_keypwds.put(aliases.nextToken(), keypwds.nextToken());                      
-//                 } 
-              } 
-           }
-    }     
 
-    
+//                 while (aliases.hasMoreElements()) {
+//                    aliases_keypwds.put(aliases.nextToken(), keypwds.nextToken());
+//                 }
+              }
+           }
+    }
+
+
 
     /*
      * @throws XWSSecurityException
@@ -172,19 +172,19 @@ public class WssProviderSecurityEnvironment implements SecurityEnvironment {
         if (privateKey == null) {
            throw new XWSSecurityException(
              "Unable to locate private key for the alias " + alias);
-        } 
+        }
 
         return privateKey;
     }
 
     /*
-     * Retrieves the PrivateKey corresponding to the cert 
+     * Retrieves the PrivateKey corresponding to the cert
      * with the given KeyIdentifier value
      *
      * @param keyIdentifier an Opaque identifier indicating
      * the X509 certificate
      *
-     * @return the PrivateKey corresponding to the cert 
+     * @return the PrivateKey corresponding to the cert
      *  with the given KeyIdentifier value
      *
      * @throws XWSSecurityException
@@ -203,7 +203,7 @@ public class WssProviderSecurityEnvironment implements SecurityEnvironment {
                  Iterator it = set.iterator();
                  while (it.hasNext()) {
                     X500PrivateCredential cred = (X500PrivateCredential)it.next();
-                    if (matchesKeyIdentifier(Base64.decode(keyIdentifier), 
+                    if (matchesKeyIdentifier(Base64.decode(keyIdentifier),
                                              cred.getCertificate()))
                        return cred.getPrivateKey();
                  }
@@ -216,18 +216,18 @@ public class WssProviderSecurityEnvironment implements SecurityEnvironment {
            Callback[] callbacks = new Callback[] { pkCallback };
            _handler.handle(callbacks);
 
-           return pkCallback.getKey(); 
+           return pkCallback.getKey();
         } catch (Exception e) {
             throw new XWSSecurityException(e);
         }
     }
 
     /*
-     * Retrieves the PrivateKey corresponding to the given cert 
+     * Retrieves the PrivateKey corresponding to the given cert
      *
      * @param cert an X509 certificate
      *
-     * @return the PrivateKey corresponding to the cert 
+     * @return the PrivateKey corresponding to the cert
      *
      * @throws XWSSecurityException
      */
@@ -249,7 +249,7 @@ public class WssProviderSecurityEnvironment implements SecurityEnvironment {
                  while (it.hasNext()) {
                     X500PrivateCredential cred = (X500PrivateCredential)it.next();
                     X509Certificate x509Cert = cred.getCertificate();
-                    BigInteger serialNo = x509Cert.getSerialNumber();  
+                    BigInteger serialNo = x509Cert.getSerialNumber();
                     X500Principal currentIssuerPrincipal = x509Cert.getIssuerX500Principal();
                     X500Principal issuerPrincipal = new X500Principal(issuerName);
                     if (serialNo.equals(cert.getSerialNumber())
@@ -261,12 +261,12 @@ public class WssProviderSecurityEnvironment implements SecurityEnvironment {
            }
 
            PrivateKeyCallback.Request request = new PrivateKeyCallback.IssuerSerialNumRequest(
-                                                       cert.getIssuerX500Principal(),                                                                   cert.getSerialNumber());     
+                                                       cert.getIssuerX500Principal(),                                                                   cert.getSerialNumber());
            PrivateKeyCallback pkCallback = new PrivateKeyCallback(request);
            Callback[] callbacks = new Callback[] { pkCallback };
            _handler.handle(callbacks);
 
-           return pkCallback.getKey(); 
+           return pkCallback.getKey();
         } catch (Exception e) {
             throw new XWSSecurityException(e);
         }
@@ -299,7 +299,7 @@ public class WssProviderSecurityEnvironment implements SecurityEnvironment {
                     X500PrivateCredential cred = (X500PrivateCredential)it.next();
                     X509Certificate x509Cert = cred.getCertificate();
                     BigInteger serialNo = x509Cert.getSerialNumber();
-                     
+
                      X500Principal currentIssuerPrincipal = x509Cert.getIssuerX500Principal();
                      X500Principal issuerPrincipal = new X500Principal(issuerName);
                      if (serialNo.equals(serialNumber)
@@ -311,12 +311,12 @@ public class WssProviderSecurityEnvironment implements SecurityEnvironment {
            }
 
            PrivateKeyCallback.Request request = new PrivateKeyCallback.IssuerSerialNumRequest(
-                                                       new X500Principal(issuerName),                                                                   serialNumber);     
+                                                       new X500Principal(issuerName),                                                                   serialNumber);
            PrivateKeyCallback pkCallback = new PrivateKeyCallback(request);
            Callback[] callbacks = new Callback[] { pkCallback };
            _handler.handle(callbacks);
 
-           return pkCallback.getKey(); 
+           return pkCallback.getKey();
         } catch (Exception e) {
             throw new XWSSecurityException(e);
         }
@@ -325,24 +325,24 @@ public class WssProviderSecurityEnvironment implements SecurityEnvironment {
     /**
      * Retrieves a reasonable default value for the current user's
      * X509Certificate if one exists.
-     * 
+     *
      * @return the default certificate for the current user
      *
      */
     @Override
     public X509Certificate getDefaultCertificate(Map context)
         throws XWSSecurityException {
-        /* 
+        /*
           use PrivateKeyCallback to get the
           certChain - return the first certificate
-        */ 
+        */
         Subject subject = getSubject(context);
         if (subject != null) {
            Set set = subject.getPublicCredentials(X509Certificate.class);
-           if (set != null && set.size() == 1) 
-              return ((X509Certificate)(set.toArray())[0]); 
+           if (set != null && set.size() == 1)
+              return ((X509Certificate)(set.toArray())[0]);
         }
- 
+
         PrivateKeyCallback pkCallback = new PrivateKeyCallback(null);
         Callback[] _callbacks = new Callback[] { pkCallback };
         try {
@@ -350,7 +350,7 @@ public class WssProviderSecurityEnvironment implements SecurityEnvironment {
         } catch (Exception e) {
             throw new XWSSecurityException(e);
         }
-        
+
         Certificate[] chain = pkCallback.getChain();
         if (chain == null) {
            throw new XWSSecurityException(
@@ -371,7 +371,7 @@ public class WssProviderSecurityEnvironment implements SecurityEnvironment {
         /*
           use PasswordValidationCallback
         */
-        char[] pwd = (password == null) ? null : password.toCharArray(); 
+        char[] pwd = (password == null) ? null : password.toCharArray();
         //PasswordValidationCallback pvCallback = new PasswordValidationCallback(username, pwd);
         PasswordValidationCallback pvCallback = new PasswordValidationCallback(
                this.getRequesterSubject(context),username, pwd);
@@ -382,11 +382,11 @@ public class WssProviderSecurityEnvironment implements SecurityEnvironment {
            throw new XWSSecurityException(e);
         }
 
-        // zero the password 
+        // zero the password
         if (pwd != null)
            pvCallback.clearPassword();
 
-        return pvCallback.getResult(); 
+        return pvCallback.getResult();
     }
     @Override
     public String authenticateUser(Map context, String username) {
@@ -408,10 +408,10 @@ public class WssProviderSecurityEnvironment implements SecurityEnvironment {
         String created) {
         /*
           can not implement
-        */ 
+        */
         return false;
-    }  
- 
+    }
+
     /**
      * Validate an X509Certificate.
      * @return true, if the cert is a valid one, false o/w.
@@ -422,8 +422,8 @@ public class WssProviderSecurityEnvironment implements SecurityEnvironment {
     public boolean validateCertificate(X509Certificate cert, Map context)
         throws XWSSecurityException {
         /*
-          use TrustStore and CertStore 
-        */ 
+          use TrustStore and CertStore
+        */
         try {
             cert.checkValidity();
         } catch (CertificateExpiredException e) {
@@ -436,11 +436,11 @@ public class WssProviderSecurityEnvironment implements SecurityEnvironment {
         if(cert.getIssuerX500Principal().equals(cert.getSubjectX500Principal())){
             if(isTrustedSelfSigned(cert)){
                 return true;
-            }else{                
+            }else{
                 throw new XWSSecurityException("Validation of self signed certificate failed");
             }
         }
-        
+
         X509CertSelector certSelector = new X509CertSelector();
         certSelector.setCertificate(cert);
 
@@ -451,7 +451,7 @@ public class WssProviderSecurityEnvironment implements SecurityEnvironment {
         List<Certificate> certChainList = new ArrayList<>();
         boolean caFound = false;
         Principal certChainIssuer = null;
-        int noOfEntriesInTrustStore = 0;        
+        int noOfEntriesInTrustStore = 0;
         boolean isIssuerCertMatched = false;
         try {
             Callback[] callbacks = null;
@@ -469,7 +469,7 @@ public class WssProviderSecurityEnvironment implements SecurityEnvironment {
                tsCallback = new TrustStoreCallback();
                callbacks = new Callback[] { tsCallback };
             }
-            
+
            try {
              _handler.handle(callbacks);
            } catch (Exception e) {
@@ -486,7 +486,7 @@ public class WssProviderSecurityEnvironment implements SecurityEnvironment {
             } else {
                 parameters.addCertStore(csCallback.getCertStore());
             }
-            
+
             Certificate[] certChain = null;
             String certAlias = tsCallback.getTrustStore().getCertificateAlias(cert);
             if(certAlias != null){
@@ -495,28 +495,28 @@ public class WssProviderSecurityEnvironment implements SecurityEnvironment {
             if(certChain == null){
                 certChainList.add(cert);
                 certChainIssuer = cert.getIssuerX500Principal();
-                noOfEntriesInTrustStore = tsCallback.getTrustStore().size();                   
-	    }else{
-		certChainList = Arrays.asList(certChain);
-	    }            
-            while(!caFound && noOfEntriesInTrustStore-- != 0 && certChain == null){                
-                Enumeration aliases = tsCallback.getTrustStore().aliases();                
+                noOfEntriesInTrustStore = tsCallback.getTrustStore().size();
+        }else{
+        certChainList = Arrays.asList(certChain);
+        }
+            while(!caFound && noOfEntriesInTrustStore-- != 0 && certChain == null){
+                Enumeration aliases = tsCallback.getTrustStore().aliases();
                 while (aliases.hasMoreElements()) {
-                    String alias = (String) aliases.nextElement();                 
-                    Certificate certificate = tsCallback.getTrustStore().getCertificate(alias);                    
+                    String alias = (String) aliases.nextElement();
+                    Certificate certificate = tsCallback.getTrustStore().getCertificate(alias);
                     if (certificate == null || !"X.509".equals(certificate.getType()) || certChainList.contains(certificate)) {
                         continue;
                     }
-                    X509Certificate x509Cert = (X509Certificate) certificate;                    
+                    X509Certificate x509Cert = (X509Certificate) certificate;
                     if(certChainIssuer.equals(x509Cert.getSubjectX500Principal())){
                         certChainList.add(certificate);
                         if(x509Cert.getSubjectX500Principal().equals(x509Cert.getIssuerX500Principal())){
-                            caFound = true;                            
+                            caFound = true;
                             break;
-                        }else{                            
-                            certChainIssuer = x509Cert.getIssuerDN();                            
+                        }else{
+                            certChainIssuer = x509Cert.getIssuerDN();
                             if(!isIssuerCertMatched){
-	                        isIssuerCertMatched = true;
+                            isIssuerCertMatched = true;
                             }
                         }
                     }else{
@@ -530,11 +530,11 @@ public class WssProviderSecurityEnvironment implements SecurityEnvironment {
                     }
                 }
             }
-            try{                                                
+            try{
                 CertificateFactory cf = CertificateFactory.getInstance("X.509");
                 certPath = cf.generateCertPath(certChainList);
-                certValidator = CertPathValidator.getInstance("PKIX");                
-            }catch(Exception e){                
+                certValidator = CertPathValidator.getInstance("PKIX");
+            }catch(Exception e){
                 throw new CertificateValidationCallback.CertificateValidationException(e.getMessage(), e);
             }
         } catch (Exception e) {
@@ -542,8 +542,8 @@ public class WssProviderSecurityEnvironment implements SecurityEnvironment {
             throw new XWSSecurityException(e);
         }
 
-        try {            
-             certValidator.validate(certPath, parameters);            
+        try {
+             certValidator.validate(certPath, parameters);
         } catch (Exception e) {
             // log message
             return false;
@@ -572,7 +572,7 @@ public class WssProviderSecurityEnvironment implements SecurityEnvironment {
 
             try {
                 _handler.handle(callbacks);
-            } catch (Exception e) {                
+            } catch (Exception e) {
                 throw new XWSSecurityException(e);
             }
 
@@ -597,7 +597,7 @@ public class WssProviderSecurityEnvironment implements SecurityEnvironment {
             throw new XWSSecurityException(e);
         }
     }
-    
+
     /**
      * @param keyIdMatch
      *            KeyIdentifier to search for
@@ -605,7 +605,7 @@ public class WssProviderSecurityEnvironment implements SecurityEnvironment {
      */
     public X509Certificate getMatchingCertificate(Map context, byte[] keyIdMatch)
         throws XWSSecurityException {
-        
+
         Subject subject = getSubject(context);
         if (subject != null) {
            Set set = subject.getPrivateCredentials(X500PrivateCredential.class);
@@ -636,21 +636,21 @@ public class WssProviderSecurityEnvironment implements SecurityEnvironment {
         Certificate[] chain = pkCallback.getChain();
         if (chain != null) {
            for (int i=0; i<chain.length; i++) {
-               X509Certificate x509Cert = (X509Certificate)chain[i]; 
+               X509Certificate x509Cert = (X509Certificate)chain[i];
                if (matchesKeyIdentifier(keyIdMatch, x509Cert))
                   return x509Cert;
-           }  
-        } 
- 
+           }
+        }
+
         // if not found, look in Truststore
         //TODO: i should probably look inside the CertStore and not in TrustStore
         KeyStore trustStore = tsCallback.getTrustStore();
-        if (trustStore != null) { 
+        if (trustStore != null) {
            X509Certificate otherPartyCert = getMatchingCertificate(keyIdMatch, trustStore);
            if (otherPartyCert != null) return otherPartyCert;
-        } 
+        }
 
-        // if still not found, throw Exception                             
+        // if still not found, throw Exception
         throw new XWSSecurityException(
             "No Matching Certificate for :"
                 + Arrays.toString(keyIdMatch)
@@ -669,7 +669,7 @@ public class WssProviderSecurityEnvironment implements SecurityEnvironment {
                  X500PrivateCredential cred = (X500PrivateCredential)it.next();
                  X509Certificate x509Cert = cred.getCertificate();
                  BigInteger serialNo = x509Cert.getSerialNumber();
-                  
+
                  X500Principal currentIssuerPrincipal = x509Cert.getIssuerX500Principal();
                  X500Principal issuerPrincipal = new X500Principal(issuerName);
                  if (serialNo.equals(serialNumber)
@@ -682,7 +682,7 @@ public class WssProviderSecurityEnvironment implements SecurityEnvironment {
 
         PrivateKeyCallback.Request request = new PrivateKeyCallback.IssuerSerialNumRequest(
                                                        new X500Principal(issuerName),
-                                                       serialNumber);     
+                                                       serialNumber);
         PrivateKeyCallback pkCallback = new PrivateKeyCallback(request);
         TrustStoreCallback tsCallback = new TrustStoreCallback();
 
@@ -697,8 +697,8 @@ public class WssProviderSecurityEnvironment implements SecurityEnvironment {
         Certificate[] chain = pkCallback.getChain();
         if (chain != null) {
            for (int i=0; i < chain.length; i++) {
-               X509Certificate x509Cert = (X509Certificate)chain[i]; 
-               if ( 
+               X509Certificate x509Cert = (X509Certificate)chain[i];
+               if (
                    matchesIssuerSerialAndName(
                                    serialNumber,
                                    issuerName,
@@ -706,13 +706,13 @@ public class WssProviderSecurityEnvironment implements SecurityEnvironment {
            }
         } else {
            // log
-        } 
- 
+        }
+
         // if not found, look in Truststore
         //TODO: I should probably look inside CertStore instead of TrustStore
         KeyStore trustStore = tsCallback.getTrustStore();
-        if (trustStore != null) { 
-            X509Certificate otherPartyCert = getMatchingCertificate(serialNumber, 
+        if (trustStore != null) {
+            X509Certificate otherPartyCert = getMatchingCertificate(serialNumber,
                                                                     issuerName,
                                                                     trustStore);
             if (otherPartyCert != null) return otherPartyCert;
@@ -720,7 +720,7 @@ public class WssProviderSecurityEnvironment implements SecurityEnvironment {
             // log
         }
 
-        // if still not found, throw Exception                             
+        // if still not found, throw Exception
         throw new XWSSecurityException(
             "No Matching Certificate for :"
                 + " found in KeyStore or TrustStore");
@@ -733,7 +733,7 @@ public class WssProviderSecurityEnvironment implements SecurityEnvironment {
      */
     public X509Certificate getMatchingCertificate(Map context, byte[] keyIdMatch, String valueType)
         throws XWSSecurityException {
-        
+
         if (MessageConstants.KEY_INDETIFIER_TYPE.equals(valueType)){
             return getMatchingCertificate(context, keyIdMatch);
         }
@@ -769,21 +769,21 @@ public class WssProviderSecurityEnvironment implements SecurityEnvironment {
         Certificate[] chain = pkCallback.getChain();
         if (chain != null) {
            for (int i=0; i<chain.length; i++) {
-               X509Certificate x509Cert = (X509Certificate)chain[i]; 
+               X509Certificate x509Cert = (X509Certificate)chain[i];
                if (matchesThumbPrint(keyIdMatch, x509Cert))
                   return x509Cert;
-           }  
-        } 
- 
+           }
+        }
+
         // if not found, look in Truststore
         //TODO: i guess i need to look inside the CertStore and not TrustStore
         KeyStore trustStore = tsCallback.getTrustStore();
-        if (trustStore != null) { 
+        if (trustStore != null) {
            X509Certificate otherPartyCert = getMatchingCertificate(keyIdMatch, trustStore, valueType);
            if (otherPartyCert != null) return otherPartyCert;
-        } 
+        }
 
-        // if still not found, throw Exception                             
+        // if still not found, throw Exception
         throw new XWSSecurityException(
             "No Matching Certificate for :"
                 + Arrays.toString(keyIdMatch)
@@ -794,7 +794,7 @@ public class WssProviderSecurityEnvironment implements SecurityEnvironment {
     public SecretKey getSecretKey(Map context, String alias, boolean encryptMode)
         throws XWSSecurityException {
         /*
-           Use SecretKeyCallback 
+           Use SecretKeyCallback
         */
         SecretKeyCallback.Request request = new SecretKeyCallback.AliasRequest(alias);
         SecretKeyCallback skCallback = new SecretKeyCallback(request);
@@ -804,7 +804,7 @@ public class WssProviderSecurityEnvironment implements SecurityEnvironment {
         } catch (Exception e) {
             throw new XWSSecurityException(e);
         }
- 
+
         return skCallback.getKey();
     }
 
@@ -859,12 +859,12 @@ public class WssProviderSecurityEnvironment implements SecurityEnvironment {
            }
         } catch (Exception e) {
             throw new XWSSecurityException(e);
-        } 
-        
+        }
+
         if (cert == null) {
            throw new XWSSecurityException(
              "Unable to locate certificate for the alias '" + alias + "'");
-        } 
+        }
 
         return cert;
     }
@@ -885,11 +885,11 @@ public class WssProviderSecurityEnvironment implements SecurityEnvironment {
         return false;
     }
 
-    
+
     public static byte[] getThumbprintIdentifier(X509Certificate cert)
        throws XWSSecurityException {
         byte[] thumbPrintIdentifier = null;
-                                                                                                                      
+
         try {
             thumbPrintIdentifier = MessageDigest.getInstance("SHA-1").digest(cert.getEncoded());
         } catch ( NoSuchAlgorithmException ex ) {
@@ -899,7 +899,7 @@ public class WssProviderSecurityEnvironment implements SecurityEnvironment {
         }
         return thumbPrintIdentifier;
     }
-      
+
     private boolean matchesThumbPrint(
         byte[] keyIdMatch,
         X509Certificate x509Cert) throws XWSSecurityException {
@@ -961,7 +961,7 @@ public class WssProviderSecurityEnvironment implements SecurityEnvironment {
         if (MessageConstants.KEY_INDETIFIER_TYPE.equals(valueType)){
             return getMatchingCertificate(keyIdMatch, kStore);
         }
-        
+
         // now handle thumbprint here
         if (kStore == null) {
             return null;
@@ -989,14 +989,14 @@ public class WssProviderSecurityEnvironment implements SecurityEnvironment {
         }
         return null;
     }
-    
+
     private boolean matchesIssuerSerialAndName(
         BigInteger serialNumberMatch,
         String issuerNameMatch,
         X509Certificate x509Cert) {
 
         BigInteger serialNumber = x509Cert.getSerialNumber();
-         
+
         X500Principal currentIssuerPrincipal = x509Cert.getIssuerX500Principal();
         X500Principal issuerPrincipal = new X500Principal(issuerNameMatch);
 
@@ -1029,7 +1029,7 @@ public class WssProviderSecurityEnvironment implements SecurityEnvironment {
 
                 X509Certificate x509Cert = (X509Certificate) cert;
                 BigInteger serialNo = x509Cert.getSerialNumber();
-                 
+
                 X500Principal currentIssuerPrincipal = x509Cert.getIssuerX500Principal();
                 X500Principal issuerPrincipal = new X500Principal(issuerName);
                 if (serialNo.equals(serialNumber)
@@ -1059,7 +1059,7 @@ public class WssProviderSecurityEnvironment implements SecurityEnvironment {
                         return null;
                     }
                 });
-        
+
     }
 
     @Override
@@ -1077,13 +1077,13 @@ public class WssProviderSecurityEnvironment implements SecurityEnvironment {
                     }
                 });
     }
-      
+
 
     @Override
     public void updateOtherPartySubject(
         final Subject subject,
         final Assertion assertion) {
-      
+
         //subject.getPublicCredentials().add(assertion);
     }
 
@@ -1114,7 +1114,7 @@ public class WssProviderSecurityEnvironment implements SecurityEnvironment {
             throw new XWSSecurityException(e);
         }
     }
-    
+
     @Override
     public PublicKey getPublicKey(Map context, byte[] identifier, String valueType)
     throws XWSSecurityException {
@@ -1155,7 +1155,7 @@ public class WssProviderSecurityEnvironment implements SecurityEnvironment {
     public PrivateKey getPrivateKey(Map context, PublicKey publicKey, boolean forSign) {
         return null;
     }
-    
+
     @Override
     public X509Certificate getCertificate(Map context, byte[] ski) {
         return null;
@@ -1164,13 +1164,13 @@ public class WssProviderSecurityEnvironment implements SecurityEnvironment {
     public X509Certificate getCertificate(Map context, PublicKey publicKey, boolean forSign) {
         return null;
     }
-    
+
     @Override
     public X509Certificate getCertificate(Map context, byte[] identifier, String valueType) {
         // on the lines of other getCertificates here return null for now.
         return null;
     }
-    
+
 
     public boolean validateSamlIssuer(String issuer) {
         return true;
@@ -1221,7 +1221,7 @@ public class WssProviderSecurityEnvironment implements SecurityEnvironment {
 
     /**
      * Not implemented: AuthModules use Callbacks internally
-     */ 
+     */
     @Override
     public String getUsername(Map context) {
 
@@ -1232,13 +1232,13 @@ public class WssProviderSecurityEnvironment implements SecurityEnvironment {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-                                                                                                                                              
+
        return nameCallback.getName();
     }
 
     /**
      * Not implemented: AuthModules use Callbacks internally
-     */ 
+     */
     @Override
     public String getPassword(Map context) {
 
@@ -1252,10 +1252,10 @@ public class WssProviderSecurityEnvironment implements SecurityEnvironment {
 
         if (pwdCallback.getPassword() == null)
             return null;
-                                                                                                                                              
+
         return new String(pwdCallback.getPassword());
     }
-    
+
    @Override
    public boolean validateAndCacheNonce(Map context, String nonce, String created, long maxNonceAge)
        throws XWSSecurityException {
@@ -1300,7 +1300,7 @@ public class WssProviderSecurityEnvironment implements SecurityEnvironment {
                         expires = calendarFormatter1.parse(expirationTime);
                     }
                 }
-            
+
             } catch (java.text.ParseException pe) {
                 synchronized(calendarFormatter2) {
                     created = calendarFormatter2.parse(creationTime);
@@ -1314,7 +1314,7 @@ public class WssProviderSecurityEnvironment implements SecurityEnvironment {
          } catch (java.text.ParseException pe) {
              throw new XWSSecurityException(pe.getMessage());
          }
-                                                                                                                                                             
+
         if ((expires != null) && expires.before(created))
             return true;
 
@@ -1343,7 +1343,7 @@ public class WssProviderSecurityEnvironment implements SecurityEnvironment {
                     "Exception while parsing Creation Time :" + pe1.getMessage());
             }
         }
-            
+
         Date current = null;
         current = getFreshnessAndSkewAdjustedDate(maxClockSkew, timestampFreshnessLimit);
 
@@ -1355,7 +1355,7 @@ public class WssProviderSecurityEnvironment implements SecurityEnvironment {
                 "Creation Time is older than configured Timestamp Freshness Interval!",
                 xwsse);
         }
-            
+
         Date currentTime = getGMTDateWithSkewAdjusted(new GregorianCalendar(), maxClockSkew, true);
 
         if (currentTime.before(created)) {
@@ -1387,7 +1387,7 @@ public class WssProviderSecurityEnvironment implements SecurityEnvironment {
                         "Exception while parsing Expiration Time :" + pe1.getMessage());
                 }
             }
-                
+
             Date currentTime = getGMTDateWithSkewAdjusted(new GregorianCalendar(), maxClockSkew, false);
 
             if (expires.before(currentTime)) {
@@ -1432,12 +1432,12 @@ public class WssProviderSecurityEnvironment implements SecurityEnvironment {
         }
         long beforeTime = c.getTimeInMillis();
         long currentTime = beforeTime - offset;
-        
+
         if (addSkew)
             currentTime = currentTime + maxClockSkew;
         else
             currentTime = currentTime - maxClockSkew;
-        
+
         c.setTimeInMillis(currentTime);
         return c.getTime();
     }
@@ -1451,11 +1451,11 @@ public class WssProviderSecurityEnvironment implements SecurityEnvironment {
         }
         long beforeTime = c.getTimeInMillis();
         long currentTime = beforeTime - offset;
-        
+
         // allow for clock_skew and timestamp_freshness
         long adjustedTime = currentTime - maxClockSkew - timestampFreshnessLimit;
         c.setTimeInMillis(adjustedTime);
-        
+
         return c.getTime();
     }
 
@@ -1471,13 +1471,13 @@ public class WssProviderSecurityEnvironment implements SecurityEnvironment {
         if (keyId != null) {
             try {
                 cert = getMatchingCertificate(keyId.getBytes(), trustStore);
-                if (cert != null) 
+                if (cert != null)
                     return cert;
             } catch (XWSSecurityException e) {}
         } else if ((issuerName != null) && (issuerSerial != null)) {
             try {
                 cert = getMatchingCertificate(issuerSerial, issuerName, trustStore);
-                if (cert != null) 
+                if (cert != null)
                     return cert;
             } catch (XWSSecurityException e) {}
         } else if (requesterSubject != null) {
@@ -1491,26 +1491,26 @@ public class WssProviderSecurityEnvironment implements SecurityEnvironment {
             if (cert != null) {
                 return cert;
             }
-        } 
+        }
         return null;
     }
-    
+
     public void updateOtherPartySubject(Subject subj, String encryptedKey){
         //TODO:
     }
-    
+
      public void updateOtherPartySubject(
         Subject subject,
         Key secretKey) {
      }
-     
+
     @Override
     public PrivateKey getPrivateKey(Map context, byte[] keyIdentifier, String valueType)
         throws XWSSecurityException {
         if ( MessageConstants.KEY_INDETIFIER_TYPE.equals(valueType)) {
             return getPrivateKey(context, keyIdentifier);
         }
-        
+
         try {
            Subject subject = getSubject(context);
            if (subject != null) {
@@ -1519,35 +1519,35 @@ public class WssProviderSecurityEnvironment implements SecurityEnvironment {
                  Iterator it = set.iterator();
                  while (it.hasNext()) {
                     X500PrivateCredential cred = (X500PrivateCredential)it.next();
-                    if (matchesThumbPrint(Base64.decode(keyIdentifier), 
+                    if (matchesThumbPrint(Base64.decode(keyIdentifier),
                                              cred.getCertificate()))
                        return cred.getPrivateKey();
                  }
               }
            }
 
-           // TODO: change this 
+           // TODO: change this
            //PrivateKeyCallback.Request request = new PrivateKeyCallback.ThumbPrintRequest(
            //                                                         keyIdentifier);
            PrivateKeyCallback.Request request = new PrivateKeyCallback.SubjectKeyIDRequest(
                                                                     keyIdentifier);
-           
+
            PrivateKeyCallback pkCallback = new PrivateKeyCallback(request);
            Callback[] callbacks = new Callback[] { pkCallback };
            _handler.handle(callbacks);
 
-           return pkCallback.getKey(); 
+           return pkCallback.getKey();
         } catch (Exception e) {
             throw new XWSSecurityException(e);
         }
-        
+
     }
 
     @Override
     public void validateSAMLAssertion(Map context, XMLStreamReader assertion) {
          throw new UnsupportedOperationException("Not supported");
     }
-    
+
 
     @Override
     public void updateOtherPartySubject(Subject subject, XMLStreamReader assertion) {

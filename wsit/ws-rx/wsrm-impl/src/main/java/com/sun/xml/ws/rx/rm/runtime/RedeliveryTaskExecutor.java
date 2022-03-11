@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -48,7 +48,7 @@ class RedeliveryTaskExecutor {
         messageHandler.putToDeliveryQueue(message);
         return true;
     }
-    
+
     // Not used anymore in favor of deliverUsingCurrentThread.
     @Deprecated
     public static boolean register(final ApplicationMessage message, long delay, TimeUnit timeUnit, final MessageHandler messageHandler, Component container) {
@@ -61,7 +61,7 @@ class RedeliveryTaskExecutor {
                 }
             }
         }
-        
+
         if (LOGGER.isLoggable(Level.FINER)) {
             LOGGER.finer(String.format(
                     "A message with number [ %d ] has been scheduled for a redelivery "

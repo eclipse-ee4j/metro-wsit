@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -30,13 +30,13 @@ import com.sun.xml.wss.XWSSecurityException;
 public class SecurityConfigurationFactory {
 
     /**
-     * 
+     *
      * @param config XWSS Security Configuration.
      * @throws com.sun.xml.wss.XWSSecurityException is XWS-Security configuration file is not wellformed.
      */
-    public static XWSSecurityConfiguration newXWSSecurityConfiguration(InputStream config) 
+    public static XWSSecurityConfiguration newXWSSecurityConfiguration(InputStream config)
         throws XWSSecurityException {
-        return new SecurityConfiguration(config);      
+        return new SecurityConfiguration(config);
     }
 
 }

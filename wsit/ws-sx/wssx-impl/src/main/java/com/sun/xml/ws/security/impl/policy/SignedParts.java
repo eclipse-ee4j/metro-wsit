@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -38,42 +38,42 @@ public class SignedParts extends PolicyAssertion implements com.sun.xml.ws.secur
     private boolean populated = false;
     private Set<PolicyAssertion> targets = new HashSet<>();
     private SecurityPolicyVersion spVersion;
-    
+
     /**
      * Creates a new instance of SignedParts
      */
     public SignedParts() {
         spVersion = SecurityPolicyVersion.SECURITYPOLICY200507;
     }
-    
+
     public SignedParts(AssertionData name,Collection<PolicyAssertion> nestedAssertions, AssertionSet nestedAlternative) {
         super(name,nestedAssertions,nestedAlternative);
         String nsUri = getName().getNamespaceURI();
         spVersion = PolicyUtil.getSecurityPolicyVersion(nsUri);
     }
-    
+
     public void addBody() {
-        
+
     }
-    
+
     @Override
     public boolean hasBody() {
         populate();
         return body;
     }
-    
+
     @Override
     public boolean hasAttachments() {
         populate();
         return attachments;
     }
-    
+
     @Override
     public String attachmentProtectionType(){
         populate();
         return attachmentProtectionType;
     }
-    
+
     @Override
     public AssertionFitness validate(boolean isServer) {
         return populate(isServer);
@@ -81,7 +81,7 @@ public class SignedParts extends PolicyAssertion implements com.sun.xml.ws.secur
     private void populate(){
         populate(false);
     }
-    
+
     private synchronized AssertionFitness populate(boolean isServer) {
         if(!populated){
             if(this.hasNestedAssertions()){
@@ -115,11 +115,11 @@ public class SignedParts extends PolicyAssertion implements com.sun.xml.ws.secur
         }
         return fitness;
     }
-    
+
     public void addHeader(Header header) {
-        
+
     }
-    
+
     @Override
     public Iterator getHeaders() {
         populate();

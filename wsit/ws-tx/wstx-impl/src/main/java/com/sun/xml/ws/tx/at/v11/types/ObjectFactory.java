@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -17,18 +17,18 @@ import javax.xml.namespace.QName;
 
 
 /**
- * This object contains factory methods for each 
- * Java content interface and Java element interface 
+ * This object contains factory methods for each
+ * Java content interface and Java element interface
  * generated in the com.sun.xml.ws.tx.at.v11.types package.
- * <p>An ObjectFactory allows you to programatically 
- * construct new instances of the Java representation 
- * for XML content. The Java representation of XML 
- * content can consist of schema derived interfaces 
- * and classes representing the binding of schema 
- * type definitions, element declarations and model 
- * groups.  Factory methods for each of these are 
+ * <p>An ObjectFactory allows you to programatically
+ * construct new instances of the Java representation
+ * for XML content. The Java representation of XML
+ * content can consist of schema derived interfaces
+ * and classes representing the binding of schema
+ * type definitions, element declarations and model
+ * groups.  Factory methods for each of these are
  * provided in this class.
- * 
+ *
  */
 @XmlRegistry
 public class ObjectFactory {
@@ -43,14 +43,14 @@ public class ObjectFactory {
 
     /**
      * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: com.sun.xml.ws.tx.at.v11.types
-     * 
+     *
      */
     public ObjectFactory() {
     }
 
     /**
      * Create an instance of {@link Notification }
-     * 
+     *
      */
     public Notification createNotification() {
         return new Notification();
@@ -58,7 +58,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link ATAssertion }
-     * 
+     *
      */
     public ATAssertion createATAssertion() {
         return new ATAssertion();
@@ -66,7 +66,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link Notification }{@code >}}
-     * 
+     *
      */
     @XmlElementDecl(namespace = "http://docs.oasis-open.org/ws-tx/wsat/2006/06", name = "Aborted")
     public JAXBElement<Notification> createAborted(Notification value) {
@@ -75,7 +75,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link Notification }{@code >}}
-     * 
+     *
      */
     @XmlElementDecl(namespace = "http://docs.oasis-open.org/ws-tx/wsat/2006/06", name = "Commit")
     public JAXBElement<Notification> createCommit(Notification value) {
@@ -84,7 +84,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link Notification }{@code >}}
-     * 
+     *
      */
     @XmlElementDecl(namespace = "http://docs.oasis-open.org/ws-tx/wsat/2006/06", name = "ReadOnly")
     public JAXBElement<Notification> createReadOnly(Notification value) {
@@ -93,7 +93,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link Notification }{@code >}}
-     * 
+     *
      */
     @XmlElementDecl(namespace = "http://docs.oasis-open.org/ws-tx/wsat/2006/06", name = "Committed")
     public JAXBElement<Notification> createCommitted(Notification value) {
@@ -102,7 +102,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link Notification }{@code >}}
-     * 
+     *
      */
     @XmlElementDecl(namespace = "http://docs.oasis-open.org/ws-tx/wsat/2006/06", name = "Rollback")
     public JAXBElement<Notification> createRollback(Notification value) {
@@ -111,7 +111,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link Notification }{@code >}}
-     * 
+     *
      */
     @XmlElementDecl(namespace = "http://docs.oasis-open.org/ws-tx/wsat/2006/06", name = "Prepare")
     public JAXBElement<Notification> createPrepare(Notification value) {
@@ -120,7 +120,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link Notification }{@code >}}
-     * 
+     *
      */
     @XmlElementDecl(namespace = "http://docs.oasis-open.org/ws-tx/wsat/2006/06", name = "Prepared")
     public JAXBElement<Notification> createPrepared(Notification value) {

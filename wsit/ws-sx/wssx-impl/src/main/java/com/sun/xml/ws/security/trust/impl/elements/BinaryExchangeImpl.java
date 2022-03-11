@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -33,24 +33,24 @@ import com.sun.xml.ws.security.trust.logging.LogStringsMessages;
  */
 
 public class BinaryExchangeImpl extends BinaryExchangeType implements BinaryExchange {
-    
+
     private static final Logger log =
             Logger.getLogger(
             LogDomainConstants.TRUST_IMPL_DOMAIN,
             LogDomainConstants.TRUST_IMPL_DOMAIN_BUNDLE);
-    
+
     public BinaryExchangeImpl(String encodingType, String valueType, byte[] rawText) {
         setEncodingType(encodingType);
         setValueType(valueType);
         setRawValue(rawText);
     }
-    
+
     public BinaryExchangeImpl(BinaryExchangeType bcType)throws RuntimeException{
         setEncodingType(bcType.getEncodingType());
         setValueType(bcType.getValueType());
         setValue(bcType.getValue());
     }
-    
+
     @Override
     public byte[] getRawValue() {
         try {
@@ -61,20 +61,20 @@ public class BinaryExchangeImpl extends BinaryExchangeType implements BinaryExch
             throw new RuntimeException(LogStringsMessages.WST_0020_ERROR_DECODING(getTextValue()), de);
         }
     }
-    
+
     @Override
     public String getTextValue() {
         return super.getValue();
     }
-    
+
     @Override
     public void setTextValue(@NotNull final String encodedText) {
         super.setValue(encodedText);
     }
-    
+
     @Override
     public final void setRawValue(@NotNull final byte[] rawText) {
         super.setValue(Base64.encode(rawText));
     }
-    
+
 }

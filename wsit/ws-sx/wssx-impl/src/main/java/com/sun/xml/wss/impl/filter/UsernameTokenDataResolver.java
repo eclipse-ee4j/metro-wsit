@@ -66,7 +66,7 @@ public class UsernameTokenDataResolver {
             String userName = unToken.getUsernameValue();
             if (userName == null || "".equals(userName)) {
                 userName = context.getSecurityEnvironment().getUsername(context.getExtraneousProperties());
-            }            
+            }
             if (userName == null || "".equals(userName)) {
                 log.log(Level.SEVERE, LogStringsMessages.WSS_1409_INVALID_USERNAME_TOKEN());
                 throw new XWSSecurityException("Username has not been set");
@@ -87,11 +87,11 @@ public class UsernameTokenDataResolver {
             String iterate = Integer.toString(iterations);
             as.setValue(iterate);
             unToken.setIteration(as);
-           
+
             byte[] salt = null;
             if (unToken.getSalt() == null) {
                  //Setting Salt in UsernameToken ;
-                salt = pdk.get16ByteSalt();                
+                salt = pdk.get16ByteSalt();
                 AttributedString aString = new AttributedString();
                 aString.setValue(Base64.encode(salt));
                 unToken.setSalt(aString);
@@ -221,7 +221,7 @@ public class UsernameTokenDataResolver {
             token.setUsername(userName);
             } else {
             unToken.setUsernameValue(userName);
-            }     
+            }
             if (!userNamePolicy.hasNoPassword() && (password == null || "".equals(password))) {
                 password = context.getSecurityEnvironment().getPassword(context.getExtraneousProperties());
             }
@@ -234,8 +234,8 @@ public class UsernameTokenDataResolver {
                 token.setPassword(password);
                 } else {
                 unToken.setPasswordValue(password);
-                }              
-            }       
+                }
+            }
         return userNamePolicy;
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -26,7 +26,7 @@ public final class DelayedTaskManager extends AbstractTaskManager {
     private final Component component;
     private final String threadPoolName;
     private final int coreThreadPoolSize;
-    
+
     public interface DelayedTask {
         String getName();
 
@@ -72,7 +72,7 @@ public final class DelayedTaskManager extends AbstractTaskManager {
             }
         }
     }
-    //   
+    //
 
     private DelayedTaskManager(String name, int coreThreadPoolSize, Component component) {
         super();
@@ -88,9 +88,9 @@ public final class DelayedTaskManager extends AbstractTaskManager {
         }
 
         assert task != null;
-        
+
         getExecutorService().schedule(new Worker(task), delay, timeUnit);
-        return true; 
+        return true;
     }
 
     @Override

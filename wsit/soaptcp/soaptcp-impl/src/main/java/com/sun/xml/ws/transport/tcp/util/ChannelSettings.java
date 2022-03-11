@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -18,24 +18,24 @@ import javax.xml.namespace.QName;
  * @author Alexey Stashok
  */
 public final class ChannelSettings {
-    
+
     private List<String> negotiatedMimeTypes;
-    
+
     private List<String> negotiatedParams;
-    
+
     private int channelId;
-    
+
     private QName wsServiceName;
-    
+
     private WSTCPURI targetWSURI;
-    
+
     public ChannelSettings() {
     }
 
-    public ChannelSettings(@NotNull final List<String> negotiatedMimeTypes, 
-            @NotNull final List<String> negotiatedParams, 
-            final int channelId, 
-            final QName wsServiceName, 
+    public ChannelSettings(@NotNull final List<String> negotiatedMimeTypes,
+            @NotNull final List<String> negotiatedParams,
+            final int channelId,
+            final QName wsServiceName,
             final WSTCPURI targetWSURI) {
         this.negotiatedMimeTypes = negotiatedMimeTypes;
         this.negotiatedParams = negotiatedParams;
@@ -83,7 +83,7 @@ public final class ChannelSettings {
     public void setWSServiceName(@NotNull final QName wsServiceName) {
         this.wsServiceName = wsServiceName;
     }
-    
+
     public String toString() {
         String sb = "TargetURI: " +
                 targetWSURI +
@@ -95,7 +95,7 @@ public final class ChannelSettings {
                 negotiatedParams +
                 " negotiatedMimeTypes: " +
                 negotiatedMimeTypes;
-                
+
         return sb;
     }
 }

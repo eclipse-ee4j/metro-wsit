@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  * Copyright 1999-2005 The Apache Software Foundation.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
@@ -29,7 +29,7 @@ import com.sun.xml.wss.logging.LogDomainConstants;
 
 /**
  * This class has been modified slightly to use java.security.MessageDigest
- * objects as input, rather than 
+ * objects as input, rather than
  * org.apache.xml.security.algorithms.MessageDigestAlgorithm objects.
  * It also optionally caches the input bytes.
  *
@@ -49,7 +49,7 @@ public class DigesterOutputStream extends OutputStream {
      * @param md the MessageDigest
      */
     public DigesterOutputStream(MessageDigest md) {
-	this(md, false);
+    this(md, false);
     }
 
     /**
@@ -60,47 +60,47 @@ public class DigesterOutputStream extends OutputStream {
      */
     public DigesterOutputStream(MessageDigest md, boolean buffer) {
         this.md = md;
-	this.buffer = buffer;
-	if (buffer) {
-	    bos = new UnsyncByteArrayOutputStream();
-	}
+    this.buffer = buffer;
+    if (buffer) {
+        bos = new UnsyncByteArrayOutputStream();
+    }
     }
 
     @Override
     public void write(byte[] input) {
-	write(input, 0, input.length);
+    write(input, 0, input.length);
     }
-    
+
     @Override
     public void write(int input) {
-	if (buffer) {
-	    bos.write(input);
-	}
-	md.update((byte)input);
+    if (buffer) {
+        bos.write(input);
     }
-    
+    md.update((byte)input);
+    }
+
     @Override
     public void write(byte[] input, int offset, int len) {
-	if (buffer) {
-	    bos.write(input, offset, len);
-	}
+    if (buffer) {
+        bos.write(input, offset, len);
+    }
 
         if (log.isLoggable(Level.FINER)) {
-	    log.log(Level.FINER, "Pre-digested input:");
-	    StringBuilder sb = new StringBuilder(len);
+        log.log(Level.FINER, "Pre-digested input:");
+        StringBuilder sb = new StringBuilder(len);
             for (int i=offset; i<(offset+len); i++) {
-		sb.append((char) input[i]);
+        sb.append((char) input[i]);
             }
-	    log.log(Level.FINER, sb.toString());
-	}
-	md.update(input, offset, len);
+        log.log(Level.FINER, sb.toString());
     }
-    
+    md.update(input, offset, len);
+    }
+
     /**
-     * @return the digest value 
+     * @return the digest value
      */
     public byte[] getDigestValue() {
-         return md.digest();   
+         return md.digest();
     }
 
     /**
@@ -108,10 +108,10 @@ public class DigesterOutputStream extends OutputStream {
      *    null if not cached
      */
     public InputStream getInputStream() {
-	if (buffer) {
-	    return new ByteArrayInputStream(bos.toByteArray());
-	} else {
-	    return null;
-	}
+    if (buffer) {
+        return new ByteArrayInputStream(bos.toByteArray());
+    } else {
+        return null;
+    }
     }
 }

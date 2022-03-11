@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -48,7 +48,7 @@ public class NameID extends NameIDType implements com.sun.xml.wss.saml.NameID {
         throws SAMLException {
         try {
             JAXBContext jc = SAML20JAXBUtil.getJAXBContext();
-                
+
             jakarta.xml.bind.Unmarshaller u = jc.createUnmarshaller();
             return (NameIDType)u.unmarshal(element);
         } catch ( Exception ex) {
@@ -56,7 +56,7 @@ public class NameID extends NameIDType implements com.sun.xml.wss.saml.NameID {
         }
     }
 
-    
+
     /**
      * Constructs a <code>NameQualifier</code> instance.
      *
@@ -71,15 +71,15 @@ public class NameID extends NameIDType implements com.sun.xml.wss.saml.NameID {
         {
         if ( name != null)
             setValue(name);
-        
+
         if ( nameQualifier != null)
             setNameQualifier(nameQualifier);
-        
+
         if ( format != null)
             setFormat(format);
     }
-    
-    public NameID(NameIDType nameIdType){        
+
+    public NameID(NameIDType nameIdType){
         setValue(nameIdType.getValue());
         setNameQualifier(nameIdType.getNameQualifier());
         setFormat(nameIdType.getFormat());

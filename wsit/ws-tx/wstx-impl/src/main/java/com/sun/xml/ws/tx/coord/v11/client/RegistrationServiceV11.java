@@ -30,7 +30,7 @@ import java.net.URL;
 public class RegistrationServiceV11
     extends Service
 {
-    
+
     private static URL REGISTRATIONSERVICEV11_WSDL_LOCATION;
     static {
         try {
@@ -49,7 +49,7 @@ public class RegistrationServiceV11
     }
 
     /**
-     * 
+     *
      * @param features
      *     A list of {@link jakarta.xml.ws.WebServiceFeature} to configure on the proxy.  Supported features not in the <code>features</code> parameter will have their default values.
      * @return

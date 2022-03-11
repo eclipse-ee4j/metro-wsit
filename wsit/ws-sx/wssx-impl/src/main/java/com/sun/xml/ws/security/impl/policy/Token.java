@@ -28,7 +28,7 @@ import com.sun.xml.ws.security.policy.SecurityAssertionValidator;
  */
 
 public class Token extends PolicyAssertion implements  com.sun.xml.ws.security.policy.Token, SecurityAssertionValidator{
-    
+
     private String _id;
     private boolean populated= false;
     private com.sun.xml.ws.security.policy.Token _token;
@@ -39,19 +39,19 @@ public class Token extends PolicyAssertion implements  com.sun.xml.ws.security.p
     /**
      * Creates a new instance of Token
      */
-    
+
     public Token(){
         _id= PolicyUtil.randomUUID();
         itQname = new QName(spVersion.namespaceUri, Constants.IncludeToken);
         _includeToken = spVersion.includeTokenAlways;
     }
-    
+
     public Token(QName name) {
         _id= PolicyUtil.randomUUID();
         itQname = new QName(spVersion.namespaceUri, Constants.IncludeToken);
         _includeToken = spVersion.includeTokenAlways;
     }
-    
+
     public Token(AssertionData name,Collection<PolicyAssertion> nestedAssertions, AssertionSet nestedAlternative) {
         super(name,nestedAssertions,nestedAlternative);
         String nsUri = getName().getNamespaceURI();
@@ -60,31 +60,31 @@ public class Token extends PolicyAssertion implements  com.sun.xml.ws.security.p
         _includeToken = spVersion.includeTokenAlways;
         _id= PolicyUtil.randomUUID();
     }
-    
+
     public com.sun.xml.ws.security.policy.Token getToken() {
         populate();
         return _token;
     }
-    
+
     @Override
     public String getIncludeToken() {
         populate();
         return _includeToken;
     }
-    
+
     public void setIncludeToken(String type) {
     }
-    
+
     public void setToken(com.sun.xml.ws.security.policy.Token token) {
         //TODO
     }
-    
+
     @Override
     public String getTokenId() {
-        
+
         return _id;
     }
-    
+
     @Override
     public AssertionFitness validate(boolean isServer) {
         return populate(isServer);
@@ -92,7 +92,7 @@ public class Token extends PolicyAssertion implements  com.sun.xml.ws.security.p
     private void populate(){
         populate(false);
     }
-    
+
     private synchronized AssertionFitness populate(boolean isServer) {
         if(!populated){
             String tValue = getAttributeValue(itQname);
@@ -120,7 +120,7 @@ public class Token extends PolicyAssertion implements  com.sun.xml.ws.security.p
                     }
                 }
             }
-            
+
             populated = true;
         }
         return fitness;

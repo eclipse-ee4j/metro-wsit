@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -107,7 +107,7 @@ public class PersistentSequenceDataLoader implements SequenceDataLoader {
         if (dbInstance.tableExists("RM_SEQUENCES")) {
             dbInstance.execute("DROP TABLE RM_SEQUENCES");
         }
-        
+
         dbInstance.execute(
                 "CREATE TABLE RM_SEQUENCES ( " +
                 "ENDPOINT_UID VARCHAR(512) NOT NULL, " +

@@ -17,12 +17,12 @@ package com.sun.xml.wss.impl;
 import com.sun.xml.wss.XWSSecurityException;
 
 /**
-  * The root class for Security Token Exceptions.  
+  * The root class for Security Token Exceptions.
   *
   * @author Manveen Kaur
   */
 public class SecurityTokenException extends XWSSecurityException {
-    
+
     // ------------ Token related fault code constants -----------
     public static final String INVALID_SECURITY_TOKEN = "Invalid Security Token";
     private static final long serialVersionUID = -3062421461359612078L;
@@ -40,7 +40,7 @@ public class SecurityTokenException extends XWSSecurityException {
     public SecurityTokenException(String message, Throwable cause) {
         super(message, cause);
     }
-    
+
     /*
      * A security exception wrapper around another exception.
      */

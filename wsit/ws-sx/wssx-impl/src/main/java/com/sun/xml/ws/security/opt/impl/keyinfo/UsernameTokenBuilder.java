@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -44,7 +44,7 @@ public class UsernameTokenBuilder extends TokenBuilder {
             untokenId = context.generateID();
         }
         SecurityUtil.checkIncludeTokenPolicyOpt(context, binding, untokenId);
-        String referenceType = binding.getReferenceType();       
+        String referenceType = binding.getReferenceType();
         BuilderResult result = new BuilderResult();
         if (MessageConstants.DIRECT_REFERENCE_TYPE.equals(referenceType)) {
             UsernameToken unToken = createUsernameToken(binding, binding.getUsernameToken());
@@ -54,8 +54,8 @@ public class UsernameTokenBuilder extends TokenBuilder {
             }
             DirectReference dr = buildDirectReference(unToken.getId(), MessageConstants.USERNAME_STR_REFERENCE_NS);
             buildKeyInfo(dr, binding.getSTRID());
-        }                
+        }
         result.setKeyInfo(keyInfo);
-        return result;    
+        return result;
     }
 }

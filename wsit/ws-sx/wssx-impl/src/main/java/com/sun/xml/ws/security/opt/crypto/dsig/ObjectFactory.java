@@ -18,9 +18,9 @@ import jakarta.xml.bind.annotation.XmlRegistry;
  */
 @XmlRegistry
 public class ObjectFactory extends com.sun.xml.security.core.dsig.ObjectFactory {
-    
+
     /** Creates a new instance of ObjectFactory */
     public ObjectFactory() {
     }
-    
+
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -33,9 +33,9 @@ import javax.xml.stream.XMLStreamWriter;
  */
 public final class EnhancedXmlStreamWriterProxy implements InvocationHandler {
     private static final Logger LOGGER = Logger.getLogger(EnhancedXmlStreamWriterProxy.class);
-    
+
     private static final Class<?>[] PROXIED_INTERFACES = new Class<?>[] {XMLStreamWriter.class};
-    
+
     // preloaded Method objects for the methods in java.lang.Object
     private static final Method hashCodeMethod;
     private static final Method equalsMethod;
@@ -49,10 +49,10 @@ public final class EnhancedXmlStreamWriterProxy implements InvocationHandler {
             throw LOGGER.logSevereException(new NoSuchMethodError(e.getMessage()), e);
         }
     }
-    
+
     // invocation procesor that processes
     private final InvocationProcessor invocationProcessor;
-    
+
     /**
      * Creates a wrapper {@link XMLStreamWriter} proxy that adds enhanced feature
      * to the {@code writer} instance.
@@ -68,30 +68,30 @@ public final class EnhancedXmlStreamWriterProxy implements InvocationHandler {
      */
     public static XMLStreamWriter createProxy(final XMLStreamWriter writer, final InvocationProcessorFactory processorFactory) throws XMLStreamException {
         LOGGER.entering();
-        
+
         XMLStreamWriter proxy = null;
         try {
             proxy = (XMLStreamWriter) Proxy.newProxyInstance(
                     writer.getClass().getClassLoader(),
                     PROXIED_INTERFACES,
                     new EnhancedXmlStreamWriterProxy(writer, processorFactory));
-            
+
             return proxy;
         } finally {
             LOGGER.exiting(proxy);
         }
     }
-    
+
     private EnhancedXmlStreamWriterProxy(final XMLStreamWriter writer, final InvocationProcessorFactory processorFactory) throws XMLStreamException {
         this.invocationProcessor = processorFactory.createInvocationProcessor(writer);
     }
-    
+
     @Override
     public Object invoke(final Object proxy, final Method method, final Object[] args) {
         if (LOGGER.isMethodCallLoggable()) {
             LOGGER.entering(method, args);
         }
-        
+
         Object result = null;
         try {
             final Class declaringClass = method.getDeclaringClass();
@@ -106,7 +106,7 @@ public final class EnhancedXmlStreamWriterProxy implements InvocationHandler {
             LOGGER.exiting(result);
         }
     }
-    
+
     private Object handleObjectMethodCall(final Object proxy, final Method method, final Object[] args) {
         if (method.equals(hashCodeMethod)) {
             return Integer.valueOf(System.identityHashCode(proxy));

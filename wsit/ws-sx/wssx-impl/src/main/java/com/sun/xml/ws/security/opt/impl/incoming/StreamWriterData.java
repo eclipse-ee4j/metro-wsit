@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -24,37 +24,37 @@ import com.sun.xml.stream.buffer.XMLStreamBuffer;
  * @author K.Venugopal@sun.com
  */
 public class StreamWriterData implements com.sun.xml.ws.security.opt.crypto.StreamWriterData{
-    
+
     private GenericSecuredHeader gsh = null;
     private SecurityHeaderElement she = null;
     private SWDNamespaceContextEx nce = new SWDNamespaceContextEx();
     private HashMap<String,String> nsDecls = null;
     private XMLStreamBuffer xmlBuffer = null;
-    
+
     /** Creates a new instance of StreamWriterData */
     public StreamWriterData(GenericSecuredHeader gsh,HashMap<String,String> nsDecls) {
         this.gsh = gsh;
         this.nsDecls = nsDecls;
         addNSDecls();
     }
-    
+
     public StreamWriterData(SecurityHeaderElement she,HashMap<String,String> nsDecls) {
         this.she = she;
         this.nsDecls = nsDecls;
         addNSDecls();
     }
-    
+
     public StreamWriterData(XMLStreamBuffer buffer){
         this.xmlBuffer = buffer;
     }
-    
+
     public Object getDereferencedObject(){
         if(she != null)
             return she;
         else
             return gsh;
     }
-    
+
     private void addNSDecls(){
         Iterator<String> itr  = nsDecls.keySet().iterator();
         while(itr.hasNext()){
@@ -63,12 +63,12 @@ public class StreamWriterData implements com.sun.xml.ws.security.opt.crypto.Stre
             nce.add(prefix,uri);
         }
     }
-    
+
     @Override
     public NamespaceContextEx getNamespaceContext() {
         return nce;
     }
-    
+
     @Override
     public void write(XMLStreamWriter writer) throws XMLStreamException {
         if(xmlBuffer != null){
@@ -79,14 +79,14 @@ public class StreamWriterData implements com.sun.xml.ws.security.opt.crypto.Stre
             ((SecurityElementWriter)she).writeTo(writer);
         }
     }
-    
+
     static class SWDNamespaceContextEx implements org.jvnet.staxex.NamespaceContextEx {
-        
+
         private ArrayList<org.jvnet.staxex.NamespaceContextEx.Binding> list = new ArrayList<>();
         /** Creates a new instance of NamespaceContextEx */
         public SWDNamespaceContextEx() {
         }
-        
+
         public SWDNamespaceContextEx(boolean soap12Version) {
             if(soap12Version){
                 this.add("S","http://www.w3.org/2003/05/soap-envelope" );//SOAP 12
@@ -94,16 +94,16 @@ public class StreamWriterData implements com.sun.xml.ws.security.opt.crypto.Stre
                 this.add("S","http://schemas.xmlsoap.org/soap/envelope/" );
             }
         }
-        
+
         public void add(String prefix,String uri){
             list.add(new BindingImpl(prefix,uri));
         }
-        
+
         @Override
         public Iterator<org.jvnet.staxex.NamespaceContextEx.Binding> iterator() {
             return list.iterator();
         }
-        
+
         @Override
         public String getNamespaceURI(String prefix) {
             for(org.jvnet.staxex.NamespaceContextEx.Binding binding : list){
@@ -113,7 +113,7 @@ public class StreamWriterData implements com.sun.xml.ws.security.opt.crypto.Stre
             }
             return null;
         }
-        
+
         @Override
         public String getPrefix(String namespaceURI) {
             for(org.jvnet.staxex.NamespaceContextEx.Binding binding : list){
@@ -123,7 +123,7 @@ public class StreamWriterData implements com.sun.xml.ws.security.opt.crypto.Stre
             }
             return null;
         }
-        
+
         @Override
         public Iterator getPrefixes(final String namespaceURI) {
             return new Iterator(){
@@ -135,17 +135,17 @@ public class StreamWriterData implements com.sun.xml.ws.security.opt.crypto.Stre
                     }
                     return false;
                 }
-                
+
                 @Override
                 public Object next(){
                     return list.get(index).getPrefix();
                 }
-                
+
                 @Override
                 public void remove() {
                     throw new UnsupportedOperationException();
                 }
-                
+
                 private boolean move(){
                     boolean found = false;
                     do{
@@ -160,7 +160,7 @@ public class StreamWriterData implements com.sun.xml.ws.security.opt.crypto.Stre
                 }
             };
         }
-        
+
         static class BindingImpl implements org.jvnet.staxex.NamespaceContextEx.Binding{
             private String prefix="";
             private String uri="";
@@ -171,17 +171,17 @@ public class StreamWriterData implements com.sun.xml.ws.security.opt.crypto.Stre
                     this.prefix = "";
                 }
             }
-            
+
             @Override
             public String getPrefix() {
                 return prefix;
             }
-            
+
             @Override
             public String getNamespaceURI() {
                 return uri;
             }
         }
     }
-    
+
 }

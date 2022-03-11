@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  * Copyright 1995-2005 The Apache Software Foundation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -97,7 +97,7 @@ public class URI implements Serializable
 
   /**
    * URI punctuation mark characters - these, combined with
-   *   alphanumerics, constitute the "unreserved" characters 
+   *   alphanumerics, constitute the "unreserved" characters
    */
   private static final String MARK_CHARACTERS = "-_.!~*'() ";
 
@@ -106,7 +106,7 @@ public class URI implements Serializable
 
   /**
    * userinfo can be composed of unreserved, escaped and these
-   *   characters 
+   *   characters
    */
   private static final String USERINFO_CHARACTERS = ";:&=+$,";
 
@@ -132,8 +132,8 @@ public class URI implements Serializable
 
   /**
    * If specified, stores the query string for this URI; otherwise
-   *   null. 
-   * @serial 
+   *   null.
+   * @serial
    */
   private String m_queryString = null;
 
@@ -239,7 +239,7 @@ public class URI implements Serializable
     {
       //TODO: Localize exception message and also LOG
       throw new MalformedURIException(
-        createXMLMessage("Cannot initialize URI with empty parameters.", null)); 
+        createXMLMessage("Cannot initialize URI with empty parameters.", null));
     }
 
     // just make a copy of the base if spec is empty
@@ -261,7 +261,7 @@ public class URI implements Serializable
       if (p_base == null)
       {
         //TODO: Localize exception message and also LOG
-        throw new MalformedURIException(createXMLMessage("No scheme found in URI: ", new Object[]{uriSpec})); 
+        throw new MalformedURIException(createXMLMessage("No scheme found in URI: ", new Object[]{uriSpec}));
       }
     }
     else
@@ -312,7 +312,7 @@ public class URI implements Serializable
     // In some cases, it might make more sense to throw an exception
     // (when scheme is specified is the string spec and the base URI
     // is also specified, for example), but we're just following the
-    // RFC specifications 
+    // RFC specifications
     if (p_base != null)
     {
 
@@ -320,7 +320,7 @@ public class URI implements Serializable
       // note that this is slightly different from the RFC spec in that
       // we don't include the check for query string being null
       // - this handles cases where the urispec is just a query
-      // string or a fragment (e.g. "?y" or "#s") - 
+      // string or a fragment (e.g. "?y" or "#s") -
       // see <http://www.ics.uci.edu/~fielding/url/test1.html> which
       // identified this as a bug in the RFC
       if (m_path.length() == 0 && m_scheme == null && m_host == null)
@@ -398,7 +398,7 @@ public class URI implements Serializable
         path = path.substring(0, path.length() - 1);
       }
 
-      // 6e - remove all "<segment>/../" where "<segment>" is a complete 
+      // 6e - remove all "<segment>/../" where "<segment>" is a complete
       // path segment not equal to ".."
       index = -1;
 
@@ -420,7 +420,7 @@ public class URI implements Serializable
         }
       }
 
-      // 6f - remove ending "<segment>/.." where "<segment>" is a 
+      // 6f - remove ending "<segment>/.." where "<segment>" is a
       // complete path segment
       if (path.endsWith("/.."))
       {
@@ -471,7 +471,7 @@ public class URI implements Serializable
     if (scheme.length() == 0)
     {
       //TODO: Localize exception message and also LOG
-      throw new MalformedURIException(createXMLMessage("No scheme found in URI.", null)); 
+      throw new MalformedURIException(createXMLMessage("No scheme found in URI.", null));
     }
     else
     {
@@ -623,7 +623,7 @@ public class URI implements Serializable
         {
           //TODO: Localize exception message and also LOG
           throw new MalformedURIException(
-            createXMLMessage("Path contains invalid escape sequence!", null)); 
+            createXMLMessage("Path contains invalid escape sequence!", null));
         }
       }
       else if (!isReservedCharacter(testChar)
@@ -633,7 +633,7 @@ public class URI implements Serializable
           //TODO: Localize exception message and also LOG
           throw new MalformedURIException(createXMLMessage("Path contains invalid character: ", new Object[]{String.valueOf(testChar)}));
         }
-                                         
+
       }
 
       index++;
@@ -897,7 +897,7 @@ public class URI implements Serializable
     else if (!isGenericURI())
     {
       throw new MalformedURIException(
-       createXMLMessage("Fragment can only be set for a generic URI!", null)); 
+       createXMLMessage("Fragment can only be set for a generic URI!", null));
     }
     else if (getPath() == null)
     {
@@ -906,14 +906,14 @@ public class URI implements Serializable
     }
     else if (!isURIString(p_fragment))
     {
-      throw new MalformedURIException(createXMLMessage("Fragment contains invalid character!", null)); 
+      throw new MalformedURIException(createXMLMessage("Fragment contains invalid character!", null));
     }
     else
     {
       m_fragment = p_fragment;
     }
   }
-  
+
   /**
    * Set the scheme for this URI. The scheme is converted to lowercase
    * before it is set.
@@ -929,13 +929,13 @@ public class URI implements Serializable
     if (p_scheme == null)
     {
       //TODO: Localize exception message and also LOG
-      throw new MalformedURIException(createXMLMessage("Cannot set scheme from null string!", null)); 
+      throw new MalformedURIException(createXMLMessage("Cannot set scheme from null string!", null));
     }
 
     if (!isConformantSchemeName(p_scheme))
     {
       //TODO: Localize exception message and also LOG
-      throw new MalformedURIException(createXMLMessage("The scheme is not conformant.", null)); 
+      throw new MalformedURIException(createXMLMessage("The scheme is not conformant.", null));
     }
 
     m_scheme = p_scheme.toLowerCase();
@@ -1019,7 +1019,7 @@ public class URI implements Serializable
     else if (!isWellFormedAddress(p_host))
     {
       //TODO: Localize exception message and also LOG
-      throw new MalformedURIException(createXMLMessage("Host is not a well formed address!", null)); 
+      throw new MalformedURIException(createXMLMessage("Host is not a well formed address!", null));
     }
 
     m_host = p_host;
@@ -1045,13 +1045,13 @@ public class URI implements Serializable
       {
          //TODO: Localize exception message and also LOG
         throw new MalformedURIException(
-          createXMLMessage("Port cannot be set when host is null!", null)); 
+          createXMLMessage("Port cannot be set when host is null!", null));
       }
     }
     else if (p_port != -1)
     {
        //TODO: Localize exception message and also LOG
-      throw new MalformedURIException(createXMLMessage("Invalid port number!", null)); 
+      throw new MalformedURIException(createXMLMessage("Invalid port number!", null));
     }
 
     m_port = p_port;
@@ -1110,7 +1110,7 @@ public class URI implements Serializable
     if (!isURIString(p_addToPath))
     {
       //TODO: Localize exception message and also LOG
-      throw new MalformedURIException(createXMLMessage("Path contains invalid character!", new Object[]{p_addToPath})); 
+      throw new MalformedURIException(createXMLMessage("Path contains invalid character!", new Object[]{p_addToPath}));
     }
 
     if (m_path == null || m_path.trim().length() == 0)
@@ -1188,7 +1188,7 @@ public class URI implements Serializable
     }
   }
 
- 
+
   /**
    * Determines if the passed-in Object is equivalent to this URI.
    *
@@ -1250,7 +1250,7 @@ public class URI implements Serializable
   public boolean isGenericURI()
   {
 
-    // presence of the host (whether valid or empty) means 
+    // presence of the host (whether valid or empty) means
     // double-slashes which means generic uri
     return (m_host != null);
   }
@@ -1342,7 +1342,7 @@ public class URI implements Serializable
       int numDots = 0;
 
       // make sure that 1) we see only digits and dot separators, 2) that
-      // any dot separator is preceded and followed by a digit and 
+      // any dot separator is preceded and followed by a digit and
       // 3) that we find 3 dots
       for (int i = 0; i < addrLength; i++)
       {
@@ -1528,24 +1528,24 @@ public class URI implements Serializable
 
     return true;
   }
-  
+
    public static final String createXMLMessage(String msg, Object[] args)  {
 
     String fmsg = null;
     if (args != null) {
-        
+
         int n = args.length;
         for (int i = 0; i < n; i++) {
             if (null == args[i])
                 args[i] = "";
         }
         fmsg = java.text.MessageFormat.format(msg, args);
-        
+
     } else {
         fmsg = msg;
     }
     return fmsg;
   }
 
-   
+
 }

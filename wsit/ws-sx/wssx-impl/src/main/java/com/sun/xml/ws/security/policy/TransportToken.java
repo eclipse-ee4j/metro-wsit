@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -14,14 +14,14 @@ package com.sun.xml.ws.security.policy;
  *
  * @author K.Venugopal@sun.com
  */
-public interface TransportToken extends Token {   
-    
+public interface TransportToken extends Token {
+
     /**
      * Get the HttpsToken used for Transport layer security.
      *
      * @return HttpsToken
      */
     HttpsToken getHttpsToken();
-    
-   
+
+
 }

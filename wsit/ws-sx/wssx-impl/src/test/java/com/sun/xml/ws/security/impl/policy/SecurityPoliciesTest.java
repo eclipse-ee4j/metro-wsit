@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -53,25 +53,25 @@ import junit.framework.*;
  * @author Mayank.Mishra@SUN.com
  */
 public class SecurityPoliciesTest extends TestCase {
-    
+
     public SecurityPoliciesTest(String testName) {
         super(testName);
     }
-    
+
     @Override
     protected void setUp() {
     }
-    
+
     @Override
     protected void tearDown() {
     }
-    
+
     public static Test suite() {
         TestSuite suite = new TestSuite(SecurityPoliciesTest.class);
-        
+
         return suite;
     }
-    
+
     public void testInteropScenario3_1() throws Exception {
         String filaname = "security/interop-1.wsdl";
         execute(filaname, false, false,1);
@@ -79,7 +79,7 @@ public class SecurityPoliciesTest extends TestCase {
         execute(filaname, true, false,1);
         execute(filaname, true, true,1);
     }
-    
+
     public void testInteropScenario3_2() throws Exception {
         String filaname = "security/interop-2.wsdl";
         execute(filaname, false, false,2);
@@ -87,7 +87,7 @@ public class SecurityPoliciesTest extends TestCase {
         execute(filaname, true, false,2);
         execute(filaname, true, true,2);
     }
-    
+
     public void testInteropScenario3_3() throws Exception {
         String filaname = "security/interop-3.wsdl";
         execute(filaname, false, false,3);
@@ -95,7 +95,7 @@ public class SecurityPoliciesTest extends TestCase {
         execute(filaname, true, false,3);
         execute(filaname, true, true,3);
     }
-    
+
     public void testInteropScenario3_4() throws Exception {
         String filaname = "security/interop-4.wsdl";
         execute(filaname, false, false,4);
@@ -103,7 +103,7 @@ public class SecurityPoliciesTest extends TestCase {
         execute(filaname, true, false,4);
         execute(filaname, true, true,4);
     }
-    
+
     public void testInteropScenario3_5() throws Exception {
         String filaname = "security/interop-5.wsdl";
         execute(filaname, false, false,5);
@@ -111,7 +111,7 @@ public class SecurityPoliciesTest extends TestCase {
         execute(filaname, true, false,5);
         execute(filaname, true, true,5);
     }
-    
+
     public void testInteropScenario3_6() throws Exception {
         String filaname = "security/interop-6.wsdl";
         execute(filaname, false, false,6);
@@ -119,7 +119,7 @@ public class SecurityPoliciesTest extends TestCase {
         execute(filaname, true, false,6);
         execute(filaname, true, true,6);
     }
-    
+
     public void testInteropScenario3_7() throws Exception {
         String filaname = "security/interop-7.wsdl";
         execute(filaname, false, false,7);
@@ -127,7 +127,7 @@ public class SecurityPoliciesTest extends TestCase {
         execute(filaname, true, false,7);
         execute(filaname, true, true,7);
     }
-    
+
     public void testTimeStampCR6398675() throws Exception {
         String filename = "security/TimeStamp.wsdl";
         execute(filename,false,false,10);
@@ -135,13 +135,13 @@ public class SecurityPoliciesTest extends TestCase {
         execute(filename,true,false,10);
         execute(filename,true,true,10);
     }
-    
-    
+
+
     public void testUMPolicy()throws Exception{
         String xmlFile = "security/interop-1.xml";
         unmarshalPolicy(xmlFile);
     }
-    
+
     public boolean hasXPathTarget(String xpathExpr , Iterator itr){
         while(itr.hasNext()){
             if(xpathExpr.equals(itr.next())){
@@ -156,19 +156,19 @@ public class SecurityPoliciesTest extends TestCase {
         reader.close();
         return model;
     }
-    
+
     private Reader getResourceReader(String resourceName) {
         return new InputStreamReader(Thread.currentThread().getContextClassLoader().getResourceAsStream(resourceName));
     }
-    
+
     public Policy unmarshalPolicy(String xmlFile)throws Exception{
         PolicySourceModel model =  unmarshalPolicyResource(
                 xmlFile);
         Policy mbp = ModelTranslator.getTranslator().translate(model);
         return mbp;
-        
+
     }
-    
+
     public boolean isHeaderPresent(QName expected , Iterator headers){
         while(headers.hasNext()){
             Header header = (Header) headers.next();
@@ -180,7 +180,7 @@ public class SecurityPoliciesTest extends TestCase {
         }
         return false;
     }
-    
+
     public List<SignatureTarget> createSignatureTargetList(List<String> targetType, List<String> targetValue, List<Boolean> contentOnly,
             List<List<SignatureTarget.Transform>> transformList) {
         int size = targetType.size();
@@ -190,7 +190,7 @@ public class SecurityPoliciesTest extends TestCase {
             t1.setContentOnly(contentOnly.get(i));
             t1.setType(targetType.get(i));
             t1.setValue(targetValue.get(i));
-            
+
             List<SignatureTarget.Transform> transList = transformList.get(i);
             for(int j=0; j<transList.size() ; j++ ) {
                 t1.addTransform(transList.get(j));
@@ -199,8 +199,8 @@ public class SecurityPoliciesTest extends TestCase {
         }
         return targetList;
     }
-    
-    
+
+
     public void addToSPTList(WSSPolicy policy, SignaturePolicy sp){
         SignaturePolicy.FeatureBinding spFB = (SignaturePolicy.FeatureBinding) sp.getFeatureBinding();
         SignatureTarget st = new SignatureTarget();
@@ -208,7 +208,7 @@ public class SecurityPoliciesTest extends TestCase {
         st.setValue(policy.getType());
         spFB.addTargetBinding(st);
     }
-    
+
     public void addQTToSPTList(WSSPolicy policy, SignaturePolicy sp){
         SignaturePolicy.FeatureBinding spFB = (SignaturePolicy.FeatureBinding) sp.getFeatureBinding();
         SignatureTarget st = new SignatureTarget();
@@ -216,7 +216,7 @@ public class SecurityPoliciesTest extends TestCase {
         st.setValue(policy.getType());
         spFB.addTargetBinding(st);
     }
-    
+
     public SignaturePolicy createSignaturePolicy(List<SignatureTarget> targetList) {
         SignaturePolicy policy = new SignaturePolicy();
         SignaturePolicy.FeatureBinding featureBinding =
@@ -224,11 +224,11 @@ public class SecurityPoliciesTest extends TestCase {
         for ( Target t : targetList ) {
             featureBinding.addTargetBinding(t);
         }
-        
-        
+
+
         return policy;
     }
-    
+
     public EncryptionPolicy createEncryptionPolicy(List<EncryptionTarget> targetList) {
         EncryptionPolicy policy = new EncryptionPolicy();
         EncryptionPolicy.FeatureBinding featureBinding =
@@ -236,10 +236,10 @@ public class SecurityPoliciesTest extends TestCase {
         for ( Target t : targetList ) {
             featureBinding.addTargetBinding(t);
         }
-        
+
         return policy;
     }
-    
+
     public SignaturePolicy addSignKeyBinding(SignaturePolicy policy, String type, String ref) {
         if ( "x509".equals(type) ) {
             ((AuthenticationTokenPolicy.X509CertificateBinding)policy.newX509CertificateKeyBinding()).setReferenceType(ref);
@@ -248,10 +248,10 @@ public class SecurityPoliciesTest extends TestCase {
         } else if ( "derivedkey".equals(type)) {
             policy.newDerivedTokenKeyBinding();
         }
-        
+
         return policy;
     }
-    
+
     public EncryptionPolicy addEncryptKeyBinding(EncryptionPolicy policy, String type, String ref) {
         if ( "x509".equals(type) ) {
             ((AuthenticationTokenPolicy.X509CertificateBinding)policy.newX509CertificateKeyBinding()).setReferenceType(ref);
@@ -260,11 +260,11 @@ public class SecurityPoliciesTest extends TestCase {
         } else if ( "derivedkey".equals(type)) {
             policy.newDerivedTokenKeyBinding();
         }
-        
+
         return policy;
     }
-    
-    
+
+
     public AuthenticationTokenPolicy createUTPolicy(
             String username, String pass, String nonce, boolean doDigest) {
         AuthenticationTokenPolicy at = new AuthenticationTokenPolicy();
@@ -273,23 +273,23 @@ public class SecurityPoliciesTest extends TestCase {
         if ( username != null ) {
             UT.setUsername(username);
         }
-        
+
         if ( pass != null ) {
             UT.setPassword(pass);
         }
-        
+
         if ( nonce != null ) {
             UT.setNonce(nonce);
         }
-        
+
         if ( doDigest ) {
             UT.setDigestOn(doDigest);
         }
         at.setFeatureBinding(UT);
         return at;
     }
-    
-    
+
+
     public boolean comparePolicies(MessagePolicy policy1, MessagePolicy policy2) throws Exception{
         //boolean asrt = false;
         if ( policy1.size() != policy2.size()) {
@@ -301,12 +301,12 @@ public class SecurityPoliciesTest extends TestCase {
             }
             return false;
         }
-        
+
         for ( int i = 0 ; i<policy1.size() ; i++ ) {
             if ( !(policy1.get(i).getType().equals(policy2.get(i).getType()))  ) {
                 return false;
             }
-            
+
             if ( PolicyTypeUtil.signaturePolicy(policy1.get(i))) {
                 if ( !compareSignaturePolicy(((WSSPolicy) policy1.get(i)), ((WSSPolicy) policy2.get(i)) ) ) {
                     return false;
@@ -319,18 +319,18 @@ public class SecurityPoliciesTest extends TestCase {
         }
         return true;
     }
-    
-    
-    
+
+
+
     public void modifyMessagePolicy(MessagePolicy msgPolicy ) {
         Iterator it = msgPolicy.iterator();
         HashMap<String, String> map = new HashMap<>();
         while ( it.hasNext() ) {
             Object obj = it.next();
             if ( obj instanceof WSSPolicy ) {
-                
+
                 WSSPolicy pol = (WSSPolicy) obj;
-                
+
                 if ( PolicyTypeUtil.AUTH_POLICY_TYPE.equals(pol.getType())) {
                     pol = (WSSPolicy)pol.getFeatureBinding();
                 }
@@ -338,7 +338,7 @@ public class SecurityPoliciesTest extends TestCase {
                     map.put(pol.getUUID(), pol.getType());
                     pol.setUUID(pol.getType());
                 }
-                
+
                 if ( PolicyTypeUtil.signaturePolicy(pol) ) {
                     SignaturePolicy sigPolicy = (SignaturePolicy)pol;
                     @SuppressWarnings("unchecked")
@@ -350,7 +350,7 @@ public class SecurityPoliciesTest extends TestCase {
                         }
                     }
                 }
-                
+
                 if ( PolicyTypeUtil.encryptionPolicy(pol) ) {
                     EncryptionPolicy encPolicy = (EncryptionPolicy)pol;
                     @SuppressWarnings("unchecked")
@@ -365,52 +365,52 @@ public class SecurityPoliciesTest extends TestCase {
             }
         }
     }
-    
+
     public List<SignatureTarget> createSignatureTargetEndorsingSignature(boolean contentonlyflag) {
         List<String> targetType = new ArrayList<>();
         targetType.add("uri");
-        
+
         List<String> targetValue = new ArrayList<>();
         targetValue.add("#Sign");
-        
+
         List<Boolean> contentOnly = new ArrayList<>();
         contentOnly.add(contentonlyflag);
-        
+
         List<SignatureTarget.Transform> tl1 = new ArrayList<>();
         List<List<SignatureTarget.Transform>> tl =
                 new ArrayList<>();
-        
+
         tl.add(tl1);
-        
+
         List<SignatureTarget> sigTargetList =
                 createSignatureTargetList(targetType, targetValue, contentOnly, tl);
-        
+
         return sigTargetList;
     }
-    
-    
+
+
     public List<SignatureTarget> createSignatureTargetBody(boolean contentonlyflag) {
         List<String> targetType = new ArrayList<>();
         targetType.add("qname");
-        
+
         List<String> targetValue = new ArrayList<>();
         targetValue.add(Target.BODY);
-        
+
         List<Boolean> contentOnly = new ArrayList<>();
         contentOnly.add(contentonlyflag);
-        
+
         List<SignatureTarget.Transform> tl1 = new ArrayList<>();
         List<List<SignatureTarget.Transform>> tl =
                 new ArrayList<>();
-        
+
         tl.add(tl1);
-        
+
         List<SignatureTarget> sigTargetList =
                 createSignatureTargetList(targetType, targetValue, contentOnly, tl);
-        
+
         return sigTargetList;
     }
-    
+
     public List<SignatureTarget> createSignatureTargetBodyAllHeader(boolean contentonlyflag) {
         List<String> targetType = new ArrayList<>();
         targetType.add("qname");
@@ -421,9 +421,9 @@ public class SecurityPoliciesTest extends TestCase {
         targetType.add("qname");
         targetType.add("qname");
         targetType.add("qname");
-        
-        
-        
+
+
+
         List<String> targetValue = new ArrayList<>();
         targetValue.add(Target.BODY);
         //targetValue.add(Target.ALL_MESSAGE_HEADERS);
@@ -434,8 +434,8 @@ public class SecurityPoliciesTest extends TestCase {
         targetValue.add("{http://schemas.xmlsoap.org/ws/2004/08/addressing}RelatesTo");
         targetValue.add("{http://schemas.xmlsoap.org/ws/2004/08/addressing}MessageID");
         targetValue.add("{http://schemas.xmlsoap.org/ws/2004/08/addressing}FaultTo");
-        
-        
+
+
         List<Boolean> contentOnly = new ArrayList<>();
         contentOnly.add(contentonlyflag);
         contentOnly.add(contentonlyflag);
@@ -445,10 +445,10 @@ public class SecurityPoliciesTest extends TestCase {
         contentOnly.add(contentonlyflag);
         contentOnly.add(contentonlyflag);
         contentOnly.add(contentonlyflag);
-        
-        
-        
-        
+
+
+
+
         List<SignatureTarget.Transform> tl1 = new ArrayList<>();
         List<SignatureTarget.Transform> tl2 = new ArrayList<>();
         List<SignatureTarget.Transform> tl3 = new ArrayList<>();
@@ -457,10 +457,10 @@ public class SecurityPoliciesTest extends TestCase {
         List<SignatureTarget.Transform> tl6 = new ArrayList<>();
         List<SignatureTarget.Transform> tl7 = new ArrayList<>();
         List<SignatureTarget.Transform> tl8 = new ArrayList<>();
-        
+
         List<List<SignatureTarget.Transform>> tl =
                 new ArrayList<>();
-        
+
         tl.add(tl1);
         tl.add(tl2);
         tl.add(tl3);
@@ -469,61 +469,61 @@ public class SecurityPoliciesTest extends TestCase {
         tl.add(tl6);
         tl.add(tl7);
         tl.add(tl8);
-        
-        
+
+
         List<SignatureTarget> sigTargetList =
                 createSignatureTargetList(targetType, targetValue, contentOnly, tl);
-        
+
         return sigTargetList;
     }
-    
+
     public List<EncryptionTarget> createEncryptionTargetBody(boolean contentonlyflag) {
         List<String> targetType = new ArrayList<>();
         targetType.add("qname");
-        
+
         List<String> targetValue = new ArrayList<>();
         targetValue.add(Target.BODY);
-        
+
         List<Boolean> contentOnly = new ArrayList<>();
         contentOnly.add(contentonlyflag);
-        
+
         List<EncryptionTarget.Transform> tl1 = new ArrayList<>();
         List<List<EncryptionTarget.Transform>> tl =
                 new ArrayList<>();
-        
+
         tl.add(tl1);
-        
+
         List<EncryptionTarget> encTargetList =  createEncryptionTargetList(targetType, targetValue, contentOnly, tl);
-        
+
         return encTargetList;
     }
-    
+
     public List<EncryptionTarget> createEncryptionTargetBodyAndUT(boolean contentonlyflag) {
         List<String> targetType = new ArrayList<>();
         targetType.add("qname");
         targetType.add("uri");
-        
+
         List<String> targetValue = new ArrayList<>();
         targetValue.add(Target.BODY);
         targetValue.add("UsernameTokenBinding");
-        
+
         List<Boolean> contentOnly = new ArrayList<>();
         contentOnly.add(contentonlyflag);
         contentOnly.add(contentonlyflag);
-        
+
         List<EncryptionTarget.Transform> tl1 = new ArrayList<>();
         List<EncryptionTarget.Transform> tl2 = new ArrayList<>();
         List<List<EncryptionTarget.Transform>> tl =
                 new ArrayList<>();
-        
+
         tl.add(tl1);
         tl.add(tl2);
-        
+
         List<EncryptionTarget> encTargetList =  createEncryptionTargetList(targetType, targetValue, contentOnly, tl);
-        
+
         return encTargetList;
     }
-    
+
     public List<EncryptionTarget> createEncryptionTargetList(List<String> targetType, List<String> targetValue, List<Boolean> contentOnly,
             List<List<EncryptionTarget.Transform>> transformList) {
         int size = targetType.size();
@@ -533,8 +533,8 @@ public class SecurityPoliciesTest extends TestCase {
             t1.setContentOnly(contentOnly.get(i));
             t1.setType(targetType.get(i));
             t1.setValue(targetValue.get(i));
-            
-            
+
+
             List<EncryptionTarget.Transform> transList = transformList.get(i);
             for(int j=0; j<transList.size() ; j++ ) {
                 t1.addCipherReferenceTransform(transList.get(j));
@@ -543,102 +543,102 @@ public class SecurityPoliciesTest extends TestCase {
         }
         return targetList;
     }
-    
+
     public List<EncryptionTarget> createEncryptionTargetBodyAllHeader(boolean contentonlyflag) {
         List<String> targetType = new ArrayList<>();
         targetType.add("qname");
         targetType.add("qname");
-        
+
         List<String> targetValue = new ArrayList<>();
         targetValue.add(Target.BODY);
         targetValue.add(Target.ALL_MESSAGE_HEADERS);
-        
+
         List<Boolean> contentOnly = new ArrayList<>();
         contentOnly.add(contentonlyflag);
         contentOnly.add(contentonlyflag);
-        
+
         List<EncryptionTarget.Transform> tl1 = new ArrayList<>();
         List<EncryptionTarget.Transform> tl2 = new ArrayList<>();
         List<List<EncryptionTarget.Transform>> tl =
                 new ArrayList<>();
-        
+
         tl.add(tl1);
         tl.add(tl2);
-        
-        
+
+
         List<EncryptionTarget> encTargetList =
                 createEncryptionTargetList(targetType, targetValue, contentOnly, tl);
-        
+
         return encTargetList;
     }
-    
+
     public List<SignatureTarget> createSignatureTargetBodySelectedHeader(List<String> targetqname, boolean contentonlyflag) {
         List<String> targetType = new ArrayList<>();
         targetType.add("qname");
         for ( String qname : targetqname) {
             targetType.add("qname");
         }
-        
+
         List<String> targetValue = new ArrayList<>();
         targetValue.add(Target.BODY);
         targetValue.addAll(targetqname);
-        
+
         List<Boolean> contentOnly = new ArrayList<>();
         contentOnly.add(contentonlyflag);
         for ( String qname : targetqname) {
             contentOnly.add(contentonlyflag);
         }
-        
-        
+
+
         List<SignatureTarget.Transform> tl1 = new ArrayList<>();
         List<List<SignatureTarget.Transform>> tl =
                 new ArrayList<>();
-        
+
         tl.add(tl1);
         for ( String qname : targetqname) {
             List<SignatureTarget.Transform> tl2 = new ArrayList<>();
             tl.add(tl2);
         }
-        
+
         List<SignatureTarget> sigTargetList =
                 createSignatureTargetList(targetType, targetValue, contentOnly, tl);
-        
+
         return sigTargetList;
     }
-    
+
     public List<EncryptionTarget> createEncryptionTargetBodySelectedHeader(List<String> targetqname , boolean contentonlyflag, List<String> targetType) {
         //List<String> targetType = new ArrayList<String>();
         //targetType.add("qname");
         //for ( String qname : targetqname ) {
         //    targetType.add("qname");
         //}
-        
+
         List<String> targetValue = new ArrayList<>();
         targetValue.add(Target.BODY);
         targetValue.addAll(targetqname);
-        
+
         List<Boolean> contentOnly = new ArrayList<>();
         contentOnly.add(contentonlyflag);
         for ( String qname : targetqname) {
             contentOnly.add(contentonlyflag);
         }
-        
+
         List<EncryptionTarget.Transform> tl1 = new ArrayList<>();
         List<List<EncryptionTarget.Transform>> tl =
                 new ArrayList<>();
-        
+
         tl.add(tl1);
         for ( String qname : targetqname) {
             List<EncryptionTarget.Transform> tl2 = new ArrayList<>();
             tl.add(tl2);
         }
-        
+
         List<EncryptionTarget> encTargetList =
                 createEncryptionTargetList(targetType, targetValue, contentOnly, tl);
-        
+
         return encTargetList;
     }
-    
+
     public List<String> createAddressingHeaderQNameList() {
         List<String> l = new ArrayList<>();
         l.add("{http://schemas.xmlsoap.org/ws/2004/08/addressing}To");
@@ -649,10 +649,10 @@ public class SecurityPoliciesTest extends TestCase {
         l.add("{http://schemas.xmlsoap.org/ws/2004/08/addressing}RelatesTo");
         l.add("{http://schemas.xmlsoap.org/ws/2004/08/addressing}Action");
         return l;
-        
+
     }
-    
-    
+
+
     //Comparing two message policies
     public boolean compileMessagePolicies(MessagePolicy pol1, MessagePolicy pol2)throws Exception {
         if ( !(pol1.getType().equals(pol2.getType()))) {
@@ -661,11 +661,11 @@ public class SecurityPoliciesTest extends TestCase {
         boolean asrt = true;
         ArrayList p1 = pol1.getPrimaryPolicies();
         ArrayList p2 = pol2.getPrimaryPolicies();
-        
+
         if ( p1.size() != p2.size() ) {
             return false;
         }
-        
+
         for(int i=0; i<p1.size(); i++ ) {
             WSSPolicy wp1 = (WSSPolicy)p1.get(i);
             WSSPolicy wp2 = (WSSPolicy)p2.get(i);
@@ -678,33 +678,33 @@ public class SecurityPoliciesTest extends TestCase {
                     asrt = asrt && compareEncryptionPolicy(wp1, wp2);
                 }
             }
-            
+
         }
-        
+
         return asrt;
     }
-    
+
     public boolean compareSignaturePolicy(WSSPolicy wp1, WSSPolicy wp2) throws Exception{
         SignaturePolicy sp1 = (SignaturePolicy)wp1;
         SignaturePolicy sp2 = (SignaturePolicy)wp2;
         if ( !(sp1.getKeyBinding().getType().equals(sp2.getKeyBinding().getType())) ) {
             return false;
         }
-        
+
         //Verify targets
         SignaturePolicy.FeatureBinding f1 = (SignaturePolicy.FeatureBinding)sp1.getFeatureBinding();
        @SuppressWarnings("unchecked")
         List<Target> t1 = f1.getTargetBindings();
-        
+
         SignaturePolicy.FeatureBinding f2 = (SignaturePolicy.FeatureBinding)sp2.getFeatureBinding();
         @SuppressWarnings("unchecked")
         List<Target> t2 = f2.getTargetBindings();
-        
+
         if ( t1.size() != t2.size() ) {
             System.err.println("Expected number of Targets"+t1.size()+" Got "+t2.size());
             throw new Exception("Number of targets in the signature policy did not match");
         }
-        
+
         for (int i=0; i<t1.size(); i++) {
             Target s1 = t1.get(i);
             Target s2 = t2.get(i);
@@ -712,37 +712,37 @@ public class SecurityPoliciesTest extends TestCase {
                 System.err.println("Expected Target Type"+s1.getType()+" Got "+s2.getType());
                 throw new Exception("Target type in signature policy did not match");
             }
-            
+
 //            if ( !s1.getValue().equals(s2.getValue() )) {
 //                System.err.println("Expected Target Value"+s1.getValue()+" Got "+s2.getValue());
 //                throw new Exception("Target Value in signature policydid not match");
 //            }
         }
-        
+
         return true;
     }
-    
+
     public boolean compareEncryptionPolicy(WSSPolicy wp1, WSSPolicy wp2) throws Exception{
         EncryptionPolicy sp1 = (EncryptionPolicy)wp1;
         EncryptionPolicy sp2 = (EncryptionPolicy)wp2;
         if (!(sp1.getKeyBinding().getType().equals(sp2.getKeyBinding().getType())) ) {
             return false;
         }
-        
+
         //Verify targets
         EncryptionPolicy.FeatureBinding f1 = (EncryptionPolicy.FeatureBinding)sp1.getFeatureBinding();
        @SuppressWarnings("unchecked")
         List<Target> t1 = f1.getTargetBindings();
-        
+
         EncryptionPolicy.FeatureBinding f2 = (EncryptionPolicy.FeatureBinding)sp2.getFeatureBinding();
        @SuppressWarnings("unchecked")
         List<Target> t2 = f2.getTargetBindings();
-        
+
         if ( t1.size() != t2.size() ) {
             System.err.println("Expected number of Targets"+t1.size()+" Got "+t2.size());
             throw new Exception("Number of targets in the Encryption policy did not match");
         }
-        
+
         for (int i=0; i<t1.size(); i++) {
             Target s1 = t1.get(i);
             Target s2 = t2.get(i);
@@ -750,16 +750,16 @@ public class SecurityPoliciesTest extends TestCase {
                 System.err.println("Expected Target Type"+s1.getType()+" Got "+s2.getType());
                 throw new Exception("Target type in encryption policy did not match");
             }
-            
+
             if ( !(s1.getType().equals(s2.getType()))) {
                 System.err.println("Expected Target Value"+s1.getValue()+" Got "+s2.getValue());
                 throw new Exception("Target Value in encryption policy did not match");
             }
         }
-        
+
         return true;
     }
-    
+
     public MessagePolicy executeTest(String fileName, boolean isServer, boolean isIncoming) throws Exception {
 //        QName serviceName = new QName("PingService");
 //        QName portName = new QName("Port");
@@ -768,7 +768,7 @@ public class SecurityPoliciesTest extends TestCase {
 //        QName outputName = new QName("PingResponse");
 //        WSPolicyBuilder builder = WSPolicyBuilder.getBuilder();
 //        WSPolicyFromXmlHandler handler = null;
-        
+
         PolicyMap map = null;
         ClassLoader cl = Thread.currentThread().getContextClassLoader();
         String wsdlFile = fileName;
@@ -780,8 +780,8 @@ public class SecurityPoliciesTest extends TestCase {
         }
         //WSDLModel model = PolicyConfigParser.parse(buffer);
         map = PolicyConfigParser.parse(inUrl, false);
-        
-        
+
+
 //        QName serviceName = new QName(UUID.randomUUID().toString());
 //        QName portName = new QName(UUID.randomUUID().toString());
 //        QName operationName = new QName(UUID.randomUUID().toString());
@@ -809,41 +809,41 @@ public class SecurityPoliciesTest extends TestCase {
 //        One key should be enough , just testing.
 //        PolicyMapKey inputKey =map.createWsdlOperationScopeKey(serviceName, portName,operationName);
 //        PolicyMapKey outputKey = map.createWsdlOperationScopeKey(serviceName, portName,operationName);
-        
+
         Collection c =null;
         Iterator itr = null;
-        
+
         c = map.getAllEndpointScopeKeys();
         itr = c.iterator();
         PolicyMapKey endpointKey=null;
         while(itr.hasNext()) {
             endpointKey = (PolicyMapKey)itr.next();
         }
-        
-        
+
+
         c=map.getAllInputMessageScopeKeys();
         itr=c.iterator();
         PolicyMapKey inputKey=null;
         while(itr.hasNext()) {
             inputKey = (PolicyMapKey)itr.next();
         }
-        
-        
+
+
         c= map.getAllOutputMessageScopeKeys();
         itr=c.iterator();
         PolicyMapKey outputKey=null;
         while(itr.hasNext()) {
             outputKey = (PolicyMapKey)itr.next();
         }
-        
+
         Policy ipEP = null;
         Policy opEP = null;
         Policy endpointEP = null;
-        
+
         endpointEP = map.getEndpointEffectivePolicy(endpointKey);
         ipEP = map.getInputMessageEffectivePolicy(inputKey);
         opEP = map.getOutputMessageEffectivePolicy(outputKey);
-        
+
         ArrayList<Policy> pl = new ArrayList<>();
         SecurityPolicyVersion spVersion = SecurityPolicyVersion.SECURITYPOLICY200507;
         if(endpointEP !=null){
@@ -854,43 +854,43 @@ public class SecurityPoliciesTest extends TestCase {
                 spVersion = SecurityPolicyVersion.SECURITYPOLICY12NS;
             }
         }
-        
+
         if ( ipEP != null )
             pl.add(ipEP);
-        
+
         if ( opEP != null)
             pl.add(opEP);
-        
+
         //Start Processing client side policy
         PolicyMerger pm = PolicyMerger.getMerger();
         Policy ep = pm.merge(pl);
-        
+
         XWSSPolicyGenerator generator = new XWSSPolicyGenerator(ep, isServer, isIncoming, spVersion);
         generator.process();
         MessagePolicy pol = generator.getXWSSPolicy();
         System.out.println("\n\nGenerated Policies ........");
-        
+
         for ( int i=0; i< pol.size(); i++ ) {
             System.out.println(pol.get(i).getType());
         }
-        
+
         return pol;
-        
+
 //        System.out.println("\n\nExpected Policies ........");
 //        for ( int i=0; i< expectedPolicy.size(); i++ ) {
 //            System.out.println(expectedPolicy.get(i).getType());
 //        }
 //        System.out.println("Verification status : " + comparePolicies(expectedPolicy,pol) );
 //        return comparePolicies(expectedPolicy,pol);
-        
+
     }
-    
+
     public void execute(String filename, boolean isServer, boolean isIncoming, int scenario) throws Exception {
         MessagePolicy generated = executeTest(filename, isServer, isIncoming);
         modifyMessagePolicy(generated);
         print(generated);
         MessagePolicy expectedPolicy;
-        
+
         if ( !isServer && isIncoming ) {
             expectedPolicy = createClientIncomingPolicy(scenario);
         } else if ( !isServer && !isIncoming) {
@@ -901,20 +901,20 @@ public class SecurityPoliciesTest extends TestCase {
             expectedPolicy = createServerOutgoingPolicy(scenario);
         }
         System.out.println("\nExpectedPolicy");
-        
+
         print(expectedPolicy);
         compare(expectedPolicy, generated);
     }
-    
-    
+
+
     public void print(MessagePolicy generated ) throws Exception {
         for ( int i = 0 ; i<generated.size() ; i++ ) {
             System.out.println("Type : " + generated.get(i).getType());
-            
+
             if ( PolicyTypeUtil.signaturePolicy(generated.get(i))) {
                 WSSPolicy p = (WSSPolicy)generated.get(i);
                 System.out.println("KeyBinding : " + p.getKeyBinding().getType());
-                
+
                 SignaturePolicy.FeatureBinding f1 = (SignaturePolicy.FeatureBinding)p.getFeatureBinding();
                @SuppressWarnings("unchecked")
                 List<Target> t1 = f1.getTargetBindings();
@@ -923,11 +923,11 @@ public class SecurityPoliciesTest extends TestCase {
                     System.out.println(t.getType() + "  " + t.getValue());
                 }
             }
-            
+
             if ( PolicyTypeUtil.encryptionPolicy(generated.get(i))) {
                 WSSPolicy p = (WSSPolicy)generated.get(i);
                 System.out.println("KeyBinding : " + p.getKeyBinding().getType());
-                
+
                 EncryptionPolicy.FeatureBinding f1 = (EncryptionPolicy.FeatureBinding)p.getFeatureBinding();
                @SuppressWarnings("unchecked")
                 List<Target> t1 = f1.getTargetBindings();
@@ -938,14 +938,14 @@ public class SecurityPoliciesTest extends TestCase {
             }
         }
     }
-    
+
     public void compare(MessagePolicy expectedPolicy, MessagePolicy generated) throws Exception {
         System.out.println("Comparing two message policies ...");
         if ( !comparePolicies(expectedPolicy, generated)) {
             throw new Exception("Expected and Generated policy did not match");
         }
     }
-    
+
     public List<String> getList(String pattern) {
         //G:\\optimizedpath\\tango\\jaxrpc-sec\\Tango\\tests\\data\\
         List<String> l = new ArrayList<>();
@@ -954,8 +954,8 @@ public class SecurityPoliciesTest extends TestCase {
         l.add(pattern + "-output.xml");
         return l;
     }
-    
-    
+
+
     private MessagePolicy reverse(MessagePolicy tmpPolicy) throws Exception {
         MessagePolicy msgPolicy = new MessagePolicy();
         boolean foundSigConf = false;
@@ -981,7 +981,7 @@ public class SecurityPoliciesTest extends TestCase {
         }
         return msgPolicy;
     }
-    
+
     public MessagePolicy createClientIncomingPolicy(int scenario) throws Exception {
         switch (scenario) {
             case 1:
@@ -1017,8 +1017,8 @@ public class SecurityPoliciesTest extends TestCase {
         }
         return null;
     }
-    
-    
+
+
     public MessagePolicy createClientOutgoingPolicy(int scenario) throws Exception {
         switch (scenario) {
             case 1:
@@ -1054,11 +1054,11 @@ public class SecurityPoliciesTest extends TestCase {
         }
         return null;
     }
-    
-    
+
+
     public MessagePolicy createServerIncomingPolicy(int scenario) throws Exception {
         //
-        
+
         if ( scenario == 5 ) {
             return createScenario5ServerIncoming();
         }
@@ -1072,9 +1072,9 @@ public class SecurityPoliciesTest extends TestCase {
             return createScenario7ServerIncoming();
         }
         return reverse(createClientOutgoingPolicy(scenario));
-        
+
     }
-    
+
     public MessagePolicy createServerOutgoingPolicy(int scenario) throws Exception {
         if(scenario == 6) {
             return createScenario6ServerOutgoing();
@@ -1084,58 +1084,58 @@ public class SecurityPoliciesTest extends TestCase {
         }
         return reverse(createClientIncomingPolicy(scenario));
     }
-    
+
     //UserNameOverTransport_IPingService_policy
     public MessagePolicy createScenario1ClientOutgoing() throws Exception {
         MessagePolicy msgPolicy = new MessagePolicy();
-        
+
         AuthenticationTokenPolicy at =
                 createUTPolicy("testuser", null, null, false);
         at.setUUID("UsernameTokenBinding");
         msgPolicy.append(at);
         TimestampPolicy tp = new TimestampPolicy();
         msgPolicy.append(tp);
-        
+
         return msgPolicy;
     }
-    
+
     public MessagePolicy createScenario1ClientIncoming() throws Exception {
         MessagePolicy msgPolicy = new MessagePolicy();
         TimestampPolicy tp = new TimestampPolicy();
         msgPolicy.append(tp);
         return msgPolicy;
     }
-    
+
     public MessagePolicy createScenario1ServerIncoming() throws Exception {
         MessagePolicy msgPolicy = new MessagePolicy();
-        
+
         AuthenticationTokenPolicy at =
                 createUTPolicy("testuser", null, null, false);
         at.setUUID("UsernameTokenBinding");
         msgPolicy.append(at);
-        
+
         TimestampPolicy tp = new TimestampPolicy();
         msgPolicy.append(tp);
-        
+
         return msgPolicy;
     }
-    
-    
-    
-    
-    
+
+
+
+
+
     //MutualCertificate10SignEncrypt_IPingService_policy
     public MessagePolicy createScenario2ClientOutgoing() throws Exception {
         MessagePolicy msgPolicy = new MessagePolicy();
         TimestampPolicy tp = new TimestampPolicy();
         msgPolicy.append(tp);
-        
+
         List<SignatureTarget> sigTargetList =
                 createSignatureTargetBody(true);
-        
+
 //       AlgorithmSuite suite = new com.sun.xml.ws.security.impl.policy.AlgorithmSuite();
 //      suite.setType(AlgorithmSuiteValue.Basic256);
-        
+
         SignaturePolicy sigPolicy =
                 createSignaturePolicy(sigTargetList);
         addSignKeyBinding(sigPolicy, "x509", "Direct");
@@ -1143,59 +1143,59 @@ public class SecurityPoliciesTest extends TestCase {
         addToSPTList(tp,sigPolicy);
         List<EncryptionTarget> encTargetList =
                 createEncryptionTargetBody(true);
-        
+
         EncryptionPolicy encPolicy =
                 createEncryptionPolicy(encTargetList);
         addEncryptKeyBinding(encPolicy, "x509", "Identifier");
         msgPolicy.append(encPolicy);
-        
+
         return msgPolicy;
     }
-    
+
     public MessagePolicy createScenario2ClientIncoming() throws Exception {
         MessagePolicy msgPolicy = new MessagePolicy();
-        
+
         List<EncryptionTarget> encTargetList =
                 createEncryptionTargetBody(true);
-        
+
         EncryptionPolicy encPolicy =
                 createEncryptionPolicy(encTargetList);
         addEncryptKeyBinding(encPolicy, "x509", "Identifier");
         msgPolicy.append(encPolicy);
-        
+
         TimestampPolicy tp = new TimestampPolicy();
         msgPolicy.append(tp);
-        
-        
+
+
 //        AlgorithmSuite suite = new com.sun.xml.ws.security.impl.policy.AlgorithmSuite();
 //        suite.setType(AlgorithmSuiteValue.Basic256);
-        
+
         List<SignatureTarget> sigTargetList =
                 createSignatureTargetBody(true);
-        
+
         SignaturePolicy sigPolicy =
                 createSignaturePolicy(sigTargetList);
         addSignKeyBinding(sigPolicy, "x509", "Direct");
         msgPolicy.append(sigPolicy);
         addToSPTList(tp,sigPolicy);
-        
+
         return msgPolicy;
-        
-        
+
+
     }
-    
+
     //MutualCertificate10SignEncryptRsa15TripleDes_IPingService_policy
     public MessagePolicy createScenario3ClientOutgoing() throws Exception {
         MessagePolicy msgPolicy = new MessagePolicy();
         TimestampPolicy tp = new TimestampPolicy();
         msgPolicy.append(tp);
-        
+
         List<SignatureTarget> sigTargetList =
                 createSignatureTargetBody(true);
-        
+
 //        AlgorithmSuite suite = new com.sun.xml.ws.security.impl.policy.AlgorithmSuite();
 //        suite.setType(AlgorithmSuiteValue.TripleDesRsa15);
-        
+
         SignaturePolicy sigPolicy =
                 createSignaturePolicy(sigTargetList);
         addSignKeyBinding(sigPolicy, "x509", "Direct");
@@ -1203,58 +1203,58 @@ public class SecurityPoliciesTest extends TestCase {
         addToSPTList(tp,sigPolicy);
         List<EncryptionTarget> encTargetList =
                 createEncryptionTargetBody(true);
-        
+
         EncryptionPolicy encPolicy =
                 createEncryptionPolicy(encTargetList);
         addEncryptKeyBinding(encPolicy, "x509", "Identifier");
         msgPolicy.append(encPolicy);
-        
+
         return msgPolicy;
     }
-    
+
     public MessagePolicy createScenario3ClientIncoming() throws Exception {
         MessagePolicy msgPolicy = new MessagePolicy();
-        
+
         List<EncryptionTarget> encTargetList =
                 createEncryptionTargetBody(true);
-        
+
         EncryptionPolicy encPolicy =
                 createEncryptionPolicy(encTargetList);
         addEncryptKeyBinding(encPolicy, "x509", "Identifier");
         msgPolicy.append(encPolicy);
-        
+
         TimestampPolicy tp = new TimestampPolicy();
         msgPolicy.append(tp);
-        
+
         List<SignatureTarget> sigTargetList =
                 createSignatureTargetBody(true);
-        
+
 //        AlgorithmSuite suite = new com.sun.xml.ws.security.impl.policy.AlgorithmSuite();
 //        suite.setType(AlgorithmSuiteValue.TripleDesRsa15);
-        
+
         SignaturePolicy sigPolicy =
                 createSignaturePolicy(sigTargetList);
         addSignKeyBinding(sigPolicy, "x509", "Direct");
         msgPolicy.append(sigPolicy);
         addToSPTList(tp,sigPolicy);
-        
-        
+
+
         return msgPolicy;
     }
-    
-    
+
+
     //MutualCertificate10Sign_IPingServiceSign_policy
     public MessagePolicy createScenario4ClientOutgoing() throws Exception {
         MessagePolicy msgPolicy = new MessagePolicy();
         TimestampPolicy tp = new TimestampPolicy();
         msgPolicy.append(tp);
-        
+
         List<SignatureTarget> sigTargetList =
                 createSignatureTargetBody(true);
-        
+
 //        AlgorithmSuite suite = new com.sun.xml.ws.security.impl.policy.AlgorithmSuite();
 //        suite.setType(AlgorithmSuiteValue.Basic256);
-        
+
         SignaturePolicy sigPolicy =
                 createSignaturePolicy(sigTargetList);
         addSignKeyBinding(sigPolicy, "x509", "Direct");
@@ -1262,30 +1262,30 @@ public class SecurityPoliciesTest extends TestCase {
         addToSPTList(tp,sigPolicy);
         return msgPolicy;
     }
-    
+
     public MessagePolicy createScenario4ClientIncoming() throws Exception {
         return reverse(createScenario4ClientOutgoing());
     }
-    
-    
+
+
     //UserNameForCertificateSignEncrypt_IPingService_policy
     public MessagePolicy createScenario5ClientOutgoing() throws Exception {
         MessagePolicy msgPolicy = new MessagePolicy();
-        
+
         AuthenticationTokenPolicy at =
                 createUTPolicy("testuser", null, null, false);
         at.setUUID("UsernameTokenBinding");
         msgPolicy.append(at);
-        
+
         TimestampPolicy tp = new TimestampPolicy();
         msgPolicy.append(tp);
-        
+
         List<SignatureTarget> sigTargetList =
                 createSignatureTargetBodyAllHeader(true);
-        
+
 //        AlgorithmSuite suite = new com.sun.xml.ws.security.impl.policy.AlgorithmSuite();
 //        suite.setType(AlgorithmSuiteValue.TripleDesRsa15);
-        
+
         SignaturePolicy sigPolicy = createSignaturePolicy(sigTargetList);
         addSignKeyBinding(sigPolicy, "derivedkey", "Thumbprint");
         msgPolicy.append(sigPolicy);
@@ -1293,100 +1293,100 @@ public class SecurityPoliciesTest extends TestCase {
         addToSPTList(at,sigPolicy);
         List<EncryptionTarget> encTargetList =
                 createEncryptionTargetBodyAndUT(true);
-        
+
         EncryptionPolicy encPolicy =
                 createEncryptionPolicy(encTargetList);
         addEncryptKeyBinding(encPolicy, "derivedkey", "Thumbprint");
         msgPolicy.append(encPolicy);
-        
+
         return msgPolicy;
     }
-    
-    
+
+
     public MessagePolicy createScenario5ServerIncoming() throws Exception {
         MessagePolicy msgPolicy = new MessagePolicy();
-        
+
         AuthenticationTokenPolicy at =
                 createUTPolicy("testuser", null, null, false);
         at.setUUID("UsernameTokenBinding");
         msgPolicy.append(at);
-        
+
         TimestampPolicy tp = new TimestampPolicy();
         msgPolicy.append(tp);
-        
+
         List<SignatureTarget> sigTargetList =
                 createSignatureTargetBodyAllHeader(true);
-        
+
 //        AlgorithmSuite suite = new com.sun.xml.ws.security.impl.policy.AlgorithmSuite();
 //        suite.setType(AlgorithmSuiteValue.TripleDesRsa15);
-        
+
         SignaturePolicy sigPolicy =
                 createSignaturePolicy(sigTargetList);
         addSignKeyBinding(sigPolicy, "derivedkey", "Thumbprint");
-        
+
         addToSPTList(tp,sigPolicy);
         addToSPTList(at,sigPolicy);
         List<EncryptionTarget> encTargetList =
                 createEncryptionTargetBodyAndUT(true);
-        
+
         EncryptionPolicy encPolicy =
                 createEncryptionPolicy(encTargetList);
         addEncryptKeyBinding(encPolicy, "derivedkey", "Thumbprint");
         msgPolicy.append(encPolicy);
         msgPolicy.append(sigPolicy);
-        
+
         return msgPolicy;
     }
-    
+
     public MessagePolicy createScenario5ClientIncoming() throws Exception {
         MessagePolicy msgPolicy = new MessagePolicy();
-        
+
         TimestampPolicy tp = new TimestampPolicy();
-        
+
         List<SignatureTarget> sigTargetList =
                 createSignatureTargetBodyAllHeader(true);
-        
+
 //        AlgorithmSuite suite = new com.sun.xml.ws.security.impl.policy.AlgorithmSuite();
 //        suite.setType(AlgorithmSuiteValue.TripleDesRsa15);
-        
+
         SignaturePolicy sigPolicy =
                 createSignaturePolicy(sigTargetList);
         addSignKeyBinding(sigPolicy, "derivedkey", "Thumbprint");
-        
-        
+
+
         List<EncryptionTarget> encTargetList =
                 createEncryptionTargetBody(true);
-        
+
         EncryptionPolicy encPolicy =
                 createEncryptionPolicy(encTargetList);
         addEncryptKeyBinding(encPolicy, "derivedkey", "Thumbprint");
-        
+
         msgPolicy.append(encPolicy);
         msgPolicy.append(tp);
-        
+
         msgPolicy.append(sigPolicy);
         addToSPTList(tp,sigPolicy);
-        
-        
+
+
         return msgPolicy;
     }
-    
+
     //AnonymousForCertificateSignEncrypt_IPingService_policy
     public MessagePolicy createScenario6ClientOutgoing() throws Exception {
         MessagePolicy msgPolicy = new MessagePolicy();
-        
+
         SignatureConfirmationPolicy sigConf = new SignatureConfirmationPolicy();
         msgPolicy.append(sigConf);
-        
+
         TimestampPolicy tp = new TimestampPolicy();
         msgPolicy.append(tp);
-        
+
         List<SignatureTarget> sigTargetList =
                 createSignatureTargetBodyAllHeader(true);
-        
+
 //        AlgorithmSuite suite = new com.sun.xml.ws.security.impl.policy.AlgorithmSuite();
 //        suite.setType(AlgorithmSuiteValue.TripleDesRsa15);
-        
+
         SignaturePolicy sigPolicy =
                 createSignaturePolicy(sigTargetList);
         addSignKeyBinding(sigPolicy, "derivedkey", "Thumbprint");
@@ -1395,274 +1395,274 @@ public class SecurityPoliciesTest extends TestCase {
         addToSPTList(tp,sigPolicy);
         List<EncryptionTarget> encTargetList =
                 createEncryptionTargetBody(true);
-        
+
         EncryptionPolicy encPolicy =
                 createEncryptionPolicy(encTargetList);
         addEncryptKeyBinding(encPolicy, "derivedkey", "Thumbprint");
         msgPolicy.append(encPolicy);
-        
-        
-        
+
+
+
         return msgPolicy;
     }
     // if 5 then ????
     public MessagePolicy createScenario6ClientIncoming() throws Exception {
         MessagePolicy msgPolicy = new MessagePolicy();
-        
+
         SignatureConfirmationPolicy sigConf = new SignatureConfirmationPolicy();
         msgPolicy.append(sigConf);
-        
+
         List<EncryptionTarget> encTargetList =
                 createEncryptionTargetBody(true);
-        
+
         EncryptionPolicy encPolicy =
                 createEncryptionPolicy(encTargetList);
         addEncryptKeyBinding(encPolicy, "derivedkey", "Thumbprint");
         msgPolicy.append(encPolicy);
-        
-        
+
+
         TimestampPolicy tp = new TimestampPolicy();
         msgPolicy.append(tp);
-        
+
         List<SignatureTarget> sigTargetList =
                 createSignatureTargetBodyAllHeader(true);
-        
+
 //        AlgorithmSuite suite = new com.sun.xml.ws.security.impl.policy.AlgorithmSuite();
 //        suite.setType(AlgorithmSuiteValue.TripleDesRsa15);
-        
+
         SignaturePolicy sigPolicy =
                 createSignaturePolicy(sigTargetList);
         addSignKeyBinding(sigPolicy, "derivedkey", "Thumbprint");
         msgPolicy.append(sigPolicy);
         addQTToSPTList(sigConf,sigPolicy);
         addToSPTList(tp,sigPolicy);
-        
+
         return msgPolicy;
     }
-    
-    
+
+
     public MessagePolicy createScenario6ServerOutgoing() throws Exception {
         MessagePolicy msgPolicy = new MessagePolicy();
-        
+
         SignatureConfirmationPolicy sigConf = new SignatureConfirmationPolicy();
         msgPolicy.append(sigConf);
-        
+
         List<EncryptionTarget> encTargetList =
                 createEncryptionTargetBody(true);
-        
+
         TimestampPolicy tp = new TimestampPolicy();
         msgPolicy.append(tp);
-        
-        
-        
+
+
+
         List<SignatureTarget> sigTargetList =
                 createSignatureTargetBodyAllHeader(true);
-        
+
 //        AlgorithmSuite suite = new com.sun.xml.ws.security.impl.policy.AlgorithmSuite();
 //        suite.setType(AlgorithmSuiteValue.TripleDesRsa15);
-        
+
         SignaturePolicy sigPolicy =
                 createSignaturePolicy(sigTargetList);
         addSignKeyBinding(sigPolicy, "derivedkey", "Thumbprint");
         msgPolicy.append(sigPolicy);
         addQTToSPTList(sigConf,sigPolicy);
         addToSPTList(tp,sigPolicy);
-        
+
         EncryptionPolicy encPolicy =
                 createEncryptionPolicy(encTargetList);
         addEncryptKeyBinding(encPolicy, "derivedkey", "Thumbprint");
         msgPolicy.append(encPolicy);
-        
-        
+
+
         return msgPolicy;
     }
-    
+
     public MessagePolicy createScenario6ServerIncoming() throws Exception {
         MessagePolicy msgPolicy = new MessagePolicy();
-        
+
         SignatureConfirmationPolicy sigConf = new SignatureConfirmationPolicy();
         msgPolicy.append(sigConf);
-        
+
         List<EncryptionTarget> encTargetList =
                 createEncryptionTargetBody(true);
-        
+
         TimestampPolicy tp = new TimestampPolicy();
         msgPolicy.append(tp);
-        
-        
-        
+
+
+
         List<SignatureTarget> sigTargetList =
                 createSignatureTargetBodyAllHeader(true);
-        
+
 //        AlgorithmSuite suite = new com.sun.xml.ws.security.impl.policy.AlgorithmSuite();
 //        suite.setType(AlgorithmSuiteValue.TripleDesRsa15);
-        
+
         EncryptionPolicy encPolicy =
                 createEncryptionPolicy(encTargetList);
         addEncryptKeyBinding(encPolicy, "derivedkey", "Thumbprint");
         msgPolicy.append(encPolicy);
-        
+
         SignaturePolicy sigPolicy =
                 createSignaturePolicy(sigTargetList);
         addSignKeyBinding(sigPolicy, "derivedkey", "Thumbprint");
         msgPolicy.append(sigPolicy);
         addQTToSPTList(sigConf,sigPolicy);
         addToSPTList(tp,sigPolicy);
-        
-        
-        
-        
+
+
+
+
         return msgPolicy;
     }
-    
-    
+
+
     //MutualCertificate11SignEncrypt_IPingService_policy
     public MessagePolicy createScenario7ClientOutgoing() throws Exception {
         MessagePolicy msgPolicy = new MessagePolicy();
-        
+
         SignatureConfirmationPolicy sigConf = new SignatureConfirmationPolicy();
         msgPolicy.append(sigConf);
-        
+
         /*AuthenticationTokenPolicy at =
         createUTPolicy("testuser", null, null, false);
         at.setUUID("UsernameTokenBinding");
         msgPolicy.append(at);*/
-        
+
         TimestampPolicy tp = new TimestampPolicy();
         msgPolicy.append(tp);
-        
+
         List<SignatureTarget> sigTargetList =
                 createSignatureTargetBodyAllHeader(true);
-        
+
 //        AlgorithmSuite suite = new com.sun.xml.ws.security.impl.policy.AlgorithmSuite();
 //        suite.setType(AlgorithmSuiteValue.TripleDesRsa15);
-        
+
         SignaturePolicy sigPolicy =
                 createSignaturePolicy(sigTargetList);
         addSignKeyBinding(sigPolicy, "symmetric", "");
         msgPolicy.append(sigPolicy);
         addQTToSPTList(sigConf,sigPolicy);
         addToSPTList(tp,sigPolicy);
-        
+
         List<SignatureTarget> sigTargetList1 =
                 createSignatureTargetEndorsingSignature(true);
         SignaturePolicy sigPolicy1 = createSignaturePolicy(sigTargetList1);
         addSignKeyBinding(sigPolicy1, "x509", "Identifier");
         msgPolicy.append(sigPolicy1);
-        
-        
+
+
         List<EncryptionTarget> encTargetList =
                 createEncryptionTargetBody(true);
-        
+
         EncryptionPolicy encPolicy =
                 createEncryptionPolicy(encTargetList);
         addEncryptKeyBinding(encPolicy, "symmetric", "");
         msgPolicy.append(encPolicy);
-        
-        
-        
-        
-        
+
+
+
+
+
         return msgPolicy;
     }
-    
+
     public MessagePolicy createScenario7ClientIncoming() throws Exception {
         MessagePolicy msgPolicy = new MessagePolicy();
-        
+
 //        AuthenticationTokenPolicy at =
 //                createUTPolicy("testuser", null, null, false);
 //        at.setUUID("UsernameTokenBinding");
 //        msgPolicy.append(at);
         SignatureConfirmationPolicy sigConf = new SignatureConfirmationPolicy();
         msgPolicy.append(sigConf);
-        
+
         List<EncryptionTarget> encTargetList =
                 createEncryptionTargetBody(true);
-        
+
         EncryptionPolicy encPolicy =
                 createEncryptionPolicy(encTargetList);
         addEncryptKeyBinding(encPolicy, "symmetric", "");
         msgPolicy.append(encPolicy);
-        
+
         TimestampPolicy tp = new TimestampPolicy();
         msgPolicy.append(tp);
-        
+
 //        AlgorithmSuite suite = new com.sun.xml.ws.security.impl.policy.AlgorithmSuite();
 //        suite.setType(AlgorithmSuiteValue.TripleDesRsa15);
-        
-        
-        
+
+
+
         List<SignatureTarget> sigTargetList =
                 createSignatureTargetBodyAllHeader(true);
-        
-        
-        
+
+
+
         SignaturePolicy sigPolicy =
                 createSignaturePolicy(sigTargetList);
         addSignKeyBinding(sigPolicy, "symmetric", "");
         msgPolicy.append(sigPolicy);
         addQTToSPTList(sigConf,sigPolicy);
         addToSPTList(tp,sigPolicy);
-        
-        
-        
-        
-        
+
+
+
+
+
         return msgPolicy;
     }
-    
+
     //MutualCertificate11SignEncrypt_IPingService_policy
     public MessagePolicy createScenario7ServerIncoming() throws Exception {
         MessagePolicy msgPolicy = new MessagePolicy();
-        
+
         SignatureConfirmationPolicy sigConf = new SignatureConfirmationPolicy();
         msgPolicy.append(sigConf);
-        
+
         /*AuthenticationTokenPolicy at =
         createUTPolicy("testuser", null, null, false);
         at.setUUID("UsernameTokenBinding");
         msgPolicy.append(at);*/
-        
+
         TimestampPolicy tp = new TimestampPolicy();
         msgPolicy.append(tp);
-        
+
         List<EncryptionTarget> encTargetList =
                 createEncryptionTargetBody(true);
-        
+
         EncryptionPolicy encPolicy =
                 createEncryptionPolicy(encTargetList);
         addEncryptKeyBinding(encPolicy, "symmetric", "");
         msgPolicy.append(encPolicy);
-        
+
         List<SignatureTarget> sigTargetList1 =
                 createSignatureTargetEndorsingSignature(true);
         SignaturePolicy sigPolicy1 = createSignaturePolicy(sigTargetList1);
         addSignKeyBinding(sigPolicy1, "x509", "Identifier");
         msgPolicy.append(sigPolicy1);
-        
+
         List<SignatureTarget> sigTargetList =
                 createSignatureTargetBodyAllHeader(true);
-        
+
 //        AlgorithmSuite suite = new com.sun.xml.ws.security.impl.policy.AlgorithmSuite();
 //        suite.setType(AlgorithmSuiteValue.TripleDesRsa15);
-        
+
         SignaturePolicy sigPolicy =
                 createSignaturePolicy(sigTargetList);
         addSignKeyBinding(sigPolicy, "symmetric", "");
         msgPolicy.append(sigPolicy);
         addQTToSPTList(sigConf,sigPolicy);
         addToSPTList(tp,sigPolicy);
-        
+
         return msgPolicy;
     }
-    
+
     //MutualCertificate11SignEncrypt_IPingService_policy
     public MessagePolicy createScenario7ServerOutgoing() throws Exception {
         MessagePolicy msgPolicy = new MessagePolicy();
-        
+
         SignatureConfirmationPolicy sigConf = new SignatureConfirmationPolicy();
         msgPolicy.append(sigConf);
-        
+
     /*    AuthenticationTokenPolicy at =
                 createUTPolicy("testuser", null, null, false);
         at.setUUID("UsernameTokenBinding");
@@ -1670,10 +1670,10 @@ public class SecurityPoliciesTest extends TestCase {
      */
         TimestampPolicy tp = new TimestampPolicy();
         msgPolicy.append(tp);
-        
+
         List<EncryptionTarget> encTargetList =
                 createEncryptionTargetBody(true);
-        
+
     /*    List<SignatureTarget> sigTargetList1 =
                 createSignatureTargetEndorsingSignature(true);
         SignaturePolicy sigPolicy1 = createSignaturePolicy(sigTargetList1);
@@ -1682,80 +1682,80 @@ public class SecurityPoliciesTest extends TestCase {
      */
         List<SignatureTarget> sigTargetList =
                 createSignatureTargetBodyAllHeader(true);
-        
+
 //        AlgorithmSuite suite = new com.sun.xml.ws.security.impl.policy.AlgorithmSuite();
 //        suite.setType(AlgorithmSuiteValue.TripleDesRsa15);
-        
+
         SignaturePolicy sigPolicy =
                 createSignaturePolicy(sigTargetList);
         addSignKeyBinding(sigPolicy, "symmetric", "");
         msgPolicy.append(sigPolicy);
         addQTToSPTList(sigConf,sigPolicy);
         addToSPTList(tp,sigPolicy);
-        
-        
+
+
         EncryptionPolicy encPolicy =
                 createEncryptionPolicy(encTargetList);
         addEncryptKeyBinding(encPolicy, "symmetric", "");
         msgPolicy.append(encPolicy);
-        
-        
+
+
         return msgPolicy;
     }
-    
+
     //MutualCertificate11SignEncryptDerivedKeys_IPingService_policy
     public MessagePolicy createScenario8ClientOutgoing() throws Exception {
         MessagePolicy msgPolicy = new MessagePolicy();
-        
+
         TimestampPolicy tp = new TimestampPolicy();
         msgPolicy.append(tp);
-        
+
         List<SignatureTarget> sigTargetList =
                 createSignatureTargetBodyAllHeader(true);
-        
+
 //        AlgorithmSuite suite = new com.sun.xml.ws.security.impl.policy.AlgorithmSuite();
 //        suite.setType(AlgorithmSuiteValue.TripleDesRsa15);
-        
+
         SignaturePolicy sigPolicy =
                 createSignaturePolicy(sigTargetList);
         addSignKeyBinding(sigPolicy, "derivedkey", "");
         msgPolicy.append(sigPolicy);
-        
+
         List<EncryptionTarget> encTargetList =
                 createEncryptionTargetBody(true);
-        
+
         EncryptionPolicy encPolicy =
                 createEncryptionPolicy(encTargetList);
         addEncryptKeyBinding(encPolicy, "derivedkey", "");
         msgPolicy.append(encPolicy);
-        
+
         List<SignatureTarget> sigTargetList1 =
                 createSignatureTargetEndorsingSignature(true);
         SignaturePolicy sigPolicy1 = createSignaturePolicy(sigTargetList1);
         addSignKeyBinding(sigPolicy1, "derivedkey", "");
         msgPolicy.append(sigPolicy1);
-        
+
         SignatureConfirmationPolicy sigConf = new SignatureConfirmationPolicy();
         msgPolicy.append(sigConf);
-        
+
         return msgPolicy;
     }
-    
+
     public MessagePolicy createScenario8ClientIncoming() throws Exception {
         return(reverse(createScenario7ClientOutgoing()));
     }
-    
+
     public MessagePolicy createScenario10ClientOutgoing() throws Exception {
         MessagePolicy msgPolicy = new MessagePolicy();
         //     TimestampPolicy tp = new TimestampPolicy();
         // msgPolicy.append(tp);
-        
+
         List<SignatureTarget> sigTargetList =
                 createSignatureTargetBody(true);
-        
+
 //       AlgorithmSuite suite = new com.sun.xml.ws.security.impl.policy.AlgorithmSuite();
 //      suite.setType(AlgorithmSuiteValue.Basic256);
-        
+
         SignaturePolicy sigPolicy =
                 createSignaturePolicy(sigTargetList);
         addSignKeyBinding(sigPolicy, "x509", "Direct");
@@ -1763,35 +1763,35 @@ public class SecurityPoliciesTest extends TestCase {
         //    addToSPTList(tp,sigPolicy);
         List<EncryptionTarget> encTargetList =
                 createEncryptionTargetBody(true);
-        
+
         EncryptionPolicy encPolicy =
                 createEncryptionPolicy(encTargetList);
         addEncryptKeyBinding(encPolicy, "x509", "Identifier");
         msgPolicy.append(encPolicy);
-        
+
         return msgPolicy;
     }
-    
+
     public MessagePolicy createScenario10ClientIncoming() throws Exception {
         MessagePolicy msgPolicy = new MessagePolicy();
         List<EncryptionTarget> encTargetList =
                 createEncryptionTargetBody(true);
-        
+
         EncryptionPolicy encPolicy =
                 createEncryptionPolicy(encTargetList);
         addEncryptKeyBinding(encPolicy, "x509", "Identifier");
         msgPolicy.append(encPolicy);
-        
+
         // TimestampPolicy tp = new TimestampPolicy();
         // msgPolicy.append(tp);
-        
-        
+
+
 //        AlgorithmSuite suite = new com.sun.xml.ws.security.impl.policy.AlgorithmSuite();
 //        suite.setType(AlgorithmSuiteValue.Basic256);
-        
+
         List<SignatureTarget> sigTargetList =
                 createSignatureTargetBody(true);
-        
+
         SignaturePolicy sigPolicy =
                 createSignaturePolicy(sigTargetList);
         addSignKeyBinding(sigPolicy, "x509", "Direct");
@@ -1799,14 +1799,14 @@ public class SecurityPoliciesTest extends TestCase {
         //   addToSPTList(tp,sigPolicy);
         return msgPolicy;
     }
-    
-    
+
+
     public MessagePolicy createScenario11ClientOutgoing() throws Exception {
         MessagePolicy msgPolicy = new MessagePolicy();
-        
+
         TimestampPolicy tp = new TimestampPolicy();
         msgPolicy.append(tp);
-        
+
         List<String> targetSignType = new ArrayList<>();
         targetSignType.add("uri");
         List<String> targetSignValue = new ArrayList<>();
@@ -1816,21 +1816,21 @@ public class SecurityPoliciesTest extends TestCase {
         List<SignatureTarget.Transform> transform = new ArrayList<>();
         List<List<SignatureTarget.Transform>> tl = new ArrayList<>();
         tl.add(transform);
-        
-        
+
+
         List<SignatureTarget> sigTargetList =
                 createSignatureTargetList(targetSignType, targetSignValue, targetSignContent, tl);
-        
+
 //       AlgorithmSuite suite = new com.sun.xml.ws.security.impl.policy.AlgorithmSuite();
 //      suite.setType(AlgorithmSuiteValue.Basic256);
-        
+
         SignaturePolicy sigPolicy =
                 createSignaturePolicy(sigTargetList);
         addSignKeyBinding(sigPolicy, "symmetric", "");
         msgPolicy.append(sigPolicy);
         // addToSPTList(tp,sigPolicy);
         List<String> listHeaders = createAddressingHeaderQNameList();
-        
+
         List<String> targetType = new ArrayList<>();
         targetType.add("qname");
         targetType.add("qname");
@@ -1840,23 +1840,23 @@ public class SecurityPoliciesTest extends TestCase {
         targetType.add("qname");
         targetType.add("qname");
         targetType.add("qname");
-        
+
         List<EncryptionTarget> encTargetList = createEncryptionTargetBodySelectedHeader(listHeaders,true,targetType);
-        
+
         EncryptionPolicy encPolicy =
                 createEncryptionPolicy(encTargetList);
         addEncryptKeyBinding(encPolicy, "symmetric", "");
         msgPolicy.append(encPolicy);
-        
+
         return msgPolicy;
     }
-    
+
     public MessagePolicy createScenario11ClientIncoming() throws Exception {
         MessagePolicy msgPolicy = new MessagePolicy();
-        
+
         TimestampPolicy tp = new TimestampPolicy();
         msgPolicy.append(tp);
-        
+
         List<String> targetSignType = new ArrayList<>();
         targetSignType.add("uri");
         List<String> targetSignValue = new ArrayList<>();
@@ -1866,21 +1866,21 @@ public class SecurityPoliciesTest extends TestCase {
         List<SignatureTarget.Transform> transform = new ArrayList<>();
         List<List<SignatureTarget.Transform>> tl = new ArrayList<>();
         tl.add(transform);
-        
-        
+
+
         List<SignatureTarget> sigTargetList =
                 createSignatureTargetList(targetSignType, targetSignValue, targetSignContent, tl);
-        
+
 //       AlgorithmSuite suite = new com.sun.xml.ws.security.impl.policy.AlgorithmSuite();
 //      suite.setType(AlgorithmSuiteValue.Basic256);
-        
+
         SignaturePolicy sigPolicy =
                 createSignaturePolicy(sigTargetList);
         addSignKeyBinding(sigPolicy, "symmetric", "");
         msgPolicy.append(sigPolicy);
         // addToSPTList(tp,sigPolicy);
         List<String> listHeaders = createAddressingHeaderQNameList();
-        
+
         List<String> targetType = new ArrayList<>();
         targetType.add("qname");
         targetType.add("qname");
@@ -1890,37 +1890,37 @@ public class SecurityPoliciesTest extends TestCase {
         targetType.add("qname");
         targetType.add("qname");
         targetType.add("qname");
-        
+
         List<EncryptionTarget> encTargetList = createEncryptionTargetBodySelectedHeader(listHeaders,true,targetType);
-        
+
         EncryptionPolicy encPolicy =
                 createEncryptionPolicy(encTargetList);
         addEncryptKeyBinding(encPolicy, "symmetric", "");
         msgPolicy.append(encPolicy);
-        
+
         return msgPolicy;
     }
-    
+
     public MessagePolicy createScenario21ClientOutgoing() throws Exception {
         MessagePolicy msgPolicy = new MessagePolicy();
-        
+
         TimestampPolicy tp = new TimestampPolicy();
         msgPolicy.append(tp);
-        
+
     /*    AlgorithmSuite suite = new com.sun.xml.ws.security.impl.policy.AlgorithmSuite();
         suite.setType(AlgorithmSuiteValue.Basic256);
-     
+
         List<SignatureTarget> sigTargetList =
                 createSignatureTargetBodyAllHeader(true);
-     
+
         SignaturePolicy sigPolicy =
                 createSignaturePolicy(sigTargetList, suite);
         addSignKeyBinding(sigPolicy, "derivedkey", "");
         msgPolicy.append(sigPolicy);
-     
+
         List<EncryptionTarget> encTargetList =
                 createEncryptionTargetBody(true);
-     
+
         EncryptionPolicy encPolicy =
                 createEncryptionPolicy(encTargetList, suite);
         addEncryptKeyBinding(encPolicy, "derivedkey", "");
@@ -1931,117 +1931,117 @@ public class SecurityPoliciesTest extends TestCase {
         SignaturePolicy sigPolicy1 = createSignaturePolicy(sigTargetList1);
         addSignKeyBinding(sigPolicy1, "derivedkey", "");
         msgPolicy.append(sigPolicy1);
-        
+
         return msgPolicy;
     }
-    
+
     public MessagePolicy createScenario21ClientIncoming() throws Exception {
         return(reverse(createScenario21ClientOutgoing()));
     }
-    
-    
+
+
     public MessagePolicy createScenario22ClientOutgoing() throws Exception {
         MessagePolicy msgPolicy = new MessagePolicy();
-        
+
         TimestampPolicy tp = new TimestampPolicy();
         msgPolicy.append(tp);
-        
+
         List<SignatureTarget> sigTargetList =
                 createSignatureTargetBodyAllHeader(true);
-        
+
 //        AlgorithmSuite suite = new com.sun.xml.ws.security.impl.policy.AlgorithmSuite();
 //        suite.setType(AlgorithmSuiteValue.Basic256);
-        
+
         SignaturePolicy sigPolicy =
                 createSignaturePolicy(sigTargetList);
         addSignKeyBinding(sigPolicy, "derivedkey", "Thumbprint");
         msgPolicy.append(sigPolicy);
         addToSPTList(tp,sigPolicy);
-        
-        
+
+
         /*  List<SignatureTarget> sigTargetList1 =
                 createSignatureTargetEndorsingSignature(true);
         SignaturePolicy sigPolicy1 = createSignaturePolicy(sigTargetList1, suite);
         addSignKeyBinding(sigPolicy1, "derivedkey", "");
         msgPolicy.append(sigPolicy1);
          */
-        
+
         return msgPolicy;
     }
-    
-    
+
+
     public MessagePolicy createScenario22ClientIncoming() throws Exception {
         return(reverse(createScenario22ClientOutgoing()));
     }
-    
-    
+
+
     public MessagePolicy createScenario23ClientOutgoing() throws Exception {
         MessagePolicy msgPolicy = new MessagePolicy();
-        
+
         TimestampPolicy tp = new TimestampPolicy();
         msgPolicy.append(tp);
-        
+
         List<SignatureTarget> sigTargetList =
                 createSignatureTargetBodyAllHeader(true);
-        
+
 //        AlgorithmSuite suite = new com.sun.xml.ws.security.impl.policy.AlgorithmSuite();
 //        suite.setType(AlgorithmSuiteValue.Basic256);
-        
+
         SignaturePolicy sigPolicy =
                 createSignaturePolicy(sigTargetList);
         addSignKeyBinding(sigPolicy, "derivedkey", "Thumbprint");
         msgPolicy.append(sigPolicy);
         addToSPTList(tp,sigPolicy);
-        
+
         List<EncryptionTarget> encTargetList =
                 createEncryptionTargetBody(true);
-        
-        
+
+
         EncryptionPolicy encPolicy =
                 createEncryptionPolicy(encTargetList);
         addEncryptKeyBinding(encPolicy, "derivedkey", "");
         msgPolicy.append(encPolicy);
-        
-        
-        
+
+
+
         return msgPolicy;
     }
-    
-    
+
+
     public MessagePolicy createScenario23ClientIncoming() throws Exception {
         return(reverse(createScenario23ClientOutgoing()));
     }
-    
-    
-    
+
+
+
     public MessagePolicy createScenario24ClientOutgoing() throws Exception {
         MessagePolicy msgPolicy = new MessagePolicy();
-        
+
         TimestampPolicy tp = new TimestampPolicy();
         msgPolicy.append(tp);
-        
+
         List<SignatureTarget> sigTargetList =
                 createSignatureTargetBodyAllHeader(true);
-        
+
 //        AlgorithmSuite suite = new com.sun.xml.ws.security.impl.policy.AlgorithmSuite();
 //        suite.setType(AlgorithmSuiteValue.Basic256);
-        
+
         SignaturePolicy sigPolicy =
                 createSignaturePolicy(sigTargetList);
         addSignKeyBinding(sigPolicy, "derivedkey", "Thumbprint");
         msgPolicy.append(sigPolicy);
-        
+
         addToSPTList(tp,sigPolicy);
-        
-        
-        
+
+
+
         return msgPolicy;
     }
-    
-    
+
+
     public MessagePolicy createScenario24ClientIncoming() throws Exception {
         return(reverse(createScenario24ClientOutgoing()));
     }
-    
-    
+
+
 }

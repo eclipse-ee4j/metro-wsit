@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -24,9 +24,9 @@ import jakarta.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement(name="KeyName", namespace = "http://www.w3.org/2000/09/xmldsig#")
 public class KeyName implements javax.xml.crypto.dsig.keyinfo.KeyName {
-    
+
     private String keyName = null;
-    
+
     /** Creates a new instance of KeyName */
     public KeyName() {
     }
@@ -35,7 +35,7 @@ public class KeyName implements javax.xml.crypto.dsig.keyinfo.KeyName {
     public String getName() {
         return keyName;
     }
-    
+
     public void setKeyName(String keyName) {
         this.keyName = keyName;
     }
@@ -44,5 +44,5 @@ public class KeyName implements javax.xml.crypto.dsig.keyinfo.KeyName {
     public boolean isFeatureSupported(String string) {
         return false;
     }
-    
+
 }

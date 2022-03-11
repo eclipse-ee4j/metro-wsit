@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -40,34 +40,34 @@ import jakarta.xml.soap.AttachmentPart;
 public class ACOTransform extends TransformService {
     private static Logger logger = Logger.getLogger(LogDomainConstants.IMPL_SIGNATURE_DOMAIN,
             LogDomainConstants.IMPL_SIGNATURE_DOMAIN_BUNDLE);
-    
+
     private static final String implementedTransformURI = MessageConstants.ATTACHMENT_CONTENT_ONLY_TRANSFORM_URI;
-    
+
     /** Creates a new instance of ACOTransform */
     public ACOTransform() {
     }
-    
+
     @Override
     public java.security.spec.AlgorithmParameterSpec getParameterSpec() {
         return null;
-        
+
         //Revisit.
     }
-    
+
     @Override
     public void init(javax.xml.crypto.dsig.spec.TransformParameterSpec transformParameterSpec) {
     }
-    
+
     @Override
     public void init(javax.xml.crypto.XMLStructure xMLStructure, javax.xml.crypto.XMLCryptoContext xMLCryptoContext) {
     }
-    
+
     @Override
     public void marshalParams(javax.xml.crypto.XMLStructure xMLStructure, javax.xml.crypto.XMLCryptoContext xMLCryptoContext) throws javax.xml.crypto.MarshalException {
         //no-op
     }
-    
-    
+
+
     private  javax.xml.crypto.Data canonicalize(OctetStreamData data) {
         throw new UnsupportedOperationException();
         //Revisit ::
@@ -82,9 +82,9 @@ public class ACOTransform extends TransformService {
         }catch(Exception ex){
             ex.printStackTrace();
         }*/
-        
+
     }
-    
+
     private javax.xml.crypto.Data canonicalize(AttachmentData data,OutputStream outputStream) throws javax.xml.crypto.dsig.TransformException{
         try{
             AttachmentPart attachment = data.getAttachmentPart();
@@ -100,7 +100,7 @@ public class ACOTransform extends TransformService {
             Canonicalizer canonicalizer =  CanonicalizerFactory.getCanonicalizer(attachment.getContentType());
             InputStream is = canonicalizer.canonicalize(byteInputStream,byteStream);
             if(is!= null) return new OctetStreamData(is);
-            
+
             return null;
         }catch(javax.xml.crypto.dsig.TransformException te){
             logger.log(Level.SEVERE,LogStringsMessages.WSS_1318_AC_TRANSFORM_ERROR(),te);
@@ -110,12 +110,12 @@ public class ACOTransform extends TransformService {
             throw new javax.xml.crypto.dsig.TransformException(ex.getMessage());
         }
     }
-    
+
     @Override
     public boolean isFeatureSupported(String str) {
         return false;
     }
-    
+
     @Override
     public javax.xml.crypto.Data transform(javax.xml.crypto.Data data, javax.xml.crypto.XMLCryptoContext xMLCryptoContext) throws javax.xml.crypto.dsig.TransformException {
         if(data instanceof OctetStreamData){
@@ -126,7 +126,7 @@ public class ACOTransform extends TransformService {
         }
         return null;
     }
-    
+
     @Override
     public javax.xml.crypto.Data transform(javax.xml.crypto.Data data, javax.xml.crypto.XMLCryptoContext xMLCryptoContext, java.io.OutputStream outputStream) throws javax.xml.crypto.dsig.TransformException {
         if(data instanceof AttachmentData){
@@ -134,6 +134,6 @@ public class ACOTransform extends TransformService {
         }
         return null;
     }
-    
-    
+
+
 }

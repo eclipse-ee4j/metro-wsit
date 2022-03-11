@@ -43,7 +43,7 @@ public class SecurityContextToken extends PolicyAssertion implements com.sun.xml
     private SecurityPolicyVersion spVersion = SecurityPolicyVersion.SECURITYPOLICY200507;
     private final QName itQname;
     private String includeToken;
-    
+
     /** Creates a new instance of SecurityContextToken */
     public SecurityContextToken(AssertionData name,Collection<PolicyAssertion> nestedAssertions, AssertionSet nestedAlternative) {
         super(name,nestedAssertions,nestedAlternative);
@@ -53,13 +53,13 @@ public class SecurityContextToken extends PolicyAssertion implements com.sun.xml
         itQname = new QName(spVersion.namespaceUri, Constants.IncludeToken);
         includeToken = spVersion.includeTokenAlways;
     }
-    
+
     @Override
     public String getTokenType() {
         populate();
         return tokenType;
     }
-    
+
     @Override
     public Iterator getTokenRefernceType() {
         //this check is not necessary as tokenRefType is always null
@@ -70,7 +70,7 @@ public class SecurityContextToken extends PolicyAssertion implements com.sun.xml
         }*/
         return Collections.emptyList().iterator();
     }
-    
+
     @Override
     public boolean isRequireDerivedKeys() {
         populate();
@@ -79,20 +79,20 @@ public class SecurityContextToken extends PolicyAssertion implements com.sun.xml
         }
         return false;
     }
-    
+
     @Override
     public String getIncludeToken() {
         populate();
         return includeToken;
     }
-    
-    
+
+
     @Override
     public String getTokenId() {
         return id;
     }
-    
-    
+
+
     @Override
     public AssertionFitness validate(boolean isServer) {
         return populate(isServer);
@@ -100,7 +100,7 @@ public class SecurityContextToken extends PolicyAssertion implements com.sun.xml
     private void populate(){
         populate(false);
     }
-    
+
     private synchronized AssertionFitness populate(boolean isServer) {
         if(!populated){
             NestedPolicy policy = this.getNestedPolicy();
@@ -116,7 +116,7 @@ public class SecurityContextToken extends PolicyAssertion implements com.sun.xml
             }
             AssertionSet as = policy.getAssertionSet();
             Iterator<PolicyAssertion> paItr = as.iterator();
-            
+
             while(paItr.hasNext()){
                 PolicyAssertion assertion  = paItr.next();
                 if(PolicyUtil.isSecurityContextTokenType(assertion, spVersion)){
@@ -149,5 +149,5 @@ public class SecurityContextToken extends PolicyAssertion implements com.sun.xml
     public SecurityPolicyVersion getSecurityPolicyVersion() {
         return spVersion;
     }
-    
+
 }

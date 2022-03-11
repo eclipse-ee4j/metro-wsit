@@ -53,9 +53,9 @@ public class LazyStreamBasedMessage extends Message{
     private Message message = null;
     AttachmentSet as = null;
     private MutableXMLStreamBuffer buffer = null;
-    
+
     private static final boolean MTOM_LARGEDATA;
-    
+
     static {
         MTOM_LARGEDATA= Boolean.getBoolean("MTOM_LARGEDATA");
     }
@@ -64,17 +64,17 @@ public class LazyStreamBasedMessage extends Message{
         this.reader = message;
         this.codec = codec;
     }
-    
+
     public LazyStreamBasedMessage(XMLStreamReader message,StreamSOAPCodec codec, AttachmentSet as) {
         this.reader = message;
         this.codec = codec;
         this.as = as;
     }
-    
+
     public StreamSOAPCodec getCodec(){
         return codec;
     }
-    
+
     private synchronized void cacheMessage(){
         if(!readMessage){
             if(as == null){
@@ -85,9 +85,9 @@ public class LazyStreamBasedMessage extends Message{
             readMessage = true;
         }
     }
-    
-    
-    
+
+
+
     /**
      * Returns true if headers are present in the message.
      *
@@ -101,7 +101,7 @@ public class LazyStreamBasedMessage extends Message{
         }
         return message.hasHeaders();
     }
-    
+
     /**
      * Gets all the headers of this message.
      *
@@ -123,7 +123,7 @@ public class LazyStreamBasedMessage extends Message{
         // FIXME: RJE -- remove cast once Message.getHeaders is updated to return MessageHeaders
         return (HeaderList) message.getHeaders();
     }
-    
+
     /**
      * Gets the attachments of this message
      * (attachments live outside a message.)
@@ -135,12 +135,12 @@ public class LazyStreamBasedMessage extends Message{
         }
         return message.getAttachments();
     }
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
     /**
      * Returns true if this message is a request message for a
      * one way operation according to the given WSDL. False otherwise.
@@ -171,7 +171,7 @@ public class LazyStreamBasedMessage extends Message{
         }
         return message.isOneWay(port);
     }
-    
+
     /**
      * Gets the local name of the payload element.
      *
@@ -185,7 +185,7 @@ public class LazyStreamBasedMessage extends Message{
         }
         return message.getPayloadLocalPart();
     }
-    
+
     /**
      * Gets the namespace URI of the payload element.
      *
@@ -200,7 +200,7 @@ public class LazyStreamBasedMessage extends Message{
         return message.getPayloadNamespaceURI();
     }
     // I'm not putting @Nullable on it because doing null check on getPayloadLocalPart() should be suffice
-    
+
     /**
      * Returns true if a {@link Message} has a payload.
      *
@@ -222,7 +222,7 @@ public class LazyStreamBasedMessage extends Message{
         }
         return message.hasPayload();
     }
-        
+
     /**
      * Consumes this message including the envelope.
      * returns it as a {@link Source} object.
@@ -234,8 +234,8 @@ public class LazyStreamBasedMessage extends Message{
         }
         return message.readEnvelopeAsSource();
     }
-    
-    
+
+
     /**
      * Returns the payload as a {@link Source} object.
      *
@@ -251,7 +251,7 @@ public class LazyStreamBasedMessage extends Message{
         }
         return message.readPayloadAsSource();
     }
-    
+
     /**
      * Creates the equivalent {@link SOAPMessage} from this message.
      *
@@ -267,7 +267,7 @@ public class LazyStreamBasedMessage extends Message{
         }
         return message.readAsSOAPMessage();
     }
-    
+
     /**
      * Reads the payload as a JAXB object by using the given unmarshaller.
      *
@@ -298,10 +298,10 @@ public class LazyStreamBasedMessage extends Message{
         }
         return message.readPayloadAsJAXB((Unmarshaller) bridge);
     }
-    
-    
-    
-    
+
+
+
+
     /**
      * Reads the payload as a {@link XMLStreamReader}
      *
@@ -319,7 +319,7 @@ public class LazyStreamBasedMessage extends Message{
         }
         return message.readPayload();
     }
-    
+
     /**
      * Writes the payload to StAX.
      *
@@ -344,7 +344,7 @@ public class LazyStreamBasedMessage extends Message{
         }
         message.writePayloadTo(sw);
     }
-    
+
     /**
      * Writes the whole SOAP message (but not attachments)
      * to the given writer.
@@ -362,7 +362,7 @@ public class LazyStreamBasedMessage extends Message{
         }
         message.writeTo(sw);
     }
-    
+
     /**
      * Writes the whole SOAP envelope as SAX events.
      *
@@ -385,13 +385,13 @@ public class LazyStreamBasedMessage extends Message{
         }
         message.writeTo(contentHandler,errorHandler);
     }
-    
+
     // TODO: do we need a method that reads payload as a fault?
     // do we want a separte streaming representation of fault?
     // or would SOAPFault in SAAJ do?
-    
-    
-    
+
+
+
     /**
      * Creates a copy of a {@link Message}.
      *
@@ -455,18 +455,18 @@ public class LazyStreamBasedMessage extends Message{
         }
         return message.copy();
     }
-    
+
     public XMLStreamReader readMessage(){
-        
+
         if (!readMessage) {
             return reader;
         }
-        
+
         if (buffer == null) {
             try {
                 buffer = new com.sun.xml.stream.buffer.MutableXMLStreamBuffer();
                 javax.xml.stream.XMLStreamWriter writer = buffer.createFromXMLStreamWriter();
-                
+
                 message.writeTo(writer);
             } catch (javax.xml.stream.XMLStreamException ex) {
                 logger.log(java.util.logging.Level.SEVERE,LogStringsMessages.WSSMSG_0001_PROBLEM_CACHING(),ex);
@@ -476,12 +476,12 @@ public class LazyStreamBasedMessage extends Message{
             reader = buffer.readAsXMLStreamReader();
             return reader;
         } catch (XMLStreamException ex) {
-            logger.log(java.util.logging.Level.SEVERE,LogStringsMessages.WSSMSG_0002_ERROR_READING_BUFFER(),ex);                   
+            logger.log(java.util.logging.Level.SEVERE,LogStringsMessages.WSSMSG_0002_ERROR_READING_BUFFER(),ex);
         }
         return null;
     }
-    
-    
+
+
     public void print() throws XMLStreamException{
         if(readMessage){
             try         {
@@ -504,13 +504,13 @@ public class LazyStreamBasedMessage extends Message{
         buffer.writeToXMLStreamWriter(xof.createXMLStreamWriter(System.out));
     }
 
-	@Override
+    @Override
     public <T> T readPayloadAsJAXB(XMLBridge<T> bridge) throws JAXBException {
         if(!readMessage){
             cacheMessage();
         }
         return message.readPayloadAsJAXB(bridge);
-	}
+    }
 
     /**
      * Since the StreamMessage is leaving out the white spaces around message payload,
@@ -531,7 +531,7 @@ public class LazyStreamBasedMessage extends Message{
         return message instanceof StreamMessage ?
                 ((StreamMessage) message).getBodyPrologue() : null;
     }
-    
+
     public static boolean mtomLargeData() {
        return MTOM_LARGEDATA;
     }

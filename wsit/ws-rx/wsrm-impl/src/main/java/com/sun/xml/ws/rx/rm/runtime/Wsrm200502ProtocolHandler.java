@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -262,8 +262,8 @@ final class Wsrm200502ProtocolHandler extends WsrmProtocolHandler {
 
     @Override
     public Packet toPacket(TerminateSequenceResponseData data, @NotNull Packet requestPacket, boolean clientSideResponse) throws RxRuntimeException {
-        if (data.getBoundSequenceId() != null) { 
-            // Send terminate sequence. RM v1.0 does not define TerminateSequenceResponse. 
+        if (data.getBoundSequenceId() != null) {
+            // Send terminate sequence. RM v1.0 does not define TerminateSequenceResponse.
             TerminateSequenceData tsData = TerminateSequenceData
                     .getBuilder(data.getBoundSequenceId(), data.getBoundSequenceLastMessageId())
                     .acknowledgementData(data.getAcknowledgementData())
@@ -281,7 +281,7 @@ final class Wsrm200502ProtocolHandler extends WsrmProtocolHandler {
             return packet;
         } else {
             requestPacket.transportBackChannel.close();
-            return communicator.createNullResponsePacket(requestPacket);            
+            return communicator.createNullResponsePacket(requestPacket);
         }
     }
 

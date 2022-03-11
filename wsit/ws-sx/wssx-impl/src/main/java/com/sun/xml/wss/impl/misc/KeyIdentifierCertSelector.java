@@ -24,7 +24,7 @@ import com.sun.xml.wss.XWSSecurityException;
  * @author kumar jayanti
  */
 public class KeyIdentifierCertSelector implements CertSelector {
-    
+
     private final byte[] keyId;
     /** Creates a new instance of KeyIdentifierCertSelector */
     public KeyIdentifierCertSelector(byte[] keyIdValue) {
@@ -43,14 +43,14 @@ public class KeyIdentifierCertSelector implements CertSelector {
             }
             if (Arrays.equals(keyIdtoMatch, keyId)) {
                 return true;
-            }  
+            }
         }
         return false;
     }
-    
+
     @Override
     public Object clone() {
         return new KeyIdentifierCertSelector(this.keyId);
     }
-    
+
 }

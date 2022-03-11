@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -45,7 +45,7 @@ public class DirectReferenceStrategy extends KeyInfoStrategy {
             LogDomainConstants.WSS_API_DOMAIN_BUNDLE);
 
     public DirectReferenceStrategy(){
-        
+
     }
     public DirectReferenceStrategy(String samlAssertionId) {
         this.samlAssertionId = samlAssertionId;
@@ -55,7 +55,7 @@ public class DirectReferenceStrategy extends KeyInfoStrategy {
     }
 
     public DirectReferenceStrategy(String alias, boolean forSigning) {
-        this.alias = alias; 
+        this.alias = alias;
         this.forSigning = forSigning;
         this.samlAssertionId = null;
         this.cert = null;
@@ -83,12 +83,12 @@ public class DirectReferenceStrategy extends KeyInfoStrategy {
         tokenRef.setReference(ref);
         keyInfo.addSecurityTokenReference(tokenRef);
     }
-    
+
     public void insertKey(
          KeyInfoHeaderBlock keyInfo,
          SecurableSoapMessage secureMsg,
-	 String x509TokenId, String valueType)
-	 throws XWSSecurityException {
+     String x509TokenId, String valueType)
+     throws XWSSecurityException {
 
          Document ownerDoc = keyInfo.getOwnerDocument();
          SecurityTokenReference tokenRef = new SecurityTokenReference(ownerDoc);
@@ -118,7 +118,7 @@ public class DirectReferenceStrategy extends KeyInfoStrategy {
             String uri = "#" + samlAssertionId;
             ref.setURI(uri);
             ref.setValueType(MessageConstants.WSSE_SAML_v1_1_VALUE_TYPE);
-         
+
         } else  {
             // create a certificate token
             if (cert == null) {
@@ -131,7 +131,7 @@ public class DirectReferenceStrategy extends KeyInfoStrategy {
             }
             if(x509TokenId == null){
                 throw new XWSSecurityException("WSU ID is null");
-            }            
+            }
             String uri = "#" + x509TokenId;
             ref.setURI(uri);
             if(valueType==null||valueType.equals("")){

@@ -29,9 +29,9 @@ public class MtomService {
     /**
      * Web service operation
      */
-    @WebMethod    
+    @WebMethod
     public byte[] echoBinary(@WebParam(name = "data") byte[] data) {
         return data;
     }
-    
+
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -31,11 +31,11 @@ public class CanonicalizerFactory {
     static MimeHeaderCanonicalizer _mhCanonicalizer = null;
 
     static HashMap<String, Object> _canonicalizers = new HashMap<>(10);
-   
+
     public static final Canonicalizer getCanonicalizer(String mimeType) throws Exception {
-        ContentType contentType = new ContentType(mimeType);        
+        ContentType contentType = new ContentType(mimeType);
         String baseMimeType = contentType.getBaseType();
-        
+
         if (baseMimeType.equalsIgnoreCase(MimeConstants.TEXT_PLAIN_TYPE)) {
             ensureRegisteredCharset(contentType);
         }
@@ -43,31 +43,31 @@ public class CanonicalizerFactory {
         // use primaryMimeType as the key.
         // i.e. text canonicalizer will apply to text/* etc.
         String primaryMimeType = contentType.getPrimaryType();
-        Canonicalizer _canonicalizer = 
+        Canonicalizer _canonicalizer =
                            (Canonicalizer)_canonicalizers.get(primaryMimeType);
-        
+
         if (_canonicalizer == null) {
             _canonicalizer = newCanonicalizer(primaryMimeType);
         }
 
         // defaults to US-ASCII
-        String charset = contentType.getParameter("charset"); 
+        String charset = contentType.getParameter("charset");
         if (charset != null) _canonicalizer.setCharset(charset);
-        
+
         return _canonicalizer;
     }
 
     /*
-     * Primary MimeType is the key. 
+     * Primary MimeType is the key.
      * ImageCanonicalizer is sufficient for all image/** MIME types and so on.
      *
-     * Finer grained processing as per section 4.1.4 RFC2046  has not been 
+     * Finer grained processing as per section 4.1.4 RFC2046  has not been
      * incorporated yet. I don't think so much processing is required at this time.
      *
-     */ 
+     */
     public static final Canonicalizer newCanonicalizer(String primaryMimeType) {
-        Canonicalizer canonicalizer = null; 
-        
+        Canonicalizer canonicalizer = null;
+
         if (primaryMimeType.equalsIgnoreCase("text"))
             canonicalizer = new TextPlainCanonicalizer();
         else
@@ -87,7 +87,7 @@ public class CanonicalizerFactory {
     public static final MimeHeaderCanonicalizer getMimeHeaderCanonicalizer(String charset) {
         if (_mhCanonicalizer == null)
             _mhCanonicalizer = new MimeHeaderCanonicalizer();
-        _mhCanonicalizer.setCharset(charset); 
+        _mhCanonicalizer.setCharset(charset);
         return _mhCanonicalizer;
     }
 
@@ -95,17 +95,17 @@ public class CanonicalizerFactory {
                                              Canonicalizer implementingClass) {
          _canonicalizers.put(baseMimeType, implementingClass);
     }
-    
+
     public static void registerCanonicalizer(String baseMimeType,
                                              String implementingClass) throws XWSSecurityException {
          try {
              Class _class = Class.forName(implementingClass);
-             Canonicalizer canonicalizer = (Canonicalizer)_class.newInstance();            
+             Canonicalizer canonicalizer = (Canonicalizer)_class.newInstance();
              _canonicalizers.put(baseMimeType, canonicalizer);
          } catch (Exception e) {
              // log
              throw new XWSSecurityException(e);
-         } 
+         }
     }
 
     /*
@@ -119,7 +119,7 @@ public class CanonicalizerFactory {
      */
     public static boolean ensureRegisteredCharset(ContentType contentType) {
         String charsetName = contentType.getParameter("charset");
-        if (charsetName != null) {            
+        if (charsetName != null) {
             return Charset.forName(charsetName).isRegistered();
         }
         return true;

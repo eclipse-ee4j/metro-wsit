@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -92,17 +92,17 @@ public class TimestampFilter {
              }
              if (context.makeDynamicPolicyCallback()) {
                 TimestampPolicy policyClone = (TimestampPolicy) policy.clone();
-		try {
-                      DynamicApplicationContext dynamicContext = 
+        try {
+                      DynamicApplicationContext dynamicContext =
                           new DynamicApplicationContext (context.getPolicyContext ());
 
                       dynamicContext.setMessageIdentifier (context.getMessageIdentifier ());
                       dynamicContext.inBoundMessage (false);
                       // TODO: copy runtime properties into callback context
-                      DynamicPolicyCallback callback = 
+                      DynamicPolicyCallback callback =
                           new DynamicPolicyCallback (policyClone, dynamicContext);
                       ProcessingContext.copy (dynamicContext.getRuntimeProperties(), context.getExtraneousProperties());
-                      HarnessUtil.makeDynamicPolicyCallback(callback, 
+                      HarnessUtil.makeDynamicPolicyCallback(callback,
                           context.getSecurityEnvironment().getCallbackHandler());
 
                  } catch (Exception e) {
@@ -113,33 +113,33 @@ public class TimestampFilter {
                 timeout   = policyClone.getTimeout();
                 created = policyClone.getCreationTime();
              }
-             
+
              setTimestamp(context, timeout, created, id);
 
              //hack to prevent multiple timestamp exports
              //TODO: revisit
              context.timestampExported(true);
 
-         } else {     
-             
-             // Processing inbound messages             
+         } else {
+
+             // Processing inbound messages
              Timestamp timestamp = null;
-             
+
              if (context.getMode() == FilterProcessingContext.ADHOC) {
-                 
+
                  if (context.makeDynamicPolicyCallback()) {
-                     TimestampPolicy policyClone = (TimestampPolicy) 
+                     TimestampPolicy policyClone = (TimestampPolicy)
                          ((TimestampPolicy)context.getSecurityPolicy()).clone();
-		     try {
-                         DynamicApplicationContext dynamicContext = 
+             try {
+                         DynamicApplicationContext dynamicContext =
                              new DynamicApplicationContext (context.getPolicyContext ());
 
                          dynamicContext.setMessageIdentifier (context.getMessageIdentifier ());
                          dynamicContext.inBoundMessage (true);
-                         DynamicPolicyCallback callback = 
+                         DynamicPolicyCallback callback =
                              new DynamicPolicyCallback (policyClone, dynamicContext);
                          ProcessingContext.copy (dynamicContext.getRuntimeProperties(), context.getExtraneousProperties());
-                         HarnessUtil.makeDynamicPolicyCallback(callback, 
+                         HarnessUtil.makeDynamicPolicyCallback(callback,
                              context.getSecurityEnvironment().getCallbackHandler());
 
                      } catch (Exception e) {
@@ -148,48 +148,48 @@ public class TimestampFilter {
                      }
                      context.setSecurityPolicy(policyClone);
                  }
-                 
+
                  TimestampPolicy policy = (TimestampPolicy) context.getSecurityPolicy();
                  long maxClockSkew = policy.getMaxClockSkew ();
                  long timeStampFreshness = policy.getTimestampFreshness ();
 
                  SecurityHeader secHeader = context.getSecurableSoapMessage().findSecurityHeader();
                  if (secHeader == null) {
-		         log.log(Level.SEVERE, com.sun.xml.wss.logging.LogStringsMessages.WSS_0276_INVALID_POLICY_NO_TIMESTAMP_SEC_HEADER());
+                 log.log(Level.SEVERE, com.sun.xml.wss.logging.LogStringsMessages.WSS_0276_INVALID_POLICY_NO_TIMESTAMP_SEC_HEADER());
                          throw new XWSSecurityException(
                         "Message does not conform to Timestamp policy: " +
-	                "wsu:Timestamp element not found in header");
+                    "wsu:Timestamp element not found in header");
                  }
 
                  SOAPElement ts = null;
 
                  try {
-		     SOAPFactory factory = SOAPFactory.newInstance();
-		     Name name = factory.createName(
+             SOAPFactory factory = SOAPFactory.newInstance();
+             Name name = factory.createName(
                          MessageConstants.TIMESTAMP_LNAME,
-		         MessageConstants.WSU_PREFIX,
-			 MessageConstants.WSU_NS);
-		     Iterator i = secHeader.getChildElements (name);
-                     
-		     if (i.hasNext()) {
-		         ts = (SOAPElement) i.next();
-			 if (i.hasNext()) {
-                             log.log(Level.SEVERE, com.sun.xml.wss.logging.LogStringsMessages.BSP_3227_SINGLE_TIMESTAMP());
-			     throw new XWSSecurityException("More than one wsu:Timestamp element in the header");
-			 }
-		     } else {
-			  log.log(Level.SEVERE, com.sun.xml.wss.logging.LogStringsMessages.WSS_0276_INVALID_POLICY_NO_TIMESTAMP_SEC_HEADER());
-			 throw new XWSSecurityException(
-                             "Message does not conform to Timestamp policy: " +
-		             "wsu:Timestamp element not found in header");
-		     }
-		 } catch (SOAPException se) {
-			 // log
-			 throw new XWSSecurityRuntimeException (se);
-		 }
+                 MessageConstants.WSU_PREFIX,
+             MessageConstants.WSU_NS);
+             Iterator i = secHeader.getChildElements (name);
 
-		 try {
-		     timestamp = new Timestamp (ts);                     
+             if (i.hasNext()) {
+                 ts = (SOAPElement) i.next();
+             if (i.hasNext()) {
+                             log.log(Level.SEVERE, com.sun.xml.wss.logging.LogStringsMessages.BSP_3227_SINGLE_TIMESTAMP());
+                 throw new XWSSecurityException("More than one wsu:Timestamp element in the header");
+             }
+             } else {
+              log.log(Level.SEVERE, com.sun.xml.wss.logging.LogStringsMessages.WSS_0276_INVALID_POLICY_NO_TIMESTAMP_SEC_HEADER());
+             throw new XWSSecurityException(
+                             "Message does not conform to Timestamp policy: " +
+                     "wsu:Timestamp element not found in header");
+             }
+         } catch (SOAPException se) {
+             // log
+             throw new XWSSecurityRuntimeException (se);
+         }
+
+         try {
+             timestamp = new Timestamp (ts);
                  } catch (XWSSecurityException xwsse) {
                      log.log(Level.SEVERE, LogStringsMessages.WSS_1429_ERROR_TIMESTAMP_INTERNALIZATION(), xwsse);
                     throw SecurableSoapMessage.newSOAPFaultException(
@@ -215,7 +215,7 @@ public class TimestampFilter {
                      log.log(Level.FINEST, "Validated TIMESTAMP.....");
                  }
              } else {
-                 
+
                  if (context.getMode() == FilterProcessingContext.POSTHOC) {
                      throw new XWSSecurityException("Internal Error: Called TimestampFilter in POSTHOC Mode");
                  }
@@ -238,12 +238,12 @@ public class TimestampFilter {
                            "Message is: " + xwsse.getMessage(),
                            xwsse);
                  }
-	         // FilterProcessingContext.DEFAULT
+             // FilterProcessingContext.DEFAULT
                  try {
                      context.getSecurityEnvironment().validateTimestamp (
                           context.getExtraneousProperties(),
-                          timestamp, 
-                          Timestamp.MAX_CLOCK_SKEW, 
+                          timestamp,
+                          Timestamp.MAX_CLOCK_SKEW,
                           Timestamp.TIMESTAMP_FRESHNESS_LIMIT);
                  } catch (XWSSecurityException xwsse) {
                      log.log(Level.SEVERE, LogStringsMessages.WSS_1430_ERROR_TIMESTAMP_VALIDATION(), xwsse);
@@ -268,25 +268,25 @@ public class TimestampFilter {
      * @param created String
      * @param id String
      */
-    private static void setTimestamp(FilterProcessingContext context, 
+    private static void setTimestamp(FilterProcessingContext context,
             Long timeout, String created, String id) throws XWSSecurityException{
         if(context instanceof JAXBFilterProcessingContext){
             JAXBFilterProcessingContext optContext = (JAXBFilterProcessingContext)context;
-            com.sun.xml.ws.security.opt.impl.outgoing.SecurityHeader secHeader = 
+            com.sun.xml.ws.security.opt.impl.outgoing.SecurityHeader secHeader =
                     optContext.getSecurityHeader();
-            com.sun.xml.ws.security.opt.impl.tokens.Timestamp wsuTimestamp = 
+            com.sun.xml.ws.security.opt.impl.tokens.Timestamp wsuTimestamp =
                     new com.sun.xml.ws.security.opt.impl.tokens.Timestamp(optContext.getSOAPVersion());
-            
+
             wsuTimestamp.setTimeout(timeout);
              if (id != null) {
                  wsuTimestamp.setId(id);
              }
-            
+
             //sets the creation and expiration time
             wsuTimestamp.createDateTime();
-            
+
             secHeader.add(wsuTimestamp);
-            
+
         } else{
              SecurityHeader secHeader = context.getSecurableSoapMessage().findOrCreateSecurityHeader();
 
@@ -301,7 +301,7 @@ public class TimestampFilter {
              if (id != null) {
                  wsuTimestamp.setId(id);
              }
-             secHeader.insertHeaderBlock(wsuTimestamp);            
+             secHeader.insertHeaderBlock(wsuTimestamp);
         }
     }
 }

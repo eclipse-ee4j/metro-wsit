@@ -28,7 +28,7 @@ import javax.xml.namespace.QName;
  * @author K.Venugopal@sun.com
  */
 public class SignedElements extends PolicyAssertion implements com.sun.xml.ws.security.policy.SignedElements, SecurityAssertionValidator{
-    
+
     private String xpathVersion;
     private List<String> targetList;
     private boolean populated = false;
@@ -36,40 +36,40 @@ public class SignedElements extends PolicyAssertion implements com.sun.xml.ws.se
     private static List<String> emptyList = Collections.emptyList();
     private AssertionFitness fitness = AssertionFitness.IS_VALID;
     private SecurityPolicyVersion spVersion;
-    
+
     /** Creates a new instance of SignedElements */
     public SignedElements() {
         spVersion = SecurityPolicyVersion.SECURITYPOLICY200507;
     }
-    
+
     public SignedElements(AssertionData name,Collection<PolicyAssertion> nestedAssertions, AssertionSet nestedAlternative) {
         super(name,nestedAssertions,nestedAlternative);
         String nsUri = getName().getNamespaceURI();
         spVersion = PolicyUtil.getSecurityPolicyVersion(nsUri);
     }
-    
+
     public String getXPathVersion() {
         populate();
         return xpathVersion;
     }
-    
+
     public void setXPathVersion(String version) {
         this.xpathVersion = version;
     }
-    
+
     public void addTarget(String target) {
         if ( targetList == null ) {
             targetList = new ArrayList<>();
         }
         targetList.add(target);
     }
-    
+
     public void removeTarget(String target) {
         if ( targetList != null ) {
             targetList.remove(target);
         }
     }
-    
+
     @Override
     public Iterator<String> getTargets() {
         populate();
@@ -78,7 +78,7 @@ public class SignedElements extends PolicyAssertion implements com.sun.xml.ws.se
         }
         return emptyList.iterator();
     }
-    
+
     @Override
     public AssertionFitness validate(boolean isServer) {
         return populate(isServer);
@@ -86,13 +86,13 @@ public class SignedElements extends PolicyAssertion implements com.sun.xml.ws.se
     private void populate(){
         populate(false);
     }
-    
+
     private synchronized AssertionFitness populate(boolean isServer) {
         if ( !populated ) {
             this.xpathVersion = this.getAttributeValue(XPathVersion);
-            
+
             if ( this.hasNestedAssertions() ) {
-                
+
                 Iterator <PolicyAssertion> it = this.getNestedAssertionsIterator();
                 while( it.hasNext() ) {
                     PolicyAssertion assertion = it.next();

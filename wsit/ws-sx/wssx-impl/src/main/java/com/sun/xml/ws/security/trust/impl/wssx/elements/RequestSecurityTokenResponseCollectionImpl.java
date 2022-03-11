@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -36,24 +36,24 @@ import jakarta.xml.bind.JAXBElement;
  */
 public class RequestSecurityTokenResponseCollectionImpl extends RequestSecurityTokenResponseCollectionType
         implements RequestSecurityTokenResponseCollection {
-    
+
     protected List<RequestSecurityTokenResponse> requestSecurityTokenResponseList;
-    
+
     public RequestSecurityTokenResponseCollectionImpl() {
         // empty ctor
     }
 
     public RequestSecurityTokenResponseCollectionImpl(RequestSecurityTokenResponse rstr) {
-        addRequestSecurityTokenResponse(rstr);        
+        addRequestSecurityTokenResponse(rstr);
     }
     public RequestSecurityTokenResponseCollectionImpl(URI tokenType, URI context, RequestedSecurityToken token, AppliesTo scopes,
             RequestedAttachedReference attached, RequestedUnattachedReference unattached, RequestedProofToken proofToken, Entropy entropy, Lifetime lt) {
         RequestSecurityTokenResponse rstr = new RequestSecurityTokenResponseImpl(tokenType, context, token, scopes,
                 attached, unattached, proofToken, entropy, lt, null);
         addRequestSecurityTokenResponse(rstr);
-        
+
     }
-    
+
     public RequestSecurityTokenResponseCollectionImpl(RequestSecurityTokenResponseCollectionType rstrcType)
     throws Exception {
         List<Object> list = rstrcType.getRequestSecurityTokenResponse();
@@ -72,14 +72,14 @@ public class RequestSecurityTokenResponseCollectionImpl extends RequestSecurityT
                 if(object instanceof RequestSecurityTokenResponseType) {
                     rstr = (RequestSecurityTokenResponseType)object;
                 }
-                
+
             }
             if (rstr != null){
                 addRequestSecurityTokenResponse(new RequestSecurityTokenResponseImpl(rstr));
             }
         }
     }
-    
+
     @Override
     public List<RequestSecurityTokenResponse> getRequestSecurityTokenResponses() {
         if (requestSecurityTokenResponseList == null) {
@@ -87,13 +87,13 @@ public class RequestSecurityTokenResponseCollectionImpl extends RequestSecurityT
         }
         return this.requestSecurityTokenResponseList;
     }
-    
+
     public void addRequestSecurityTokenResponse(RequestSecurityTokenResponse rstr){
          getRequestSecurityTokenResponses().add(rstr);
-         
+
         JAXBElement<RequestSecurityTokenResponseType> rstrEl =
                 (new ObjectFactory()).createRequestSecurityTokenResponse((RequestSecurityTokenResponseType)rstr);
          getRequestSecurityTokenResponse().add(rstrEl);
     }
-    
+
 }

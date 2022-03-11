@@ -44,9 +44,9 @@ public class WssProviderAuthModule implements ModuleOptions, ConfigurationStates
        private static final String SIGN_POLICY      = "com.sun.xml.wss.impl.policy.mls.SignaturePolicy";
        private static final String ENCRYPT_POLICY   = "com.sun.xml.wss.impl.policy.mls.EncryptionPolicy";
        private static final String TIMESTAMP_POLICY = "com.sun.xml.wss.impl.policy.mls.TimestampPolicy";
-       private static final String AUTHENTICATION_POLICY = 
+       private static final String AUTHENTICATION_POLICY =
                       "com.sun.xml.wss.impl.policy.mls.AuthenticationTokenPolicy";
-       private static final String USERNAMETOKEN_POLICY = 
+       private static final String USERNAMETOKEN_POLICY =
                       "com.sun.xml.wss.impl.policy.mls.AuthenticationTokenPolicy.UsernameTokenBinding";
        private static final String USERNAMETOKEN = "UsernameToken";
        private static final String BODY = "Body";
@@ -65,15 +65,15 @@ public class WssProviderAuthModule implements ModuleOptions, ConfigurationStates
        }
 
       /**
-       * Initialization method for Client and Server Auth Modules 
+       * Initialization method for Client and Server Auth Modules
        * @param requestPolicy
-       *        used to validate request on server side 
+       *        used to validate request on server side
        *        and to secure request on client side
-       * @param responsePolicy  
+       * @param responsePolicy
        *        used to validate response on client side
        *        and to secure response on server side
        * @param handler
-       *        CallbackHandler 
+       *        CallbackHandler
        * @param options
        *        Map of module options
        * @param isClientAuthModule
@@ -87,15 +87,15 @@ public class WssProviderAuthModule implements ModuleOptions, ConfigurationStates
               boolean debugON = false;
               String bg = (String)options.get(DEBUG);
               if (bg !=null && bg.equals("true")) debugON = true;
-              // use the requestPolicy to configure recipient in   
+              // use the requestPolicy to configure recipient in
               // case of Server and annotator in case of Client -
-              // use the responsePolicy to configure annotator in   
+              // use the responsePolicy to configure annotator in
               // case of Server and recipient in case of Client -
               // get the security configuration file from options
               String securityConfigurationURL = (String)options.get(SECURITY_CONFIGURATION_FILE);
               String signAlias = (String)options.get(SIGNING_KEY_ALIAS);
               String encryptAlias = (String)options.get(ENCRYPTION_KEY_ALIAS);
-              
+
               try {
                       InputStream is = null;
                       if (securityConfigurationURL != null) {
@@ -131,7 +131,7 @@ public class WssProviderAuthModule implements ModuleOptions, ConfigurationStates
                   _sEnvironment = new WssProviderSecurityEnvironment(handler, options);
               } catch (Exception e) {
                   throw new RuntimeException(e);
-              } 
+              }
        }
       /**
        * Resolves the state of a policy object
@@ -184,25 +184,25 @@ public class WssProviderAuthModule implements ModuleOptions, ConfigurationStates
 
            int configurationState = -1;
            if (sourceAuthRequired && !recipientAuthRequired) {
-              if (senderAuthRequired) 
+              if (senderAuthRequired)
                  configurationState = AUTHENTICATE_SENDER_TOKEN_ONLY;
               else if (contentAuthRequired)
-                 configurationState = AUTHENTICATE_SENDER_SIGNATURE_ONLY; 
+                 configurationState = AUTHENTICATE_SENDER_SIGNATURE_ONLY;
            } else if (!sourceAuthRequired && recipientAuthRequired) {
               configurationState = AUTHENTICATE_RECIPIENT_ONLY;
            } else if (sourceAuthRequired && recipientAuthRequired) {
               if (beforeContent) {
                 if (senderAuthRequired) {
-                   configurationState = AUTHENTICATE_RECIPIENT_AUTHENTICATE_SENDER_TOKEN;  
+                   configurationState = AUTHENTICATE_RECIPIENT_AUTHENTICATE_SENDER_TOKEN;
                 } else if (contentAuthRequired) {
-                   configurationState = AUTHENTICATE_RECIPIENT_AUTHENTICATE_SENDER_SIGNATURE; 
-                } 
+                   configurationState = AUTHENTICATE_RECIPIENT_AUTHENTICATE_SENDER_SIGNATURE;
+                }
               } else {
                 if (senderAuthRequired) {
-                   configurationState = AUTHENTICATE_SENDER_TOKEN_AUTHENTICATE_RECIPIENT; 
+                   configurationState = AUTHENTICATE_SENDER_TOKEN_AUTHENTICATE_RECIPIENT;
                 } else if (contentAuthRequired) {
-                   configurationState = AUTHENTICATE_SENDER_SIGNATURE_AUTHENTICATE_RECIPIENT; 
-                } 
+                   configurationState = AUTHENTICATE_SENDER_SIGNATURE_AUTHENTICATE_RECIPIENT;
+                }
               }
            } else {
               configurationState = EMPTY_POLICY_STATE;
@@ -211,24 +211,24 @@ public class WssProviderAuthModule implements ModuleOptions, ConfigurationStates
                // log
                throw new RuntimeException("AuthPolicy configuration error: Invalid policy specification");
            }
-           return configurationState; 
+           return configurationState;
        }
       @SuppressWarnings("unchecked")
       private Collection getEncryptPolicies(
           MessagePolicy mPolicy, CallbackHandler handler, boolean senderConfiguration) {
-          Collection requiredElements = new ArrayList();              
+          Collection requiredElements = new ArrayList();
           Iterator it = mPolicy.iterator();
           while (it.hasNext()) {
               WSSPolicy policy = (WSSPolicy)it.next();
               if (PolicyTypeUtil.encryptionPolicy(policy)) {
                   if (!hasEncryptUsernamePolicy((EncryptionPolicy)policy, mPolicy)) {
                       requiredElements.add(policy);
-                  }              
+                  }
               }
           }
           if (requiredElements.isEmpty()) {
-              throw new RuntimeException("Operation/Requirement (" + 
-                  translate2configurationName(ENCRYPT_POLICY, senderConfiguration) + 
+              throw new RuntimeException("Operation/Requirement (" +
+                  translate2configurationName(ENCRYPT_POLICY, senderConfiguration) +
                       ") not specified " + "in the Config. file is required by the policy");
           }
           return requiredElements;
@@ -236,14 +236,14 @@ public class WssProviderAuthModule implements ModuleOptions, ConfigurationStates
       @SuppressWarnings("unchecked")
       private Collection getEncryptPoliciesOptional(
           MessagePolicy mPolicy, CallbackHandler handler, boolean senderConfiguration) {
-          Collection requiredElements = new ArrayList();              
+          Collection requiredElements = new ArrayList();
           Iterator it = mPolicy.iterator();
           while (it.hasNext()) {
               WSSPolicy policy = (WSSPolicy)it.next();
               if (PolicyTypeUtil.encryptionPolicy(policy)) {
                   if (!hasEncryptUsernamePolicy((EncryptionPolicy)policy, mPolicy)) {
                       requiredElements.add(policy);
-                  }              
+                  }
               }
           }
           return requiredElements;
@@ -251,7 +251,7 @@ public class WssProviderAuthModule implements ModuleOptions, ConfigurationStates
       @SuppressWarnings("unchecked")
       private Collection getSignPolicies(
           MessagePolicy mPolicy, CallbackHandler handler, boolean senderConfiguration) {
-          Collection requiredElements = new ArrayList();              
+          Collection requiredElements = new ArrayList();
           Iterator it = mPolicy.iterator();
           while (it.hasNext()) {
               WSSPolicy policy = (WSSPolicy)it.next();
@@ -260,8 +260,8 @@ public class WssProviderAuthModule implements ModuleOptions, ConfigurationStates
               }
           }
           if (requiredElements.isEmpty()) {
-              throw new RuntimeException("Operation/Requirement (" + 
-                  translate2configurationName(SIGN_POLICY, senderConfiguration) + 
+              throw new RuntimeException("Operation/Requirement (" +
+                  translate2configurationName(SIGN_POLICY, senderConfiguration) +
                       ") not specified " + "in the Config. file is required by the policy");
           }
           return requiredElements;
@@ -272,32 +272,32 @@ public class WssProviderAuthModule implements ModuleOptions, ConfigurationStates
           while (it.hasNext()) {
               WSSPolicy policy = (WSSPolicy)it.next();
               if (PolicyTypeUtil.authenticationTokenPolicy(policy)) {
-                  if ((policy.getFeatureBinding() != null) && 
+                  if ((policy.getFeatureBinding() != null) &&
                       (PolicyTypeUtil.usernameTokenPolicy(policy.getFeatureBinding()))) {
                       if (senderConfiguration && !runtimeUsernamePassword) {
                           setUsernamePassword((AuthenticationTokenPolicy)policy, handler);
-                      } 
+                      }
                       usernamePolicy = policy;
                       break;
                   }
-              } 
+              }
           }
           if (usernamePolicy == null) {
-              throw new RuntimeException("Operation/Requirement (" + 
-                  translate2configurationName(USERNAMETOKEN_POLICY, senderConfiguration) + 
+              throw new RuntimeException("Operation/Requirement (" +
+                  translate2configurationName(USERNAMETOKEN_POLICY, senderConfiguration) +
                       ") not specified " + "in the Config. file is required by the policy");
           }
           return usernamePolicy;
       }
      @SuppressWarnings("unchecked")
       private Collection getUsernamePolicies(MessagePolicy mPolicy, CallbackHandler handler, boolean senderConfiguration) {
-          Collection requiredElements = new ArrayList();              
+          Collection requiredElements = new ArrayList();
           WSSPolicy encryptUsernamePolicy = null;
           Iterator it = mPolicy.iterator();
           while (it.hasNext()) {
               WSSPolicy policy = (WSSPolicy)it.next();
               if (PolicyTypeUtil.authenticationTokenPolicy(policy)) {
-                  if ((policy.getFeatureBinding() != null) && 
+                  if ((policy.getFeatureBinding() != null) &&
                       (PolicyTypeUtil.usernameTokenPolicy(policy.getFeatureBinding()))) {
                       if (senderConfiguration && !runtimeUsernamePassword) {
                           setUsernamePassword((AuthenticationTokenPolicy)policy, handler);
@@ -311,8 +311,8 @@ public class WssProviderAuthModule implements ModuleOptions, ConfigurationStates
               }
           }
           if (requiredElements.isEmpty()) {
-              throw new RuntimeException("Operation/Requirement (" + 
-                  translate2configurationName(USERNAMETOKEN_POLICY, senderConfiguration) + 
+              throw new RuntimeException("Operation/Requirement (" +
+                  translate2configurationName(USERNAMETOKEN_POLICY, senderConfiguration) +
                       ") not specified " + "in the Config. file is required by the policy");
           }
           if (encryptUsernamePolicy != null) {
@@ -322,9 +322,9 @@ public class WssProviderAuthModule implements ModuleOptions, ConfigurationStates
       }
      @SuppressWarnings("unchecked")
      private Collection getEncryptUsernamePolicies(
-          MessagePolicy mPolicy, CallbackHandler handler, boolean senderConfiguration) 
+          MessagePolicy mPolicy, CallbackHandler handler, boolean senderConfiguration)
           throws PolicyGenerationException {
-          Collection requiredElements = new ArrayList();              
+          Collection requiredElements = new ArrayList();
           WSSPolicy eBU =  getEncryptBodyUsernamePolicy(mPolicy);
           if (eBU != null) {
               Collection ePolicies = getNonBodyUsernameEncryptPolicies(
@@ -339,17 +339,17 @@ public class WssProviderAuthModule implements ModuleOptions, ConfigurationStates
               requiredElements.addAll(getUsernamePolicies(mPolicy, handler, senderConfiguration));
           }
           if (requiredElements.isEmpty()) {
-              throw new RuntimeException("Operation/Requirement (" + 
-                  translate2configurationName(ENCRYPT_POLICY, senderConfiguration) + 
+              throw new RuntimeException("Operation/Requirement (" +
+                  translate2configurationName(ENCRYPT_POLICY, senderConfiguration) +
                       ") not specified " + "in the Config. file is required by the policy");
           }
           return requiredElements;
       }
      @SuppressWarnings("unchecked")
      private Collection getUsernameEncryptPolicies(
-          MessagePolicy mPolicy, CallbackHandler handler, boolean senderConfiguration) 
+          MessagePolicy mPolicy, CallbackHandler handler, boolean senderConfiguration)
           throws PolicyGenerationException {
-          Collection requiredElements = new ArrayList();              
+          Collection requiredElements = new ArrayList();
           WSSPolicy eUB =  getEncryptUsernameBodyPolicy(mPolicy);
           if (eUB != null) {
               requiredElements.add(getUsernamePolicy(mPolicy, handler, senderConfiguration));
@@ -400,7 +400,7 @@ public class WssProviderAuthModule implements ModuleOptions, ConfigurationStates
                   if (modifyReceiverSettings) {
                       mPolicy = dConfiguration.receiverSettings();
                       mPolicy.removeAll();
- 
+
                   } else {
                      mPolicy = dConfiguration.senderSettings();
                      mPolicy.removeAll();
@@ -420,7 +420,7 @@ public class WssProviderAuthModule implements ModuleOptions, ConfigurationStates
               WSSPolicy ts = getTimestampPolicy(mPolicy, handler, senderConfiguration);
               boolean requireTimestampPolicy = false;
               switch (requiredState) {
-                 case AUTHENTICATE_RECIPIENT_ONLY: 
+                 case AUTHENTICATE_RECIPIENT_ONLY:
                                   // Resultant List:  (encrypt+)
                                   newMPolicy = getEncryptPolicies(mPolicy, handler, senderConfiguration);
                                   mPolicy.removeAll();
@@ -436,7 +436,7 @@ public class WssProviderAuthModule implements ModuleOptions, ConfigurationStates
                                   }
                                   break;
                  case AUTHENTICATE_SENDER_SIGNATURE_ONLY:
-                                  // Resultant List: (sign+) 
+                                  // Resultant List: (sign+)
                                   newMPolicy = getSignPolicies(mPolicy, handler, senderConfiguration);
                                   requireTimestampPolicy = !(newMPolicy.isEmpty());
                                   mPolicy.removeAll();
@@ -444,19 +444,19 @@ public class WssProviderAuthModule implements ModuleOptions, ConfigurationStates
                                   if (!modifyReceiverSettings && configOptimizeAttribute) {
                                       optimize=MessageConstants.SIGN_BODY;
                                   }
-                                  break;  
+                                  break;
                  case AUTHENTICATE_RECIPIENT_AUTHENTICATE_SENDER_TOKEN:
                                   /* Resultant List: (encrypt+, authenticate, encrypt?) */
                                   newMPolicy = getEncryptUsernamePolicies(mPolicy, handler, senderConfiguration);
                                   mPolicy.removeAll();
                                   mPolicy.appendAll(newMPolicy);
-                                  break;  
+                                  break;
                  case AUTHENTICATE_SENDER_TOKEN_AUTHENTICATE_RECIPIENT:
                                   /* Resultant List: (authenticate, encrypt+) */
                                   newMPolicy =  getUsernameEncryptPolicies(mPolicy, handler, senderConfiguration);
                                   mPolicy.removeAll();
                                   mPolicy.appendAll(newMPolicy);
-                                  break;  
+                                  break;
                  case AUTHENTICATE_RECIPIENT_AUTHENTICATE_SENDER_SIGNATURE:
                                   /* Resultant List: (encrypt+, sign+) */
                                   newMPolicy =  getEncryptPolicies(mPolicy, handler, senderConfiguration);
@@ -465,10 +465,10 @@ public class WssProviderAuthModule implements ModuleOptions, ConfigurationStates
                                   newMPolicy.addAll(signPolicies);
                                   mPolicy.removeAll();
                                   mPolicy.appendAll(newMPolicy);
-                                  break;  
-                 case AUTHENTICATE_SENDER_SIGNATURE_AUTHENTICATE_RECIPIENT: 
+                                  break;
+                 case AUTHENTICATE_SENDER_SIGNATURE_AUTHENTICATE_RECIPIENT:
                                   /* Resultant List: (sign+, encrypt+) */
-				  newMPolicy = getSignPolicies(mPolicy, handler, senderConfiguration);
+                  newMPolicy = getSignPolicies(mPolicy, handler, senderConfiguration);
                                   requireTimestampPolicy = !(newMPolicy.isEmpty());
                                   newMPolicy.addAll(getEncryptPolicies(mPolicy, handler, senderConfiguration));
                                   mPolicy.removeAll();
@@ -476,7 +476,7 @@ public class WssProviderAuthModule implements ModuleOptions, ConfigurationStates
                                   if (!modifyReceiverSettings && configOptimizeAttribute) {
                                       optimize=MessageConstants.SIGN_ENCRYPT_BODY;
                                   }
-                                  break;  
+                                  break;
                  default:
                                   break;
               }
@@ -491,18 +491,18 @@ public class WssProviderAuthModule implements ModuleOptions, ConfigurationStates
        }
        private String translate2configurationName(String opName, boolean senderConfiguration) {
              String value = null;
-             if (opName == SIGN_POLICY) 
+             if (opName == SIGN_POLICY)
                  value = senderConfiguration ? "xwss:Sign" : "xwss:RequireSignature";
-             else 
-             if (opName == ENCRYPT_POLICY) 
+             else
+             if (opName == ENCRYPT_POLICY)
                  value = senderConfiguration ? "xwss:Encrypt" : "xwss:RequireEncryption";
-             else 
-             if (opName == USERNAMETOKEN_POLICY) 
+             else
+             if (opName == USERNAMETOKEN_POLICY)
                  value = senderConfiguration ? "xwss:UsernameToken" : "xwss:RequireUsernameToken";
              return value;
        }
        private boolean isEncryptUsernamePolicy(EncryptionPolicy policy, MessagePolicy mPolicy) {
-           EncryptionPolicy.FeatureBinding fb = 
+           EncryptionPolicy.FeatureBinding fb =
                (EncryptionPolicy.FeatureBinding)policy.getFeatureBinding();
            int numTargets = fb.getTargetBindings().size();
            if (numTargets != 1)
@@ -521,7 +521,7 @@ public class WssProviderAuthModule implements ModuleOptions, ConfigurationStates
            return false;
        }
        private boolean hasEncryptUsernamePolicy(EncryptionPolicy policy, MessagePolicy mPolicy) {
-           EncryptionPolicy.FeatureBinding fb = 
+           EncryptionPolicy.FeatureBinding fb =
                (EncryptionPolicy.FeatureBinding)policy.getFeatureBinding();
            Iterator it = fb.getTargetBindings().iterator();
            while (it.hasNext()) {
@@ -565,16 +565,16 @@ public class WssProviderAuthModule implements ModuleOptions, ConfigurationStates
            while (it.hasNext()) {
               WSSPolicy policy = (WSSPolicy)it.next();
               if (PolicyTypeUtil.encryptionPolicy(policy)) {
-                  EncryptionPolicy.FeatureBinding fb = 
+                  EncryptionPolicy.FeatureBinding fb =
                       (EncryptionPolicy.FeatureBinding)policy.getFeatureBinding();
                   int numTargets = fb.getTargetBindings().size();
                   if (numTargets <= 1) {
-                     continue; 
+                     continue;
                   }
                   if (hasBodyFollowedByUsername(fb.getTargetBindings())) {
                       ret = policy;
                       return ret;
-                  } 
+                  }
               }
            }
            return ret;
@@ -585,16 +585,16 @@ public class WssProviderAuthModule implements ModuleOptions, ConfigurationStates
            while (it.hasNext()) {
               WSSPolicy policy = (WSSPolicy)it.next();
               if (PolicyTypeUtil.encryptionPolicy(policy)) {
-                  EncryptionPolicy.FeatureBinding fb = 
+                  EncryptionPolicy.FeatureBinding fb =
                       (EncryptionPolicy.FeatureBinding)policy.getFeatureBinding();
                   int numTargets = fb.getTargetBindings().size();
                   if (numTargets <= 1) {
-                     continue; 
+                     continue;
                   }
                   if (hasUsernameFollowedByBody(fb.getTargetBindings())) {
                       ret = policy;
                       return ret;
-                  } 
+                  }
               }
            }
            return ret;
@@ -621,17 +621,17 @@ public class WssProviderAuthModule implements ModuleOptions, ConfigurationStates
        private void setUsernamePassword(AuthenticationTokenPolicy policy, CallbackHandler handler) {
             AuthenticationTokenPolicy.UsernameTokenBinding
                 up = (AuthenticationTokenPolicy.UsernameTokenBinding)policy.getFeatureBinding();
-                                                                                                                                                     
+
                 NameCallback nameCallback    = new NameCallback("Username: ");
                 PasswordCallback pwdCallback = new PasswordCallback("Password: ", false);
-                                                                                                                                                
+
                 try {
                     Callback[] cbs = new Callback[] { nameCallback, pwdCallback };
                     handler.handle(cbs);
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
-                                                                                                                                                     
+
                 up.setUsername(nameCallback.getName());
                 up.setPassword(new String(pwdCallback.getPassword()));
        }
@@ -639,22 +639,22 @@ public class WssProviderAuthModule implements ModuleOptions, ConfigurationStates
        private Collection getNonBodyUsernameEncryptPolicies(
             MessagePolicy mPolicy, CallbackHandler handler, boolean senderConfiguration) {
            Collection requiredElements = new ArrayList();
-                                                                                                           
+
            Iterator it = mPolicy.iterator();
            while (it.hasNext()) {
               WSSPolicy policy = (WSSPolicy)it.next();
               if (PolicyTypeUtil.encryptionPolicy(policy)) {
-                  if (!hasEncryptBodyPolicy((EncryptionPolicy)policy) && 
+                  if (!hasEncryptBodyPolicy((EncryptionPolicy)policy) &&
                       !hasEncryptUsernamePolicy((EncryptionPolicy)policy, mPolicy)) {
                       requiredElements.add(policy);
                   }
               }
           }
-                                                                                                           
+
           return requiredElements;
        }
        private boolean hasEncryptBodyPolicy(EncryptionPolicy policy) {
-           EncryptionPolicy.FeatureBinding fb = 
+           EncryptionPolicy.FeatureBinding fb =
                (EncryptionPolicy.FeatureBinding)policy.getFeatureBinding();
            Iterator it = fb.getTargetBindings().iterator();
            while (it.hasNext()) {
@@ -667,11 +667,11 @@ public class WssProviderAuthModule implements ModuleOptions, ConfigurationStates
            return false;
        }
        protected boolean isOptimized(SOAPMessage msg){
-//		     System.out.println("ClassName"+(msg.getClass().getName()));
-		     if(msg.getClass().getName().equals("com.sun.xml.messaging.saaj.soap.ver1_1.ExpressMessage1_1Impl") || msg.getClass().getName().equals("com.sun.xml.messaging.saaj.soap.ver1_2.ExpressMessage1_2Impl")){
-				return true;
-			 }
-			 return false;
+//             System.out.println("ClassName"+(msg.getClass().getName()));
+             if(msg.getClass().getName().equals("com.sun.xml.messaging.saaj.soap.ver1_1.ExpressMessage1_1Impl") || msg.getClass().getName().equals("com.sun.xml.messaging.saaj.soap.ver1_2.ExpressMessage1_2Impl")){
+                return true;
+             }
+             return false;
        }
       private void augmentSignAlias(MessagePolicy mPolicy, String signAlias) {
           if (signAlias == null) {
@@ -682,7 +682,7 @@ public class WssProviderAuthModule implements ModuleOptions, ConfigurationStates
               SecurityPolicy keyBinding = sp.getKeyBinding();
               if (sp instanceof SignaturePolicy) {
                   if ((keyBinding != null) && (keyBinding instanceof AuthenticationTokenPolicy.X509CertificateBinding)) {
-                      AuthenticationTokenPolicy.X509CertificateBinding x509KB = 
+                      AuthenticationTokenPolicy.X509CertificateBinding x509KB =
                           (AuthenticationTokenPolicy.X509CertificateBinding)keyBinding;
                       String certId = x509KB.getCertificateIdentifier();
                       if (certId != null) {
@@ -701,7 +701,7 @@ public class WssProviderAuthModule implements ModuleOptions, ConfigurationStates
               SecurityPolicy keyBinding = sp.getKeyBinding();
               if (sp instanceof EncryptionPolicy) {
                   if ((keyBinding != null) && (keyBinding instanceof AuthenticationTokenPolicy.X509CertificateBinding)) {
-                      AuthenticationTokenPolicy.X509CertificateBinding x509KB = 
+                      AuthenticationTokenPolicy.X509CertificateBinding x509KB =
                           (AuthenticationTokenPolicy.X509CertificateBinding)keyBinding;
                       String certId = x509KB.getCertificateIdentifier();
                       if (certId != null) {

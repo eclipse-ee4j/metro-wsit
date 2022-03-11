@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -44,20 +44,20 @@ import jakarta.xml.bind.JAXBElement;
  */
 public class AuthnStatement extends AuthnStatementType
         implements com.sun.xml.wss.saml.AuthnStatement {
-    
+
     protected static final Logger log = Logger.getLogger(
             LogDomainConstants.WSS_API_DOMAIN,
-            LogDomainConstants.WSS_API_DOMAIN_BUNDLE);    
+            LogDomainConstants.WSS_API_DOMAIN_BUNDLE);
     private Date authnInstantDate = null;
     private Date sessionDate = null;
-    
+
     /**
      *Default constructor
      */
     protected AuthnStatement() {
         super();
     }
-    
+
     /**
      * This constructor builds an authentication statement element from an
      * existing XML block.
@@ -69,19 +69,19 @@ public class AuthnStatement extends AuthnStatementType
     public static AuthnStatementType fromElement(Element element) throws SAMLException {
         try {
             JAXBContext jc = SAML20JAXBUtil.getJAXBContext();
-                    
+
             jakarta.xml.bind.Unmarshaller u = jc.createUnmarshaller();
             return (AuthnStatementType)u.unmarshal(element);
         } catch ( Exception ex) {
             throw new SAMLException(ex.getMessage());
         }
     }
-    
-    
+
+
 //    private void setAuthnContext(AuthnContext authnContext) {
 //        this.authnContext = authnContext;
 //    }
-    
+
     /**
      * Constructor for authentication statement
      *
@@ -90,9 +90,9 @@ public class AuthnStatement extends AuthnStatementType
      * @param subjectLocality A <code>SubjectLocality</code> object.
      */
     public AuthnStatement(
-            GregorianCalendar authInstant, SubjectLocality subjectLocality, 
+            GregorianCalendar authInstant, SubjectLocality subjectLocality,
             AuthnContext authnContext, String sessionIndex, GregorianCalendar sessionNotOnOrAfter) {
-                
+
         if ( authInstant != null) {
             try {
                 DatatypeFactory factory = DatatypeFactory.newInstance();
@@ -101,16 +101,16 @@ public class AuthnStatement extends AuthnStatementType
                 //ignore
             }
         }
-        
+
         if ( subjectLocality != null)
             setSubjectLocality(subjectLocality);
-        
+
         if ( authnContext != null)
             setAuthnContext(authnContext);
-        
+
         if(sessionIndex != null)
             setSessionIndex(sessionIndex);
-        
+
         if ( sessionNotOnOrAfter != null) {
             try {
                 DatatypeFactory factory = DatatypeFactory.newInstance();
@@ -120,11 +120,11 @@ public class AuthnStatement extends AuthnStatementType
             }
         }
     }
-    
+
     public AuthnStatement(AuthnStatementType authStmtType) {
         setAuthnInstant(authStmtType.getAuthnInstant());
         setAuthnContext(authStmtType.getAuthnContext());
-        setSubjectLocality(authStmtType.getSubjectLocality());        
+        setSubjectLocality(authStmtType.getSubjectLocality());
         setSessionIndex(authStmtType.getSessionIndex());
         setSessionNotOnOrAfter(authStmtType.getSessionNotOnOrAfter());
     }
@@ -133,7 +133,7 @@ public class AuthnStatement extends AuthnStatementType
     public Date getAuthnInstantDate() {
         if(authnInstantDate != null){
             return authnInstantDate;
-        } 
+        }
         try {
             if(super.getAuthnInstant() != null){
                 authnInstantDate = DateUtils.stringToDate(super.getAuthnInstant().toString());
@@ -177,12 +177,12 @@ public class AuthnStatement extends AuthnStatementType
 
     @Override
     public String getAuthnContextClassRef() {
-        Iterator it = super.getAuthnContext().getContent().iterator();        
+        Iterator it = super.getAuthnContext().getContent().iterator();
         while(it.hasNext()){
             Object obj = it.next();
             if(obj instanceof JAXBElement){
                 JAXBElement element = (JAXBElement)obj;
-                if(element.getName().getLocalPart().equalsIgnoreCase("AuthnContextClassRef")){                    
+                if(element.getName().getLocalPart().equalsIgnoreCase("AuthnContextClassRef")){
                     return element.getValue().toString();
                 }
             }
@@ -192,7 +192,7 @@ public class AuthnStatement extends AuthnStatementType
 
     @Override
     public String getAuthenticatingAuthority() {
-        Iterator it = super.getAuthnContext().getContent().iterator();        
+        Iterator it = super.getAuthnContext().getContent().iterator();
         while(it.hasNext()){
             Object obj = it.next();
             if(obj instanceof JAXBElement){
@@ -204,7 +204,7 @@ public class AuthnStatement extends AuthnStatementType
         }
         return null;
     }
-    
+
     @Override
     public String getSessionIndex(){
         if(super.getSessionIndex() != null){

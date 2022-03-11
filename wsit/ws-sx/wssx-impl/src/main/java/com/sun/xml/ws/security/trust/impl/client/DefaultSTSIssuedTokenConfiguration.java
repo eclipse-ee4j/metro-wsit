@@ -43,7 +43,7 @@ import org.w3c.dom.Element;
  * @author Jiandong Guo
  */
 public class DefaultSTSIssuedTokenConfiguration extends STSIssuedTokenConfiguration{
-    
+
     private static final String PRE_CONFIGURED_STS = "PreconfiguredSTS";
     private static final String NAMESPACE = "namespace";
     private static final String CONFIG_NAMESPACE = "";
@@ -59,31 +59,31 @@ public class DefaultSTSIssuedTokenConfiguration extends STSIssuedTokenConfigurat
     private static final String WST_VERSION ="wstVersion";
 
     private String tokenType = null;
-    
+
     private String keyType = null;
-    
+
     private long keySize = -1;
-    
+
     private String signatureAlg = null;
-    
+
     private String encAlg = null;
-    
+
     private String canAlg = null;
-    
+
     private String keyWrapAlg = null;
-    
+
     private Token oboToken = null;
-    
+
     private String signWith = null;
-    
+
     private String encryptWith = null;
-    
+
     private Claims claims = null;
 
     public DefaultSTSIssuedTokenConfiguration(){
-        
+
     }
-    
+
     public DefaultSTSIssuedTokenConfiguration(String protocol, IssuedToken issuedToken, PolicyAssertion localToken){
         if (protocol != null){
             this.protocol = protocol;
@@ -93,17 +93,17 @@ public class DefaultSTSIssuedTokenConfiguration extends STSIssuedTokenConfigurat
     public DefaultSTSIssuedTokenConfiguration(String stsEndpoint, String stsMEXAddress){
         super(stsEndpoint, stsMEXAddress);
     }
-    
-    public DefaultSTSIssuedTokenConfiguration(String stsEndpoint, 
+
+    public DefaultSTSIssuedTokenConfiguration(String stsEndpoint,
                           String stsWSDLLocation, String stsServiceName, String stsPortName, String stsNamespace){
         super(stsEndpoint, stsWSDLLocation, stsServiceName, stsPortName, stsNamespace);
     }
-    
+
     public DefaultSTSIssuedTokenConfiguration(String protocol, String stsEndpoint, String stsMEXAddress){
         super(protocol, stsEndpoint, stsMEXAddress);
     }
-    
-    public DefaultSTSIssuedTokenConfiguration(String protocol, String stsEndpoint, 
+
+    public DefaultSTSIssuedTokenConfiguration(String protocol, String stsEndpoint,
                           String stsWSDLLocation, String stsServiceName, String stsPortName, String stsNamespace){
         super(protocol, stsEndpoint, stsWSDLLocation, stsServiceName, stsPortName, stsNamespace);
     }
@@ -130,43 +130,43 @@ public class DefaultSTSIssuedTokenConfiguration extends STSIssuedTokenConfigurat
     public void setTokenType(String tokenType){
         this.tokenType = tokenType;
     }
-    
+
     public void setKeyType(String keyType){
         this.keyType = keyType;
     }
-    
+
     public void setKeySize(long keySize){
         this.keySize = keySize;
     }
-    
+
     public void setSignWith(String signWithAlg){
         this.signWith = signWithAlg;
     }
-    
+
     public void setEncryptWith(String encWithAlg){
         this.encryptWith = encWithAlg;
     }
-    
+
     public void setSignatureAlgorithm(String sigAlg){
         this.signatureAlg = sigAlg;
     }
-    
+
     public void setEncryptionAlgorithm(String encAlg){
         this.encAlg = encAlg;
     }
-    
+
     public void setCanonicalizationAlgorithm(String canAlg){
         this.canAlg = canAlg;
     }
-    
+
     public void setKeyWrapAlgorithm(String keyWrapAlg){
         this.keyWrapAlg = keyWrapAlg;
     }
-    
+
     public void setClaims(Claims claims){
         this.claims = claims;
     }
-    
+
     public void setOBOToken(Token token){
         this.oboToken = token;
     }
@@ -186,57 +186,57 @@ public class DefaultSTSIssuedTokenConfiguration extends STSIssuedTokenConfigurat
     public void setActAsToken(X509Certificate cert){
         this.getOtherOptions().put(STSIssuedTokenConfiguration.ACT_AS, this.createBinaryTokenForCertificate(cert));
     }
-    
+
     @Override
     public String getTokenType(){
         return this.tokenType;
     }
-    
+
     @Override
     public String getKeyType(){
         return this.keyType;
     }
-    
+
     @Override
     public long getKeySize(){
         return this.keySize;
     }
-    
+
     @Override
     public String getSignatureAlgorithm(){
         return this.signatureAlg;
     }
-    
+
     @Override
     public String getEncryptionAlgorithm(){
         return this.encAlg;
     }
-    
+
     @Override
     public String getCanonicalizationAlgorithm(){
         return this.canAlg;
     }
-    
+
     @Override
     public String getKeyWrapAlgorithm(){
         return this.keyWrapAlg;
     }
-    
+
     @Override
     public String getSignWith(){
         return signWith;
     }
-    
+
     @Override
     public String getEncryptWith(){
         return encryptWith;
     }
-    
+
     @Override
     public Claims getClaims(){
         return this.claims;
     }
-    
+
     @Override
     public Token getOBOToken(){
         return this.oboToken;
@@ -246,7 +246,7 @@ public class DefaultSTSIssuedTokenConfiguration extends STSIssuedTokenConfigurat
         this.sisPara = sisPara;
     }
 
-    private void parseAssertions(IssuedToken issuedToken, PolicyAssertion localToken){        
+    private void parseAssertions(IssuedToken issuedToken, PolicyAssertion localToken){
         Issuer issuer = issuedToken.getIssuer();
         URI stsURI = null;
         if (issuer != null){
@@ -255,23 +255,23 @@ public class DefaultSTSIssuedTokenConfiguration extends STSIssuedTokenConfigurat
                 this.getOtherOptions().put(IDENTITY, issuer.getIdentity());
             }
         }
-        
+
         // Get STS information from IssuedToken
         if (stsURI != null){
-            this.stsEndpoint = stsURI.toString();            
+            this.stsEndpoint = stsURI.toString();
             Address metadataIssuerAddress = issuer.getMetadataAddress();
             if(metadataIssuerAddress != null){
                 URI metadataIssuerAddressURI = metadataIssuerAddress.getURI();
                 if(metadataIssuerAddressURI != null){
                     stsMEXAddress = metadataIssuerAddressURI.toString();
                 }
-            }                        
-            
+            }
+
             if(stsMEXAddress == null){
                 stsMEXAddress = stsEndpoint + "/mex";
             }
         }
-          
+
         String stsProtocol = null;
         if (localToken != null){
             // Get STS information from local configuration
@@ -285,7 +285,7 @@ public class DefaultSTSIssuedTokenConfiguration extends STSIssuedTokenConfigurat
                         stsEndpoint = trim(attrs.get(new QName(CONFIG_NAMESPACE,ENDPOINT.toLowerCase())));
                     }
                     this.stsMEXAddress = trim(attrs.get(new QName(CONFIG_NAMESPACE, METADATA)));
-                
+
                     if (stsMEXAddress == null){
                         this.stsWSDLLocation = trim(attrs.get(new QName(CONFIG_NAMESPACE,WSDL_LOCATION)));
                         this.stsServiceName = trim(attrs.get(new QName(CONFIG_NAMESPACE,SERVICE_NAME)));
@@ -310,7 +310,7 @@ public class DefaultSTSIssuedTokenConfiguration extends STSIssuedTokenConfigurat
                 if (maxClockSkew != null){
                     this.getOtherOptions().put(MAX_CLOCK_SKEW, maxClockSkew);
                 }
-                
+
                 // handle LifeTime
                 if (localToken.hasParameters()){
                     Iterator<PolicyAssertion> pas = localToken.getParametersIterator();
@@ -329,7 +329,7 @@ public class DefaultSTSIssuedTokenConfiguration extends STSIssuedTokenConfigurat
         }
         RequestSecurityTokenTemplate rstt = issuedToken.getRequestSecurityTokenTemplate();
         if (rstt != null){
-            Claims claims = null;            
+            Claims claims = null;
             if (protocol.equals(WSTrustVersion.WS_TRUST_13.getNamespaceURI())){
                 if(issuedToken.getClaims() != null){
                    claims = getClaims(issuedToken, stsProtocol);
@@ -337,7 +337,7 @@ public class DefaultSTSIssuedTokenConfiguration extends STSIssuedTokenConfigurat
             }else{
                 if(rstt.getClaims() != null){
                     claims = getClaims(issuedToken, stsProtocol);
-                }                
+                }
             }
 
             if (!protocol.equals(stsProtocol)){
@@ -356,9 +356,9 @@ public class DefaultSTSIssuedTokenConfiguration extends STSIssuedTokenConfigurat
             }
         }
     }
-    
+
      private Claims getClaims(final IssuedToken issuedToken, String stsWstProtocol){
-        Claims cs = null;        
+        Claims cs = null;
          try {
              //Element claimsEle = null;
              if (protocol.equals(WSTrustVersion.WS_TRUST_13.getNamespaceURI())){
@@ -372,10 +372,10 @@ public class DefaultSTSIssuedTokenConfiguration extends STSIssuedTokenConfigurat
              cs = WSTrustElementFactory.newInstance(WSTrustVersion.getInstance(stsWstProtocol)).createClaims(cs);
          } catch (Exception e) {
              throw new WebServiceException(e);
-         }        
+         }
         return cs;
     }
-      
+
     private void copy(RequestSecurityTokenTemplate rstt){
         this.setTokenType(trim(rstt.getTokenType()));
         this.setKeyType(trim(rstt.getKeyType()));
@@ -398,7 +398,7 @@ public class DefaultSTSIssuedTokenConfiguration extends STSIssuedTokenConfigurat
         sitp.setCanonicalizationAlgorithm(trim(rstt.getCanonicalizationAlgorithm()));
         sitp.setKeyWrapAlgorithm(trim(rstt.getKeyWrapAlgorithm()));
     }
-    
+
     private void copy(RequestSecurityTokenTemplate rstt, String stsWstProtocol, String serviceWstProtocol){
         // Convert KeyType
         WSTrustVersion stsWstVer = WSTrustVersion.getInstance(stsWstProtocol);

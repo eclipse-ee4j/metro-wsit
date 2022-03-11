@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -43,48 +43,48 @@ public class SignatureConfirmation extends SignatureConfirmationType
 
     private final ObjectFactory objFac = new ObjectFactory();
     private SOAPVersion soapVersion = SOAPVersion.SOAP_11;
-    
+
     /** Creates a new instance of SignatureConfirmation */
     public SignatureConfirmation(String id, SOAPVersion sv) {
         setId(id);
         this.soapVersion = sv;
     }
-    
+
     @Override
     public String getNamespaceURI() {
         return MessageConstants.WSSE11_NS;
     }
-    
+
     @Override
     public String getLocalPart() {
         return MessageConstants.SIGNATURE_CONFIRMATION_LNAME;
     }
-    
+
     public String getAttribute(String nsUri, String localName) {
         throw new UnsupportedOperationException();
     }
-    
+
     public String getAttribute(QName name) {
         throw new UnsupportedOperationException();
     }
-    
+
     @Override
     public javax.xml.stream.XMLStreamReader readHeader() throws javax.xml.stream.XMLStreamException {
         XMLStreamBufferResult xbr = new XMLStreamBufferResult();
         JAXBElement<SignatureConfirmationType> scElem = objFac.createSignatureConfirmation(this);
         try{
             getMarshaller().marshal(scElem, xbr);
-            
+
         } catch(JAXBException je){
             throw new XMLStreamException(je);
         }
         return xbr.getXMLStreamBuffer().readAsXMLStreamReader();
     }
-    
+
     @Override
     public void writeTo(OutputStream os) {
     }
-    
+
     @Override
     public void writeTo(javax.xml.stream.XMLStreamWriter streamWriter) throws javax.xml.stream.XMLStreamException {
         JAXBElement<SignatureConfirmationType> scElem = objFac.createSignatureConfirmation(this);
@@ -98,17 +98,17 @@ public class SignatureConfirmation extends SignatureConfirmationType
                     return;
                 }
             }
-            
+
             getMarshaller().marshal(scElem,streamWriter);
         } catch (JAXBException e) {
             throw new XMLStreamException(e);
         }
     }
-    
+
     private Marshaller getMarshaller() throws JAXBException{
         return JAXBUtil.createMarshaller(soapVersion);
     }
-    
+
     /**
      *
      */
@@ -131,5 +131,5 @@ public class SignatureConfirmation extends SignatureConfirmationType
             throw new XMLStreamException(jbe);
         }
     }
-    
+
 }

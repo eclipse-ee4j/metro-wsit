@@ -40,28 +40,28 @@ import org.xml.sax.SAXException;
  * @author kumar jayanti
  */
 public class DefaultRealmAuthenticationAdapter extends RealmAuthenticationAdapter {
-    
+
     private CallbackHandler gfCallbackHandler = null;
     private HashMap<String, String> tomcatUsersXML = null;
-    
+
     private static DocumentBuilderFactory dbf = WSITXMLFactory.createDocumentBuilderFactory(WSITXMLFactory.DISABLE_SECURE_PROCESSING);
-    
+
     private static String classname = "com.sun.enterprise.security.jmac.callback.ContainerCallbackHandler";
- 
+
     /*
     static {
         dbf.setNamespaceAware(true);
     }*/
-    
+
     /** Creates a new instance of DefaultRealmAuthenticationProvider */
     public DefaultRealmAuthenticationAdapter() {
         if (isGlassfish()) {
             gfCallbackHandler = this.loadGFHandler();
         } else if (isTomcat()) {
-            populateTomcatUsersXML();     
+            populateTomcatUsersXML();
         }
     }
-    
+
     private boolean isGlassfish() {
         String val = System.getProperty("com.sun.aas.installRoot");
         if (val != null) {
@@ -77,9 +77,9 @@ public class DefaultRealmAuthenticationAdapter extends RealmAuthenticationAdapte
         }
         return false;
     }
-    
+
     private boolean authenticateFromTomcatUsersXML(
-            final Subject callerSubject, final String username, final String password) 
+            final Subject callerSubject, final String username, final String password)
             throws XWSSecurityException {
         if (tomcatUsersXML != null) {
             String pass = tomcatUsersXML.get(username);
@@ -105,17 +105,17 @@ public class DefaultRealmAuthenticationAdapter extends RealmAuthenticationAdapte
             }else {
                 return false;
             }
-            
+
         } else {
             throw new XWSSecurityException(
-                    "Internal Error: Username Authentication Failed: Could not Load/Locate tomcat-users.xml, Possible Cause is Application is Not Running on TOMCAT ?");       
+                    "Internal Error: Username Authentication Failed: Could not Load/Locate tomcat-users.xml, Possible Cause is Application is Not Running on TOMCAT ?");
         }
     }
-    
+
     private boolean authenticateWithGFCBH(Subject callerSubject, String username, String password)throws XWSSecurityException {
         if (gfCallbackHandler != null) {
-            char[] pwd = (password == null) ? null : password.toCharArray(); 
-            PasswordValidationCallback pvCallback = 
+            char[] pwd = (password == null) ? null : password.toCharArray();
+            PasswordValidationCallback pvCallback =
                     new PasswordValidationCallback(callerSubject,username, pwd);
             Callback[] callbacks = new Callback[] { pvCallback };
             try {
@@ -124,7 +124,7 @@ public class DefaultRealmAuthenticationAdapter extends RealmAuthenticationAdapte
                throw new XWSSecurityException(e);
             }
 
-           // zero the password 
+           // zero the password
            if (pwd != null)
               pvCallback.clearPassword();
 
@@ -144,33 +144,33 @@ public class DefaultRealmAuthenticationAdapter extends RealmAuthenticationAdapte
            }
         } else {
             throw new XWSSecurityException(
-                    "Internal Error: Username Authentication Failed: Could not Locate/Load CallbackHandler: " + classname);       
+                    "Internal Error: Username Authentication Failed: Could not Locate/Load CallbackHandler: " + classname);
         }
     }
-    
+
     @Override
     public boolean authenticate(Subject callerSubject, String username, String password) throws XWSSecurityException {
         if (isGlassfish())  {
             return authenticateWithGFCBH(callerSubject, username, password);
-            
+
         } else if (isTomcat()) {
             return authenticateFromTomcatUsersXML(callerSubject, username, password);
         }  else  {
             throw new XWSSecurityException("Error: Could not locate default username validator for the container");
         }
     }
-    
+
     @Override
      public boolean authenticate(Subject callerSubject,  String username, String passwordDigest, String nonce, String created) throws XWSSecurityException {
         // this is the place from where i can go to GF JDBC Realm
          throw new XWSSecurityException("Not Yet Supported: Digest Authentication not yet supported in  DefaultRealmAuthenticationAdapter");
      }
-       
+
     protected CallbackHandler loadGFHandler() {
-        
+
         Class ret = null;
         try {
-            
+
             ClassLoader loader = Thread.currentThread().getContextClassLoader();
             try {
                 if (loader != null) {
@@ -179,13 +179,13 @@ public class DefaultRealmAuthenticationAdapter extends RealmAuthenticationAdapte
             }catch(ClassNotFoundException e) {
               //  throw new RuntimeException(e);
             }
-            
+
             if (ret == null) {
                 // if context classloader didnt work, try this
                 loader = this.getClass().getClassLoader();
                 ret = loader.loadClass(classname);
             }
-            
+
             if (ret != null) {
                 CallbackHandler handler = (CallbackHandler)ret.newInstance();
                 return handler;
@@ -193,7 +193,7 @@ public class DefaultRealmAuthenticationAdapter extends RealmAuthenticationAdapte
         } catch (ClassNotFoundException e) {
             // ignore
             //throw new RuntimeException(e);
-            
+
         } catch(InstantiationException e) {
             //throw new RuntimeException(e);
         } catch(IllegalAccessException ex) {
@@ -205,10 +205,10 @@ public class DefaultRealmAuthenticationAdapter extends RealmAuthenticationAdapte
 
     private void populateTomcatUsersXML() {
         String catalinaHome = System.getProperty("catalina.home");
-       
-        String tomcat_user_xml = 
+
+        String tomcat_user_xml =
                 catalinaHome + File.separator + "conf" + File.separator + "tomcat-users.xml";
-       
+
         try {
             File tomcatUserXML = new File(tomcat_user_xml);
             if (!tomcatUserXML.exists()) {
@@ -220,7 +220,7 @@ public class DefaultRealmAuthenticationAdapter extends RealmAuthenticationAdapte
             Document doc = builder.parse(tomcatUserXML);
             NodeList nl = doc.getElementsByTagName("user");
             tomcatUsersXML = new HashMap<>();
-            
+
             for (int i=0; i<nl.getLength(); i++) {
                 Node n = nl.item(i);
                 NamedNodeMap nmap = n.getAttributes();

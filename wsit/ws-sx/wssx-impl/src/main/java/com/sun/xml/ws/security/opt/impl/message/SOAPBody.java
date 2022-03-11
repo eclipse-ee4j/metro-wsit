@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -36,7 +36,7 @@ import javax.xml.stream.XMLStreamReader;
 public class SOAPBody{
     private static final String BODY = "Body";
     private static final String BODY_PREFIX = "S";
-    
+
     private Message  message;
     private SOAPVersion soapVersion ;
     ///private byte [] byteStream;
@@ -45,45 +45,45 @@ public class SOAPBody{
     private String contentId;
     private MutableXMLStreamBuffer buffer = null;
     private List attributeValuePrefixes = null;
-    
+
     public SOAPBody(Message message ) {
         this.message = message;
         this.soapVersion  = SOAPVersion.SOAP_11;
     }
-    
+
     /**
      *
      * Creates a new instance of SOAPBody
      *
      */
-    
+
     public SOAPBody(Message message,SOAPVersion soapVersion ) {
         this.message = message;
         this.soapVersion  = soapVersion;
     }
-    
+
     public SOAPBody(byte[]  payLoad,SOAPVersion soapVersion ) {
         //byteStream = payLoad;
         this.soapVersion  = soapVersion;
     }
-    
+
     public SOAPBody(SecurityElement se,SOAPVersion soapVersion ) {
         bodyContent = se;
         this.soapVersion  = soapVersion;
     }
-    
+
     public SOAPVersion getSOAPVersion(){
         return soapVersion;
     }
-    
+
     public String getId(){
         return wsuId;
     }
-    
+
     public void setId(String id){
         wsuId = id;
     }
-    
+
     public String getBodyContentId(){
         if(contentId != null)
             return contentId;
@@ -91,7 +91,7 @@ public class SOAPBody{
             return bodyContent.getId();
         return null;
     }
-    
+
     public void setBodyContentId(String id){
         this.contentId = id;
     }
@@ -108,7 +108,7 @@ public class SOAPBody{
         }else if(bodyContent != null){
             ((SecurityElementWriter)bodyContent).writeTo(writer);
         }else if(buffer != null){
-            if(writer instanceof StAXEXC14nCanonicalizerImpl){          
+            if(writer instanceof StAXEXC14nCanonicalizerImpl){
                 if(attributeValuePrefixes != null && !attributeValuePrefixes.isEmpty()){
                     List prefixList = ((StAXEXC14nCanonicalizerImpl)writer).getInclusivePrefixList();
                     if(prefixList == null){
@@ -127,7 +127,7 @@ public class SOAPBody{
             //TODO
         }
     }
-    
+
     public void writeTo(XMLStreamWriter writer) throws XMLStreamException{
         writer.writeStartElement(BODY_PREFIX,BODY,this.soapVersion.nsUri);
         if(wsuId != null){
@@ -137,7 +137,7 @@ public class SOAPBody{
         writer.writeEndElement();
         //writer.flush();
     }
-    
+
     public String getPayloadNamespaceURI(){
         if(message != null){
             return message.getPayloadNamespaceURI();
@@ -147,7 +147,7 @@ public class SOAPBody{
         }
         return null;
     }
-    
+
     public String getPayloadLocalPart(){
         if(message != null){
             return message.getPayloadLocalPart();
@@ -157,7 +157,7 @@ public class SOAPBody{
         }
         return null;
     }
-    
+
     public XMLStreamReader read() throws XMLStreamException{
         if(message != null){
             return message.readPayload();
@@ -166,7 +166,7 @@ public class SOAPBody{
         }
         throw new XMLStreamException("Invalid SOAPBody");
     }
-    
+
     public void cachePayLoad() throws XMLStreamException {
         if(message != null){
             if(message instanceof StreamMessage ||  message instanceof PayloadSourceMessage ||
@@ -183,7 +183,7 @@ public class SOAPBody{
             }
         }
     }
-    
+
     public List getAttributeValuePrefixes(){
         return attributeValuePrefixes;
     }

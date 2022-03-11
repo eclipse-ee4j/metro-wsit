@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -26,19 +26,19 @@ import junit.framework.TestCase;
  * @author Marek Potociar (marek.potociar at sun.com)
  */
 public class InvocationTest extends TestCase {
-    
+
     public InvocationTest(String testName) {
         super(testName);
     }
-    
+
     @Override
     protected void setUp() {
     }
-    
+
     @Override
     protected void tearDown() {
     }
-    
+
     /**
      * Test of createInvocation method, of class com.sun.xml.ws.policy.jaxws.xmlstreamwriter.Invocation.
      */
@@ -46,10 +46,10 @@ public class InvocationTest extends TestCase {
         Method method = XMLStreamWriter.class.getMethod(XmlStreamWriterMethodType.WRITE_START_ELEMENT.getMethodName(), String.class);
         Object[] args = new Object[] {"test"};
         Invocation result = Invocation.createInvocation(method, args);
-        
+
         assertNotNull(result);
     }
-    
+
     /**
      * Test of getMethodName method, of class com.sun.xml.ws.policy.jaxws.xmlstreamwriter.Invocation.
      */
@@ -58,7 +58,7 @@ public class InvocationTest extends TestCase {
         Method method;
         Object[] args;
         Invocation result;
-        
+
         methodName = XmlStreamWriterMethodType.WRITE_START_ELEMENT.getMethodName();
         method = XMLStreamWriter.class.getMethod(methodName, String.class);
         args = new Object[] {"test"};
@@ -72,13 +72,13 @@ public class InvocationTest extends TestCase {
         args = new Object[] {"test", "test", "test"};
         result = Invocation.createInvocation(method, args);
         assertEquals(methodName, result.getMethodName());
-        
+
         methodName = XmlStreamWriterMethodType.WRITE_END_ELEMENT.getMethodName();
         method = XMLStreamWriter.class.getMethod(methodName);
         args = null;
         result = Invocation.createInvocation(method, args);
         assertEquals(methodName, result.getMethodName());
-        
+
         methodName = XmlStreamWriterMethodType.WRITE_ATTRIBUTE.getMethodName();
         method = XMLStreamWriter.class.getMethod(methodName, String.class, String.class);
         args = new Object[] {"test", "test"};
@@ -92,7 +92,7 @@ public class InvocationTest extends TestCase {
         args = new Object[] {"test", "test", "test", "test"};
         result = Invocation.createInvocation(method, args);
         assertEquals(methodName, result.getMethodName());
-        
+
         methodName = XmlStreamWriterMethodType.WRITE_CHARACTERS.getMethodName();
         method = XMLStreamWriter.class.getMethod(methodName, String.class);
         args = new Object[] {"test"};
@@ -102,15 +102,15 @@ public class InvocationTest extends TestCase {
         args = new Object[] {new char[] {'t', 'e', 's', 't'}, 0, 4};
         result = Invocation.createInvocation(method, args);
         assertEquals(methodName, result.getMethodName());
-        
+
         methodName = XmlStreamWriterMethodType.FLUSH.getMethodName();
         method = XMLStreamWriter.class.getMethod(methodName);
         args = null;
         result = Invocation.createInvocation(method, args);
         assertEquals(methodName, result.getMethodName());
-        
+
     }
-    
+
     /**
      * Test of getMethodType method, of class com.sun.xml.ws.policy.jaxws.xmlstreamwriter.Invocation.
      */
@@ -120,7 +120,7 @@ public class InvocationTest extends TestCase {
         Method method;
         Object[] args;
         Invocation result;
-        
+
         methodName = XmlStreamWriterMethodType.WRITE_START_ELEMENT.getMethodName();
         methodType = XmlStreamWriterMethodType.WRITE_START_ELEMENT;
         method = XMLStreamWriter.class.getMethod(methodName, String.class);
@@ -135,14 +135,14 @@ public class InvocationTest extends TestCase {
         args = new Object[] {"test", "test", "test"};
         result = Invocation.createInvocation(method, args);
         assertEquals(methodType, result.getMethodType());
-        
+
         methodName = XmlStreamWriterMethodType.WRITE_END_ELEMENT.getMethodName();
         methodType = XmlStreamWriterMethodType.WRITE_END_ELEMENT;
         method = XMLStreamWriter.class.getMethod(methodName);
         args = null;
         result = Invocation.createInvocation(method, args);
         assertEquals(methodType, result.getMethodType());
-        
+
         methodName = XmlStreamWriterMethodType.WRITE_ATTRIBUTE.getMethodName();
         methodType = XmlStreamWriterMethodType.WRITE_ATTRIBUTE;
         method = XMLStreamWriter.class.getMethod(methodName, String.class, String.class);
@@ -157,7 +157,7 @@ public class InvocationTest extends TestCase {
         args = new Object[] {"test", "test", "test", "test"};
         result = Invocation.createInvocation(method, args);
         assertEquals(methodType, result.getMethodType());
-        
+
         methodName = XmlStreamWriterMethodType.WRITE_CHARACTERS.getMethodName();
         methodType = XmlStreamWriterMethodType.WRITE_CHARACTERS;
         method = XMLStreamWriter.class.getMethod(methodName, String.class);
@@ -168,7 +168,7 @@ public class InvocationTest extends TestCase {
         args = new Object[] {new char[] {'t', 'e', 's', 't'}, 0, 4};
         result = Invocation.createInvocation(method, args);
         assertEquals(methodType, result.getMethodType());
-        
+
         methodName = "flush";
         methodType = XmlStreamWriterMethodType.FLUSH;
         method = XMLStreamWriter.class.getMethod(methodName);
@@ -176,7 +176,7 @@ public class InvocationTest extends TestCase {
         result = Invocation.createInvocation(method, args);
         assertEquals(methodType, result.getMethodType());
     }
-    
+
     /**
      * Test of getArgument method, of class com.sun.xml.ws.policy.jaxws.xmlstreamwriter.Invocation.
      */
@@ -185,7 +185,7 @@ public class InvocationTest extends TestCase {
         Method method;
         Object[] args;
         Invocation result;
-        
+
         methodName = XmlStreamWriterMethodType.WRITE_START_ELEMENT.getMethodName();
         method = XMLStreamWriter.class.getMethod(methodName, String.class, String.class, String.class);
         args = new Object[] {"aaa", "bbb", "ccc"};
@@ -193,7 +193,7 @@ public class InvocationTest extends TestCase {
         for (int i = 0; i < args.length; i++) {
             assertEquals(args[i], result.getArgument(i));
         }
-        
+
         methodName = "flush";
         method = XMLStreamWriter.class.getMethod(methodName);
         args = null;
@@ -205,7 +205,7 @@ public class InvocationTest extends TestCase {
             // ok
         }
     }
-    
+
     /**
      * Test of getArgumentsLength method, of class com.sun.xml.ws.policy.jaxws.xmlstreamwriter.Invocation.
      */
@@ -214,20 +214,20 @@ public class InvocationTest extends TestCase {
         Method method;
         Object[] args;
         Invocation result;
-        
+
         methodName = XmlStreamWriterMethodType.WRITE_START_ELEMENT.getMethodName();
         method = XMLStreamWriter.class.getMethod(methodName, String.class, String.class, String.class);
         args = new Object[] {"aaa", "bbb", "ccc"};
-        result = Invocation.createInvocation(method, args);        
+        result = Invocation.createInvocation(method, args);
         assertEquals(args.length, result.getArgumentsCount());
-        
+
         methodName = "flush";
         method = XMLStreamWriter.class.getMethod(methodName);
         args = null;
-        result = Invocation.createInvocation(method, args);        
+        result = Invocation.createInvocation(method, args);
         assertEquals(0, result.getArgumentsCount());
     }
-    
+
     /**
      * Tests proper behaviour of defence copying of arguments of writeCharacters() method
      */
@@ -238,26 +238,26 @@ public class InvocationTest extends TestCase {
         Invocation result;
         char[] originalChars, expectedChars;
         int originalStart, originalLength, expectedStart, expectedLength;
-        
+
         originalChars = new char[] {'x', 'y', 't', 'e', 's', 't', 'z'};
         originalStart = 2;
         originalLength = 4;
-        
+
         expectedChars = new char[] {'t', 'e', 's', 't'};
         expectedStart = 0;
         expectedLength = 4;
-        
+
         args = new Object[] {originalChars, originalStart, originalLength};
         result = Invocation.createInvocation(method, args);
         // modifying the original char array to test defence copy
         originalChars[2] = 'w';
-        
+
         assertEquals(expectedStart, result.getArgument(1));
         assertEquals(expectedLength, result.getArgument(2));
         char[] resultChars = (char[]) result.getArgument(0);
         for (int i = expectedStart; i < expectedLength; i++) {
             assertEquals(expectedChars[i], resultChars[i]);
         }
-        
+
     }
 }

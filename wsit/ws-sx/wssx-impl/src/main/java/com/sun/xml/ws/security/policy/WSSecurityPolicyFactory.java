@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -20,18 +20,18 @@ import javax.xml.namespace.QName;
  * @author K.Venugopal@sun.com
  */
 public abstract class WSSecurityPolicyFactory{
-   
-       
+
+
     public static WSSecurityPolicyFactory getInstance(){
         //default
         throw new UnsupportedOperationException();
       //  return new com.sun.xml.ws.security.impl.policy.WSSecurityPolicyFactory();
     }
-    
+
     public static WSSecurityPolicyFactory getInstance(String namespaceURI){
         throw new UnsupportedOperationException("This method is not supported");
     }
-    
+
     public abstract EncryptedParts createEncryptedParts();
     public abstract SignedParts createSignedParts();
     public abstract SpnegoContextToken createSpnegoContextToken();
@@ -46,5 +46,5 @@ public abstract class WSSecurityPolicyFactory{
     public abstract IssuedToken createIssuedToken();
     public abstract PolicyAssertion createSecurityAssertion(QName name);
     public abstract PolicyAssertion createSecurityAssertion(QName qname, ClassLoader classLoader);
-    
+
 }

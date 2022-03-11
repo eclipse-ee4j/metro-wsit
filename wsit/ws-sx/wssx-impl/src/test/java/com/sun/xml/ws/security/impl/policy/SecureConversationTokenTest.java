@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -30,7 +30,7 @@ import junit.framework.*;
  * @author Mayank.Mishra@SUN.com
  */
 public class SecureConversationTokenTest extends TestCase {
-    
+
     public SecureConversationTokenTest(String testName) {
         super(testName);
     }
@@ -45,7 +45,7 @@ public class SecureConversationTokenTest extends TestCase {
 
     public static Test suite() {
         TestSuite suite = new TestSuite(SecureConversationTokenTest.class);
-        
+
         return suite;
     }
 
@@ -55,19 +55,19 @@ public class SecureConversationTokenTest extends TestCase {
         reader.close();
         return model;
     }
-    
+
     private Reader getResourceReader(String resourceName) {
         return new InputStreamReader(Thread.currentThread().getContextClassLoader().getResourceAsStream(resourceName));
     }
-    
+
     public Policy unmarshalPolicy(String xmlFile)throws Exception{
         PolicySourceModel model =  unmarshalPolicyResource(
                 xmlFile);
         Policy mbp = ModelTranslator.getTranslator().translate(model);
         return mbp;
-        
+
     }
-      
+
     public void testSecureConversationToken1() throws Exception {
         String fileName = "security/SecureConversationTokenAssertions1.xml";
         Policy policy = unmarshalPolicy(fileName);
@@ -83,7 +83,7 @@ public class SecureConversationTokenTest extends TestCase {
             throw new Exception("No Assertions found!. Unmarshalling of "+fileName+" failed!");
         }
     }
-    
+
     public void testSecureConversationToken2() throws Exception {
         String fileName = "security/SecureConversationTokenAssertions2.xml";
         Policy policy = unmarshalPolicy(fileName);
@@ -99,7 +99,7 @@ public class SecureConversationTokenTest extends TestCase {
             throw new Exception("No Assertions found!. Unmarshalling of "+fileName+" failed!");
         }
     }
-    
+
     public void testSecureConversationToken3() throws Exception {
         String fileName = "security/SecureConversationTokenAssertions3.xml";
         Policy policy = unmarshalPolicy(fileName);
@@ -115,5 +115,5 @@ public class SecureConversationTokenTest extends TestCase {
             throw new Exception("No Assertions found!. Unmarshalling of "+fileName+" failed!");
         }
     }
-    
+
 }

@@ -31,7 +31,7 @@ import org.w3c.dom.Element;
 public class SamlValidator implements SAMLAssertionValidator {
 
     public void validate(Element assertion) throws SAMLValidationException {
-        if (assertion != null){   
+        if (assertion != null){
             String stsEndpoint = "http://localhost:8080/jaxws-fs-sts/sts/validate";
             String stsMexAddress = "http://localhost:8080/jaxws-fs-sts/sts/mex";
             DefaultSTSIssuedTokenConfiguration config = new DefaultSTSIssuedTokenConfiguration(
@@ -47,7 +47,7 @@ public class SamlValidator implements SAMLAssertionValidator {
             }catch(Exception ex){
                 throw new SAMLValidationException(ex);
             }
-            
+
             if (!status.isValid()){
                 throw new SAMLValidationException(status.getReason());
             }

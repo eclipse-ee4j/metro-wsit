@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -66,7 +66,7 @@ public class SignatureKeyCallback extends XWSSCallback implements Callback {
         /**
          * Get the PrivateKey stored in this Request.
          *
-         * @return <code>java.security.PrivateKey</code> - PrivateKey to be used for 
+         * @return <code>java.security.PrivateKey</code> - PrivateKey to be used for
          * Signature value calculation.
          */
         public PrivateKey getPrivateKey() {
@@ -76,7 +76,7 @@ public class SignatureKeyCallback extends XWSSCallback implements Callback {
         /**
          * Set the X509Certificate used for Signature verification.
          *
-         * @param certificate <code>java.security.X509Certificate</code> to be 
+         * @param certificate <code>java.security.X509Certificate</code> to be
          * used for Signature Verification.
          *
          */

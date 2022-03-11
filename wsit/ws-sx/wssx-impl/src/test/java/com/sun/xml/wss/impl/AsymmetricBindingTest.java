@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -52,7 +52,7 @@ import junit.framework.TestSuite;
  * @author ashutosh.shahi@sun.com
  */
 public class AsymmetricBindingTest extends TestCase{
-    
+
     private static HashMap client = new HashMap();
     private static HashMap server = new HashMap();
     private static AlgorithmSuite alg = null;
@@ -60,69 +60,69 @@ public class AsymmetricBindingTest extends TestCase{
     public AsymmetricBindingTest(String testName) {
         super(testName);
     }
-    
-                                                                                                                                                             
+
+
     @Override
     protected void setUp() {
-    	
+
     }
-                                                                                                                                                             
+
     @Override
     protected void tearDown() {
     }
-                                                                                                                                                             
+
     public static Test suite() {
         TestSuite suite = new TestSuite(AsymmetricBindingTest.class);                                                                                                 return suite;
     }
-    
+
     public static void testSymmetricBindingTest() throws Exception {
-       
-	    //algws.setType(AlgorithmSuiteValue.Basic128);
+
+        //algws.setType(AlgorithmSuiteValue.Basic128);
             alg = new AlgorithmSuite(AlgorithmSuiteValue.Basic128.getDigAlgorithm(), AlgorithmSuiteValue.Basic128.getEncAlgorithm(), AlgorithmSuiteValue.Basic128.getSymKWAlgorithm(), AlgorithmSuiteValue.Basic128.getAsymKWAlgorithm());
-    	    SignaturePolicy signaturePolicy = new SignaturePolicy();
+            SignaturePolicy signaturePolicy = new SignaturePolicy();
             SignatureTarget st = new SignatureTarget();
-	    st.setType("qname");
-    	    st.setDigestAlgorithm(DigestMethod.SHA1);
+        st.setType("qname");
+            st.setDigestAlgorithm(DigestMethod.SHA1);
             ((SignaturePolicy.FeatureBinding)signaturePolicy.getFeatureBinding()).
                     addTargetBinding(st);
-	    ((SignaturePolicy.FeatureBinding)signaturePolicy.getFeatureBinding()).
-    	            setCanonicalizationAlgorithm(MessageConstants.TRANSFORM_C14N_EXCL_OMIT_COMMENTS);
+        ((SignaturePolicy.FeatureBinding)signaturePolicy.getFeatureBinding()).
+                    setCanonicalizationAlgorithm(MessageConstants.TRANSFORM_C14N_EXCL_OMIT_COMMENTS);
 
             QName name = new QName("X509Certificate");
-	     Token tok = new Token(name);
+         Token tok = new Token(name);
 
-	    AuthenticationTokenPolicy.X509CertificateBinding x509bind = 
-    	            (AuthenticationTokenPolicy.X509CertificateBinding)signaturePolicy.newX509CertificateKeyBinding();
+        AuthenticationTokenPolicy.X509CertificateBinding x509bind =
+                    (AuthenticationTokenPolicy.X509CertificateBinding)signaturePolicy.newX509CertificateKeyBinding();
             x509bind.setReferenceType(MessageConstants.THUMB_PRINT_TYPE);
-            
-	    //x509bind.setPolicyToken(tok);
-    	    x509bind.setUUID(new String("1000"));
+
+        //x509bind.setPolicyToken(tok);
+            x509bind.setUUID(new String("1000"));
 
             EncryptionPolicy encryptPolicy = new EncryptionPolicy();
-	    EncryptionTarget et = new EncryptionTarget();
-    	    et.setType("qname");
+        EncryptionTarget et = new EncryptionTarget();
+            et.setType("qname");
             ((EncryptionPolicy.FeatureBinding)encryptPolicy.getFeatureBinding()).
-            	    addTargetBinding(st);
+                    addTargetBinding(st);
 
-	    x509bind = (AuthenticationTokenPolicy.X509CertificateBinding)encryptPolicy.newX509CertificateKeyBinding();
-	    x509bind.setReferenceType(MessageConstants.THUMB_PRINT_TYPE);
-    	    //x509bind.setPolicyToken(tok);
+        x509bind = (AuthenticationTokenPolicy.X509CertificateBinding)encryptPolicy.newX509CertificateKeyBinding();
+        x509bind.setReferenceType(MessageConstants.THUMB_PRINT_TYPE);
+            //x509bind.setPolicyToken(tok);
             x509bind.setUUID(new String("1001"));
-        
-	    SOAPMessage msg = MessageFactory.newInstance().createMessage();
-    	    SOAPBody body = msg.getSOAPBody();
-            SOAPBodyElement sbe = body.addBodyElement(
-            	    SOAPFactory.newInstance().createName(
-                	"StockSymbol",
-                    	"tru",
-	                "http://fabrikam123.com/payloads"));
-    	    sbe.addTextNode("QQQ");
 
-	    //Create processing context and set the soap
-    	    //message to be processed.
+        SOAPMessage msg = MessageFactory.newInstance().createMessage();
+            SOAPBody body = msg.getSOAPBody();
+            SOAPBodyElement sbe = body.addBodyElement(
+                    SOAPFactory.newInstance().createName(
+                    "StockSymbol",
+                        "tru",
+                    "http://fabrikam123.com/payloads"));
+            sbe.addTextNode("QQQ");
+
+        //Create processing context and set the soap
+            //message to be processed.
             ProcessingContextImpl context = new ProcessingContextImpl(client);
-	    context.setSOAPMessage(msg);
-        
+        context.setSOAPMessage(msg);
+
             com.sun.xml.ws.security.policy.WSSAssertion wssAssertionws = null;
             WSSAssertion wssAssertion = null;
             AssertionSet as = null;
@@ -130,44 +130,44 @@ public class AsymmetricBindingTest extends TestCase{
             Iterator<AssertionSet> i = wssPolicy.iterator();
             if(i.hasNext())
                 as = i.next();
-            
+
             for(PolicyAssertion assertion:as){
                 if(assertion instanceof com.sun.xml.ws.security.policy.WSSAssertion){
                     wssAssertionws = (com.sun.xml.ws.security.policy.WSSAssertion)assertion;
-                }                      
+                }
             }
-	    //wssAssertion.addRequiredProperty("RequireSignatureConfirmation");
+        //wssAssertion.addRequiredProperty("RequireSignatureConfirmation");
             wssAssertion = new WSSAssertion(wssAssertionws.getRequiredProperties(), "1.0");
                     MessagePolicy pol = new MessagePolicy();
-	    pol.append(signaturePolicy);
-    	    pol.append(encryptPolicy);
+        pol.append(signaturePolicy);
+            pol.append(encryptPolicy);
             pol.setWSSAssertion(wssAssertion);
-        
-	    context.setAlgorithmSuite(alg);
-        
-    	    context.setSecurityPolicy(pol);
+
+        context.setAlgorithmSuite(alg);
+
+            context.setSecurityPolicy(pol);
             CallbackHandler handler = new PolicyCallbackHandler1("client");
-	    SecurityEnvironment env = new DefaultSecurityEnvironmentImpl(handler);
-    	    context.setSecurityEnvironment(env);
+        SecurityEnvironment env = new DefaultSecurityEnvironmentImpl(handler);
+            context.setSecurityEnvironment(env);
 
             SecurityAnnotator.secureMessage(context);
 
-	    SOAPMessage secMsg = context.getSOAPMessage();
-    	    //DumpFilter.process(context);
+        SOAPMessage secMsg = context.getSOAPMessage();
+            //DumpFilter.process(context);
 
-        	// now persist the message and read-back
-	        FileOutputStream sentFile = new FileOutputStream("golden.msg");
-    	    secMsg.saveChanges();
-        	TestUtil.saveMimeHeaders(secMsg, "golden.mh");
-	        secMsg.writeTo(sentFile);
-    	    sentFile.close();
+            // now persist the message and read-back
+            FileOutputStream sentFile = new FileOutputStream("golden.msg");
+            secMsg.saveChanges();
+            TestUtil.saveMimeHeaders(secMsg, "golden.mh");
+            secMsg.writeTo(sentFile);
+            sentFile.close();
 
-        	// now create the message
-	        SOAPMessage recMsg = TestUtil.constructMessage("golden.mh", "golden.msg");
-        
-    	    // verify
+            // now create the message
+            SOAPMessage recMsg = TestUtil.constructMessage("golden.mh", "golden.msg");
+
+            // verify
             verify(recMsg, null, null);
-        
+
     }
 
    public static ProcessingContextImpl verify(SOAPMessage msg, byte[] proofKey, Map map) throws Exception {
@@ -175,7 +175,7 @@ public class AsymmetricBindingTest extends TestCase{
        //message to be processed.
        ProcessingContextImpl context = new ProcessingContextImpl(map);
        context.setSOAPMessage(msg);
-       
+
        com.sun.xml.ws.security.policy.WSSAssertion wssAssertionws = null;
        WSSAssertion wssAssertion = null;
        AssertionSet as = null;
@@ -183,17 +183,17 @@ public class AsymmetricBindingTest extends TestCase{
        Iterator<AssertionSet> i = wssPolicy.iterator();
        if(i.hasNext())
            as = i.next();
-            
+
        for(PolicyAssertion assertion:as){
            if(assertion instanceof com.sun.xml.ws.security.policy.WSSAssertion){
                wssAssertionws = (com.sun.xml.ws.security.policy.WSSAssertion)assertion;
-           }                      
+           }
        }
-        wssAssertion = new WSSAssertion(wssAssertionws.getRequiredProperties(), "1.0");                                                                                                   
+        wssAssertion = new WSSAssertion(wssAssertionws.getRequiredProperties(), "1.0");
         MessagePolicy pol = new MessagePolicy();
         context.setAlgorithmSuite(alg);
         pol.setWSSAssertion(wssAssertion);
-                                                                                                           
+
         context.setSecurityPolicy(pol);
         CallbackHandler handler = new PolicyCallbackHandler1("server");
         SecurityEnvironment env = new DefaultSecurityEnvironmentImpl(handler);
@@ -202,11 +202,11 @@ public class AsymmetricBindingTest extends TestCase{
         SecurityRecipient.validateMessage(context);
         //System.out.println("Verfied Message");
         //DumpFilter.process(context);
-      
+
         return context;
 
    }
-   
+
 //   public static void main(String[] args) throws Exception{
 //       testSymmetricBindingTest();
 //   }

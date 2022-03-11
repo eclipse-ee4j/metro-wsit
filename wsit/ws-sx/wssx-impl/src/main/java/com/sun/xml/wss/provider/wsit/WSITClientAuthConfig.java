@@ -44,7 +44,7 @@ public class WSITClientAuthConfig implements ClientAuthConfig {
             LogDomainConstants.WSIT_PVD_DOMAIN_BUNDLE);
     private String layer = null;
     private String appContext = null;
-    private CallbackHandler callbackHandler = null;    
+    private CallbackHandler callbackHandler = null;
     //private PolicyMap policyMap = null;
     private ReentrantReadWriteLock rwLock;
     private ReentrantReadWriteLock.ReadLock rLock;
@@ -102,7 +102,7 @@ public class WSITClientAuthConfig implements ClientAuthConfig {
         WSITClientAuthContext clientAuthContext = null;
         this.rLock.lock();
         try {
-            if (tubetoClientAuthContextHash.containsKey(hashCode)) {                
+            if (tubetoClientAuthContextHash.containsKey(hashCode)) {
                 clientAuthContext = tubetoClientAuthContextHash.get(hashCode);
             }
         } finally {
@@ -112,7 +112,7 @@ public class WSITClientAuthConfig implements ClientAuthConfig {
         if (clientAuthContext == null) {
             this.wLock.lock();
             try {
-                // recheck the precondition, since the rlock was released.                
+                // recheck the precondition, since the rlock was released.
                 if (!tubetoClientAuthContextHash.containsKey( hashCode)) {
                     clientAuthContext = new WSITClientAuthContext(operation, subject, map, callbackHandler);
                     tubetoClientAuthContextHash.put( hashCode, clientAuthContext);

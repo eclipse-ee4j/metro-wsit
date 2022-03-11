@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -60,7 +60,7 @@ import com.sun.xml.wss.logging.impl.opt.LogStringsMessages;
 public class X509BinarySecurityToken implements com.sun.xml.ws.security.opt.api.keyinfo.X509BinarySecurityToken,
         SecurityHeaderElement,PolicyBuilder,TokenValidator,NamespaceContextInfo,
         SecurityElementWriter{
-    
+
     private String valueType = null;
     private String encodingType = null;
     private String id = "";
@@ -70,10 +70,10 @@ public class X509BinarySecurityToken implements com.sun.xml.ws.security.opt.api.
     //private BSTProcessor filter = new BSTProcessor();
     private AuthenticationTokenPolicy.X509CertificateBinding x509Policy = null;
     private HashMap<String,String> nsDecls;
-    
+
     private static final Logger logger = Logger.getLogger(LogDomainConstants.IMPL_OPT_DOMAIN,
             LogDomainConstants.IMPL_OPT_DOMAIN_BUNDLE);
-    
+
     private byte [] bstValue = null;
     private X509Certificate cert = null;
     @SuppressWarnings("unchecked")
@@ -92,71 +92,71 @@ public class X509BinarySecurityToken implements com.sun.xml.ws.security.opt.api.
         x509Policy.setEncodingType(encodingType);
         this.nsDecls = nsDecl;
         XMLStreamReader bstReader = mark.readAsXMLStreamReader();
-	bstReader.next();
+    bstReader.next();
         digestBST(bstReader);
     }
-    
+
     @Override
     public String getValueType() {
         return valueType;
     }
-    
+
     @Override
     public String getEncodingType() {
         return encodingType;
     }
-    
+
     @Override
     public byte[] getTokenValue() {
         return bstValue;
     }
-    
+
     @Override
     public String getId() {
         return id;
     }
-    
+
     @Override
     public boolean refersToSecHdrWithId(final String id) {
         throw new UnsupportedOperationException();
     }
-    
+
     @Override
     public void setId(String id) {
         throw new UnsupportedOperationException();
     }
-    
+
     @Override
     public String getNamespaceURI() {
         return namespaceURI;
     }
-    
+
     @Override
     public String getLocalPart() {
         return localPart;
     }
-    
+
     @Override
     public javax.xml.stream.XMLStreamReader readHeader() throws javax.xml.stream.XMLStreamException {
         return mark.readAsXMLStreamReader();
     }
-    
+
     @Override
     public void writeTo(OutputStream os) {
         throw new UnsupportedOperationException();
     }
-    
+
     @Override
     public void writeTo(javax.xml.stream.XMLStreamWriter streamWriter) throws javax.xml.stream.XMLStreamException {
         mark.writeToXMLStreamWriter(streamWriter);
     }
-    
+
     @Override
     public WSSPolicy getPolicy() {
         return x509Policy;
-        
+
     }
-    
+
     @Override
     public void validate(ProcessingContext context) throws com.sun.xml.wss.XWSSecurityException {
         X509Certificate cert = getCertificate();
@@ -164,7 +164,7 @@ public class X509BinarySecurityToken implements com.sun.xml.ws.security.opt.api.
 //            //nothing to do if this is service certificate
 //            return;
 //        }
-        
+
         if(!context.getSecurityEnvironment().validateCertificate(cert, context.getExtraneousProperties())){
             //TODO: MISSING-LOG
             throw SecurableSoapMessage.newSOAPFaultException(MessageConstants.WSSE_INVALID_SECURITY_TOKEN,
@@ -173,23 +173,23 @@ public class X509BinarySecurityToken implements com.sun.xml.ws.security.opt.api.
         context.getSecurityEnvironment().updateOtherPartySubject(
                 DefaultSecurityEnvironmentImpl.getSubject((FilterProcessingContext) context), cert);
     }
-    
+
     @Override
     public HashMap<String, String> getInscopeNSContext() {
         return nsDecls;
     }
-    
-    
+
+
     @Override
     public X509Certificate getCertificate(){
         return cert;
     }
-    
+
     @Override
     public void writeTo(javax.xml.stream.XMLStreamWriter streamWriter, HashMap props) {
         throw new UnsupportedOperationException();
     }
-    
+
     private void digestBST(XMLStreamReader reader) throws XMLStreamException{
         if(reader.getEventType() == XMLStreamReader.START_ELEMENT){
             reader.next();
@@ -212,11 +212,11 @@ public class X509BinarySecurityToken implements com.sun.xml.ws.security.opt.api.
                     throw new XWSSecurityRuntimeException(LogStringsMessages.WSS_1603_ERROR_READING_STREAM(ex));
                 }
             }
-            
+
             try {
                 bstValue = Base64.decode(StreamUtil.getCV(reader));
                 buildCertificate(new ByteArrayInputStream(bstValue));
-                
+
             } catch (Base64DecodingException ex) {
                 logger.log(Level.SEVERE, LogStringsMessages.WSS_1604_ERROR_DECODING_BASE_64_DATA(ex));
                 throw new XWSSecurityRuntimeException(LogStringsMessages.WSS_1604_ERROR_DECODING_BASE_64_DATA(ex));
@@ -228,13 +228,13 @@ public class X509BinarySecurityToken implements com.sun.xml.ws.security.opt.api.
              logger.log(Level.SEVERE, LogStringsMessages.WSS_1603_ERROR_READING_STREAM(null));
              throw new XWSSecurityRuntimeException(LogStringsMessages.WSS_1603_ERROR_READING_STREAM(null));
         }
-        
+
         if(reader.getEventType() != reader.END_ELEMENT){
             reader.next();
         }        //else it is end of BST.
     }
-    
-    
+
+
     private void buildCertificate(InputStream certValue){
         try {
             CertificateFactory certFact;

@@ -87,7 +87,7 @@ public class HANonceManager extends NonceManager {
             } catch (Exception ex) {
                 LOGGER.log(Level.WARNING, " exception during load command ", ex);
             }
-            if (value != null) {              
+            if (value != null) {
                 final String message = "Nonce Repeated : Nonce Cache already contains the nonce value :" + nonce;
                 LOGGER.log(Level.WARNING, LogStringsMessages.WSS_0815_NONCE_REPEATED_ERROR(nonce));
                 throw new NonceManager.NonceException(message);
@@ -107,7 +107,7 @@ public class HANonceManager extends NonceManager {
             LOGGER.log(Level.SEVERE, LogStringsMessages.WSS_0825_ERROR_VALIDATE_NONCE(), ex);
             return false;
         }
-        return true;    
+        return true;
     }
 
     public class nonceCleanupTask implements Runnable {

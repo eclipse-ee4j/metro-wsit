@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -19,7 +19,7 @@ import javax.xml.namespace.QName;
 import jakarta.xml.soap.Detail;
 
 /**
- * An example of when this fault is generated is when a message is Received by 
+ * An example of when this fault is generated is when a message is Received by
  * the RM Source containing a SequenceAcknowledgement covering messages that have
  * not been sent.
  *
@@ -44,7 +44,7 @@ public final class InvalidAcknowledgementException extends AbstractSoapFaultExce
     private static final long serialVersionUID = 647447570493203088L;
     //
     private final List<Sequence.AckRange> ackedRanges;
-    
+
     public InvalidAcknowledgementException(String sequenceId, long messageIdentifier, List<Sequence.AckRange> ackedRanges) {
         super(LocalizationMessages.WSRM_1125_ILLEGAL_MESSAGE_ID(sequenceId, messageIdentifier),
                 "The SequenceAcknowledgement violates the cumulative Acknowledgement invariant.",

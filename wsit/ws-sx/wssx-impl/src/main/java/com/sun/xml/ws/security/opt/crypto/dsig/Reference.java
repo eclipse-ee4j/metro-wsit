@@ -53,19 +53,19 @@ public class Reference extends com.sun.xml.security.core.dsig.ReferenceType impl
     @XmlTransient private Data _appliedTransformData;
     //@XmlTransient private boolean _digested = false;
     @XmlTransient private MessageDigest _md;
-    
+
     @XmlTransient private boolean _validated;
     @XmlTransient private boolean _validationStatus;
     @XmlTransient private byte [] _calcDigestValue;
     /** Creates a new instance of Reference */
     public Reference() {
     }
-    
+
     @Override
     public byte[] getCalculatedDigestValue() {
         return _calcDigestValue;
     }
-    
+
     @Override
     public boolean validate(XMLValidateContext xMLValidateContext) throws XMLSignatureException {
         if (xMLValidateContext == null) {
@@ -76,20 +76,20 @@ public class Reference extends com.sun.xml.security.core.dsig.ReferenceType impl
         }
         Data data = dereference(xMLValidateContext);
         _calcDigestValue = transform(data, xMLValidateContext);
-        
+
         if(logger.isLoggable(Level.FINEST)){
             logger.log(Level.FINEST,"Calculated digest value is: "+new String(_calcDigestValue));
         }
-        
+
         if(logger.isLoggable(Level.FINEST)){
             logger.log(Level.FINEST," Expected digest value is: "+new String(digestValue));
         }
-        
+
         _validationStatus = Arrays.equals(digestValue, _calcDigestValue);
         _validated = true;
         return _validationStatus;
     }
-    
+
     public void digest(XMLCryptoContext signContext)throws XMLSignatureException {
         if(this.getDigestValue() == null){
             Data data = null;
@@ -103,10 +103,10 @@ public class Reference extends com.sun.xml.security.core.dsig.ReferenceType impl
         }
         // insert digestValue into DigestValue element
         //String encodedDV = Base64.encode(digestValue);
-        
+
     }
-    
-    
+
+
     public DigesterOutputStream getDigestOutputStream() throws XMLSignatureException{
         DigesterOutputStream dos;
         try {
@@ -122,10 +122,10 @@ public class Reference extends com.sun.xml.security.core.dsig.ReferenceType impl
         dos = new DigesterOutputStream(_md);
         return dos;
     }
-    
+
     private byte[] transform(Data dereferencedData,
             XMLCryptoContext context) throws XMLSignatureException {
-        
+
         if (_md == null) {
             try {
                 String algo = StreamUtil.convertDigestAlgorithm(this.getDigestMethod().getAlgorithm());
@@ -134,7 +134,7 @@ public class Reference extends com.sun.xml.security.core.dsig.ReferenceType impl
                     logger.log(Level.FINE, "Mapped Digest Algorithm is "+ algo);
                 }
                 _md = MessageDigest.getInstance(algo);
-                
+
             } catch (NoSuchAlgorithmException nsae) {
                 logger.log(Level.SEVERE,LogStringsMessages.WSS_1760_DIGEST_INIT_ERROR(),nsae);
                 throw new XMLSignatureException(nsae);
@@ -142,9 +142,9 @@ public class Reference extends com.sun.xml.security.core.dsig.ReferenceType impl
         }
         _md.reset();
         DigesterOutputStream dos;
-        
+
         //Boolean cache = (Boolean)context.getProperty("javax.xml.crypto.dsig.cacheReference");
-        
+
         dos = new DigesterOutputStream(_md);
         OutputStream os = new UnsyncBufferedOutputStream(dos);
         Data data = dereferencedData;
@@ -166,7 +166,7 @@ public class Reference extends com.sun.xml.security.core.dsig.ReferenceType impl
                 }
             }
         }
-        
+
         try {
             os.flush();
             dos.flush();
@@ -174,17 +174,17 @@ public class Reference extends com.sun.xml.security.core.dsig.ReferenceType impl
             logger.log(Level.SEVERE,LogStringsMessages.WSS_1761_TRANSFORM_IO_ERROR(),ex);
             throw new XMLSignatureException(ex);
         }
-				
+
         return dos.getDigestValue();
     }
-    
+
     private Data dereference(XMLCryptoContext context)
             throws XMLSignatureException {
         Data data = null;
-        
+
         // use user-specified URIDereferencer if specified; otherwise use deflt
         URIDereferencer deref = context.getURIDereferencer();
-        
+
         try {
             data = deref.dereference(this, context);
         } catch (URIReferenceException ure) {
@@ -192,32 +192,32 @@ public class Reference extends com.sun.xml.security.core.dsig.ReferenceType impl
         }
         return data;
     }
-    
+
     @Override
     public Data getDereferencedData() {
         return _appliedTransformData;
     }
-    
+
     @Override
     public InputStream getDigestInputStream() {
         throw new UnsupportedOperationException("Not supported");
     }
-    
+
     @Override
     public boolean isFeatureSupported(String string) {
         //TODO
         return false;
     }
-    
+
     @Override
     public DigestMethod getDigestMethod() {
         return digestMethod;
-        
+
     }
-    
+
     @Override
     public List getTransforms() {
         return transforms.getTransform();
     }
-    
+
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -55,7 +55,7 @@ import jakarta.xml.ws.soap.SOAPFaultException;
 
 /**
  *
- * 
+ *
  */
 public class XWSSClientTube extends AbstractFilterTubeImpl {
 
@@ -73,7 +73,7 @@ public class XWSSClientTube extends AbstractFilterTubeImpl {
     protected boolean wasConfigChecked = false;
 
     protected SecurityConfiguration sConfig;
-    
+
     /** Creates a new instance of XWSSClientPipe */
     //public XWSSClientTube(ClientTubelineAssemblyContext wsitContext, Tube nextTube) {
     public XWSSClientTube(WSDLPort prt, WSService svc, WSBinding bnd, Tube nextTube) {
@@ -106,7 +106,7 @@ public class XWSSClientTube extends AbstractFilterTubeImpl {
 
     @Override
     public AbstractTubeImpl copy(TubeCloner cloner) {
-        return new XWSSClientTube(this, cloner);  
+        return new XWSSClientTube(this, cloner);
     }
 
     @Override
@@ -142,9 +142,9 @@ public class XWSSClientTube extends AbstractFilterTubeImpl {
                 t = new WebServiceException(t);
             }
             return doThrow(t);
-        }        
+        }
     }
-     
+
     @Override
     public NextAction processResponse(Packet ret) {
         try{
@@ -159,9 +159,9 @@ public class XWSSClientTube extends AbstractFilterTubeImpl {
             }
             return doThrow(t);
         }
-         
+
     }
-    
+
 
     @Override
     public void preDestroy() {
@@ -210,7 +210,7 @@ public class XWSSClientTube extends AbstractFilterTubeImpl {
             if (config.retainSecurityHeader()) {
                 context.retainSecurityHeader(true);
             }
-            
+
             if (config.resetMustUnderstand()) {
                 context.resetMustUnderstand(true);
             }
@@ -219,7 +219,7 @@ public class XWSSClientTube extends AbstractFilterTubeImpl {
 
             /* TODO: not sure if this is needed
             if (messageContext.get("javax.security.auth.Subject") != null) {
-            messageContext.setScope("javax.security.auth.Subject", MessageContext.Scope.APPLICATION); 
+            messageContext.setScope("javax.security.auth.Subject", MessageContext.Scope.APPLICATION);
             }*/
             packet.setMessage(Messages.create(context.getSOAPMessage()));
             return packet;

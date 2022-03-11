@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -28,7 +28,7 @@ public class ReliableMessagingFeature
     private void setEnabled(final boolean x) { enabled = x; }
 
     /**
-     * 
+     *
        Specifies the period (in milliseconds) of a sequence manager maintenance task execution.
        Default value: 60000
      */
@@ -37,7 +37,7 @@ public class ReliableMessagingFeature
     private void setSequenceManagerMaintenancePeriod(final long x) { sequenceManagerMaintenancePeriod = x; }
 
     /**
-     * 
+     *
        Specifies how many concurrently active RM sessions (measured based on
        inbound RM sequences) the sequence manager dedicated to the WS Endpoint
        accepts before starting to refuse new requests for sequence creation.
@@ -48,7 +48,7 @@ public class ReliableMessagingFeature
     private void setMaxConcurrentSession(final int x) { maxConcurrentSession = x; }
 
     /**
-     * 
+     *
        When an XA TX is used to link the RMD with the user's ProviderRequest, this specifies the timeout value in seconds.
        The default value of 0 says to use the system default.
      */

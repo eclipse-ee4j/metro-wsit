@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -200,7 +200,7 @@ final class PersistentSequenceData implements SequenceData {
                         "Inserting sequence data for %s sequence with id = [ %s ] failed: " +
                         "Expected inserted rows: 1, Actual: %d",
                         type,
-                        sequenceId, 
+                        sequenceId,
                         rowCount)));
             }
 
@@ -393,7 +393,7 @@ final class PersistentSequenceData implements SequenceData {
     public long getExpirationTime() {
         return expirationTime;
     }
-    
+
     @Override
     public boolean isFailedOver(long messageNumber) {
         Connection con = cm.getConnection();
@@ -620,7 +620,7 @@ final class PersistentSequenceData implements SequenceData {
             }
 
             cm.commit(con);
-            
+
         } catch (final Throwable ex) {
             cm.rollback(con);
             throw LOGGER.logSevereException(new PersistenceException(String.format(
@@ -631,7 +631,7 @@ final class PersistentSequenceData implements SequenceData {
             cm.recycle(ps);
             cm.recycle(con);
         }
-        
+
         return newLastMessageId;
     }
 
@@ -758,7 +758,7 @@ final class PersistentSequenceData implements SequenceData {
         } catch (final DuplicateMessageRegistrationException ex) {
             //DuplicateMessageRegistrationException is caught by the callers
             //and used for flow control, don't mark XA TX 'rollback only'.
-            //It is only a select query before this exception is thrown 
+            //It is only a select query before this exception is thrown
             //so no state change that needs to be rolled back.
             //Local JDBC TX rollback is fine (when no XA TX in use).
             cm.rollback(con, false /*markRollbackForXA*/);
@@ -839,7 +839,7 @@ final class PersistentSequenceData implements SequenceData {
             while (rs.next()) {
                 result.add(rs.getLong("MSG_NUMBER"));
             }
-            
+
             cm.commit(con);
             return result;
         } catch (final Throwable ex) {
@@ -967,7 +967,7 @@ final class PersistentSequenceData implements SequenceData {
 
         Connection con = cm.getConnection();
         PreparedStatement ps = null;
-            
+
         InputStream messageDataStream = null;
         try {
             ps = cm.prepareStatement(con, "SELECT MSG_NUMBER, NEXT_RESEND_COUNT, WSA_ACTION, MSG_DATA FROM RM_UNACKED_MESSAGES " +
@@ -1018,7 +1018,7 @@ final class PersistentSequenceData implements SequenceData {
         } finally {
             if (messageDataStream != null) { try { messageDataStream.close(); } catch (IOException ex) { /* ignored */} }
             cm.recycle(ps);
-            cm.recycle(con);                      
+            cm.recycle(con);
         }
     }
 }

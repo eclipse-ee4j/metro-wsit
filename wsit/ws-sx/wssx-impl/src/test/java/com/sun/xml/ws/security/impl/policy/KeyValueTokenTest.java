@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -33,50 +33,50 @@ import junit.framework.TestSuite;
  * @author ashutosh
  */
 public class KeyValueTokenTest extends TestCase {
-    
+
     /** Creates a new instance of KeyValueTokenTest */
     public KeyValueTokenTest(String testName) {
         super(testName);
     }
-    
+
     @Override
     protected void setUp() {
     }
-    
+
     @Override
     protected void tearDown() {
     }
-    
+
      public static Test suite() {
         TestSuite suite = new TestSuite(KeyValueTokenTest.class);
-        
+
         return suite;
     }
-    
+
     private PolicySourceModel unmarshalPolicyResource(String resource) throws PolicyException, IOException {
         Reader reader = getResourceReader(resource);
         PolicySourceModel model = ModelUnmarshaller.getUnmarshaller().unmarshalModel(reader);
         reader.close();
         return model;
     }
-    
+
     private Reader getResourceReader(String resourceName) {
         return new InputStreamReader(Thread.currentThread().getContextClassLoader().getResourceAsStream(resourceName));
     }
-    
+
     public Policy unmarshalPolicy(String xmlFile)throws Exception{
         PolicySourceModel model =  unmarshalPolicyResource(
                 xmlFile);
         Policy mbp = ModelTranslator.getTranslator().translate(model);
         return mbp;
-        
+
     }
-    
+
     public void testKeyValueTokenAssertions() throws Exception{
         testKeyValueTokenType("security/KeyValueTokenAssertions1.xml", com.sun.xml.ws.security.impl.policy.KeyValueToken.RSA_KEYVALUE_TOKEN);
         testRsaToken("security/RsaTokenAssertions1.xml");
     }
-    
+
     public void testKeyValueTokenType(String fileName, String tokenType) throws Exception{
         Policy policy = unmarshalPolicy(fileName);
         Iterator <AssertionSet> itr = policy.iterator();
@@ -92,7 +92,7 @@ public class KeyValueTokenTest extends TestCase {
             throw new Exception("No Assertions found!. Unmarshalling of "+fileName+" failed!");
         }
     }
-    
+
     public void testRsaToken(String fileName) throws Exception{
         Policy policy = unmarshalPolicy(fileName);
         Iterator <AssertionSet> itr = policy.iterator();
@@ -107,5 +107,5 @@ public class KeyValueTokenTest extends TestCase {
             throw new Exception("No Assertions found!. Unmarshalling of "+fileName+" failed!");
         }
     }
-    
+
 }

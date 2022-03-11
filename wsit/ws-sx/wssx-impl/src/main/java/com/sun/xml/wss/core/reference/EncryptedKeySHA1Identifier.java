@@ -28,12 +28,12 @@ import java.util.logging.Level;
  * @author Ashutosh Shahi
  */
 public class EncryptedKeySHA1Identifier extends KeyIdentifier{
-    
+
     /**Defaults*/
     private String encodingType = MessageConstants.BASE64_ENCODING_NS;
-    
+
     private String valueType = MessageConstants.EncryptedKeyIdentifier_NS;
-    
+
     /**
      * Creates an "empty" KeyIdentifier element with default encoding type
      * and default value type.
@@ -44,12 +44,12 @@ public class EncryptedKeySHA1Identifier extends KeyIdentifier{
         setAttribute("EncodingType", encodingType);
         setAttribute("ValueType", valueType);
     }
-    
-    public EncryptedKeySHA1Identifier(SOAPElement element) 
+
+    public EncryptedKeySHA1Identifier(SOAPElement element)
         throws XWSSecurityException {
         super(element);
     }
-    
+
     public byte[] getDecodedBase64EncodedValue() throws XWSSecurityException {
         try {
             return Base64.decode(getReferenceValue());

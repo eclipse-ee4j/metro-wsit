@@ -86,9 +86,9 @@ import com.sun.xml.wss.logging.LogStringsMessages;
 
 
 public class KeyResolver {
-    
+
     private static Logger log = Logger.getLogger(LogDomainConstants.WSS_API_DOMAIN, LogDomainConstants.WSS_API_DOMAIN_BUNDLE);
-    
+
     /**
      * If a SecurityTokenReference is present inside the KeyInfo,
      * the return value is an instance of PrivateKey (if sig is false) or
@@ -101,14 +101,14 @@ public class KeyResolver {
      *     true if this method is called by a signature verifier, false if
      *     called by a decrypter
      */
-    
+
     /*
      *
      * TODO:: SIG flag to be removed once JSR105 has been tested completly.-Venu
      */
     public static Key getKey( KeyInfoHeaderBlock keyInfo,  boolean sig,
             FilterProcessingContext context) {
-        
+
         Key returnKey;
         //HashMap tokenCache = context.getTokenCache();
         try {
@@ -117,13 +117,13 @@ public class KeyResolver {
                 return processSecurityTokenReference(keyInfo,sig, context);
             }else if (keyInfo.containsKeyName()) {
                 EncryptionPolicy policy = (EncryptionPolicy)context.getInferredPolicy();
-                
+
                 String keynameString = keyInfo.getKeyNameString(0);
                 if(policy != null){
                     SymmetricKeyBinding keyBinding = null;
                     keyBinding = (SymmetricKeyBinding)policy.newSymmetricKeyBinding();
                     keyBinding.setKeyIdentifier(keynameString);
-                    
+
                 }
                 returnKey =
                         context.getSecurityEnvironment().getSecretKey(context.getExtraneousProperties(),
@@ -170,8 +170,8 @@ public class KeyResolver {
                     log.log(Level.SEVERE,LogStringsMessages.WSS_0339_UNSUPPORTED_KEYINFO());
                     throw new XWSSecurityException("Unsupported wst:BinarySecret Type");
                 }
-                
-            } else {               
+
+            } else {
                 XWSSecurityException xwsse =
                         new XWSSecurityException(
                         "Support for processing information in the given ds:KeyInfo is not present");
@@ -191,7 +191,7 @@ public class KeyResolver {
                     xwsse.getMessage(),
                     xwsse);
         }
-        
+
         if (returnKey == null) {
             log.log(Level.SEVERE,
                     LogStringsMessages.WSS_0600_ILLEGAL_TOKEN_REFERENCE());
@@ -203,27 +203,27 @@ public class KeyResolver {
                     xwsse.getMessage(),
                     xwsse);
         }
-        
+
         return returnKey;
     }
-    
+
     @SuppressWarnings("unchecked")
     public static Key resolveSamlAssertion(SecurableSoapMessage secureMsg, Element samlAssertion,
             boolean sig,FilterProcessingContext context, String assertionID) throws XWSSecurityException {
-        
+
         try {
             Key key = (Key) context.getSamlIdVSKeyCache().get(assertionID);
             String samlSignatureResolved = (String)context.getExtraneousProperty(MessageConstants.SAML_SIG_RESOLVED);
             if (key != null){
                 return key;
             }
-            
+
             //TODO: expensive conversion happening
             if (samlAssertion == null) {
                 log.log(Level.SEVERE,LogStringsMessages.WSS_0235_FAILED_LOCATE_SAML_ASSERTION());
                 throw new XWSSecurityException("Cannot Locate SAML Assertion");
             }
-            
+
             if ("false".equals(samlSignatureResolved)) {
                 NodeList nl = samlAssertion.getElementsByTagNameNS(MessageConstants.DSIG_NS, "Signature");
                 //verify the signature inside the SAML assertion
@@ -242,9 +242,9 @@ public class KeyResolver {
 //                if(policy != null){
 //                    keyBinding = (AuthenticationTokenPolicy.SAMLAssertionBinding) policy.newSAMLAssertionKeyBinding();
 //                }
-                
+
                 Element elem = (Element)nl.item(0);
-                
+
                 try {
                     if ( !SignatureProcessor.verifySignature(elem, context)) {
                         log.log(Level.SEVERE, com.sun.xml.wss.logging.impl.dsig.LogStringsMessages.WSS_1310_SAML_SIGNATURE_INVALID());
@@ -262,11 +262,11 @@ public class KeyResolver {
                             ex);
                 }
             }
-            
+
             if ( "false".equals(samlSignatureResolved) ){
                 context.setExtraneousProperty(MessageConstants.SAML_SIG_RESOLVED,"true");
             }
-            
+
             Element keyInfoElem =
                     AssertionUtil.getSubjectConfirmationKeyInfo(samlAssertion);
             KeyInfoHeaderBlock keyInfo = new KeyInfoHeaderBlock(
@@ -279,7 +279,7 @@ public class KeyResolver {
             throw new XWSSecurityException(e);
         }
     }
-    
+
     @SuppressWarnings("unchecked")
     public static Key processSecurityTokenReference(KeyInfoHeaderBlock keyInfo,
             boolean sig, FilterProcessingContext context)throws XWSSecurityException{
@@ -305,7 +305,7 @@ public class KeyResolver {
         // Embedded Reference not considered.
         if (refElement instanceof KeyIdentifier) {
             KeyIdentifier keyId = (KeyIdentifier)refElement;
-            
+
             if (MessageConstants.X509SubjectKeyIdentifier_NS.equals(keyId.getValueType()) ||
                     MessageConstants.X509v3SubjectKeyIdentifier_NS.equals(keyId.getValueType())) {
                 if(policy != null){
@@ -330,7 +330,7 @@ public class KeyResolver {
                             dktBind.getOriginalKeyBinding().setKeyBinding(x509Binding);
                         }
                     }
-                    
+
                 }
                 if (sig) {
                     returnKey =
@@ -341,7 +341,7 @@ public class KeyResolver {
                             context.getSecurityEnvironment().getPrivateKey(context.getExtraneousProperties(),
                             getDecodedBase64EncodedData(keyId.getReferenceValue()));
                 }
-                
+
             } else if (MessageConstants.ThumbPrintIdentifier_NS.equals(keyId.getValueType())) {
                 if(policy != null){
                     AuthenticationTokenPolicy.X509CertificateBinding keyBinding = null;
@@ -365,7 +365,7 @@ public class KeyResolver {
                             dktBind.getOriginalKeyBinding().setKeyBinding(x509Binding);
                         }
                     }
-                    
+
                 }
                 if (sig) {
                     returnKey =
@@ -382,7 +382,7 @@ public class KeyResolver {
                             MessageConstants.THUMB_PRINT_TYPE
                             );
                 }
-                
+
             } else if(MessageConstants.EncryptedKeyIdentifier_NS.equals(keyId.getValueType())){
                 if(isWSITRecipient){
                     MLSPolicy inferredKB = inferredEncryptionPolicy.getKeyBinding();
@@ -409,7 +409,7 @@ public class KeyResolver {
                     log.log(Level.SEVERE, LogStringsMessages.WSS_0240_INVALID_ENCRYPTED_KEY_SHA_1_REFERENCE());
                     throw new XWSSecurityException(message);
                 }
-                
+
             } else if (MessageConstants.WSSE_SAML_KEY_IDENTIFIER_VALUE_TYPE.equals(keyId.getValueType())
             || MessageConstants.WSSE_SAML_v2_0_KEY_IDENTIFIER_VALUE_TYPE.equals(keyId.getValueType())) {
                 // Its a SAML Assertion, retrieve the assertion
@@ -438,7 +438,7 @@ public class KeyResolver {
                 if (context.hasIssuedToken() && returnKey != null){
                     SecurityUtil.initInferredIssuedTokenContext(context,str, returnKey);
                 }
-                
+
             } else {
                 if(policy != null){
                     AuthenticationTokenPolicy.SAMLAssertionBinding keyBinding = null;
@@ -486,7 +486,7 @@ public class KeyResolver {
                                 dktBind.getOriginalKeyBinding().setKeyBinding(x509Binding);
                             }
                         }
-                        
+
                     }
                     if (sig) {
                         returnKey =
@@ -501,7 +501,7 @@ public class KeyResolver {
             }
         } else if (refElement instanceof DirectReference) {
             String uri = ((DirectReference) refElement).getURI();
-            
+
             // will be only during verify.
             AuthenticationTokenPolicy.X509CertificateBinding keyBinding = null;
             String valueType = ((DirectReference) refElement).getValueType();
@@ -510,13 +510,13 @@ public class KeyResolver {
                 //TODO: this will work for now but need to handle this case here later
                 valueType = null;
             }
-            
+
             if(policy != null){
                 keyBinding = (AuthenticationTokenPolicy.X509CertificateBinding) policy.newX509CertificateKeyBinding();
                 keyBinding.setReferenceType(MessageConstants.DIRECT_REFERENCE_TYPE);
                 keyBinding.setValueType(valueType);
             }
-            
+
             if (MessageConstants.X509v3_NS.equals(valueType)||MessageConstants.X509v1_NS.equals(valueType)) {
                 // its an X509 Token
                 HashMap insertedX509Cache = context.getInsertedX509Cache();
@@ -540,10 +540,10 @@ public class KeyResolver {
                         else if(PolicyTypeUtil.symmetricKeyBinding(dktBind.getOriginalKeyBinding()))
                             dktBind.getOriginalKeyBinding().setKeyBinding(x509Binding);
                     }
-                    
+
                 }
                 returnKey = resolveX509Token(secureMsg, token, sig,context);
-                
+
             } else if(MessageConstants.EncryptedKey_NS.equals(valueType)){
                 // Do default processing
                 String wsuId = SecurableSoapMessage.getIdFromFragmentRef(uri);
@@ -551,7 +551,7 @@ public class KeyResolver {
                 //TODO: STR is referring to EncryptedKey
                 KeyInfoHeaderBlock kiHB = ((EncryptedKeyToken)token).getKeyInfo();
                 SecurityTokenReference sectr = kiHB.getSecurityTokenReference(0);
-                
+
                 //String dataEncAlgo = MessageConstants.AES_BLOCK_ENCRYPTION_128;
                 // now that context will have AlgoSuite under WSIT, this should not be an issue
                 // so restoring old value since it breaks Backward Compat otherwise
@@ -570,7 +570,7 @@ public class KeyResolver {
                     byte[] ekSha1 = MessageDigest.getInstance("SHA-1").digest(decodedCipher);
                     String encEkSha1 = Base64.encode(ekSha1);
                     context.setExtraneousProperty(MessageConstants.EK_SHA1_VALUE, encEkSha1);
-                    
+
                 } catch(Exception e){
                     log.log(Level.SEVERE, LogStringsMessages.WSS_0241_UNABLETO_SET_EKSHA_1_ON_CONTEXT(), e);
                     throw new XWSSecurityException(e);
@@ -592,16 +592,16 @@ public class KeyResolver {
                         else if(PolicyTypeUtil.symmetricKeyBinding(dktBind.getOriginalKeyBinding()))
                             dktBind.getOriginalKeyBinding().setKeyBinding(x509Binding);
                     }
-                    
+
                 }
                 returnKey = ((EncryptedKeyToken)token).getSecretKey(getKey(kiHB, sig, context), dataEncAlgo);
                 context.setExtraneousProperty(MessageConstants.SECRET_KEY_VALUE, returnKey);
-                
+
             } else if (MessageConstants.SCT_VALUETYPE.equals(valueType) || MessageConstants.SCT_13_VALUETYPE.equals(valueType)) {
                 // could be wsuId or SCT Session Id
                 String sctId = SecurableSoapMessage.getIdFromFragmentRef(uri);
                 SecurityToken token = (SecurityToken)tokenCache.get(sctId);
-                
+
                 if(token == null){
                     token = SecurityUtil.locateBySCTId(context, uri);
                     if (token == null) {
@@ -614,7 +614,7 @@ public class KeyResolver {
                         tokenCache.put(sctId, token);
                     }
                 }
-                
+
                 if (token instanceof SecurityContextToken) {
                     //handling for SecurityContext Token
                     byte[] proofKey = resolveSCT(context, (SecurityContextTokenImpl)token, sig);
@@ -633,12 +633,12 @@ public class KeyResolver {
                         }
                     }
                     returnKey = new SecretKeySpec(proofKey, encAlgo);
-                    
+
                 } else {
                     log.log(Level.SEVERE, LogStringsMessages.WSS_0243_INVALID_VALUE_TYPE_NON_SCT_TOKEN());
                     throw new XWSSecurityException("Incorrect ValueType: " + MessageConstants.SCT_VALUETYPE + ", specified for a Non SCT Token");
                 }
-                
+
             } else if (null == valueType) {
                 // Do default processing
                 String wsuId = SecurableSoapMessage.getIdFromFragmentRef(uri);
@@ -701,7 +701,7 @@ public class KeyResolver {
                     }
                     returnKey = ((EncryptedKeyToken)token).getSecretKey(getKey(kiHB, sig, context), dataEncAlgo);
                     context.setExtraneousProperty(MessageConstants.SECRET_KEY_VALUE, returnKey);
-                    
+
                 } else if (token instanceof SecurityContextToken) {
                     //handling for SecurityContext Token
                     byte[] proofKey = resolveSCT(context, (SecurityContextTokenImpl)token, sig);
@@ -720,7 +720,7 @@ public class KeyResolver {
                         }
                     }
                     returnKey = new SecretKeySpec(proofKey, encAlgo);
-                    
+
                 } else if (token instanceof DerivedKeyTokenHeaderBlock){
                     if(isWSITRecipient){
                         MLSPolicy inferredKB = inferredEncryptionPolicy.getKeyBinding();
@@ -760,7 +760,7 @@ public class KeyResolver {
         } else if (refElement instanceof X509IssuerSerial) {
             BigInteger serialNumber = ((X509IssuerSerial) refElement).getSerialNumber();
             String issuerName = ((X509IssuerSerial) refElement).getIssuerName();
-            
+
             if(isWSITRecipient){
                 MLSPolicy inferredKB = inferredEncryptionPolicy.getKeyBinding();
                 AuthenticationTokenPolicy.X509CertificateBinding x509Binding = new AuthenticationTokenPolicy.X509CertificateBinding();
@@ -776,7 +776,7 @@ public class KeyResolver {
                     else if(PolicyTypeUtil.symmetricKeyBinding(dktBind.getOriginalKeyBinding()))
                         dktBind.getOriginalKeyBinding().setKeyBinding(x509Binding);
                 }
-                
+
             }
             if (sig) {
                 returnKey = context.getSecurityEnvironment().getPublicKey(
@@ -798,10 +798,10 @@ public class KeyResolver {
         }
         return returnKey;
     }
-    
+
     public static Key resolveX509Token( SecurableSoapMessage secureMsg, X509SecurityToken token,
             boolean sig,FilterProcessingContext context) throws XWSSecurityException {
-        
+
         if (sig) {
             // Update the Subject of the sender
             X509Certificate cert = token.getCertificate();
@@ -816,7 +816,7 @@ public class KeyResolver {
                     token.getCertificate());
         }
     }
-    
+
     public static Key resolveKeyValue(SecurableSoapMessage secureMsg,KeyValue  keyValue,
             boolean sig,FilterProcessingContext context)  throws XWSSecurityException {
         keyValue.getElement().normalize();
@@ -834,17 +834,17 @@ public class KeyResolver {
             throw new XWSSecurityException(e);
         }
     }
-    
+
     // not supporting CRL and SubjectName yet
     // TODO: the support is incomplete here
     public static Key resolveX509Data(SecurableSoapMessage secureMsg, X509Data x509Data,
             boolean sig,FilterProcessingContext context) throws XWSSecurityException {
-        
+
         // workaround for what seems to be a bug in XMLSecurity
         // text node getting split
         x509Data.getElement().normalize();
         X509Certificate cert =  null;
-        
+
         try {
             if (x509Data.containsCertificate()) {
                 cert = (x509Data.itemCertificate(0)).getX509Certificate();
@@ -875,13 +875,13 @@ public class KeyResolver {
                             x509Data.itemIssuerSerial(0).getSerialNumber(),
                             x509Data.itemIssuerSerial(0).getIssuerName());
                 }
-                
+
             } else {
                 log.log(Level.SEVERE, LogStringsMessages.WSS_0339_UNSUPPORTED_KEYINFO());
                 throw new XWSSecurityException(
                         "Unsupported child element of X509Data encountered");
             }
-            
+
             if (sig) {
                 return cert.getPublicKey();
             } else {
@@ -895,7 +895,7 @@ public class KeyResolver {
             throw new XWSSecurityException(e);
         }
     }
-    
+
     private static byte[] getDecodedBase64EncodedData(String encodedData)
     throws XWSSecurityException {
         try {
@@ -907,7 +907,7 @@ public class KeyResolver {
                     e);
         }
     }
-    
+
     @SuppressWarnings("unchecked")
     private static SecurityToken resolveToken(String uri, FilterProcessingContext context, SecurableSoapMessage secureMsg)
     throws XWSSecurityException{
@@ -937,16 +937,16 @@ public class KeyResolver {
             throw new XWSSecurityException(ex);
         }
     }
-    
+
     private static Element resolveSAMLToken(SecurityTokenReference tokenRef, String assertionId,
             FilterProcessingContext context)throws XWSSecurityException {
-        
+
         Element clientSAMLAssertionCache = (Element)context.getExtraneousProperties().get(MessageConstants.SAML_ASSERTION_CLIENT_CACHE);
-        
+
         if (clientSAMLAssertionCache != null){
             return clientSAMLAssertionCache;
         }
-        
+
         Element tokenElement = context.getIssuedSAMLToken();
         if (tokenElement != null){
             context.setExtraneousProperty(MessageConstants.SAML_SIG_RESOLVED,"false");
@@ -968,9 +968,9 @@ public class KeyResolver {
                 }
             }
         }
-        
+
         addAuthorityId(tokenElement , context);
-        
+
         //TODO: expensive conversion happening here
         try {
             // if it is an Encrypted SAML Assertion we cannot decrypt it
@@ -982,10 +982,10 @@ public class KeyResolver {
             log.log(Level.SEVERE, LogStringsMessages.WSS_0238_FAILED_RESOLVE_SAML_ASSERTION(), e);
             throw new XWSSecurityException(e);
         }
-        
+
         return tokenElement;
     }
-    
+
     private static void addAuthorityId(Element assertion , FilterProcessingContext fp){
         EncryptionPolicy ep = (EncryptionPolicy)fp.getInferredPolicy();
         if( ep != null){
@@ -995,21 +995,21 @@ public class KeyResolver {
         }
     }
 
-  
-    
+
+
     // this method would be called on incoming client/server messages
     @SuppressWarnings("unchecked")
     private static byte[] resolveSCT(
             FilterProcessingContext context, SecurityContextTokenImpl token, boolean sig)
             throws XWSSecurityException{
-        
+
         // first set it into Extraneous Properties
         context.setExtraneousProperty(MessageConstants.INCOMING_SCT, token);
         // now get the SC ID
         String scId = token.getSCId();
-        IssuedTokenContext ctx = null;        
+        IssuedTokenContext ctx = null;
         String protocol = context.getWSSCVersion(context.getSecurityPolicyVersion());
-        if(context.isClient()){       
+        if(context.isClient()){
             SCTokenConfiguration config = new DefaultSCTokenConfiguration(protocol, scId, !context.isExpired(), !context.isInboundMessage());
             ctx =IssuedTokenManager.getInstance().createIssuedTokenContext(config, null);
             try{
@@ -1017,7 +1017,7 @@ public class KeyResolver {
             }catch(WSTrustException e){
                 throw new XWSSecurityException(e);
             }
-            
+
             //Retrive the context from issuedTokenContextMap
 //            Enumeration elements = context.getIssuedTokenContextMap().elements();
 //            while (elements.hasMoreElements()) {
@@ -1031,7 +1031,7 @@ public class KeyResolver {
 //                        break;
 //                    }
 //                }
-//                
+//
 //            }
         }else{
             //Retrive the context from Session Manager's cache
@@ -1048,16 +1048,16 @@ public class KeyResolver {
                 SecurityContextTokenInfo sctInfo = ctx.getSecurityContextTokenInfo();
                 sctId = java.net.URI.create(sctInfo.getIdentifier());
                 sctIns = sctInfo.getInstance();
-                wsuId = sctInfo.getExternalId();  
+                wsuId = sctInfo.getExternalId();
             }
             ctx.setSecurityToken(WSTrustElementFactory.newInstance(protocol).createSecurityContextToken(sctId, sctIns, wsuId));
-        }       
-                
+        }
+
         if (ctx == null) {
             log.log(Level.SEVERE, LogStringsMessages.WSS_0246_UNABLETO_LOCATE_SECURE_CONVERSATION_SESSION());
             throw new XWSSecurityException("Could not locate SecureConversation session for Id:" + scId);
-        }                
-        
+        }
+
         Subject subj = ctx.getRequestorSubject();
         if (subj != null) {
             // subj will be null if this is the client side execution
@@ -1068,7 +1068,7 @@ public class KeyResolver {
                 context.getExtraneousProperties().put(MessageConstants.SCBOOTSTRAP_CRED_IN_SUBJ, "true");
             }
         }
-        
+
         byte[] proofKey = null;
         String instance = null;
         com.sun.xml.ws.security.SecurityContextToken scToken = (com.sun.xml.ws.security.SecurityContextToken)ctx.getSecurityToken();
@@ -1089,10 +1089,10 @@ public class KeyResolver {
         }
         return proofKey;
     }
-    
+
     private static Key resolveDKT(FilterProcessingContext context,
             DerivedKeyTokenHeaderBlock token) throws XWSSecurityException{
-        
+
         //TODO: hardcoded for testing -- need to obtain this from somewhere
         String dataEncAlgo = MessageConstants.AES_BLOCK_ENCRYPTION_128;
         if (context.getAlgorithmSuite() != null) {
@@ -1100,7 +1100,7 @@ public class KeyResolver {
         }
         //HashMap tokenCache = context.getTokenCache();
         SecurableSoapMessage secureMsg = context.getSecurableSoapMessage();
-        
+
         EncryptionPolicy inferredEncryptionPolicy = null;
         boolean isWSITRecipient = (context.getMode()== FilterProcessingContext.WSDL_POLICY);
         try{
@@ -1112,8 +1112,8 @@ public class KeyResolver {
             log.log(Level.SEVERE, LogStringsMessages.WSS_0247_FAILED_RESOLVE_DERIVED_KEY_TOKEN());
             throw new XWSSecurityException(e);
         }
-        
-        
+
+
         SecurityTokenReference sectr = token.getDerivedKeyElement();
         if (sectr == null) {
             log.log(Level.SEVERE, LogStringsMessages.WSS_0248_NULL_STR());
@@ -1134,7 +1134,7 @@ public class KeyResolver {
                     valueType = MessageConstants.EncryptedKey_NS;
                 }
             }
-            
+
             if(MessageConstants.EncryptedKey_NS.equals(valueType)){
                 try{
                     Element cipherData = (Element)((EncryptedKeyToken)secToken).getAsSoapElement().getChildElements(new QName(MessageConstants.XENC_NS, "CipherData", MessageConstants.XENC_PREFIX)).next();
@@ -1147,7 +1147,7 @@ public class KeyResolver {
                     log.log(Level.SEVERE, LogStringsMessages.WSS_0241_UNABLETO_SET_EKSHA_1_ON_CONTEXT(), e);
                     throw new XWSSecurityException(e);
                 }
-                
+
                 if(isWSITRecipient){
                     MLSPolicy inferredKB = inferredEncryptionPolicy.getKeyBinding();
                     SymmetricKeyBinding skBinding = new SymmetricKeyBinding();
@@ -1159,7 +1159,7 @@ public class KeyResolver {
                             ((DerivedTokenKeyBinding)inferredKB).setOriginalKeyBinding(skBinding);
                     }
                 }
-                
+
                 KeyInfoHeaderBlock kiHB = ((EncryptedKeyToken)secToken).getKeyInfo();
                 encKey = ((EncryptedKeyToken)secToken).getSecretKey(getKey(kiHB, false, context), dataEncAlgo);
                 secret = encKey.getEncoded();
@@ -1180,7 +1180,7 @@ public class KeyResolver {
                     log.log(Level.SEVERE, LogStringsMessages.WSS_0243_INVALID_VALUE_TYPE_NON_SCT_TOKEN());
                     throw new XWSSecurityException("Incorrect ValueType: " + MessageConstants.SCT_VALUETYPE + ", specified for a Non SCT Token");
                 }
-                
+
             } else if (null == valueType) {
                 if (secToken instanceof SecurityContextToken) {
                     if(isWSITRecipient){
@@ -1215,7 +1215,7 @@ public class KeyResolver {
                             ((DerivedTokenKeyBinding)inferredKB).setOriginalKeyBinding(skBinding);
                     }
                 }
-                
+
                 String ekSha1RefValue = (String)context.getExtraneousProperty("EncryptedKeySHA1");
                 Key secretKey = (Key)context.getExtraneousProperty("SecretKey");
                 String keyRefValue = keyId.getReferenceValue();
@@ -1242,7 +1242,7 @@ public class KeyResolver {
                             ((DerivedTokenKeyBinding)inferredKB).setOriginalKeyBinding(itkBinding);
                     }
                 }
-                
+
                 String asId = keyId.getReferenceValue();
                 Element assertion = resolveSAMLToken(sectr, asId, context);
                 encKey = resolveSamlAssertion(secureMsg,assertion, true,context, asId);
@@ -1264,7 +1264,7 @@ public class KeyResolver {
         String label = token.getLabel();
         DerivedKeyToken dkt = new DerivedKeyTokenImpl(offset, length, secret, nonce, label);
         String jceAlgo = SecurityUtil.getSecretKeyAlgorithm(dataEncAlgo);
-        
+
         Key returnKey = null;
         try {
             returnKey = dkt.generateSymmetricKey(jceAlgo);
@@ -1276,9 +1276,9 @@ public class KeyResolver {
             throw new XWSSecurityException(ex);
         }
         return returnKey;
-        
+
     }
-    
+
     //TODO: called from KeySelector for Signature Related EncryptedKey Processing
     // clean this up later use a restructured processSecurityTokenReference instead
     @SuppressWarnings("unchecked")
@@ -1306,7 +1306,7 @@ public class KeyResolver {
         // Embedded Reference not considered.
         if (refElement instanceof KeyIdentifier) {
             KeyIdentifier keyId = (KeyIdentifier)refElement;
-            
+
             if (MessageConstants.X509SubjectKeyIdentifier_NS.equals(keyId.getValueType()) ||
                     MessageConstants.X509v3SubjectKeyIdentifier_NS.equals(keyId.getValueType())) {
                 if(policy != null){
@@ -1335,7 +1335,7 @@ public class KeyResolver {
                             context.getSecurityEnvironment().getPrivateKey(context.getExtraneousProperties(),
                             getDecodedBase64EncodedData(keyId.getReferenceValue()));
                 }
-                
+
             } else if (MessageConstants.ThumbPrintIdentifier_NS.equals(keyId.getValueType())) {
                 if(policy != null){
                     AuthenticationTokenPolicy.X509CertificateBinding keyBinding = null;
@@ -1369,7 +1369,7 @@ public class KeyResolver {
                             MessageConstants.THUMB_PRINT_TYPE
                             );
                 }
-                
+
             } else if(MessageConstants.EncryptedKeyIdentifier_NS.equals(keyId.getValueType())){
                 if(isWSITRecipient){
                     MLSPolicy inferredKB = inferredSignaturePolicy.getKeyBinding();
@@ -1395,7 +1395,7 @@ public class KeyResolver {
                     String message = "EncryptedKeySHA1 reference not correct";
                     throw new XWSSecurityException(message);
                 }
-                
+
             } else if (MessageConstants.WSSE_SAML_KEY_IDENTIFIER_VALUE_TYPE.equals(keyId.getValueType()) ||
                     MessageConstants.WSSE_SAML_v2_0_KEY_IDENTIFIER_VALUE_TYPE.equals(keyId.getValueType())) {
                 // Its a SAML Assertion, retrieve the assertion
@@ -1404,7 +1404,7 @@ public class KeyResolver {
                     keyBinding = (AuthenticationTokenPolicy.SAMLAssertionBinding) policy.newSAMLAssertionKeyBinding();
                     keyBinding.setReferenceType(keyId.getValueType());
                 }
-                
+
                 String assertionID = keyId.getDecodedReferenceValue();
                 Element samlAssertion = resolveSAMLToken(str, assertionID,context);
                 if(isWSITRecipient){
@@ -1425,7 +1425,7 @@ public class KeyResolver {
                 if (context.hasIssuedToken() && returnKey != null){
                     SecurityUtil.initInferredIssuedTokenContext(context,str, returnKey);
                 }
-                
+
             } else {
                 if(policy != null){
                     AuthenticationTokenPolicy.SAMLAssertionBinding keyBinding = null;
@@ -1485,7 +1485,7 @@ public class KeyResolver {
             }
         } else if (refElement instanceof DirectReference) {
             String uri = ((DirectReference) refElement).getURI();
-            
+
             // will be only during verify.
             AuthenticationTokenPolicy.X509CertificateBinding keyBinding = null;
             String valueType = ((DirectReference) refElement).getValueType();
@@ -1494,13 +1494,13 @@ public class KeyResolver {
                 //TODO: this will work for now but need to handle this case here later
                 valueType = null;
             }
-            
+
             if(policy != null){
                 keyBinding = (AuthenticationTokenPolicy.X509CertificateBinding) policy.newX509CertificateKeyBinding();
                 keyBinding.setReferenceType(MessageConstants.DIRECT_REFERENCE_TYPE);
                 keyBinding.setValueType(valueType);
             }
-            
+
             if (MessageConstants.X509v3_NS.equals(valueType)||MessageConstants.X509v1_NS.equals(valueType)) {
                 // its an X509 Token
                 HashMap insertedX509Cache = context.getInsertedX509Cache();
@@ -1521,7 +1521,7 @@ public class KeyResolver {
                     }
                 }
                 returnKey = resolveX509Token(secureMsg, token, sig,context);
-                
+
             } else if(MessageConstants.EncryptedKey_NS.equals(valueType)){
                 // Do default processing
                 String wsuId = SecurableSoapMessage.getIdFromFragmentRef(uri);
@@ -1529,7 +1529,7 @@ public class KeyResolver {
                 //TODO: STR is referring to EncryptedKey
                 KeyInfoHeaderBlock kiHB = ((EncryptedKeyToken)token).getKeyInfo();
                 SecurityTokenReference sectr = kiHB.getSecurityTokenReference(0);
-                
+
                 //TODO: PLUGFEST Algorithm hardcoded for now
                 //String dataEncAlgo = MessageConstants.AES_BLOCK_ENCRYPTION_128;
                 // restore Backward compatibility
@@ -1567,12 +1567,12 @@ public class KeyResolver {
                 }
                 returnKey = ((EncryptedKeyToken)token).getSecretKey(getKey(kiHB, sig, context), dataEncAlgo);
                 context.setExtraneousProperty(MessageConstants.SECRET_KEY_VALUE, returnKey);
-                
+
             } else if (MessageConstants.SCT_VALUETYPE.equals(valueType) || MessageConstants.SCT_13_VALUETYPE.equals(valueType)) {
                 // could be wsuId or SCT Session Id
                 String sctId = SecurableSoapMessage.getIdFromFragmentRef(uri);
                 SecurityToken token = (SecurityToken)tokenCache.get(sctId);
-                
+
                 if(token == null){
                     token = SecurityUtil.locateBySCTId(context, uri);
                     if (token == null) {
@@ -1585,7 +1585,7 @@ public class KeyResolver {
                         tokenCache.put(sctId, token);
                     }
                 }
-                
+
                 if (token instanceof SecurityContextToken) {
                     //handling for SecurityContext Token
                     byte[] proofKey = resolveSCT(context, (SecurityContextTokenImpl)token, sig);
@@ -1604,12 +1604,12 @@ public class KeyResolver {
                         }
                     }
                     returnKey = new SecretKeySpec(proofKey, encAlgo);
-                    
+
                 } else {
                     log.log(Level.SEVERE, LogStringsMessages.WSS_0243_INVALID_VALUE_TYPE_NON_SCT_TOKEN());
                     throw new XWSSecurityException("Incorrect ValueType: " + MessageConstants.SCT_VALUETYPE + ", specified for a Non SCT Token");
                 }
-                
+
             } else if (null == valueType) {
                 // Do default processing
                 String wsuId = SecurableSoapMessage.getIdFromFragmentRef(uri);
@@ -1671,7 +1671,7 @@ public class KeyResolver {
                     }
                     returnKey = ((EncryptedKeyToken)token).getSecretKey(getKey(kiHB, sig, context), dataEncAlgo);
                     context.setExtraneousProperty(MessageConstants.SECRET_KEY_VALUE, returnKey);
-                    
+
                 } else if (token instanceof SecurityContextToken) {
                     //handling for SecurityContext Token
                     byte[] proofKey = resolveSCT(context, (SecurityContextTokenImpl)token, sig);
@@ -1690,7 +1690,7 @@ public class KeyResolver {
                         }
                     }
                     returnKey = new SecretKeySpec(proofKey, encAlgo);
-                    
+
                 } else if (token instanceof DerivedKeyTokenHeaderBlock){
                     if(isWSITRecipient){
                         MLSPolicy inferredKB = inferredSignaturePolicy.getKeyBinding();
@@ -1728,7 +1728,7 @@ public class KeyResolver {
         } else if (refElement instanceof X509IssuerSerial) {
             BigInteger serialNumber = ((X509IssuerSerial) refElement).getSerialNumber();
             String issuerName = ((X509IssuerSerial) refElement).getIssuerName();
-            
+
             if(isWSITRecipient){
                 MLSPolicy inferredKB = inferredSignaturePolicy.getKeyBinding();
                 AuthenticationTokenPolicy.X509CertificateBinding x509Binding = new AuthenticationTokenPolicy.X509CertificateBinding();

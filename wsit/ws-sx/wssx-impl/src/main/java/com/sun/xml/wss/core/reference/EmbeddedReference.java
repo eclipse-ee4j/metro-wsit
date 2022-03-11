@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -105,15 +105,15 @@ public class EmbeddedReference extends ReferenceElement {
             throw new XWSSecurityException(
                 "Embedded element is already present");
         }
- 
+
         embeddedElement = element;
-        
+
         try {
             addChildElement(embeddedElement);
         } catch (SOAPException e) {
             log.log(Level.SEVERE,
                     "WSS0755.soap.exception",
-                    e.getMessage()); 
+                    e.getMessage());
             throw new XWSSecurityException(e);
         }
     }
@@ -139,4 +139,4 @@ public class EmbeddedReference extends ReferenceElement {
             wsuId);
     }
 
-} 
+}

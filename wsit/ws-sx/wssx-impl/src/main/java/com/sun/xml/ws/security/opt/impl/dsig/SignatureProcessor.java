@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -47,16 +47,16 @@ import java.util.ArrayList;
  */
 
 public class SignatureProcessor {
-    
+
     private static final Logger logger = Logger.getLogger(LogDomainConstants.IMPL_OPT_SIGNATURE_DOMAIN,
             LogDomainConstants.IMPL_OPT_SIGNATURE_DOMAIN_BUNDLE);
-    
+
     /** Creates a new instance of SignatureProcessor */
     public SignatureProcessor() {
     }
-    
+
     /**
-     * 
+     *
      * performs the signature
      * @param context JAXBFilterProcessingContext
      * @return errorCode
@@ -70,50 +70,50 @@ public class SignatureProcessor {
             if(logger.isLoggable(Level.FINEST)){
                 logger.log(Level.FINEST, "KeyBinding is "+keyBinding);
             }
-            
+
             Key signingKey = null;
 
             SignatureElementFactory signFactory = new SignatureElementFactory();
-            
+
             KeyInfo keyInfo = null;
             SecurityHeader securityHeader = context.getSecurityHeader();
-            
+
             //Get the Signing key and KeyInfo from TokenProcessor
             TokenProcessor tokenProcessor = new TokenProcessor(signaturePolicy, context);
             BuilderResult builderResult = tokenProcessor.process();
             signingKey = builderResult.getDataProtectionKey();
             keyInfo = builderResult.getKeyInfo();
-            
+
             if (keyInfo != null || !keyBinding.isOptional()){
                 SignedInfo signedInfo = signFactory.constructSignedInfo(context);
                 JAXBSignContext signContext = new JAXBSignContext(signingKey);
                 signContext.setURIDereferencer(DSigResolver.getInstance());
-                XMLSignature signature = signFactory.constructSignature(signedInfo, keyInfo, signaturePolicy.getUUID());            
-                signContext.put(MessageConstants.WSS_PROCESSING_CONTEXT, context);            
+                XMLSignature signature = signFactory.constructSignature(signedInfo, keyInfo, signaturePolicy.getUUID());
+                signContext.put(MessageConstants.WSS_PROCESSING_CONTEXT, context);
                 NamespaceAndPrefixMapper npMapper = new NamespaceAndPrefixMapper(context.getNamespaceContext(), context.getDisableIncPrefix());
-                signContext.put(NamespaceAndPrefixMapper.NS_PREFIX_MAPPER, npMapper);            
+                signContext.put(NamespaceAndPrefixMapper.NS_PREFIX_MAPPER, npMapper);
                 signContext.putNamespacePrefix(MessageConstants.DSIG_NS, MessageConstants.DSIG_PREFIX);
                 signature.sign(signContext);
-            
+
                 JAXBSignatureHeaderElement jaxBSign = new JAXBSignatureHeaderElement((com.sun.xml.ws.security.opt.crypto.dsig.Signature)signature,context.getSOAPVersion());
                 securityHeader.add(jaxBSign);
-            
+
                 //For SignatureConfirmation
                 List scList = (ArrayList)context.getExtraneousProperty("SignatureConfirmation");
                 if(scList != null){
                     scList.add(Base64.encode(signature.getSignatureValue().getValue()));
-                } 
+                }
             }
             //End SignatureConfirmation specific code
-            
+
         } catch(XWSSecurityException xe){
             logger.log(Level.SEVERE, LogStringsMessages.WSS_1701_SIGN_FAILED(), xe);
             throw xe;
         } catch(Exception ex){
             logger.log(Level.SEVERE, LogStringsMessages.WSS_1701_SIGN_FAILED(), ex);
             throw new XWSSecurityException(ex);
-        }        
+        }
         return 0;
     }
-    
+
 }

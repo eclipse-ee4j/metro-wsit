@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -44,18 +44,18 @@ import com.sun.xml.ws.security.trust.impl.bindings.StatusType;
 import com.sun.xml.ws.security.trust.impl.bindings.UseKeyType;
 
 /**
- * This object contains factory methods for each 
- * Java content interface and Java element interface 
- * generated in the com.sun.xml.ws.security.trust.impl.bindings package. 
- * <p>An ObjectFactory allows you to programatically 
- * construct new instances of the Java representation 
- * for XML content. The Java representation of XML 
- * content can consist of schema derived interfaces 
- * and classes representing the binding of schema 
- * type definitions, element declarations and model 
- * groups.  Factory methods for each of these are 
+ * This object contains factory methods for each
+ * Java content interface and Java element interface
+ * generated in the com.sun.xml.ws.security.trust.impl.bindings package.
+ * <p>An ObjectFactory allows you to programatically
+ * construct new instances of the Java representation
+ * for XML content. The Java representation of XML
+ * content can consist of schema derived interfaces
+ * and classes representing the binding of schema
+ * type definitions, element declarations and model
+ * groups.  Factory methods for each of these are
  * provided in this class.
- * 
+ *
  */
 @XmlRegistry
 public class ObjectFactory {
@@ -111,14 +111,14 @@ public class ObjectFactory {
 
     /**
      * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: com.sun.xml.ws.security.trust.impl.bindings
-     * 
+     *
      */
     public ObjectFactory() {
     }
 
     /**
      * Create an instance of {@link ProofEncryptionType }
-     * 
+     *
      */
     public ProofEncryptionType createProofEncryptionType() {
         return new ProofEncryptionType();
@@ -126,7 +126,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link RequestSecurityTokenResponseCollectionType }
-     * 
+     *
      */
     public RequestSecurityTokenResponseCollectionType createRequestSecurityTokenResponseCollectionType() {
         return new RequestSecurityTokenResponseCollectionType();
@@ -134,7 +134,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link RequestSecurityTokenResponseType }
-     * 
+     *
      */
     public RequestSecurityTokenResponseType createRequestSecurityTokenResponseType() {
         return new RequestSecurityTokenResponseType();
@@ -142,7 +142,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link OnBehalfOfType }
-     * 
+     *
      */
     public OnBehalfOfType createOnBehalfOfType() {
         return new OnBehalfOfType();
@@ -150,7 +150,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link ParticipantType }
-     * 
+     *
      */
     public ParticipantType createParticipantType() {
         return new ParticipantType();
@@ -158,7 +158,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link BinaryExchangeType }
-     * 
+     *
      */
     public BinaryExchangeType createBinaryExchangeType() {
         return new BinaryExchangeType();
@@ -166,7 +166,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link KeyExchangeTokenType }
-     * 
+     *
      */
     public KeyExchangeTokenType createKeyExchangeTokenType() {
         return new KeyExchangeTokenType();
@@ -174,7 +174,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link CancelTargetType }
-     * 
+     *
      */
     public CancelTargetType createCancelTargetType() {
         return new CancelTargetType();
@@ -182,7 +182,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link RequestedSecurityTokenType }
-     * 
+     *
      */
     public RequestedSecurityTokenType createRequestedSecurityTokenType() {
         return new RequestedSecurityTokenType();
@@ -190,7 +190,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link RequestedReferenceType }
-     * 
+     *
      */
     public RequestedReferenceType createRequestedReferenceType() {
         return new RequestedReferenceType();
@@ -198,7 +198,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link SignChallengeType }
-     * 
+     *
      */
     public SignChallengeType createSignChallengeType() {
         return new SignChallengeType();
@@ -206,7 +206,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link LifetimeType }
-     * 
+     *
      */
     public LifetimeType createLifetimeType() {
         return new LifetimeType();
@@ -214,7 +214,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link RequestedProofTokenType }
-     * 
+     *
      */
     public RequestedProofTokenType createRequestedProofTokenType() {
         return new RequestedProofTokenType();
@@ -222,7 +222,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link RenewingType }
-     * 
+     *
      */
     public RenewingType createRenewingType() {
         return new RenewingType();
@@ -230,7 +230,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link RenewTargetType }
-     * 
+     *
      */
     public RenewTargetType createRenewTargetType() {
         return new RenewTargetType();
@@ -238,7 +238,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link ClaimsType }
-     * 
+     *
      */
     public ClaimsType createClaimsType() {
         return new ClaimsType();
@@ -246,7 +246,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link StatusType }
-     * 
+     *
      */
     public StatusType createStatusType() {
         return new StatusType();
@@ -254,7 +254,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link EntropyType }
-     * 
+     *
      */
     public EntropyType createEntropyType() {
         return new EntropyType();
@@ -262,7 +262,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link DelegateToType }
-     * 
+     *
      */
     public DelegateToType createDelegateToType() {
         return new DelegateToType();
@@ -270,7 +270,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link BinarySecretType }
-     * 
+     *
      */
     public BinarySecretType createBinarySecretType() {
         return new BinarySecretType();
@@ -278,7 +278,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link RequestedTokenCancelledType }
-     * 
+     *
      */
     public RequestedTokenCancelledType createRequestedTokenCancelledType() {
         return new RequestedTokenCancelledType();
@@ -286,7 +286,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link EncryptionType }
-     * 
+     *
      */
     public EncryptionType createEncryptionType() {
         return new EncryptionType();
@@ -294,7 +294,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link AuthenticatorType }
-     * 
+     *
      */
     public AuthenticatorType createAuthenticatorType() {
         return new AuthenticatorType();
@@ -302,7 +302,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link RequestKETType }
-     * 
+     *
      */
     public RequestKETType createRequestKETType() {
         return new RequestKETType();
@@ -310,7 +310,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link RequestSecurityTokenType }
-     * 
+     *
      */
     public RequestSecurityTokenType createRequestSecurityTokenType() {
         return new RequestSecurityTokenType();
@@ -318,7 +318,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link ParticipantsType }
-     * 
+     *
      */
     public ParticipantsType createParticipantsType() {
         return new ParticipantsType();
@@ -326,7 +326,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link UseKeyType }
-     * 
+     *
      */
     public UseKeyType createUseKeyType() {
         return new UseKeyType();
@@ -334,7 +334,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link AllowPostdatingType }
-     * 
+     *
      */
     public AllowPostdatingType createAllowPostdatingType() {
         return new AllowPostdatingType();
@@ -342,7 +342,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}EndpointReferenceType{@code >}}
-     * 
+     *
      */
     @SuppressWarnings("unchecked")
     @XmlElementDecl(namespace = "http://schemas.xmlsoap.org/ws/2005/02/trust", name = "Issuer")
@@ -361,7 +361,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link ClaimsType }{@code >}}
-     * 
+     *
      */
     @XmlElementDecl(namespace = "http://schemas.xmlsoap.org/ws/2005/02/trust", name = "Claims")
     public JAXBElement<ClaimsType> createClaims(ClaimsType value) {
@@ -370,7 +370,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
-     * 
+     *
      */
     @XmlElementDecl(namespace = "http://schemas.xmlsoap.org/ws/2005/02/trust", name = "SignWith")
     public JAXBElement<String> createSignWith(String value) {
@@ -379,7 +379,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
-     * 
+     *
      */
     @XmlElementDecl(namespace = "http://schemas.xmlsoap.org/ws/2005/02/trust", name = "CanonicalizationAlgorithm")
     public JAXBElement<String> createCanonicalizationAlgorithm(String value) {
@@ -388,7 +388,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link ParticipantsType }{@code >}}
-     * 
+     *
      */
     @XmlElementDecl(namespace = "http://schemas.xmlsoap.org/ws/2005/02/trust", name = "Participants")
     public JAXBElement<ParticipantsType> createParticipants(ParticipantsType value) {
@@ -397,7 +397,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link RequestSecurityTokenResponseCollectionType }{@code >}}
-     * 
+     *
      */
     @SuppressWarnings("unchecked")
     @XmlElementDecl(namespace = "http://schemas.xmlsoap.org/ws/2005/02/trust", name = "IssuedTokens")
@@ -407,7 +407,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link LifetimeType }{@code >}}
-     * 
+     *
      */
     @XmlElementDecl(namespace = "http://schemas.xmlsoap.org/ws/2005/02/trust", name = "Lifetime")
     public JAXBElement<LifetimeType> createLifetime(LifetimeType value) {
@@ -416,7 +416,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
-     * 
+     *
      */
     @XmlElementDecl(namespace = "http://schemas.xmlsoap.org/ws/2005/02/trust", name = "KeyType")
     public JAXBElement<String> createKeyType(String value) {
@@ -425,7 +425,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link SignChallengeType }{@code >}}
-     * 
+     *
      */
     @XmlElementDecl(namespace = "http://schemas.xmlsoap.org/ws/2005/02/trust", name = "SignChallenge")
     public JAXBElement<SignChallengeType> createSignChallenge(SignChallengeType value) {
@@ -434,7 +434,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link DelegateToType }{@code >}}
-     * 
+     *
      */
     @XmlElementDecl(namespace = "http://schemas.xmlsoap.org/ws/2005/02/trust", name = "DelegateTo")
     public JAXBElement<DelegateToType> createDelegateTo(DelegateToType value) {
@@ -443,7 +443,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link RenewingType }{@code >}}
-     * 
+     *
      */
     @XmlElementDecl(namespace = "http://schemas.xmlsoap.org/ws/2005/02/trust", name = "Renewing")
     public JAXBElement<RenewingType> createRenewing(RenewingType value) {
@@ -452,7 +452,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link RenewTargetType }{@code >}}
-     * 
+     *
      */
     @XmlElementDecl(namespace = "http://schemas.xmlsoap.org/ws/2005/02/trust", name = "RenewTarget")
     public JAXBElement<RenewTargetType> createRenewTarget(RenewTargetType value) {
@@ -461,7 +461,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link UseKeyType }{@code >}}
-     * 
+     *
      */
     @XmlElementDecl(namespace = "http://schemas.xmlsoap.org/ws/2005/02/trust", name = "UseKey")
     public JAXBElement<UseKeyType> createUseKey(UseKeyType value) {
@@ -470,7 +470,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link AllowPostdatingType }{@code >}}
-     * 
+     *
      */
     @XmlElementDecl(namespace = "http://schemas.xmlsoap.org/ws/2005/02/trust", name = "AllowPostdating")
     public JAXBElement<AllowPostdatingType> createAllowPostdating(AllowPostdatingType value) {
@@ -479,7 +479,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link AuthenticatorType }{@code >}}
-     * 
+     *
      */
     @XmlElementDecl(namespace = "http://schemas.xmlsoap.org/ws/2005/02/trust", name = "Authenticator")
     public JAXBElement<AuthenticatorType> createAuthenticator(AuthenticatorType value) {
@@ -488,7 +488,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
-     * 
+     *
      */
     @XmlElementDecl(namespace = "http://schemas.xmlsoap.org/ws/2005/02/trust", name = "TokenType")
     public JAXBElement<String> createTokenType(String value) {
@@ -497,7 +497,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
-     * 
+     *
      */
     @XmlElementDecl(namespace = "http://schemas.xmlsoap.org/ws/2005/02/trust", name = "Challenge")
     public JAXBElement<String> createChallenge(String value) {
@@ -506,7 +506,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link RequestedReferenceType }{@code >}}
-     * 
+     *
      */
     @XmlElementDecl(namespace = "http://schemas.xmlsoap.org/ws/2005/02/trust", name = "RequestedAttachedReference")
     public JAXBElement<RequestedReferenceType> createRequestedAttachedReference(RequestedReferenceType value) {
@@ -515,7 +515,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
-     * 
+     *
      */
     @XmlElementDecl(namespace = "http://schemas.xmlsoap.org/ws/2005/02/trust", name = "AuthenticationType")
     public JAXBElement<String> createAuthenticationType(String value) {
@@ -524,7 +524,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link Boolean }{@code >}}
-     * 
+     *
      */
     @XmlElementDecl(namespace = "http://schemas.xmlsoap.org/ws/2005/02/trust", name = "Forwardable")
     public JAXBElement<Boolean> createForwardable(Boolean value) {
@@ -533,7 +533,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link Long }{@code >}}
-     * 
+     *
      */
     @XmlElementDecl(namespace = "http://schemas.xmlsoap.org/ws/2005/02/trust", name = "KeySize")
     public JAXBElement<Long> createKeySize(Long value) {
@@ -542,7 +542,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link SignChallengeType }{@code >}}
-     * 
+     *
      */
     @XmlElementDecl(namespace = "http://schemas.xmlsoap.org/ws/2005/02/trust", name = "SignChallengeResponse")
     public JAXBElement<SignChallengeType> createSignChallengeResponse(SignChallengeType value) {
@@ -551,7 +551,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link RequestSecurityTokenResponseCollectionType }{@code >}}
-     * 
+     *
      */
     @XmlElementDecl(namespace = "http://schemas.xmlsoap.org/ws/2005/02/trust", name = "RequestSecurityTokenResponseCollection")
     public JAXBElement<RequestSecurityTokenResponseCollectionType> createRequestSecurityTokenResponseCollection(RequestSecurityTokenResponseCollectionType value) {
@@ -560,7 +560,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link EncryptionType }{@code >}}
-     * 
+     *
      */
     @XmlElementDecl(namespace = "http://schemas.xmlsoap.org/ws/2005/02/trust", name = "Encryption")
     public JAXBElement<EncryptionType> createEncryption(EncryptionType value) {
@@ -569,7 +569,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link ProofEncryptionType }{@code >}}
-     * 
+     *
      */
     @XmlElementDecl(namespace = "http://schemas.xmlsoap.org/ws/2005/02/trust", name = "ProofEncryption")
     public JAXBElement<ProofEncryptionType> createProofEncryption(ProofEncryptionType value) {
@@ -578,7 +578,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link RequestedTokenCancelledType }{@code >}}
-     * 
+     *
      */
     @XmlElementDecl(namespace = "http://schemas.xmlsoap.org/ws/2005/02/trust", name = "RequestedTokenCancelled")
     public JAXBElement<RequestedTokenCancelledType> createRequestedTokenCancelled(RequestedTokenCancelledType value) {
@@ -587,7 +587,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
-     * 
+     *
      */
     @XmlElementDecl(namespace = "http://schemas.xmlsoap.org/ws/2005/02/trust", name = "EncryptionAlgorithm")
     public JAXBElement<String> createEncryptionAlgorithm(String value) {
@@ -596,7 +596,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link RequestedSecurityTokenType }{@code >}}
-     * 
+     *
      */
     @XmlElementDecl(namespace = "http://schemas.xmlsoap.org/ws/2005/02/trust", name = "RequestedSecurityToken")
     public JAXBElement<RequestedSecurityTokenType> createRequestedSecurityToken(RequestedSecurityTokenType value) {
@@ -605,7 +605,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link EntropyType }{@code >}}
-     * 
+     *
      */
     @XmlElementDecl(namespace = "http://schemas.xmlsoap.org/ws/2005/02/trust", name = "Entropy")
     public JAXBElement<EntropyType> createEntropy(EntropyType value) {
@@ -614,7 +614,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link RequestedProofTokenType }{@code >}}
-     * 
+     *
      */
     @XmlElementDecl(namespace = "http://schemas.xmlsoap.org/ws/2005/02/trust", name = "RequestedProofToken")
     public JAXBElement<RequestedProofTokenType> createRequestedProofToken(RequestedProofTokenType value) {
@@ -623,7 +623,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link RequestSecurityTokenResponseType }{@code >}}
-     * 
+     *
      */
     @XmlElementDecl(namespace = "http://schemas.xmlsoap.org/ws/2005/02/trust", name = "RequestSecurityTokenResponse")
     public JAXBElement<RequestSecurityTokenResponseType> createRequestSecurityTokenResponse(RequestSecurityTokenResponseType value) {
@@ -632,7 +632,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
-     * 
+     *
      */
     @XmlElementDecl(namespace = "http://schemas.xmlsoap.org/ws/2005/02/trust", name = "RequestType")
     public JAXBElement<String> createRequestType(String value) {
@@ -641,7 +641,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
-     * 
+     *
      */
     @XmlElementDecl(namespace = "http://schemas.xmlsoap.org/ws/2005/02/trust", name = "ComputedKeyAlgorithm")
     public JAXBElement<String> createComputedKeyAlgorithm(String value) {
@@ -650,7 +650,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link OnBehalfOfType }{@code >}}
-     * 
+     *
      */
     @XmlElementDecl(namespace = "http://schemas.xmlsoap.org/ws/2005/02/trust", name = "OnBehalfOf")
     public JAXBElement<OnBehalfOfType> createOnBehalfOf(OnBehalfOfType value) {
@@ -659,7 +659,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}possible object is byte[]{@code >}}
-     * 
+     *
      */
     @XmlElementDecl(namespace = "http://schemas.xmlsoap.org/ws/2005/02/trust", name = "CombinedHash")
     public JAXBElement<byte[]> createCombinedHash(byte[] value) {
@@ -668,7 +668,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link KeyExchangeTokenType }{@code >}}
-     * 
+     *
      */
     @XmlElementDecl(namespace = "http://schemas.xmlsoap.org/ws/2005/02/trust", name = "KeyExchangeToken")
     public JAXBElement<KeyExchangeTokenType> createKeyExchangeToken(KeyExchangeTokenType value) {
@@ -677,7 +677,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
-     * 
+     *
      */
     @XmlElementDecl(namespace = "http://schemas.xmlsoap.org/ws/2005/02/trust", name = "EncryptWith")
     public JAXBElement<String> createEncryptWith(String value) {
@@ -686,7 +686,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link RequestSecurityTokenType }{@code >}}
-     * 
+     *
      */
     @XmlElementDecl(namespace = "http://schemas.xmlsoap.org/ws/2005/02/trust", name = "RequestSecurityToken")
     public JAXBElement<RequestSecurityTokenType> createRequestSecurityToken(RequestSecurityTokenType value) {
@@ -695,7 +695,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link BinarySecretType }{@code >}}
-     * 
+     *
      */
     @XmlElementDecl(namespace = "http://schemas.xmlsoap.org/ws/2005/02/trust", name = "BinarySecret")
     public JAXBElement<BinarySecretType> createBinarySecret(BinarySecretType value) {
@@ -704,7 +704,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link StatusType }{@code >}}
-     * 
+     *
      */
     @XmlElementDecl(namespace = "http://schemas.xmlsoap.org/ws/2005/02/trust", name = "Status")
     public JAXBElement<StatusType> createStatus(StatusType value) {
@@ -713,7 +713,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
-     * 
+     *
      */
     @XmlElementDecl(namespace = "http://schemas.xmlsoap.org/ws/2005/02/trust", name = "ComputedKey")
     public JAXBElement<String> createComputedKey(String value) {
@@ -722,7 +722,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link BinaryExchangeType }{@code >}}
-     * 
+     *
      */
     @XmlElementDecl(namespace = "http://schemas.xmlsoap.org/ws/2005/02/trust", name = "BinaryExchange")
     public JAXBElement<BinaryExchangeType> createBinaryExchange(BinaryExchangeType value) {
@@ -731,7 +731,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link RequestedReferenceType }{@code >}}
-     * 
+     *
      */
     @XmlElementDecl(namespace = "http://schemas.xmlsoap.org/ws/2005/02/trust", name = "RequestedUnattachedReference")
     public JAXBElement<RequestedReferenceType> createRequestedUnattachedReference(RequestedReferenceType value) {
@@ -740,7 +740,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link RequestKETType }{@code >}}
-     * 
+     *
      */
     @XmlElementDecl(namespace = "http://schemas.xmlsoap.org/ws/2005/02/trust", name = "RequestKET")
     public JAXBElement<RequestKETType> createRequestKET(RequestKETType value) {
@@ -749,7 +749,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link CancelTargetType }{@code >}}
-     * 
+     *
      */
     @XmlElementDecl(namespace = "http://schemas.xmlsoap.org/ws/2005/02/trust", name = "CancelTarget")
     public JAXBElement<CancelTargetType> createCancelTarget(CancelTargetType value) {
@@ -758,7 +758,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link Boolean }{@code >}}
-     * 
+     *
      */
     @XmlElementDecl(namespace = "http://schemas.xmlsoap.org/ws/2005/02/trust", name = "Delegatable")
     public JAXBElement<Boolean> createDelegatable(Boolean value) {
@@ -767,7 +767,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
-     * 
+     *
      */
     @XmlElementDecl(namespace = "http://schemas.xmlsoap.org/ws/2005/02/trust", name = "SignatureAlgorithm")
     public JAXBElement<String> createSignatureAlgorithm(String value) {

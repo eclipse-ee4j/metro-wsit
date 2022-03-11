@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -20,9 +20,9 @@ import jakarta.xml.bind.annotation.XmlType;
 
 /**
  * <p>Java class for openChannelResponse complex type.
- * 
+ *
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ *
  * <pre>{@code
  * <complexType name="openChannelResponse">
  *   <complexContent>
@@ -36,8 +36,8 @@ import jakarta.xml.bind.annotation.XmlType;
  *   </complexContent>
  * </complexType>
  * }</pre>
- * 
- * 
+ *
+ *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "openChannelResponse", propOrder = {
@@ -55,7 +55,7 @@ public class OpenChannelResponse {
 
     /**
      * Gets the value of the return property.
-     * 
+     *
      */
     public int getChannelId() {
         return channelId;
@@ -63,7 +63,7 @@ public class OpenChannelResponse {
 
     /**
      * Sets the value of the return property.
-     * 
+     *
      */
     public void setChannelId(int channelId) {
         this.channelId = channelId;
@@ -71,25 +71,25 @@ public class OpenChannelResponse {
 
     /**
      * Gets the value of the negotiatedMimeTypes property.
-     * 
+     *
      * <p>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
      * This is why there is not a <CODE>set</CODE> method for the negotiatedMimeTypes property.
-     * 
+     *
      * <p>
      * For example, to add a new item, do as follows:
      * <pre>
      *    getNegotiatedMimeTypes().add(newItem);
      * </pre>
-     * 
-     * 
+     *
+     *
      * <p>
      * Objects of the following type(s) are allowed in the list
      * {@link String }
-     * 
-     * 
+     *
+     *
      */
     public List<String> getNegotiatedMimeTypes() {
         if (negotiatedMimeTypes == null) {
@@ -100,25 +100,25 @@ public class OpenChannelResponse {
 
     /**
      * Gets the value of the negotiatedParams property.
-     * 
+     *
      * <p>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
      * This is why there is not a <CODE>set</CODE> method for the negotiatedParams property.
-     * 
+     *
      * <p>
      * For example, to add a new item, do as follows:
      * <pre>
      *    getNegotiatedParams().add(newItem);
      * </pre>
-     * 
-     * 
+     *
+     *
      * <p>
      * Objects of the following type(s) are allowed in the list
      * {@link String }
-     * 
-     * 
+     *
+     *
      */
     public List<String> getNegotiatedParams() {
         if (negotiatedParams == null) {

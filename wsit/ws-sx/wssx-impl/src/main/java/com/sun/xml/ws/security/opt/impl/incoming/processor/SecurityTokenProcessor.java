@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -43,7 +43,7 @@ import java.util.Map;
 public class SecurityTokenProcessor {
     private static final Logger logger = Logger.getLogger(LogDomainConstants.IMPL_OPT_TOKEN_DOMAIN,
             LogDomainConstants.IMPL_OPT_TOKEN_DOMAIN_BUNDLE);
-    
+
     private static String SECURITY_TOKEN_REF = "SecurityTokenReference";
     private static String DIRECT_REFERENCE_ELEMENT = "Reference";
     private static String KEYIDENTIFIER_ELEMENT = "KeyIdentifier";
@@ -68,19 +68,19 @@ public class SecurityTokenProcessor {
     private XMLStreamWriter canonWriter = null;
     private Purpose purpose = null;
     private String id = "";
-    
+
     /** Creates a new instance of SecurityTokenProcessor */
     public SecurityTokenProcessor(JAXBFilterProcessingContext context,Purpose purpose) {
         this.pc = context;
         this.purpose =purpose;
     }
-    
+
     public SecurityTokenProcessor(JAXBFilterProcessingContext context, XMLStreamWriter canonWriter,Purpose purpose) {
         this.pc = context;
         this.canonWriter = canonWriter;
         this.purpose =purpose;
     }
-    
+
     /**
      *  resolves references and returns Key
      * @param reader  XMLStreamReader
@@ -88,13 +88,13 @@ public class SecurityTokenProcessor {
      */
     @SuppressWarnings("unchecked")
     public Key resolveReference(XMLStreamReader reader) throws XWSSecurityException{
-        
+
         Key resolvedKey = null;
         try{
             if(canonWriter != null)
                 StreamUtil.writeStartElement(reader, canonWriter);
             id = reader.getAttributeValue(MessageConstants.WSU_NS,"Id");
-            
+
             if(id != null && id.length() >0){
                 //cache STR
                 if(reader instanceof AbstractCreatorProcessor){
@@ -153,7 +153,7 @@ public class SecurityTokenProcessor {
             if(reader.hasNext()){
                 reader.next();
             }
-            
+
         }catch(XMLStreamException xe){
             logger.log(Level.SEVERE, LogStringsMessages.WSS_1815_ERROR_PROCESSING_STR(),xe);
             throw new XWSSecurityException(LogStringsMessages.WSS_1815_ERROR_PROCESSING_STR(),xe);
@@ -183,11 +183,11 @@ public class SecurityTokenProcessor {
                 return SECURITY_TOKEN_REFERENCE;
             }
         }
-        
+
         return -1;
-        
+
     }
-    
+
     private boolean moveToNextElement(XMLStreamReader reader) throws XMLStreamException{
         if(reader.hasNext()){
             reader.next();
@@ -205,9 +205,9 @@ public class SecurityTokenProcessor {
             if(canonWriter != null){
                 StreamUtil.writeStartElement(reader, canonWriter);
             }
-          
+
             String uri = reader.getAttributeValue(null, "URI");
-            
+
             if(this.pc.isBSP() && uri == null){
                 logger.log(Level.SEVERE,com.sun.xml.wss.logging.LogStringsMessages.BSP_3062_STR_URIATTRIBUTE());
                 throw new XWSSecurityException(com.sun.xml.wss.logging.LogStringsMessages.BSP_3062_STR_URIATTRIBUTE());
@@ -217,7 +217,7 @@ public class SecurityTokenProcessor {
                 logger.log(Level.SEVERE,com.sun.xml.wss.logging.LogStringsMessages.BSP_3058_STR_VALUE_TYPE_NOTEMPTY());
                 throw new XWSSecurityException(com.sun.xml.wss.logging.LogStringsMessages.BSP_3058_STR_VALUE_TYPE_NOTEMPTY());
             }
-            
+
             String wscInstance =reader.getAttributeValue(pc.getWSSCVersion(pc.getSecurityPolicyVersion()),"Instance");
             if(wscInstance != null){
                 pc.setWSCInstance(wscInstance);
@@ -300,7 +300,7 @@ public class SecurityTokenProcessor {
                     if(canonWriter != null)
                         StreamUtil.writeStartElement(reader, canonWriter);
                     reader.next();
-                    
+
                     issuerName = StreamUtil.getCV(reader);
                     if(canonWriter != null){
                         canonWriter.writeCharacters(issuerName);
@@ -358,7 +358,7 @@ public class SecurityTokenProcessor {
         return -1;
     }
     /**
-     * processes the X509 KeyIdentifier 
+     * processes the X509 KeyIdentifier
      * @param reader XMLStreamReader
      * @return Key
      */
@@ -368,8 +368,8 @@ public class SecurityTokenProcessor {
                 StreamUtil.writeStartElement(reader, canonWriter);
             String valueType = reader.getAttributeValue(null,"ValueType");
             //String encodingType = reader.getAttributeValue(null,"EncodingType");
-            if(pc.isBSP()){                
-                String et = reader.getAttributeValue(null, "EncodingType");                
+            if(pc.isBSP()){
+                String et = reader.getAttributeValue(null, "EncodingType");
                 if(et == null || et.length() ==0){
                     logger.log(Level.SEVERE,com.sun.xml.wss.logging.LogStringsMessages.BSP_3071_STR_ENCODING_TYPE());
                     throw new XWSSecurityException(com.sun.xml.wss.logging.LogStringsMessages.BSP_3071_STR_ENCODING_TYPE());
@@ -390,7 +390,7 @@ public class SecurityTokenProcessor {
             } else{
                 keyIdentifier = StreamUtil.getCV(reader);
             }
-            
+
             if(canonWriter != null){
                 // write KeyIdentifier Value
                 canonWriter.writeCharacters(keyIdentifier);
@@ -411,6 +411,6 @@ public class SecurityTokenProcessor {
             logger.log(Level.SEVERE, LogStringsMessages.WSS_1817_ERROR_REFERENCE_CANWRITER("KeyIdentifier"),xe);
             throw new XWSSecurityException(LogStringsMessages.WSS_1817_ERROR_REFERENCE_CANWRITER("KeyIdentifier"), xe);
         }
-        
+
     }
 }

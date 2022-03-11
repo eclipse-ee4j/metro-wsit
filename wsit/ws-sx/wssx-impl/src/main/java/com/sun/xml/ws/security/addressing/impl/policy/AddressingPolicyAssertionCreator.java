@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -29,28 +29,28 @@ import java.util.logging.Level;
  * @author K.Venugopal@sun.com
  */
 public class AddressingPolicyAssertionCreator implements PolicyAssertionCreator {
-    
+
     private static HashSet<String> implementedAssertions = new HashSet<>();
     private static final String [] NS_SUPPORTED_LIST = new String[] { AddressingVersion.MEMBER.nsUri,
                                                                       AddressingVersion.W3C.nsUri };
-    
+
     private static final PolicyLogger LOGGER = PolicyLogger.getLogger(AddressingPolicyAssertionCreator.class);
 
     static{
         implementedAssertions.add("Address");
         implementedAssertions.add("EndpointReference");
     }
-    
+
     /** Creates a new instance of AddressingPolicyAssertionCreator */
     public AddressingPolicyAssertionCreator() {
     }
-    
-    
+
+
     @Override
     public String[] getSupportedDomainNamespaceURIs() {
         return NS_SUPPORTED_LIST;
     }
-    
+
     protected Class<?> getClass(final AssertionData assertionData) throws AssertionCreationException {
         LOGGER.entering(assertionData);
         try {
@@ -71,9 +71,9 @@ public class AddressingPolicyAssertionCreator implements PolicyAssertionCreator 
             Class<?> cl = this.getClass(assertionData);
             Constructor<?> cons = null;
             try {
-                
+
                 cons = getConstructor(cl);
-                
+
                 //cl.getConstructor(javax.xml.stream.events.StartElement.class);
             } catch (NoSuchMethodException ex) {
                 if(LOGGER.isLoggable(Level.SEVERE)){
@@ -84,8 +84,8 @@ public class AddressingPolicyAssertionCreator implements PolicyAssertionCreator 
                 if(LOGGER.isLoggable(Level.SEVERE)){
                     LOGGER.log(Level.SEVERE,LocalizationMessages.WSA_0002_ERROR_OBTAINING_CONSTRUCTOR(assertionData.getName()),ex);
                 }
-                
-                
+
+
                 throw new AssertionCreationException(assertionData,ex);
             }
             if(cons != null){
@@ -95,7 +95,7 @@ public class AddressingPolicyAssertionCreator implements PolicyAssertionCreator 
                     if(LOGGER.isLoggable(Level.SEVERE)){
                         LOGGER.log(Level.SEVERE,LocalizationMessages.WSA_0003_ERROR_INSTANTIATING(assertionData.getName()));
                     }
-                    
+
                     throw new AssertionCreationException(assertionData,ex);
                 } catch (InvocationTargetException ex) {
                     if(LOGGER.isLoggable(Level.SEVERE)){
@@ -128,15 +128,15 @@ public class AddressingPolicyAssertionCreator implements PolicyAssertionCreator 
                     throw new AssertionCreationException(assertionData,ex);
                 }
             }
-            
-            
+
+
         }
         return policyAssertionCreator.createAssertion(assertionData,nestedAssertions,nestedAlternative,policyAssertionCreator);
-        
+
     }
-    
+
     private <T> Constructor<T> getConstructor(Class<T> cl) throws NoSuchMethodException{
         return cl.getConstructor(com.sun.xml.ws.policy.sourcemodel.AssertionData.class,java.util.Collection.class,com.sun.xml.ws.policy.AssertionSet.class);
     }
-    
+
 }

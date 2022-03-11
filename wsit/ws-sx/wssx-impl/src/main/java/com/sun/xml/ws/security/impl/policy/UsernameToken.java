@@ -28,7 +28,7 @@ import javax.xml.namespace.QName;
  * @author K.Venugopal@sun.com
  */
 public class UsernameToken extends PolicyAssertion implements com.sun.xml.ws.security.policy.UserNameToken, java.lang.Cloneable, SecurityAssertionValidator {
-    
+
     private String tokenType;
     private String id;
     private boolean populated;
@@ -44,75 +44,75 @@ public class UsernameToken extends PolicyAssertion implements com.sun.xml.ws.sec
     private boolean reqDK=false;
     private boolean useNonce = false;
     private boolean useCreated = false;
-    
+
     /**
      * Creates a new instance of UsernameToken
      */
     public UsernameToken() {
          id= PolicyUtil.randomUUID();
          itQname = new QName(spVersion.namespaceUri, Constants.IncludeToken);
-         includeToken = spVersion.includeTokenAlways;        
+         includeToken = spVersion.includeTokenAlways;
     }
-    
+
     public UsernameToken(AssertionData name,Collection<PolicyAssertion> nestedAssertions, AssertionSet nestedAlternative) {
         super(name,nestedAssertions,nestedAlternative);
         id= PolicyUtil.randomUUID();
         String nsUri = getName().getNamespaceURI();
         spVersion = PolicyUtil.getSecurityPolicyVersion(nsUri);
         itQname = new QName(spVersion.namespaceUri, Constants.IncludeToken);
-        includeToken = spVersion.includeTokenAlways;        
-    }    
-    
+        includeToken = spVersion.includeTokenAlways;
+    }
+
     public void setType(String type) {
         this.tokenType = type;
     }
-    
+
     @Override
     public String getType() {
         populate();
         return tokenType;
     }
-    
-    
+
+
     @Override
     public String getTokenId() {
         return id;
     }
-    
+
     public void setTokenId(String _id) {
         this.id = _id;
     }
-    
+
     @Override
     public String getIncludeToken() {
         populate();
         return  includeToken;
     }
-    
+
     public void setIncludeToken(String type) {
         Map<QName, String> attrs = this.getAttributes();
         QName itQname = new QName(spVersion.namespaceUri, Constants.IncludeToken);
         attrs.put(itQname,type);
     }
-    
+
     @Override
     public Issuer getIssuer() {
         populate();
         return issuer;
     }
-    
+
     @Override
     public IssuerName getIssuerName() {
         populate();
         return issuerName;
     }
-    
+
     @Override
     public Claims getClaims(){
         populate();
         return claims;
     }
-    
+
     @Override
     public AssertionFitness validate(boolean isServer) {
         return populate(isServer);
@@ -124,18 +124,18 @@ public class UsernameToken extends PolicyAssertion implements com.sun.xml.ws.sec
     public boolean hasPassword(){
         return hasPassword;
     }
-    
+
     @Override
     public boolean useHashPassword(){
         return useHashPassword;
     }
-    
+
     @Override
     public boolean isRequireDerivedKeys() {
         populate();
         return reqDK;
     }
-    
+
     private synchronized AssertionFitness populate(boolean isServer) {
         if(!populated){
             if(this.getAttributeValue(itQname) != null){
@@ -179,7 +179,7 @@ public class UsernameToken extends PolicyAssertion implements com.sun.xml.ws.sec
                         issuer = (Issuer)assertion;
                     } else if(PolicyUtil.isIssuerName(assertion, spVersion)){
                         issuerName = (IssuerName)assertion;
-                    } else if(PolicyUtil.isClaimsElement(assertion) && 
+                    } else if(PolicyUtil.isClaimsElement(assertion) &&
                             SecurityPolicyVersion.SECURITYPOLICY12NS.namespaceUri.equals(spVersion.namespaceUri) ){
                         claims = (Claims)assertion;
                     }
@@ -193,7 +193,7 @@ public class UsernameToken extends PolicyAssertion implements com.sun.xml.ws.sec
         }
         return fitness;
     }
-    
+
     @Override
     public Object clone() {
         throw new UnsupportedOperationException();

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -37,17 +37,17 @@ public class CVAdapter extends XmlAdapter<DataHandler,byte[]>{
     public CVAdapter() {
         ensureHandlerRegistered();
     }
-    
+
     public CVAdapter(CryptoProcessor cp){
         this();
         this.cp = cp;
     }
-    
+
     @Override
     public DataHandler marshal(byte[] value){
         return new DataHandler(cp,"application/ciphervalue");
     }
-    
+
     @Override
     public byte[] unmarshal(DataHandler dh){
         throw new UnsupportedOperationException();

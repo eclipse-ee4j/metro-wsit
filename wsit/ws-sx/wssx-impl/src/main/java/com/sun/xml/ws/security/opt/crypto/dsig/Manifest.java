@@ -19,7 +19,7 @@ import jakarta.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement(name="Manifest")
 public class Manifest extends com.sun.xml.security.core.dsig.ManifestType implements javax.xml.crypto.dsig.Manifest {
-    
+
     /** Creates a new instance of Manifest */
     public Manifest() {
     }
@@ -33,5 +33,5 @@ public class Manifest extends com.sun.xml.security.core.dsig.ManifestType implem
     public boolean isFeatureSupported(String string) {
         return false;
     }
-    
+
 }

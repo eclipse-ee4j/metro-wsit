@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -28,39 +28,39 @@ import java.util.List;
  */
 
 public class AuthenticatorImpl extends AuthenticatorType implements Authenticator {
-    
+
     public AuthenticatorImpl() {
         // empty constructor
     }
-    
+
     public AuthenticatorImpl(AuthenticatorType aType) {
         //ToDo
     }
-    
+
     public AuthenticatorImpl(byte[] hash) {
         setRawCombinedHash(hash);
     }
-    
+
     @Override
     public List<Object> getAny() {
         return super.getAny();
     }
-    
+
     @Override
     public byte[] getRawCombinedHash() {
         return getCombinedHash();
     }
-    
+
     @Override
     public void setRawCombinedHash(byte[] rawCombinedHash) {
         setCombinedHash(rawCombinedHash);
     }
-    
+
     @Override
     public String getTextCombinedHash() {
         return Base64.encode(getRawCombinedHash());
     }
-    
+
     @Override
     public void setTextCombinedHash(String encodedCombinedHash) {
         try {
@@ -70,5 +70,5 @@ public class AuthenticatorImpl extends AuthenticatorType implements Authenticato
                     de.getMessage());
         }
     }
-    
+
 }

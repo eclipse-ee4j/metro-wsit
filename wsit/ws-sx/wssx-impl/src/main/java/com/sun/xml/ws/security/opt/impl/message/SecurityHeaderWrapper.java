@@ -36,15 +36,15 @@ import java.util.Set;
  * @author K.Venugopal@sun.com
  */
 public class SecurityHeaderWrapper implements com.sun.xml.ws.api.message.Header  {
-    
+
     private SecurityHeader sh;
-    
+
     /** Creates a new instance of HeaderWrapper */
     public SecurityHeaderWrapper(SecurityHeader sh) {
         this.sh = sh;
     }
-    
-    
+
+
     /**
      * Checks if this header is ignorable for us (IOW, make sure
      * that this header has a problematic "mustUnderstand" header value
@@ -90,7 +90,7 @@ public class SecurityHeaderWrapper implements com.sun.xml.ws.api.message.Header 
     public boolean isIgnorable(SOAPVersion soapVersion, Set<String> roles){
         throw new UnsupportedOperationException();
     }
-    
+
     /**
      * Gets the value of the soap:role attribute (or soap:actor for SOAP 1.1).
      *
@@ -109,7 +109,7 @@ public class SecurityHeaderWrapper implements com.sun.xml.ws.api.message.Header 
     public String getRole(SOAPVersion soapVersion){
         throw new UnsupportedOperationException();
     }
-    
+
     /**
      * True if this header is to be relayed if not processed.
      * For SOAP 1.1 messages, this method always return false.
@@ -131,7 +131,7 @@ public class SecurityHeaderWrapper implements com.sun.xml.ws.api.message.Header 
     public boolean isRelay(){
         throw new UnsupportedOperationException();
     }
-    
+
     /**
      * Gets the namespace URI of this header element.
      *
@@ -142,7 +142,7 @@ public class SecurityHeaderWrapper implements com.sun.xml.ws.api.message.Header 
     public  String getNamespaceURI(){
         return sh.getNamespaceURI();
     }
-    
+
     /**
      * Gets the local name of this header element.
      *
@@ -153,7 +153,7 @@ public class SecurityHeaderWrapper implements com.sun.xml.ws.api.message.Header 
     public  String getLocalPart(){
         return sh.getLocalPart();
     }
-    
+
     /**
      * Gets the attribute value on the header element.
      *
@@ -173,7 +173,7 @@ public class SecurityHeaderWrapper implements com.sun.xml.ws.api.message.Header 
     public   String getAttribute(String nsUri, String localName){
         throw new UnsupportedOperationException();
     }
-    
+
     /**
      * Gets the attribute value on the header element.
      *
@@ -189,7 +189,7 @@ public class SecurityHeaderWrapper implements com.sun.xml.ws.api.message.Header 
     public String getAttribute(QName name){
         throw new UnsupportedOperationException();
     }
-    
+
     /**
      * Reads the header as a {@link XMLStreamReader}.
      *
@@ -222,9 +222,9 @@ public class SecurityHeaderWrapper implements com.sun.xml.ws.api.message.Header 
     public XMLStreamReader readHeader() {
         throw new UnsupportedOperationException();
         //We should avoid such operations for Security operated headers.
-        
+
     }
-    
+
     /**
      * Reads the header as a JAXB object by using the given unmarshaller.
      */
@@ -241,7 +241,7 @@ public class SecurityHeaderWrapper implements com.sun.xml.ws.api.message.Header 
     public <T> T readAsJAXB(Bridge<T> bridge, BridgeContext context) {
         throw new UnsupportedOperationException();
     }
-    
+
     /**
      * Reads the header as a JAXB object by using the given unmarshaller.
      */
@@ -249,7 +249,7 @@ public class SecurityHeaderWrapper implements com.sun.xml.ws.api.message.Header 
     public <T> T readAsJAXB(Bridge<T> bridge) {
         throw new UnsupportedOperationException();
     }
-    
+
     /**
      * Writes out the header.
      *
@@ -261,7 +261,7 @@ public class SecurityHeaderWrapper implements com.sun.xml.ws.api.message.Header 
     public void writeTo(XMLStreamWriter w) throws XMLStreamException{
         sh.writeTo(w);
     }
-    
+
     /**
      * Writes out the header to the given SOAPMessage.
      *
@@ -278,7 +278,7 @@ public class SecurityHeaderWrapper implements com.sun.xml.ws.api.message.Header 
     public void writeTo(SOAPMessage saaj) throws SOAPException{
         throw new UnsupportedOperationException("use writeTo(XMLStreamWriter w) ");
     }
-    
+
     /**
      * Writes out the header as SAX events.
      *
@@ -312,15 +312,15 @@ public class SecurityHeaderWrapper implements com.sun.xml.ws.api.message.Header 
     public String getStringContent(){
         throw new UnsupportedOperationException();
     }
-    
-   
+
+
     @Override
     public @NotNull WSEndpointReference readAsEPR(AddressingVersion expected) {
          throw new UnsupportedOperationException();
     }
 
-	@Override
+    @Override
     public <T> T readAsJAXB(XMLBridge<T> arg0) {
         throw new UnsupportedOperationException();
-	}
+    }
 }

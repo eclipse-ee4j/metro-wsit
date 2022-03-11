@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -25,24 +25,24 @@ import com.sun.xml.ws.api.message.Header;
 import javax.xml.stream.XMLStreamWriter;
 
 /**
- * 
+ *
  * A wrapper over a <CODE>Header</CODE> or a <CODE>SecurityHeaderElement</CODE>
  * @author K.Venugopal@sun.com
  */
 
 public class SignedMessageHeader extends SignedMessagePart
         implements SecurityHeaderElement, SignedData, SecurityElementWriter{
-    
+
     private Header header = null;
     private SecurityHeaderElement she = null;
-    
+
     private byte[] digestValue;
-    
+
     private String id;
-    
+
     JAXBFilterProcessingContext context = null;
     private MutableXMLStreamBuffer buffer = null;
-    
+
     /**
      * Creates a new instance of SignedMessageHeader
      * @param header The SOAP Header which is to be signed
@@ -54,18 +54,18 @@ public class SignedMessageHeader extends SignedMessagePart
         this.id = id;
         this.context = context;
     }
-    
+
     /**
-     * 
+     *
      * Sign a <CODE>SecurityHeaderElement</CODE>
      * @param she The SecurityHeaderElement to be signed
      */
     public SignedMessageHeader(SecurityHeaderElement she){
         this.she = she;
     }
-    
+
     /**
-     * 
+     *
      * @return the id of the SignedMessageHeader
      */
     @Override
@@ -76,7 +76,7 @@ public class SignedMessageHeader extends SignedMessagePart
             return she.getId();
         }
     }
-    
+
     /**
      * Assign an id to the SignedMessageHeader
      */
@@ -88,9 +88,9 @@ public class SignedMessageHeader extends SignedMessagePart
             she.setId(id);
         }
     }
-    
+
     /**
-     * 
+     *
      * @return the namespace of the underlying SOAP header or SecurityHeaderElement
      */
     @Override
@@ -102,9 +102,9 @@ public class SignedMessageHeader extends SignedMessagePart
             return she.getNamespaceURI();
         }
     }
-    
+
     /**
-     * 
+     *
      * @return The localname of the underlying SOAP Header or SecurityHeaderElement
      */
     @Override
@@ -116,9 +116,9 @@ public class SignedMessageHeader extends SignedMessagePart
             return she.getLocalPart();
         }
     }
-    
+
     /**
-     * 
+     *
      * @return The header as as XMLStreamReader
      */
     @Override
@@ -130,7 +130,7 @@ public class SignedMessageHeader extends SignedMessagePart
         }
         return buffer.readAsXMLStreamReader();
     }
-    
+
     /**
      * Write the header to the passed outputStream
      */
@@ -138,7 +138,7 @@ public class SignedMessageHeader extends SignedMessagePart
     public void writeTo(OutputStream os) {
         throw new UnsupportedOperationException("Not implemented yet");
     }
-    
+
     /**
      * Write the header to an XMLStreamWriter
      */
@@ -150,9 +150,9 @@ public class SignedMessageHeader extends SignedMessagePart
         } else{
             ((SecurityElementWriter)she).writeTo(streamWriter);
         }
-        
+
     }
-    
+
     /**
      * Write the header to an XMLStreamWriter
      */
@@ -172,23 +172,23 @@ public class SignedMessageHeader extends SignedMessagePart
             ((SecurityElementWriter)she).writeTo(streamWriter,props);
         }
     }
-    
+
     @Override
     public void setDigestValue(final byte[] digestValue){
         this.digestValue = digestValue;
     }
-    
+
     /**
-     * 
+     *
      * @return The DigestValue of this Header
      */
     @Override
     public byte[] getDigestValue() {
         return digestValue;
     }
-    
+
     /**
-     * 
+     *
      * @param id The id of the SecurityHeaderElement against which to compare
      * @return true if the current SecurityHeaderElement has reference to the
      * SecurityHeaderElement with passed id
@@ -197,7 +197,7 @@ public class SignedMessageHeader extends SignedMessagePart
     public boolean refersToSecHdrWithId(String id) {
         return she.refersToSecHdrWithId(id);
     }
-    
+
     public Header getSignedHeader(){
         return header;
     }

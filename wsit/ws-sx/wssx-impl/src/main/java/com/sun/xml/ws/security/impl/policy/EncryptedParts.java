@@ -37,7 +37,7 @@ public class EncryptedParts extends PolicyAssertion implements com.sun.xml.ws.se
     private boolean populated = false;
     private AssertionFitness fitness = AssertionFitness.IS_VALID;
     private SecurityPolicyVersion spVersion;
-    
+
     /** Creates a new instance of EncryptedPartImpl */
     public EncryptedParts() {
         spVersion = SecurityPolicyVersion.SECURITYPOLICY200507;
@@ -47,27 +47,27 @@ public class EncryptedParts extends PolicyAssertion implements com.sun.xml.ws.se
         String nsUri = getName().getNamespaceURI();
         spVersion = PolicyUtil.getSecurityPolicyVersion(nsUri);
     }
-    
+
     public void addBody() {
         this._body = true;
     }
-    
+
     @Override
     public boolean hasBody(){
         populate();
         return this._body;
     }
-    
+
     @Override
     public boolean hasAttachments(){
         populate();
         return this._attachments;
     }
-    
+
     public void addTarget(QName targetName) {
         throw new UnsupportedOperationException();
     }
-    
+
     @Override
     public Iterator getTargets() {
         populate();
@@ -76,11 +76,11 @@ public class EncryptedParts extends PolicyAssertion implements com.sun.xml.ws.se
         }
         return header.iterator();
     }
-    
+
     //    public QName getName() {
     //        return Constants._EncryptedParts_QNAME;
     //    }
-    
+
     @Override
     public AssertionFitness validate(boolean isServer) {
         return populate(isServer);
@@ -88,11 +88,11 @@ public class EncryptedParts extends PolicyAssertion implements com.sun.xml.ws.se
     private void populate(){
         populate(false);
     }
-    
+
     private synchronized AssertionFitness populate(boolean isServer) {
         if(!populated){
             if ( this.hasNestedAssertions() ) {
-                
+
                 Iterator <PolicyAssertion> it = this.getNestedAssertionsIterator();
                 while( it.hasNext() ) {
                     PolicyAssertion assertion = it.next();
@@ -119,11 +119,11 @@ public class EncryptedParts extends PolicyAssertion implements com.sun.xml.ws.se
         }
         return fitness;
     }
-    
+
     public void removeTarget(QName targetName) {
         throw new UnsupportedOperationException();
     }
-    
+
     @Override
     public void removeBody() {
         throw new UnsupportedOperationException();

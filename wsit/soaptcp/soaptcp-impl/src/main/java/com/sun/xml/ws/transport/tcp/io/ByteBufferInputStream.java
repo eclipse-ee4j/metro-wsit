@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -17,19 +17,19 @@ import java.nio.ByteBuffer;
  * Stream wrapper around a <code>ByteBuffer</code>
  */
 public class ByteBufferInputStream extends InputStream {
-    
+
     /**
      * The wrapped <code>ByteBuffer</code<
      */
     private ByteBuffer byteBuffer;
-    
+
     // ------------------------------------------------- Constructor -------//
-    
-    
+
+
     public ByteBufferInputStream(final ByteBuffer byteBuffer) {
         this.byteBuffer = byteBuffer;
     }
-    
+
     /**
      * Set the wrapped <code>ByteBuffer</code>
      * @param byteBuffer The wrapped byteBuffer
@@ -37,8 +37,8 @@ public class ByteBufferInputStream extends InputStream {
     public void setByteBuffer(final ByteBuffer byteBuffer) {
         this.byteBuffer = byteBuffer;
     }
-    
-    
+
+
     /**
      * Return the available bytes
      * @return the wrapped byteBuffer.remaining()
@@ -47,16 +47,16 @@ public class ByteBufferInputStream extends InputStream {
     public int available() {
         return byteBuffer.remaining();
     }
-    
-    
+
+
     /**
      * Close this stream.
      */
     @Override
     public void close() {
     }
-    
-    
+
+
     /**
      * Return true if mark is supported.
      */
@@ -64,8 +64,8 @@ public class ByteBufferInputStream extends InputStream {
     public boolean markSupported() {
         return false;
     }
-    
-    
+
+
     /**
      * Read the first byte from the wrapped <code>ByteBuffer</code>.
      */
@@ -74,11 +74,11 @@ public class ByteBufferInputStream extends InputStream {
         if (!byteBuffer.hasRemaining()){
             return -1;
         }
-        
+
         return (byteBuffer.get() & 0xff);
     }
-    
-    
+
+
     /**
      * Read the bytes from the wrapped <code>ByteBuffer</code>.
      */
@@ -86,8 +86,8 @@ public class ByteBufferInputStream extends InputStream {
     public int read(final byte[] b) {
         return (read(b, 0, b.length));
     }
-    
-    
+
+
     /**
      * Read the first byte of the wrapped <code>ByteBuffer</code>.
      */
@@ -96,16 +96,16 @@ public class ByteBufferInputStream extends InputStream {
         if (!byteBuffer.hasRemaining()) {
             return -1;
         }
-        
+
         if (length > available()) {
             length = available();
         }
-        
+
         byteBuffer.get(b, offset, length);
-        
+
         return length;
     }
-    
-    
+
+
 }
 

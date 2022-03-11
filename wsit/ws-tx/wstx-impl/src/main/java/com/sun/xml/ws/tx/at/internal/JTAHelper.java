@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -26,15 +26,15 @@ class JTAHelper {
     throw ex;
   }
 
-  static void throwXAException(int errCode, String errMsg, Throwable t) 
-    throws XAException 
+  static void throwXAException(int errCode, String errMsg, Throwable t)
+    throws XAException
   {
     XAException ex = new XAException(xaErrorCodeToString(errCode) + ".  " + errMsg);
     ex.errorCode =  errCode;
     ex.initCause(t);
     throw ex;
   }
-  
+
   static String xaErrorCodeToString(int err) {
     return xaErrorCodeToString(err, true);
   }
@@ -61,7 +61,7 @@ class JTAHelper {
     case XAException.XA_HEURRB:
       msg.append("XA_HEURRB");
       if (detail) msg.append(" : The transaction branch has been heuristically rolled back");
-      return msg.toString();                             
+      return msg.toString();
     case XAException.XA_RBCOMMFAIL:
       msg.append("XA_RBCOMMFAIL");
       if (detail) msg.append(" : Rollback was caused by communication failure");
@@ -97,35 +97,35 @@ class JTAHelper {
     case XAException.XAER_ASYNC:
       msg.append("XAER_ASYNC");
       if (detail) msg.append(" : Asynchronous operation already outstanding");
-      return msg.toString();      
+      return msg.toString();
     case XAException.XAER_DUPID:
       msg.append("XAER_DUPID");
       if (detail) msg.append(" : The XID already exists");
-      return msg.toString();      
+      return msg.toString();
     case XAException.XAER_INVAL:
       msg.append("XAER_INVAL");
       if (detail) msg.append(" : Invalid arguments were given");
-      return msg.toString();      
+      return msg.toString();
     case XAException.XAER_NOTA:
       msg.append("XAER_NOTA");
       if (detail) msg.append(" : The XID is not valid");
-      return msg.toString();      
+      return msg.toString();
     case XAException.XAER_OUTSIDE:
       msg.append("XAER_OUTSIDE");
       if (detail) msg.append(" : The resource manager is doing work outside global transaction");
-      return msg.toString();      
+      return msg.toString();
     case XAException.XAER_PROTO:
       msg.append("XAER_PROTO");
       if (detail) msg.append(" : Routine was invoked in an inproper context");
-      return msg.toString();      
+      return msg.toString();
     case XAException.XAER_RMERR:
       msg.append("XAER_RMERR");
       if (detail) msg.append(" : A resource manager error has occured in the transaction branch");
-      return msg.toString();      
+      return msg.toString();
     case XAException.XAER_RMFAIL:
       msg.append("XAER_RMFAIL");
       if (detail) msg.append(" : Resource manager is unavailable");
-      return msg.toString();      
+      return msg.toString();
     default:
       return Integer.toHexString(err).toUpperCase(Locale.ENGLISH);
     }

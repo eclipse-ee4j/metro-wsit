@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -45,14 +45,14 @@ import com.sun.xml.wss.WSITXMLFactory;
  * @author K.Venugopal@sun.com
  */
 public class SecurityContextToken13 extends SecurityContextTokenType implements SecurityHeaderElement, SecurityElementWriter, SecurityContextToken {
-    
+
     public final String SECURITY_CONTEXT_TOKEN = "SecurityContextToken";
-    
+
     private String instance = null;
     private URI identifier = null;
     private List extElements = null;
     private SOAPVersion soapVersion = SOAPVersion.SOAP_11;
-    
+
     public SecurityContextToken13(URI identifier, String instance, String wsuId, SOAPVersion sv) {
         if (identifier != null) {
             setIdentifier(identifier);
@@ -60,13 +60,13 @@ public class SecurityContextToken13 extends SecurityContextTokenType implements 
         if (instance != null) {
             setInstance(instance);
         }
-        
+
         if (wsuId != null){
             setWsuId(wsuId);
         }
         this.soapVersion = sv;
     }
-    
+
     // useful for converting from JAXB to our owm impl class
     @SuppressWarnings("unchecked")
     public SecurityContextToken13(SecurityContextTokenType sTokenType, SOAPVersion sv){
@@ -75,7 +75,7 @@ public class SecurityContextToken13 extends SecurityContextTokenType implements 
             Object object = list.get(i);
             if(object instanceof JAXBElement){
                 JAXBElement obj = (JAXBElement)object;
-                
+
                 String local = obj.getName().getLocalPart();
                 if (local.equalsIgnoreCase("Instance")) {
                     setInstance((String)obj.getValue());
@@ -94,50 +94,50 @@ public class SecurityContextToken13 extends SecurityContextTokenType implements 
                 }
             }
         }
-        
+
         setWsuId(sTokenType.getId());
         this.soapVersion = sv;
     }
-    
+
     @Override
     public URI getIdentifier() {
         return identifier;
     }
-    
+
     public void setIdentifier(URI identifier) {
         this.identifier = identifier;
         JAXBElement<String> iElement =
                   (new ObjectFactory()).createIdentifier(identifier.toString());
         getAny().add(iElement);
     }
-    
+
     @Override
     public String getInstance() {
         return instance;
     }
-    
+
     public void setInstance(String instance) {
         this.instance = instance;
         JAXBElement<String> iElement =
                   (new ObjectFactory()).createInstance(instance);
         getAny().add(iElement);
     }
-    
+
     public void setWsuId(String wsuId){
         setId(wsuId);
-        
+
     }
-    
+
     @Override
     public String getWsuId(){
         return getId();
     }
-    
+
     @Override
     public String getType() {
         return SECURITY_CONTEXT_TOKEN;
     }
-    
+
     @Override
     public Object getTokenValue() {
         try {
@@ -145,40 +145,40 @@ public class SecurityContextToken13 extends SecurityContextTokenType implements 
             dbf.setNamespaceAware(true);
             DocumentBuilder db = dbf.newDocumentBuilder();
             Document doc = db.newDocument();
-            
+
             jakarta.xml.bind.Marshaller marshaller = WSTrustElementFactory.getContext().createMarshaller();
             JAXBElement<SecurityContextTokenType> tElement =  (new ObjectFactory()).createSecurityContextToken(this);
             marshaller.marshal(tElement, doc);
             return doc.getDocumentElement();
-            
+
         } catch (Exception ex) {
             throw new RuntimeException(ex.getMessage(), ex);
         }
     }
-    
+
     @Override
     public List getExtElements() {
         return extElements;
     }
-    
+
     @Override
     public String getNamespaceURI() {
         return "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd";
     }
-    
+
     @Override
     public String getLocalPart() {
         return "SecurityContextToken";
     }
-    
+
     public String getAttribute(String nsUri, String localName) {
         throw new UnsupportedOperationException();
     }
-    
+
     public String getAttribute(QName name) {
         throw new UnsupportedOperationException();
     }
-    
+
     @Override
     public javax.xml.stream.XMLStreamReader readHeader() {
         throw new UnsupportedOperationException();
@@ -213,7 +213,7 @@ public class SecurityContextToken13 extends SecurityContextTokenType implements 
                 OutputStream os = (OutputStream) ((Map) streamWriter).get("sjsxp-outputstream");
                 if (os != null) {
                     streamWriter.writeCharacters("");        // Force completion of open elems
-                    
+
                     writer.marshal(sct, os);
                     return;
                 }
@@ -223,16 +223,16 @@ public class SecurityContextToken13 extends SecurityContextTokenType implements 
             throw new XMLStreamException(e);
         }
     }
-    
+
     public byte[] canonicalize(String algorithm, List<AttributeNS> namespaceDecls) {
         throw new UnsupportedOperationException();
     }
-    
+
     public boolean isCanonicalized() {
         return false;
     }
-    
-    
+
+
     private Marshaller getMarshaller() throws JAXBException{
         return JAXBUtil.createMarshaller(soapVersion);
     }
@@ -258,5 +258,5 @@ public class SecurityContextToken13 extends SecurityContextTokenType implements 
         }catch(JAXBException jbe){
             throw new XMLStreamException(jbe);
         }
-    }       
+    }
 }

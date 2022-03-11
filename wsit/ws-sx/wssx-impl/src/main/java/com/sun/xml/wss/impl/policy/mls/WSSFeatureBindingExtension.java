@@ -19,11 +19,11 @@ import com.sun.xml.wss.impl.policy.PolicyGenerationException;
  * @author abhijit.das@Sun.COM
  */
 public abstract class WSSFeatureBindingExtension extends WSSPolicy {
-    
+
     /** Creates a new instance of WSSFeatureBindingExtension */
     public WSSFeatureBindingExtension() {
     }
-    
+
     /**
      * Create and set the FeatureBinding for this WSSPolicy to a UsernameTokenBinding
      * @return a new UsernameTokenBinding as a FeatureBinding for this WSSPolicy
@@ -37,18 +37,18 @@ public abstract class WSSFeatureBindingExtension extends WSSPolicy {
             throw new RuntimeException (
                     "Can not create a feature binding of UsernameToken type for ReadOnly " + _policyIdentifier);
         }
-        
+
         if ((PolicyTypeUtil.SIGNATURE_POLICY_TYPE == _policyIdentifier) ||
                 (PolicyTypeUtil.ENCRYPTION_POLICY_TYPE == _policyIdentifier)) {
             throw new PolicyGenerationException (
                     "Can not create a feature binding of UsernameToken type for " + _policyIdentifier);
         }
-        
+
         this._featureBinding = new AuthenticationTokenPolicy.UsernameTokenBinding ();
         return _featureBinding;
     }
-    
-    
+
+
     /**
      * Create and set the FeatureBinding for this WSSPolicy to an X509CertificateBinding
      * @return a new X509CertificateBinding as a FeatureBinding for this WSSPolicy
@@ -62,17 +62,17 @@ public abstract class WSSFeatureBindingExtension extends WSSPolicy {
             throw new RuntimeException (
                     "Can not create a feature binding of X509Certificate type for ReadOnly " + _policyIdentifier);
         }
-        
+
         if ((PolicyTypeUtil.SIGNATURE_POLICY_TYPE == _policyIdentifier) ||
                 (PolicyTypeUtil.ENCRYPTION_POLICY_TYPE == _policyIdentifier)) {
             throw new PolicyGenerationException (
                     "Can not create a feature binding of X509Certificate type for " + _policyIdentifier);
         }
-        
+
         this._featureBinding = new AuthenticationTokenPolicy.X509CertificateBinding ();
         return _featureBinding;
     }
-    
+
     /**
      * Create and set the FeatureBinding for this WSSPolicy to a SAMLAssertionBinding
      * @return a new SAMLAssertionBinding as a FeatureBinding for this WSSPolicy
@@ -86,18 +86,18 @@ public abstract class WSSFeatureBindingExtension extends WSSPolicy {
             throw new RuntimeException (
                     "Can not create a feature binding of SAMLAssertion type for ReadOnly " + _policyIdentifier);
         }
-        
+
         if ((PolicyTypeUtil.SIGNATURE_POLICY_TYPE == _policyIdentifier) ||
                 (PolicyTypeUtil.ENCRYPTION_POLICY_TYPE == _policyIdentifier)) {
             throw new PolicyGenerationException (
                     "Can not create a feature binding of SAMLAssertion type for " + _policyIdentifier);
         }
-        
+
         this._featureBinding = new AuthenticationTokenPolicy.SAMLAssertionBinding ();
         return _featureBinding;
     }
-    
-    
+
+
     /*
       Create and set the FeatureBinding for this WSSPolicy to a TimestampPolicy
       @return a new TimestampPolicy as a FeatureBinding for this WSSPolicy
@@ -111,14 +111,14 @@ public abstract class WSSFeatureBindingExtension extends WSSPolicy {
             throw new RuntimeException (
                     "Can not create a feature binding of Timestamp type for ReadOnly " + _policyIdentifier);
         }
-        
+
         if (!(_policyIdentifier == PolicyTypeUtil.USERNAMETOKEN_TYPE) &&
                 !(_policyIdentifier == PolicyTypeUtil.SIGNATURE_POLICY_FEATUREBINDING_TYPE))
             throw new PolicyGenerationException (
                     "Can not create a feature binding of Timestamp type for " + _policyIdentifier);
-        
+
         this._featureBinding = new TimestampPolicy ();
         return _featureBinding;
     }*/
-    
+
 }

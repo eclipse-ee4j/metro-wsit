@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -67,7 +67,7 @@ class InOrderDeliveryQueue implements DeliveryQueue {
         this.postponedMessageQueue = new PriorityBlockingQueue<>(32, MSG_ID_COMPARATOR);
 
         this.isClosed = false;
-        
+
         this.rejectOutOfOrderMessages = rejectOutOfOrderMessages;
     }
 
@@ -78,7 +78,7 @@ class InOrderDeliveryQueue implements DeliveryQueue {
 
         if (rejectOutOfOrderMessages && !isDeliverable(message)) {
             JaxwsApplicationMessage jam = null;
-                    
+
             if (message instanceof JaxwsApplicationMessage) {
                 jam = (JaxwsApplicationMessage) message;
             } else {
@@ -86,7 +86,7 @@ class InOrderDeliveryQueue implements DeliveryQueue {
                         message.getClass().getName(),
                         JaxwsApplicationMessage.class.getName())));
             }
-            
+
             String correlationId = jam.getCorrelationId();
             SuspendedFiberStorage sfs = deliveryCallback.getRuntimeContext().suspendedFiberStorage;
             OutOfOrderMessageException e = new OutOfOrderMessageException(sequence.getId(), message.getMessageNumber());
@@ -101,7 +101,7 @@ class InOrderDeliveryQueue implements DeliveryQueue {
             tryDelivery();
         }
     }
-    
+
     @Override
     public void onSequenceAcknowledgement() {
 //        LOGGER.info(Thread.currentThread().getName() + " onSequenceAcknowledgement");
@@ -109,7 +109,7 @@ class InOrderDeliveryQueue implements DeliveryQueue {
             tryDelivery();
         }
     }
-    
+
     private void tryDelivery() {
 //        LOGGER.info(Thread.currentThread().getName() + " postponedMessageQueue.size() = " + postponedMessageQueue.size());
         if (isClosed) {

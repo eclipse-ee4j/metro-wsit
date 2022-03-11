@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -21,16 +21,16 @@ import org.tempuri.*;
 import xwsinterop.interoprt.*;
 
 public class HostedClient {
-    
-   
+
+
     private static final String PARAM_STSAddress = "STS_Endpoint_Address";
     private static final String PARAM_ServiceAddress = "Service_Endpoint_Address";
     private static final String PARAM_ConfigName = "Service_Endpoint_ConfigName";
     private static final String featureName ="WSTRUST";
     private static final String SCENARIO_5 = "Scenario_5_IssuedTokenForCertificate_MutualCertificate11";
-    
+
     public static void main(String [] args) throws UnknownHostException{
-        
+
         String serviceUrl = System.getProperty("service.url");
         String sts = System.getProperty("sts");
         String stsUrl = System.getProperty("msclient."+sts+"sts.url");
@@ -40,13 +40,13 @@ public class HostedClient {
         if(InetAddress.getByName(URI.create(stsUrl).getHost()).isLoopbackAddress()){
             stsUrl = stsUrl.replaceFirst("localhost",InetAddress.getLocalHost().getHostAddress());
         }
-        
-        
+
+
         HostedClientSoap proxy = createProxy();
-             
+
         ArrayOfHostedClientParameter paramArray = new ArrayOfHostedClientParameter();
         List<HostedClientParameter> list = paramArray.getHostedClientParameter();
-        
+
         HostedClientParameter stsParameter = readParameter(stsUrl, PARAM_STSAddress);
         list.add(stsParameter);
         HostedClientParameter serviceParameter = readParameter(serviceUrl, PARAM_ServiceAddress);
@@ -55,26 +55,26 @@ public class HostedClient {
         list.add(configParameter);
         runScenario(SCENARIO_5,paramArray,proxy);
     }
-    
+
     public static HostedClientParameter readParameter(String endpoint, String parameterName) {
         HostedClientParameter parameter = new HostedClientParameter();
         parameter.setKey(parameterName);
         parameter.setValue(endpoint);
         return parameter;
     }
-    
+
     public static HostedClientSoap createProxy() {
         HostedClientSoapImpl hostclisvc = new HostedClientSoapImpl();
-        return hostclisvc.getBasicHttpBindingHostedClientSoap();        
+        return hostclisvc.getBasicHttpBindingHostedClientSoap();
     }
-    
+
     public static void runScenario(String scenarioName, ArrayOfHostedClientParameter paramArray, HostedClientSoap proxy){
         System.out.println("Run Scenario: " + scenarioName);
         List<HostedClientParameter> list = paramArray.getHostedClientParameter();
         for(int i = 0; i<list.size();i++) {
             System.out.println(list.get(i).getKey() + ":" + list.get(i).getValue());
         }
-        
+
         HostedClientResult result = proxy.run(featureName, scenarioName,  paramArray);
         System.out.println("Result: " + (result.isSuccess() ? "PASS" : "FAIL"));
         System.out.println("Debuglog: " + result.getDebugLog());

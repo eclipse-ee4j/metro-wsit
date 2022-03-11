@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -28,7 +28,7 @@ public class HaContext {
      * Internal state data of the HA context
      */
     public static final class State {
-        
+
         private static final State EMPTY = new State(null, null);
 
         private final Packet packet;
@@ -98,8 +98,8 @@ public class HaContext {
 
     public static void udpateReplicaInstance(final String replicaInstance) {
         boolean updateNeeded = false;
-        final State currentState = state.get(); 
-        
+        final State currentState = state.get();
+
         if (currentState.haInfo == null) {
             throw new IllegalStateException("Unable to update replicaInstance. Current HaInfo in the local thread is null.");
         }
@@ -114,7 +114,7 @@ public class HaContext {
             if (LOGGER.isLoggable(Level.FINER)) {
                 LOGGER.finer("[METRO-HA] " + Thread.currentThread() + " : Replica instance value changed to '" + replicaInstance + "'. Updating current HaInfo.");
             }
-            
+
             final HaInfo old = currentState.haInfo;
             updateHaInfo(new HaInfo(old.getKey(), replicaInstance, old.isFailOver()));
         } else if (LOGGER.isLoggable(Level.FINER)) {

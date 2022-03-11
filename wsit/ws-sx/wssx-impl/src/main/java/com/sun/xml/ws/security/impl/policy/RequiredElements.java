@@ -27,7 +27,7 @@ import javax.xml.namespace.QName;
  * @author mayank.mishra@Sun.com
  */
 public class RequiredElements extends PolicyAssertion implements com.sun.xml.ws.security.policy.RequiredElements, SecurityAssertionValidator {
-    
+
     private String xpathVersion;
     private List<String> targetList;
     private boolean populated = false;
@@ -38,7 +38,7 @@ public class RequiredElements extends PolicyAssertion implements com.sun.xml.ws.
     public RequiredElements() {
         spVersion = SecurityPolicyVersion.SECURITYPOLICY200507;
     }
-    
+
     public RequiredElements(AssertionData name,Collection<PolicyAssertion> nestedAssertions, AssertionSet nestedAlternative) {
         super(name,nestedAssertions,nestedAlternative);
         String nsUri = getName().getNamespaceURI();
@@ -48,30 +48,30 @@ public class RequiredElements extends PolicyAssertion implements com.sun.xml.ws.
             spVersion = SecurityPolicyVersion.SECURITYPOLICY12NS;
         }
     }
-    
+
     @Override
     public String getXPathVersion() {
         populate();
         return xpathVersion;
     }
-    
+
     public void setXPathVersion(String version) {
         this.xpathVersion = version;
     }
-    
+
     public void addTarget(String target) {
         if ( targetList == null ) {
             targetList = new ArrayList<>();
         }
         targetList.add(target);
     }
-    
+
     public void removeTarget(String target) {
         if ( targetList != null ) {
             targetList.remove(target);
         }
     }
-    
+
     @Override
     public Iterator getTargets() {
         populate();
@@ -80,8 +80,8 @@ public class RequiredElements extends PolicyAssertion implements com.sun.xml.ws.
         }
         return Collections.emptyList().iterator();
     }
-    
-    
+
+
     @Override
     public AssertionFitness validate(boolean isServer) {
         return populate(isServer);
@@ -89,7 +89,7 @@ public class RequiredElements extends PolicyAssertion implements com.sun.xml.ws.
     private void populate(){
         populate(false);
     }
-    
+
     private synchronized AssertionFitness populate(boolean isServer) {
         if(!populated){
             this.xpathVersion = this.getAttributeValue(XPathVersion);

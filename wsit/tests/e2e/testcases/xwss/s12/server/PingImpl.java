@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -10,12 +10,12 @@
 
 package xwss.s12.server;
 
-                                                                                                                                                             
+
 @jakarta.jws.WebService (endpointInterface="xwss.s12.server.IPingService")
 public class PingImpl implements IPingService {
-    
+
    public String ping(String message) {
         System.out.println("The message is here : " + message);
         return message;
-    }                    
+    }
 }

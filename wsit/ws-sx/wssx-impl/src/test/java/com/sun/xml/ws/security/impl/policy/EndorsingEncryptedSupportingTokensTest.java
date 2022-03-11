@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -34,11 +34,11 @@ import junit.framework.TestSuite;
  * @author ashutosh.shahi@sun.com
  */
 public class EndorsingEncryptedSupportingTokensTest extends TestCase {
-    
+
     public EndorsingEncryptedSupportingTokensTest(String testName) {
         super(testName);
     }
-    
+
     @Override
     protected void setUp() {
     }
@@ -46,30 +46,30 @@ public class EndorsingEncryptedSupportingTokensTest extends TestCase {
     @Override
     protected void tearDown() {
     }
-    
+
     public static Test suite() {
         TestSuite suite = new TestSuite(EndorsingEncryptedSupportingTokensTest.class);
         return suite;
     }
-    
+
     private PolicySourceModel unmarshalPolicyResource(String resource) throws PolicyException, IOException {
         Reader reader = getResourceReader(resource);
         PolicySourceModel model = ModelUnmarshaller.getUnmarshaller().unmarshalModel(reader);
         reader.close();
         return model;
     }
-    
+
     private Reader getResourceReader(String resourceName) {
         return new InputStreamReader(Thread.currentThread().getContextClassLoader().getResourceAsStream(resourceName));
     }
-    
+
     public Policy unmarshalPolicy(String xmlFile)throws Exception{
         PolicySourceModel model =  unmarshalPolicyResource(
                 xmlFile);
         Policy mbp = ModelTranslator.getTranslator().translate(model);
-        return mbp;       
+        return mbp;
     }
-    
+
     public boolean isHeaderPresent(QName expected , Iterator headers){
         while(headers.hasNext()){
             Header header = (Header) headers.next();
@@ -81,7 +81,7 @@ public class EndorsingEncryptedSupportingTokensTest extends TestCase {
         }
         return false;
     }
-    
+
     public void testEndorsingEncryptedSupportingToken() throws Exception {
         String fileName="security/EndorsingEncryptedSupportingTokenSP12.xml";
         Policy policy = unmarshalPolicy(fileName);
@@ -91,19 +91,19 @@ public class EndorsingEncryptedSupportingTokensTest extends TestCase {
             for(PolicyAssertion assertion : as) {
                 assertEquals("Invalid assertion", "EndorsingEncryptedSupportingTokens",assertion.getName().getLocalPart());
                 EndorsingEncryptedSupportingTokens est = (EndorsingEncryptedSupportingTokens)assertion;
-                
+
                 AlgorithmSuite aSuite = (AlgorithmSuite) est.getAlgorithmSuite();
                 assertEquals("Unmatched Algorithm",aSuite.getEncryptionAlgorithm(), AlgorithmSuiteValue.TripleDesRsa15.getEncAlgorithm());
-                
+
                 Iterator itrest = est.getTokens();
                 if(itrest.hasNext()) {
                     assertTrue(X509Token.WSSX509V3TOKEN10.equals(((X509Token)itrest.next()).getTokenType()));
                 }
-                
+
                 Iterator itrTkn = est.getSignedParts();
                 if(itrTkn.hasNext()) {
                     SignedParts sp = ((SignedParts)itrTkn.next());
-                    
+
                     assertEquals("Body should be present",true,sp.hasBody());
                     assertTrue(isHeaderPresent(new QName("http://schemas.xmlsoap.org/ws/2004/08/addressing","To"),sp.getHeaders()));
                     assertTrue(isHeaderPresent(new QName("http://schemas.xmlsoap.org/ws/2004/08/addressing","From"),sp.getHeaders()));
@@ -112,7 +112,7 @@ public class EndorsingEncryptedSupportingTokensTest extends TestCase {
                     assertTrue(isHeaderPresent(new QName("http://schemas.xmlsoap.org/ws/2004/08/addressing","MessageID"),sp.getHeaders()));
                     assertTrue(isHeaderPresent(new QName("http://schemas.xmlsoap.org/ws/2004/08/addressing","RelatesTo"),sp.getHeaders()));
                     assertTrue(isHeaderPresent(new QName("http://schemas.xmlsoap.org/ws/2004/08/addressing","Action"),sp.getHeaders()));
-                    
+
                 }
             }
         }

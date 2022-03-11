@@ -104,7 +104,7 @@ public class TransactionServicesImpl implements TransactionServices {
             LOGGER.warning(ex.getMessage() + " errorcode:" + ex.errorCode, ex);
             throw new WSATException(ex.getMessage() + " errorcode:" + ex.errorCode, ex);
         } finally {
-            TransactionImportManager.getInstance().release(xidImpl); //prepare does an implicit import/recreate  
+            TransactionImportManager.getInstance().release(xidImpl); //prepare does an implicit import/recreate
         }
         if(vote==XAResource.XA_RDONLY) {
             debug("deleting record due to readonly reply from prepare for txid:" + new String(tId));

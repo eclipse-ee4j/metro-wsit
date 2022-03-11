@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -30,44 +30,44 @@ import junit.framework.*;
  * @author Mayank.Mishra@SUN.com
  */
 public class UsernameTokenTest extends TestCase {
-    
+
     public UsernameTokenTest(String testName) {
         super(testName);
     }
-    
+
     @Override
     protected void setUp() {
     }
-    
+
     @Override
     protected void tearDown() {
     }
-    
+
     public static Test suite() {
         TestSuite suite = new TestSuite(UsernameTokenTest.class);
-        
+
         return suite;
     }
-    
+
     private PolicySourceModel unmarshalPolicyResource(String resource) throws PolicyException, IOException {
         Reader reader = getResourceReader(resource);
         PolicySourceModel model = ModelUnmarshaller.getUnmarshaller().unmarshalModel(reader);
         reader.close();
         return model;
     }
-    
+
     private Reader getResourceReader(String resourceName) {
         return new InputStreamReader(Thread.currentThread().getContextClassLoader().getResourceAsStream(resourceName));
     }
-    
+
     public Policy unmarshalPolicy(String xmlFile)throws Exception{
         PolicySourceModel model =  unmarshalPolicyResource(
                 xmlFile);
         Policy mbp = ModelTranslator.getTranslator().translate(model);
         return mbp;
-        
+
     }
-    
+
     public void testUserNameTokenAssertions_8() throws Exception{
         testTokenAssertionsType("security/UserNameTokenAssertions1.xml", com.sun.xml.ws.security.policy.UserNameToken.WSS_USERNAME_TOKEN_10);
         testTokenAssertionsType("security/UserNameTokenAssertions2.xml", com.sun.xml.ws.security.policy.UserNameToken.WSS_USERNAME_TOKEN_10);
@@ -78,7 +78,7 @@ public class UsernameTokenTest extends TestCase {
         testTokenAssertionsType("security/UserNameTokenAssertions7.xml", com.sun.xml.ws.security.policy.UserNameToken.WSS_USERNAME_TOKEN_11);
         testTokenAssertionsType("security/UserNameTokenAssertions8.xml", com.sun.xml.ws.security.policy.UserNameToken.WSS_USERNAME_TOKEN_11);
     }
-    
+
     public void testTokenAssertionsType(String fileName, String tokenType) throws Exception{
         Policy policy = unmarshalPolicy(fileName);
         assertNotNull(policy);

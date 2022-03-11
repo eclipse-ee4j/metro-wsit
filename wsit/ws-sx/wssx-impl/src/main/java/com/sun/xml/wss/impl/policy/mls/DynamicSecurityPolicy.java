@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -18,12 +18,12 @@ import com.sun.xml.wss.impl.policy.SecurityPolicyGenerator;
 
 /**
  * Represents  a dynamically generable SecurityPolicy.
- * It contains an associated Policy Generator that can be used to 
+ * It contains an associated Policy Generator that can be used to
  * generate appropriate Security Policies understood by the
  * XWS-Security framework.
  */
 public class DynamicSecurityPolicy extends com.sun.xml.wss.impl.policy.DynamicSecurityPolicy {
-    
+
     /**
      * Return the associated SecurityPolicy generator
      * @return SecurityPolicyGenerator, the associated generator

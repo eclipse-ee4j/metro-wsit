@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -82,7 +82,7 @@ import com.sun.xml.wss.logging.impl.opt.signature.LogStringsMessages;
 public class SignedInfoProcessor {
     private static final Logger logger = Logger.getLogger(LogDomainConstants.IMPL_OPT_SIGNATURE_DOMAIN,
             LogDomainConstants.IMPL_OPT_SIGNATURE_DOMAIN_BUNDLE);
-    
+
     public static final int CANONICALIZATION_METHOD_EVENT = 1;
     public static final int SIGNATURE_METHOD_EVENT = 2;
     public static final int REFERENCE_EVENT = 3;
@@ -90,7 +90,7 @@ public class SignedInfoProcessor {
     public static final int DIGEST_VALUE_EVENT = 5;
     public static final int TRANSFORM_EVENT = 6;
     public static final int TRANSFORMS_EVENT = 7;
-    
+
     StAXEXC14nCanonicalizerImpl exc14nFinal = null;
     public static final String CANONICALIZATION_METHOD = "CanonicalizationMethod";
     public static final String SIGNATURE_METHOD = "SignatureMethod";
@@ -129,7 +129,7 @@ public class SignedInfoProcessor {
         this.signatureFactory = JAXBSignatureFactory.newInstance();
         fb = (SignaturePolicy.FeatureBinding) signPolicy.getFeatureBinding();
     }
-    
+
     public XMLStreamWriter getCanonicalizer(){
         return exc14nFinal;
     }
@@ -138,7 +138,7 @@ public class SignedInfoProcessor {
      * @return  SignedInfo
      */
     public SignedInfo process() throws XWSSecurityException{
-        try {            
+        try {
             for(int i=0; i< reader.getNamespaceCount();i++){
                 currentNSDecls.put(reader.getNamespacePrefix(i), reader.getNamespaceURI(i));
             }
@@ -152,7 +152,7 @@ public class SignedInfoProcessor {
                         fb.setCanonicalizationAlgorithm(canonAlgo);
                         break;
                     }
-                    case SIGNATURE_METHOD_EVENT :{                       
+                    case SIGNATURE_METHOD_EVENT :{
                         signatureMethod = reader.getAttributeValue(null,"Algorithm");
                         break;
                     }
@@ -165,7 +165,7 @@ public class SignedInfoProcessor {
                         //no-op
                     }
                     }
-                    if(StreamUtil._break(reader,"SignedInfo", MessageConstants.DSIG_NS)){                        
+                    if(StreamUtil._break(reader,"SignedInfo", MessageConstants.DSIG_NS)){
                         if(reader.hasNext())
                             reader.next();
                         break;
@@ -175,7 +175,7 @@ public class SignedInfoProcessor {
                         }
                         reader.next();
                     }
-                    if(StreamUtil._break(reader,"SignedInfo", MessageConstants.DSIG_NS)){                        
+                    if(StreamUtil._break(reader,"SignedInfo", MessageConstants.DSIG_NS)){
                         if(reader.hasNext())
                             reader.next();
                         break;
@@ -183,7 +183,7 @@ public class SignedInfoProcessor {
                     refElement = getEventType(reader);
                 }
             }
-            // One or more reference element must be present in Signature 
+            // One or more reference element must be present in Signature
             if(!referencesFound){
                 logger.log(Level.SEVERE, LogStringsMessages.WSS_1725_REFERENCE_ELEMENT_NOTFOUND());
                 throw new XWSSecurityException(LogStringsMessages.WSS_1725_REFERENCE_ELEMENT_NOTFOUND());
@@ -198,22 +198,22 @@ public class SignedInfoProcessor {
                 if(siReader.getEventType() == siReader.START_ELEMENT){
                     if(siReader.getLocalName() == "SignedInfo".intern()){
                         break;
-                    }                   
+                    }
                 }
                  siReader.next();
             }
             int counter =1;
-            while(siReader.hasNext()){  
+            while(siReader.hasNext()){
                 StreamUtil.writeCurrentEvent(siReader,exc14nFinal);
                 if(counter == 0){
                     break;
                 }
                 siReader.next();
                 if(siReader.getEventType() == siReader.END_ELEMENT){
-                    counter --;                    
+                    counter --;
                 }else if(siReader.getEventType() == siReader.START_ELEMENT){
                     counter++;
-                }                
+                }
             }
             si.setCanonicalizedSI(canonInfo.toByteArray());
             if(logger.isLoggable(Level.FINEST)){
@@ -250,22 +250,22 @@ public class SignedInfoProcessor {
                     }
                 }
             }
-            
+
             if(MessageConstants.TRANSFORM_C14N_EXCL_OMIT_COMMENTS.equals(canonAlgo)){
-                exc14nFinal = new StAXEXC14nCanonicalizerImpl();               
+                exc14nFinal = new StAXEXC14nCanonicalizerImpl();
                 if(prefixList != null && prefixList.length >0){
                     ArrayList<String> al = new ArrayList<>(prefixList.length);
                     al.addAll(Arrays.asList(prefixList));
                     exc14nFinal.setInclusivePrefixList(al);
-                }                
+                }
                 Iterator<String> itr = currentNSDecls.keySet().iterator();
                 exc14nFinal.setStream(canonInfo);
-                
+
                 while(itr.hasNext()){
                     String prefix = itr.next();
                     String uri = currentNSDecls.get(prefix);
                     exc14nFinal.writeNamespace(prefix,uri);
-                }                             
+                }
             }
         }catch(XMLStreamException xse){
             logger.log(Level.SEVERE, LogStringsMessages.WSS_1711_ERROR_VERIFYING_SIGNATURE(),xse);
@@ -280,7 +280,7 @@ public class SignedInfoProcessor {
     private void processReferences(XMLStreamReader reader)throws XWSSecurityException{
         try{
             String dm = "";
-            final String uri=reader.getAttributeValue(null,"URI");            
+            final String uri=reader.getAttributeValue(null,"URI");
             String digestValue ="";
             Base64Data bd = null;
             ArrayList tList = null;
@@ -292,11 +292,11 @@ public class SignedInfoProcessor {
                     tList = processTransforms(reader,uri);
                     break;
                 }
-                case DIGEST_METHOD_EVENT :{                    
+                case DIGEST_METHOD_EVENT :{
                     dm = reader.getAttributeValue(null,"Algorithm");
                     break;
                 }
-                case DIGEST_VALUE_EVENT :{                    
+                case DIGEST_VALUE_EVENT :{
                     if(reader instanceof XMLStreamReaderEx){
                         reader.next();
                         CharSequence charSeq = ((XMLStreamReaderEx)reader).getPCDATA();
@@ -305,12 +305,12 @@ public class SignedInfoProcessor {
                             bd = (Base64Data)charSeq;
                             dv = Base64.encode(bd.getExact());
                         } else{
-                            dv = StreamUtil.getCV(reader);   
+                            dv = StreamUtil.getCV(reader);
                         }
-                        digestValue = dv;                        
+                        digestValue = dv;
                         //reader.next();
                     }else{
-                        digestValue = StreamUtil.getCV(reader);                        
+                        digestValue = StreamUtil.getCV(reader);
                     }
                     break;
                 }
@@ -319,7 +319,7 @@ public class SignedInfoProcessor {
                 }
                 }
             }
-            
+
             ReferenceType rt = new Reference();
             DigestMethod digestMethod = new DigestMethod();
             digestMethod.setAlgorithm(dm);
@@ -334,12 +334,12 @@ public class SignedInfoProcessor {
                     throw new XWSSecurityException(LogStringsMessages.WSS_1719_ERROR_DIGESTVAL_REFERENCE(uri));
                 }
             }
-            
+
             rt.setURI(uri);
             TransformsType transforms= new Transforms();
             transforms.setTransform(tList);
             rt.setTransforms((Transforms) transforms);
-            
+
             // policy creation
             Target target = new Target(Target.TARGET_TYPE_VALUE_URI, uri);
             SignatureTarget signTarget = new SignatureTarget(target);
@@ -349,13 +349,13 @@ public class SignedInfoProcessor {
                 SignatureTarget.Transform sTr = new SignatureTarget.Transform(tr.getAlgorithm());
                 signTarget.addTransform(sTr);
             }
-            
+
             fb.addTargetBinding(signTarget);
-            
+
             if(!processReference((Reference) rt)){
                 ArrayList<Reference> refCache = getReferenceList();
                 refCache.add((Reference)rt);
-            }            
+            }
         }catch(XMLStreamException xe){
             logger.log(Level.SEVERE, LogStringsMessages.WSS_1711_ERROR_VERIFYING_SIGNATURE(),xe);
             throw new XWSSecurityException(LogStringsMessages.WSS_1711_ERROR_VERIFYING_SIGNATURE() ,xe);
@@ -402,14 +402,14 @@ public class SignedInfoProcessor {
         }
         return false;
     }
-    
+
     public ArrayList<Reference> getReferenceList(){
         if(refList == null){
             refList = new ArrayList<>(1);
         }
         return refList;
     }
-    
+
     public int getReferenceEventType(XMLStreamReader reader){
         if(reader.getEventType() == XMLStreamReader.START_ELEMENT){
             if(reader.getLocalName() == TRANSFORMS){
@@ -424,7 +424,7 @@ public class SignedInfoProcessor {
         }
         return -1;
     }
-    
+
     private int getEventType(XMLStreamReader reader) {
         if(reader.getEventType() == XMLStreamReader.START_ELEMENT){
             if(reader.getLocalName() == CANONICALIZATION_METHOD){
@@ -454,9 +454,9 @@ public class SignedInfoProcessor {
                     trList.add(processTransform(reader,uri));
                 }
                 reader.next();
-                if(StreamUtil._break(reader,TRANSFORMS,MessageConstants.DSIG_NS)){                 
+                if(StreamUtil._break(reader,TRANSFORMS,MessageConstants.DSIG_NS)){
                     break;
-                }                                
+                }
             }
             return trList;
         }catch(XMLStreamException xse){
@@ -471,8 +471,8 @@ public class SignedInfoProcessor {
      */
     private Transform processTransform(XMLStreamReader reader,String uri) throws XWSSecurityException{
         try{
-            
-            ExcC14NParameterSpec exc14nSpec = null;            
+
+            ExcC14NParameterSpec exc14nSpec = null;
             String value = reader.getAttributeValue(null,"Algorithm");
             if(EXC14N_NS.equals(value)){
                 exc14nSpec = readEXC14nTransform(reader);
@@ -509,7 +509,7 @@ public class SignedInfoProcessor {
             throw new XWSSecurityException("Transform error",xe);
         }
     }
-    
+
     /**
      *
      * @param id String
@@ -537,7 +537,7 @@ public class SignedInfoProcessor {
         }
         return null;
     }
-    
+
     /**
      * reads the STR transform and creates the XMLStructure
      * @param reader XMLStreamReader
@@ -554,7 +554,7 @@ public class SignedInfoProcessor {
                     new com.sun.xml.ws.security.secext10.ObjectFactory().createTransformationParameters(tp);
             XMLStructure transformSpec = new JAXBStructure(tpElement);
             reader.next();
-            if(StreamUtil.isStartElement(reader) && (reader.getLocalName() == MessageConstants.CANONICALIZATION_METHOD)){                
+            if(StreamUtil.isStartElement(reader) && (reader.getLocalName() == MessageConstants.CANONICALIZATION_METHOD)){
                 String value = reader.getAttributeValue(null,"Algorithm");
                 SignatureProcessor.verifyCanonicalizationMethodAlgorithm(value);
                 cm.setAlgorithm(value);
@@ -576,7 +576,7 @@ public class SignedInfoProcessor {
         ExcC14NParameterSpec exc14nSpec = null;
         if(reader.hasNext()){
             reader.next();
-            if(StreamUtil.isStartElement(reader) && reader.getLocalName() == INCLUSIVENAMESPACES){                
+            if(StreamUtil.isStartElement(reader) && reader.getLocalName() == INCLUSIVENAMESPACES){
                 prefixList = reader.getAttributeValue(null,"PrefixList");
                 String [] pl = null;
                 if(prefixList != null && prefixList.length() >0){
@@ -588,7 +588,7 @@ public class SignedInfoProcessor {
                     exc14nSpec = new ExcC14NParameterSpec(prefixs);
                 }
                 if(reader.hasNext()){
-                    reader.next();                    
+                    reader.next();
                 }
             }
         }

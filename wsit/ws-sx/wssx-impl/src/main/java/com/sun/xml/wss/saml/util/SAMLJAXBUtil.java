@@ -29,7 +29,7 @@ public class SAMLJAXBUtil {
 
     static {
         try {
-            //JAXB might access private class members by reflection so 
+            //JAXB might access private class members by reflection so
             //make it JAXBContext privileged
             AccessController.doPrivileged(new PrivilegedExceptionAction<>() {
                 @Override
@@ -49,5 +49,5 @@ public class SAMLJAXBUtil {
     public static JAXBContext getJAXBContext(String namespaces) throws JAXBException{
         jaxbContext = JAXBContext.newInstance("com.sun.xml.wss.saml.internal.saml11.jaxb20"+":"+namespaces);
         return jaxbContext;
-    }    
+    }
 }

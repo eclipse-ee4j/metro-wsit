@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -38,18 +38,18 @@ public class URIResolver implements URIDereferencer{
         this.pc = pc;
         this.securityContext = pc.getSecurityContext();
     }
-    
+
     @Override
     public Data dereference(URIReference uRIReference, XMLCryptoContext xMLCryptoContext) throws URIReferenceException {
-        
+
         // FIXME: RJE -- remove cast once MessageContext supports asList(), hasHeaders()
         HeaderList headers = (HeaderList) securityContext.getNonSecurityHeaders();
         String tmpId = uRIReference.getURI();
-        
+
         if(tmpId.startsWith("cid:")){
             return dereferenceAttachments(tmpId.substring(4));
         }
-        
+
         String id = "";
         int index = tmpId.indexOf("#");
         if( index >=0){
@@ -67,7 +67,7 @@ public class URIResolver implements URIDereferencer{
                 }
             }
         }
-        
+
         ArrayList pshList =  securityContext.getProcessedSecurityHeaders();
         for(int j=0; j< pshList.size() ; j++){
             SecurityHeaderElement  header = (SecurityHeaderElement) pshList.get(j);
@@ -80,7 +80,7 @@ public class URIResolver implements URIDereferencer{
                 }
             }
         }
-        
+
         // looking into buffered headers for - (Should be used only for getting the key)
         // What will happen when encrypting the content but signing the entire element? Can go wrong
         ArrayList bufList =  securityContext.getBufferedSecurityHeaders();
@@ -95,7 +95,7 @@ public class URIResolver implements URIDereferencer{
                 }
             }
         }
-        
+
         Data data = null;
         data = (Data)pc.getSTRTransformCache().get(id);
         if(data != null)
@@ -119,5 +119,5 @@ public class URIResolver implements URIDereferencer{
         AttachmentData attachData = new AttachmentData(attachment);
         return attachData;
     }
-    
+
 }

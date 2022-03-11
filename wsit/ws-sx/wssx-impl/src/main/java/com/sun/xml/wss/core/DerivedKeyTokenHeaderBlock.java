@@ -32,7 +32,7 @@ import com.sun.xml.wss.impl.misc.Base64;
  * @author Abhijit Das
  */
 public class DerivedKeyTokenHeaderBlock extends SecurityHeaderBlockImpl implements Token, SecurityToken {
-    
+
     /**
      *
      */
@@ -41,7 +41,7 @@ public class DerivedKeyTokenHeaderBlock extends SecurityHeaderBlockImpl implemen
         return SecurityHeaderBlockImpl.fromSoapElement(
                 element, DerivedKeyTokenHeaderBlock.class);
     }
-    
+
     private Document contextDocument = null;
     private SecurityTokenReference securityTokenRefElement = null;
     private long offset = 0;
@@ -52,8 +52,8 @@ public class DerivedKeyTokenHeaderBlock extends SecurityHeaderBlockImpl implemen
     private String label = null;
 
     private byte[] decodedNonce = null;
-    
-    
+
+
     public DerivedKeyTokenHeaderBlock(Document contextDocument, SecurityTokenReference securityTokenRefElement, String wsuId) throws XWSSecurityException {
         if (securityTokenRefElement != null ) {
             this.contextDocument = contextDocument;
@@ -63,11 +63,11 @@ public class DerivedKeyTokenHeaderBlock extends SecurityHeaderBlockImpl implemen
             throw new XWSSecurityException("DerivedKeyToken can not be null");
         }
     }
-    
+
     public DerivedKeyTokenHeaderBlock(Document contextDocument,
             SecurityTokenReference securityTokenRefElement,
             String nonce, String wsuId) throws XWSSecurityException {
-        
+
         if (securityTokenRefElement != null ) {
             this.contextDocument = contextDocument;
             this.securityTokenRefElement = securityTokenRefElement;
@@ -75,15 +75,15 @@ public class DerivedKeyTokenHeaderBlock extends SecurityHeaderBlockImpl implemen
         } else {
             throw new XWSSecurityException("DerivedKeyToken can not be null");
         }
-        
+
         if ( nonce != null ) {
             this.nonce = nonce;
         } else {
             throw new XWSSecurityException("Nonce can not be null");
         }
     }
-    
-    
+
+
     public DerivedKeyTokenHeaderBlock(Document contextDocument,
             SecurityTokenReference securityTokenRefElement,
             String nonce,
@@ -92,7 +92,7 @@ public class DerivedKeyTokenHeaderBlock extends SecurityHeaderBlockImpl implemen
         this(contextDocument, securityTokenRefElement, nonce, wsuId);
         this.generation = generation;
     }
-    
+
     public DerivedKeyTokenHeaderBlock(Document contextDocument,
             SecurityTokenReference securityTokenRefElement,
             String nonce,
@@ -101,9 +101,9 @@ public class DerivedKeyTokenHeaderBlock extends SecurityHeaderBlockImpl implemen
         this(contextDocument, securityTokenRefElement, nonce, -1, wsuId);
         this.length = length;
         this.offset = offset;
-        
+
     }
-    
+
      public DerivedKeyTokenHeaderBlock(Document contextDocument,
             SecurityTokenReference securityTokenRefElement,
             String nonce,
@@ -113,44 +113,44 @@ public class DerivedKeyTokenHeaderBlock extends SecurityHeaderBlockImpl implemen
         this.length = length;
         this.offset = offset;
         this.label = label;
-        
+
     }
-    
-    
+
+
     public DerivedKeyTokenHeaderBlock(SOAPElement derivedKeyTokenHeaderBlock ) throws XWSSecurityException {
         setSOAPElement(derivedKeyTokenHeaderBlock);
-        
+
         this.contextDocument = getOwnerDocument();
-        
+
         if (!("DerivedKeyToken".equals(getLocalName()) &&
                 XMLUtil.inWsscNS(this))) {
             throw new SecurityTokenException(
                     "Expected DerivedKeyToken Element, but Found " + getPrefix() + ":" + getLocalName());
         }
-        
+
         boolean invalidToken = false;
-        
+
         Iterator children = getChildElements();
-        
+
         // Check whether SecurityTokenReference is present inside DerivedKeyToken
         String wsuId = getAttributeNS(MessageConstants.WSU_NS, "Id");
         if (!"".equals(wsuId))
             setId(wsuId);
-        
+
         Node object = null;
-        boolean offsetSpecified = false; 
-        boolean genSpecified = false; 
-        boolean lenSpecified = false; 
+        boolean offsetSpecified = false;
+        boolean genSpecified = false;
+        boolean lenSpecified = false;
 
         while (children.hasNext()) {
-            
+
             object = (Node)children.next();
-            
+
             if (object.getNodeType() == Node.ELEMENT_NODE) {
-                
+
                 SOAPElement element = (SOAPElement) object;
                 //TODO: Check for other attributes
-                //TODO: Add static final constants for all these string constants below. 
+                //TODO: Add static final constants for all these string constants below.
                 if ("SecurityTokenReference".equals(element.getLocalName()) &&
                         XMLUtil.inWsseNS(element)) {
                     securityTokenRefElement = new SecurityTokenReference(element);
@@ -185,21 +185,21 @@ public class DerivedKeyTokenHeaderBlock extends SecurityHeaderBlockImpl implemen
                 }
             }
         }
- 
+
         if (offsetSpecified && genSpecified) {
             invalidToken = true;
         }
-        
+
         if ( invalidToken) {
             throw new XWSSecurityException("Invalid DerivedKeyToken");
         }
     }
-    
+
     @Override
     public SOAPElement getAsSoapElement() throws XWSSecurityException {
         if ( delegateElement != null )
             return delegateElement;
-        
+
         try {
             setSOAPElement(
                     (SOAPElement) contextDocument.createElementNS(
@@ -228,27 +228,27 @@ public class DerivedKeyTokenHeaderBlock extends SecurityHeaderBlockImpl implemen
             if ( nonce != null ) {
                 addChildElement("Nonce", MessageConstants.WSSC_PREFIX).addTextNode(nonce);
             }
-            
+
             if (wsuId != null) {
                 setWsuIdAttr(this, wsuId);
             }
-            
+
         } catch (SOAPException se) {
             throw new SecurityTokenException(
                     "There was an error creating DerivedKey Token " +
                     se.getMessage());
         }
-        
+
         return super.getAsSoapElement();
     }
-    
-    
-    
-    
+
+
+
+
     public Document getContextDocument() {
         return contextDocument;
     }
-    
+
     public byte[] getNonce() {
         if (decodedNonce != null)
             return decodedNonce;
@@ -259,15 +259,15 @@ public class DerivedKeyTokenHeaderBlock extends SecurityHeaderBlockImpl implemen
         }
         return decodedNonce;
     }
-    
+
     public long getOffset() {
         return offset;
     }
-    
+
     public long getLength() {
         return length;
     }
-    
+
     public SecurityTokenReference getDerivedKeyElement() {
         return securityTokenRefElement;
     }
@@ -276,7 +276,7 @@ public class DerivedKeyTokenHeaderBlock extends SecurityHeaderBlockImpl implemen
     public String getType() {
         return MessageConstants.DERIVEDKEY_TOKEN_NS;
     }
-                                                                                                                                    
+
     @Override
     public Object getTokenValue() {
         return this;
@@ -285,7 +285,7 @@ public class DerivedKeyTokenHeaderBlock extends SecurityHeaderBlockImpl implemen
     private void setId(String wsuId) {
         this.wsuId = wsuId;
     }
-    
+
     public String getLabel() {
         return this.label;
     }

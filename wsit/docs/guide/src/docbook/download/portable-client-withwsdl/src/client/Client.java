@@ -26,6 +26,6 @@ public class Client {
         IMtomTest proxy = new MtomService().getBasicHttpBindingIMtomTest();
         String input="Hello World";
         byte[] response = proxy.echoStringAsBinary(input);
-        System.out.println("Sent: "+input+", Received: "+new String(response));        
+        System.out.println("Sent: "+input+", Received: "+new String(response));
     }
 }

@@ -33,18 +33,18 @@ public class Trust13 extends PolicyAssertion implements com.sun.xml.ws.security.
     private boolean populated = false;
     private AssertionFitness fitness = AssertionFitness.IS_VALID;
     private SecurityPolicyVersion spVersion;
-    
+
     /** Creates a new instance of Trust13 */
     public Trust13() {
         spVersion = SecurityPolicyVersion.SECURITYPOLICY12NS;
     }
-    
+
     public Trust13(AssertionData name,Collection<PolicyAssertion> nestedAssertions, AssertionSet nestedAlternative) {
         super(name,nestedAssertions,nestedAlternative);
         String nsUri = getName().getNamespaceURI();
         spVersion = PolicyUtil.getSecurityPolicyVersion(nsUri);
     }
-    
+
     public void addRequiredProperty(String requirement) {
         if(requiredProps == null){
             requiredProps = new HashSet<>();
@@ -67,11 +67,11 @@ public class Trust13 extends PolicyAssertion implements com.sun.xml.ws.security.
     public SecurityAssertionValidator.AssertionFitness validate(boolean isServer) {
         return populate(isServer);
     }
-    
+
     private void populate(){
         populate(false);
     }
-    
+
     private synchronized AssertionFitness populate(boolean isServer) {
         if(!populated){
             NestedPolicy policy = this.getNestedPolicy();
@@ -109,5 +109,5 @@ public class Trust13 extends PolicyAssertion implements com.sun.xml.ws.security.
         }
         return fitness;
     }
-    
+
 }

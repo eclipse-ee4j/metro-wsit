@@ -37,7 +37,7 @@
         <module>wsrm-impl</module>
         <module>wsrx-testing</module>
     </modules>
-    
+
     <!--dependencies></dependencies-->
     <!--properties></properties-->
 </project>

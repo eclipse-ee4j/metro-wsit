@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -36,10 +36,10 @@ import com.sun.xml.wss.logging.impl.opt.crypto.LogStringsMessages;
  * @author K.Venugopal@sun.com
  */
 public class CipherDataProcessor {
-    
+
     private static final Logger logger = Logger.getLogger(LogDomainConstants.IMPL_OPT_CRYPTO_DOMAIN,
             LogDomainConstants.IMPL_OPT_CRYPTO_DOMAIN_BUNDLE);
-    
+
     private static String CIPHER_VALUE = "CipherValue".intern();
     private static String CIPHER_REFERENCE = "CipherReference".intern();
     private static String TRANSFORMS = "Transforms".intern();
@@ -78,7 +78,7 @@ public class CipherDataProcessor {
                             }
                         }
                     }else{
-                        
+
                         try {
                             //cipherValue = Base64.decode(reader.getElementText());
                             cipherValue = Base64.decode(StreamUtil.getCV(reader));
@@ -86,7 +86,7 @@ public class CipherDataProcessor {
                             logger.log(Level.SEVERE, LogStringsMessages.WSS_1922_ERROR_DECODING_CIPHERVAL(ex),ex);
                             throw SOAPUtil.newSOAPFaultException(MessageConstants.WSSE_FAILED_CHECK, LogStringsMessages.WSS_1922_ERROR_DECODING_CIPHERVAL(ex), ex);
                         }
-                        
+
                     }
                     //reader.next();//move to END OF CIPHER VALUE
                     reader.next();//move to END OF CIPHER DATA
@@ -121,7 +121,7 @@ public class CipherDataProcessor {
                         return;
                     } else {
                         logger.log(Level.SEVERE, LogStringsMessages.WSS_1928_UNRECOGNIZED_CIPHERTEXT_TRANSFORM(algorithm));
-                        throw SOAPUtil.newSOAPFaultException(MessageConstants.WSSE_FAILED_CHECK, LogStringsMessages.WSS_1928_UNRECOGNIZED_CIPHERTEXT_TRANSFORM(algorithm), 
+                        throw SOAPUtil.newSOAPFaultException(MessageConstants.WSSE_FAILED_CHECK, LogStringsMessages.WSS_1928_UNRECOGNIZED_CIPHERTEXT_TRANSFORM(algorithm),
                                 new XWSSecurityException(LogStringsMessages.WSS_1928_UNRECOGNIZED_CIPHERTEXT_TRANSFORM(algorithm)));
                     }
                 }
@@ -133,14 +133,14 @@ public class CipherDataProcessor {
         }
         logger.log(Level.SEVERE, LogStringsMessages.WSS_1923_ERROR_PROCESSING_CIPHERVAL("unexpected element:"+reader.getLocalName()));
         throw SOAPUtil.newSOAPFaultException(MessageConstants.WSSE_FAILED_CHECK,LogStringsMessages.WSS_1923_ERROR_PROCESSING_CIPHERVAL("unexpected element:"+reader.getLocalName()), null);
-        
+
     }
     /**
      *
      * @return InputStream
      */
     public InputStream readAsStream() throws XWSSecurityException{
-        
+
         if(bd != null ){
             try {
                 return bd.getInputStream();
@@ -155,7 +155,7 @@ public class CipherDataProcessor {
         logger.log(Level.SEVERE, LogStringsMessages.WSS_1924_CIPHERVAL_MISSINGIN_CIPHERDATA());
         throw SOAPUtil.newSOAPFaultException(MessageConstants.WSSE_FAILED_CHECK,LogStringsMessages.WSS_1924_CIPHERVAL_MISSINGIN_CIPHERDATA(),null);
     }
-    
+
     /**
      *
      * @return byte[] cipherValue
@@ -171,15 +171,15 @@ public class CipherDataProcessor {
         logger.log(Level.SEVERE, LogStringsMessages.WSS_1924_CIPHERVAL_MISSINGIN_CIPHERDATA());
         throw SOAPUtil.newSOAPFaultException(MessageConstants.WSSE_FAILED_CHECK,LogStringsMessages.WSS_1924_CIPHERVAL_MISSINGIN_CIPHERDATA(),null);
     }
-    
+
     public boolean hasCipherReference(){
         return hasCipherReference;
     }
-    
+
     public String getAttachmentContentId(){
         return attachmentContentId;
     }
-    
+
     public String getAttachmentContentType(){
         return attachmentContentType;
     }

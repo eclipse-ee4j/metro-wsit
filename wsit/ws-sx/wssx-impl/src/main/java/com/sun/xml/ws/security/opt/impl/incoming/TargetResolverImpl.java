@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -68,7 +68,7 @@ public class TargetResolverImpl implements TargetResolver {
         for (Target actualTarget : actualTargets) {
             if("Signature".equals(policyType) && ((SignatureTarget)actualTarget).isITNever() == true){
                 //ignore resolving the target when the target is S.S or S.E.S.Token target because this breaks oracle interop
-                //need to refine it later if something goes wrong 
+                //need to refine it later if something goes wrong
                 continue;
             }
             boolean found = false;

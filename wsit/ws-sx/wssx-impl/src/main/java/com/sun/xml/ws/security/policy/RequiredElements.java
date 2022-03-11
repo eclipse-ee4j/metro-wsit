@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -16,8 +16,8 @@ import java.util.Iterator;
  * <p>
  * <pre>{@code
  *  <xmp>
- *      <sp:RequiredElements XPathVersion="xs:anyURI"? ... > 
- *          <sp:XPath>xs:string</sp:XPath>+ 
+ *      <sp:RequiredElements XPathVersion="xs:anyURI"? ... >
+ *          <sp:XPath>xs:string</sp:XPath>+
  *              ...
  *      </sp:RequiredElements>
  *  </xmp>
@@ -25,17 +25,17 @@ import java.util.Iterator;
  * @author mayank.mishra@sun.com
  */
 public interface RequiredElements extends Target {
-    
+
     /**
      * Returns XPath Version in use.
-     * @return xpath version 
+     * @return xpath version
      */
     String getXPathVersion();
-    
+
      /**
      * targets header elements message must contains .
      * @return {@link java.util.Iterator }
      */
      Iterator getTargets();
-    
+
 }

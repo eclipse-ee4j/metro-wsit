@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -35,7 +35,7 @@ public class WSSPolicyGenerator implements SecurityPolicyGenerator {
      * Default constructor
      */
     public WSSPolicyGenerator () {}
-    
+
     /**
      * return a new concrete MLSPolicy instance
      * @return MLSPolicy
@@ -43,7 +43,7 @@ public class WSSPolicyGenerator implements SecurityPolicyGenerator {
     @Override
     public MLSPolicy newMLSPolicy () throws PolicyGenerationException {
         throw new PolicyGenerationException ("Unsupported Operation");
-    }      
+    }
 
     /**
      * return a new TimestampPolicy instance
@@ -54,8 +54,8 @@ public class WSSPolicyGenerator implements SecurityPolicyGenerator {
 
         configuration.append (policy);
 
-        return policy; 
-    }   
+        return policy;
+    }
 
     /**
      * return a new SignaturePolicy instance
@@ -66,8 +66,8 @@ public class WSSPolicyGenerator implements SecurityPolicyGenerator {
 
         configuration.append (policy);
 
-        return policy; 
-    }   
+        return policy;
+    }
 
     /**
      * return a new EncryptionPolicy instance
@@ -78,8 +78,8 @@ public class WSSPolicyGenerator implements SecurityPolicyGenerator {
 
         configuration.append (policy);
 
-        return policy; 
-    }   
+        return policy;
+    }
 
     /**
      * return a new AuthenticationTokenPolicy instance
@@ -90,8 +90,8 @@ public class WSSPolicyGenerator implements SecurityPolicyGenerator {
 
         configuration.append (policy);
 
-        return policy; 
-    }  
+        return policy;
+    }
 
     /**
      * return a SecurityPolicy that represents a configuration
@@ -99,6 +99,6 @@ public class WSSPolicyGenerator implements SecurityPolicyGenerator {
      */
     @Override
     public SecurityPolicy configuration () throws PolicyGenerationException {
-        return configuration; 
+        return configuration;
     }
 }

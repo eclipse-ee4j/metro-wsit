@@ -35,28 +35,28 @@ import com.sun.xml.wss.impl.policy.mls.MessagePolicy;
 
 /**
  * Represents an XWS-Security configuration object, corresponding to the
- * <code>&lt;xwss:JAXRPCSecurity&gt;</code> element (as defined in XWS-Security, 
+ * <code>&lt;xwss:JAXRPCSecurity&gt;</code> element (as defined in XWS-Security,
  * configuration schema, xwssconfig.xsd).
  */
 public class ApplicationSecurityConfiguration extends SecurityPolicyContainer {
-    
+
     private static Logger log = Logger.getLogger(
     LogDomainConstants.WSS_API_DOMAIN,
     LogDomainConstants.CONFIGURATION_DOMAIN_BUNDLE);
 
     boolean bsp = false;
-    
+
     boolean useCacheFlag = false;
-    
+
     String envHandlerClassName = null;
 
     boolean optimize = false;
 
     private boolean retainSecHeader = false;
     private boolean resetMU = false;
-       
+
     public ApplicationSecurityConfiguration() {}
-    
+
     /**
      * Constructor
      * @param handlerClassName the class name of the SecurityEnvironment CallbackHandler
@@ -64,7 +64,7 @@ public class ApplicationSecurityConfiguration extends SecurityPolicyContainer {
     public ApplicationSecurityConfiguration(String handlerClassName) {
         this.envHandlerClassName = handlerClassName;
     }
-    
+
     /**
      * set the SecurityEnvironment CallbackHandler
      * @param handlerClassName the class name of the SecurityEnvironment Callback Handler
@@ -72,7 +72,7 @@ public class ApplicationSecurityConfiguration extends SecurityPolicyContainer {
     public void setSecurityEnvironmentHandler(String handlerClassName) {
         this.envHandlerClassName = handlerClassName;
     }
-    
+
     /**
      * get the SecurityEnvironment CallbackHandler
      * @return the class name of the SecurityEnvironment CallbackHandler
@@ -80,7 +80,7 @@ public class ApplicationSecurityConfiguration extends SecurityPolicyContainer {
     public String getSecurityEnvironmentHandler() {
         return this.envHandlerClassName;
     }
-    
+
     /*
      * @return list of all ApplicationSecurityConfigurations
      * Note : to be called only on the Top level SecurityConfiguration
@@ -111,7 +111,7 @@ public class ApplicationSecurityConfiguration extends SecurityPolicyContainer {
         return applicationSecConfig;
         */
     }
-    
+
     /*
      * @return list of all security policies
      */
@@ -133,7 +133,7 @@ public class ApplicationSecurityConfiguration extends SecurityPolicyContainer {
         }
         return d;
     }
-    
+
     /*
      * @return list of all sender security policies
      */
@@ -157,7 +157,7 @@ public class ApplicationSecurityConfiguration extends SecurityPolicyContainer {
         }
         return d;
     }
-    
+
     /*
      * @return list of all receiver security policies
      */
@@ -168,7 +168,7 @@ public class ApplicationSecurityConfiguration extends SecurityPolicyContainer {
             return allReceiverPolicies;
 
         Collection c = _ctx2PolicyMap.values();
-        
+
         Collection d = new ArrayList();
         Iterator itr   = c.iterator();
         while (itr.hasNext()) {
@@ -182,7 +182,7 @@ public class ApplicationSecurityConfiguration extends SecurityPolicyContainer {
                         DeclarativeSecurityConfiguration dsc = (DeclarativeSecurityConfiguration) policy;
                         MessagePolicy mp = dsc.receiverSettings();
                         if ( (mp.getPrimaryPolicies().size() == 0 && mp.getSecondaryPolicies().size() == 0 ) ||
-                                (mp.getPrimaryPolicies().size() != 0 && mp.getSecondaryPolicies().size() == 0 ) || 
+                                (mp.getPrimaryPolicies().size() != 0 && mp.getSecondaryPolicies().size() == 0 ) ||
                                 (mp.getPrimaryPolicies().size() != 0 && mp.getSecondaryPolicies().size() != 0 ) ) {
                             d.add(mp);
                         }
@@ -192,38 +192,38 @@ public class ApplicationSecurityConfiguration extends SecurityPolicyContainer {
                     }
                 }
             }
-        }       
+        }
         return d;
     }
-    
+
     /**
      * @return true of if the Configuration is Empty
      */
     public boolean isEmpty() {
         return _ctx2PolicyMap.isEmpty();
     }
-    
+
     /*
      * @return bsp boolean
      */
     public boolean isBSP() {
         return bsp;
     }
-    
+
     /*
      * @param flag boolean (isBsp)
      */
     public void isBSP(boolean flag) {
         bsp = flag;
     }
-    
+
     /*
      * @return useCache boolean
      */
     public boolean useCache() {
         return useCacheFlag;
     }
-    
+
     /*
      * @param flag boolean (useCache)
      */
@@ -237,31 +237,31 @@ public class ApplicationSecurityConfiguration extends SecurityPolicyContainer {
     public boolean retainSecurityHeader() {
         return retainSecHeader;
     }
-    
+
     /*
-     *@param arg, set the retainSecurityHeader flag. 
+     *@param arg, set the retainSecurityHeader flag.
      */
     public void retainSecurityHeader(boolean arg) {
         this.retainSecHeader = arg;
     }
-    
+
     /*  map to store inferred ctx to policy mappings (for efficiency of lookup) */
     private Hashtable augmentedCtx2PolicyMap = new Hashtable();
- 
+
     /* configuration for Single Service with No ports */
     private SecurityPolicy configForSingleServiceNoPorts = null;
 
-    
+
     /*
      * Returns matching DeclarativeSecurityConfiguration (DSC)/DynamicSecurityPolicy (DSP)
      * for a given context according to the following algorithm:
      *
      *<PRE>
-     *  SecurityPolicy sp = null; 
+     *  SecurityPolicy sp = null;
      *  if (context is an Operation Level Context) {
      *      if context has DSC|DSP {sp = DSC|DSP}
      *      if (sp == null) {
-     *          context = enclosing context (Port Level Context)    
+     *          context = enclosing context (Port Level Context)
      *          if context has DSC|DSP {sp = DSC|DSP}
      *          if (sp == null) {
      *             context = enclosing context (Service Level Context)
@@ -283,7 +283,7 @@ public class ApplicationSecurityConfiguration extends SecurityPolicyContainer {
      */
     @SuppressWarnings("unchecked")
     public SecurityPolicy getSecurityConfiguration(StaticApplicationContext context) {
-        
+
         if (configForSingleServiceNoPorts != null)
            return configForSingleServiceNoPorts;
 
@@ -300,13 +300,13 @@ public class ApplicationSecurityConfiguration extends SecurityPolicyContainer {
             augmentedCtx2PolicyMap.put(context, sp);
             return sp;
         }
-        
+
         StaticApplicationContext ctx = new StaticApplicationContext(context);
-        
+
         if (ctx.isOperation()) {
             ctx.setOperationIdentifier("");
             sp = getDSCORDSP((ArrayList)_ctx2PolicyMap.get(ctx));
-            
+
             if (sp == null) {
                 ctx.setPortIdentifier("");
                 sp = getDSCORDSP((ArrayList)_ctx2PolicyMap.get(ctx));
@@ -315,7 +315,7 @@ public class ApplicationSecurityConfiguration extends SecurityPolicyContainer {
             ctx.setPortIdentifier("");
             sp = getDSCORDSP((ArrayList)_ctx2PolicyMap.get(ctx));
         }
-        
+
         //learn a new mapping
         if (context != null && sp != null) {
             //Log at FINE here
@@ -327,31 +327,31 @@ public class ApplicationSecurityConfiguration extends SecurityPolicyContainer {
 
         return sp;
     }
-    
-    
+
+
     //NON-API public methods to be set on the TopLevel
     // ApplicationSecurityConfiguration corresponding to
     // <JAXRPCSecurity> element.
     // These methods allow optimizing the most common config scenarios
-    
+
     private boolean sSNP = false;
     private boolean hasOps = true;
-    
-    
+
+
     /* (non-Javadoc)
      *@return true if config has Operation Level Policies
      */
     public  boolean hasOperationPolicies() {
         return hasOps;
     }
-    
+
     /* (non-Javadoc)
      *set to true if config has Operation Level Policies
      */
     public void hasOperationPolicies(boolean flag) {
         hasOps = flag;
     }
-    
+
     /* (non-Javadoc)
      *set to true if config has single service with no ports
      */
@@ -362,37 +362,37 @@ public class ApplicationSecurityConfiguration extends SecurityPolicyContainer {
     public void resetMustUnderstand(boolean value) {
         this.resetMU = value;
     }
-    
+
     public boolean resetMustUnderstand() {
-        return this.resetMU; 
+        return this.resetMU;
     }
-    
+
     /* (non-Javadoc)
      *@return true if config has single Service and No Ports
      */
     private  boolean singleServiceNoPorts() {
         return sSNP;
     }
-    
-    
+
+
     private SecurityPolicy getDSCORDSP(ArrayList list) {
-        
+
         if (list == null) {
             return null;
         }
-        
+
         Iterator i = list.iterator();
-        
+
         while (i.hasNext()) {
             SecurityPolicy policy = (SecurityPolicy) i.next();
             if (PolicyTypeUtil.applicationSecurityConfiguration(policy)) {
                 return ((ApplicationSecurityConfiguration)policy).getDSCORDSP();
             }
         }
-        
+
         return null;
     }
-    
+
     private SecurityPolicy getDSCORDSP() {
         // iterate over the values and return the first encountered DSC or DP
         Collection c = _ctx2PolicyMap.values();
@@ -441,7 +441,7 @@ public class ApplicationSecurityConfiguration extends SecurityPolicyContainer {
     @SuppressWarnings("unchecked")
     public void setSecurityPolicy (StaticPolicyContext ctx, SecurityPolicy policy) {
         if (ctx instanceof StaticApplicationContext) {
-            if (((StaticApplicationContext)ctx).isService() && 
+            if (((StaticApplicationContext)ctx).isService() &&
                 PolicyTypeUtil.applicationSecurityConfiguration(policy)) {
                 servicesList.add(policy);
             }
@@ -455,17 +455,17 @@ public class ApplicationSecurityConfiguration extends SecurityPolicyContainer {
      */
     @SuppressWarnings("unchecked")
     private Collection getAllReceiverPoliciesFromConfig() {
-        
+
         Collection d = new ArrayList();
         for(int i =0;i< servicesList.size();i++){
             ApplicationSecurityConfiguration policy = (ApplicationSecurityConfiguration)servicesList.get(i);
                 d.addAll(policy.getAllReceiverPolicies());
-        }       
+        }
         return d;
     }
 
     private void setConfigForSingleServiceNoPorts() {
-  
+
         if (singleServiceNoPorts()) {
             Collection c = _ctx2PolicyMap.values();
             ArrayList al = (ArrayList)c.iterator().next();

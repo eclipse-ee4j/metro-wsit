@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -33,43 +33,43 @@ import junit.framework.TestSuite;
  * @author ashutosh.shahi@sun.com
  */
 public class EncryptedSupportingTokensTest extends TestCase {
-    
+
     public EncryptedSupportingTokensTest(String testName) {
         super(testName);
     }
-    
+
     @Override
     protected void setUp() {
     }
-    
+
     @Override
     protected void tearDown() {
     }
-    
+
     public static Test suite() {
         TestSuite suite = new TestSuite(EncryptedSupportingTokensTest.class);
-        
+
         return suite;
     }
-    
+
     private PolicySourceModel unmarshalPolicyResource(String resource) throws PolicyException, IOException {
         Reader reader = getResourceReader(resource);
         PolicySourceModel model = ModelUnmarshaller.getUnmarshaller().unmarshalModel(reader);
         reader.close();
         return model;
     }
-    
+
     private Reader getResourceReader(String resourceName) {
         return new InputStreamReader(Thread.currentThread().getContextClassLoader().getResourceAsStream(resourceName));
     }
-    
+
     public Policy unmarshalPolicy(String xmlFile)throws Exception{
         PolicySourceModel model =  unmarshalPolicyResource(
                 xmlFile);
         Policy mbp = ModelTranslator.getTranslator().translate(model);
-        return mbp;     
+        return mbp;
     }
-    
+
     public boolean hasXPathTarget(String xpathExpr , Iterator itr){
         while(itr.hasNext()){
             if(xpathExpr.equals(itr.next())){
@@ -78,7 +78,7 @@ public class EncryptedSupportingTokensTest extends TestCase {
         }
         return false;
     }
-    
+
     public void testEncryptedSupportingToken() throws Exception {
         String fileName="security/EncryptedSupportingTokenAssertionSP12.xml";
         Policy policy = unmarshalPolicy(fileName);
@@ -88,10 +88,10 @@ public class EncryptedSupportingTokensTest extends TestCase {
             for(PolicyAssertion assertion : as) {
                 assertEquals("Invalid assertion", "EncryptedSupportingTokens",assertion.getName().getLocalPart());
                 EncryptedSupportingTokens sst = (EncryptedSupportingTokens)assertion;
-                
+
                 AlgorithmSuite aSuite = (AlgorithmSuite) sst.getAlgorithmSuite();
                 assertEquals("Unmatched Algorithm",aSuite.getEncryptionAlgorithm(), AlgorithmSuiteValue.TripleDesRsa15.getEncAlgorithm());
-                
+
                 Iterator itrTkn = sst.getTokens();
                 if(itrTkn.hasNext()) {
                     assertTrue(((com.sun.xml.ws.security.policy.UserNameToken)itrTkn.next()).getType().equals(com.sun.xml.ws.security.policy.UserNameToken.WSS_USERNAME_TOKEN_10));
@@ -107,5 +107,5 @@ public class EncryptedSupportingTokensTest extends TestCase {
             }
         }
     }
-    
+
 }

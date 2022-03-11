@@ -82,7 +82,7 @@ public class WSATHelper<T> {
     private Map<WSATXAResource, ParticipantIF<T>> m_durableParticipantPortMap = new HashMap<>();
     private final Object m_durableParticipantPortMapLock = new Object();
     private Map<Xid, WSATXAResource> m_durableParticipantXAResourceMap = new HashMap<>();
- 
+
     private final Object m_durableParticipantXAResourceMapLock = new Object();
 
     private Map<Xid, ParticipantIF<T>> m_volatileParticipantPortMap = new HashMap<>();
@@ -105,7 +105,7 @@ public class WSATHelper<T> {
         // do nothing
     }
 
-    
+
     public static WSATHelper getInstance() {
       return V10;
     }
@@ -377,7 +377,7 @@ public class WSATHelper<T> {
         synchronized (m_durableParticipantXAResourceMapLock) { //redundant for runtime case, required for recovery
             putInDurableParticipantXAResourceMap(wsatXAResource, xid);
         }
-	    synchronized (m_durableParticipantPortMapLock) {
+        synchronized (m_durableParticipantPortMapLock) {
             getDurableParticipantPortMap().put(wsatXAResource, participantPort);
         }
         if (isDebugEnabled()) LOGGER.info(LocalizationMessages.WSAT_4602_DURABLE_PARTICIPANT_PORT_PLACED_IN_CACHE(xid));
@@ -427,7 +427,7 @@ public class WSATHelper<T> {
 
     /**
      * Return the host and port the WS-AT endpoints are deployed to or the frontend as the case may be
-     * @return String URL with host and port  
+     * @return String URL with host and port
      */
     static String getHostAndPort() {
         return WSATRuntimeConfig.getInstance().getHostAndPort();

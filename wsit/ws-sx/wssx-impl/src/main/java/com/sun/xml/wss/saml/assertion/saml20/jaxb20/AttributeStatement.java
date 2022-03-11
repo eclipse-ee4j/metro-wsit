@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -32,7 +32,7 @@ import jakarta.xml.bind.JAXBContext;
  */
 public class AttributeStatement extends AttributeStatementType
     implements com.sun.xml.wss.saml.AttributeStatement {
-    
+
     protected static final Logger log = Logger.getLogger(
             LogDomainConstants.WSS_API_DOMAIN,
             LogDomainConstants.WSS_API_DOMAIN_BUNDLE);
@@ -41,15 +41,15 @@ public class AttributeStatement extends AttributeStatementType
     private void setAttributes(List attr) {
         this.attributeOrEncryptedAttribute = attr;
     }
-    
+
     /**
      *Dafault constructor
      */
-    public AttributeStatement(List attr) {        
+    public AttributeStatement(List attr) {
         setAttributes(attr);
     }
-    
-    public AttributeStatement(AttributeStatementType attStmtType) {        
+
+    public AttributeStatement(AttributeStatementType attStmtType) {
         setAttributes(attStmtType.getAttributeOrEncryptedAttribute());
     }
 
@@ -63,7 +63,7 @@ public class AttributeStatement extends AttributeStatementType
     public static AttributeStatementType fromElement(Element element) throws SAMLException {
         try {
             JAXBContext jc = SAML20JAXBUtil.getJAXBContext();
-                    
+
             jakarta.xml.bind.Unmarshaller u = jc.createUnmarshaller();
             return (AttributeStatementType)u.unmarshal(element);
         } catch ( Exception ex) {
@@ -80,11 +80,11 @@ public class AttributeStatement extends AttributeStatementType
         }
         Iterator it = super.getAttributeOrEncryptedAttribute().iterator();
         while(it.hasNext()){
-            com.sun.xml.wss.saml.assertion.saml20.jaxb20.Attribute obj = 
+            com.sun.xml.wss.saml.assertion.saml20.jaxb20.Attribute obj =
                     new com.sun.xml.wss.saml.assertion.saml20.jaxb20.Attribute((AttributeType)it.next());
             attValueList.add(obj);
         }
-        return attValueList;                 
+        return attValueList;
     }
 
     @Override
@@ -92,5 +92,5 @@ public class AttributeStatement extends AttributeStatementType
         throw new UnsupportedOperationException("getSubject() on statement object is not supported for SAML 2.0 "+
                 "Make the direct call of getSubject() method on SAML2.0 assertion");
     }
-   
+
 }

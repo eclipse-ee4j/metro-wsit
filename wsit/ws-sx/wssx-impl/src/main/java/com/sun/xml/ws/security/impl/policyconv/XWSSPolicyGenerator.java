@@ -59,9 +59,9 @@ import java.util.logging.Level;
  */
 
 public class XWSSPolicyGenerator {
-    
+
     String _protectionOrder = "";
-    
+
     SignaturePolicy _primarySP  = null;
     EncryptionPolicy _primaryEP = null;
     //current secondary encryption policy
@@ -69,20 +69,20 @@ public class XWSSPolicyGenerator {
     SignaturePolicy _csSP = null;
     XWSSPolicyContainer _policyContainer = null;
     Binding _binding;
-    Policy effectivePolicy = null;    
+    Policy effectivePolicy = null;
     boolean isServer = false;
     boolean isIncoming = false;
     private PolicyAssertion wssAssertion = null;
     private WSSAssertion wss11 = null;
     private Trust10 trust10 = null;
-    private Trust13 trust13 = null;    
+    private Trust13 trust13 = null;
     //true if signed by primary signature
     //private boolean signBody = false;
-    
+
     //true if encrypted by primary encryption policy
     private boolean encryptBody = false;
     //private HashSet<Header> signParts  = new HashSet<Header>();
-    
+
     private Vector<SignedParts> signedParts = new Vector<>();
     private Vector<EncryptedParts> encryptedParts = new Vector<>();
     private Vector<SignedElements> signedElements = new Vector<>();
@@ -98,7 +98,7 @@ public class XWSSPolicyGenerator {
     /** Creates a new instance of WSPolicyProcessorImpl
      */
     //public XWSSPolicyGenerator(AssertionSet assertionSet,boolean isServer,boolean isIncoming){
-    public XWSSPolicyGenerator(Policy effectivePolicy,boolean isServer,boolean isIncoming, 
+    public XWSSPolicyGenerator(Policy effectivePolicy,boolean isServer,boolean isIncoming,
             SecurityPolicyVersion spVersion){
         this.effectivePolicy = effectivePolicy;
         this._policyContainer = new XWSSPolicyContainer(isServer,isIncoming);
@@ -106,7 +106,7 @@ public class XWSSPolicyGenerator {
         this.isIncoming = isIncoming;
         this.spVersion = spVersion;
     }
-    
+
     public XWSSPolicyGenerator(Policy effectivePolicy,boolean isServer,boolean isIncoming){
         this.effectivePolicy = effectivePolicy;
         this._policyContainer = new XWSSPolicyContainer(isServer,isIncoming);
@@ -114,7 +114,7 @@ public class XWSSPolicyGenerator {
         this.isIncoming = isIncoming;
         this.spVersion = SecurityPolicyVersion.SECURITYPOLICY200507;
     }
-    
+
     public AlgorithmSuite getBindingLevelAlgSuite(){
         if(_binding != null) {
             return _binding.getAlgorithmSuite();
@@ -123,13 +123,13 @@ public class XWSSPolicyGenerator {
             return new com.sun.xml.ws.security.impl.policy.AlgorithmSuite();
         }
     }
-    
+
     public void process(boolean ignoreST) throws PolicyException {
         this.ignoreST = ignoreST;
         process();
     }
-    
-    
+
+
     public void process() throws PolicyException {
         collectPolicies();
         PolicyAssertion binding = (PolicyAssertion)getBinding();
@@ -153,13 +153,13 @@ public class XWSSPolicyGenerator {
             processNonBindingAssertions(tbp);
             transportBinding = true;
         }else{
-            
+
             iAP = new IntegrityAssertionProcessor(_binding.getAlgorithmSuite(),_binding.isSignContent());
             eAP = new EncryptionAssertionProcessor(_binding.getAlgorithmSuite(),false);
-            
+
             _policyContainer.setPolicyContainerMode(_binding.getLayout());
             if(PolicyUtil.isSymmetricBinding(binding.getName(), spVersion)) {
-                
+
                 if(Constants.logger.isLoggable(Level.FINE)){
                     Constants.logger.log(Level.FINE, "SymmetricBinding was configured in the policy");
                 }
@@ -172,9 +172,9 @@ public class XWSSPolicyGenerator {
                 sbp.process();
                 processNonBindingAssertions(sbp);
                 sbp.close();
-                
+
             }else if(PolicyUtil.isAsymmetricBinding(binding.getName(), spVersion) ){
-                
+
                 if(Constants.logger.isLoggable(Level.FINE)){
                     Constants.logger.log(Level.FINE, "AsymmetricBinding was configured in the policy");
                 }
@@ -190,7 +190,7 @@ public class XWSSPolicyGenerator {
             }
         }
     }
-    
+
     public MessagePolicy getXWSSPolicy()throws PolicyException{
         MessagePolicy mp = null;
         try{
@@ -233,7 +233,7 @@ public class XWSSPolicyGenerator {
         }
         return mp;
     }
-    
+
     private void processNonBindingAssertions(BindingProcessor bindingProcessor) throws PolicyException{
         for(AssertionSet assertionSet: effectivePolicy){
             for(PolicyAssertion assertion:assertionSet){
@@ -270,11 +270,11 @@ public class XWSSPolicyGenerator {
             }
         }
     }
-    
+
     private Binding getBinding(){
         return _binding;
     }
-    
+
     private void collectPolicies(){
         for(AssertionSet assertionSet: effectivePolicy){
             for(PolicyAssertion assertion:assertionSet){
@@ -302,18 +302,18 @@ public class XWSSPolicyGenerator {
             }
         }
     }
-    
+
     private boolean shouldAddST(){
         if(isServer && !isIncoming){
             return false;
         }
-        
+
         if(!isServer && isIncoming){
             return false;
         }
         return true;
     }
-    
+
     protected com.sun.xml.wss.impl.AlgorithmSuite getAlgoSuite(AlgorithmSuite suite) {
         com.sun.xml.wss.impl.AlgorithmSuite als = new com.sun.xml.wss.impl.AlgorithmSuite(
                 suite.getDigestAlgorithm(),
@@ -323,17 +323,17 @@ public class XWSSPolicyGenerator {
         als.setSignatureAlgorithm(suite.getSignatureAlgorithm());
         return als;
     }
-    
+
     protected com.sun.xml.wss.impl.WSSAssertion getWssAssertion(WSSAssertion asser) {
         com.sun.xml.wss.impl.WSSAssertion assertion = new com.sun.xml.wss.impl.WSSAssertion(
                 asser.getRequiredProperties(),
                 asser.getType());
         return assertion;
     }
-    
+
     protected com.sun.xml.wss.impl.MessageLayout getLayout(
             com.sun.xml.ws.security.policy.MessageLayout layout) {
-        
+
         switch(layout) {
             case Strict :{
                 if(Constants.logger.isLoggable(Level.FINE)){
@@ -366,13 +366,13 @@ public class XWSSPolicyGenerator {
             }
         }
     }
-    
+
     public boolean isIssuedTokenAsEncryptedSupportingToken(){
         return this.isIssuedTokenAsEncryptedSupportingToken;
     }
-    
+
     private void isIssuedTokenAsEncryptedSupportingToken(boolean value){
         this.isIssuedTokenAsEncryptedSupportingToken = value;
     }
-    
+
 }

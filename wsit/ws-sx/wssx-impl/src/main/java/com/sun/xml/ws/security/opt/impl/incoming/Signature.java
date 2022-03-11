@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -81,22 +81,22 @@ import java.security.cert.X509Certificate;
  * }</pre>
  */
 public class Signature implements SecurityHeaderElement,NamespaceContextInfo, SecurityElementWriter, PolicyBuilder{
-    
+
     private static final Logger logger = Logger.getLogger(LogDomainConstants.IMPL_OPT_SIGNATURE_DOMAIN,
             LogDomainConstants.IMPL_OPT_SIGNATURE_DOMAIN_BUNDLE);
-    
+
     public static final int SIGNEDINFO_EVENT = 1;
     public static final int SIGNATUREVALUE_EVENT = 2;
     public static final int KEYINFO_EVENT = 3;
     public static final int OBJECT_EVENT = 4;
-    
+
     public static final String SIGNED_INFO = "SignedInfo";
     public static final String SIGNATURE_VALUE = "SignatureValue";
     public static final String KEYINFO = "KeyInfo";
     public static final String OBJECT = "Object";
-    
+
     private SignaturePolicy signPolicy = null;
-    
+
     private HashMap<String,String> currentParentNS = new HashMap<>();
     private JAXBFilterProcessingContext context;
     private StreamReaderBufferCreator creator = null;
@@ -111,11 +111,11 @@ public class Signature implements SecurityHeaderElement,NamespaceContextInfo, Se
     private MutableXMLStreamBuffer buffer = null;
     private boolean cacheSignature = false;
     private boolean storeSigConfirmValue = true;
-    
+
     //private JAXBSignatureFactory signatureFactory = null;
-    
+
     /** Creates a new instance of SignatureProcessor */
-    
+
     public Signature(JAXBFilterProcessingContext jpc,Map<String,String> namespaceList,StreamReaderBufferCreator sbc) {
         this.currentParentNS.putAll(namespaceList);
         this.creator = sbc;
@@ -126,7 +126,7 @@ public class Signature implements SecurityHeaderElement,NamespaceContextInfo, Se
         signPolicy.setFeatureBinding(new SignaturePolicy.FeatureBinding());
         //signatureFactory = JAXBSignatureFactory.newInstance();
     }
-    
+
     public Signature(JAXBFilterProcessingContext jpc,Map<String,String> namespaceList,StreamReaderBufferCreator sbc,boolean cacheSig) {
         this.currentParentNS.putAll(namespaceList);
         this.creator = sbc;
@@ -166,7 +166,7 @@ public class Signature implements SecurityHeaderElement,NamespaceContextInfo, Se
             }
             // policy creation
             signPolicy.setUUID(id);
-            
+
             if(StreamUtil.moveToNextElement(reader)){
                 int refElement = getEventType(reader);
                 while(reader.getEventType() != reader.END_DOCUMENT){
@@ -184,7 +184,7 @@ public class Signature implements SecurityHeaderElement,NamespaceContextInfo, Se
                                     " or error must have occurred while processing SignedInfo for Signature with ID"+id);
                         }
                         StreamUtil.writeCurrentEvent(reader,canonWriter);
-                        
+
                         if(reader instanceof XMLStreamReaderEx){
                             reader.next();
                             StringBuilder sb = null;
@@ -268,12 +268,12 @@ public class Signature implements SecurityHeaderElement,NamespaceContextInfo, Se
                         throw new XWSSecurityException("Element name "+reader.getName()+" is not recognized under Signature");
                     }
                     }
-                    
+
                     if(StreamUtil._break(reader,"Signature", MessageConstants.DSIG_NS)){
                         reader.next();
                         break;
                     }
-                    
+
                     if(!StreamUtil.isStartElement(reader) && StreamUtil.moveToNextStartOREndElement(reader) && StreamUtil._break(reader,
                             "Signature", MessageConstants.DSIG_NS)){
                         reader.next();
@@ -299,13 +299,13 @@ public class Signature implements SecurityHeaderElement,NamespaceContextInfo, Se
                     refElement = getEventType(reader);
                 }
             }
-            
-            
+
+
             sig = new com.sun.xml.ws.security.opt.crypto.dsig.Signature();
             SignatureValue sv = new SignatureValue();
             sv.setValue(signatureValue);
             sig.setSignatureValue(sv);
-            
+
             jvc.setURIDereferencer(new URIResolver(context));
             sig.setSignedInfo(si);
             sig.setVerificationKey(key);
@@ -326,13 +326,13 @@ public class Signature implements SecurityHeaderElement,NamespaceContextInfo, Se
             throw new XWSSecurityException(xse);
         }
     }
-    
+
     public void process(XMLStreamReader signature, boolean storeSigConfirmValue) throws XWSSecurityException{
         this.storeSigConfirmValue = storeSigConfirmValue;
         process(signature);
         this.storeSigConfirmValue = true;
     }
-    
+
     public boolean validate() throws XWSSecurityException{
         if(isReady()){
             try{
@@ -347,9 +347,9 @@ public class Signature implements SecurityHeaderElement,NamespaceContextInfo, Se
         }
         return false;
     }
-    
-    
-    
+
+
+
     public com.sun.xml.ws.security.opt.crypto.dsig.Reference  removeReferenceWithID(String id){
         ArrayList<com.sun.xml.ws.security.opt.crypto.dsig.Reference> refList = sip.getReferenceList();
         com.sun.xml.ws.security.opt.crypto.dsig.Reference ref = null;
@@ -361,11 +361,11 @@ public class Signature implements SecurityHeaderElement,NamespaceContextInfo, Se
         }
         return ref;
     }
-    
+
     public ArrayList<com.sun.xml.ws.security.opt.crypto.dsig.Reference> getReferences(){
         return sip.getReferenceList();
     }
-    
+
     public boolean isValidated(){
         return validationStatus;
     }
@@ -387,15 +387,15 @@ public class Signature implements SecurityHeaderElement,NamespaceContextInfo, Se
         }
         return false;
     }
-    
+
     public boolean verifyReferences(){
         throw new UnsupportedOperationException();
     }
-    
+
     public boolean verifySignatureValue(){
         throw new UnsupportedOperationException();
     }
-    
+
     private int getEventType(XMLStreamReader reader) {
         if(reader.getEventType()== XMLStreamReader.START_ELEMENT){
             if(reader.getLocalName() == SIGNED_INFO ){
@@ -413,7 +413,7 @@ public class Signature implements SecurityHeaderElement,NamespaceContextInfo, Se
         }
         return -1;
     }
-    
+
     private boolean _break(XMLStreamReader reader) throws XMLStreamException{
         if(reader.getEventType() == XMLStreamReader.END_ELEMENT){
             if(reader.getLocalName() == "Signature" && reader.getNamespaceURI() == MessageConstants.DSIG_NS){
@@ -423,42 +423,42 @@ public class Signature implements SecurityHeaderElement,NamespaceContextInfo, Se
         }
         return false;
     }
-    
+
     @Override
     public boolean refersToSecHdrWithId(String id) {
         throw new UnsupportedOperationException();
     }
-    
+
     @Override
     public String getId() {
         return id;
     }
-    
+
     @Override
     public void setId(String id) {
         throw new UnsupportedOperationException();
     }
-    
+
     @Override
     public String getNamespaceURI() {
         return MessageConstants.DSIG_NS;
     }
-    
+
     @Override
     public String getLocalPart() {
         return MessageConstants.SIGNATURE_LNAME;
     }
-    
+
     @Override
     public XMLStreamReader readHeader() {
         throw new UnsupportedOperationException();
     }
-    
+
     @Override
     public void writeTo(OutputStream os) {
         throw new UnsupportedOperationException();
     }
-    
+
     @Override
     public void writeTo(XMLStreamWriter streamWriter) throws XMLStreamException {
         if(buffer != null){
@@ -468,24 +468,24 @@ public class Signature implements SecurityHeaderElement,NamespaceContextInfo, Se
             throw new XMLStreamException("Signature is not buffered , message not as per configured policy");
         }
     }
-    
-    
+
+
     public XMLStreamReader wrapWithDigester(Reference ref,XMLStreamReader message, String bodyPrologue, String bodyEpilogue, TagInfoset bodyTag,HashMap<String,String>parentNS,boolean payLoad)throws XWSSecurityException{
-        
+
         MessageDigest  md = null;
         try {
             String algo = StreamUtil.convertDigestAlgorithm(ref.getDigestMethod().getAlgorithm());
-            
+
             if(logger.isLoggable(Level.FINE)){
                 logger.log(Level.FINE, "Digest Algorithm is "+  ref.getDigestMethod().getAlgorithm());
                 logger.log(Level.FINE, "Mapped Digest Algorithm is "+ algo);
             }
             md = MessageDigest.getInstance(algo);
-            
+
         } catch (NoSuchAlgorithmException nsae) {
             throw new XWSSecurityException(nsae);
         }
-        
+
         DigesterOutputStream dos;
         dos = new DigesterOutputStream(md);
         // OutputStream os = new UnsyncBufferedOutputStream(dos);
@@ -503,14 +503,14 @@ public class Signature implements SecurityHeaderElement,NamespaceContextInfo, Se
             throw new XWSSecurityException("Only EXC14n Transform is supported");
         }
         Transform tr = (Transform) trList.get(0);
-        
+
         ExcC14NParameterSpec spec = (ExcC14NParameterSpec)tr.getParameterSpec();
         if(spec != null){
             canonicalizer.setInclusivePrefixList(spec.getPrefixList());
         }
         if(parentNS != null && parentNS.size() >0){
             Iterator<Map.Entry<String, String>> itr = parentNS.entrySet().iterator();
-            
+
             while(itr.hasNext()){
                 Map.Entry<String, String> entry = itr.next();
                 String prefix = entry.getKey();
@@ -532,17 +532,17 @@ public class Signature implements SecurityHeaderElement,NamespaceContextInfo, Se
         StreamingPayLoadDigester digester = new StreamingPayLoadDigester(ref,message,canonicalizer,payLoad);
         return XMLStreamReaderFactory.createFilteredXMLStreamReader(message,digester);
     }
-    
+
     @Override
     public void writeTo(javax.xml.stream.XMLStreamWriter streamWriter, HashMap props) {
         throw new UnsupportedOperationException();
     }
-    
+
     @Override
     public HashMap<String, String> getInscopeNSContext() {
         return currentParentNS;
     }
-    
+
     @Override
     public WSSPolicy getPolicy() {
         return signPolicy;

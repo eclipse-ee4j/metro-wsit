@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -116,7 +116,7 @@ import com.sun.xml.wss.impl.policy.mls.IssuedTokenKeyBinding;
  */
 
 public class EncryptionProcessor {
-    
+
     private static byte[] crlf = null;
     protected static final Logger log =  Logger.getLogger( LogDomainConstants.IMPL_CRYPTO_DOMAIN,
             LogDomainConstants.IMPL_CRYPTO_DOMAIN_BUNDLE);
@@ -128,33 +128,33 @@ public class EncryptionProcessor {
     }
     @SuppressWarnings("unchecked")
     public static void encrypt(FilterProcessingContext context) throws XWSSecurityException{
-        
+
         //TODO: support for QName and XPath
         SecurableSoapMessage secureMsg = context.getSecurableSoapMessage();
         SecurityHeader _secHeader = secureMsg.findOrCreateSecurityHeader();
-        
+
         boolean _exportCertificate = false;
         SecretKey _symmetricKey = null;
         SecretKey  keyEncSK = null;
-        
+
         X509Certificate _x509Cert = null;
         Key samlkey = null;
         KeyInfoStrategy keyInfoStrategy =  null;
-        
+
         String referenceType = null;
         String x509TokenId = null;
         String keyEncAlgo = XMLCipher.RSA_v1dot5;
         String dataEncAlgo = MessageConstants.TRIPLE_DES_BLOCK_ENCRYPTION;
         String symmetricKeyName = null;
-        
+
         AuthenticationTokenPolicy.X509CertificateBinding certificateBinding = null;
-        
+
         WSSPolicy wssPolicy = (WSSPolicy)context.getSecurityPolicy();
         EncryptionPolicy.FeatureBinding featureBinding =(EncryptionPolicy.FeatureBinding)  wssPolicy.getFeatureBinding();
         WSSPolicy keyBinding = (WSSPolicy)wssPolicy.getKeyBinding();
-        
+
         AlgorithmSuite algSuite = context.getAlgorithmSuite();
-        
+
         SecurityTokenReference samlTokenRef = null;
         SecurityTokenReference secConvRef = null;
         SecurityTokenReference ekTokenRef = null;
@@ -162,48 +162,48 @@ public class EncryptionProcessor {
         SecurityTokenReference issuedTokenRef = null;
         //adding EncryptedKey Direct Reference to handle EncryptBeforeSigning
         SecurityTokenReference ekDirectRef = null;
-        
+
         DerivedKeyTokenHeaderBlock dktHeadrBlock = null;
-        
+
         SecurityContextTokenImpl sct = null;
         boolean sctTokenInserted = false;
         SOAPElement sctElement = null;
         boolean sctWithDKT = false;
         boolean includeSCT = true;
-        
+
         boolean issuedWithDKT = false;
         SecurityTokenReference dktIssuedTokenRef = null;
         SOAPElement issuedTokenElement =  null;
         Element issuedTokenElementFromMsg =  null;
         boolean issuedTokenInserted = false;
         boolean includeIST = true;
-        
+
         boolean dktSender = false;
-        
+
         //Key obtained from SymmetricKeyBinding in case of DKT
         Key originalKey = null;
         String ekId = context.getSecurableSoapMessage().generateId();
         String insertedEkId = null;
         //Check to see if same x509 token used for Signature and Encryption
         boolean skbX509TokenInserted = false;
-        
+
         boolean useStandaloneRefList = false;
-        
+
         HashMap ekCache = context.getEncryptedKeyCache();
-        
+
         SOAPElement x509TokenElement = null;
-        
+
         SecurableSoapMessage secureMessage = context.getSecurableSoapMessage();
-        
+
         if(log.isLoggable(Level.FINEST)){
             log.log(Level.FINEST, "KeyBinding in Encryption is "+keyBinding);
         }
-        
+
         boolean wss11Receiver = "true".equals(context.getExtraneousProperty("EnableWSS11PolicyReceiver"));
         boolean wss11Sender = "true".equals(context.getExtraneousProperty("EnableWSS11PolicySender"));
         boolean sendEKSHA1 =  wss11Receiver && wss11Sender && (getEKSHA1Ref(context) != null);
         boolean wss10 = !wss11Sender;
-        
+
         String tmp = featureBinding.getDataEncryptionAlgorithm();
         if (tmp == null || "".equals(tmp)) {
             if (context.getAlgorithmSuite() != null) {
@@ -216,17 +216,17 @@ public class EncryptionProcessor {
         if(tmp != null && !"".equals(tmp)){
             dataEncAlgo = tmp;
         }
-        
+
         if (context.getAlgorithmSuite() != null) {
             keyEncAlgo = context.getAlgorithmSuite().getAsymmetricKeyAlgorithm();
         }
-        
+
         // derivedTokenKeyBinding with x509 as originalkeyBinding is to be treated same as
         // DerivedKey with Symmetric binding and X509 as key binding of Symmetric binding
         if(PolicyTypeUtil.derivedTokenKeyBinding(keyBinding)){
             DerivedTokenKeyBinding dtk = (DerivedTokenKeyBinding)keyBinding.clone();
             WSSPolicy originalKeyBinding = dtk.getOriginalKeyBinding();
-            
+
             if (PolicyTypeUtil.x509CertificateBinding(originalKeyBinding)){
                 AuthenticationTokenPolicy.X509CertificateBinding ckBindingClone =
                         (AuthenticationTokenPolicy.X509CertificateBinding)originalKeyBinding.clone();
@@ -238,7 +238,7 @@ public class EncryptionProcessor {
                 keyBinding = dtk;
             }
         }
-        
+
         if (PolicyTypeUtil.usernameTokenPolicy(keyBinding)) {
             log.log(Level.SEVERE,"WSS1210.unsupported.UsernameToken.AsKeyBinding.EncryptionPolicy");
             throw new XWSSecurityException("UsernameToken as KeyBinding for EncryptionPolicy is Not Yet Supported");
@@ -251,7 +251,7 @@ public class EncryptionProcessor {
             } else {
                 certificateBinding  =(AuthenticationTokenPolicy.X509CertificateBinding)keyBinding;
             }
-            
+
             x509TokenId = certificateBinding.getUUID();
             if(x509TokenId == null || x509TokenId.equals("")){
                 x509TokenId = secureMsg.generateId();
@@ -260,12 +260,12 @@ public class EncryptionProcessor {
                 log.log(Level.FINEST, "Certificate was "+_x509Cert);
                 log.log(Level.FINEST, "BinaryToken ID "+x509TokenId);
             }
-            
+
             HashMap tokenCache = context.getTokenCache();
             HashMap insertedX509Cache = context.getInsertedX509Cache();
-            
+
             SecurityUtil.checkIncludeTokenPolicy(context, certificateBinding, x509TokenId);
-            
+
             _x509Cert = certificateBinding.getX509Certificate();
             referenceType = certificateBinding.getReferenceType();
             if(referenceType.equals("Identifier") && certificateBinding.getValueType().equals(MessageConstants.X509v1_NS)){
@@ -275,9 +275,9 @@ public class EncryptionProcessor {
             keyInfoStrategy = KeyInfoStrategy.getInstance(referenceType);
             _exportCertificate = true;
             keyInfoStrategy.setCertificate(_x509Cert);
-            
+
             if(MessageConstants.DIRECT_REFERENCE_TYPE.equals(referenceType)){
-                
+
                 X509SecurityToken token = (X509SecurityToken)tokenCache.get(x509TokenId);
                 if(token == null){
                     String valueType = certificateBinding.getValueType();
@@ -294,11 +294,11 @@ public class EncryptionProcessor {
                 } else{
                     x509TokenElement = secureMsg.getElementByWsuId(x509TokenId);
                 }
-                
+
                 //x509TokenElement = secureMsg.findOrCreateSecurityHeader().getFirstChildElement();
-                
+
             }
-            
+
             //TODO:Revisit this -Venu
             tmp = null;
             tmp = certificateBinding.getKeyAlgorithm();
@@ -314,9 +314,9 @@ public class EncryptionProcessor {
             } else {
                 skb = (SymmetricKeyBinding)keyBinding;
             }
-            
+
             KeyInfoHeaderBlock keyInfoBlock  = null;
-            
+
             if(!skb.getKeyIdentifier().equals(MessageConstants._EMPTY)){
                 keyEncAlgo = skb.getKeyAlgorithm();
                 if(keyEncAlgo != null && !"".equals(keyEncAlgo)){
@@ -326,7 +326,7 @@ public class EncryptionProcessor {
                 keyEncSK = skb.getSecretKey();
                 symmetricKeyName = skb.getKeyIdentifier();
                 String secKeyAlgo = keyEncSK.getAlgorithm();
-                
+
                 if(_symmetricKey == null){
                     ((KeyNameStrategy)keyInfoStrategy).setKeyName(symmetricKeyName);
                     _symmetricKey = keyEncSK;
@@ -336,7 +336,7 @@ public class EncryptionProcessor {
                 //get the signing key and EKSHA1 reference from the Subject, it was stored from the incoming message
                 String ekSha1Ref = getEKSHA1Ref(context);
                 _symmetricKey = skb.getSecretKey();
-                
+
                 keyInfoBlock = new KeyInfoHeaderBlock(secureMessage.getSOAPPart());
                 ekTokenRef = new SecurityTokenReference(secureMessage.getSOAPPart());
                 EncryptedKeySHA1Identifier refElem = new EncryptedKeySHA1Identifier(secureMessage.getSOAPPart());
@@ -344,16 +344,16 @@ public class EncryptionProcessor {
                 ekTokenRef.setReference(refElem);
                 //set the wsse11:TokenType attribute as required by WSS 1.1
                 //ekTokenRef.setTokenType(MessageConstants.EncryptedKey_NS);
-                
+
                 referenceType = MessageConstants.EK_SHA1_TYPE;
                 keyInfoStrategy = KeyInfoStrategy.getInstance(referenceType);
                 //keyInfoStrategy.insertKey(ekTokenRef, secureMsg);
-                
+
                 //TODO: the below cond is always true.
             } else if (wss11Sender || wss10) {
                 _symmetricKey = skb.getSecretKey();
                 useStandaloneRefList = true;
-                
+
                 if(!skb.getCertAlias().equals(MessageConstants._EMPTY)){
                     certificateBinding = new AuthenticationTokenPolicy.X509CertificateBinding();
                     //x509Binding.newPrivateKeyBinding();
@@ -365,23 +365,23 @@ public class EncryptionProcessor {
                     certificateBinding = context.getX509CertificateBinding();
                     context.setX509CertificateBinding(null);
                 }
-                
+
                 _x509Cert = certificateBinding.getX509Certificate();
                 x509TokenId = certificateBinding.getUUID();
                 if(x509TokenId == null || x509TokenId.equals("")){
                     x509TokenId = secureMsg.generateId();
                 }
-                
+
                 if(log.isLoggable(Level.FINEST)){
                     log.log(Level.FINEST, "Certificate was "+_x509Cert);
                     log.log(Level.FINEST, "BinaryToken ID "+x509TokenId);
                 }
-                
+
                 HashMap tokenCache = context.getTokenCache();
                 HashMap insertedX509Cache = context.getInsertedX509Cache();
-                
+
                 SecurityUtil.checkIncludeTokenPolicy(context, certificateBinding, x509TokenId);
-                
+
                 X509SecurityToken token = (X509SecurityToken)tokenCache.get(x509TokenId);
                 if(token == null){
                     String valueType = certificateBinding.getValueType();
@@ -395,7 +395,7 @@ public class EncryptionProcessor {
                 } else{
                     skbX509TokenInserted = true;
                     _symmetricKey = context.getCurrentSecret();
-                    
+
                 }
                 ekTokenRef = new SecurityTokenReference(secureMessage.getSOAPPart());
                 DirectReference reference = new DirectReference();
@@ -405,9 +405,9 @@ public class EncryptionProcessor {
                 reference.setURI("#"+insertedEkId);
                 reference.setValueType(MessageConstants.EncryptedKey_NS);
                 ekTokenRef.setReference(reference);
-                
+
                 if(!skbX509TokenInserted){
-                    
+
                     referenceType =  certificateBinding.getReferenceType();
                     if(referenceType.equals("Identifier") && certificateBinding.getValueType().equals(MessageConstants.X509v1_NS)){
                         log.log(Level.SEVERE,"WSS1211.unsupported.KeyIdentifierStrategy.X509v1");
@@ -429,15 +429,15 @@ public class EncryptionProcessor {
                         x509TokenElement = secureMsg.getElementByWsuId(x509TokenId);
                     }
                 }
-                
+
             }
-            
+
         } else if (PolicyTypeUtil.samlTokenPolicy(keyBinding)) {
             //TODO handler saml, it should be a remote SAML Assertion
             // since a message from the sender cannot have the receivers assertion as part of message
             AuthenticationTokenPolicy.SAMLAssertionBinding samlBinding =
                     (AuthenticationTokenPolicy.SAMLAssertionBinding)keyBinding;
-            
+
             Assertion assertion1 = null;
 
             try {
@@ -452,7 +452,7 @@ public class EncryptionProcessor {
                 log.log(Level.SEVERE, "WSS1212.error.SAMLAssertionException");
                 throw new XWSSecurityException(ex);
             }
-            
+
             String assertionID = null;
             if (assertion1 != null) {
                 HashMap tokenCache = context.getTokenCache();
@@ -463,11 +463,11 @@ public class EncryptionProcessor {
                 log.log(Level.SEVERE,"WSS1213.null.SAMLAssertion");
                 throw new XWSSecurityException("SAML Assertion is NULL");
             }
-            
+
             //Key key = null;
             samlkey = KeyResolver.resolveSamlAssertion(
                     context.getSecurableSoapMessage(), samlBinding.getAssertion(), true, context, assertionID);
-            
+
             /*
             _x509Cert = context.getSecurityEnvironment().getCertificate(
                     context.getExtraneousProperties() ,(PublicKey)key, false);
@@ -475,19 +475,19 @@ public class EncryptionProcessor {
                 log.log(Level.SEVERE,"WSS1214.unableto.locate.certificate.SAMLAssertion");
                 throw new XWSSecurityException("Could not locate Certificate corresponding to Key in SubjectConfirmation of SAML Assertion");
             }*/
-            
+
             if (!"".equals(samlBinding.getKeyAlgorithm())) {
                 keyEncAlgo = samlBinding.getKeyAlgorithm();
             }
-            
+
             _symmetricKey = SecurityUtil.generateSymmetricKey(dataEncAlgo);
-            
+
             referenceType = samlBinding.getReferenceType();
             if (referenceType.equals(MessageConstants.EMBEDDED_REFERENCE_TYPE)) {
                 log.log(Level.SEVERE, "WSS1215.unsupported.EmbeddedReference.SAMLAssertion");
                 throw new XWSSecurityException("Embedded Reference Type for SAML Assertions not supported yet");
             }
-            
+
             String assertionId = null;
             if ( assertion1 != null) {
                 assertionId = assertion1.getAssertionID();
@@ -499,17 +499,17 @@ public class EncryptionProcessor {
                 strId = secureMsg.generateId();
             }
             samlTokenRef.setWsuId(strId);
-            
+
             if (binding != null) {
                 samlTokenRef.setSamlAuthorityBinding(binding, secureMsg.getSOAPPart());
             }
             keyInfoStrategy = new KeyIdentifierStrategy(assertionId);
             keyInfoStrategy.insertKey(samlTokenRef, secureMsg);
-            
+
         } else if ( PolicyTypeUtil.issuedTokenKeyBinding(keyBinding)) {
-            
+
             IssuedTokenContext trustContext =  context.getTrustContext();
-            
+
             //get the symmetric key for encryption
             try{
                 _symmetricKey = new SecretKeySpec(trustContext.getProofKey(), SecurityUtil.getSecretKeyAlgorithm(dataEncAlgo));
@@ -517,19 +517,19 @@ public class EncryptionProcessor {
                 log.log(Level.SEVERE, "WSS1216.unableto.get.symmetrickey.Encryption");
                 throw new XWSSecurityException(e);
             }
-            
+
             //Get the IssuedToken and insert it into the message
             GenericToken issuedToken = (GenericToken)trustContext.getSecurityToken();
-            
+
             // check if the token is already present
             IssuedTokenKeyBinding ikb = (IssuedTokenKeyBinding)keyBinding;
             //String ikbPolicyId = ikb.getPolicyToken().getTokenId();
             String ikbPolicyId = ikb.getUUID();
-            
+
             //Look for TrustToken in TokenCache
             HashMap tokCache = context.getTokenCache();
             Object tok = tokCache.get(ikbPolicyId);
-            
+
             SecurityTokenReference str = null;
             Element strElem = null;
             String tokenVersion = ikb.getIncludeToken();
@@ -538,12 +538,12 @@ public class EncryptionProcessor {
                           IssuedTokenKeyBinding.INCLUDE_ALWAYS_VER2.equals(tokenVersion) ||
                           IssuedTokenKeyBinding.INCLUDE_ALWAYS_TO_RECIPIENT_VER2.equals(tokenVersion)
                           );
-            
+
             if (includeIST && (issuedToken == null)) {
                 log.log(Level.SEVERE, "WSS1217.null.IssueToken");
                 throw new XWSSecurityException("Issued Token to be inserted into the Message was Null");
             }
-            
+
             //trust token to be inserted into message
             if (issuedToken != null) {
                 // treat the token as an Opaque entity and just insert the token into message
@@ -569,7 +569,7 @@ public class EncryptionProcessor {
                     }
                 }
             }
-            
+
             if (includeIST) {
                 if (trustContext.getAttachedSecurityTokenReference() != null) {
                     strElem = SecurityUtil.convertSTRToElement(trustContext.getAttachedSecurityTokenReference().getTokenValue(), secureMessage.getSOAPPart());
@@ -586,31 +586,31 @@ public class EncryptionProcessor {
                     throw new XWSSecurityException("Cannot determine how to reference the Un-Attached Issued Token in the Message");
                 }
             }
-            
+
             //TODO: remove these expensive conversions
             Element imported = (Element)secureMessage.getSOAPPart().importNode(strElem,true);
             issuedTokenRef = new SecurityTokenReference(XMLUtil.convertToSoapElement(secureMessage.getSOAPPart(), imported), false);
             SecurityUtil.updateSamlVsKeyCache(issuedTokenRef, context, _symmetricKey);
-            
+
         } else if (PolicyTypeUtil.secureConversationTokenKeyBinding(keyBinding)) {
-            
+
             SecureConversationTokenKeyBinding sctBinding = (SecureConversationTokenKeyBinding)keyBinding;
-            
+
             //String sctPolicyId = sctBinding.getPolicyToken().getTokenId();
             String sctPolicyId = sctBinding.getUUID();
             //Look for SCT in TokenCache
             HashMap tokCache = context.getTokenCache();
             sct = (SecurityContextTokenImpl)tokCache.get(sctPolicyId);
-            
+
             IssuedTokenContext ictx = context.getSecureConversationContext();
-            
+
             if (sct == null) {
                 SecurityContextToken sct1 =(SecurityContextToken)ictx.getSecurityToken();
                 if (sct1 == null) {
                     log.log(Level.SEVERE,"WSS1221.null.SecureConversationToken");
                     throw new XWSSecurityException("SecureConversation Token not Found");
                 }
-                
+
                 sct = new SecurityContextTokenImpl(
                         secureMessage.getSOAPPart(), sct1.getIdentifier().toString(), sct1.getInstance(), sct1.getWsuId(), sct1.getExtElements());
                 // put back in token cache
@@ -620,36 +620,36 @@ public class EncryptionProcessor {
                 // record the element
                 sctElement = secureMessage.getElementByWsuId(sct.getWsuId());
             }
-            
+
             String sctWsuId = sct.getWsuId();
             if (sctWsuId == null) {
                 sct.setId(secureMessage.generateId());
             }
             sctWsuId = sct.getWsuId();
-            
+
             secConvRef = new SecurityTokenReference(secureMessage.getSOAPPart());
             DirectReference reference = new DirectReference();
             if (SecureConversationTokenKeyBinding.INCLUDE_ALWAYS_TO_RECIPIENT.equals(sctBinding.getIncludeToken()) ||
                     SecureConversationTokenKeyBinding.INCLUDE_ALWAYS.equals(sctBinding.getIncludeToken())) {
-                
+
                 reference.setURI("#" + sctWsuId);
             } else {
                 includeSCT = false;
                 reference.setSCTURI(sct.getIdentifier().toString(), sct.getInstance());
             }
-            
+
             secConvRef.setReference(reference);
             referenceType = MessageConstants.DIRECT_REFERENCE_TYPE;
             keyInfoStrategy = KeyInfoStrategy.getInstance(referenceType);
-            
+
             String jceAlgo = SecurityUtil.getSecretKeyAlgorithm(dataEncAlgo);
             _symmetricKey = new SecretKeySpec(ictx.getProofKey(), jceAlgo);
-            
-            
+
+
         } else if (PolicyTypeUtil.derivedTokenKeyBinding(keyBinding)){
             DerivedTokenKeyBinding dtk = (DerivedTokenKeyBinding)keyBinding.clone();
             WSSPolicy originalKeyBinding = dtk.getOriginalKeyBinding();
-            
+
             String algorithm = null;
             if(algSuite != null){
                 algorithm = algSuite.getEncryptionAlgorithm();
@@ -657,7 +657,7 @@ public class EncryptionProcessor {
             //The offset and length to be used for DKT
             long offset = 0; // Default 0
             long length = SecurityUtil.getLengthFromAlgorithm(algorithm);
-            
+
             if (PolicyTypeUtil.x509CertificateBinding(originalKeyBinding)) {
                 //throw new XWSSecurityException("Asymmetric Binding with DerivedKeys under X509Token Policy Not Yet Supported");
             } else if ( PolicyTypeUtil.symmetricKeyBinding(originalKeyBinding)) {
@@ -668,7 +668,7 @@ public class EncryptionProcessor {
                 } else{
                     skb = (SymmetricKeyBinding)originalKeyBinding;
                 }
-                
+
                 if(sendEKSHA1){
                     String ekSha1Ref = getEKSHA1Ref(context);
                     //Construct a derivedKeyToken to be used
@@ -690,14 +690,14 @@ public class EncryptionProcessor {
                     EncryptedKeySHA1Identifier refElem = new EncryptedKeySHA1Identifier(secureMessage.getSOAPPart());
                     refElem.setReferenceValue(ekSha1Ref);
                     tokenRef.setReference(refElem);
-                    
+
                     //set the wsse11:TokenType attribute as required by WSS 1.1
                     //TODO: uncomment this once MS is ready to accpet this
                     //tokenRef.setTokenType(MessageConstants.EncryptedKey_NS);
-                    
+
                     dktHeadrBlock =
                             new DerivedKeyTokenHeaderBlock(_secHeader.getOwnerDocument(), tokenRef, nonce, dkt.getOffset(), dkt.getLength() ,dktId);
-                    
+
                     //Construct the STR for Encryption
                     DirectReference reference = new DirectReference();
                     reference.setURI("#"+dktId);
@@ -720,23 +720,23 @@ public class EncryptionProcessor {
                     if(x509TokenId == null || x509TokenId.equals("")){
                         x509TokenId = secureMsg.generateId();
                     }
-                    
+
                     if(log.isLoggable(Level.FINEST)){
                         log.log(Level.FINEST, "Certificate was "+_x509Cert);
                         log.log(Level.FINEST, "BinaryToken ID "+x509TokenId);
                     }
-                    
-                    
+
+
                     HashMap tokenCache = context.getTokenCache();
                     HashMap insertedX509Cache = context.getInsertedX509Cache();
-                    
+
                     SecurityUtil.checkIncludeTokenPolicy(context, certificateBinding, x509TokenId);
-                    
+
                     // ReferenceType adjustment in checkIncludeTokenPolicy is also currently
                     // causing an insertion of the X509 into the Message
                     X509SecurityToken insertedx509 =
                             (X509SecurityToken)context.getInsertedX509Cache().get(x509TokenId);
-                    
+
                     // this one is used to determine if the whole BST + EK + DKT(opt)
                     // has been inserted by another filter such as Encryption running before
                     X509SecurityToken token = (X509SecurityToken)tokenCache.get(x509TokenId);
@@ -772,7 +772,7 @@ public class EncryptionProcessor {
                         x509TokenElement = insertedx509;
                     }
                     //}
-                    
+
                     //Construct a derivedKeyToken to be used
                     byte[] secret = originalKey.getEncoded();
                     DerivedKeyToken dkt = new DerivedKeyTokenImpl(offset, length, secret);
@@ -786,7 +786,7 @@ public class EncryptionProcessor {
                         log.log(Level.SEVERE, "WSS1216.unableto.get.symmetrickey.Encryption");
                         throw new XWSSecurityException(e);
                     }
-                    
+
                     //STR for DerivedKeyToken
                     SecurityTokenReference tokenRef = new SecurityTokenReference(secureMessage.getSOAPPart());
                     DirectReference reference = new DirectReference();
@@ -801,7 +801,7 @@ public class EncryptionProcessor {
                     tokenRef.setReference(reference);
                     dktHeadrBlock =
                             new DerivedKeyTokenHeaderBlock(_secHeader.getOwnerDocument(), tokenRef, nonce, dkt.getOffset(), dkt.getLength(), dktId);
-                    
+
                     //Construct the STR for Encryption
                     DirectReference refEnc = new DirectReference();
                     refEnc.setURI("#"+dktId);
@@ -809,25 +809,25 @@ public class EncryptionProcessor {
                     ekTokenRef.setReference(refEnc);
                 }
             } else if (PolicyTypeUtil.secureConversationTokenKeyBinding(originalKeyBinding)) {
-                
+
                 sctWithDKT = true;
-                
+
                 SecureConversationTokenKeyBinding sctBinding = (SecureConversationTokenKeyBinding)originalKeyBinding;
                 //String sctPolicyId = sctBinding.getPolicyToken().getTokenId();
                 String sctPolicyId = sctBinding.getUUID();
                 //Look for SCT in TokenCache
                 HashMap tokCache = context.getTokenCache();
                 sct = (SecurityContextTokenImpl)tokCache.get(sctPolicyId);
-                
+
                 IssuedTokenContext ictx = context.getSecureConversationContext();
-                
+
                 if (sct == null) {
                     SecurityContextToken sct1 =(SecurityContextToken)ictx.getSecurityToken();
                     if (sct1 == null) {
                         log.log(Level.SEVERE, "WSS1221.null.SecureConversationToken");
                         throw new XWSSecurityException("SecureConversation Token not Found");
                     }
-                    
+
                     sct = new SecurityContextTokenImpl(
                             secureMessage.getSOAPPart(), sct1.getIdentifier().toString(), sct1.getInstance(), sct1.getWsuId(), sct1.getExtElements());
                     // put back in token cache
@@ -837,13 +837,13 @@ public class EncryptionProcessor {
                     // record the element
                     sctElement = secureMessage.getElementByWsuId(sct.getWsuId());
                 }
-                
+
                 String sctWsuId = sct.getWsuId();
                 if (sctWsuId == null) {
                     sct.setId(secureMessage.generateId());
                 }
                 sctWsuId = sct.getWsuId();
-                
+
                 byte[] secret =  context.getSecureConversationContext().getProofKey();
                 DerivedKeyToken dkt = new DerivedKeyTokenImpl(offset, length, secret);
                 String dktId = secureMessage.generateId();
@@ -860,7 +860,7 @@ public class EncryptionProcessor {
                 DirectReference reference = new DirectReference();
                 if (SecureConversationTokenKeyBinding.INCLUDE_ALWAYS_TO_RECIPIENT.equals(sctBinding.getIncludeToken()) ||
                         SecureConversationTokenKeyBinding.INCLUDE_ALWAYS.equals(sctBinding.getIncludeToken())) {
-                    
+
                     reference.setURI("#" + sctWsuId);
                 } else {
                     includeSCT = false;
@@ -869,22 +869,22 @@ public class EncryptionProcessor {
                 secRef.setReference(reference);
                 dktHeadrBlock =
                         new DerivedKeyTokenHeaderBlock(_secHeader.getOwnerDocument(), secRef, nonce, dkt.getOffset(), dkt.getLength(),dktId);
-                
+
                 //Construct the STR for Encryption
                 DirectReference refEnc = new DirectReference();
                 refEnc.setURI("#"+dktId);
                 dktSctTokenRef = new SecurityTokenReference(secureMessage.getSOAPPart());
                 dktSctTokenRef.setReference(refEnc);
-                
+
             } else if (PolicyTypeUtil.issuedTokenKeyBinding(originalKeyBinding)) {
-                
+
                 issuedWithDKT = true;
-                
+
                 IssuedTokenContext trustContext =  context.getTrustContext();
                 DerivedKeyToken dkt = new DerivedKeyTokenImpl(offset, length, trustContext.getProofKey());
                 String dktId = secureMessage.generateId();
                 String nonce = Base64.encode(dkt.getNonce());
-                
+
                 //get the symmetric key for encryption
                 Key origKey = null;
                 try{
@@ -893,8 +893,8 @@ public class EncryptionProcessor {
                     log.log(Level.SEVERE, "WSS1216.unableto.get.symmetrickey.Encryption");
                     throw new XWSSecurityException(e);
                 }
-                
-                
+
+
                 //get the symmetric key for encryption key from derivedkeyToken
                 try{
                     _symmetricKey = dkt.generateSymmetricKey(SecurityUtil.getSecretKeyAlgorithm(dataEncAlgo));
@@ -902,10 +902,10 @@ public class EncryptionProcessor {
                     log.log(Level.SEVERE, "WSS1216.unableto.get.symmetrickey.Encryption");
                     throw new XWSSecurityException(e);
                 }
-                
+
                 //Get the IssuedToken and insert it into the message
                 GenericToken issuedToken = (GenericToken)trustContext.getSecurityToken();
-                
+
                 // check if the token is already present
                 IssuedTokenKeyBinding ikb = (IssuedTokenKeyBinding)originalKeyBinding;
                 //String ikbPolicyId = ikb.getPolicyToken().getTokenId();
@@ -913,7 +913,7 @@ public class EncryptionProcessor {
                 //Look for TrustToken in TokenCache
                 HashMap tokCache = context.getTokenCache();
                 Object tok = tokCache.get(ikbPolicyId);
-                
+
                 SecurityTokenReference str = null;
                 Element strElem = null;
                 String tokenVersion = ikb.getIncludeToken();
@@ -922,12 +922,12 @@ public class EncryptionProcessor {
                           IssuedTokenKeyBinding.INCLUDE_ALWAYS_VER2.equals(tokenVersion) ||
                           IssuedTokenKeyBinding.INCLUDE_ALWAYS_TO_RECIPIENT_VER2.equals(tokenVersion)
                           );
-                
+
                 if (includeIST && (issuedToken == null)) {
                     log.log(Level.SEVERE, "WSS1217.null.IssueToken");
                     throw new XWSSecurityException("Issued Token to be inserted into the Message was Null");
                 }
-                
+
                 if (issuedToken != null) {
                     // treat the token as an Opaque entity and just insert the token into message
                     Element elem = (Element)issuedToken.getTokenValue();
@@ -952,7 +952,7 @@ public class EncryptionProcessor {
                         }
                     }
                 }
-                
+
                 if (includeIST) {
                     if (trustContext.getAttachedSecurityTokenReference() != null) {
                         strElem = (Element)trustContext.getAttachedSecurityTokenReference().getTokenValue();
@@ -969,16 +969,16 @@ public class EncryptionProcessor {
                         throw new XWSSecurityException("Cannot determine how to reference the Un-Attached Issued Token in the Message");
                     }
                 }
-                
+
                 //TODO: remove these expensive conversions
                 Element imported = (Element)secureMessage.getSOAPPart().importNode(strElem,true);
                 str = new SecurityTokenReference(
                         XMLUtil.convertToSoapElement(secureMessage.getSOAPPart(), (Element)imported.cloneNode(true)), false);
-                
+
                 if (origKey != null) {
                     SecurityUtil.updateSamlVsKeyCache(str, context, origKey);
                 }
-                
+
                 dktHeadrBlock =
                         new DerivedKeyTokenHeaderBlock(_secHeader.getOwnerDocument(), str, nonce, dkt.getOffset(), dkt.getLength(),dktId);
                 //Construct the STR for Encryption
@@ -986,14 +986,14 @@ public class EncryptionProcessor {
                 refEnc.setURI("#"+dktId);
                 dktIssuedTokenRef = new SecurityTokenReference(secureMessage.getSOAPPart());
                 dktIssuedTokenRef.setReference(refEnc);
-                
+
             }
         } else {
             log.log(Level.SEVERE, "WSS1222.unsupported.KeyBinding.EncryptionPolicy");
             throw new XWSSecurityException("Unsupported Key Binding for EncryptionPolicy");
         }
-        
-        
+
+
         XMLCipher _keyEncryptor = null;
         XMLCipher _dataEncryptor = null;
         Cipher _attachmentEncryptor = null;
@@ -1003,7 +1003,7 @@ public class EncryptionProcessor {
             if(log.isLoggable(Level.FINEST)){
                 log.log(Level.FINEST, "KeyEncryption algorithm is "+keyEncAlgo);
             }
-            
+
             if (_x509Cert != null) {
                 //prepare for keytransport
                 _keyEncryptor = XMLCipher.getInstance(keyEncAlgo);
@@ -1017,27 +1017,27 @@ public class EncryptionProcessor {
                 _keyEncryptor = XMLCipher.getInstance(keyEncAlgo);
                 _keyEncryptor.init(XMLCipher.WRAP_MODE, keyEncSK);
             }
-            
+
             if(log.isLoggable(Level.FINEST)){
                 log.log(Level.FINEST, "Data encryption algorithm is "+dataEncAlgo);
             }
-            
+
             String dataAlgorithm =  JCEMapper.translateURItoJCEID(dataEncAlgo);
             _dataEncryptor = XMLCipher.getInstance(dataEncAlgo);
-            
+
             _dataEncryptor.init(XMLCipher.ENCRYPT_MODE, _symmetricKey);
-            
+
         } catch (Exception xee) {
             log.log(Level.SEVERE, "WSS1205.unableto.initialize.xml.cipher",xee);
             throw new XWSSecurityException(
                     "Unable to initialize XML Cipher", xee);
         }
-        
+
         ArrayList targets =  featureBinding.getTargetBindings();
-        
+
         ArrayList _aparts = new ArrayList();
         ArrayList _dnodes = new ArrayList();
-        
+
         Iterator i = targets.iterator();
         //TODO : remove all  the three while loops and
         //convert to a 2 loop - Venu
@@ -1083,17 +1083,17 @@ public class EncryptionProcessor {
                 }
             }
         }
-        
+
         if (_dnodes.isEmpty() && _aparts.isEmpty()) {
             if(log.isLoggable(Level.WARNING)){
                 log.log(Level.WARNING, "None of the specified Encryption Parts found in the Message");
             }
         }
-        
+
         EncryptedKey _encryptedKey = null;
         ReferenceListHeaderBlock _ekReferenceList = null;
         ReferenceListHeaderBlock _standaloneReferenceList = null;
-        
+
         if (_keyEncryptor != null && !skbX509TokenInserted) {
             try {
                 if(!dktSender){
@@ -1104,7 +1104,7 @@ public class EncryptionProcessor {
                 _encryptedKey.setId(ekId);
                 ekCache.put(x509TokenId, ekId);
                 KeyInfoHeaderBlock keyInfoBlock = new KeyInfoHeaderBlock(secureMsg.getSOAPPart());
-                
+
                 if (samlTokenRef != null) {
                     keyInfoBlock.addSecurityTokenReference(samlTokenRef);
                 } else if(_x509Cert != null){
@@ -1115,23 +1115,23 @@ public class EncryptionProcessor {
                 }
                 KeyInfo keyInfo = keyInfoBlock.getKeyInfo(); /*new KeyInfo(keyInfoBlock.getAsSoapElement(), null); */
                 _encryptedKey.setKeyInfo(keyInfo);
-                
+
             } catch (Exception xe) {
                 log.log(Level.SEVERE, "WSS1223.unableto.set.KeyInfo.EncryptedKey", xe);
                 //xe.printStackTrace();
                 throw new XWSSecurityException(xe);
             }
         }
-        
+
         if (_encryptedKey != null && !dktSender && !useStandaloneRefList){
             _ekReferenceList = new ReferenceListHeaderBlock(secureMsg.getSOAPPart());
         }
         // process APs - push only EDs (create EDs), modify AP headers/content
-        
+
         //When encrypting content and attachments with the same key process attachments first.
         //SWA Spec.
         SOAPElement x509Sibling = null;
-        
+
         if(x509TokenElement != null){
             x509Sibling = (SOAPElement)x509TokenElement.getNextSibling();
         }
@@ -1153,17 +1153,17 @@ public class EncryptionProcessor {
             Object[] s = (Object[])_apartsI.next();
             AttachmentPart p = (AttachmentPart)s[0];
             boolean b = ((Boolean)s[1]).booleanValue();
-            
+
             // create n push an ED
-            
+
             EncryptedDataHeaderBlock edhb = new EncryptedDataHeaderBlock();
-            
+
             String id = secureMsg.generateId();
-            
+
             edhb.setId(id);
             edhb.setType( (b ?  MessageConstants.ATTACHMENT_CONTENT_ONLY_URI : MessageConstants.ATTACHMENT_COMPLETE_URI));
             edhb.setMimeType(p.getContentType());
-            
+
             String uri = p.getContentId();
             if (uri != null) {
                 if ( uri.charAt(0) == '<' && uri.charAt(uri.length()-1) == '>'){
@@ -1174,13 +1174,13 @@ public class EncryptionProcessor {
             } else {
                 uri = p.getContentLocation();
             }
-            
+
             edhb.getCipherReference(true, uri);
             edhb.setEncryptionMethod(dataEncAlgo);
             edhb.addTransform(MessageConstants.ATTACHMENT_CONTENT_ONLY_TRANSFORM_URI);
-            
+
             encryptAttachment(p, b, _attachmentEncryptor);
-            
+
             if (_ekReferenceList != null){
                 _ekReferenceList.addReference("#"+id);
             }
@@ -1221,7 +1221,7 @@ public class EncryptionProcessor {
             boolean isEhb = false;
             EncryptedDataHeaderBlock xencEncryptedData = new EncryptedDataHeaderBlock(
                     XMLUtil.convertToSoapElement( secureMsg.getSOAPPart(), ed));
-            
+
             String xencEncryptedDataId = secureMsg.generateId();
             String xencEncryptedDataRef = "#" + xencEncryptedDataId;
             if(ed.getParentNode() instanceof SOAPHeader && wss11Sender){
@@ -1232,7 +1232,7 @@ public class EncryptionProcessor {
             }else{
                 xencEncryptedData.setId(xencEncryptedDataId);
             }
-            
+
             if (_ekReferenceList != null){
                 _ekReferenceList.addReference(xencEncryptedDataRef);
             }else {
@@ -1240,7 +1240,7 @@ public class EncryptionProcessor {
                     _standaloneReferenceList = new ReferenceListHeaderBlock(secureMsg.getSOAPPart());
                 }
                 _standaloneReferenceList.addReference(xencEncryptedDataRef);
-                
+
                 KeyInfoHeaderBlock keyInfoBlock = new KeyInfoHeaderBlock(secureMsg.getSOAPPart());
                 SecurityTokenReference cloned = null;
                 if (dktSctTokenRef != null) {
@@ -1259,7 +1259,7 @@ public class EncryptionProcessor {
                     cloned = new SecurityTokenReference((SOAPElement)issuedTokenRef.cloneNode(true));
                     keyInfoBlock.addSecurityTokenReference(cloned);
                 } else {
-                    
+
                     if (PolicyTypeUtil.x509CertificateBinding(keyBinding)){
                         //to handle EncryptBeforeSigning we split EK and RefList even in this case
                         DirectReference dRef = new DirectReference();
@@ -1267,16 +1267,16 @@ public class EncryptionProcessor {
                         ekDirectRef = new SecurityTokenReference(secureMessage.getSOAPPart());
                         ekDirectRef.setReference(dRef);
                         keyInfoBlock.addSecurityTokenReference(ekDirectRef);
-                        
+
                     }else {
                         // this is the default KeyName case
                         keyInfoStrategy.insertKey(keyInfoBlock, secureMsg, null);
                     }
-                    
+
                 }
                 xencEncryptedData.setKeyInfo(keyInfoBlock);
             }
-            
+
             if(isEhb){
                 try{
                     ed.getParentNode().replaceChild(ehb.getAsSoapElement(), ed);
@@ -1286,20 +1286,20 @@ public class EncryptionProcessor {
                 ed.getParentNode().replaceChild(xencEncryptedData.getAsSoapElement(), ed);
             }
         }
-        
+
         try {
             x509Sibling = null;
-            
+
             if(x509TokenElement != null){
                 x509Sibling = (SOAPElement)x509TokenElement.getNextSibling();
             }
-            
+
             if (_encryptedKey != null) {
                 SOAPElement se = (SOAPElement)_keyEncryptor.martial(_encryptedKey);
                 se = _secHeader.makeUsable(se);
                 if(_ekReferenceList != null)
                     se.appendChild(_ekReferenceList.getAsSoapElement());
-                
+
                 //store EKSHA1 of KeyValue contents in context
                 Element cipherData = (Element)se.getChildElements(new QName(MessageConstants.XENC_NS, "CipherData", MessageConstants.XENC_PREFIX)).next();
                 String cipherValue = cipherData.getElementsByTagNameNS(MessageConstants.XENC_NS, "CipherValue").item(0).getTextContent();
@@ -1307,7 +1307,7 @@ public class EncryptionProcessor {
                 byte[] ekSha1 = MessageDigest.getInstance("SHA-1").digest(decodedCipher);
                 String encEkSha1 = Base64.encode(ekSha1);
                 context.setExtraneousProperty("EncryptedKeySHA1", encEkSha1);
-                
+
                 if(x509Sibling == null ){
                     if(x509TokenElement == null){
                         _secHeader.insertHeaderBlockElement(se);
@@ -1330,7 +1330,7 @@ public class EncryptionProcessor {
                             //insert the standalone reflist under EK
                             Element ekElem = secureMessage.getElementById(insertedEkId);
                             _secHeader.insertBefore(_standaloneReferenceList, ekElem.getNextSibling());
-                            
+
                         } else {
                             _secHeader.insertHeaderBlock(_standaloneReferenceList);
                             context.setCurrentReferenceList(_standaloneReferenceList.getAsSoapElement());
@@ -1348,7 +1348,7 @@ public class EncryptionProcessor {
                     }
                 }
             }
-            
+
             if (sctWithDKT || issuedWithDKT) {
                 // SCT or IssuedToken not in message so insert it above the DKT in SecHeader
                 if (sctElement == null && (sct != null)) {
@@ -1389,7 +1389,7 @@ public class EncryptionProcessor {
                 if (!sctTokenInserted && (sct != null) && includeSCT) {
                     _secHeader.insertHeaderBlock(sct);
                 }
-                
+
                 // insert trust token if any in the Non DKT path
                 if (!issuedTokenInserted && (issuedTokenElement != null) && includeIST) {
                     _secHeader.insertHeaderBlockElement(issuedTokenElement);
@@ -1398,21 +1398,21 @@ public class EncryptionProcessor {
                     context.setIssuedSAMLToken(issuedTokenElement);
                 }
             }
-            
+
         } catch (Base64DecodingException | NoSuchAlgorithmException e) {
             log.log(Level.SEVERE, "WSS1224.error.insertion.HeaderBlock.SecurityHeader", e);
             throw new XWSSecurityException(e);
         }
 
     }
-    
-    
+
+
     //Handle encryption of elememnt and element content
-    
+
     private static Element encryptElement(SecurableSoapMessage secureMsg, SOAPElement encryptElm, boolean contentOnly, XMLCipher xmlCipher) throws XWSSecurityException {
-        
+
         String localName = encryptElm.getLocalName();
-        
+
         // BSP: 5607
         if (!contentOnly
                 && (MessageConstants.SOAP_1_1_NS.equalsIgnoreCase(encryptElm.getNamespaceURI())
@@ -1426,9 +1426,9 @@ public class EncryptionProcessor {
             throw new XWSSecurityException(
                     "Encryption of SOAP " + localName + " is not allowed"); // BSP 5607
         }
-        
+
         SOAPPart soapPart = secureMsg.getSOAPPart();
-        
+
         // Get the relative location of the element we are working on
         Node refNode = null;
         Node contextNode;
@@ -1438,14 +1438,14 @@ public class EncryptionProcessor {
             contextNode = encryptElm.getParentNode();
             refNode = encryptElm.getNextSibling();
         }
-        
+
         try {
             xmlCipher.doFinal(soapPart, encryptElm, contentOnly);
         } catch (Exception e) {
             log.log(Level.SEVERE, "WSS1207.unableto.encrypt.message");
             throw new XWSSecurityException("Unable to encrypt element", e);
         }
-        
+
         Element xencEncryptedData;
         if (contentOnly){
             xencEncryptedData = (Element) contextNode.getFirstChild();
@@ -1456,11 +1456,11 @@ public class EncryptionProcessor {
                 xencEncryptedData = (Element) refNode.getPreviousSibling();
             }
         }
-        
+
         return xencEncryptedData;
     }
-    
-    
+
+
     private static Element encryptBodyContent(SecurableSoapMessage contextNode ,byte[] canonData,XMLCipher xmlCipher) {
         throw new UnsupportedOperationException("Old optimizations disabled in WSIT");
 //        try{
@@ -1475,7 +1475,7 @@ public class EncryptionProcessor {
 //            throw new XWSSecurityException("Unable to encrypt element", e);
 //        }
     }
-    
+
     private static void signEncrypt(FilterProcessingContext fpc ,Cipher cipher, ReferenceListHeaderBlock _ekReferenceList,
             ReferenceListHeaderBlock _standaloneReferenceList ,KeyInfoStrategy keyInfoStrategy,String encAlgo ) {
         throw new UnsupportedOperationException("Not supported in WSIT");
@@ -1514,36 +1514,36 @@ public class EncryptionProcessor {
 //            throw new XWSSecurityException("Unable to encrypt element", e);
 //        }
     }
-    
+
     //Start of Attachment code.
     private static void encryptAttachment( AttachmentPart part, boolean contentOnly, Cipher cipher) throws XWSSecurityException {
         try {
             byte[] cipherInput = null;
-            
+
             if (contentOnly) {
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 part.getDataHandler().writeTo(baos);
                 cipherInput = baos.toByteArray();
             } else {
                 Object [] obj  = AttachmentSignatureInput._getSignatureInput(part);
-                
+
                 byte[] headers = serializeHeaders((java.util.Vector) obj[0]);
                 byte[] content = (byte[]) obj[1];
-                
+
                 cipherInput = new byte[headers.length+content.length];
-                
+
                 System.arraycopy(headers, 0, cipherInput, 0, headers.length);
                 System.arraycopy(content, 0, cipherInput, headers.length, content.length);
             }
-            
+
             byte[] cipherOutput = cipher.doFinal(cipherInput);
-            
+
             byte[] iv = cipher.getIV();
             byte[] encryptedBytes = new byte[iv.length + cipherOutput.length];
-            
+
             System.arraycopy(iv, 0, encryptedBytes, 0, iv.length);
             System.arraycopy(cipherOutput, 0, encryptedBytes, iv.length, cipherOutput.length);
-            
+
             int cLength  = encryptedBytes.length;
             String cType = MimeConstants.APPLICATION_OCTET_STREAM_TYPE;
             String uri   = part.getContentId();
@@ -1551,7 +1551,7 @@ public class EncryptionProcessor {
             if (!contentOnly){
                 part.removeAllMimeHeaders();
             }
-            
+
             if (uri != null){
                 part.setMimeHeader(MimeConstants.CONTENT_ID, uri);
             }else {
@@ -1563,69 +1563,69 @@ public class EncryptionProcessor {
             part.setContentType(cType);
             part.setMimeHeader(MimeConstants.CONTENT_LENGTH,Integer.toString(cLength));
             part.setMimeHeader("Content-Transfer-Encoding", "base64");
-            
+
             EncryptedAttachmentDataHandler dh = new EncryptedAttachmentDataHandler( new EncryptedAttachmentDataSource(encryptedBytes));
             part.setDataHandler(dh);
-            
+
         } catch (Exception e) {
             log.log(Level.SEVERE, "WSS1225.error.encrypting.Attachment", e);
             throw new XWSSecurityException(e);
         }
     }
-    
+
     private static String getEKSHA1Ref(FilterProcessingContext context){
         String ekSha1Ref = null;
         ekSha1Ref = (String) context.getExtraneousProperty(MessageConstants.EK_SHA1_VALUE);
         return ekSha1Ref;
     }
-    
+
     private static byte[] serializeHeaders(java.util.Vector mimeHeaders) throws XWSSecurityException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        
+
         try {
             for (int i=0; i < mimeHeaders.size(); i++) {
                 MimeHeader mh = (MimeHeader) mimeHeaders.elementAt(i);
-                
+
                 String name = mh.getName();
                 String vlue = mh.getValue();
-                
+
                 String line = name + ":" + vlue + "\r\n";
-                
+
                 byte[] b = line.getBytes(StandardCharsets.US_ASCII);
                 baos.write(b, 0, b.length);
             }
-            
+
             baos.write(crlf, 0, crlf.length);
         } catch (Exception e) {
             log.log(Level.SEVERE, "WSS1226.error.serialize.headers", e);
             throw new XWSSecurityException(e);
         }
-        
+
         return baos.toByteArray();
     }
-    
+
     private static class EncryptedAttachmentDataSource implements jakarta.activation.DataSource {
         byte[] datasource;
-        
+
         EncryptedAttachmentDataSource(byte[] ds) {
             datasource = ds;
         }
-        
+
         @Override
         public String getContentType() {
             return MimeConstants.APPLICATION_OCTET_STREAM_TYPE;
         }
-        
+
         @Override
         public InputStream getInputStream() {
             return new ByteArrayInputStream(datasource);
         }
-        
+
         @Override
         public String getName() {
             return "Encrypted Attachment DataSource";
         }
-        
+
         @Override
         public OutputStream getOutputStream() {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -1633,18 +1633,18 @@ public class EncryptionProcessor {
             return baos;
         }
     }
-    
+
     private static class EncryptedAttachmentDataHandler extends jakarta.activation.DataHandler {
-        
+
         EncryptedAttachmentDataHandler(jakarta.activation.DataSource ds) {
             super(ds);
         }
-        
+
         @Override
         public void writeTo(OutputStream os) throws java.io.IOException {
             ((ByteArrayOutputStream) getDataSource().getOutputStream()).writeTo(os);
         }
     }
-    
+
     //End of Attachment code.
 }

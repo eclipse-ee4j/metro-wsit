@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -23,21 +23,21 @@ import org.w3c.dom.Element;
  * @author Jiandong Guo
  */
 public class ValidateTargetImpl extends ValidateTargetType implements ValidateTarget {
-    
+
     private SecurityTokenReference str = null;
-    
+
     public ValidateTargetImpl(Token token){
         final Element element = (Element)token.getTokenValue();
         setAny(element);
     }
-    
+
     public ValidateTargetImpl(ValidateTargetType vtType){
         Object vt = vtType.getAny();
         if (vt != null){
             this.setAny(vt);
         }
     }
-    
+
     @Override
     public void setSecurityTokenReference(final SecurityTokenReference ref) {
         str = ref;
@@ -47,7 +47,7 @@ public class ValidateTargetImpl extends ValidateTargetType implements ValidateTa
             setAny(strElement);
         }
     }
-    
+
     @Override
     public SecurityTokenReference getSecurityTokenReference() {
         return str;

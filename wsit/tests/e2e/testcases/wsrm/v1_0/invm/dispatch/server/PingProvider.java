@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -40,43 +40,43 @@ public class PingProvider implements Provider<SOAPMessage> {
         "</S:Envelope>";
 
     public SOAPMessage invoke(SOAPMessage req)  {
-	System.out.println("invoke: Request: " + getSOAPMessageAsString(req));
+    System.out.println("invoke: Request: " + getSOAPMessageAsString(req));
         SOAPMessage res = null;
-	try {
+    try {
             res = makeSOAPMessage(helloResponse);
-	} catch (Exception e) {
-	    System.out.println("Exception: occurred " + e);
-	}
-	System.out.println("invoke: Response: " + getSOAPMessageAsString(res));
+    } catch (Exception e) {
+        System.out.println("Exception: occurred " + e);
+    }
+    System.out.println("invoke: Response: " + getSOAPMessageAsString(res));
         return res;
     }
 
     private String getSOAPMessageAsString(SOAPMessage msg)
     {
-	ByteArrayOutputStream baos = null;
-	String s = null;
+    ByteArrayOutputStream baos = null;
+    String s = null;
         try {
-	    baos = new ByteArrayOutputStream();
+        baos = new ByteArrayOutputStream();
             msg.writeTo(baos);
-	    s = baos.toString();
+        s = baos.toString();
         } catch(Exception e) {
             e.printStackTrace();
         }
-	return s;
+    return s;
     }
 
     private SOAPMessage makeSOAPMessage(String msg)
     {
-	try {
+    try {
             MessageFactory factory = MessageFactory.newInstance();
             SOAPMessage message = factory.createMessage();
             message.getSOAPPart().setContent((Source)new StreamSource(new StringReader(msg)));
             message.saveChanges();
             return message;
-	}
-	catch (Exception e) {
-	    return null;
-	}
+    }
+    catch (Exception e) {
+        return null;
+    }
     }
 }
 

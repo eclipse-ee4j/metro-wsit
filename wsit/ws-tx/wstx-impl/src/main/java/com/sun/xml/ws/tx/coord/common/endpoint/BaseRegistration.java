@@ -44,7 +44,7 @@ public abstract class BaseRegistration<T extends EndpointReference,K,P> implemen
         this.context = context;
         this.version = version;
     }
-    
+
     @Override
     public BaseRegisterResponseType<T,P> registerOperation(BaseRegisterType<T,K> parameters) {
         if (WSATHelper.isDebugEnabled())
@@ -137,7 +137,7 @@ public abstract class BaseRegistration<T extends EndpointReference,K,P> implemen
             wsatXAResource.setBranchQualifier(xidFromEnlist.getBranchQualifier());
             return xidFromEnlist;
         } catch (WSATException e) {
-            e.printStackTrace(); 
+            e.printStackTrace();
             throw new WebServiceException(e);
         }
     }

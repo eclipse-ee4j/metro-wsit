@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -27,27 +27,27 @@ import java.net.URL;
  * @author Santiago.PericasGeertsen@sun.com
  */
 public class XMLStreamReaderFactory {
-    
+
     /**
      * StAX input factory shared by all threads.
      */
     static final XMLInputFactory xmlInputFactory;
-    
+
     /**
      * FI stream reader for each thread.
      */
     static final ThreadLocal fiStreamReader = new ThreadLocal();
-    
+
     /**
      * Zephyr's stream reader for each thread.
      */
     static final ThreadLocal<XMLStreamReader> xmlStreamReader = new ThreadLocal<>();
-    
+
     static {
         // Use StAX pluggability layer to get factory instance
         xmlInputFactory = XMLInputFactory.newInstance();
         xmlInputFactory.setProperty(XMLInputFactory.IS_NAMESPACE_AWARE, Boolean.TRUE);
-        
+
         try {
             // Turn OFF internal factory caching in Zephyr -- not thread safe
             xmlInputFactory.setProperty("reuse-instance", Boolean.FALSE);
@@ -55,9 +55,9 @@ public class XMLStreamReaderFactory {
             // falls through
         }
     }
-    
+
     // -- XML ------------------------------------------------------------
-    
+
     /**
      * Returns a fresh StAX parser created from an InputSource. Use this
      * method when concurrent instances are needed within a single thread.
@@ -73,13 +73,13 @@ public class XMLStreamReaderFactory {
                     return xmlInputFactory.createXMLStreamReader(
                             source.getSystemId(), source.getCharacterStream());
                 }
-                
+
                 // Byte stream available?
                 if (source.getByteStream() != null) {
                     return xmlInputFactory.createXMLStreamReader(
                             source.getSystemId(), source.getByteStream());
                 }
-                
+
                 // Otherwise, open URI
                 return xmlInputFactory.createXMLStreamReader(source.getSystemId(),
                         new URL(source.getSystemId()).openStream());
@@ -88,7 +88,7 @@ public class XMLStreamReaderFactory {
             throw new WebServiceException("stax.cantCreate",e);
         }
     }
-    
+
     /**
      * This factory method would be used for example when caller wants to close the stream.
      */
@@ -103,7 +103,7 @@ public class XMLStreamReaderFactory {
             throw new WebServiceException("stax.cantCreate",e);
         }
     }
-    
+
     /**
      * This factory method would be used for example when caller wants to close the stream.
      */
@@ -118,8 +118,8 @@ public class XMLStreamReaderFactory {
             throw new WebServiceException("stax.cantCreate",e);
         }
     }
-    
-    
+
+
     public static XMLStreamReader createFilteredXMLStreamReader(XMLStreamReader reader,StreamFilter filter){
         try {
             synchronized (xmlInputFactory) {
@@ -130,7 +130,7 @@ public class XMLStreamReaderFactory {
             throw new WebServiceException("stax.cantCreate",e);
         }
     }
-    
-   
-    
+
+
+
 }

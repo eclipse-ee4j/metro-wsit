@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -20,12 +20,12 @@ import java.util.Collection;
  * @author K.Venugopal@sun.com
  */
 public class RecipientSignatureToken extends com.sun.xml.ws.security.impl.policy.Token{
-   
+
     public RecipientSignatureToken(){
-        
+
     }
     public RecipientSignatureToken(AssertionData name,Collection<PolicyAssertion> nestedAssertions, AssertionSet nestedAlternative) {
         super(name,nestedAssertions,nestedAlternative);
     }
-    
+
 }

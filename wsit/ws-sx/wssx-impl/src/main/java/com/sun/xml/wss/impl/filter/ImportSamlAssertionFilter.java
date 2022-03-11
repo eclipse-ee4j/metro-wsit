@@ -46,20 +46,20 @@ public class ImportSamlAssertionFilter{
      * @param context FilterProcessingContext
      */
     @SuppressWarnings("unchecked")
-    public static void process(FilterProcessingContext context)	throws XWSSecurityException {
-  
+    public static void process(FilterProcessingContext context)    throws XWSSecurityException {
+
         SecurableSoapMessage secureMessage = context.getSecurableSoapMessage();
         SecurityHeader wsseSecurity = secureMessage.findSecurityHeader();
         Assertion samlAssertion = null;
         SOAPElement samlElement = null;
 
-        if( context.getMode() == FilterProcessingContext.ADHOC || 
-            context.getMode() == FilterProcessingContext.DEFAULT || 
+        if( context.getMode() == FilterProcessingContext.ADHOC ||
+            context.getMode() == FilterProcessingContext.DEFAULT ||
             context.getMode() == FilterProcessingContext.WSDL_POLICY) {
-            
-            NodeList nl = null;            
+
+            NodeList nl = null;
             Element elem = null;
-            
+
             for (Iterator iter = wsseSecurity.getChildElements(); iter.hasNext();) {
                 Object obj = iter.next();
                 /*if(obj instanceof Text){
@@ -80,7 +80,7 @@ public class ImportSamlAssertionFilter{
                         break;
                     }
                 }
-            }                   
+            }
 //            if (wsseSecurity.getChildElements()Attributes().equals("AssertionID")){
 //                nl = wsseSecurity.getElementsByTagNameNS(
 //                        MessageConstants.SAML_v1_0_NS, MessageConstants.SAML_ASSERTION_LNAME);
@@ -88,18 +88,18 @@ public class ImportSamlAssertionFilter{
 //                nl = wsseSecurity.getElementsByTagNameNS(
 //                        MessageConstants.SAML_v2_0_NS, MessageConstants.SAML_ASSERTION_LNAME);
 //            }
-            
+
             if (nl == null){
                 throw new XWSSecurityException("SAMLAssertion is null");
             }
-            int nodeListLength = nl.getLength();              
+            int nodeListLength = nl.getLength();
             int countSamlInsideAdviceElement = 0;
             for(int i =0; i<nodeListLength; i++){
-                if(nl.item(i).getParentNode().getLocalName().equals("Advice")){                                                            
+                if(nl.item(i).getParentNode().getLocalName().equals("Advice")){
                     countSamlInsideAdviceElement++;
-                }               
-            }                        
-            
+                }
+            }
+
             //for now we dont allow multiple saml assertions
             if (nodeListLength == 0) {
                log.log(Level.SEVERE, LogStringsMessages.WSS_1431_NO_SAML_FOUND());
@@ -132,14 +132,14 @@ public class ImportSamlAssertionFilter{
                 if (!"".equals(samlPolicy.getAuthorityIdentifier())) {
                     if (!samlPolicy.getAuthorityIdentifier().equals(samlAssertion.getSamlIssuer())) {
                         //log here
-                        XWSSecurityException xwse = new XWSSecurityException("Invalid Assertion Issuer, expected "  + 
+                        XWSSecurityException xwse = new XWSSecurityException("Invalid Assertion Issuer, expected "  +
                             samlPolicy.getAuthorityIdentifier() + ", found " + (samlAssertion.getSamlIssuer()));
                         log.log(Level.SEVERE, LogStringsMessages.WSS_1434_SAML_ISSUER_VALIDATION_FAILED(), xwse);
                         throw SecurableSoapMessage.newSOAPFaultException(
                             MessageConstants.WSSE_INVALID_SECURITY_TOKEN,
                             "Received SAML Assertion has invalid Issuer",
                                 xwse);
-                    
+
                     }
                 }
             }
@@ -155,7 +155,7 @@ public class ImportSamlAssertionFilter{
                      new AuthenticationTokenPolicy.SAMLAssertionBinding();
                  context.getInferredSecurityPolicy().append(bind);
              }
-                                                                                                  
+
             try{
                 samlAssertion = AssertionUtil.fromElement(wsseSecurity.getCurrentHeaderElement());
             } catch(Exception ex) {
@@ -189,15 +189,15 @@ public class ImportSamlAssertionFilter{
                         "Invalid ConfirmationMethod",
                         xwse);
         }*/
-        
+
         context.getSecurityEnvironment().validateSAMLAssertion(context.getExtraneousProperties(), samlElement);
-        
+
         context.getSecurityEnvironment().updateOtherPartySubject(
                 DefaultSecurityEnvironmentImpl.getSubject(context), samlAssertion);
 
         AuthenticationTokenPolicy.SAMLAssertionBinding samlPolicy = new AuthenticationTokenPolicy.SAMLAssertionBinding();
         samlPolicy.setUUID(samlAssertion.getAssertionID());
-        context.getInferredSecurityPolicy().append(samlPolicy); 
+        context.getInferredSecurityPolicy().append(samlPolicy);
     }
 
 }

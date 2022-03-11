@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -15,7 +15,7 @@
 package com.sun.xml.wss.impl.callback;
 
 import javax.security.auth.callback.Callback;
-                                                                                                         
+
 /**
  * This callback is an optional callback that can be handled by an
  * implementation of CallbackHandler to specify the values of properties
@@ -28,7 +28,7 @@ import javax.security.auth.callback.Callback;
  * file to set the above property values instead.
  */
 public class PropertyCallback extends XWSSCallback implements Callback {
-   
+
     public static final long MAX_NONCE_AGE = 900000 ;
     public static final long MAX_CLOCK_SKEW = 60000;
     public static final long TIMESTAMP_FRESHNESS_LIMIT = 300000;
@@ -36,14 +36,14 @@ public class PropertyCallback extends XWSSCallback implements Callback {
     long maxSkew = MAX_CLOCK_SKEW;
     long freshnessLimit = TIMESTAMP_FRESHNESS_LIMIT;
     long maxNonceAge = MAX_NONCE_AGE;
-                                                                                                         
+
     /**
      *@param skew the assumed maximum skew (milliseconds) between the local times of any two systems
      */
     public void setMaxClockSkew(long skew) {
         this.maxSkew = skew;
     }
-   
+
     /**
      *@return the maximum clock skew
      */
@@ -66,7 +66,7 @@ public class PropertyCallback extends XWSSCallback implements Callback {
     }
 
     /**
-     *@param maxNonceAge The length of time (milliseconds) a previously received Nonce value 
+     *@param maxNonceAge The length of time (milliseconds) a previously received Nonce value
      *will be stored
      * Implementation Note: The actual time for which any Nonce will be stored can be greater
      * than maxNonceAge. In some cases when the implementation is unable to determine a receiver
@@ -78,7 +78,7 @@ public class PropertyCallback extends XWSSCallback implements Callback {
     }
 
     /**
-     *@return the Maximum Nonce Age value 
+     *@return the Maximum Nonce Age value
      */
     public long getMaxNonceAge() {
         return this.maxNonceAge;

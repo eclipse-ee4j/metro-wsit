@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -273,7 +273,7 @@ final class Wsrm200702ProtocolHandler extends WsrmProtocolHandler {
             } else {
                 for (Sequence.AckRange range : ackedRanges) {
                     ackElement.addAckRange(range.lower, range.upper);
-                }                
+                }
             }
 
             if (ackData.isFinalAcknowledgement()) {
@@ -357,7 +357,7 @@ final class Wsrm200702ProtocolHandler extends WsrmProtocolHandler {
         return Headers.create(rmVersion.getJaxbContext(addressingVersion),
                 new com.sun.xml.ws.rx.rm.protocol.wsrm200702.SequenceFaultElement(subcode, detail));
     }
-    
+
     @Override
     public Packet createEmptyAcknowledgementResponse(AcknowledgementData ackData, Packet requestPacket) throws RxRuntimeException {
         if (ackData.getAckReqestedSequenceId() != null || ackData.getAcknowledgedSequenceId() != null) {

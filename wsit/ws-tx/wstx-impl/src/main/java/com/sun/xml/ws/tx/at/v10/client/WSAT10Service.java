@@ -54,7 +54,7 @@ public class WSAT10Service
 
 
     /**
-     * 
+     *
      * @param features
      *     A list of {@link jakarta.xml.ws.WebServiceFeature} to configure on the proxy.  Supported features not in the <code>features</code> parameter will have their default values.
      * @return
@@ -67,7 +67,7 @@ public class WSAT10Service
 
 
     /**
-     * 
+     *
      * @param features
      *     A list of {@link jakarta.xml.ws.WebServiceFeature} to configure on the proxy.  Supported features not in the <code>features</code> parameter will have their default values.
      * @return

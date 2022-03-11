@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -68,7 +68,7 @@ public class NonceCache extends TimerTask {
 
     @SuppressWarnings("unchecked")
     public boolean validateAndCacheNonce(String nonce, String created) throws NonceException {
-        if (nonceCache.containsKey(nonce) || oldNonceCache.containsKey(nonce)) {            
+        if (nonceCache.containsKey(nonce) || oldNonceCache.containsKey(nonce)) {
             log.log(Level.WARNING, LogStringsMessages.WSS_0815_NONCE_REPEATED_ERROR(nonce));
             throw new NonceManager.NonceException(LogStringsMessages.WSS_0815_NONCE_REPEATED_ERROR(nonce));
         }

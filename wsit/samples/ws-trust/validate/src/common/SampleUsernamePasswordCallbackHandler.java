@@ -23,9 +23,9 @@ import java.io.*;
  * @author Jiandong Guo
  */
 public class SampleUsernamePasswordCallbackHandler implements CallbackHandler {
-    
+
     public void handle(Callback[] callbacks) throws IOException, UnsupportedCallbackException {
-        
+
         for (int i=0; i < callbacks.length; i++) {
             Callback callback = callbacks[i];
             if (callback instanceof NameCallback) {
@@ -37,14 +37,14 @@ public class SampleUsernamePasswordCallbackHandler implements CallbackHandler {
             }
         }
     }
-    
+
     private void handleUsernameCallback(NameCallback cb)throws IOException{
         //BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         System.err.println("***Please Enter Your User Name: ");
         System.err.flush();
         cb.setName((new BufferedReader(new InputStreamReader(System.in))).readLine());
     }
-    
+
     private void handlePasswordCallback(PasswordCallback cb)throws IOException{
         //BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         System.err.println("***Please Enter Your Password: ");

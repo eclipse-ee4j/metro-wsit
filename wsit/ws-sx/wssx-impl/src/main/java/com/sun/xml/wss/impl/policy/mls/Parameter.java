@@ -21,7 +21,7 @@ public class Parameter implements TransformParameterSpec {
     private String paramValue = null;
     /** Creates a new instance of Parameter */
     public Parameter(){
-        
+
     }
     public Parameter(String name,String value) {
         this.paramName = name;
@@ -43,6 +43,6 @@ public class Parameter implements TransformParameterSpec {
     public void setParamValue(String paramValue) {
         this.paramValue = paramValue;
     }
-    
-    
+
+
 }

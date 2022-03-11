@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -16,7 +16,7 @@ import javax.xml.namespace.QName;
 
 /**
  * Enumeration of all supported WS-AT namespaces
- * 
+ *
  * @author Marek Potociar (marek.potociar at sun.com)
  */
 public enum WsatNamespace {

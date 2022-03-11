@@ -23,10 +23,10 @@ import javax.security.auth.Subject;
 
 /**
  * This abstract class defines an SPI that Metro Application developers can implement, to handle custom
- * username/password and username/Password-Digest authentication. 
- * 
- * The SPI implementation class needs to 
- * specified as a META-INF/services entry with name "com.sun.xml.xwss.RealmAuthenticator". 
+ * username/password and username/Password-Digest authentication.
+ *
+ * The SPI implementation class needs to
+ * specified as a META-INF/services entry with name "com.sun.xml.xwss.RealmAuthenticator".
  * A default implementation of this SPI is returned if no entry is configured.
  */
 public abstract class RealmAuthenticationAdapter {
@@ -38,7 +38,7 @@ public abstract class RealmAuthenticationAdapter {
     }
 
     /**
-     * 
+     *
      * @param callerSubject the callerSubject should contain the appropriate principal's of the caller after a successful authentication
      * @param username the username
      * @param password the password
@@ -48,7 +48,7 @@ public abstract class RealmAuthenticationAdapter {
     public abstract boolean authenticate(Subject callerSubject, String username, String password) throws XWSSecurityException;
 
     /**
-     * 
+     *
      * @param callerSubject the callerSubject should contain the appropriate principal's of the caller after a successful authentication
      * @param username the username
      * @param password the password
@@ -60,9 +60,9 @@ public abstract class RealmAuthenticationAdapter {
         //make a default implementation for backward compatibility
         return this.authenticate(callerSubject, username, password);
     }
-    
+
     /**
-     * 
+     *
      * @param callerSubject  the callerSubject should contain the appropriate principal's of the caller after a successful authentication
      * @param username the username
      * @param passwordDigest the password-digest
@@ -74,9 +74,9 @@ public abstract class RealmAuthenticationAdapter {
     public boolean authenticate(Subject callerSubject, String username, String passwordDigest, String nonce, String created) throws XWSSecurityException {
         throw new XWSSecurityException("Default Implementation : Override this authenticate method in your RealmAuthenticationAdapter");
     }
-    
+
     /**
-     * 
+     *
      * @param callerSubject  the callerSubject should contain the appropriate principal's of the caller after a successful authentication
      * @param username the username
      * @param passwordDigest the password-digest
@@ -92,7 +92,7 @@ public abstract class RealmAuthenticationAdapter {
     }
 
     /**
-     * 
+     *
      * @param context optional context that can be used to locate the META-INF/services entry "com.sun.xml.xwss.RealmAuthenticator"
      * @return a new instance of the RealmAuthenticationAdapter
      */

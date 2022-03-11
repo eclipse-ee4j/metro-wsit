@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -11,12 +11,12 @@
 package com.sun.xml.wss.impl;
 
 import junit.framework.*;
-                                                                                                                        
+
 public class AllTests extends TestCase {
     public AllTests(String name) {
         super(name);
     }
-    
+
     @Override
     protected void setUp() {
     }
@@ -24,7 +24,7 @@ public class AllTests extends TestCase {
     @Override
     protected void tearDown() {
     }
-                                                                                                                        
+
     public static Test suite() {
        TestSuite suite = new TestSuite("Security unit tests suite");
        suite.addTest(com.sun.xml.wss.impl.EndorsingSignatureTest.suite());
@@ -32,7 +32,7 @@ public class AllTests extends TestCase {
 
       //  suite.addTestSuite(SCTDKTTest.class);
       //  suite.addTestSuite(SecurityContextTokenTest.class);
-        
+
         suite.addTest(com.sun.xml.wss.impl.SignAllHeadersTest.suite());
         suite.addTest(com.sun.xml.wss.impl.SignatureConfirmationTest.suite());
         suite.addTest(com.sun.xml.wss.impl.SignSOAPHeadersOnlyTest.suite());
@@ -45,6 +45,6 @@ public class AllTests extends TestCase {
 
         return suite;
     }
-                                                                                                                        
+
 }
 

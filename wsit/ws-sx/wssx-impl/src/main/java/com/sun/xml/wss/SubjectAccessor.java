@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -28,15 +28,15 @@ import java.util.logging.Logger;
  * and Standalone SAAJ Applications using XWSS.
  */
 public class SubjectAccessor {
-    
+
     private static Logger log =
             Logger.getLogger(
             LogDomainConstants.WSS_API_DOMAIN,
             LogDomainConstants.WSS_API_DOMAIN_BUNDLE);
-    
-    
+
+
     private static ThreadLocal<Subject> wssThreadCtx = new ThreadLocal<>();
-    
+
     /**
      *@return the Requester's Subject if one is available, null otherwise.
      * The subject is populated with credentials from the incoming secure message.
@@ -45,19 +45,19 @@ public class SubjectAccessor {
      * jakarta.xml.ws.WebServiceContext
      */
     public static  Subject getRequesterSubject(Object context) throws XWSSecurityException {
-        
+
         if (context instanceof ProcessingContext) {
             return (Subject)((ProcessingContext)context).getExtraneousProperty(MessageConstants.AUTH_SUBJECT);
         }  else if (context instanceof jakarta.xml.ws.handler.MessageContext) {
-            
+
             jakarta.xml.ws.handler.MessageContext msgContext = (jakarta.xml.ws.handler.MessageContext)context;
-            
+
             Subject subject =(Subject)msgContext.get(MessageConstants.AUTH_SUBJECT);
             return subject;
-            
+
         } else if ( context instanceof jakarta.xml.ws.WebServiceContext) {
             try {
-                 
+
                     jakarta.xml.ws.WebServiceContext wsCtx = (jakarta.xml.ws.WebServiceContext) context;
                     jakarta.xml.ws.handler.MessageContext msgContext = wsCtx.getMessageContext();
                     if (msgContext != null) {
@@ -66,7 +66,7 @@ public class SubjectAccessor {
                     } else {
                         return null;
                     }
-                
+
             } catch (NoClassDefFoundError | Exception ncde) {
                 log.log(Level.SEVERE,
                         "WSS0761.context.not.instanceof.servletendpointcontext", ncde);
@@ -75,7 +75,7 @@ public class SubjectAccessor {
         }
         return null;
     }
-    
+
     /**
      *@return the Requester's Subject if one is available, null otherwise.The subject
      * is populated with credentials from the incoming secure message.
@@ -84,9 +84,9 @@ public class SubjectAccessor {
      */
     public static Subject getRequesterSubject(){
         return wssThreadCtx.get();
-        
+
     }
-    
+
     /*
      * set the Requester's Subject into the context
      * @param sub the Requesters Subject

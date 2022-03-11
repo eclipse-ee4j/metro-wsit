@@ -35,7 +35,7 @@ public class MyClaims implements Claims {
 
     public static final String ROLE = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/role";
     public static final String LOCALITY = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/locality";
-    
+
     private List<Object> supportingProps = new ArrayList<Object>();
     private String dialect = "http://schemas.xmlsoap.org/ws/2005/05/identity";
     private Map<QName, String> otherAttrs = new HashMap<QName, String>();
@@ -53,7 +53,7 @@ public class MyClaims implements Claims {
             Element claims = doc.createElementNS("http://docs.oasis-open.org/ws-sx/ws-trust/200512", "Claims");
             doc.appendChild(claims);
         }catch (Exception ex){
-            
+
         }
     }
 

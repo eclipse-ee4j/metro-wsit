@@ -28,7 +28,7 @@ import java.net.URL;
 
 /**
  * This is the service client for WSAT11 endpoitns.
- * 
+ *
  */
 @WebServiceClient(name = "WSAT11Service", targetNamespace = "http://docs.oasis-open.org/ws-tx/wsat/2006/06", wsdlLocation = "wstx-wsat-1.1-wsdl-200702.wsdl")
 public class WSAT11Service
@@ -42,7 +42,7 @@ public class WSAT11Service
             e.printStackTrace();
         }
     }
-    
+
     public WSAT11Service(URL wsdlLocation, QName serviceName) {
         super(wsdlLocation, serviceName);
     }
@@ -52,7 +52,7 @@ public class WSAT11Service
     }
 
     /**
-     * 
+     *
      * @param features
      *     A list of {@link jakarta.xml.ws.WebServiceFeature} to configure on the proxy.  Supported features not in the <code>features</code> parameter will have their default values.
      * @return
@@ -64,7 +64,7 @@ public class WSAT11Service
     }
 
     /**
-     * 
+     *
      * @param features
      *     A list of {@link jakarta.xml.ws.WebServiceFeature} to configure on the proxy.  Supported features not in the <code>features</code> parameter will have their default values.
      * @return

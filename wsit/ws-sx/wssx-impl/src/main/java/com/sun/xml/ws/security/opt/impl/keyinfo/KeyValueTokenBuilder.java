@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -24,21 +24,21 @@ import java.security.KeyPair;
  * @author shyam.rao@sun.com
  */
 public class KeyValueTokenBuilder extends TokenBuilder{
-    
+
     AuthenticationTokenPolicy.KeyValueTokenBinding binding = null;
     /** Creates a new instance of X509TokenBuilder */
     public KeyValueTokenBuilder(JAXBFilterProcessingContext context, AuthenticationTokenPolicy.KeyValueTokenBinding binding) {
         super(context);
         this.binding = binding;
     }
-    
+
     /**
-     * 
+     *
      * @return BuilderResult
      */
     @Override
     public BuilderResult process() throws XWSSecurityException{
-                
+
         String referenceType = binding.getReferenceType();
         if(logger.isLoggable(Level.FINEST)){
             logger.log(Level.FINEST, LogStringsMessages.WSS_1851_REFERENCETYPE_X_509_TOKEN(referenceType));
@@ -47,11 +47,11 @@ public class KeyValueTokenBuilder extends TokenBuilder{
         BuilderResult result = new BuilderResult();
         KeyPair keyPair = (KeyPair)context.getExtraneousProperties().get("UseKey-RSAKeyPair");
         /*if(keyPair == null){
-            KeyPairGenerator kpg;            
+            KeyPairGenerator kpg;
             try{
                 kpg = KeyPairGenerator.getInstance("RSA");
                 //RSAKeyGenParameterSpec rsaSpec = new RSAKeyGenParameterSpec(512, RSAKeyGenParameterSpec.F0);
-                //kpg.initialize(rsaSpec);                
+                //kpg.initialize(rsaSpec);
             }catch (NoSuchAlgorithmException ex){
                 throw new XWSSecurityException("Unable to create key pairs in Security Layer for KeyValueToken/RsaToken policy", ex);
             }
@@ -75,5 +75,5 @@ public class KeyValueTokenBuilder extends TokenBuilder{
             result.setKeyInfo(keyInfo);
         }
         return result;
-    }    
+    }
 }

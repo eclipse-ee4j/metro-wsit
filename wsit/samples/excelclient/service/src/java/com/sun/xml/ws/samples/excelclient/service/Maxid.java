@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -20,7 +20,7 @@ import javax.persistence.Table;
 
 /**
  * Entity class Maxid
- * 
+ *
  * @author Jakub Podlesak
  * @author Arun Gupta
  */
@@ -38,7 +38,7 @@ public class Maxid implements Serializable {
 
     @Column(name = "MAXVAL", nullable = false)
     private int maxval;
-    
+
     /** Creates a new instance of Maxid */
     public Maxid() {
     }
@@ -94,7 +94,7 @@ public class Maxid implements Serializable {
     }
 
     /**
-     * Returns a hash code value for the object.  This implementation computes 
+     * Returns a hash code value for the object.  This implementation computes
      * a hash code value based on the id fields in this object.
      * @return a hash code value for this object.
      */
@@ -106,8 +106,8 @@ public class Maxid implements Serializable {
     }
 
     /**
-     * Determines whether another object is equal to this Maxid.  The result is 
-     * <code>true</code> if and only if the argument is not null and is a Maxid object that 
+     * Determines whether another object is equal to this Maxid.  The result is
+     * <code>true</code> if and only if the argument is not null and is a Maxid object that
      * has the same id field values as this object.
      * @param object the reference object with which to compare
      * @return <code>true</code> if this object is the same as the argument;
@@ -125,7 +125,7 @@ public class Maxid implements Serializable {
     }
 
     /**
-     * Returns a string representation of the object.  This implementation constructs 
+     * Returns a string representation of the object.  This implementation constructs
      * that representation based on the id fields.
      * @return a string representation of the object.
      */
@@ -133,5 +133,5 @@ public class Maxid implements Serializable {
     public String toString() {
         return this.getClass().getName() + "[maxid=" + maxid + "]";
     }
-    
+
 }

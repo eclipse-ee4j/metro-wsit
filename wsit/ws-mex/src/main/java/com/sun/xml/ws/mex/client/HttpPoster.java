@@ -29,7 +29,7 @@ import com.sun.xml.ws.mex.MetadataConstants;
  * to a service.
  */
 public class HttpPoster {
-    
+
     private static final Logger logger =
         Logger.getLogger(HttpPoster.class.getName());
 
@@ -39,14 +39,14 @@ public class HttpPoster {
      * is returned successfully.
      *
      * @param request A String containing the xml that
-     *     will be the payload of the message. 
+     *     will be the payload of the message.
      * @param address Address of the service.
      * @return The java.io.InputStream returned by the http
      *     url connection.
      */
     InputStream post(final String request, final String address,
         final String contentType) throws IOException {
-        
+
         final URL url = new URL(address);
         final HttpURLConnection conn = createConnection(url);
         conn.setDoOutput(true);
@@ -63,14 +63,14 @@ public class HttpPoster {
             return conn.getInputStream();
         } catch (IOException ioe) {
             outputErrorStream(conn);
-            
+
             // this exception is caught within the mex code and is logged there
             throw ioe;
         } finally {
             writer.close();
         }
     }
-    
+
     // This method is simply for debugging/error output
     private void outputErrorStream(final HttpURLConnection conn) {
         final InputStream error = conn.getErrorStream();
@@ -127,20 +127,20 @@ public class HttpPoster {
             return conn.getInputStream();
         } catch (IOException ioe) {
             outputErrorStream(conn);
-            
+
             // this exception is caught within the mex code and is logged there
             throw ioe;
         }
     }
-    
+
     /*
      * This method creates an http url connection and sets the
      * hostname verifier on it if it's an ssl connection.
      */
     private HttpURLConnection createConnection(final URL url)
         throws IOException {
-        
+
         return (HttpURLConnection) url.openConnection();
     }
-    
+
 }

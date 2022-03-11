@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -35,26 +35,26 @@ import com.sun.xml.wss.logging.LogDomainConstants;
 public abstract class Canonicalizer {
     String _charset = MimeConstants.US_ASCII;
 
-    protected static final Logger log =  Logger.getLogger( 
+    protected static final Logger log =  Logger.getLogger(
             LogDomainConstants.IMPL_CANON_DOMAIN,
             LogDomainConstants.IMPL_CANON_DOMAIN_BUNDLE);
 
     public Canonicalizer() {}
-    
+
     Canonicalizer(String charset) {
         this._charset = charset;
     }
-    
+
     /*
      * Main method that performs the actual Canonicalization.
      */
     public abstract byte[] canonicalize(byte[] input) throws XWSSecurityException;
     public abstract InputStream canonicalize(InputStream input,OutputStream outputStream) throws javax.xml.crypto.dsig.TransformException ;
-    
+
     void setCharset(String charset) {
         this._charset = charset;
     }
-    
+
     public String getCharset() {
         return _charset;
     }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -25,7 +25,7 @@ public class CloseChannel {
     private int channelId;
 
     /**
-     * 
+     *
      * @return
      *     returns int
      */
@@ -34,7 +34,7 @@ public class CloseChannel {
     }
 
     /**
-     * 
+     *
      * @param channelId
      *     the value for the channelId property
      */

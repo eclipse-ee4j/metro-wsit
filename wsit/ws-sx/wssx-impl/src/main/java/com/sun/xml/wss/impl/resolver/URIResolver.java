@@ -60,12 +60,12 @@ import org.apache.xml.security.utils.resolver.ResourceResolverContext;
  * This resolver is used for resolving URIs.
  *
  * Resolves URLs that refers to attachments that has a (1) Content-ID
- * or a (2) Content-Location MIME header. 
+ * or a (2) Content-Location MIME header.
  *
- * In case of Content-Location, the URL may require resolution to determine 
+ * In case of Content-Location, the URL may require resolution to determine
  * the referenced attachment [RFC2557].
  *
- * Also resolves (3) URL's that are Ids on XML elements within the 
+ * Also resolves (3) URL's that are Ids on XML elements within the
  * SOAPMessage.
  *
  * @author XWS-Security Team
@@ -77,7 +77,7 @@ public class URIResolver extends ResourceResolverSpi {
 
    private SOAPMessage soapMsg = null;
 
-   private static String implementationClassName = 
+   private static String implementationClassName =
                                 URIResolver.class.getName();
 
    protected static final Logger log =
@@ -114,33 +114,33 @@ public class URIResolver extends ResourceResolverSpi {
           throws ResourceResolverException {
 
      XMLSignatureInput result = null;
-     
+
       if (referenceType == -1)
           if (!engineCanResolve(uri, baseURI))
-              throw generateException(uri, baseURI, errors[0]); 
+              throw generateException(uri, baseURI, errors[0]);
 
       switch (referenceType) {
-          case ID_REFERENCE:           
+          case ID_REFERENCE:
                   result = _resolveId(uri, baseURI);
                   break;
           case CID_REFERENCE:
                   result = _resolveCid(uri, baseURI);
                   break;
           case CLOCATION_REFERENCE:
-                  try { 
+                  try {
                      result = _resolveClocation(uri, baseURI);
                   } catch (URIResolverException ure) {
                      result = ResourceResolver.getInstance(uri, baseURI, false).resolve(uri, baseURI, false);
                   }
-                  break; 
+                  break;
           default:
       }
 
       referenceType = -1;
       return result;
-   }      
+   }
 
-  private XMLSignatureInput _resolveId(Attr uri, String baseUri) 
+  private XMLSignatureInput _resolveId(Attr uri, String baseUri)
                 throws ResourceResolverException {
 
       XMLSignatureInput result = null;
@@ -149,7 +149,7 @@ public class URIResolver extends ResourceResolverSpi {
       Document doc = uri.getOwnerDocument();
 
       XMLUtils.circumventBug2650(doc);
-      
+
       Element selectedElem = null;
       if (uriNodeValue.equals("")) {
          selectedElem = doc.getDocumentElement();
@@ -178,8 +178,8 @@ public class URIResolver extends ResourceResolverSpi {
    }
 
    /*
-    * Resolver for content-ID. 
-    * 
+    * Resolver for content-ID.
+    *
     * A content-ID MIME header value corresponding to the URL scheme
     * is defined in RFC 2392.
     *
@@ -187,25 +187,25 @@ public class URIResolver extends ResourceResolverSpi {
     * and be references with a CID schema URL cid:foo.
     *
     */
-   private XMLSignatureInput _resolveCid(Attr uri, String baseUri) 
+   private XMLSignatureInput _resolveCid(Attr uri, String baseUri)
                 throws ResourceResolverException {
 
       XMLSignatureInput result = null;
       String uriNodeValue = uri.getNodeValue();
 
       if (soapMsg == null) throw generateException(uri, baseUri, errors[1]);
-     
-      try {  
-         AttachmentPart _part = 
+
+      try {
+         AttachmentPart _part =
               ((SecurableSoapMessage)soapMsg).getAttachmentPart(uriNodeValue);
          if (_part == null) {
              // log
               throw new ResourceResolverException("empty", uri.getValue(), baseUri);
-         } 
-         Object[] obj = AttachmentSignatureInput._getSignatureInput(_part); 
+         }
+         Object[] obj = AttachmentSignatureInput._getSignatureInput(_part);
          result = new AttachmentSignatureInput((byte[])obj[1]);
          ((AttachmentSignatureInput)result).setMimeHeaders((Vector)obj[0]);
-         ((AttachmentSignatureInput)result).setContentType(_part.getContentType()); 
+         ((AttachmentSignatureInput)result).setContentType(_part.getContentType());
       } catch (Exception e) {
          // log
           throw new ResourceResolverException(e, uri.getValue(), baseUri, "empty");
@@ -220,10 +220,10 @@ public class URIResolver extends ResourceResolverSpi {
       return result;
    }
 
-   private XMLSignatureInput _resolveClocation(Attr uri, String baseUri) 
+   private XMLSignatureInput _resolveClocation(Attr uri, String baseUri)
                 throws ResourceResolverException, URIResolverException {
       URI uriNew = null;
-      XMLSignatureInput result = null; 
+      XMLSignatureInput result = null;
       try {
          uriNew = getNewURI(uri.getNodeValue(), baseUri);
       } catch (URI.MalformedURIException ex) {
@@ -233,16 +233,16 @@ public class URIResolver extends ResourceResolverSpi {
 
       if (soapMsg == null) throw generateException(uri, baseUri, errors[1]);
 
-      try {  
+      try {
          AttachmentPart _part = ((SecurableSoapMessage)soapMsg).getAttachmentPart(uriNew.toString());
          if (_part == null) {
-             // log  
+             // log
              throw new URIResolverException();
          }
-         Object[] obj = AttachmentSignatureInput._getSignatureInput(_part); 
+         Object[] obj = AttachmentSignatureInput._getSignatureInput(_part);
          result = new AttachmentSignatureInput((byte[])obj[1]);
          ((AttachmentSignatureInput)result).setMimeHeaders((Vector)obj[0]);
-         ((AttachmentSignatureInput)result).setContentType(_part.getContentType()); 
+         ((AttachmentSignatureInput)result).setContentType(_part.getContentType());
       } catch (XWSSecurityException | SOAPException | IOException e) {
          // log
           throw new ResourceResolverException(e, uri.getValue(), baseUri, "empty");
@@ -262,12 +262,12 @@ public class URIResolver extends ResourceResolverSpi {
       if (uri == null) return false;
 
       String uriNodeValue = uri.getNodeValue();
-      
+
       /* #Id, #wsu:Id */
       if (uriNodeValue.startsWith("#")) {
           referenceType = ID_REFERENCE;
-          return true; 
-      } 
+          return true;
+      }
 
       /* cid:xxx */
       if (uriNodeValue.startsWith("cid:")) {
@@ -290,7 +290,7 @@ public class URIResolver extends ResourceResolverSpi {
       }
 
       /* content-location of the type http:// (for now) */
-      if ((uriNew != null) && 
+      if ((uriNew != null) &&
            uriNew.getScheme().equals("http") ||
            uriNodeValue.startsWith("thismessage:/") ||
           !(uriNew.getScheme().equals("ftp") ||
@@ -306,7 +306,7 @@ public class URIResolver extends ResourceResolverSpi {
 
       return false;
     }
- 
+
    /**
     * Looks up elements with wsu:Id or Id in xenc or dsig namespace
     *
@@ -324,13 +324,13 @@ public class URIResolver extends ResourceResolverSpi {
             }
             return selement;
         }
-                                                                                                                     
+
         if (MessageConstants.debug) {
             log.log(Level.FINEST, "Document.getElementById() FAILED......'" + id + "'");
         }
 
        //----------------------------------
-//       Element nscontext = XMLUtils.createDSctx(doc, 
+//       Element nscontext = XMLUtils.createDSctx(doc,
 //                                                "wsu",
 //                                                MessageConstants.WSU_NS);
 //       Element element =
@@ -341,19 +341,19 @@ public class URIResolver extends ResourceResolverSpi {
 //           NodeList elems = XPathAPI.selectNodeList(
 //                                           doc,
 //                                           "//*[@Id='" + id + "']",
-//                                           nscontext); 
+//                                           nscontext);
 //
 //           for (int i=0; i < elems.getLength(); i++) {
 //                Element elem = (Element)elems.item(i);
 //                String namespace = elem.getNamespaceURI();
 //                if (namespace.equals(MessageConstants.DSIG_NS) ||
 //                    namespace.equals(MessageConstants.XENC_NS)) {
-//                    element = elem;  
+//                    element = elem;
 //                    break;
 //                }
-//           }  
+//           }
 //        }
-        
+
         Element element = null;
         NodeList elems = null;
         String xpath =  "//*[@wsu:Id='" + id + "']";
@@ -371,7 +371,7 @@ public class URIResolver extends ResourceResolverSpi {
                     new Object[] {id, ex.getMessage()});
             throw new XWSSecurityRuntimeException(ex);
         }
-       
+
         if (elems != null) {
             if (elems.getLength() > 1) {
                 //TODO: localize the string
@@ -380,7 +380,7 @@ public class URIResolver extends ResourceResolverSpi {
                 element = (Element)elems.item(0);
             }
         }
-        
+
         if (element == null) {
             xpath =  "//*[@Id='" + id + "']";
             try {
@@ -405,19 +405,19 @@ public class URIResolver extends ResourceResolverSpi {
                         break;
                     }
                 }
-                
+
             } else {
                 element = (Element)elems.item(0);
             }
         }
         //------------------------------
-   
+
         if (element == null) {
 
             NodeList assertions =
                 doc.getElementsByTagNameNS(MessageConstants.SAML_v1_0_NS,
                     MessageConstants.SAML_ASSERTION_LNAME);
-            int len = assertions.getLength();            
+            int len = assertions.getLength();
             if (len > 0) {
                 for (int i=0; i < len; i++) {
                     Element elem = (Element)assertions.item(i);
@@ -446,11 +446,11 @@ public class URIResolver extends ResourceResolverSpi {
     *             an empty set.
     */
    private Set prepareNodeSet(Node node) {
-	Set nodeSet = new HashSet();
-	if (node != null) {
-	    nodeSetMinusCommentNodes(node, nodeSet, null);
-	}
-	return nodeSet;
+    Set nodeSet = new HashSet();
+    if (node != null) {
+        nodeSetMinusCommentNodes(node, nodeSet, null);
+    }
+    return nodeSet;
    }
 
    /**
@@ -462,35 +462,35 @@ public class URIResolver extends ResourceResolverSpi {
     */
    @SuppressWarnings("unchecked")
     private void nodeSetMinusCommentNodes(Node node, Set nodeSet,
-	Node prevSibling) {
-	switch (node.getNodeType()) {
+    Node prevSibling) {
+    switch (node.getNodeType()) {
             case Node.ELEMENT_NODE :
-		NamedNodeMap attrs = node.getAttributes();
-		if (attrs != null) {
+        NamedNodeMap attrs = node.getAttributes();
+        if (attrs != null) {
                     for (int i = 0; i<attrs.getLength(); i++) {
                         nodeSet.add(attrs.item(i));
                     }
-		}
+        }
                 nodeSet.add(node);
-        	Node pSibling = null;
-		for (Node child = node.getFirstChild(); child != null;
+            Node pSibling = null;
+        for (Node child = node.getFirstChild(); child != null;
                     child = child.getNextSibling()) {
                     nodeSetMinusCommentNodes(child, nodeSet, pSibling);
                     pSibling = child;
-		}
+        }
                 break;
             case Node.TEXT_NODE :
             case Node.CDATA_SECTION_NODE:
-		// emulate XPath which only returns the first node in
-		// contiguous text/cdata nodes
-		if (prevSibling != null &&
+        // emulate XPath which only returns the first node in
+        // contiguous text/cdata nodes
+        if (prevSibling != null &&
                     (prevSibling.getNodeType() == Node.TEXT_NODE ||
                      prevSibling.getNodeType() == Node.CDATA_SECTION_NODE)) {
                      return;
-		}
+        }
             case Node.PROCESSING_INSTRUCTION_NODE :
-		nodeSet.add(node);
-	}
+        nodeSet.add(node);
+    }
     }
 
     private URI getNewURI(String uri, String baseUri)
@@ -501,7 +501,7 @@ public class URIResolver extends ResourceResolverSpi {
              return new URI(new URI(baseUri), uri);
         }
     }
-    
+
      public NamespaceContext getNamespaceContext(Document doc) {
             NamespaceContext nsContext = new NamespaceContextImpl();
             ((NamespaceContextImpl)nsContext).add(

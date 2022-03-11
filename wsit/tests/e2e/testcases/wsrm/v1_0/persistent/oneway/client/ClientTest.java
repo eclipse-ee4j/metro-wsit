@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -21,13 +21,13 @@ import junit.framework.TestCase;
  */
 public class ClientTest extends TestCase {
     private static final Logger LOGGER = Logger.getLogger(ClientTest.class.getName());
-    
+
     public void testOneWay() {
         IPing port = null;
         try {
             PingService service = new PingService();
             port = service.getPingPort();
-            
+
             for (int i = 0; i < 5; i++) {
                 port.ping("Hello " + i);
                 LOGGER.info(String.format("Hello %d. message successfully sent.", i));
@@ -43,6 +43,6 @@ public class ClientTest extends TestCase {
                     LOGGER.log(Level.SEVERE, "Error while closing WS proxy", ex);
                 }
             }
-        }    
+        }
     }
 }

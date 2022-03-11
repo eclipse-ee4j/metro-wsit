@@ -21,12 +21,12 @@ import javax.xml.namespace.QName;
  * @author Kumar Jayanti
  */
 public class CertStoreConfig extends PolicyAssertion implements com.sun.xml.ws.security.policy.CertStoreConfig {
-    
+
     private static QName cbh = new QName("callbackHandler");
     private static QName certSelector = new QName("certSelector");
     private static QName crlSelector = new QName("crlSelector");
-   
-    
+
+
     public CertStoreConfig(AssertionData name,Collection<PolicyAssertion> nestedAssertions, AssertionSet nestedAlternative) {
         super(name,nestedAssertions,nestedAlternative);
     }
@@ -48,5 +48,5 @@ public class CertStoreConfig extends PolicyAssertion implements com.sun.xml.ws.s
     public String getCRLSelectorClassName() {
          return this.getAttributeValue(crlSelector);
     }
-    
+
 }

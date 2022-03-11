@@ -138,7 +138,7 @@ public class SecurityServerTube extends SecurityTubeBase {
             //and so if username comes we need to have usersupplied validator
             //and if SAML comes we need the userspecified SAML validator
             Set configAssertions = null;
-            for (PolicyAlternativeHolder p : policyAlternatives) {               
+            for (PolicyAlternativeHolder p : policyAlternatives) {
                 Iterator it = p.getInMessagePolicyMap().values().iterator();
                 while (it.hasNext()) {
                     SecurityPolicyHolder holder = (SecurityPolicyHolder) it.next();
@@ -170,7 +170,7 @@ public class SecurityServerTube extends SecurityTubeBase {
             boolean isSC = false;
             if (!this.getSecureConversationPolicies(null, null).isEmpty()){
                 isSC = true;
-            }  
+            }
             sessionManager = SessionManager.getSessionManager(((ServerTubeConfiguration) tubeConfig).getEndpoint(), isSC, props);
             props.put(PipeConstants.ENDPOINT, context.getEndpoint());
             props.put(PipeConstants.POLICY, context.getPolicyMap());
@@ -214,7 +214,7 @@ public class SecurityServerTube extends SecurityTubeBase {
 
         try {
             HaContext.initFrom(packet);
-            
+
             Message msg = packet.getInternalMessage();
             isSCIssueMessage = false;
             isSCCancelMessage = false;
@@ -425,7 +425,7 @@ public class SecurityServerTube extends SecurityTubeBase {
         //if (isTrustMessage){
         //  retPacket = addAddressingHeaders(tmpPacket, retPacket.getMessage(), wsTrustVer.getFinalResponseAction(reqAction));
         // }
-        
+
         if (retPacket.getMessage() == null) {
             return doReturnWith(retPacket);
         }
@@ -473,7 +473,7 @@ public class SecurityServerTube extends SecurityTubeBase {
         }
         resetCachedOperation();
         retPacket.setMessage(msg);
-        return doReturnWith(retPacket);        
+        return doReturnWith(retPacket);
     }
 
     @Override
@@ -877,7 +877,7 @@ public class SecurityServerTube extends SecurityTubeBase {
             //IssuedTokenContext ctx = session.getSecurityInfo().getIssuedTokenContext();
             //IssuedTokenContext itctx = (IssuedTokenContext)((ProcessingContextImpl)ctx).getIssuedTokenContextMap().get(sct.getIdentifier().toString());
 
-            // get the secure session id 
+            // get the secure session id
             String sessionId = sct.getIdentifier().toString();
 
             // put the secure session id the the message context

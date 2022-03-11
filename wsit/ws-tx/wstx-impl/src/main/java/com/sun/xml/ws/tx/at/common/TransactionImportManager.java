@@ -11,7 +11,7 @@
 package com.sun.xml.ws.tx.at.common;
 
 import com.sun.istack.logging.Logger;
-import com.sun.xml.ws.tx.at.localization.LocalizationMessages; 
+import com.sun.xml.ws.tx.at.localization.LocalizationMessages;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -142,7 +142,7 @@ public class TransactionImportManager implements TransactionImportWrapper {
             getXATerminator,
             getTransactionRemainingTimeout,
             getTxLogLocation,
-            registerRecoveryResourceHandler    
+            registerRecoveryResourceHandler
         };
 
         int remainingMethodsToFind = requiredMethods.length;

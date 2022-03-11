@@ -19,11 +19,11 @@ import jakarta.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement(name="SPKIData", namespace = "http://www.w3.org/2000/09/xmldsig#")
 public class SPKIData extends com.sun.xml.security.core.dsig.SPKIDataType {
-    
+
     /** Creates a new instance of SPKIData */
     public SPKIData() {
     }
-    
+
     public void setSpkiSexpAndAny(List<Object> spkiSexpAndAny) {
         this.spkiSexpAndAny = spkiSexpAndAny;
     }

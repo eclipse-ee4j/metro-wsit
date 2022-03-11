@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -29,45 +29,45 @@ import jakarta.xml.bind.JAXBElement;
  * @author Manveen Kaur
  */
 public class RenewTargetImpl extends RenewTargetType implements RenewTarget {
-    
+
     private String targetType = null;
-    
+
     private SecurityTokenReference str = null;
     private Token token = null;
-    
+
     public RenewTargetImpl(SecurityTokenReference str) {
         setSecurityTokenReference(str);
         setTargetType(WSTrustConstants.STR_TYPE);
     }
-    
+
     public RenewTargetImpl(Token token) {
         setToken(token);
         setTargetType(WSTrustConstants.TOKEN_TYPE);
     }
-    
+
     public RenewTargetImpl (RenewTargetType rnType) {
         JAXBElement obj = (JAXBElement)rnType.getAny();
         String local = obj.getName().getLocalPart();
         if ("SecurityTokenReference".equals(local)) {
-            SecurityTokenReference str = 
+            SecurityTokenReference str =
                         new SecurityTokenReferenceImpl((SecurityTokenReferenceType)obj.getValue());
             setSecurityTokenReference(str);
             setTargetType(WSTrustConstants.STR_TYPE);
         } else {
             //ToDo
-        } 
+        }
     }
-    
+
     @Override
     public String getTargetType() {
         return targetType;
     }
-    
+
     @Override
     public void setTargetType(String ttype) {
         targetType = ttype;
     }
-    
+
     @Override
     public void setSecurityTokenReference(SecurityTokenReference ref) {
         if (ref != null) {
@@ -79,12 +79,12 @@ public class RenewTargetImpl extends RenewTargetType implements RenewTarget {
         setTargetType(WSTrustConstants.STR_TYPE);
         token = null;
     }
-    
+
     @Override
     public SecurityTokenReference getSecurityTokenReference() {
         return str;
     }
-    
+
     @Override
     public void setToken(Token token) {
         if (token != null) {
@@ -94,10 +94,10 @@ public class RenewTargetImpl extends RenewTargetType implements RenewTarget {
         setTargetType(WSTrustConstants.TOKEN_TYPE);
         str = null;
     }
-    
+
     @Override
     public Token getToken() {
         return token;
     }
-    
+
 }

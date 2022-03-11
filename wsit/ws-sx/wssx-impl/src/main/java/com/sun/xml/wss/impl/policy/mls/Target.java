@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -22,7 +22,7 @@ import com.sun.xml.wss.impl.MessageConstants;
  * &lt;target&gt; element to apply the Sign/Encrypt Security Policy on.
  */
 public class Target {
-    
+
     protected static final String TARGET_VALUE_SOAP_BODY="SOAP-BODY";
 
     /**
@@ -38,17 +38,17 @@ public class Target {
      */
     public static final String TARGET_TYPE_VALUE_URI  = "uri";
     /**
-     * All Message Headers targeted at ultimate receiver role should be 
+     * All Message Headers targeted at ultimate receiver role should be
      * integrity protected.
      */
     public static final String ALL_MESSAGE_HEADERS ="ALL_MESSAGE_HEADERS";
     public static final String BODY = "{" + MessageConstants.SOAP_1_1_NS + "}Body";
-    public static final String BODY1_2 = "{"+MessageConstants.SOAP_1_2_NS+"}Body";    
+    public static final String BODY1_2 = "{"+MessageConstants.SOAP_1_2_NS+"}Body";
     public static final QName BODY_QNAME = new QName(MessageConstants.SOAP_1_1_NS ,"Body");
     public static final QName SIGNATURE_CONFIRMATION = new QName(MessageConstants.WSSE11_NS,MessageConstants.SIGNATURE_CONFIRMATION_LNAME);
-            
+
     private String type = TARGET_TYPE_VALUE_QNAME;
-    
+
     private String value = BODY;
     private boolean contentOnly = true;
     private boolean enforce = true;
@@ -59,7 +59,7 @@ public class Target {
     boolean headersOnly = false;
     private String xpathVersion;
     private QName policyQName = null;
-    
+
     /**
      * Default constructor
      * When used, it creates a default Target of type <code>qname</code> and a value of
@@ -67,7 +67,7 @@ public class Target {
      */
     public Target() {
     }
-    
+
     /**
      * Constructor
      * @param type the type of the Target (should be one of TARGET_TYPE_VALUE_QNAME, TARGET_TYPE_VALUE_XPATH, TARGET_TYPE_VALUE_URI)
@@ -80,7 +80,7 @@ public class Target {
             this.value = Target.BODY;
         }
     }
-    
+
     /**
      * Constructor
      * @param type the type of the Target (should be one of TARGET_TYPE_VALUE_QNAME, TARGET_TYPE_VALUE_XPATH, TARGET_TYPE_VALUE_URI)
@@ -96,7 +96,7 @@ public class Target {
             this.value = Target.BODY;
         }
     }
-    
+
     /**
      * Constructor
      * @param type the type of the Target (should be one of TARGET_TYPE_VALUE_QNAME, TARGET_TYPE_VALUE_XPATH, TARGET_TYPE_VALUE_URI)
@@ -105,7 +105,7 @@ public class Target {
      * be Encrypted.
      * @param enforce when set to false, will cause the enclosing policy (SignaturePolicy/EncryptionPolicy) to consider the presence of
      * this Target reference as optional, while verifying the Policy on the Receiver side.
-     * 
+     *
      */
     public Target(String type, String value, boolean contentOnly, boolean enforce) {
         this.type = type;
@@ -116,7 +116,7 @@ public class Target {
             this.value = Target.BODY;
         }
     }
-    
+
     /**
      * set the enforcement flag, used when verifying Security on an inbound message.
      *@param enforce if set to True indicates that this Target is a compulsary target under the Policy in which
@@ -125,7 +125,7 @@ public class Target {
     public void setEnforce(boolean enforce) {
         this.enforce = enforce;
     }
-    
+
     /**
      *@return true if this Target appearing under a Policy should be enforced, false
      * if it is optional.
@@ -133,7 +133,7 @@ public class Target {
     public boolean getEnforce() {
         return enforce;
     }
-    
+
     /**
      * @param headersOnly is set to true, indicates only headers should be processed by
      * this target
@@ -150,28 +150,28 @@ public class Target {
     public boolean isSOAPHeadersOnly(){
         return headersOnly;
     }
-    
+
    /*
     * Checks whether BSP checks are enabled for this target.
     */
     public void isBSP(boolean flag) {
         bsp = flag;
     }
-    
+
     /*
      */
     public boolean isBSP() {
         return bsp;
     }
-    
-    
+
+
     /**
      *@return the type of the Target
      */
     public String getType() {
         return type;
     }
-    
+
     /**
      * set the type of the Target
      * @param type the type of the Target
@@ -179,14 +179,14 @@ public class Target {
     public void setType(String type) {
         this.type = type;
     }
-    
+
     /**
      *@return the value of the Target
      */
     public String getValue() {
         return value;
     }
-    
+
     /**
      * set the value of the Target
      * @param value the value of the Target
@@ -202,7 +202,7 @@ public class Target {
 
         if (TARGET_TYPE_VALUE_QNAME.equals(type) && TARGET_VALUE_SOAP_BODY.equals(value)) {
             this.value = Target.BODY;
-        } 
+        }
 
         if(value != null && ( value.startsWith("cid:") || value.startsWith(MessageConstants.ATTACHMENTREF)) ){
             attachment = true;
@@ -211,7 +211,7 @@ public class Target {
             }
         }
     }
-    
+
     /**
      * set the contentOnly flag on the Target
      * @param contentOnly the boolean flag indicating content-only when set to true.
@@ -219,14 +219,14 @@ public class Target {
     public void setContentOnly(boolean contentOnly) {
         this.contentOnly = contentOnly;
     }
-    
+
     /**
      *@return true if the contentOnly flag on the Target was set, false otherwise
      */
     public boolean getContentOnly() {
         return contentOnly;
     }
-    
+
     /**
      *@return the Target value as a String representing an XPath expression
      */
@@ -236,7 +236,7 @@ public class Target {
         }
         return xpathExpr;
     }
-    
+
     private String convertToXpath(String qname) {
         QName name = QName.valueOf(qname);
         if ("".equals(name.getNamespaceURI())) {
@@ -249,7 +249,7 @@ public class Target {
                     + "']";
         }
     }
-    
+
     /**
      * Set the Target QName.
      */
@@ -259,7 +259,7 @@ public class Target {
         this.qname = qname;
         this.value  = qname.toString();
     }
-    
+
     /**
      *@return the QName for the Target
      */
@@ -272,34 +272,34 @@ public class Target {
         }
         return qname;
     }
-    
+
     /**
      * @return true if this Target represents an Attachment
      */
     public boolean isAttachment(){
         return attachment;
     }
-    
+
     /**
      * returns xpath version to be used if the Target Type is XPATH.
      */
     public String getXPathVersion(){
         return xpathVersion;
     }
-    
-    
+
+
     /**
      * sets  xpath version to be used if the Target Type is XPATH.
      */
-    
+
     public void setXPathVersion(String version){
         xpathVersion = version;
     }
-    
+
     public void setPolicyQName(QName policyQName){
         this.policyQName = policyQName;
     }
-    
+
     public QName getPolicyQName(){
         return policyQName;
     }

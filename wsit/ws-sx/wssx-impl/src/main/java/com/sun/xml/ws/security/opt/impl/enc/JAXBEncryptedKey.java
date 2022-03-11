@@ -47,17 +47,17 @@ import com.sun.xml.wss.logging.impl.opt.crypto.LogStringsMessages;
  */
 public class JAXBEncryptedKey implements EncryptedKey,
         SecurityHeaderElement, SecurityElementWriter {
-    
+
     private static final Logger logger = Logger.getLogger(LogDomainConstants.IMPL_OPT_CRYPTO_DOMAIN,
             LogDomainConstants.IMPL_OPT_CRYPTO_DOMAIN_BUNDLE);
-    
+
     private EncryptedKeyType ekt = null;
     //private Data data = null;
     private Key dataEnckey = null;
     private Key dkEK = null;
     CryptoProcessor dep = null;
     private SOAPVersion soapVersion = SOAPVersion.SOAP_11;
-    
+
     /** Creates a new instance of JAXBEncryptedKey */
     public JAXBEncryptedKey(EncryptedKeyType ekt,Key kk,Key dk,SOAPVersion soapVersion) throws XWSSecurityException{
         this.ekt = ekt;
@@ -65,59 +65,59 @@ public class JAXBEncryptedKey implements EncryptedKey,
         this.dataEnckey = dk;
         this.soapVersion = soapVersion;
         dep = new CryptoProcessor(Cipher.WRAP_MODE, ekt.getEncryptionMethod().getAlgorithm(),dataEnckey,dkEK);
-        
+
     }
-    
+
     public void encrypt() {
     }
-    
+
     public void decrypt() {
     }
-    
+
     @Override
     public String getId() {
         return ekt.getId();
     }
-    
+
     @Override
     public void setId(String id) {
         ekt.setId(id);
     }
-    
+
     @Override
     public String getNamespaceURI() {
         return "http://www.w3.org/2001/04/xmlenc#";
     }
-    
-    
+
+
     @Override
     public String getLocalPart() {
         return "EncryptedKey";
     }
-    
-    
+
+
     public String getAttribute( String nsUri, String localName) {
         throw new UnsupportedOperationException();
     }
-    
-    
+
+
     public String getAttribute( QName name) {
         throw new UnsupportedOperationException();
     }
-    
+
     @Override
     public javax.xml.stream.XMLStreamReader readHeader() {
         throw new UnsupportedOperationException();
     }
-    
+
     public <T> T readAsJAXB(Unmarshaller unmarshaller) {
         throw new UnsupportedOperationException();
     }
-    
+
     public <T> T readAsJAXB(org.glassfish.jaxb.runtime.api.Bridge<T> bridge, org.glassfish.jaxb.runtime.api.BridgeContext context) {
         throw new UnsupportedOperationException();
     }
-    
+
     public <T> T readAsJAXB(org.glassfish.jaxb.runtime.api.Bridge<T> bridge) {
         throw new UnsupportedOperationException();
     }
@@ -145,7 +145,7 @@ public class JAXBEncryptedKey implements EncryptedKey,
             logger.log(Level.SEVERE,LogStringsMessages.WSS_1921_ERROR_WRITING_ENCRYPTEDKEY(ex.getMessage()), ex);
         }
     }
-    
+
     /**
      * writes the jaxb encrypted key to to an XMLStreamWriter
      * @param os OutputStream
@@ -155,47 +155,47 @@ public class JAXBEncryptedKey implements EncryptedKey,
         Marshaller writer;
         try {
             writer = getMarshaller();
-            
+
             JAXBElement ed = getEK(writer);
             writer.marshal(ed,os);
         } catch (jakarta.xml.bind.JAXBException ex) {
             logger.log(Level.SEVERE,LogStringsMessages.WSS_1921_ERROR_WRITING_ENCRYPTEDKEY(ex.getMessage()), ex);
         }
     }
-    
+
     private JAXBElement getEK(Marshaller writer) {
-        
+
         CVAdapter adapter = new CVAdapter(dep);
         writer.setAdapter(CVAdapter.class,adapter);
         com.sun.xml.security.core.xenc.ObjectFactory obj = new com.sun.xml.security.core.xenc.ObjectFactory();
         return obj.createEncryptedKey(ekt);
     }
-    
+
     public void writeTo(jakarta.xml.soap.SOAPMessage saaj) throws jakarta.xml.soap.SOAPException {
         throw new UnsupportedOperationException();
     }
-    
+
     public void writeTo(ContentHandler contentHandler, ErrorHandler errorHandler) {
         throw new UnsupportedOperationException();
     }
-    
+
     public byte[] canonicalize(String algorithm, List<com.sun.xml.wss.impl.c14n.AttributeNS> namespaceDecls) {
         throw new UnsupportedOperationException();
     }
-    
+
     public boolean isCanonicalized() {
         throw new UnsupportedOperationException();
     }
-    
+
     private Marshaller getMarshaller() throws JAXBException{
         return JAXBUtil.createMarshaller(soapVersion);
     }
-    
+
     @Override
     public ReferenceList getReferenceList() {
         return ekt.getReferenceList();
     }
-    
+
     public boolean hasReferenceList() {
         return (ekt.getReferenceList() != null);
     }
@@ -235,21 +235,21 @@ public class JAXBEncryptedKey implements EncryptedKey,
         }
         return false;
     }
-    
+
     @Override
     public void setReferenceList(ReferenceList list) {
         ekt.setReferenceList(list);
     }
-    
+
     @Override
     public Key getKey() {
         return dataEnckey;
     }
-    
+
     public byte[] getCipherValue(){
         return dep.getCipherValueOfEK();
     }
-    
+
     /**
      * writes the jaxb encrypted key to to an XMLStreamWriter
      * @param streamWriter javax.xml.stream.XMLStreamWriter

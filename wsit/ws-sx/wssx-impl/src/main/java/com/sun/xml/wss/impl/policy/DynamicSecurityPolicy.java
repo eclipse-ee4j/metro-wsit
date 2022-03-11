@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -20,17 +20,17 @@ import com.sun.xml.wss.impl.PolicyTypeUtil;
  * Represents a dynamically generable SecurityPolicy
  */
 public abstract class DynamicSecurityPolicy implements SecurityPolicy {
-    
+
     /*
      * Associate static application context
      */
     StaticPolicyContext ctx;
-    
+
     /**
      * Default constructor
      */
     public DynamicSecurityPolicy () {}
-    
+
     /**
      * Instantiate and associate DynamicSecurityPolicy with StaticPolicyContext
      *
@@ -39,14 +39,14 @@ public abstract class DynamicSecurityPolicy implements SecurityPolicy {
     public DynamicSecurityPolicy (StaticPolicyContext ctx) {
         this.ctx = ctx;
     }
-    
+
     /**
      * @return the StaticPolicyContext associated with this DynamicSecurityPolicy, null otherwise
      */
     public StaticPolicyContext getStaticPolicyContext () {
         return ctx;
     }
-    
+
     /**
      * set the StaticPolicyContext for this DynamicSecurityPolicy
      * @param ctx the StaticPolicyContext for this DynamicSecurityPolicy.
@@ -54,7 +54,7 @@ public abstract class DynamicSecurityPolicy implements SecurityPolicy {
     public void setStaticPolicyContext (StaticPolicyContext ctx) {
         this.ctx = ctx;
     }
-    
+
     /**
      * Associate a SecurityPolicy generator
      * @return SecurityPolicyGenerator that can be used to generate concrete SecurityPolicies
@@ -69,5 +69,5 @@ public abstract class DynamicSecurityPolicy implements SecurityPolicy {
     public String getType() {
         return PolicyTypeUtil.DYN_SEC_POLICY_TYPE;
     }
-    
+
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -40,7 +40,7 @@ import jakarta.xml.bind.JAXBElement;
  * @author K.Venugopal@sun.com
  */
 public class DerivedKeyTokenBuilder extends TokenBuilder {
-    
+
     private DerivedTokenKeyBinding dtk = null;
     /** Creates a new instance of DerivedKeyTokenBuilder */
     public DerivedKeyTokenBuilder(JAXBFilterProcessingContext context,DerivedTokenKeyBinding dtk) {
@@ -55,12 +55,12 @@ public class DerivedKeyTokenBuilder extends TokenBuilder {
      */
     @Override
     public BuilderResult process() throws XWSSecurityException {
-        
+
         String algorithm = null;
         WSSPolicy originalKeyBinding = dtk.getOriginalKeyBinding();
         AlgorithmSuite algSuite = context.getAlgorithmSuite();
         BuilderResult dktResult = new BuilderResult();
-                
+
         if(algSuite != null){
             algorithm = algSuite.getEncryptionAlgorithm();
             if(logger.isLoggable(Level.FINEST)){
@@ -72,7 +72,7 @@ public class DerivedKeyTokenBuilder extends TokenBuilder {
         //The offset and length to be used for DKT
         long offset = 0; // Default 0
         long length = SecurityUtil.getLengthFromAlgorithm(algorithm);
-        
+
         WSSPolicy policy = (WSSPolicy)context.getSecurityPolicy();
         if(length == 32 && PolicyTypeUtil.signaturePolicy(policy)){
             length = 24;
@@ -104,7 +104,7 @@ public class DerivedKeyTokenBuilder extends TokenBuilder {
            for(int i =0;i<=15;i++){
                secret[i] = tempSecret[i];
            }
-           
+
         } else if ( PolicyTypeUtil.symmetricKeyBinding(originalKeyBinding)) {
             //SymmetricKeyBinding skb = (SymmetricKeyBinding)originalKeyBinding;
             SymmetricKeyBinding skb = null;
@@ -115,7 +115,7 @@ public class DerivedKeyTokenBuilder extends TokenBuilder {
                 throw new XWSSecurityException("Internal Error: SymmetricBinding not set on context");
             }
             String dataEncAlgo = SecurityUtil.getDataEncryptionAlgo(context);
-            
+
             String keyAlgo = skb.getKeyAlgorithm();
             if(keyAlgo == null || "".equals(keyAlgo)){
                 if(context.getAlgorithmSuite() != null)
@@ -146,7 +146,7 @@ public class DerivedKeyTokenBuilder extends TokenBuilder {
                         secret = sctInstanceInfo.getInstanceSecret(sct.getInstance());
                     }else {
                         secret = ictx.getProofKey();
-                    }                    
+                    }
                 }
             }else{
                 secret = ictx.getProofKey();
@@ -165,10 +165,10 @@ public class DerivedKeyTokenBuilder extends TokenBuilder {
                 dktResult.setKeyInfo(result.getKeyInfo());
                 return dktResult;
             }
-            
+
             secret = originalKey.getEncoded();
             dpTokenID = result.getDPTokenId();
-            
+
             if(logger.isLoggable(Level.FINEST)){
                 logger.log(Level.FINEST, "Issued Token Binding token binding under Derived Keys");
             }
@@ -179,7 +179,7 @@ public class DerivedKeyTokenBuilder extends TokenBuilder {
                 throw new XWSSecurityException("Internal Error: Null original key binding");
             }
         }
-        
+
         DerivedKeyToken dkt = new DerivedKeyTokenImpl(offset, length, secret);
         Key dataKey = null;
         try{

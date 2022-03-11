@@ -18,12 +18,12 @@ import java.util.Collection;
  * @author Marek Potociar (marek.potociar at sun.com)
  */
 public interface InvocationTransformer {
-    
+
     /**
      * Before this invocation is processed by {@link FilteringStateMachine} instances
      * the {@link InvocationTransformer} gets a chance to transform the {@code invocation}
      * into series of several invocations. Original invocation may be included as well.
-     * 
+     *
      * @param invocation original invocation to be transformed.
      * @return collection of invocations as a result of the transformation
      */

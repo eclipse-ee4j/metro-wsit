@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -67,81 +67,81 @@ This type represents a username token per Section 4.1
  */
 public class UsernameToken extends SecurityHeaderBlockImpl
 implements SecurityToken, Token {
-    
+
     public static final long MAX_NONCE_AGE = 900000; //milliseconds
 
     private String username;
-    
+
     private String password = null;
-    
+
     // password type
     private String passwordType = MessageConstants.PASSWORD_TEXT_NS;
-    
+
     // password Digest value
     private String passwordDigest = null;
-    
+
     private byte[] decodedNonce = null;
-    
+
     // specifies a cryptographically random sequence
     private String nonce = null;
-    
+
     // default nonce encoding
     private String nonceEncodingType = MessageConstants.BASE64_ENCODING_NS;
-    
+
     // time stamp to indicate creation time
     private String created = null;
 
     // flag to indicate whether BSP checks should be made or not.
     private boolean bsp = false;
-    
+
     private Document soapDoc;
-    
+
     private static Logger log =
     Logger.getLogger(
     LogDomainConstants.WSS_API_DOMAIN,
     LogDomainConstants.WSS_API_DOMAIN_BUNDLE);
-    
+
     public static SecurityHeaderBlock fromSoapElement(SOAPElement element) throws XWSSecurityException {
         return SecurityHeaderBlockImpl.fromSoapElement(
         element, UsernameToken.class);
     }
-    
+
     public UsernameToken(Document document, String username) throws SecurityTokenException {
         this.soapDoc = document;
         this.username = username;
-        // set default password type        
+        // set default password type
         setPasswordType(MessageConstants.PASSWORD_TEXT_NS);
     }
-    
+
     public UsernameToken( Document document,String username,String password,boolean digestPassword) throws SecurityTokenException {
         this(document, username);
         this.password = password;
         if (digestPassword) {
             setPasswordType(MessageConstants.PASSWORD_DIGEST_NS);
-        } 
+        }
     }
-    
+
     public UsernameToken(Document document, String username, String password) throws SecurityTokenException {
         this(document, username, password, false);
     }
-    
+
     /**
      * C'tor that creates the optional element nonce, created is not set.
      */
     public UsernameToken(Document document,String username, String password,  boolean setNonce, boolean digestPassword) throws SecurityTokenException {
-        
+
         this(document, username, password, digestPassword);
         if (setNonce) {
             createNonce();
         }
     }
-    
+
     /**
      * C'tor that creates the optional elements of nonce and created.
      */
     public UsernameToken(Document document,String username,String password,boolean setNonce,boolean setCreatedTimestamp,boolean digestPassword)
     throws SecurityTokenException {
-    
+
         this(document, username, password, setNonce, digestPassword);
         if (setCreatedTimestamp) {
             try {
@@ -150,7 +150,7 @@ implements SecurityToken, Token {
                 log.log(Level.SEVERE, "WSS0280.failed.create.UsernameToken", e);
                 throw new SecurityTokenException(e);
             }
-        }        
+        }
     }
 
     public UsernameToken(SOAPElement usernameTokenSoapElement, boolean bspFlag) throws XWSSecurityException {
@@ -163,27 +163,27 @@ implements SecurityToken, Token {
      *
      */
     public UsernameToken(SOAPElement usernameTokenSoapElement) throws XWSSecurityException {
-        
+
         setSOAPElement(usernameTokenSoapElement);
         this.soapDoc = getOwnerDocument();
-        
+
         if (!("UsernameToken".equals(getLocalName()) &&
         XMLUtil.inWsseNS(this))) {
             log.log(
             Level.SEVERE,
             "WSS0329.usernametoken.expected",
             new Object[] {getLocalName()});
-            
+
             throw new SecurityTokenException(
             "Expected UsernameToken Element, but Found " + getLocalName());
         }
-        
+
         boolean invalidToken = false;
-        
+
         Iterator children = getChildElements();
-        
+
         // Check that the first child element is a Username
-        
+
         Node object = null;
         while (children.hasNext() && !(object instanceof SOAPElement)) {
             object = (Node)children.next();
@@ -202,9 +202,9 @@ implements SecurityToken, Token {
         } else {
             invalidToken = true;
         }
-        
+
         while (children.hasNext()) {
-            
+
             object = (Node)children.next();
 
             if (object.getNodeType() == Node.ELEMENT_NODE) {
@@ -213,16 +213,16 @@ implements SecurityToken, Token {
                 if ("Password".equals(element.getLocalName()) &&
                 XMLUtil.inWsseNS(element)) {
                     String passwordType = element.getAttribute("Type");
-                    
+
                     if (isBSP() && passwordType.length() < 1) {
                         // Type should be specified
                         log.log(Level.SEVERE,"BSP4201.PasswordType.Username");
                         throw new XWSSecurityException(" A wsse:UsernameToken/wsse:Password element in a SECURITY_HEADER MUST specify a Type attribute.");
                     }
-                    
-                    if (!"".equals(passwordType))                        
+
+                    if (!"".equals(passwordType))
                         setPasswordType(passwordType);
-                    
+
                     if (MessageConstants.PASSWORD_TEXT_NS == this.passwordType)
                         password = element.getValue();
                     else
@@ -249,49 +249,49 @@ implements SecurityToken, Token {
                 }
             }
         }
-        
+
         if (invalidToken) {
             log.log(Level.SEVERE, "WSS0331.invalid.usernametoken");
             throw new SecurityTokenException(
             "Element passed was not a SOAPElement or"
             + " is not a proper UsernameToken");
         }
-        
+
         if (null == username) {
             log.log(Level.SEVERE, "WSS0332.usernametoken.null.username");
             throw new SecurityTokenException(
             "Username token does not contain the username");
         }
     }
-    
+
     /**
      * @return Returns the username.
      */
     public String getUsername() {
         return username;
     }
-    
+
     public void setUsername(String username) {
         this.username = username;
     }
-    
+
     /**
      * @return Returns the password which may be null meaning no password.
      */
     public String getPassword() {
         return password;
     }
-    
+
     /**
      * @return Returns the passwordType.
      */
     public String getPasswordType() {
         return passwordType;
     }
-    
+
     private void setPasswordType(String passwordType)
     throws SecurityTokenException {
-        
+
         if (MessageConstants.PASSWORD_TEXT_NS.equals(passwordType)) {
             this.passwordType = MessageConstants.PASSWORD_TEXT_NS;
         } else if (MessageConstants.PASSWORD_DIGEST_NS.equals(passwordType)) {
@@ -307,57 +307,57 @@ implements SecurityToken, Token {
                 MessageConstants.PASSWORD_DIGEST_NS);
         }
     }
-    
+
     /**
      * @return Returns the Nonce Encoding type.
      */
     public String getNonceEncodingType() {
         return this.nonceEncodingType;
     }
-    
+
     /**
      * Sets the nonce encoding type.
      * As per WSS:UserNameToken profile, for valid values, refer to
      * wsse:BinarySecurityToken schema.
      */
     private void setNonceEncodingType(String nonceEncodingType) {
-        
+
         if (!MessageConstants.BASE64_ENCODING_NS.equals(nonceEncodingType)) {
             log.log(Level.SEVERE,"WSS0307.nonce.enctype.invalid");
             throw new RuntimeException("Nonce encoding type invalid");
         }
         this.nonceEncodingType = MessageConstants.BASE64_ENCODING_NS;
     }
-    
-    
+
+
     /**
      * @return Returns the encoded nonce. Null indicates no nonce was set.
      */
     public String getNonce() {
         return nonce;
     }
-    
+
     /**
      * Returns the created which may be null meaning no time of creation.
      */
     public String getCreated() {
         return created;
     }
-    
+
     public String getPasswordDigest() {
         return this.passwordDigest;
     }
-    
+
     /**
      * Sets the password.
-     */    
+     */
     public void setPassword(String passwd){
         this.password = passwd;
     }
-    
+
     /**
      * set the nonce value.If nonce value is null then it will create one.
-     */    
+     */
     public void setNonce(String nonceValue){
         if(nonceValue == null || MessageConstants.EMPTY_STRING.equals(nonceValue)){
             createNonce();
@@ -368,7 +368,7 @@ implements SecurityToken, Token {
     /**
      * set the creation time.
      * @param time If null or empty then this method would create one.
-     */    
+     */
     public void setCreationTime(String time) throws XWSSecurityException {
         if(time == null || MessageConstants.EMPTY_STRING.equals(time)){
             this.created = getCreatedFromTimestamp();
@@ -376,14 +376,14 @@ implements SecurityToken, Token {
             this.created = time;
         }
     }
-    
+
     public void setDigestOn() throws SecurityTokenException {
         setPasswordType(MessageConstants.PASSWORD_DIGEST_NS);
     }
-    
+
     @Override
     public SOAPElement getAsSoapElement() throws SecurityTokenException {
-        
+
         if (null != delegateElement)
             return delegateElement;
         try {
@@ -391,11 +391,11 @@ implements SecurityToken, Token {
             (SOAPElement) soapDoc.createElementNS(
             MessageConstants.WSSE_NS,
             MessageConstants.WSSE_PREFIX + ":UsernameToken"));
-            
+
             addNamespaceDeclaration(
             MessageConstants.WSSE_PREFIX,
             MessageConstants.WSSE_NS);
-            
+
             if (null == username || MessageConstants._EMPTY.equals(username) ) {
                 log.log(Level.SEVERE, "WSS0387.error.creating.usernametoken");
                 throw new SecurityTokenException("username was not set");
@@ -403,11 +403,11 @@ implements SecurityToken, Token {
                 addChildElement("Username", MessageConstants.WSSE_PREFIX)
                 .addTextNode(username);
             }
-            
+
             if (password != null && !MessageConstants._EMPTY.equals(password) ) {
                 SOAPElement wssePassword =
                 addChildElement("Password", MessageConstants.WSSE_PREFIX);
-                
+
                 if (MessageConstants.PASSWORD_DIGEST_NS == passwordType) {
                     createDigest();
                     wssePassword.addTextNode(passwordDigest);
@@ -416,17 +416,17 @@ implements SecurityToken, Token {
                 }
                 wssePassword.setAttribute("Type", passwordType);
             }
-            
+
             if (nonce != null) {
                 SOAPElement wsseNonce =
                 addChildElement("Nonce", MessageConstants.WSSE_PREFIX);
                 wsseNonce.addTextNode(nonce);
-                
+
                 if (nonceEncodingType != null) {
                     wsseNonce.setAttribute("EncodingType", nonceEncodingType);
                 }
             }
-            
+
             if (created != null) {
                 SOAPElement wsuCreated =
                 addChildElement(
@@ -435,7 +435,7 @@ implements SecurityToken, Token {
                 MessageConstants.WSU_NS);
                 wsuCreated.addTextNode(created);
             }
-            
+
         } catch (SOAPException se) {
             log.log(Level.SEVERE, "WSS0388.error.creating.usernametoken", se.getMessage());
             throw new SecurityTokenException(
@@ -444,7 +444,7 @@ implements SecurityToken, Token {
         }
         return delegateElement;
     }
-    
+
     /*
      * Create a unique nonce. Default encoded with base64.
      * A nonce is a random value that the sender creates
@@ -452,7 +452,7 @@ implements SecurityToken, Token {
      * Nonce is an effective counter measure against replay attacks.
      */
     private void createNonce() {
-        
+
         this.decodedNonce = new byte[18];
         try {
             SecureRandom random = SecureRandom.getInstance("SHA1PRNG");
@@ -471,7 +471,7 @@ implements SecurityToken, Token {
             "Unrecognized encoding: " + nonceEncodingType);
         }
     }
-    
+
     /*
      * Password Digest creation.
      * As per WSS-UsernameToken spec, if either or both of <wsse:Nonce>
@@ -482,17 +482,17 @@ implements SecurityToken, Token {
      *
      */
     private void createDigest() throws SecurityTokenException {
-        
+
         String utf8String = "";
         if (created != null) {
             utf8String = utf8String + created;
         }
-        
+
         // password is also optional
         if (password != null) {
             utf8String = utf8String + password;
         }
-        
+
         byte[] utf8Bytes;
         utf8Bytes = utf8String.getBytes(StandardCharsets.UTF_8);
 
@@ -506,7 +506,7 @@ implements SecurityToken, Token {
         } else {
             bytesToHash = utf8Bytes;
         }
-        
+
         byte[] hash;
         try {
             MessageDigest sha = MessageDigest.getInstance("SHA-1");
@@ -519,13 +519,13 @@ implements SecurityToken, Token {
         }
         this.passwordDigest = Base64.encode(hash);
     }
-    
+
     private String getCreatedFromTimestamp() throws XWSSecurityException {
         Timestamp ts = new Timestamp();
         ts.createDateTime();
         return ts.getCreated();
     }
-    
+
     @Override
     public void isBSP(boolean flag) {
         bsp = flag;

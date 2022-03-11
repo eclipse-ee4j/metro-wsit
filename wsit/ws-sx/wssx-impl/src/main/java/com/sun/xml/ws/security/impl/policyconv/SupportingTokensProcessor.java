@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -109,7 +109,7 @@ public class SupportingTokensProcessor {
                 if (PolicyUtil.isUsernameToken((PolicyAssertion)token,spVersion)) {
                     AuthenticationTokenPolicy.UsernameTokenBinding utb =
                             (AuthenticationTokenPolicy.UsernameTokenBinding) policy;
-                    utb.isEndorsing(true);                    
+                    utb.isEndorsing(true);
                 }
             }
             if(PolicyUtil.isIssuedToken((PolicyAssertion) token, spVersion) &&
@@ -292,7 +292,7 @@ public class SupportingTokensProcessor {
                 stg.setPolicyQName(getQName(token));
             } else  {
                stcr.addTransform(stg);
-            }            
+            }
             SignaturePolicy.FeatureBinding fb = (com.sun.xml.wss.impl.policy.mls.SignaturePolicy.FeatureBinding) sp.getFeatureBinding();
             fb.addTargetBinding(stg);
         }

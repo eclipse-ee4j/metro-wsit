@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -21,7 +21,7 @@ import javax.xml.stream.XMLStreamReader;
  * @author Ashutosh.Shahi@sun.com
  */
 public class TimestampProcessor implements StreamFilter{
-    
+
     private String created = null;
     private String expires = null;
     private String currentElement = "";
@@ -48,7 +48,7 @@ public class TimestampProcessor implements StreamFilter{
                 if(context.isBSP() && hasValueType(reader)){
                     BasicSecurityProfile.log_bsp_3225();
                 }
-                
+
             } else if("Expires".equals(reader.getLocalName())){
                 if(context.isBSP() && expires != null){
                     BasicSecurityProfile.log_bsp_3224();
@@ -56,19 +56,19 @@ public class TimestampProcessor implements StreamFilter{
                 if(context.isBSP() && created == null){
                     BasicSecurityProfile.log_bsp_3221();
                 }
-                
+
                 if(context.isBSP() && hasValueType(reader)){
                     BasicSecurityProfile.log_bsp_3226();
                 }
                 currentElement = EXPIRES;
             }else{
-                //throw Unsupportedexception                
+                //throw Unsupportedexception
 //                if(context.isBSP() && ! "Timestamp".equals(reader.getLocalName())){
 //                    BasicSecurityProfile.log_bsp_3222(reader.getLocalName());
 //                }
             }
         }
-        
+
         if(reader.getEventType() == XMLStreamReader.CHARACTERS){
             if(currentElement == CREATED){
                 created = reader.getText();
@@ -80,16 +80,16 @@ public class TimestampProcessor implements StreamFilter{
         }
         return true;
     }
-    
+
     public String getCreated(){
         return created;
     }
-    
+
     public String getExpires(){
         return expires;
     }
-    
-    
+
+
     private boolean hasValueType(XMLStreamReader reader){
         for(int i=0;i<reader.getAttributeCount();i++){
             QName name = reader.getAttributeName(i);

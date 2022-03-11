@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -37,18 +37,18 @@ import org.w3c.dom.Node;
  * @author XWS-Security RI Development Team
  */
 public class Timestamp extends SecurityHeaderBlockImpl {
-    
+
     public static final SimpleDateFormat calendarFormatter1
     = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
 
     public static final SimpleDateFormat calendarFormatter2
     = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'.'SSS'Z'");
-    
+
     private static final TimeZone utc = TimeZone.getTimeZone("UTC");
     private static Calendar utcCalendar = new GregorianCalendar(utc);
     private static final SimpleDateFormat utcCalendarFormatter1
             = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
-    
+
     static {
         utcCalendarFormatter1.setTimeZone(utc);
     }
@@ -68,7 +68,7 @@ public class Timestamp extends SecurityHeaderBlockImpl {
      * /wsu:Timestamp/wsu:Created
      */
     private String created;
-    
+
     private long timeout = 0;
 
     /*
@@ -101,7 +101,7 @@ public class Timestamp extends SecurityHeaderBlockImpl {
      * Takes a SOAPElement and checks if it has the right name.
      */
     public Timestamp(SOAPElement element) throws XWSSecurityException {
-        
+
         if (!(element.getLocalName().equals("Timestamp") &&
         XMLUtil.inWsuNS(element))) {
             log.log(Level.SEVERE, "WSS0385.error.creating.timestamp", element.getTagName());
@@ -120,24 +120,24 @@ public class Timestamp extends SecurityHeaderBlockImpl {
                 SOAPElement subElement = (SOAPElement) object;
                 if ("Created".equals(subElement.getLocalName()) &&
                 XMLUtil.inWsuNS(subElement)) {
-                                        
+
                     if (isBSP() && created != null) {
                         // created is already present
                         log.log(Level.SEVERE,"BSP3203.Onecreated.Timestamp");
                         throw new XWSSecurityException("There can be only one wsu:Created element under Timestamp");
                     }
-                        
+
                     created = subElement.getValue();
                     createdValueType = subElement.getAttribute("ValueType");
-                    
+
                     if (isBSP() && createdValueType!=null && createdValueType.length() > 0) {
                         // BSP:R3225 @ValueType MUST NOT be present
                         log.log(Level.SEVERE,"BSP3225.createdValueType.Timestamp");
                         throw new XWSSecurityException("A wsu:Created element within a TIMESTAMP MUST NOT include a ValueType attribute.");
-                    }                        
+                    }
                     if ("".equalsIgnoreCase(createdValueType)) {
                         createdValueType = null;
-                    }                    
+                    }
                 }
 
                 if ("Expires".equals(subElement.getLocalName()) &&
@@ -148,13 +148,13 @@ public class Timestamp extends SecurityHeaderBlockImpl {
                         log.log(Level.SEVERE,"BSP3224.Oneexpires.Timestamp");
                         throw new XWSSecurityException("There can be only one wsu:Expires element under Timestamp");
                     }
-                    
+
                     if (isBSP() && created == null) {
                         // created is not present
                         log.log(Level.SEVERE,"BSP3221.CreatedBeforeExpires.Timestamp");
                         throw new XWSSecurityException("wsu:Expires must appear after wsu:Created in the Timestamp");
                     }
-                    
+
                     expires = subElement.getValue();
                     // attr@ValueType
                     expiresValueType = subElement.getAttribute("ValueType");
@@ -163,7 +163,7 @@ public class Timestamp extends SecurityHeaderBlockImpl {
                         // BSP:R3226 @ValueType MUST NOT be present
                         log.log(Level.SEVERE,"BSP3226.expiresValueType.Timestamp");
                         throw new XWSSecurityException("A wsu:Expires element within a TIMESTAMP MUST NOT include a ValueType attribute.");
-                    }                        
+                    }
                     if ("".equalsIgnoreCase(expiresValueType)) {
                         expiresValueType = null;
                     }

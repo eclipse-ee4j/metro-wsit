@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -43,14 +43,14 @@ import jakarta.xml.ws.WebServiceException;
 public class TCPTransportPipe extends AbstractTubeImpl {
     private static final Logger logger = Logger.getLogger(
             com.sun.xml.ws.transport.tcp.util.TCPConstants.LoggingDomain + ".client");
-    
+
     protected TCPClientTransport clientTransport = new TCPClientTransport();
-    
+
     final protected Codec defaultCodec;
     final protected WSBinding wsBinding;
     final protected WSService wsService;
     final protected int customTCPPort;
-    
+
     public TCPTransportPipe(final ClientTubeAssemblerContext context) {
         this(context, -1);
     }
@@ -58,15 +58,15 @@ public class TCPTransportPipe extends AbstractTubeImpl {
     public TCPTransportPipe(ClientTubeAssemblerContext context, int customTCPPort) {
         this(context.getService(), context.getBinding(), context.getCodec(), customTCPPort);
     }
-    
-    protected TCPTransportPipe(final WSService wsService, final WSBinding wsBinding, 
+
+    protected TCPTransportPipe(final WSService wsService, final WSBinding wsBinding,
             final Codec defaultCodec, final int customTCPPort) {
         this.wsService = wsService;
         this.wsBinding = wsBinding;
         this.defaultCodec = defaultCodec;
         this.customTCPPort = customTCPPort;
     }
-    
+
     protected TCPTransportPipe(final TCPTransportPipe that, final TubeCloner cloner) {
         this(that.wsService, that.wsBinding, that.defaultCodec.copy(), that.customTCPPort);
         cloner.add(that, this);
@@ -107,15 +107,15 @@ public class TCPTransportPipe extends AbstractTubeImpl {
         ChannelContext channelContext = null;
         WebServiceException failure = null;
         final WSConnectionManager wsConnectionManager = WSConnectionManager.getInstance();
-        
+
         int retryNum = 0;
         do {
             try {
                 setupClientTransport(wsConnectionManager, packet.endpointAddress.getURI());
                 channelContext = clientTransport.getConnectionContext();
-                
+
                 wsConnectionManager.lockConnection(channelContext.getConnectionSession());
-                
+
                 // Taking Codec from ChannelContext
                 final Codec codec = channelContext.getCodec();
                 final ContentType ct = codec.getStaticContentType(packet);
@@ -124,22 +124,22 @@ public class TCPTransportPipe extends AbstractTubeImpl {
                  * in HTTP this param is sent as HTTP header, in SOAP/TCP
                  * it is part of content-type (similar to SOAP 1.2) */
                 writeTransportSOAPActionHeaderIfRequired(channelContext, ct, packet);
-                
+
                 if (logger.isLoggable(Level.FINE)) {
                     logger.log(Level.FINE, MessagesMessages.WSTCP_1013_TCP_TP_PROCESS_ENCODE(ct.getContentType()));
                 }
                 codec.encode(packet, clientTransport.openOutputStream());
-                
+
                 if (logger.isLoggable(Level.FINE)) {
                     logger.log(Level.FINE, MessagesMessages.WSTCP_1014_TCP_TP_PROCESS_SEND());
                 }
                 clientTransport.send();
-                
+
                 if (logger.isLoggable(Level.FINE)) {
                     logger.log(Level.FINE, MessagesMessages.WSTCP_1015_TCP_TP_PROCESS_OPEN_PREPARE_READING());
                 }
                 final InputStream replyInputStream = clientTransport.openInputStream();
-                
+
                 if (logger.isLoggable(Level.FINE)) {
                     logger.log(Level.FINE, MessagesMessages.WSTCP_1016_TCP_TP_PROCESS_OPEN_PROCESS_READING(clientTransport.getStatus(), clientTransport.getContentType()));
                 }
@@ -178,17 +178,17 @@ public class TCPTransportPipe extends AbstractTubeImpl {
                 retryNum = TCPConstants.CLIENT_MAX_FAIL_TRIES + 1;
                 failure = new WebServiceException(MessagesMessages.WSTCP_0017_ERROR_WS_EXECUTION_ON_CLIENT(), e);
             }
-            
+
             if (logger.isLoggable(Level.FINE) && canRetry(retryNum + 1)) {
                 logger.log(Level.FINE, MessagesMessages.WSTCP_0012_SEND_RETRY(retryNum), failure);
             }
         } while (canRetry(++retryNum));
-        
+
         assert failure != null;
         logger.log(Level.SEVERE, MessagesMessages.WSTCP_0001_MESSAGE_PROCESS_FAILED(), failure);
         throw failure;
     }
-    
+
     protected void writeTransportSOAPActionHeaderIfRequired(ChannelContext channelContext, ContentType ct, Packet packet) {
         String soapActionTransportHeader = getSOAPAction(ct.getSOAPActionHeader(), packet);
         if (soapActionTransportHeader != null) {
@@ -200,29 +200,29 @@ public class TCPTransportPipe extends AbstractTubeImpl {
             }
         }
     }
-    
+
     protected void abortSession(final ChannelContext channelContext) {
         if (channelContext != null) {
             WSConnectionManager.getInstance().abortConnection(channelContext.getConnectionSession());
         }
     }
-    
+
     protected void releaseSession(final ChannelContext channelContext) {
         if (channelContext != null) {
             WSConnectionManager.getInstance().freeConnection(channelContext.getConnectionSession());
         }
     }
-    
+
     private @NotNull void setupClientTransport(@NotNull final WSConnectionManager wsConnectionManager,
             @NotNull final URI uri) throws InterruptedException, IOException, ServiceChannelException, VersionMismatchException {
-        
+
         final WSTCPURI tcpURI = WSTCPURI.parse(uri);
         if (tcpURI == null) throw new WebServiceException(MessagesMessages.WSTCP_0005_INVALID_EP_URL(uri.toString()));
         tcpURI.setCustomPort(customTCPPort);
         final ChannelContext channelContext = wsConnectionManager.openChannel(tcpURI, wsService, wsBinding, defaultCodec);
         clientTransport.setup(channelContext);
     }
-    
+
     /**
      * get SOAPAction header if the soapAction parameter is non-null or BindingProvider properties set.
      * BindingProvider properties take precedence.
@@ -231,7 +231,7 @@ public class TCPTransportPipe extends AbstractTubeImpl {
         Boolean useAction = (Boolean) packet.invocationProperties.get(BindingProvider.SOAPACTION_USE_PROPERTY);
         String sAction = null;
         boolean use = (useAction != null) ? useAction.booleanValue() : false;
-        
+
         if (use) {
             //TODO check if it needs to be quoted
             sAction = packet.soapAction;
@@ -243,7 +243,7 @@ public class TCPTransportPipe extends AbstractTubeImpl {
             return soapAction;
         }
     }
-    
+
     private static boolean canRetry(int retryNum) {
         return retryNum <= TCPConstants.CLIENT_MAX_FAIL_TRIES;
     }

@@ -9,12 +9,12 @@
  */
 
 module org.glassfish.metro.wsit.api {
-    
+
     requires java.logging;
     requires transitive java.xml;
     requires transitive jakarta.xml.ws;
     requires transitive jakarta.xml.bind;
-    
+
     requires transitive com.sun.xml.ws.rt;
     requires transitive com.sun.istack.runtime;
     requires transitive com.sun.xml.ws.policy;

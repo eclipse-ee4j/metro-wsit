@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -17,21 +17,21 @@ import javax.xml.crypto.Data;
 
 /**
  *  An implementation of Data type containing a JAX-WS attachment
- * 
+ *
  * @author ashutosh.shahi@sun.com
  */
 public class AttachmentData implements Data{
-    
+
     private Attachment attachment = null;
 
     public AttachmentData(Attachment attachment){
         this.attachment = attachment;
     }
-    
+
     public void write(OutputStream os) throws IOException{
         attachment.writeTo(os);
     }
-    
+
     public Attachment getAttachment(){
         return attachment;
     }

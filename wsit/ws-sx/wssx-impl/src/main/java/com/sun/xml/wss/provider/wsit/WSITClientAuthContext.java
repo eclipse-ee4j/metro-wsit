@@ -115,12 +115,12 @@ public class WSITClientAuthContext extends WSITAuthContextBase
     // Plugin instances for Trust and SecureConversation invocation
 //    private static TrustPlugin trustPlugin = WSTrustFactory.newTrustPlugin(null);
 //    private static NewWSSCPlugin  scPlugin = WSSCFactory.newNewSCPlugin(null, wsscVer);
-    
+
       private IssuedTokenManager itm;
       //private static TrustPlugin trustPlugin;
       //private static NewWSSCPlugin  scPlugin;
       //private static WSSCPlugin  scPlugin;
-    
+
     //******************INSTANCE VARIABLES*******
     // do not use this operation it will be null
     //String operation = null;
@@ -130,14 +130,14 @@ public class WSITClientAuthContext extends WSITAuthContextBase
     private Set wsscConfig = null;
     private CallbackHandler handler = null;
     //***************AuthModule Instance**********
-    WSITClientAuthModule authModule = null;  
+    WSITClientAuthModule authModule = null;
     private Hashtable<String, String> scPolicyIDtoSctIdMap = new Hashtable<>();
     protected WeakReference<WSITClientAuthConfig> authConfig;
     //protected WeakReference<Object> tubeOrPipe;
     protected int tubeOrPipeHashCode;
 
 
-    
+
     /** Creates a new instance of WSITClientAuthContext */
     @SuppressWarnings("unchecked")
     public WSITClientAuthContext(String operation, Subject subject, Map<String, Object> map, CallbackHandler callbackHandler) {
@@ -288,7 +288,7 @@ public class WSITClientAuthContext extends WSITAuthContextBase
         if(isSCRenew(packet)){
             SCTokenConfiguration config = new DefaultSCTokenConfiguration(wsscVer.getNamespaceURI());
             config.getOtherOptions().put("MessagePolicy", ctx.getSecurityPolicy());
-            IssuedTokenContext itc =itm.createIssuedTokenContext(config, packet.endpointAddress.toString());                    
+            IssuedTokenContext itc =itm.createIssuedTokenContext(config, packet.endpointAddress.toString());
             try{
                 itm.renewIssuedToken(itc);
             }catch(WSTrustException se){
@@ -331,7 +331,7 @@ public class WSITClientAuthContext extends WSITAuthContextBase
                 }catch(WSTrustException se){
                     log.log(Level.SEVERE, LogStringsMessages.WSITPVD_0052_ERROR_ISSUEDTOKEN_CREATION(), se);
                     throw new WebServiceException(LogStringsMessages.WSITPVD_0052_ERROR_ISSUEDTOKEN_CREATION(), se);
-                }                
+                }
             }
             Packet responsePacket = null;
             if (nextPipe != null) {
@@ -396,7 +396,7 @@ public class WSITClientAuthContext extends WSITAuthContextBase
     @Override
     public void cleanSubject(MessageInfo messageInfo, Subject subject) {
         cancelSecurityContextToken();
-        authConfig.get().cleanupAuthContext(this.tubeOrPipeHashCode); 
+        authConfig.get().cleanupAuthContext(this.tubeOrPipeHashCode);
         authConfig.clear();
         this.nextPipe = null;
         this.nextTube = null;
@@ -408,7 +408,7 @@ public class WSITClientAuthContext extends WSITAuthContextBase
             throws XWSSecurityException {
         ProcessingContext ctx = initializeInboundProcessingContext(req);
         ctx.isClient(true);
-        
+
         ((ProcessingContextImpl) ctx).setIssuedTokenContextMap(issuedTokenContextMap);
         ((ProcessingContextImpl)ctx).setSCPolicyIDtoSctIdMap(scPolicyIDtoSctIdMap);
         PolicyResolver pr = PolicyResolverFactory.createPolicyResolver(this.policyAlternatives,cachedOperation(req), pipeConfig, addVer, true, rmVer, mcVer);
@@ -623,7 +623,7 @@ public class WSITClientAuthContext extends WSITAuthContextBase
                 scClientAssertion = (PolicyAssertion) it.next();
             }
         }
-        
+
         if (ctx == null) {
 
             //create RST for Issue
@@ -698,12 +698,12 @@ public class WSITClientAuthContext extends WSITAuthContextBase
                             if (bstValue != null) {
                                 certificate = cr.constructCertificate(bstValue);
                             }
-                            return certificate;                           
+                            return certificate;
                         }
                 } catch (XMLStreamException ex) {
                     log.log(Level.WARNING, ex.getMessage());
                     //throw new RuntimeException(ex);
-                } 
+                }
             }
           return null;
         }
@@ -722,12 +722,12 @@ public class WSITClientAuthContext extends WSITAuthContextBase
                 scClientAssertion = (PolicyAssertion) it.next();
             }
         }
-        
+
         for (PolicyAssertion scAssertion : policies) {
             Token scToken = (Token) scAssertion;
             if (issuedTokenContextMap.get(scToken.getTokenId()) == null) {
                 try{
-                    //create RST for Issue         
+                    //create RST for Issue
                     SCTokenConfiguration config = new DefaultSCTokenConfiguration(wsscVer.getNamespaceURI(), (SecureConversationToken)scToken, pipeConfig.getWSDLPort(), pipeConfig.getBinding(), packet, addVer, scClientAssertion);
                     config.getOtherOptions().put(MessageConstants.WSIT_CLIENT_AUTHCONTEXT, this);
                     IssuedTokenContext ctx =itm.createIssuedTokenContext(config, packet.endpointAddress.toString());
@@ -742,7 +742,7 @@ public class WSITClientAuthContext extends WSITAuthContextBase
                 }
             }
         }
-    }        
+    }
 
     private void cancelSecurityContextToken() {
         Enumeration keys = issuedTokenContextMap.keys();
@@ -883,8 +883,8 @@ public class WSITClientAuthContext extends WSITAuthContextBase
         if (toks.isEmpty()) {
             return;
         }
-        //Note: Assuming only one Kerberos token assertion      
-        
+        //Note: Assuming only one Kerberos token assertion
+
         KerberosContext krbContext = ctx.getSecurityEnvironment().doKerberosLogin();
 
         try {
@@ -896,13 +896,13 @@ public class WSITClientAuthContext extends WSITAuthContextBase
             throw new XWSSecurityException(nsae);
         }
     }
-    
+
     private void updateMPForIssuedTokenAsEncryptedSupportingToken(Packet packet, final IssuedTokenContext ctx, final String issuedTokenPolicyId){
         /*
          * If IssuedToken is present as SignedSupprotingToken in the wsdl, then the
          * primary signature must have IssuedToken's id for the signature target instead
          * of policyId of issuedTokenAssertion
-         */        
+         */
         Message message = packet.getMessage();
         for (PolicyAlternativeHolder p : this.policyAlternatives) {
             WSDLBoundOperation operation = message.getOperation(pipeConfig.getWSDLPort());

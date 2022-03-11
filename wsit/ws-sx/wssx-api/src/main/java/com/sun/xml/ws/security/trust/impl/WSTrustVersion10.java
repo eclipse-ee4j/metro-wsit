@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -47,17 +47,17 @@ public class WSTrustVersion10 extends WSTrustVersion{
     public  String getValidateRequestTypeURI(){
         return nsURI +"/Validate";
     }
-    
+
     @Override
     public String getValidateStatuesTokenType(){
         return nsURI+"/RSTR/Status";
     }
-    
+
     @Override
     public String getKeyExchangeRequestTypeURI(){
         return nsURI +"/KET";
-    }    
-    
+    }
+
     @Override
     public  String getPublicKeyTypeURI(){
         return nsURI +"/PublicKey";
@@ -116,7 +116,7 @@ public class WSTrustVersion10 extends WSTrustVersion{
     public  String getCancelFinalResoponseAction(){
         return nsURI + "/RSTR/Cancel";
     }
-    
+
     @Override
     public  String getValidateRequestAction(){
         return nsURI + "/RST/Validate";
@@ -136,7 +136,7 @@ public class WSTrustVersion10 extends WSTrustVersion{
     public  String getCKPSHA1algorithmURI(){
         return nsURI + "/CK/PSHA1";
     }
-    
+
     @Override
     public  String getCKHASHalgorithmURI(){
         return nsURI + "/CK/HASH";
@@ -151,12 +151,12 @@ public class WSTrustVersion10 extends WSTrustVersion{
     public  String getNonceBinarySecretTypeURI(){
         return nsURI + "/Nonce";
     }
-    
+
     @Override
     public String getValidStatusCodeURI(){
         return nsURI + "/status/valid";
     }
-    
+
     @Override
     public String getInvalidStatusCodeURI(){
         return nsURI + "/status/invalid";

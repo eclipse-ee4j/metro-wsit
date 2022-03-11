@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -37,7 +37,7 @@ import javax.xml.stream.XMLStreamException;
  */
 public class DerivedKey implements  com.sun.xml.ws.security.opt.api.keyinfo.DerivedKeyToken,
         SecurityHeaderElement, SecurityElementWriter{
-    
+
     private DerivedKeyTokenType derivedKey = null;
     private com.sun.xml.ws.security.secconv.impl.wssx.bindings.DerivedKeyTokenType derivedKey13 = null;
     private SOAPVersion soapVersion = SOAPVersion.SOAP_11;
@@ -49,27 +49,27 @@ public class DerivedKey implements  com.sun.xml.ws.security.opt.api.keyinfo.Deri
         this.soapVersion = soapVersion;
         this.spVersion = spVersion;
     }
-    
+
      public DerivedKey(DerivedKeyTokenType dkt,SOAPVersion soapVersion,String refId, String spVersion) {
         this.derivedKey = dkt;
         this.soapVersion = soapVersion;
         this.refId = refId;
         this.spVersion = spVersion;
     }
-     
+
     public DerivedKey(com.sun.xml.ws.security.secconv.impl.wssx.bindings.DerivedKeyTokenType dkt,SOAPVersion soapVersion, String spVersion) {
         this.derivedKey13 = dkt;
         this.soapVersion = soapVersion;
         this.spVersion = spVersion;
-    } 
-     
+    }
+
     public DerivedKey(com.sun.xml.ws.security.secconv.impl.wssx.bindings.DerivedKeyTokenType dkt,SOAPVersion soapVersion,String refId, String spVersion) {
         this.derivedKey13 = dkt;
         this.soapVersion = soapVersion;
         this.refId = refId;
         this.spVersion = spVersion;
-    } 
-    
+    }
+
     @Override
     public String getAlgorithm() {
         if(spVersion.equals(MessageConstants.SECURITYPOLICY_12_NS)){
@@ -78,43 +78,43 @@ public class DerivedKey implements  com.sun.xml.ws.security.opt.api.keyinfo.Deri
             return derivedKey.getAlgorithm();
         }
     }
-    
+
     @Override
     public BigInteger getGeneration() {
         if(spVersion.equals(MessageConstants.SECURITYPOLICY_12_NS)){
-            return derivedKey13.getGeneration();    
+            return derivedKey13.getGeneration();
         }else{
             return derivedKey.getGeneration();
         }
     }
-    
+
     @Override
     public String getId() {
         if(spVersion.equals(MessageConstants.SECURITYPOLICY_12_NS)){
-            return derivedKey13.getId();    
-        }else{    
+            return derivedKey13.getId();
+        }else{
             return derivedKey.getId();
         }
     }
-    
+
     @Override
     public String getLabel() {
         if(spVersion.equals(MessageConstants.SECURITYPOLICY_12_NS)){
             return derivedKey13.getLabel();
-        }else{    
+        }else{
             return derivedKey.getLabel();
         }
     }
-    
+
     @Override
     public BigInteger getLength() {
         if(spVersion.equals(MessageConstants.SECURITYPOLICY_12_NS)){
-            return derivedKey13.getLength();    
-        }else{    
+            return derivedKey13.getLength();
+        }else{
             return derivedKey.getLength();
         }
     }
-    
+
     @Override
     public byte[] getNonce() {
         if(spVersion.equals(MessageConstants.SECURITYPOLICY_12_NS)){
@@ -123,17 +123,17 @@ public class DerivedKey implements  com.sun.xml.ws.security.opt.api.keyinfo.Deri
             return derivedKey.getNonce();
         }
     }
-    
+
     @Override
     public BigInteger getOffset() {
-        
+
         if(spVersion.equals(MessageConstants.SECURITYPOLICY_12_NS)){
             return derivedKey13.getOffset();
         }else{
             return derivedKey.getOffset();
         }
     }
-    
+
     @Override
     public SecurityTokenReferenceType getSecurityTokenReference() {
         if(spVersion.equals(MessageConstants.SECURITYPOLICY_12_NS)){
@@ -142,7 +142,7 @@ public class DerivedKey implements  com.sun.xml.ws.security.opt.api.keyinfo.Deri
             return derivedKey.getSecurityTokenReference();
         }
     }
-    
+
     @Override
     public void setAlgorithm(String value) {
         if(spVersion.equals(MessageConstants.SECURITYPOLICY_12_NS)){
@@ -151,7 +151,7 @@ public class DerivedKey implements  com.sun.xml.ws.security.opt.api.keyinfo.Deri
             derivedKey.setAlgorithm(value);
         }
     }
-    
+
     @Override
     public void setGeneration(BigInteger value) {
         if(spVersion.equals(MessageConstants.SECURITYPOLICY_12_NS)){
@@ -160,7 +160,7 @@ public class DerivedKey implements  com.sun.xml.ws.security.opt.api.keyinfo.Deri
             derivedKey.setGeneration(value);
         }
     }
-    
+
     @Override
     public void setId(String value) {
         if(spVersion.equals(MessageConstants.SECURITYPOLICY_12_NS)){
@@ -169,7 +169,7 @@ public class DerivedKey implements  com.sun.xml.ws.security.opt.api.keyinfo.Deri
             derivedKey.setId(value);
         }
     }
-    
+
     @Override
     public void setLabel(String value) {
         if(spVersion.equals(MessageConstants.SECURITYPOLICY_12_NS)){
@@ -178,7 +178,7 @@ public class DerivedKey implements  com.sun.xml.ws.security.opt.api.keyinfo.Deri
             derivedKey.setLabel(value);
         }
     }
-    
+
     @Override
     public void setLength(BigInteger value) {
         if(spVersion.equals(MessageConstants.SECURITYPOLICY_12_NS)){
@@ -187,7 +187,7 @@ public class DerivedKey implements  com.sun.xml.ws.security.opt.api.keyinfo.Deri
             derivedKey.setLength(value);
         }
     }
-    
+
     @Override
     public void setNonce(byte[] value) {
         if(spVersion.equals(MessageConstants.SECURITYPOLICY_12_NS)){
@@ -196,7 +196,7 @@ public class DerivedKey implements  com.sun.xml.ws.security.opt.api.keyinfo.Deri
             derivedKey.setNonce(value);
         }
     }
-    
+
     @Override
     public void setOffset(BigInteger value) {
         if(spVersion.equals(MessageConstants.SECURITYPOLICY_12_NS)){
@@ -205,7 +205,7 @@ public class DerivedKey implements  com.sun.xml.ws.security.opt.api.keyinfo.Deri
             derivedKey.setOffset(value);
         }
     }
-    
+
     @Override
     public void setSecurityTokenReference(SecurityTokenReferenceType value) {
         if(spVersion.equals(MessageConstants.SECURITYPOLICY_12_NS)){
@@ -214,7 +214,7 @@ public class DerivedKey implements  com.sun.xml.ws.security.opt.api.keyinfo.Deri
             derivedKey.setSecurityTokenReference(value);
         }
     }
-    
+
     @Override
     public String getNamespaceURI() {
         if(spVersion.equals(MessageConstants.SECURITYPOLICY_12_NS)){
@@ -223,12 +223,12 @@ public class DerivedKey implements  com.sun.xml.ws.security.opt.api.keyinfo.Deri
             return MessageConstants.WSSC_NS;
         }
     }
-    
+
     @Override
     public String getLocalPart() {
         return MessageConstants.DERIVEDKEY_TOKEN_LNAME;
-    }    
-   
+    }
+
     @Override
     public javax.xml.stream.XMLStreamReader readHeader() {
         throw new UnsupportedOperationException();
@@ -259,8 +259,8 @@ public class DerivedKey implements  com.sun.xml.ws.security.opt.api.keyinfo.Deri
      */
     @Override
     public void writeTo(javax.xml.stream.XMLStreamWriter streamWriter) throws javax.xml.stream.XMLStreamException {
-        JAXBElement<DerivedKeyTokenType> dkt = null;                
-        JAXBElement<com.sun.xml.ws.security.secconv.impl.wssx.bindings.DerivedKeyTokenType> dkt13 = null;         
+        JAXBElement<DerivedKeyTokenType> dkt = null;
+        JAXBElement<com.sun.xml.ws.security.secconv.impl.wssx.bindings.DerivedKeyTokenType> dkt13 = null;
         if(spVersion.equals(MessageConstants.SECURITYPOLICY_12_NS)){
             dkt13 = new com.sun.xml.ws.security.secconv.impl.wssx.bindings.ObjectFactory().createDerivedKeyToken(derivedKey13);
         }else{
@@ -291,8 +291,8 @@ public class DerivedKey implements  com.sun.xml.ws.security.opt.api.keyinfo.Deri
             throw new XMLStreamException(e);
         }
     }
-    
-    
+
+
     private Marshaller getMarshaller() throws JAXBException{
         return JAXBUtil.createMarshaller(soapVersion);
     }
@@ -351,5 +351,5 @@ public class DerivedKey implements  com.sun.xml.ws.security.opt.api.keyinfo.Deri
             throw new XMLStreamException(jbe);
         }
     }
-    
+
 }

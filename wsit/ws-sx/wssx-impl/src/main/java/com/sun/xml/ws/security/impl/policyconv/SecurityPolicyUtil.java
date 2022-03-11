@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -31,16 +31,16 @@ import com.sun.xml.ws.security.policy.SecurityPolicyVersion;
  * @author K.Venugopal@sun.com
  */
 public class SecurityPolicyUtil {
-    
+
     private static final QName signaturePolicy = new QName(MessageConstants.DSIG_NS, MessageConstants.SIGNATURE_LNAME);
     private static final QName usernameTokenPolicy = new QName(MessageConstants.WSSE_NS, MessageConstants.USERNAME_TOKEN_LNAME);
     private static final QName x509TokenPolicy = new QName(MessageConstants.WSSE_NS, "BinarySecurityToken");
     private static final QName timestampPolicy = new QName(MessageConstants.WSU_NS, MessageConstants.TIMESTAMP_LNAME);
-    
+
     /** Creates a new instance of SecurityPolicyUtil */
     public SecurityPolicyUtil() {
     }
-    
+
     public static boolean isSignedPartsEmpty(SignedParts sp){
         if(!(sp.hasBody() || sp.hasAttachments())){
             if(!sp.getHeaders().hasNext()){
@@ -49,7 +49,7 @@ public class SecurityPolicyUtil {
         }
         return false;
     }
-    
+
     public static boolean isEncryptedPartsEmpty(EncryptedParts ep){
         if(!(ep.hasBody() || ep.hasAttachments())){
             if(!ep.getTargets().hasNext()){
@@ -58,7 +58,7 @@ public class SecurityPolicyUtil {
         }
         return false;
     }
-    
+
     public static String convertToXWSSConstants(String type){
         if(type.contains(Token.REQUIRE_THUMBPRINT_REFERENCE)){
             return MessageConstants.THUMB_PRINT_TYPE;
@@ -69,13 +69,13 @@ public class SecurityPolicyUtil {
         }
         throw new UnsupportedOperationException(type+"  is not supported");
     }
-    
+
     public static void setName(Target target, WSSPolicy policy){
         if(target.getType() == Target.TARGET_TYPE_VALUE_URI){
             target.setPolicyQName(getQNameFromPolicy(policy));
         }
     }
-    
+
     private static QName getQNameFromPolicy(WSSPolicy policy){
         if(PolicyTypeUtil.signaturePolicy(policy)){
             return signaturePolicy;
@@ -92,21 +92,21 @@ public class SecurityPolicyUtil {
         }
         return null;
     }
-    
+
     public static void setCanonicalizationMethod(SignaturePolicy.FeatureBinding spFB, AlgorithmSuite algorithmSuite){
         if(algorithmSuite != null && algorithmSuite.getAdditionalProps().contains(Constants.InclusiveC14N)){
             spFB.setCanonicalizationAlgorithm(CanonicalizationMethod.INCLUSIVE);
         } else{
             spFB.setCanonicalizationAlgorithm(CanonicalizationMethod.EXCLUSIVE);
         }
-        
+
         if(algorithmSuite != null && algorithmSuite.getAdditionalProps().contains(Constants.InclusiveC14NWithCommentsForCm)){
             spFB.setCanonicalizationAlgorithm(CanonicalizationMethod.INCLUSIVE_WITH_COMMENTS);
         } else if(algorithmSuite != null && algorithmSuite.getAdditionalProps().contains(Constants.ExclusiveC14NWithCommentsForCm)){
             spFB.setCanonicalizationAlgorithm(CanonicalizationMethod.EXCLUSIVE_WITH_COMMENTS);
         }
     }
-    
+
     public static SecurityPolicyVersion getSPVersion(PolicyAssertion pa){
         String nsUri = pa.getName().getNamespaceURI();
         SecurityPolicyVersion spVersion = PolicyUtil.getSecurityPolicyVersion(nsUri);

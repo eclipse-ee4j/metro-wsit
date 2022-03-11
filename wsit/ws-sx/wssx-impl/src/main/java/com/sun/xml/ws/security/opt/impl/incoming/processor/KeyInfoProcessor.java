@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -47,7 +47,7 @@ import java.security.PublicKey;
 public class KeyInfoProcessor {
     private static final Logger logger = Logger.getLogger(LogDomainConstants.IMPL_OPT_DOMAIN,
             LogDomainConstants.IMPL_OPT_DOMAIN_BUNDLE);
-    
+
     private static String KEYINFO = "KeyInfo".intern();
     private static String SECURITY_TOKEN_REFERENCE = "SecurityTokenReference".intern();
     private static final int SECURITY_TOKEN_REFERENCE_ELEMENT = 3;
@@ -71,22 +71,22 @@ public class KeyInfoProcessor {
     private boolean strPresent = false;
     private JAXBFilterProcessingContext pc = null;
     private XMLStreamWriter canonWriter = null;
-    
+
     private boolean isSAMLSubjectConfirmationKeyInfo = false;
-    
+
     private Purpose purpose = null;
     /** Creates a new instance of KeyInfoProcessor */
     public KeyInfoProcessor(JAXBFilterProcessingContext pc) {
         this.pc = pc;
         ((NamespaceContextEx)pc.getNamespaceContext()).addSignatureNS();
     }
-    
+
     public KeyInfoProcessor(JAXBFilterProcessingContext pc, XMLStreamWriter canonWriter,Purpose purpose) {
         this.pc = pc;
         this.canonWriter = canonWriter;
         this.purpose = purpose;
     }
-    
+
     public KeyInfoProcessor(JAXBFilterProcessingContext pc,Purpose purpose) {
         this.pc = pc;
         this.purpose = purpose;
@@ -144,7 +144,7 @@ public class KeyInfoProcessor {
                         }catch(XWSSecurityException ex){
                             //Ignore it. Its a RSA KeyPair scenario, so certificate won't be present in the server truststore'
                         }
-                        
+
                         if(cer != null){
                             pc.getSecurityEnvironment().validateCertificate(cer, pc.getExtraneousProperties());
                         }
@@ -200,13 +200,13 @@ public class KeyInfoProcessor {
                             } else  if (purpose == Purpose.VERIFY) {
                                 retKey = cert.getPublicKey();
                             }
-                            
+
                             if(!this.isSAMLSubjectConfirmationKeyInfo && purpose == Purpose.VERIFY){
                                 //if the purpose is signature verification, we need to make sure we
                                 //trust the certificate. in case of HOK SAML this can be the cert of the IP
                                 pc.getSecurityEnvironment().validateCertificate(cert, pc.getExtraneousProperties());
                             }
-                           
+
                         }
                     }
                     break;
@@ -263,7 +263,7 @@ public class KeyInfoProcessor {
         }
         return new SecretKeySpec(value,algorithm);
     }
-    
+
     private String readCharacters(XMLStreamReader reader)throws XMLStreamException{
         StringBuilder sb = new StringBuilder();
         while(reader.getEventType() == reader.CHARACTERS && reader.getEventType() != reader.END_ELEMENT){
@@ -280,7 +280,7 @@ public class KeyInfoProcessor {
         return dv;
     }
     /**
-     * generates a X509 certificate from the caertificate value 
+     * generates a X509 certificate from the caertificate value
      * @param certValue  InputStream
      * @return X509Certificate
      */
@@ -294,7 +294,7 @@ public class KeyInfoProcessor {
             throw new XWSSecurityException(LogStringsMessages.WSS_1605_ERROR_GENERATING_CERTIFICATE(ex));
         }
     }
-    
+
     /**
      * returns the event type of the XMLStreamReader..
      * @param reader XMLStreamReader
@@ -320,7 +320,7 @@ public class KeyInfoProcessor {
         }
         return -1;
     }
-    
+
     public boolean hasSTR(){
         return strPresent;
     }

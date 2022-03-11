@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -36,20 +36,20 @@ public final class PrivateAssertionFilteringXmlStreamWriterTest extends Abstract
             return new FilteringInvocationProcessor(writer, new PrivateAttributeFilteringStateMachine());
         }
     };
-    
+
     public PrivateAssertionFilteringXmlStreamWriterTest(String testName) {
         super(testName);
     }
-    
+
     /**
      * Test of createProxy method, of class com.sun.xml.ws.policy.jaxws.documentfilter.FilteringXmlStreamWriterProxy.
      */
     public void testCreateProxy() throws Exception {
         XMLStreamWriter result = openFilteredWriter(new StringWriter(), factory);
-        
+
         assertNotNull(result);
     }
-    
+
     public void testFilterPrivateAssertionsFromPolicyExpression() throws Exception {
         performResourceBasedTest(testResources, "visibility/", ".xml", factory);
     }

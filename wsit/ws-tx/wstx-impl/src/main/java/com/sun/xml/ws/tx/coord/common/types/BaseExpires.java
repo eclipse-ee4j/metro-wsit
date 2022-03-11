@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -16,9 +16,9 @@ import java.util.Map;
 
 /**
  * <p>Java class for anonymous complex type.
- * 
+ *
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ *
  * <pre>{@code
  * <complexType>
  *   <simpleContent>
@@ -27,8 +27,8 @@ import java.util.Map;
  *   </simpleContent>
  * </complexType>
  * }</pre>
- * 
- * 
+ *
+ *
  */
 public abstract class BaseExpires<T> {
 
@@ -44,13 +44,13 @@ public abstract class BaseExpires<T> {
 
     /**
      * Gets the value of the value property.
-     * 
+     *
      */
     public abstract long getValue();
 
     /**
      * Sets the value of the value property.
-     * 
+     *
      */
     public abstract void setValue(long value);
 

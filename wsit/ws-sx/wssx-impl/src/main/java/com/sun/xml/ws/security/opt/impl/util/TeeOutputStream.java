@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -24,10 +24,10 @@ import java.io.OutputStream;
  * @author Ashutosh.Shahi@sun.com
  */
 public class TeeOutputStream extends OutputStream{
-    
+
     OutputStream tee = null;
     OutputStream out = null;
-    
+
     /** Creates a new instance of TeeOutputStream */
     public TeeOutputStream(OutputStream chainedStream, OutputStream teeStream) {
         out = chainedStream;
@@ -39,14 +39,14 @@ public class TeeOutputStream extends OutputStream{
         out.write(b);
         tee.write(b);
     }
-    
+
     @Override
     public void close() throws IOException{
         flush();
         out.close();
         tee.close();
     }
-    
+
     @Override
     public void flush() throws IOException {
         out.flush();

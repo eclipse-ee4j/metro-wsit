@@ -28,7 +28,7 @@
 
     <dependencyManagement>
         <dependencies>
-           
+
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>webservices-tools</artifactId>
@@ -72,5 +72,5 @@
 
         </dependencies>
     </dependencyManagement>
-    
+
 </project>

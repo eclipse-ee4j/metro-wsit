@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -32,7 +32,7 @@ public class InboundSequenceTest extends TestCase {
             Container.NONE,
             null);
     private Sequence sequence;
-    
+
     public InboundSequenceTest(String testName) {
         super(testName);
     }
@@ -191,7 +191,7 @@ public class InboundSequenceTest extends TestCase {
         sequenceManager.generateSequenceUID(),
         null,
         System.currentTimeMillis() + 1000);
-        
+
         assertFalse(inbound.isExpired());
 
         Thread.sleep(1100);

@@ -29,7 +29,7 @@ import javax.xml.namespace.QName;
  * @author K.Venugopal@sun.com
  */
 public class TransportBinding extends PolicyAssertion implements com.sun.xml.ws.security.policy.TransportBinding, SecurityAssertionValidator{
-    
+
     HttpsToken transportToken;
     private AlgorithmSuite algSuite;
     boolean includeTimeStamp=false;
@@ -43,89 +43,89 @@ public class TransportBinding extends PolicyAssertion implements com.sun.xml.ws.
     public TransportBinding() {
         spVersion = SecurityPolicyVersion.SECURITYPOLICY200507;
     }
-    
+
     public TransportBinding(AssertionData name,Collection<PolicyAssertion> nestedAssertions, AssertionSet nestedAlternative) {
         super(name,nestedAssertions,nestedAlternative);
         String nsUri = getName().getNamespaceURI();
         spVersion = PolicyUtil.getSecurityPolicyVersion(nsUri);
     }
-    
+
     public void addTransportToken(Token token) {
         transportToken = (HttpsToken) token;
     }
-    
+
     @Override
     public Token getTransportToken() {
         populate();
         return transportToken;
     }
-    
+
     public void setAlgorithmSuite(AlgorithmSuite algSuite) {
         this.algSuite = algSuite;
     }
-    
+
     @Override
     public AlgorithmSuite getAlgorithmSuite() {
         populate();
         return algSuite;
     }
-    
+
     public void includeTimeStamp(boolean value) {
         includeTimeStamp = value;
     }
-    
+
     @Override
     public boolean isIncludeTimeStamp() {
         populate();
         return includeTimeStamp;
     }
-    
+
     public void setLayout(MessageLayout layout) {
         this.layout = layout;
     }
-    
+
     @Override
     public MessageLayout getLayout() {
         populate();
         return layout;
     }
-    
+
     @Override
     public boolean isSignContent() {
         throw new UnsupportedOperationException("Not supported");
     }
-    
+
     public void setSignContent(boolean contentOnly) {
         throw new UnsupportedOperationException("Not supported");
     }
-    
+
     public void setProtectionOrder(String order) {
         throw new UnsupportedOperationException("Not supported");
     }
-    
+
     @Override
     public String getProtectionOrder() {
         throw new UnsupportedOperationException("Not supported");
     }
-    
+
     public void setTokenProtection(boolean token) {
         throw new UnsupportedOperationException("Not supported");
     }
-    
+
     public void setSignatureProtection(boolean token) {
         throw new UnsupportedOperationException("Not supported");
     }
-    
+
     @Override
     public boolean getTokenProtection() {
         throw new UnsupportedOperationException("Not supported");
     }
-    
+
     @Override
     public boolean getSignatureProtection() {
         throw new UnsupportedOperationException("Not supported");
     }
-    
+
     @Override
     public AssertionFitness validate(boolean isServer) {
         return populate(isServer);
@@ -133,7 +133,7 @@ public class TransportBinding extends PolicyAssertion implements com.sun.xml.ws.
     private void populate(){
         populate(false);
     }
-    
+
     private synchronized AssertionFitness populate(boolean isServer) {
         if(!populated){
             NestedPolicy policy = this.getNestedPolicy();

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -35,27 +35,27 @@ import java.util.List;
  * @author Manveen Kaur
  */
 public class EntropyImpl extends EntropyType implements Entropy {
-    
+
     private String entropyType;
     private final static QName _EntropyType_QNAME = new QName("http://schemas.xmlsoap.org/ws/2005/02/trust", "Type");
-    
+
     private BinarySecret binarySecret = null;
-    
+
     private EncryptedKey encryptedKey = null;
-    
+
     public EntropyImpl() {
     }
-    
+
     public EntropyImpl(BinarySecret binarySecret) {
         //setEntropyType(this.BINARY_SECRET_TYPE);
         setBinarySecret(binarySecret);
     }
-    
+
     public EntropyImpl(EncryptedKey encryptedKey) {
        // setEntropyType(this.ENCRYPTED_KEY_TYPE);
         setEncryptedKey(encryptedKey);
     }
-    
+
     public EntropyImpl(EntropyType etype) {
         entropyType = etype.getOtherAttributes().get(_EntropyType_QNAME);
         List list = etype.getAny();
@@ -68,7 +68,7 @@ public class EntropyImpl extends EntropyType implements Entropy {
             }
         }
     }
-    
+
     /**
      * Constructs a <code>Entropy</code> element from
      * an existing XML block.
@@ -91,7 +91,7 @@ public class EntropyImpl extends EntropyType implements Entropy {
             throw new WSTrustException(ex.getMessage(), ex);
         }
     }
-    
+
     /**
      *Gets the type of the Entropy contents
      */
@@ -99,7 +99,7 @@ public class EntropyImpl extends EntropyType implements Entropy {
     public String getEntropyType() {
         return entropyType;
     }
-    
+
     /**
      *Sets the type of the Entropy contents
      */
@@ -113,8 +113,8 @@ public class EntropyImpl extends EntropyType implements Entropy {
         entropyType = type;
         getOtherAttributes().put(_EntropyType_QNAME,type);
     }
-    
-    
+
+
     /** Gets the BinarySecret (if any) inside this Entropy
      * @return BinarySecret if set, null otherwise
      */
@@ -122,7 +122,7 @@ public class EntropyImpl extends EntropyType implements Entropy {
     public BinarySecret getBinarySecret() {
         return binarySecret;
     }
-    
+
     /**
      * Sets the BinarySecret (if any) inside this Entropy
      */
@@ -135,7 +135,7 @@ public class EntropyImpl extends EntropyType implements Entropy {
             getAny().add(bsElement);
         }
     }
-    
+
     /**
      * Gets the xenc:EncryptedKey set inside this Entropy instance
      * @return xenc:EncryptedKey if set, null otherwise
@@ -144,7 +144,7 @@ public class EntropyImpl extends EntropyType implements Entropy {
     public EncryptedKey getEncryptedKey() {
         return encryptedKey;
     }
-    
+
     /**
      * Sets the xenc:EncryptedKey set inside this Entropy instance
      */

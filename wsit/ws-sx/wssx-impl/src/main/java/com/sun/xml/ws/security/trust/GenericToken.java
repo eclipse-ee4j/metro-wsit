@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -34,20 +34,20 @@ import jakarta.xml.bind.JAXBElement;
  * @author Jiandong Guo
  */
 public class GenericToken implements Token{
-    
+
     private static final Logger log =
             Logger.getLogger(
             LogDomainConstants.TRUST_IMPL_DOMAIN,
             LogDomainConstants.TRUST_IMPL_DOMAIN_BUNDLE);
-    
+
     private Object token;
-    
+
     //private JAXBElement tokenEle;
-    
+
     private String tokenType;
     private SecurityHeaderElement she = null;
     private String id;
-    
+
     /** Creates a new instance of GenericToken */
     public GenericToken(Element token) {
         this.token = token;
@@ -66,36 +66,36 @@ public class GenericToken implements Token{
     public GenericToken(JAXBElement token){
         this.token = token;
     }
-    
+
     public GenericToken(Element token, String tokenType){
         this(token);
-        
+
         this.tokenType = tokenType;
     }
-    
+
     public GenericToken(SecurityHeaderElement headerElement){
         this.she = headerElement;
     }
 
 
-    
+
     @Override
     public String getType(){
         if (tokenType != null) {
             if(log.isLoggable(Level.FINE)) {
                 log.log(Level.FINE,
-                       LogStringsMessages.WST_1001_TOKEN_TYPE(tokenType)); 
+                       LogStringsMessages.WST_1001_TOKEN_TYPE(tokenType));
             }
             return tokenType;
         }
         return WSTrustConstants.OPAQUE_TYPE;
     }
-    
+
     @Override
     public Object getTokenValue(){
         return this.token;
     }
-    
+
     public SecurityHeaderElement getElement(){
         return this.she;
     }

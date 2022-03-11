@@ -38,79 +38,79 @@ public class EncryptedDataImpl extends ByteArrayOutputStream {
     private static byte [] ALGORITHM = "Algorithm ".getBytes();
     private static byte [] XMLNS =  "xmlns".getBytes();
     private static byte [] ID = "Id".getBytes();
-    
+
     private static byte [] CIPHER_DATA = "CipherData".getBytes();
     private static byte [] CIPHER_VALUE = "CipherValue".getBytes();
     private static byte [] TYPE = "Type".getBytes();
     private static byte [] CONTENT_ONLY = "http://www.w3.org/2001/04/xmlenc#Content".getBytes();
-    
+
     public EncryptedDataImpl() {
     }
-    
+
     public byte[] getIv() {
         return iv;
     }
-    
+
     public void setIv(byte[] iv) {
         this.iv = iv;
     }
-    
+
     public byte[] getEncryptedData() {
         return encryptedData;
     }
-    
+
     public void setEncryptedData(byte[] encryptedData) {
         this.encryptedData = encryptedData;
     }
-    
+
     public KeyInfoHeaderBlock getKeyInfo() {
         return keyInfo;
     }
-    
+
     public void setKeyInfo(KeyInfoHeaderBlock keyInfo) {
         this.keyInfo = keyInfo;
     }
-    
+
     public String getId() {
         return id;
     }
-    
+
     public void setId(String id) {
         this.id = id;
     }
-    
+
     public String getMimeType() {
         return mimeType;
     }
-    
+
     public void setMimeType(String mimeType) {
         this.mimeType = mimeType;
     }
-    
+
     public String getEncoding() {
         return encoding;
     }
-    
+
     public void setEncoding(String encoding) {
         this.encoding = encoding;
     }
-    
+
     public String getType() {
         return type;
     }
-    
+
     public void setType(String type) {
         this.type = type;
     }
-    
+
     /*
     public void setXMLSerializer(XMLSerializer xmlWriter){
         xmlSerializer = xmlWriter;
     }
-    
-    
+
+
     public void writeTo(OutputStream stream) throws IOException{
-        
+
         stream.write(OPENTAG);
         stream.write(ENC_PREFIX);
         stream.write(':');
@@ -119,7 +119,7 @@ public class EncryptedDataImpl extends ByteArrayOutputStream {
         stream.write(XMLNS);
         stream.write(':');
         stream.write(ENC_PREFIX);
-        
+
         stream.write('=');
         stream.write('"');
         stream.write(ENC_NS);
@@ -145,7 +145,7 @@ public class EncryptedDataImpl extends ByteArrayOutputStream {
         stream.write(ENCRYPTION_METHOD);
         stream.write(' ');
         stream.write(ALGORITHM);
-        
+
         stream.write('=');
         stream.write('"');
         stream.write(getEncAlgo().getBytes());
@@ -154,7 +154,7 @@ public class EncryptedDataImpl extends ByteArrayOutputStream {
         stream.write(OPENTAG);
         stream.write(ENC_PREFIX);
         stream.write(':');
-        
+
         stream.write(CIPHER_DATA);
         stream.write(CLOSETAG);
         try{
@@ -188,17 +188,17 @@ public class EncryptedDataImpl extends ByteArrayOutputStream {
         stream.write(':');
         stream.write(ENCRYPTED_DATA);
         stream.write(CLOSETAG);
-        
+
     }*/
-    
+
     public String getEncAlgo() {
         return encAlgo;
     }
-    
+
     public void setEncAlgo(String encAlgo) {
         this.encAlgo = encAlgo;
     }
-    
-    
-    
+
+
+
 }

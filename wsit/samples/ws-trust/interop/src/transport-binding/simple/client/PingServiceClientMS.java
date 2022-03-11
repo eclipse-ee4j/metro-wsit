@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -18,22 +18,22 @@ import simple.client.IPingService;
 import org.xmlsoap.ping.Ping;
 
 public class PingServiceClientMS {
-    
+
     public static void main (String[] args) {
-            
+
             SymmetricFederatedService service = new SymmetricFederatedService();
-            IPingService stub = service.getScenario1IssuedTokenOverTransportUsernameOverTransport(); 
-                    
-            // use static stubs to override endpoint property of WSDL       
+            IPingService stub = service.getScenario1IssuedTokenOverTransportUsernameOverTransport();
+
+            // use static stubs to override endpoint property of WSDL
             String serviceURL = System.getProperty("service.url");
 
             System.out.println("Service URL=" + serviceURL);
-      
+
             ((BindingProvider)stub).getRequestContext().
-                put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, serviceURL); 
+                put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, serviceURL);
 
             stub.ping(new Holder("1"), new Holder("sun"), new Holder("Passed!"));
-            
+
     }
-    
+
 }

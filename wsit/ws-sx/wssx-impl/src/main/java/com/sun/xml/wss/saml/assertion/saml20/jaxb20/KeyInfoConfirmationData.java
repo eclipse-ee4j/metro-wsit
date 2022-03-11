@@ -32,14 +32,14 @@ import org.w3c.dom.Element;
  */
 public class KeyInfoConfirmationData extends com.sun.xml.wss.saml.internal.saml20.jaxb20.KeyInfoConfirmationDataType
         implements com.sun.xml.wss.saml.KeyInfoConfirmationData {
-        
+
     protected PublicKey keyInfoKeyValue = null;
    // public static KeyInfoType keyInfo = null;
-    
+
     protected static final Logger log = Logger.getLogger(
             LogDomainConstants.WSS_API_DOMAIN,
             LogDomainConstants.WSS_API_DOMAIN_BUNDLE);
-                
+
     /**
      * Constructs a KeyInfoConfirmationData element from an existing
      * XML block.
@@ -51,14 +51,14 @@ public class KeyInfoConfirmationData extends com.sun.xml.wss.saml.internal.saml2
     throws SAMLException {
         try {
             JAXBContext jc = SAML20JAXBUtil.getJAXBContext();
-                    
+
             jakarta.xml.bind.Unmarshaller u = jc.createUnmarshaller();
             return (KeyInfoConfirmationData)u.unmarshal(element);
         } catch ( Exception ex) {
             throw new SAMLException(ex.getMessage());
         }
     }
-    
+
     /**
      * Constructs an <code>SubjectConfirmationData</code> instance.
      *
@@ -67,13 +67,13 @@ public class KeyInfoConfirmationData extends com.sun.xml.wss.saml.internal.saml2
      * @exception SAMLException if the input data is invalid or
      *            <code>confirmationMethods</code> is empty.
      */
-        
+
     public KeyInfoConfirmationData(Element keyInfo) throws SAMLException {
-        
+
         JAXBContext jc = null;
         jakarta.xml.bind.Unmarshaller u = null;
-        
-        
+
+
         //Unmarshal to JAXB KeyInfo Object and set it
         try {
             jc = SAMLJAXBUtil.getJAXBContext();
@@ -81,7 +81,7 @@ public class KeyInfoConfirmationData extends com.sun.xml.wss.saml.internal.saml2
         } catch ( Exception ex) {
             throw new SAMLException(ex.getMessage());
         }
-        
+
         try {
             if ( keyInfo != null) {
                 this.setKeyInfo(((KeyInfoType)((JAXBElement)u.unmarshal(keyInfo)).getValue()));
@@ -91,7 +91,7 @@ public class KeyInfoConfirmationData extends com.sun.xml.wss.saml.internal.saml2
             throw new SAMLException(ex);
         }
     }
-    
+
     public void setKeyInfo(KeyInfoType value) {
         //this.keyInfo = value;
          this.getContent().add(value);

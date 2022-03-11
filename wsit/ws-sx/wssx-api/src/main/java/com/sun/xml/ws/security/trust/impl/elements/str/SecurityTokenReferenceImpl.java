@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -35,22 +35,22 @@ import javax.xml.parsers.DocumentBuilderFactory;
  * SecurityTokenReference implementation
  */
 public class SecurityTokenReferenceImpl extends SecurityTokenReferenceType implements SecurityTokenReference {
-    
-    
+
+
     public SecurityTokenReferenceImpl(final Reference ref){
         setReference(ref);
     }
-    
+
     public SecurityTokenReferenceImpl(final SecurityTokenReferenceType strType)
     {
         final Reference ref = getReference(strType);
         setReference(ref);
         this.getOtherAttributes().putAll(strType.getOtherAttributes());
     }
-    
+
     @Override
     public final void setReference(final Reference ref){
-        
+
         JAXBElement rElement = null;
         final String type = ref.getType();
         final ObjectFactory objFac = new ObjectFactory();
@@ -62,18 +62,18 @@ public class SecurityTokenReferenceImpl extends SecurityTokenReferenceType imple
         }else{
             //ToDo
         }
-        
+
         if (rElement != null){
             getAny().clear();
             getAny().add(rElement);
         }
     }
-    
+
     @Override
     public Reference getReference (){
         return getReference(this);
     }
-    
+
     private Reference getReference(final SecurityTokenReferenceType strType){
         final List<Object> list = strType.getAny();
         final JAXBElement obj = (JAXBElement)list.get(0);
@@ -82,12 +82,12 @@ public class SecurityTokenReferenceImpl extends SecurityTokenReferenceType imple
         if (REFERENCE.equals(local)) {
             return new DirectReferenceImpl((ReferenceType)obj.getValue());
         }
-            
+
         if (KEYIDENTIFIER.equalsIgnoreCase(local)) {
             return new KeyIdentifierImpl((KeyIdentifierType)obj.getValue());
         }
-            
-        return null;       
+
+        return null;
     }
 
     @Override
@@ -99,12 +99,12 @@ public class SecurityTokenReferenceImpl extends SecurityTokenReferenceType imple
     public String getTokenType(){
        return getOtherAttributes().get(TOKEN_TYPE);
     }
-    
+
     @Override
     public String getType() {
         return WSTrustConstants.STR_TYPE;
     }
-    
+
     @Override
     public Object getTokenValue() {
         try {
@@ -112,15 +112,15 @@ public class SecurityTokenReferenceImpl extends SecurityTokenReferenceType imple
             dbf.setNamespaceAware(true);
             final DocumentBuilder builder = dbf.newDocumentBuilder();
             final Document doc = builder.newDocument();
-            
+
             final jakarta.xml.bind.Marshaller marshaller = WSTrustElementFactory.getContext().createMarshaller();
             final JAXBElement<SecurityTokenReferenceType> rstElement =  (new ObjectFactory()).createSecurityTokenReference(this);
             marshaller.marshal(rstElement, doc);
             return doc.getDocumentElement();
-            
+
         } catch (Exception ex) {
             throw new RuntimeException(ex.getMessage(), ex);
         }
     }
-    
+
 }

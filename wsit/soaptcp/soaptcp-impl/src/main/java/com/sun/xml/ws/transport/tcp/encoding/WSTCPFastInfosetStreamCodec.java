@@ -44,14 +44,14 @@ import jakarta.xml.ws.WebServiceException;
 public abstract class WSTCPFastInfosetStreamCodec implements Codec {
     private StAXDocumentParser _statefulParser;
     private StAXDocumentSerializer _serializer;
-    
+
     private final StreamSOAPCodec _soapCodec;
     private final boolean _retainState;
-    
+
     protected final ContentType _defaultContentType;
-    
+
     private final RecycleAwareListener _readerRecycleListener;
-    
+
     /* package */ WSTCPFastInfosetStreamCodec(@Nullable StreamSOAPCodec soapCodec, @NotNull SOAPVersion soapVersion,
             @NotNull RecycleAwareListener readerRecycleListener, boolean retainState, String mimeType) {
         _soapCodec = soapCodec != null ? soapCodec : Codecs.createSOAPEnvelopeXmlCodec(soapVersion);
@@ -59,24 +59,24 @@ public abstract class WSTCPFastInfosetStreamCodec implements Codec {
         _retainState = retainState;
         _defaultContentType = new ContentTypeImpl(mimeType);
     }
-    
+
     /* package */ WSTCPFastInfosetStreamCodec(WSTCPFastInfosetStreamCodec that) {
         this._soapCodec = (StreamSOAPCodec) that._soapCodec.copy();
         this._readerRecycleListener = that._readerRecycleListener;
         this._retainState = that._retainState;
         this._defaultContentType = that._defaultContentType;
     }
-    
+
     @Override
     public String getMimeType() {
         return _defaultContentType.getContentType();
     }
-    
+
     @Override
     public ContentType getStaticContentType(Packet packet) {
         return getContentType(packet.soapAction);
     }
-    
+
     @Override
     public ContentType encode(Packet packet, OutputStream out) {
         if (packet.getMessage() != null) {
@@ -90,28 +90,28 @@ public abstract class WSTCPFastInfosetStreamCodec implements Codec {
         }
         return getContentType(packet.soapAction);
     }
-    
+
     @Override
     public ContentType encode(Packet packet, WritableByteChannel buffer) {
         //TODO: not yet implemented
         throw new UnsupportedOperationException();
     }
-    
+
     @Override
     public void decode(InputStream in, String contentType, Packet response) {
         response.setMessage(
                 _soapCodec.decode(getXMLStreamReader(in)));
     }
-    
+
     @Override
     public void decode(ReadableByteChannel in, String contentType, Packet response) {
         throw new UnsupportedOperationException();
     }
-    
+
     protected abstract StreamHeader createHeader(XMLStreamReader reader, XMLStreamBuffer mark);
-    
+
     protected abstract ContentType getContentType(String soapAction);
-    
+
     private XMLStreamWriter getXMLStreamWriter(OutputStream out) {
         if (_serializer != null) {
             _serializer.setOutputStream(out);
@@ -120,7 +120,7 @@ public abstract class WSTCPFastInfosetStreamCodec implements Codec {
             WSTCPCodecConfigurator configurator = WSTCPCodecConfigurator.INSTANCE;
             StAXDocumentSerializer serializer = configurator.getDocumentSerializerFactory().newInstance();
             serializer.setOutputStream(out);
-            
+
             if (_retainState) {
                 SerializerVocabulary vocabulary = configurator.getSerializerVocabularyFactory().newInstance();
                 serializer.setVocabulary(vocabulary);
@@ -141,7 +141,7 @@ public abstract class WSTCPFastInfosetStreamCodec implements Codec {
             return serializer;
         }
     }
-    
+
     private XMLStreamReader getXMLStreamReader(InputStream in) {
         if (_statefulParser != null) {
             _statefulParser.setInputStream(in);
@@ -154,7 +154,7 @@ public abstract class WSTCPFastInfosetStreamCodec implements Codec {
                 ((WSTCPFastInfosetStreamReaderRecyclable) parser).
                         setListener(_readerRecycleListener);
             }
-            
+
             parser.setStringInterning(true);
             if (_retainState) {
                 ParserVocabulary vocabulary = configurator.
@@ -165,14 +165,14 @@ public abstract class WSTCPFastInfosetStreamCodec implements Codec {
             return _statefulParser;
         }
     }
-    
+
     /**
      * Creates a new {@link FastInfosetStreamSOAPCodec} instance.
      *
      * @param version the SOAP version of the codec.
      * @return a new {@link WSTCPFastInfosetStreamCodec} instance.
      */
-    public static WSTCPFastInfosetStreamCodec create(StreamSOAPCodec soapCodec, 
+    public static WSTCPFastInfosetStreamCodec create(StreamSOAPCodec soapCodec,
             SOAPVersion version, RecycleAwareListener readerRecycleListener, boolean retainState) {
         if(version==null)
             // this decoder is for SOAP, not for XML/HTTP

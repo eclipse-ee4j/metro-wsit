@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -24,22 +24,22 @@ public class JCapsPolicyValidatorTest extends TestCase {
     public JCapsPolicyValidatorTest(String testName) {
         super(testName);
     }
-    
+
     @Override
     protected void setUp() {
     }
-    
+
     @Override
     protected void tearDown() {
     }
-    
+
     public void testAssertionValidation() throws Exception {
         URL cfgFileUrl = PolicyUtils.ConfigFile.loadFromClasspath("policy/jcaps/test.wsdl");
-        assertNotNull("Unable to locate test WSDL", cfgFileUrl);        
-        
+        assertNotNull("Unable to locate test WSDL", cfgFileUrl);
+
         PolicyResourceLoader.getWsdlModel(cfgFileUrl, false);
         PolicyResourceLoader.getWsdlModel(cfgFileUrl, true);
-        
+
     }
 
 }

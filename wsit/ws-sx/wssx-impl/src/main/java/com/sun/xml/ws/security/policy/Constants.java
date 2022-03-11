@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -14,8 +14,8 @@ package com.sun.xml.ws.security.policy;
  *
  * @author K.Venugopal@sun.com
  */
-public interface Constants {  
-    
+public interface Constants {
+
     String HMAC_SHA1 = "http://www.w3.org/2000/09/xmldsig#hmac-sha1";
     String RSA_SHA1 = "http://www.w3.org/2000/09/xmldsig#rsa-sha1";
     String SHA1 = "http://www.w3.org/2000/09/xmldsig#sha1";
@@ -41,19 +41,19 @@ public interface Constants {
     String EXC14N = "http://www.w3.org/2001/10/xml-exc-c14n#";
     String SNT = "http://www.w3.org/TR/soap12-n11n";
     String STRT10 = "http://docs.oasis-open.org/wss/2004/xx/oasis-2004xx-wss-soapmessage- security-1.0#STR-Transform";
-    
+
     //TODO:: Remove this constants from here.-Abhijit.
-    
+
     String MUSTSUPPORT_REF_THUMBPRINT = "MustSupportRefThumbprint";
     String MUSTSUPPORT_REF_ENCRYPTED_KEY = "MustSupportRefEncryptedKey";
     String REQUIRED_SIGNATURE_CONFIRMATION = "RequireSignatureConfirmation";
-    
+
     String MUST_SUPPORT_CLIENT_CHALLENGE = "MustSupportClientChallenge";
     String MUST_SUPPORT_SERVER_CHALLENGE = "MustSupportServerChallenge";
     String REQUIRE_CLIENT_ENTROPY = "RequireClientEntropy";
     String REQUIRE_SERVER_ENTROPY= "RequireServerEntropy";
     String MUST_SUPPORT_ISSUED_TOKENS = "MustSupportIssuedTokens";
-    
+
     String REQUIRE_REQUEST_SECURITY_TOKEN_COLLECTION = "RequireRequestSecurityTokenCollection";
     String REQUIRE_APPLIES_TO = "RequireAppliesTo";
 }

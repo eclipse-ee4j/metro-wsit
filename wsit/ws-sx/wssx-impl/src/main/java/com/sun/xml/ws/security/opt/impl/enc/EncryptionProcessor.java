@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -86,16 +86,16 @@ public class EncryptionProcessor {
         WSSPolicy keyBinding = (WSSPolicy)wssPolicy.getKeyBinding();
         EncryptedKey ek = null;
         KeyInfo edKeyInfo = null;
-        
-        
+
+
         if(logger.isLoggable(Level.FINEST)){
             logger.log(Level.FINEST, LogStringsMessages.WSS_1952_ENCRYPTION_KEYBINDING_VALUE(keyBinding));
         }
-        
+
         if(PolicyTypeUtil.derivedTokenKeyBinding(keyBinding)){
             DerivedTokenKeyBinding dtk = (DerivedTokenKeyBinding)keyBinding.clone();
             WSSPolicy originalKeyBinding = dtk.getOriginalKeyBinding();
-            
+
             if (PolicyTypeUtil.x509CertificateBinding(originalKeyBinding)){
                 AuthenticationTokenPolicy.X509CertificateBinding ckBindingClone =
                         (AuthenticationTokenPolicy.X509CertificateBinding)originalKeyBinding.clone();
@@ -111,7 +111,7 @@ public class EncryptionProcessor {
                 wssPolicy = ep;
             }
         }
-        
+
         TokenProcessor tp = new TokenProcessor((EncryptionPolicy) wssPolicy, context);
         BuilderResult tokenInfo = tp.process();
         Key dataEncKey = null;
@@ -120,27 +120,27 @@ public class EncryptionProcessor {
         ek = tokenInfo.getEncryptedKey();
         ArrayList targets =  featureBinding.getTargetBindings();
         Iterator targetItr = targets.iterator();
-        
+
         ETHandler edBuilder =  new ETHandler(context.getSOAPVersion());
         EncryptionPolicy.FeatureBinding  binding = (FeatureBinding) wssPolicy.getFeatureBinding();
         dataRefList = new ReferenceList();
-        
+
         if(ek == null || binding.getUseStandAloneRefList()){
             edKeyInfo = tokenInfo.getKeyInfo();
         }
-        
+
         boolean refAdded = false;
         while (targetItr.hasNext()) {
             EncryptionTarget target = (EncryptionTarget)targetItr.next();
             boolean contentOnly = target.getContentOnly();
             //target.getDataEncryptionAlgorithm();
             //target.getCipherReferenceTransforms();//TODO support this
-            
+
             List edList = edBuilder.buildEDList( (EncryptionPolicy)wssPolicy,target ,context, dataEncKey,edKeyInfo);
             for(int i =0;i< edList.size();i++){
                 JAXBElement<ReferenceType> rt = elementFactory.createDataReference((SecurityElement)edList.get(i));
                 dataRefList.getDataReferenceOrKeyReference().add(rt);
-                
+
                 refAdded = true;
             }
         }

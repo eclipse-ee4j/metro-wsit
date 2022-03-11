@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -26,67 +26,67 @@ public class UsernameOrX509AlternativeSelector implements AlternativeSelector {
 
 
 
-	private enum SupportingTokenType {
+    private enum SupportingTokenType {
 
-		USERNAME, X509, UNKNOWN
-	}
+        USERNAME, X509, UNKNOWN
+    }
 
-	@Override
-	public MessagePolicy selectAlternative(ProcessingContext ctx, List<MessagePolicy> alternatives, SecurityPolicy recvdPolicy) {
-		SupportingTokenType reqMsgTokenType = determineTokenType(recvdPolicy);
-		for (MessagePolicy mp : alternatives) {
-			SupportingTokenType alternativeTokenType = determineTokenType(mp);
-			if (reqMsgTokenType != SupportingTokenType.UNKNOWN && reqMsgTokenType.equals(alternativeTokenType)) {
-				return mp;
-			}
-		}
-		return null;
-	}
+    @Override
+    public MessagePolicy selectAlternative(ProcessingContext ctx, List<MessagePolicy> alternatives, SecurityPolicy recvdPolicy) {
+        SupportingTokenType reqMsgTokenType = determineTokenType(recvdPolicy);
+        for (MessagePolicy mp : alternatives) {
+            SupportingTokenType alternativeTokenType = determineTokenType(mp);
+            if (reqMsgTokenType != SupportingTokenType.UNKNOWN && reqMsgTokenType.equals(alternativeTokenType)) {
+                return mp;
+            }
+        }
+        return null;
+    }
 
-	@Override
-	public boolean supportsAlternatives(List<MessagePolicy> alternatives) {
-		 if (alternatives.size() != 2) {
-			 return false;
-		 }
-		 SupportingTokenType firstAlternativeType = determineTokenType(alternatives.get(0));
+    @Override
+    public boolean supportsAlternatives(List<MessagePolicy> alternatives) {
+         if (alternatives.size() != 2) {
+             return false;
+         }
+         SupportingTokenType firstAlternativeType = determineTokenType(alternatives.get(0));
 
-		 if(firstAlternativeType == SupportingTokenType.UNKNOWN) {
-			 return false;
-		 }
+         if(firstAlternativeType == SupportingTokenType.UNKNOWN) {
+             return false;
+         }
 
-		 SupportingTokenType secondAlternativeType = determineTokenType(alternatives.get(1));
+         SupportingTokenType secondAlternativeType = determineTokenType(alternatives.get(1));
 
-		 if(secondAlternativeType == SupportingTokenType.UNKNOWN) {
-			 return false;
-		 }
+         if(secondAlternativeType == SupportingTokenType.UNKNOWN) {
+             return false;
+         }
 
-		 if(firstAlternativeType == secondAlternativeType) {
-			 return false;
-		 }
+         if(firstAlternativeType == secondAlternativeType) {
+             return false;
+         }
 
-		 return true;
-	}
+         return true;
+    }
 
-	private SupportingTokenType determineTokenType(SecurityPolicy recvdPolicy) {
-		SupportingTokenType ret = SupportingTokenType.UNKNOWN;
-		if (recvdPolicy instanceof MessagePolicy) {
-			MessagePolicy pol = (MessagePolicy) recvdPolicy;
-			for (int i = 0; i < pol.size(); i++) {
-				try {
-					WSSPolicy p = (WSSPolicy) pol.get(i);
-					if (PolicyTypeUtil.usernameTokenBinding(p) || PolicyTypeUtil.usernameTokenBinding(p.getFeatureBinding())) {
-						ret = SupportingTokenType.USERNAME;
-						break;
-					} else if (PolicyTypeUtil.x509CertificateBinding(p) || PolicyTypeUtil.x509CertificateBinding(p.getFeatureBinding())) {
-						ret = SupportingTokenType.X509;
-						break;
-					}
-				} catch (Exception e) {
-					//nothing to do.
-				}
-			}
-		}
-		return ret;
-	}
+    private SupportingTokenType determineTokenType(SecurityPolicy recvdPolicy) {
+        SupportingTokenType ret = SupportingTokenType.UNKNOWN;
+        if (recvdPolicy instanceof MessagePolicy) {
+            MessagePolicy pol = (MessagePolicy) recvdPolicy;
+            for (int i = 0; i < pol.size(); i++) {
+                try {
+                    WSSPolicy p = (WSSPolicy) pol.get(i);
+                    if (PolicyTypeUtil.usernameTokenBinding(p) || PolicyTypeUtil.usernameTokenBinding(p.getFeatureBinding())) {
+                        ret = SupportingTokenType.USERNAME;
+                        break;
+                    } else if (PolicyTypeUtil.x509CertificateBinding(p) || PolicyTypeUtil.x509CertificateBinding(p.getFeatureBinding())) {
+                        ret = SupportingTokenType.X509;
+                        break;
+                    }
+                } catch (Exception e) {
+                    //nothing to do.
+                }
+            }
+        }
+        return ret;
+    }
 
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -48,10 +48,10 @@ public final class RegStoreFileParser {
     private static final String APP_CTX = "app-ctx";
     private static final String DESCRIPTION = "description";
     private static final String [] INDENT = { "", "  ", "    " };
-    
+
     private File confFile;
     private List<EntryInfo> entries;
-    
+
     /*
      * Loads the configuration file from the given filename.
      * If a file is not found, then the default entries
@@ -88,21 +88,21 @@ public final class RegStoreFileParser {
             entries = JMACAuthConfigFactory.getDefaultProviders();
         }
     }
-    
+
     private void logWarningUpdated(Exception exception) {
         if (logger.isLoggable(Level.WARNING)) {
             logger.log(Level.WARNING,
                 "jmac.factory_could_not_persist", exception.toString());
         }
     }
-    
+
     private void logWarningDefault(Exception exception) {
         if (logger.isLoggable(Level.WARNING)) {
             logger.log(Level.WARNING,
                 "jmac.factory_could_not_read", exception.toString());
         }
     }
-    
+
     /*
      * Returns the in-memory list of entries.
      */
@@ -158,28 +158,28 @@ public final class RegStoreFileParser {
         }
         EntryInfo newEntry = new EntryInfo(className, props, ctx);
         EntryInfo entry = getMatchingRegEntry(newEntry);
-        
+
         // there is no matching entry, so add to list
         if (entry == null) {
             entries.add(newEntry);
             return true;
         }
-        
+
         // if constructor entry, don't need to check reg context
         if (entry.isConstructorEntry()) {
             return false;
         }
-        
+
         // otherwise, check reg contexts to see if there is a match
         if (entry.getRegContexts().contains(ctx)) {
             return false;
         }
-        
+
         // no matching context in existing entry, so add to existing entry
         entry.getRegContexts().add(new RegistrationContextImpl(ctx));
         return true;
     }
-    
+
     /*
      * If this registration context does not exist, this method
      * returns false. Otherwise it removes the entry and returns
@@ -194,7 +194,7 @@ public final class RegStoreFileParser {
                 continue;
             }
 
-            Iterator<RegistrationContext> iter = 
+            Iterator<RegistrationContext> iter =
                     info.getRegContexts().iterator();
             while (iter.hasNext()) {
                 RegistrationContext ctx = iter.next();
@@ -206,7 +206,7 @@ public final class RegStoreFileParser {
         }
         return retValue;
     }
-    
+
     /*
      * Used to find a matching registration entry in the 'entries'
      * list without including registration contexts. If there is not
@@ -220,7 +220,7 @@ public final class RegStoreFileParser {
         }
         return null;
     }
-    
+
     /*
      * This method overwrites the existing file with the
      * current entries.
@@ -268,7 +268,7 @@ public final class RegStoreFileParser {
         }
         out.println(INDENT[--i] + "}");
     }
-    
+
     /*
      * Write registration entry output of the form:
      * <pre>
@@ -338,7 +338,7 @@ public final class RegStoreFileParser {
         Map<String, String> properties = readProperties(reader);
         return new EntryInfo(className, properties);
     }
-    
+
     /*
      * Properties must be of the form "key:value." While the key
      * String cannot contain a ":" character, the value can. The
@@ -380,10 +380,10 @@ public final class RegStoreFileParser {
         }
         return new EntryInfo(className, properties, ctxs);
     }
-    
+
     private RegistrationContext readRegContext(BufferedReader reader)
         throws IOException {
-        
+
         String layer = null;
         String appCtx = null;
         String description = null;
@@ -403,5 +403,5 @@ public final class RegStoreFileParser {
         }
         return new RegistrationContextImpl(layer, appCtx, description, true);
     }
-    
+
 }

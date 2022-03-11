@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -25,17 +25,17 @@ public class IssuerName extends PolicyAssertion implements com.sun.xml.ws.securi
     private AssertionFitness fitness = AssertionFitness.IS_VALID;
     private boolean populated = false;
     String issuerName = null;
-    
+
     /**
      * Creates a new instance of Issuer
      */
     public IssuerName() {
     }
-    
+
     public IssuerName(AssertionData name,Collection<PolicyAssertion> nestedAssertions, AssertionSet nestedAlternative) {
         super(name,nestedAssertions,nestedAlternative);
     }
-    
+
     @Override
     public String getIssuerName() {
         populate();
@@ -46,11 +46,11 @@ public class IssuerName extends PolicyAssertion implements com.sun.xml.ws.securi
     public AssertionFitness validate(boolean isServer) {
         return populate(isServer);
     }
-    
+
     private void populate(){
         populate(false);
     }
-    
+
     private synchronized AssertionFitness populate(boolean isServer) {
         if(!populated){
             issuerName = this.getValue();

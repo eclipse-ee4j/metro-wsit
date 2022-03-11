@@ -32,8 +32,8 @@ import java.util.logging.Level;
  */
 public class AsymmetricBindingProcessor extends BindingProcessor {
     private final AsymmetricBinding binding;
-  
-    
+
+
     /** Creates a new instance of AsymmetricBindingProcessor */
     public AsymmetricBindingProcessor(AsymmetricBinding asBinding,XWSSPolicyContainer container,
             boolean isServer,boolean isIncoming,Vector<SignedParts> signedParts,Vector<EncryptedParts> encryptedParts,
@@ -50,10 +50,10 @@ public class AsymmetricBindingProcessor extends BindingProcessor {
         this.signedElements = signedElements;
         this.encryptedElements = encryptedElements;
         this.encryptedParts = encryptedParts;
-        
+
     }
-    
-    
+
+
     public void process()throws PolicyException{
         Token st = getSignatureToken();
         Token et = getEncryptionToken();
@@ -62,7 +62,7 @@ public class AsymmetricBindingProcessor extends BindingProcessor {
             primarySP.setUUID(pid.generateID());
             if(Constants.logger.isLoggable(Level.FINEST)){
                 Constants.logger.log(Level.FINEST,"ID of Primary signature policy is "+primarySP.getUUID());
-            }            
+            }
             tokenProcessor.addKeyBinding(binding,primarySP,st,true);
             SignaturePolicy.FeatureBinding spFB = (SignaturePolicy.FeatureBinding)primarySP.getFeatureBinding();
             //spFB.setCanonicalizationAlgorithm(CanonicalizationMethod.EXCLUSIVE);
@@ -71,7 +71,7 @@ public class AsymmetricBindingProcessor extends BindingProcessor {
         }
         if(et != null){
             primaryEP = new EncryptionPolicy();
-            primaryEP.setUUID(pid.generateID());            
+            primaryEP.setUUID(pid.generateID());
             tokenProcessor.addKeyBinding(binding,primaryEP,et,false);
             if(Constants.logger.isLoggable(Level.FINEST)){
                 Constants.logger.log(Level.FINEST,"ID of Encryption policy is "+primaryEP.getUUID());
@@ -82,7 +82,7 @@ public class AsymmetricBindingProcessor extends BindingProcessor {
         }else{
             container.insert(primaryEP);
             container.insert(primarySP);
-            
+
         }
         addPrimaryTargets();
         if(foundEncryptTargets && binding.getSignatureProtection()){
@@ -110,9 +110,9 @@ public class AsymmetricBindingProcessor extends BindingProcessor {
                 protectToken((WSSPolicy) primarySP.getKeyBinding());
             }
         }
-        
+
     }
-    
+
     protected Token getEncryptionToken(){
         if(isServer^isIncoming){
               Token token = binding.getInitiatorToken();
@@ -129,7 +129,7 @@ public class AsymmetricBindingProcessor extends BindingProcessor {
             return token;
         }
     }
-    
+
     protected Token getSignatureToken(){
         if(isServer^isIncoming){
             Token token = binding.getRecipientToken();
@@ -147,12 +147,12 @@ public class AsymmetricBindingProcessor extends BindingProcessor {
             return token;
         }
     }
-    
+
     @Override
     protected Binding getBinding(){
         return binding;
     }
-    
+
     @Override
     protected EncryptionPolicy getSecondaryEncryptionPolicy() throws PolicyException{
         if(sEncPolicy == null){
@@ -164,10 +164,10 @@ public class AsymmetricBindingProcessor extends BindingProcessor {
         }
         return sEncPolicy;
     }
-    
+
     @Override
     protected void close(){
-        
+
         if(protectionOrder == Binding.SIGN_ENCRYPT){
             container.insert(primaryEP);
         }

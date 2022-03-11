@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -26,14 +26,14 @@ public class BranchXidImpl implements Xid, Externalizable {
 
     private static final long serialVersionUID = -3135541493238305788L;
     private Xid delegate;
-  
+
   public BranchXidImpl() {
   }
 
   public BranchXidImpl(Xid xid) {
     this.delegate = xid;
   }
-  
+
   @Override
   public byte[] getBranchQualifier() {
     return delegate.getBranchQualifier();
@@ -52,12 +52,12 @@ public class BranchXidImpl implements Xid, Externalizable {
   public Xid getDelegate() {
     return delegate;
   }
-  
-  // 
+
+  //
   // Object
   //
-  
-  public boolean equals(Object o) { 
+
+  public boolean equals(Object o) {
     if (!(o instanceof Xid)) return false;
     Xid that = (Xid) o;
         final boolean formatId = getFormatId() == that.getFormatId();
@@ -67,19 +67,19 @@ public class BranchXidImpl implements Xid, Externalizable {
         && txid
         && bqual;
   }
-  
+
   public int hashCode() {
     return delegate.hashCode();
   }
-  
+
   public String toString() {
     return "BranchXidImpl:" + delegate.toString();
   }
-  
+
   //
   // Externalizable
   //
-  
+
   @Override
   public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
     delegate = (Xid) in.readObject();

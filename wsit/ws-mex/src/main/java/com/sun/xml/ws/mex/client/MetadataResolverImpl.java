@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -19,13 +19,13 @@ import com.sun.xml.ws.api.wsdl.parser.ServiceDescriptor;
  * Plugin to wsimport for mex/ws-transfer requests.
  */
 public class MetadataResolverImpl extends MetaDataResolver {
-    
+
     MetadataClient mClient;
-    
+
     protected MetadataResolverImpl() {
         mClient = new MetadataClient();
     }
-    
+
     /**
      * This method is called by JAX-WS code to retrieve metadata.
      * The contract is that, if there are problems trying to get the
@@ -41,5 +41,5 @@ public class MetadataResolverImpl extends MetaDataResolver {
         }
         return new ServiceDescriptorImpl(mData);
     }
-    
+
 }

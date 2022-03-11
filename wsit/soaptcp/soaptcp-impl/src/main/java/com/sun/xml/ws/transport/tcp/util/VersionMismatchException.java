@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -18,23 +18,23 @@ public class VersionMismatchException extends Exception {
     private static final long serialVersionUID = 5400095633186751986L;
     private Version expectedFramingVersion;
     private Version expectedConnectionManagementVersion;
-    
+
     public VersionMismatchException() {
     }
 
     public VersionMismatchException(String message,
             Version expectedFramingVersion,
             Version expectedConnectionManagementVersion) {
-        
+
         super(message);
         this.expectedFramingVersion = expectedFramingVersion;
         this.expectedConnectionManagementVersion = expectedConnectionManagementVersion;
     }
-    
+
     public Version getExpectedFramingVersion() {
         return expectedFramingVersion;
     }
-    
+
     public Version getExpectedConnectionManagementVersion() {
         return expectedConnectionManagementVersion;
     }

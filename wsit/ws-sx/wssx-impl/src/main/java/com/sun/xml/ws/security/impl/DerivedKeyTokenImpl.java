@@ -33,13 +33,13 @@ import javax.crypto.spec.SecretKeySpec;
  * @author Ashutosh Shahi
  */
 public class DerivedKeyTokenImpl implements DerivedKeyToken {
-    
-    private long length = 32; // Default length 
+
+    private long length = 32; // Default length
     private long offset = 0; // Default offset
     private long generation = 0;
     private String label = this.DEFAULT_DERIVEDKEYTOKEN_LABEL;
     private byte[] secret, nonce;
-    
+
     /** Creates a new instance of DerivedKeyTokenImpl */
     public DerivedKeyTokenImpl(long offset, long length, byte[] secret){
         this.offset = offset;
@@ -61,7 +61,7 @@ public class DerivedKeyTokenImpl implements DerivedKeyToken {
         this.secret = secret;
         this.nonce = nonce;
     }
-    
+
     public DerivedKeyTokenImpl(long offset, long length, byte[] secret, byte[] nonce, String label){
         this.offset = offset;
         this.length = length;
@@ -71,7 +71,7 @@ public class DerivedKeyTokenImpl implements DerivedKeyToken {
             this.label = label;
         }
     }
-    
+
     public DerivedKeyTokenImpl(long generation, byte[] secret){
         this.generation = generation;
         this.secret = secret;
@@ -84,7 +84,7 @@ public class DerivedKeyTokenImpl implements DerivedKeyToken {
                     "No such algorithm found" + e.getMessage());
         }
     }
-    
+
     @Override
     public URI getAlgorithm() {
         try {
@@ -94,62 +94,62 @@ public class DerivedKeyTokenImpl implements DerivedKeyToken {
         }
         return null;
     }
-    
+
     @Override
     public long getLength() {
         return length;
     }
-    
+
     @Override
     public long getOffset() {
         return offset;
     }
-    
+
     @Override
     public String getType() {
         return this.DERIVED_KEY_TOKEN_TYPE;
     }
-    
+
     @Override
     public Object getTokenValue() {
         //TODO: implement this method
         return null;
     }
-    
+
     @Override
     public long getGeneration() {
         return generation;
     }
-    
+
     @Override
     public String getLabel(){
         return label;
     }
-    
+
     @Override
     public byte[] getNonce() {
         return nonce;
     }
-    
-    
+
+
     @Override
     public SecretKey generateSymmetricKey(String algorithm)
         throws InvalidKeyException, NoSuchAlgorithmException {
-        
+
            byte[] temp = label.getBytes(StandardCharsets.UTF_8);
            byte[] seed = new byte[temp.length + nonce.length];
            System.arraycopy(temp, 0, seed, 0, temp.length);
            System.arraycopy(nonce, 0, seed, temp.length, nonce.length);
-           
+
            byte[] tempBytes = SecurityUtil.P_SHA1(secret, seed, (int)(offset + length));
            byte[] key = new byte[(int)length];
-           
+
            for(int i = 0; i < key.length; i++)
                key[i] = tempBytes[i+(int)offset];
-           
+
            SecretKeySpec keySpec = new SecretKeySpec(key, algorithm);
            return keySpec;
-       
+
     }
 
 }

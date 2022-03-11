@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -26,11 +26,11 @@ import javax.security.auth.callback.CallbackHandler;
  */
 public abstract class XWSSProcessorFactory {
 
-    public static final String 
-        XWSS_PROCESSOR_FACTORY_PROPERTY = "com.sun.xml.wss.XWSSProcessorFactory";
-    
     public static final String
-        DEFAULT_XWSS_PROCESSOR_FACTORY = 
+        XWSS_PROCESSOR_FACTORY_PROPERTY = "com.sun.xml.wss.XWSSProcessorFactory";
+
+    public static final String
+        DEFAULT_XWSS_PROCESSOR_FACTORY =
               "com.sun.xml.wss.impl.misc.XWSSProcessorFactory2_0Impl";
 
     /**
@@ -39,11 +39,11 @@ public abstract class XWSSProcessorFactory {
      * @return a new instance of <code>XWSSProcessorFactory</code>
      *
      * @exception XWSSecurityException if there was an error in creating the
-     *            the <code>XWSSProcessorFactory</code> 
+     *            the <code>XWSSProcessorFactory</code>
      */
     public static XWSSProcessorFactory newInstance()
         throws XWSSecurityException {
-        
+
         ClassLoader classLoader;
         try {
             classLoader = Thread.currentThread().getContextClassLoader();
@@ -68,18 +68,18 @@ public abstract class XWSSProcessorFactory {
     /**
      * Creates a new instance of <code>XWSSProcessor</code>
      *
-     * @param securityConfiguration an <code>InputStream</code> 
+     * @param securityConfiguration an <code>InputStream</code>
      *        for the <code>SecurityConfiguration</code> XML to be used
      *        by the <code>XWSSProcessor</code>
      *
-     * @param handler a JAAS <code>CallbackHandler</code> to be used by 
+     * @param handler a JAAS <code>CallbackHandler</code> to be used by
      *        the <code>XWSSProcessor</code> for Key and other Security
      *        information retrieval
      *
      * @return a new instance of <code>XWSSProcessor</code>
      *
      * @exception XWSSecurityException if there was an error in creating the
-     *            the <code>XWSSProcessor</code> 
+     *            the <code>XWSSProcessor</code>
      */
     public abstract XWSSProcessor createProcessorForSecurityConfiguration(
         InputStream securityConfiguration,
@@ -88,14 +88,14 @@ public abstract class XWSSProcessorFactory {
     /*
      * Creates a new instance of <code>XWSSProcessor</code>
      *
-     * @param securityConfiguration an <code>InputStream</code> 
+     * @param securityConfiguration an <code>InputStream</code>
      *        for the <code>JAXRPCSecurityConfiguration</code> XML to be used
      *        by the <code>XWSSProcessor</code>
      *
      * @return a new instance of <code>XWSSProcessor</code>
      *
      * @exception XWSSecurityException if there was an error in creating the
-     *            the <code>XWSSProcessor</code> 
+     *            the <code>XWSSProcessor</code>
     public abstract XWSSProcessor createForApplicationSecurityConfiguration(
         InputStream securityConfiguration) throws XWSSecurityException;
      */

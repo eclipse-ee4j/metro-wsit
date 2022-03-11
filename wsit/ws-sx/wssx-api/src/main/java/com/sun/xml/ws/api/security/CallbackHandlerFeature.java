@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -59,7 +59,7 @@ public final class CallbackHandlerFeature extends WebServiceFeature {
 
     /**
      * @return
-     *      {@link CallbackHandler} set in the constructor. Never null. 
+     *      {@link CallbackHandler} set in the constructor. Never null.
      */
     @ManagedAttribute
     public @NotNull CallbackHandler getHandler() {

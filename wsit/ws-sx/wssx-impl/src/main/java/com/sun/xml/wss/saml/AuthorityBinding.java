@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -27,7 +27,7 @@ import javax.xml.namespace.QName;
  * presence over multiple protocol binding, at multiple locations, and as
  * more than one kind of authority by sending multiple elements as needed.
  *
- * <p>The following schema fragment specifies the expected content contained within 
+ * <p>The following schema fragment specifies the expected content contained within
  * SAML AuthorityBinding element.
  *
  * <pre>
@@ -47,25 +47,25 @@ public interface AuthorityBinding {
 
     /**
      * Gets the value of the authorityKind property.
-     * 
+     *
      * @return object is {@link QName }
-     *     
+     *
      */
     QName getAuthorityKind();
 
     /**
      * Gets the value of the binding property.
-     * 
+     *
      * @return object is {@link java.lang.String }
-     *     
+     *
      */
     String getBinding();
 
     /**
      * Gets the value of the location property.
-     * 
+     *
      * @return object is {@link java.lang.String }
-     *     
+     *
      */
     String getLocation();
 }

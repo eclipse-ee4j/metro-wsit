@@ -25,12 +25,12 @@ import org.xml.sax.helpers.NamespaceSupport;
  * @author K.Venugopal@sun.com
  */
 public class SAXC14nCanonicalizerImpl extends BaseCanonicalizer  implements ContentHandler {
-    
+
     NamespaceSupport nsContext = new NamespaceSupport ();
     //boolean  firstElement  =   true;
-    
-    
-    
+
+
+
     /** Creates a new instance of SAXC14nCanonicalzerImpl */
     @SuppressWarnings("unchecked")
     public SAXC14nCanonicalizerImpl () {
@@ -40,7 +40,7 @@ public class SAXC14nCanonicalizerImpl extends BaseCanonicalizer  implements Cont
             _attrs.add (new Attribute ());
         }
     }
-    
+
     public NamespaceSupport getNSContext (){
         return  nsContext;
     }

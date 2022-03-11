@@ -15,5 +15,5 @@ package com.sun.xml.wss.saml;
  * @author root
  */
 public interface KeyInfoConfirmationData extends SubjectConfirmationData {
-    
+
 }

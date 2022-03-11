@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -20,7 +20,7 @@ import javax.persistence.Table;
 
 /**
  * Entity class Diagnosis
- * 
+ *
  * @author Jakub Podlesak
  * @author Arun Gupta
  */
@@ -42,7 +42,7 @@ public class Diagnosis implements Serializable {
 
     @Column(name = "DIAGCODE", nullable = false)
     private String diagcode;
-    
+
     /** Creates a new instance of Diagnosis */
     public Diagnosis() {
     }
@@ -116,7 +116,7 @@ public class Diagnosis implements Serializable {
     }
 
     /**
-     * Returns a hash code value for the object.  This implementation computes 
+     * Returns a hash code value for the object.  This implementation computes
      * a hash code value based on the id fields in this object.
      * @return a hash code value for this object.
      */
@@ -128,8 +128,8 @@ public class Diagnosis implements Serializable {
     }
 
     /**
-     * Determines whether another object is equal to this Diagnosis.  The result is 
-     * <code>true</code> if and only if the argument is not null and is a Diagnosis object that 
+     * Determines whether another object is equal to this Diagnosis.  The result is
+     * <code>true</code> if and only if the argument is not null and is a Diagnosis object that
      * has the same id field values as this object.
      * @param object the reference object with which to compare
      * @return <code>true</code> if this object is the same as the argument;
@@ -147,7 +147,7 @@ public class Diagnosis implements Serializable {
     }
 
     /**
-     * Returns a string representation of the object.  This implementation constructs 
+     * Returns a string representation of the object.  This implementation constructs
      * that representation based on the id fields.
      * @return a string representation of the object.
      */
@@ -155,5 +155,5 @@ public class Diagnosis implements Serializable {
     public String toString() {
         return this.getClass().getName() + "[diagid=" + diagid + "]";
     }
-    
+
 }

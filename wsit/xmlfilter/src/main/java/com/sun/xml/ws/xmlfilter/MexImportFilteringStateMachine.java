@@ -25,22 +25,22 @@ public final class MexImportFilteringStateMachine implements FilteringStateMachi
         BUFFERING,
         FILTERING
     }
-    
+
     private static final Logger LOGGER = Logger.getLogger(MexImportFilteringStateMachine.class);
-    
+
     private static final String MEX_NAMESPACE = "http://schemas.xmlsoap.org/ws/2004/09/mex";
     private static final String WSDL_NAMESPACE = "http://schemas.xmlsoap.org/wsdl/";
     private static final QName WSDL_IMPORT_ELEMENT = new QName(WSDL_NAMESPACE, "import");
     private static final QName IMPORT_NAMESPACE_ATTIBUTE = new QName(WSDL_NAMESPACE, "namespace");
-    
+
     private int depth; // indicates the depth in which we are currently nested in the element that should be filtered out
     private StateMachineMode currentMode = StateMachineMode.INACTIVE; // indicates that current mode of the filtering state machine
-    
+
     /** Creates a new instance of MexImportFilteringStateMachine */
     public MexImportFilteringStateMachine() {
         // nothing to initialize
     }
-    
+
     @Override
     public ProcessingStateChange getStateChange(final Invocation invocation, final XMLStreamWriter writer) {
         LOGGER.entering(invocation);
@@ -85,19 +85,19 @@ public final class MexImportFilteringStateMachine implements FilteringStateMachi
                 default:
                     break;
             }
-            
+
             return resultingState;
-            
+
         } finally {
             LOGGER.exiting(resultingState);
         }
     }
-    
+
     private boolean startFiltering(final Invocation invocation, final XMLStreamWriter writer) {
         final XmlFilteringUtils.AttributeInfo attributeInfo = XmlFilteringUtils.getAttributeNameToWrite(invocation, XmlFilteringUtils.getDefaultNamespaceURI(writer));
         return IMPORT_NAMESPACE_ATTIBUTE.equals(attributeInfo.getName()) && MEX_NAMESPACE.equals(attributeInfo.getValue());
     }
-    
+
     private boolean startBuffering(final Invocation invocation, final XMLStreamWriter writer) {
         final QName elementName = XmlFilteringUtils.getElementNameToWrite(invocation, XmlFilteringUtils.getDefaultNamespaceURI(writer));
         return WSDL_IMPORT_ELEMENT.equals(elementName);

@@ -22,7 +22,7 @@ import java.security.cert.X509Certificate;
  * @author Kumar Jayanti
  */
 public class PublicKeyCertSelector implements CertSelector {
-    
+
     PublicKey key = null;
     /** Creates a new instance of PublicKeyCertSelector */
     public PublicKeyCertSelector(PublicKey pk) {
@@ -46,7 +46,7 @@ public class PublicKeyCertSelector implements CertSelector {
         }
         return false;
     }
-    
+
      @Override
      public Object clone() {
         return new PublicKeyCertSelector(key);

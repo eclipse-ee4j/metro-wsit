@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -45,14 +45,14 @@ public final class MessageNumberRolloverException extends AbstractSoapFaultExcep
 
     public String getSequenceId() {
         return sequenceId;
-    }    
-    
+    }
+
     public MessageNumberRolloverException(String sequenceId, long messageNumber) {
         super(
                 LocalizationMessages.WSRM_1138_MESSAGE_NUMBER_ROLLOVER(sequenceId, messageNumber),
                 "The maximum value for wsrm:MessageNumber has been exceeded.",
                 true);
-        
+
         this.messageNumber = messageNumber;
         this.sequenceId = sequenceId;
     }

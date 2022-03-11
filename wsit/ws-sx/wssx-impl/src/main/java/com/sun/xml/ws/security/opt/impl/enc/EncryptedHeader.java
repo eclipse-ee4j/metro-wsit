@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -49,10 +49,10 @@ import com.sun.xml.wss.logging.impl.opt.crypto.LogStringsMessages;
  */
 public class EncryptedHeader
         implements SecurityHeaderElement, SecurityElementWriter{
-    
+
     private static final Logger logger = Logger.getLogger(LogDomainConstants.IMPL_OPT_CRYPTO_DOMAIN,
             LogDomainConstants.IMPL_OPT_CRYPTO_DOMAIN_BUNDLE);
-    
+
     private EncryptedHeaderType eht = null;
     private boolean isCanonicalized = false;
     //private ObjectFactory objFac = new ObjectFactory();
@@ -60,7 +60,7 @@ public class EncryptedHeader
     private Data data = null;
     private Key key = null;
     private CryptoProcessor dep = null;
-    
+
     /** Creates a new instance of EncryptedHeader */
     public EncryptedHeader(EncryptedHeaderType eht, Data data,Key key,SOAPVersion soapVersion) {
         this.eht = eht;
@@ -68,7 +68,7 @@ public class EncryptedHeader
         this.data = data;
         this.soapVersion = soapVersion;
     }
-    
+
     @Override
     public boolean refersToSecHdrWithId(String id) {
         KeyInfo ki = (KeyInfo) eht.getEncryptedData().getKeyInfo();
@@ -89,36 +89,36 @@ public class EncryptedHeader
         }
         return false;
     }
-    
+
     @Override
     public String getId() {
         return eht.getId();
     }
-    
+
     @Override
     public void setId(String id) {
         eht.setId(id);
     }
-    
+
     @Override
     public String getNamespaceURI() {
         return MessageConstants.WSSE11_NS;
     }
-    
+
     @Override
     public String getLocalPart() {
         return MessageConstants.ENCRYPTED_HEADER_LNAME;
     }
-    
+
     @Override
     public XMLStreamReader readHeader() {
         throw new UnsupportedOperationException();
     }
-    
+
     public byte[] canonicalize(String algorithm, List<AttributeNS> namespaceDecls) {
         throw new UnsupportedOperationException();
     }
-    
+
     public boolean isCanonicalized() {
         return isCanonicalized;
     }
@@ -140,12 +140,12 @@ public class EncryptedHeader
             Marshaller writer = getMarshaller();
             if(dep == null){
                 dep = new CryptoProcessor(Cipher.ENCRYPT_MODE, eht.getEncryptedData().getEncryptionMethod().getAlgorithm(), data, key);
-                
+
                 if(streamWriter instanceof StAXEXC14nCanonicalizerImpl){
                     ByteArrayOutputStream bos = new ByteArrayOutputStream();
                     try{
                         dep.encryptData(bos);
-                        
+
                     }catch(IOException ie){
                         logger.log(Level.SEVERE, LogStringsMessages.WSS_1920_ERROR_CALCULATING_CIPHERVALUE(),ie);
                         throw new XMLStreamException("Error occurred while calculating Cipher Value");
@@ -155,7 +155,7 @@ public class EncryptedHeader
             }
             CVAdapter adapter = new CVAdapter(dep);
             writer.setAdapter(CVAdapter.class,adapter);
-            
+
             com.sun.xml.ws.security.secext11.ObjectFactory obj = new com.sun.xml.ws.security.secext11.ObjectFactory();
             JAXBElement eh = obj.createEncryptedHeader(eht);
             writer.marshal(eh,streamWriter);
@@ -193,7 +193,7 @@ public class EncryptedHeader
         try {
             Marshaller writer = getMarshaller();
             CryptoProcessor dep;
-            
+
             dep = new CryptoProcessor(Cipher.ENCRYPT_MODE, eht.getEncryptedData().getEncryptionMethod().getAlgorithm(), data, key);
             CVAdapter adapter = new CVAdapter(dep);
             writer.setAdapter(CVAdapter.class,adapter);
@@ -204,9 +204,9 @@ public class EncryptedHeader
             logger.log(Level.SEVERE, LogStringsMessages.WSS_1916_ERROR_WRITING_ECRYPTEDHEADER(ex.getMessage()), ex);
         }
     }
-    
+
     private Marshaller getMarshaller() throws JAXBException{
         return JAXBUtil.createMarshaller(soapVersion);
     }
-    
+
 }

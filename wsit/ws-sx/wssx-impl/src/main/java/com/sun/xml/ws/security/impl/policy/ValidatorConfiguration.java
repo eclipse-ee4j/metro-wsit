@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -23,52 +23,52 @@ import javax.xml.namespace.QName;
  * @author K.Venugopal@sun.com
  */
 public class ValidatorConfiguration extends PolicyAssertion implements com.sun.xml.ws.security.policy.ValidatorConfiguration, SecurityAssertionValidator{
-    
-    
+
+
     private boolean populated = false;
     private Iterator<PolicyAssertion> ast  = null;
     private static QName cmaxClockSkew =  new QName(Constants.SUN_WSS_SECURITY_CLIENT_POLICY_NS,"maxClockSkew");
     private static QName smaxClockSkew =  new QName(Constants.SUN_WSS_SECURITY_SERVER_POLICY_NS,"maxClockSkew");
     private static QName ctimestampFreshnessLimit  =  new QName(Constants.SUN_WSS_SECURITY_CLIENT_POLICY_NS,"timestampFreshnessLimit");
-    private static QName stimestampFreshnessLimit  =  new QName(Constants.SUN_WSS_SECURITY_SERVER_POLICY_NS,"timestampFreshnessLimit"); 
+    private static QName stimestampFreshnessLimit  =  new QName(Constants.SUN_WSS_SECURITY_SERVER_POLICY_NS,"timestampFreshnessLimit");
     private static QName smaxNonceAge =  new QName(Constants.SUN_WSS_SECURITY_SERVER_POLICY_NS,"maxNonceAge");
     private static QName crevocationEnabled =  new QName(Constants.SUN_WSS_SECURITY_CLIENT_POLICY_NS,"revocationEnabled");
     private static QName srevocationEnabled =  new QName(Constants.SUN_WSS_SECURITY_SERVER_POLICY_NS,"revocationEnabled");
     private static QName cenforceKeyUsage=  new QName(Constants.SUN_WSS_SECURITY_CLIENT_POLICY_NS,"enforceKeyUsage");
     private static QName senforceKeyUsage =  new QName(Constants.SUN_WSS_SECURITY_SERVER_POLICY_NS,"enforceKeyUsage");
-    
+
     private AssertionFitness fitness = AssertionFitness.IS_VALID;
     /** Creates a new instance of ValidatorConfiguration */
     public ValidatorConfiguration() {
     }
-    
+
     public ValidatorConfiguration(AssertionData name,Collection<PolicyAssertion> nestedAssertions, AssertionSet nestedAlternative) {
         super(name,nestedAssertions,nestedAlternative);
     }
-    
+
     @Override
     public Iterator<? extends PolicyAssertion> getValidators() {
         populate();
         return ast;
     }
-    
+
     @Override
     public AssertionFitness validate(boolean isServer) {
         return populate(isServer);
     }
-    
+
     private void populate(){
         populate(false);
     }
-    
-    private synchronized AssertionFitness populate(boolean isServer) {        
+
+    private synchronized AssertionFitness populate(boolean isServer) {
         if(!populated){
             this.ast  = this.getNestedAssertionsIterator();
             populated  = true;
         }
-        return fitness;        
+        return fitness;
     }
-    
+
     @Override
     public String getMaxClockSkew() {
         if(this.getAttributes().containsKey(cmaxClockSkew)){
@@ -78,7 +78,7 @@ public class ValidatorConfiguration extends PolicyAssertion implements com.sun.x
         }
         return null;
     }
-    
+
     @Override
     public String getTimestampFreshnessLimit() {
          if(this.getAttributes().containsKey(ctimestampFreshnessLimit)){
@@ -86,15 +86,15 @@ public class ValidatorConfiguration extends PolicyAssertion implements com.sun.x
         }else if(this.getAttributes().containsKey(stimestampFreshnessLimit)){
             return this.getAttributeValue(stimestampFreshnessLimit);
         }
-        return null;        
+        return null;
     }
-    
+
     @Override
     public String getMaxNonceAge() {
         if(this.getAttributes().containsKey(smaxNonceAge)){
             return this.getAttributeValue(smaxNonceAge);
         }
-        return null;            
+        return null;
     }
 
     @Override
@@ -106,7 +106,7 @@ public class ValidatorConfiguration extends PolicyAssertion implements com.sun.x
         }
         return null;
     }
-    
+
     @Override
     public String getEnforceKeyUsage() {
         if(this.getAttributes().containsKey(cenforceKeyUsage)){

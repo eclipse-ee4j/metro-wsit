@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -103,13 +103,13 @@ public final class InVmSequenceManager extends AbstractMOMRegistrationAware impl
      */
     private final AtomicLong actualConcurrentInboundSequences;
     /**
-     * Internal variable to store information about whether or not this instance 
+     * Internal variable to store information about whether or not this instance
      * of the SequenceManager is still valid.
      */
     private final AtomicBoolean disposed = new AtomicBoolean(false);
     //
     private final String loggerProlog;
-    
+
     private final LocalIDManager localIDManager;
 
     @SuppressWarnings("LeakingThisInConstructor")
@@ -126,18 +126,18 @@ public final class InVmSequenceManager extends AbstractMOMRegistrationAware impl
         this.maxConcurrentInboundSequences = configuration.getRmFeature().getMaxConcurrentSessions();
 
         final BackingStoreFactory bsFactory = HighAvailabilityProvider.INSTANCE.getBackingStoreFactory(HighAvailabilityProvider.StoreType.IN_MEMORY);
-        
+
         /*
          * We need to explicitly set the classloader that loads the Metro module classes
          * to workaround the GF HA issue http://java.net/jira/browse/GLASSFISH-15084
          * when value class is from the Java core lib.
-         */ 
+         */
         final String boundSequencesBsName = uniqueEndpointId + "_BOUND_SEQUENCE_BS";
         final BackingStoreConfiguration<StickyKey, String> boundSequencesBsConfig = HighAvailabilityProvider.INSTANCE.initBackingStoreConfiguration(
                 boundSequencesBsName,
                 StickyKey.class,
                 String.class);
-        boundSequencesBsConfig.setClassLoader(this.getClass().getClassLoader());                
+        boundSequencesBsConfig.setClassLoader(this.getClass().getClassLoader());
         final BackingStore<StickyKey, String> boundSequencesBs;
         try {
             boundSequencesBs = bsFactory.createBackingStore(boundSequencesBsConfig);
@@ -456,9 +456,9 @@ public final class InVmSequenceManager extends AbstractMOMRegistrationAware impl
     @Override
     public boolean onMaintenance() {
         LOGGER.entering();
-        
+
         final boolean continueMaintenance = !this.disposed.get();
-        
+
         try {
             dataLock.writeLock().lock();
             if (continueMaintenance) {
@@ -475,7 +475,7 @@ public final class InVmSequenceManager extends AbstractMOMRegistrationAware impl
                         if (boundSequences.containsKey(sequence.getId())) {
                             boundSequences.remove(sequence.getId());
                         }
-                        
+
                         if (localIDManager != null) {
                             localIDManager.markSequenceTermination(sequence.getId());
                         }
@@ -485,7 +485,7 @@ public final class InVmSequenceManager extends AbstractMOMRegistrationAware impl
                     }
                 }
             }
-            
+
             return continueMaintenance;
 
         } finally {
@@ -517,7 +517,7 @@ public final class InVmSequenceManager extends AbstractMOMRegistrationAware impl
 
     @Override
     public void dispose() {
-        if (this.disposed.compareAndSet(false, true)) {        
+        if (this.disposed.compareAndSet(false, true)) {
             this.sequences.close();
             this.sequences.destroy();
 
@@ -525,7 +525,7 @@ public final class InVmSequenceManager extends AbstractMOMRegistrationAware impl
             this.boundSequences.destroy();
 
             this.unackedMessageStore.close();
-            this.unackedMessageStore.destroy();            
+            this.unackedMessageStore.destroy();
         }
     }
 

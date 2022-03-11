@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -20,8 +20,8 @@ import java.net.URI;
  * @author WS-Trust Implementation Team.
  */
 public interface RequestedProofToken {
-    
-    /** constants indicating type of Proof Token 
+
+    /** constants indicating type of Proof Token
      * @see #getProofTokenType()
      */
     String COMPUTED_KEY_TYPE = "ComputedKey";
@@ -29,7 +29,7 @@ public interface RequestedProofToken {
     String ENCRYPTED_KEY_TYPE = "EncryptedKey";
     String BINARY_SECRET_TYPE = "BinarySecret";
     String CUSTOM_TYPE = "Custom";
-    
+
     /**
      * Get the type of ProofToken present in this RequestedProofToken Instance
      */
@@ -43,53 +43,53 @@ public interface RequestedProofToken {
 
     /**
      * Gets the value of the any property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link org.w3c.dom.Element }
      *     {@link Object }
-     *     
+     *
      */
     Object getAny();
 
     /**
      * Sets the value of the any property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link org.w3c.dom.Element }
      *     {@link Object }
-     *     
+     *
      */
     void setAny(Object value);
-    
+
     /**
-     * Set a SecurityTokenReference as the Proof Token 
+     * Set a SecurityTokenReference as the Proof Token
      */
     void setSecurityTokenReference(SecurityTokenReference reference);
-    
+
     /**
-     * Gets the SecrityTokenReference if set 
+     * Gets the SecrityTokenReference if set
      * @return SecurityTokenReference if set, null otherwise
      */
     SecurityTokenReference getSecurityTokenReference();
-    
+
     /**
      *Sets the Computed Key URI (describing how to compute the Key)
      */
     void setComputedKey(URI computedKey);
-    
+
     /**
      *Get the Computed Key URI (describing how to compute the Key)
      *@return computed key URI or null if none is set
      */
     URI getComputedKey();
-    
+
     /**
      * Sets a wst:BinarySecret as the Proof Token
      */
      void setBinarySecret(BinarySecret secret);
-     
+
      /**
       * Gets the BinarySecret proof Token if set
       * @return BinarySecret if set, null otherwise

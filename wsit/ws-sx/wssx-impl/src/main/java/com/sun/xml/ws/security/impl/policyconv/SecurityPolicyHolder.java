@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -28,7 +28,7 @@ import java.util.Set;
  * @author K.Venugopal@sun.com
  */
 public class SecurityPolicyHolder {
-    
+
     private MessagePolicy mp = null;
     private List<PolicyAssertion> scList = null;
     private List<PolicyAssertion> issuedTokenList = null;
@@ -38,50 +38,50 @@ public class SecurityPolicyHolder {
     private HashMap<WSDLFault,SecurityPolicyHolder> faultFPMap = null;
     private HashMap<String,Set<PolicyAssertion>> configAssertions;
     private boolean isIssuedTokenAsEncryptedSupportingToken = false;
-    
+
     /**
      * Creates a new instance of SecurityPolicyHolder
      */
     public SecurityPolicyHolder() {
     }
-    
+
     public void setMessagePolicy(MessagePolicy mp){
         this.mp= mp;
     }
-    
+
     public MessagePolicy getMessagePolicy(){
         return this.mp;
     }
-    
+
     public void  addSecureConversationToken(PolicyAssertion pa){
         if(scList == null){
             scList = new ArrayList<>();
         }
         scList.add(pa);
     }
-    
+
     public List<PolicyAssertion> getSecureConversationTokens(){
         return ((scList==null)?EMPTY_LIST:scList);
     }
-    
+
     public void  addKerberosToken(PolicyAssertion pa){
         if(kerberosTokenList == null){
             kerberosTokenList = new ArrayList<>();
         }
         kerberosTokenList.add(pa);
     }
-    
+
     public List<PolicyAssertion> getKerberosTokens(){
         return ((kerberosTokenList==null)?EMPTY_LIST:kerberosTokenList);
     }
-    
+
     public void addIssuedToken(PolicyAssertion pa){
         if(issuedTokenList == null){
             issuedTokenList = new ArrayList<>();
         }
         issuedTokenList.add(pa);
     }
-    
+
     public void addIssuedTokens(List<PolicyAssertion> list ){
         if(issuedTokenList == null){
             issuedTokenList =  list;
@@ -89,41 +89,41 @@ public class SecurityPolicyHolder {
             issuedTokenList.addAll(list);
         }
     }
-    
+
     public List<PolicyAssertion> getIssuedTokens(){
         return ((issuedTokenList==null)?EMPTY_LIST:issuedTokenList);
     }
-    
+
     public AlgorithmSuite getBindingLevelAlgSuite(){
         return suite;
     }
-    
+
     public void setBindingLevelAlgSuite(AlgorithmSuite suite){
         this.suite = suite;
     }
-    
+
     public boolean isIssuedTokenAsEncryptedSupportingToken(){
         return this.isIssuedTokenAsEncryptedSupportingToken;
     }
-    
+
     public void isIssuedTokenAsEncryptedSupportingToken(boolean isIssuedTokenAsEncryptedSupportingToken){
         this.isIssuedTokenAsEncryptedSupportingToken = isIssuedTokenAsEncryptedSupportingToken;
     }
-    
+
     public void addFaultPolicy(WSDLFault fault , SecurityPolicyHolder policy){
         if(faultFPMap == null){
             faultFPMap = new HashMap<>();
         }
         faultFPMap.put(fault,policy);
     }
-    
+
     public SecurityPolicyHolder getFaultPolicy(WSDLFault fault){
         if(faultFPMap == null){
             return null;
         }
         return faultFPMap.get(fault);
     }
-    
+
     public void addConfigAssertions(PolicyAssertion assertion){
         if(configAssertions == null){
             configAssertions = new HashMap<>();
@@ -135,11 +135,11 @@ public class SecurityPolicyHolder {
         }
         assertions.add(assertion);
     }
-    
+
     public Set<PolicyAssertion> getConfigAssertions(String namespaceuri){
         if(configAssertions == null){
             return null;
         }
-        return configAssertions.get(namespaceuri);        
+        return configAssertions.get(namespaceuri);
     }
 }

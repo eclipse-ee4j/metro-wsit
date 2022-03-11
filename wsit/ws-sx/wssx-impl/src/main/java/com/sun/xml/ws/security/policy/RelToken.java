@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -17,7 +17,7 @@ import java.util.Iterator;
  * @author K.Venugopal@sun.com
  */
 public interface RelToken extends Token{
-   
+
     /**
      * returns the type of the token.
      * @return one of WSS_REL_V10_TOKEN10,WSS_REL_V20_TOKEN10,WSS_REL_V10_TOKEN11,WSS_REL_V20_TOKEN11
@@ -28,11 +28,11 @@ public interface RelToken extends Token{
      * @return either REQUIRE_KEY_IDENTIFIER_REFERENCE
      */
     Iterator getTokenRefernceType();
-    
+
     /**
      * returns true if RequiredDerivedKey element is present under REL Token.
      * @return true if RequireDerviedKeys element is present under REL Token or false.
      */
     boolean isRequireDerivedKeys();
-   
+
 }

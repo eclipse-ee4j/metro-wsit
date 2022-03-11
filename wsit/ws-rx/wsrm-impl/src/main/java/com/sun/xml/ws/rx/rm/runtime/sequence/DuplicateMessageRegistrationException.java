@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -20,7 +20,7 @@ import com.sun.xml.ws.rx.rm.localization.LocalizationMessages;
  */
 public class DuplicateMessageRegistrationException extends RxException {
     private static final long serialVersionUID = 8605938716798458482L;
-    
+
     private final String sequenceId;
     private final long messageNumber;
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -30,25 +30,25 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-/** 
+/**
  *
  * @author  TOSHIBA USER
  */
 public  class SamlCallbackHandler implements CallbackHandler {
- 
+
     public SamlCallbackHandler() {
-   
+
     }
 
     public void handle(Callback[] callbacks) throws IOException, UnsupportedCallbackException {
         for (int i=0; i < callbacks.length; i++) {
             if (callbacks[i] instanceof SAMLCallback) {
-		SAMLCallback samlCallback = (SAMLCallback)callbacks[i];
+        SAMLCallback samlCallback = (SAMLCallback)callbacks[i];
                 Map runtimeProp = samlCallback.getRuntimeProperties();
                 Element samlAssertion = getSAMLAssertionFromSTS();
-		samlCallback.setAssertionElement(samlAssertion);
-            }         
-	}
+        samlCallback.setAssertionElement(samlAssertion);
+            }
+    }
     }
 
     private Element getSAMLAssertionFromSTS() {
@@ -56,17 +56,17 @@ public  class SamlCallbackHandler implements CallbackHandler {
         String stsMexAddress = "http://localhost:8080/jaxws-fs-sts/sts/mex";
         DefaultSTSIssuedTokenConfiguration config = new DefaultSTSIssuedTokenConfiguration(
                     stsEndpoint, stsMexAddress);
-           
+
         config.setKeyType("http://schemas.xmlsoap.org/ws/2005/05/identity/NoProofKey");
-          
+
         try{
             IssuedTokenManager manager = IssuedTokenManager.getInstance();
-           
+
             String appliesTo = "http://localhost:8080/jaxws-fs/simple";
             IssuedTokenContext ctx = manager.createIssuedTokenContext(config, appliesTo);
             manager.getIssuedToken(ctx);
             Token issuedToken = ctx.getSecurityToken();
-           
+
             return (Element)issuedToken.getTokenValue();
         }catch(Exception ex){
             throw new RuntimeException(ex);

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -23,7 +23,7 @@ import javax.xml.namespace.QName;
  * @author K.Venugopal@sun.com
  */
 public class Header extends PolicyAssertion implements com.sun.xml.ws.security.policy.Header{
-    
+
     String name ="";
     String uri = "";
     int hashCode = 0;
@@ -35,24 +35,24 @@ public class Header extends PolicyAssertion implements com.sun.xml.ws.security.p
         attrs.put(NAME,localName);
         attrs.put(URI,uri);
     }
-    
+
     public Header(AssertionData name,Collection<PolicyAssertion> nestedAssertions, AssertionSet nestedAlternative)  throws PolicyException {
         super(name,nestedAssertions,nestedAlternative);
-        
-        
+
+
         String tmp = this.getAttributeValue(NAME);
         if(tmp != null){
             this.name = tmp;
         }
-        
+
         this.uri = this.getAttributeValue(URI);
-        
+
         if(uri == null || uri.length() == 0){
             throw new PolicyException("Namespace attribute is required under Header element ");
         }
-        
+
     }
-    
+
     public boolean equals(Object object){
         if(object instanceof Header){
             Header header = (Header)object;
@@ -64,7 +64,7 @@ public class Header extends PolicyAssertion implements com.sun.xml.ws.security.p
         }
         return false;
     }
-    
+
     public int hashCode(){
         if(hashCode ==0){
             if(uri!=null){
@@ -76,12 +76,12 @@ public class Header extends PolicyAssertion implements com.sun.xml.ws.security.p
         }
         return hashCode;
     }
-    
+
     @Override
     public String getLocalName() {
         return name;
     }
-    
+
     @Override
     public String getURI() {
         return uri;
