@@ -8,16 +8,6 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-/*
- * SAXEXC14nCanonicalizerImpl.java
- *
- * Created on August 20, 2005, 5:01 PM
- *
- * To change this template, choose Tools | Options and locate the template under
- * the Source Creation and Management node. Right-click the template and choose
- * Open. You can then make changes to the template in the Source Editor.
- */
-
 package com.sun.xml.wss.impl.c14n;
 
 import org.xml.sax.Attributes;

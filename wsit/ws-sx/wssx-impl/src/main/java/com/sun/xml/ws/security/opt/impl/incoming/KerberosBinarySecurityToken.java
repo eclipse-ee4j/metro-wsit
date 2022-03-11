@@ -8,15 +8,6 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-/*
- * KerberosBinarySecurityToken.java
- *
- * Created on 11 October, 2007, 4:47 PM
- *
- * To change this template, choose Tools | Template Manager
- * and open the template in the editor.
- */
-
 package com.sun.xml.ws.security.opt.impl.incoming;
 
 import org.apache.xml.security.exceptions.Base64DecodingException;

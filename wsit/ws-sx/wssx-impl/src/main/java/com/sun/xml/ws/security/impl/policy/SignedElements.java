@@ -8,20 +8,12 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-/*
- * SignedElements.java
- *
- * Created on February 17, 2006, 9:08 PM
- *
- * To change this template, choose Tools | Template Manager
- * and open the template in the editor.
- */
-
 package com.sun.xml.ws.security.impl.policy;
 
 import com.sun.xml.ws.policy.AssertionSet;
 import com.sun.xml.ws.policy.PolicyAssertion;
 import com.sun.xml.ws.policy.sourcemodel.AssertionData;
+import com.sun.xml.ws.security.impl.policy.PolicyUtil;
 import com.sun.xml.ws.security.policy.SecurityAssertionValidator;
 import com.sun.xml.ws.security.policy.SecurityPolicyVersion;
 import java.util.ArrayList;

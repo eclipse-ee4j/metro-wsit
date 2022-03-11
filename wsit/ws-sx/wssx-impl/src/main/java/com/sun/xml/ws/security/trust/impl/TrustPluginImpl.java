@@ -8,15 +8,6 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-/*
- * TrustPluginImpl.java
- *
- * Created on January 2, 2006, 10:57 AM
- *
- * To change this template, choose Tools | Template Manager
- * and open the template in the editor.
- */
-
 package com.sun.xml.ws.security.trust.impl;
 
 import com.sun.xml.ws.api.message.Message;

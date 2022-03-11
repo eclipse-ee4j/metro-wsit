@@ -8,17 +8,7 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-/*
- * JAXBSignatureFactory.java
- *
- * Created on February 2, 2006, 12:48 PM
- *
- * To change this template, choose Tools | Template Manager
- * and open the template in the editor.
- */
-
 package com.sun.xml.ws.security.opt.crypto.jaxb;
-
 
 import com.sun.xml.ws.security.opt.impl.util.JAXBUtil;
 import com.sun.xml.ws.security.opt.crypto.dsig.Signature;

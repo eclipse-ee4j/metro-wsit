@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -8,18 +8,7 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-/*
- * XWSSUtil.java
- *
- * Created on December 14, 2005, 11:18 AM
- *
- * To change this template, choose Tools | Options and locate the template under
- * the Source Creation and Management node. Right-click the template and choose
- * Open. You can then make changes to the template in the Source Editor.
- */
-
 package com.sun.xml.wss.util;
-
 
 import com.sun.xml.wss.XWSSConstants;
 import com.sun.xml.wss.XWSSecurityException;

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -8,17 +8,7 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-/*
- * SecondaryparametersType.java
- *
- * Created on September 27, 2007, 3:01 PM
- *
- * To change this template, choose Tools | Template Manager
- * and open the template in the editor.
- */
-
 package com.sun.xml.ws.security.trust.impl.wssx.bindings;
-
 
 import java.util.ArrayList;
 import java.util.List;
