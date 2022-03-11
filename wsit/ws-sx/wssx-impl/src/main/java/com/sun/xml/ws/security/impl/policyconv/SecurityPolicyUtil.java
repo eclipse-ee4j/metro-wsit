@@ -43,18 +43,14 @@ public class SecurityPolicyUtil {
 
     public static boolean isSignedPartsEmpty(SignedParts sp){
         if(!(sp.hasBody() || sp.hasAttachments())){
-            if(!sp.getHeaders().hasNext()){
-                return true;
-            }
+            return !sp.getHeaders().hasNext();
         }
         return false;
     }
 
     public static boolean isEncryptedPartsEmpty(EncryptedParts ep){
         if(!(ep.hasBody() || ep.hasAttachments())){
-            if(!ep.getTargets().hasNext()){
-                return true;
-            }
+            return !ep.getTargets().hasNext();
         }
         return false;
     }
@@ -109,7 +105,6 @@ public class SecurityPolicyUtil {
 
     public static SecurityPolicyVersion getSPVersion(PolicyAssertion pa){
         String nsUri = pa.getName().getNamespaceURI();
-        SecurityPolicyVersion spVersion = PolicyUtil.getSecurityPolicyVersion(nsUri);
-        return spVersion;
+        return PolicyUtil.getSecurityPolicyVersion(nsUri);
     }
 }

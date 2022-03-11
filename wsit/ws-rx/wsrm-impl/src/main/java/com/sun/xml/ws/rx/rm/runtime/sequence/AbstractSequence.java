@@ -15,7 +15,7 @@ import com.sun.xml.ws.rx.rm.runtime.ApplicationMessage;
 import com.sun.xml.ws.rx.rm.runtime.delivery.DeliveryQueue;
 import com.sun.xml.ws.rx.rm.runtime.delivery.DeliveryQueueBuilder;
 import com.sun.xml.ws.rx.util.TimeSynchronizer;
-import java.util.Arrays;
+
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -66,23 +66,22 @@ public abstract class AbstractSequence implements Sequence {
 
     @Override
     public List<AckRange> getAcknowledgedMessageNumbers() {
-        List<Long> values = data.getLastMessageNumberWithUnackedMessageNumbers();
+        final List<Long> values = data.getLastMessageNumberWithUnackedMessageNumbers();
 
         final long lastMessageNumber = values.remove(0);
-        final List<Long> unackedMessageNumbers = values;
 
         if (lastMessageNumber == Sequence.UNSPECIFIED_MESSAGE_ID) {
             // no message associated with the sequence yet
             return Collections.emptyList();
-        } else if (unackedMessageNumbers.isEmpty()) {
+        } else if (values.isEmpty()) {
             // no unacked indexes - we have a single acked range
-            return Arrays.asList(new AckRange(Sequence.MIN_MESSAGE_ID, lastMessageNumber));
+            return List.of(new AckRange(Sequence.MIN_MESSAGE_ID, lastMessageNumber));
         } else {
             // need to calculate ranges from the unacked indexes
             List<AckRange> result = new LinkedList<>();
 
             long lastBottomAckRange = Sequence.MIN_MESSAGE_ID;
-            for (long lastUnacked : unackedMessageNumbers) {
+            for (long lastUnacked : values) {
                 if (lastBottomAckRange < lastUnacked) {
                     result.add(new AckRange(lastBottomAckRange, lastUnacked - 1));
                 }
@@ -168,7 +167,7 @@ public abstract class AbstractSequence implements Sequence {
 
     @Override
     public boolean isExpired() {
-        return (data.getExpirationTime() == Sequence.NO_EXPIRY) ? false : timeSynchronizer.currentTimeInMillis() > data.getExpirationTime();
+        return data.getExpirationTime() != Sequence.NO_EXPIRY && timeSynchronizer.currentTimeInMillis() > data.getExpirationTime();
     }
 
     @Override
@@ -204,10 +203,7 @@ public abstract class AbstractSequence implements Sequence {
             return false;
         }
         final AbstractSequence other = (AbstractSequence) obj;
-        if ((this.data.getSequenceId() == null) ? (other.data.getSequenceId() != null) : !this.data.getSequenceId().equals(other.data.getSequenceId())) {
-            return false;
-        }
-        return true;
+        return (this.data.getSequenceId() == null) ? (other.data.getSequenceId() == null) : this.data.getSequenceId().equals(other.data.getSequenceId());
     }
 
     @Override

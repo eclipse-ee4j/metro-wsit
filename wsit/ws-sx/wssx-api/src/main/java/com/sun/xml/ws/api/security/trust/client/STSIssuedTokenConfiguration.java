@@ -44,7 +44,7 @@ public abstract class STSIssuedTokenConfiguration implements IssuedTokenConfigur
 
     protected String stsMEXAddress = null;
 
-    protected String stsWSDLLocation = null;;
+    protected String stsWSDLLocation = null;
 
     protected String stsServiceName = null;
 

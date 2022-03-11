@@ -363,7 +363,6 @@ public class XMLUtil {
 
                 NamedNodeMap attrs = node.getAttributes();
                 int length = attrs.getLength();
-                ;
 
                 for (int i = 0; i < length; i++) {
                     Attr attr = (Attr) attrs.item(i);

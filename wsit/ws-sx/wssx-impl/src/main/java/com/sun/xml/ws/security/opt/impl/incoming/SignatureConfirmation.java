@@ -122,7 +122,7 @@ public class SignatureConfirmation implements SecurityHeaderElement, TokenValida
     public void validate(ProcessingContext context) throws XWSSecurityException {
         Object temp = context.getExtraneousProperty("SignatureConfirmation");
         List scList = null;
-        if(temp != null && temp instanceof ArrayList)
+        if(temp instanceof ArrayList)
             scList = (ArrayList)temp;
         if(scList != null){
             if(signatureValue == null){

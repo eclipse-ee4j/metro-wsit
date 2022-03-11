@@ -145,9 +145,9 @@ public class SymmetricTokenBuilder extends TokenBuilder {
                 if (wss11Sender) {
                     valType = MessageConstants.EncryptedKey_NS;
                 }
-                com.sun.xml.ws.security.opt.api.keyinfo.SecurityTokenReference str = buildSTR(untBinding.getUUID(), buildDirectReference(ekId, valType));
+                SecurityTokenReference str = buildSTR(untBinding.getUUID(), buildDirectReference(ekId, valType));
                 //str.setTokenType(MessageConstants.EncryptedKey_NS);
-                buildKeyInfo((SecurityTokenReference) str);
+                buildKeyInfo(str);
                 stbResult.setDataProtectionKey(dataProtectionKey);
                 stbResult.setKeyInfo(super.keyInfo);
                 stbResult.setEncryptedKey((EncryptedKey) ek);
@@ -244,9 +244,9 @@ public class SymmetricTokenBuilder extends TokenBuilder {
                 if (wss11Sender) {
                     valType = MessageConstants.EncryptedKey_NS;
                 }
-                com.sun.xml.ws.security.opt.api.keyinfo.SecurityTokenReference str = buildSTR(certificateBinding.getUUID(), buildDirectReference(ekId, valType));
+                SecurityTokenReference str = buildSTR(certificateBinding.getUUID(), buildDirectReference(ekId, valType));
                 //str.setTokenType(MessageConstants.EncryptedKey_NS);
-                buildKeyInfo((SecurityTokenReference) str);
+                buildKeyInfo(str);
                 stbResult.setDataProtectionKey(dataProtectionKey);
                 stbResult.setKeyInfo(super.keyInfo);
                 stbResult.setEncryptedKey((EncryptedKey) ek);

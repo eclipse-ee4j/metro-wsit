@@ -113,7 +113,7 @@ public class SubjectConfirmation extends com.sun.xml.wss.saml.internal.saml11.ja
 
         //Unmarshal to JAXB KeyInfo Object and set it
         try {
-            jc = SAMLJAXBUtil.getJAXBContext();;
+            jc = SAMLJAXBUtil.getJAXBContext();
             u = jc.createUnmarshaller();
         } catch ( Exception ex) {
             throw new SAMLException(ex.getMessage());

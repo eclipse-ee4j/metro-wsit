@@ -167,11 +167,7 @@ public class JMACAuthConfigFactory extends AuthConfigFactory {
                 wLock.lock();
                 try {
                     List<RegistrationListener> listeners =
-                        id2RegisListenersMap.get(regisID);
-                    if (listeners == null) {
-                        listeners = new ArrayList<>();
-                        id2RegisListenersMap.put(regisID, listeners);
-                    }
+                            id2RegisListenersMap.computeIfAbsent(regisID, k -> new ArrayList<>());
                     if (!listeners.contains(listener)) {
                         listeners.add(listener);
                     }
@@ -569,11 +565,7 @@ public class JMACAuthConfigFactory extends AuthConfigFactory {
                     provider2IdsMap.remove(prevProvider);
                 }
             }
-            List<String> regisIDs = provider2IdsMap.get(provider);
-            if (regisIDs == null) {
-                regisIDs = new ArrayList<>();
-                provider2IdsMap.put(provider, regisIDs);
-            }
+            List<String> regisIDs = provider2IdsMap.computeIfAbsent(provider, k -> new ArrayList<>());
             regisIDs.add(regisID);
 
             if ((provider != null && !provider.equals(prevProvider))

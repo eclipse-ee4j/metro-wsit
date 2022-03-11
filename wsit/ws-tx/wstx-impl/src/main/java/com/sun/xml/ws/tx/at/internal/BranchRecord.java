@@ -528,7 +528,7 @@ public class BranchRecord implements Externalizable {
 
     byte[] bqual = globalXid.getBranchQualifier();
     if (bqual == null) {
-      out.writeByte((byte)-1);
+      out.writeByte(-1);
     } else {
       out.writeByte((byte)bqual.length);
       out.write(bqual);

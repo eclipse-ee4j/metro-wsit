@@ -168,29 +168,23 @@ public class SAMLUtil {
 
             if (doc.getNodeType() == Node.ELEMENT_NODE) {
                 if (doc.getFirstChild().getNamespaceURI().equals(MessageConstants.SAML_v2_0_NS)){
-                    Element el = (Element)((Element)doc).getElementsByTagNameNS(MessageConstants.SAML_v2_0_NS, "Assertion").item(0);
-                    return el;
+                    return (Element)((Element)doc).getElementsByTagNameNS(MessageConstants.SAML_v2_0_NS, "Assertion").item(0);
                 }else{
-                    Element el = (Element)((Element)doc).getElementsByTagNameNS(MessageConstants.SAML_v1_0_NS, "Assertion").item(0);
-                    return el;
+                    return (Element)((Element)doc).getElementsByTagNameNS(MessageConstants.SAML_v1_0_NS, "Assertion").item(0);
                 }
             } else {
                 if (doc.getFirstChild().getNamespaceURI().equals(MessageConstants.SAML_v2_0_NS)){
-                    Element el = (Element)((Document)doc).getElementsByTagNameNS(MessageConstants.SAML_v2_0_NS,"Assertion").item(0);
-                    return el;
+                    return (Element)((Document)doc).getElementsByTagNameNS(MessageConstants.SAML_v2_0_NS,"Assertion").item(0);
                 }else{
-                    Element el = (Element)((Document)doc).getElementsByTagNameNS(MessageConstants.SAML_v1_0_NS,"Assertion").item(0);
-                    return el;
+                    return (Element)((Document)doc).getElementsByTagNameNS(MessageConstants.SAML_v1_0_NS,"Assertion").item(0);
                 }
             }
 
         } else {
             if (document.getFirstChild().getNamespaceURI().equals(MessageConstants.SAML_v2_0_NS)){
-                Element el = (Element)document.getElementsByTagNameNS(MessageConstants.SAML_v2_0_NS, "Assertion").item(0);
-                return el;
+                return (Element)document.getElementsByTagNameNS(MessageConstants.SAML_v2_0_NS, "Assertion").item(0);
             }else{
-                Element el = (Element)document.getElementsByTagNameNS(MessageConstants.SAML_v1_0_NS, "Assertion").item(0);
-                return el;
+                return (Element)document.getElementsByTagNameNS(MessageConstants.SAML_v1_0_NS, "Assertion").item(0);
             }
         }
     }
@@ -203,9 +197,8 @@ public class SAMLUtil {
         Document doc = null;
         try{
             XMLStreamWriter writer = xof.createXMLStreamWriter(baos);
-            XMLStreamWriter writer_tmp = bCreator;
             while(!(XMLStreamReader.END_DOCUMENT == reader.getEventType())){
-                com.sun.xml.ws.security.opt.impl.util.StreamUtil.writeCurrentEvent(reader, writer_tmp);
+                com.sun.xml.ws.security.opt.impl.util.StreamUtil.writeCurrentEvent(reader, bCreator);
                 reader.next();
             }
             buffer.writeToXMLStreamWriter(writer);
@@ -275,20 +268,12 @@ public class SAMLUtil {
             if (_notOnOrAfter == null) {
                 return true;
             } else {
-                if (someTime < _notOnOrAfter.getTime()) {
-                    return true;
-                }
+                return someTime < _notOnOrAfter.getTime();
             }
         } else if (_notOnOrAfter == null ) {
-            if (someTime >= _notBefore.getTime()) {
-                return true;
-            }
-        } else if ((someTime >= _notBefore.getTime()) &&
-            (someTime < _notOnOrAfter.getTime()))
-        {
-            return true;
-        }
-        return false;
+            return someTime >= _notBefore.getTime();
+        } else return (someTime >= _notBefore.getTime()) &&
+                (someTime < _notOnOrAfter.getTime());
     }
 
     public static boolean verifySignature(Element samlAssertion, PublicKey pubKey)throws XWSSecurityException {
@@ -312,8 +297,7 @@ public class SAMLUtil {
             // unmarshal the XMLSignature
             XMLSignature xmlSignature = signatureFactory.unmarshalXMLSignature(validationContext);
             validationContext.setURIDereferencer(new DSigResolver(map, samlAssertion));
-            boolean coreValidity = xmlSignature.validate(validationContext);
-            return coreValidity;
+            return xmlSignature.validate(validationContext);
         } catch (Exception ex) {
             throw new XWSSecurityException(ex);
         }
@@ -326,7 +310,7 @@ public class SAMLUtil {
         Class<?> _nodeSetClass = null;
         String optNSClassName = "org.apache.jcp.xml.dsig.internal.dom.DOMSubTreeData";
         Constructor _constructor = null;
-        Boolean  _false = Boolean.valueOf(false);
+        Boolean  _false = Boolean.FALSE;
         DSigResolver(Map map,Element elem){
             this.elem = elem;
             this.map = map;
@@ -358,7 +342,7 @@ public class SAMLUtil {
         }
         Data dereferenceURI(String uri, XMLCryptoContext context) throws URIReferenceException{
             if(uri.charAt(0) == '#'){
-                uri =  uri.substring(1,uri.length());
+                uri =  uri.substring(1);
                 Element el = elem.getOwnerDocument().getElementById(uri);
                 if(el == null){
                     el = (Element)map.get(uri);

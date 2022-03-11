@@ -70,8 +70,7 @@ public class DumpFilter  {
 
         String msg2 = "==== " + label + " End  ====" + lineSeparator;
 
-        byte[] bytes = baos.toByteArray();
-        String logMsg = msg1 + new String(bytes) + msg2;
+        String logMsg = msg1 + baos.toString() + msg2;
         log.log(DEFAULT_LOG_LEVEL, logMsg);
     }
 

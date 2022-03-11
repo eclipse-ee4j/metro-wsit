@@ -219,12 +219,10 @@ public class TokenProcessor {
         } else if (PolicyTypeUtil.secureConversationTokenKeyBinding(keyBinding)){
             ((NamespaceContextEx)context.getNamespaceContext()).addSCNS();
             SCTBuilder sctBuilder = new SCTBuilder(context,(SecureConversationTokenKeyBinding)keyBinding);
-            BuilderResult sctResult = sctBuilder.process();
-            return sctResult;
+            return sctBuilder.process();
         }else if ( PolicyTypeUtil.issuedTokenKeyBinding(keyBinding)) {
             IssuedTokenBuilder itb = new IssuedTokenBuilder(context,(IssuedTokenKeyBinding)keyBinding);
-            BuilderResult itbResult = itb.process();
-            return itbResult;
+            return itb.process();
         }else if (PolicyTypeUtil.samlTokenPolicy(keyBinding)) {
             ((NamespaceContextEx)context.getNamespaceContext()).addSAMLNS();
             SamlTokenBuilder stb = new SamlTokenBuilder(context,(AuthenticationTokenPolicy.SAMLAssertionBinding)keyBinding,false);

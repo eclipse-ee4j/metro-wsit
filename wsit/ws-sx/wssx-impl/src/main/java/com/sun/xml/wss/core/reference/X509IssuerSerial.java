@@ -54,11 +54,8 @@ public class X509IssuerSerial extends ReferenceElement {
     public X509IssuerSerial(SOAPElement element)
         throws XWSSecurityException {
 
-        boolean throwAnException = false;
-        if (!(element.getLocalName().equals("X509Data") &&
-              XMLUtil.inSignatureNS(element))) {
-              throwAnException = true;
-        }
+        boolean throwAnException = !(element.getLocalName().equals("X509Data") &&
+                XMLUtil.inSignatureNS(element));
 
         SOAPElement issuerSerialElement;
         try {

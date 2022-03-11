@@ -212,7 +212,7 @@ public class SignaturePolicy extends WSSKeyBindingExtension {
          * @return true if a Timestamp Reference is to be included in the Signature
          */
         public boolean includeTimestamp() {
-        return timestamp != null ? true: false;
+        return timestamp != null;
         }
 
         /*
@@ -324,8 +324,7 @@ public class SignaturePolicy extends WSSKeyBindingExtension {
                     return false;
                 FeatureBinding policy = (FeatureBinding) binding;
 
-                boolean b1 = _canonicalizationAlgorithm.equals("") ? true :
-                    _canonicalizationAlgorithm.equals(policy.getCanonicalizationAlgorithm());
+                boolean b1 = _canonicalizationAlgorithm.equals("") || _canonicalizationAlgorithm.equals(policy.getCanonicalizationAlgorithm());
                 if (!b1) return false;
 
                 boolean b2 = _targets.equals(policy.getTargetBindings());

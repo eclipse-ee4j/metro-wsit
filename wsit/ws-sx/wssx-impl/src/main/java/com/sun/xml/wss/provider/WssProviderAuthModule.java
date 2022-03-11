@@ -143,7 +143,7 @@ public class WssProviderAuthModule implements ModuleOptions, ConfigurationStates
        @Override
        public int resolveConfigurationState(jakarta.security.auth.message.MessagePolicy messagePolicy,
                boolean isRequestPolicy, boolean isClientAuthModule) {
-           boolean orderForValidation = isClientAuthModule ? !isRequestPolicy : isRequestPolicy;
+           boolean orderForValidation = isClientAuthModule != isRequestPolicy;
            boolean recipientBeforeContent = false;
            boolean recipientAuthRequired = false;
            boolean sourceAuthRequired = false;
@@ -180,7 +180,7 @@ public class WssProviderAuthModule implements ModuleOptions, ConfigurationStates
                    }
                }
            }
-           boolean beforeContent = orderForValidation ? !recipientBeforeContent : recipientBeforeContent;
+           boolean beforeContent = orderForValidation != recipientBeforeContent;
 
            int configurationState = -1;
            if (sourceAuthRequired && !recipientAuthRequired) {
@@ -514,11 +514,8 @@ public class WssProviderAuthModule implements ModuleOptions, ConfigurationStates
                return uriIsUsernameToken(mPolicy, target.getValue());
            } else {
                int idx = target.getValue().indexOf(USERNAMETOKEN);
-               if (idx > -1) {
-                   return true;
-               }
+               return idx > -1;
            }
-           return false;
        }
        private boolean hasEncryptUsernamePolicy(EncryptionPolicy policy, MessagePolicy mPolicy) {
            EncryptionPolicy.FeatureBinding fb =
@@ -604,19 +601,13 @@ public class WssProviderAuthModule implements ModuleOptions, ConfigurationStates
        private boolean hasUsernameFollowedByBody(ArrayList targets) {
            Target t = (Target)targets.get(0);
            int idx = t.getValue().indexOf(USERNAMETOKEN);
-           if (idx == -1) {
-               return false;
-           }
-           return true;
+           return idx != -1;
        }
        //TODO: This logic fails if we have more than 2 targets in the ArrayList
        private boolean hasBodyFollowedByUsername(ArrayList targets) {
            Target t = (Target)targets.get(targets.size() - 1);
            int idx = t.getValue().indexOf(USERNAMETOKEN);
-           if (idx == -1) {
-               return false;
-           }
-           return true;
+           return idx != -1;
        }
        private void setUsernamePassword(AuthenticationTokenPolicy policy, CallbackHandler handler) {
             AuthenticationTokenPolicy.UsernameTokenBinding
@@ -668,10 +659,7 @@ public class WssProviderAuthModule implements ModuleOptions, ConfigurationStates
        }
        protected boolean isOptimized(SOAPMessage msg){
 //             System.out.println("ClassName"+(msg.getClass().getName()));
-             if(msg.getClass().getName().equals("com.sun.xml.messaging.saaj.soap.ver1_1.ExpressMessage1_1Impl") || msg.getClass().getName().equals("com.sun.xml.messaging.saaj.soap.ver1_2.ExpressMessage1_2Impl")){
-                return true;
-             }
-             return false;
+           return msg.getClass().getName().equals("com.sun.xml.messaging.saaj.soap.ver1_1.ExpressMessage1_1Impl") || msg.getClass().getName().equals("com.sun.xml.messaging.saaj.soap.ver1_2.ExpressMessage1_2Impl");
        }
       private void augmentSignAlias(MessagePolicy mPolicy, String signAlias) {
           if (signAlias == null) {
@@ -681,7 +669,7 @@ public class WssProviderAuthModule implements ModuleOptions, ConfigurationStates
               WSSPolicy sp = (WSSPolicy)it.next();
               SecurityPolicy keyBinding = sp.getKeyBinding();
               if (sp instanceof SignaturePolicy) {
-                  if ((keyBinding != null) && (keyBinding instanceof AuthenticationTokenPolicy.X509CertificateBinding)) {
+                  if ((keyBinding instanceof AuthenticationTokenPolicy.X509CertificateBinding)) {
                       AuthenticationTokenPolicy.X509CertificateBinding x509KB =
                           (AuthenticationTokenPolicy.X509CertificateBinding)keyBinding;
                       String certId = x509KB.getCertificateIdentifier();
@@ -700,7 +688,7 @@ public class WssProviderAuthModule implements ModuleOptions, ConfigurationStates
               WSSPolicy sp = (WSSPolicy)it.next();
               SecurityPolicy keyBinding = sp.getKeyBinding();
               if (sp instanceof EncryptionPolicy) {
-                  if ((keyBinding != null) && (keyBinding instanceof AuthenticationTokenPolicy.X509CertificateBinding)) {
+                  if ((keyBinding instanceof AuthenticationTokenPolicy.X509CertificateBinding)) {
                       AuthenticationTokenPolicy.X509CertificateBinding x509KB =
                           (AuthenticationTokenPolicy.X509CertificateBinding)keyBinding;
                       String certId = x509KB.getCertificateIdentifier();

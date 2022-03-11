@@ -238,7 +238,6 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
                 StringTokenizer aliases = new StringTokenizer(mo_aliases, " ");
                 StringTokenizer keypwds = new StringTokenizer(mo_keypwds, " ");
                 if (aliases.countTokens() != keypwds.countTokens()) {
-                    ;
                 }// log.INFO
 
             //while (aliases.hasMoreElements()) {
@@ -255,7 +254,7 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
 
         this.krbLoginModule = configAssertions.getProperty(DefaultCallbackHandler.KRB5_LOGIN_MODULE);
         this.krbServicePrincipal = configAssertions.getProperty(DefaultCallbackHandler.KRB5_SERVICE_PRINCIPAL);
-        this.krbCredentialDelegation = Boolean.valueOf(configAssertions.getProperty(DefaultCallbackHandler.KRB5_CREDENTIAL_DELEGATION));
+        this.krbCredentialDelegation = Boolean.parseBoolean(configAssertions.getProperty(DefaultCallbackHandler.KRB5_CREDENTIAL_DELEGATION));
 
         String uCBH = configAssertions.getProperty(USERNAME_CBH);
         String pCBH = configAssertions.getProperty(PASSWORD_CBH);
@@ -510,7 +509,7 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
                 Object obj = context.get(XWSSConstants.CERTIFICATE_PROPERTY);
                 if (cert != null && cert.equals(obj)) {
                     Object key = context.get(XWSSConstants.PRIVATEKEY_PROPERTY);
-                    if (key != null && key instanceof PrivateKey) {
+                    if (key instanceof PrivateKey) {
                         return (PrivateKey) key;
                     }
                 }
@@ -643,7 +642,7 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
         */
         if (context != null) {
             Object obj = context.get(XWSSConstants.CERTIFICATE_PROPERTY);
-            if (obj != null && obj instanceof X509Certificate) {
+            if (obj instanceof X509Certificate) {
                 return (X509Certificate) obj;
             }
         }
@@ -800,7 +799,7 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
                 _handler.handle(callbacks);
                 if (passwordValidationCallback.getValidator() != null) {
                     result = passwordValidationCallback.getResult();
-                    if (result == true) {
+                    if (result) {
                         CallerPrincipalCallback pvCallback = new CallerPrincipalCallback(getSubject(context), username);
                         callbacks = new Callback[]{pvCallback};
                         try {
@@ -1736,10 +1735,7 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
             return false;
         }
 
-        if (Arrays.equals(keyIdMatch, keyId)) {
-            return true;
-        }
-        return false;
+        return Arrays.equals(keyIdMatch, keyId);
     }
 
 
@@ -1753,10 +1749,7 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
             return false;
         }
 
-        if (Arrays.equals(keyIdMatch, keyId)) {
-            return true;
-        }
-        return false;
+        return Arrays.equals(keyIdMatch, keyId);
     }
 
     private X509Certificate getMatchingCertificate(
@@ -1855,11 +1848,8 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
         X500Principal currentIssuerPrincipal = x509Cert.getIssuerX500Principal();
         X500Principal issuerPrincipal = new X500Principal(issuerNameMatch);
 
-        if (serialNumber.equals(serialNumberMatch)
-            && currentIssuerPrincipal.equals(issuerPrincipal)) {
-            return true;
-        }
-        return false;
+        return serialNumber.equals(serialNumberMatch)
+                && currentIssuerPrincipal.equals(issuerPrincipal);
     }
 
     private X509Certificate getMatchingCertificate(
@@ -2086,8 +2076,7 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
         try {
             myAliasKey = this.getCertificate(context, this.myAlias, true).getPublicKey();
             if (myAliasKey.equals(publicKey)) {
-                PrivateKey ret = getPrivateKey(context, this.myAlias);
-                return ret;
+                return getPrivateKey(context, this.myAlias);
             }
         } catch (XWSSecurityException ex) {
             //TODO: log here
@@ -2536,10 +2525,7 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
              throw new XWSSecurityException(pe.getMessage());
          }
 
-        if ((expires != null) && expires.before(created))
-            return true;
-
-        return false;
+        return (expires != null) && expires.before(created);
     }
 
     @Override
@@ -2867,12 +2853,10 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
                     }
                 }
             }
+            //allow tests that use same cert for client and server
             if (cert != null) {
                 return cert;
-            } else if (self != null) {
-                //allow tests that use same cert for client and server
-                return self;
-            }
+            } else return self;
         }
         /*
         String keyId = (String)context.get(MessageConstants.REQUESTER_KEYID);

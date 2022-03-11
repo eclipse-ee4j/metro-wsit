@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -132,8 +132,7 @@ public enum RmProtocolVersion {
      *         action header value that belongs to a WS-ReliableMessaging protocol message
      */
     public boolean isProtocolAction(String wsaAction) {
-        return (wsaAction != null) &&
-                (isProtocolRequest(wsaAction) ||
+        return (isProtocolRequest(wsaAction) ||
                 isProtocolResponse(wsaAction) ||
                 isFault(wsaAction));
     }
@@ -148,8 +147,7 @@ public enum RmProtocolVersion {
      *         action header value that belongs to a WS-ReliableMessaging protocol request message
      */
     public boolean isProtocolRequest(String wsaAction) {
-        return (wsaAction != null) &&
-                (ackRequestedAction.equals(wsaAction) ||
+        return (ackRequestedAction.equals(wsaAction) ||
                 createSequenceAction.equals(wsaAction) ||
                 closeSequenceAction.equals(wsaAction) ||
                 terminateSequenceAction.equals(wsaAction));
@@ -165,8 +163,7 @@ public enum RmProtocolVersion {
      *         action header value that belongs to a WS-ReliableMessaging protocol response message
      */
     public boolean isProtocolResponse(String wsaAction) {
-        return (wsaAction != null) &&
-                (createSequenceResponseAction.equals(wsaAction) ||
+        return (createSequenceResponseAction.equals(wsaAction) ||
                 closeSequenceResponseAction.equals(wsaAction) ||
                 sequenceAcknowledgementAction.equals(wsaAction) ||
                 terminateSequenceResponseAction.equals(wsaAction));

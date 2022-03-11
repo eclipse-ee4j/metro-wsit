@@ -139,7 +139,7 @@ public class TransactionalFeature extends WebServiceFeature {
     public boolean isEnabled(String operationName) {
         Boolean isEnabled = enabledMap.get(operationName);
         if (isEnabled == null) {
-            return isExplicitMode ? false : enabled;
+            return !isExplicitMode && enabled;
         } else {
             return isEnabled;
         }

@@ -33,7 +33,7 @@ public interface WSTrustContract<K, V> {
 
     /** Cancel a Token */
     V cancel(K rst, IssuedTokenContext context, Map map)
-            throws WSTrustException;;
+            throws WSTrustException;
 
     /** Validate a Token */
     V validate(K request, IssuedTokenContext context)
@@ -44,5 +44,5 @@ public interface WSTrustContract<K, V> {
      * Client Initiated Secure Conversation.
      */
     void handleUnsolicited(V rstr, IssuedTokenContext context)
-            throws WSTrustException;;
+            throws WSTrustException;
 }

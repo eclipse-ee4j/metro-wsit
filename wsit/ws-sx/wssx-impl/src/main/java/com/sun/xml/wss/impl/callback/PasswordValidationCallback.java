@@ -8,10 +8,6 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-/*
- * $Id: PasswordValidationCallback.java,v 1.2 2010-10-21 15:37:24 snajper Exp $
- */
-
 package com.sun.xml.wss.impl.callback;
 
 import java.nio.charset.StandardCharsets;
@@ -268,12 +264,8 @@ public class PasswordValidationCallback extends XWSSCallback implements Callback
              byte[] bytesToHash;
               if (decodedNonce != null) {
                   bytesToHash = new byte[utf8Bytes.length + decodedNonce.length];
-                  for (int i = 0; i < decodedNonce.length; i++)
-                      bytesToHash[i] = decodedNonce[i];
-                  for (int i = decodedNonce.length;
-                       i < utf8Bytes.length + decodedNonce.length;
-                       i++)
-                      bytesToHash[i] = utf8Bytes[i - decodedNonce.length];
+                  System.arraycopy(decodedNonce, 0, bytesToHash, 0, decodedNonce.length);
+                  System.arraycopy(utf8Bytes, 0, bytesToHash, decodedNonce.length, utf8Bytes.length);
               } else {
                   bytesToHash = utf8Bytes;
               }

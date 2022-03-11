@@ -18,7 +18,7 @@ import com.sun.xml.wss.XWSSecurityException;
 import com.sun.xml.wss.impl.config.SecurityConfigurationXmlReader;
 import com.sun.xml.wss.impl.config.ApplicationSecurityConfiguration;
 import com.sun.xml.wss.impl.misc.DefaultSecurityEnvironmentImpl;
-import java.io.IOException;
+
 import java.net.URL;
 
 /**
@@ -43,34 +43,25 @@ public class SecurityConfiguration implements XWSSecurityConfiguration {
             return;
         }
 
-       InputStream config = null;
-       try {
-           config = configUrl.openStream();
+        try (InputStream config = configUrl.openStream()) {
 
-           if (config == null) {
-               configEmpty = true;
-               return;
-           }
+            if (config == null) {
+                configEmpty = true;
+                return;
+            }
 
-           configuration = SecurityConfigurationXmlReader.
-                   createApplicationSecurityConfiguration(config);
-           callbackhandler = (CallbackHandler)Class.forName(
-                   configuration.getSecurityEnvironmentHandler(),true,
-                   Thread.currentThread().getContextClassLoader()).newInstance();
-           securityEnvironment =
-                   new DefaultSecurityEnvironmentImpl(callbackhandler);
+            configuration = SecurityConfigurationXmlReader.
+                    createApplicationSecurityConfiguration(config);
+            callbackhandler = (CallbackHandler) Class.forName(
+                    configuration.getSecurityEnvironmentHandler(), true,
+                    Thread.currentThread().getContextClassLoader()).newInstance();
+            securityEnvironment =
+                    new DefaultSecurityEnvironmentImpl(callbackhandler);
 
-       } catch (Exception e) {
-           throw new XWSSecurityException(e);
-       } finally {
-           try {
-               if (config != null) {
-                   config.close();
-               }
-           } catch (IOException e) {
-               //do nothing
-           }
-       }
+        } catch (Exception e) {
+            throw new XWSSecurityException(e);
+        }
+        //do nothing
     }
 
     /**

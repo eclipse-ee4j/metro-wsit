@@ -8,10 +8,6 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-/*
- * $Id: SecurityTokenReference.java,v 1.2 2010-10-21 15:37:11 snajper Exp $
- */
-
 package com.sun.xml.wss.core;
 
 import com.sun.xml.wss.core.reference.X509ThumbPrintIdentifier;
@@ -39,8 +35,6 @@ import com.sun.xml.wss.core.reference.KeyIdentifier;
 import com.sun.xml.wss.core.reference.SamlKeyIdentifier;
 import com.sun.xml.wss.core.reference.X509IssuerSerial;
 import com.sun.xml.wss.core.reference.X509SubjectKeyIdentifier;
-
-
 
 /**
  * @author Vishal Mahajan
@@ -307,21 +301,22 @@ public class SecurityTokenReference extends SecurityHeaderBlockImpl implements c
                     ": An EncodingType attribute on a wsse:KeyIdentifier element in a SECURITY_TOKEN_REFERENCE MUST have a value of http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary");
         }
 
-        if (keyIdValueType.equals(MessageConstants.WSSE_SAML_KEY_IDENTIFIER_VALUE_TYPE) ||
-                keyIdValueType.equals(MessageConstants.WSSE_SAML_v2_0_KEY_IDENTIFIER_VALUE_TYPE)) {
-            return new SamlKeyIdentifier(element);
-        } else if ((keyIdValueType.equals(MessageConstants.X509SubjectKeyIdentifier_NS)) ||
-                (keyIdValueType.equals(MessageConstants.X509v3SubjectKeyIdentifier_NS))){
-            return new X509SubjectKeyIdentifier(element);
-        } else if ((keyIdValueType.equals(MessageConstants.ThumbPrintIdentifier_NS))) {
-            //TODO: hardcoding as per the current spec status
-            return new X509ThumbPrintIdentifier(element);
-        } else if ((keyIdValueType.equals(MessageConstants.EncryptedKeyIdentifier_NS))) {
-            //TODO: hardcoding as per the current spec status
-            return new EncryptedKeySHA1Identifier(element);
-        } else {
-            log.log(Level.SEVERE,"WSS0334.unsupported.keyidentifier");
-            throw new XWSSecurityException("Unsupported KeyIdentifier Reference Type encountered");
+        switch (keyIdValueType) {
+            case MessageConstants.WSSE_SAML_KEY_IDENTIFIER_VALUE_TYPE:
+            case MessageConstants.WSSE_SAML_v2_0_KEY_IDENTIFIER_VALUE_TYPE:
+                return new SamlKeyIdentifier(element);
+            case MessageConstants.X509SubjectKeyIdentifier_NS:
+            case MessageConstants.X509v3SubjectKeyIdentifier_NS:
+                return new X509SubjectKeyIdentifier(element);
+            case MessageConstants.ThumbPrintIdentifier_NS:
+                //TODO: hardcoding as per the current spec status
+                return new X509ThumbPrintIdentifier(element);
+            case MessageConstants.EncryptedKeyIdentifier_NS:
+                //TODO: hardcoding as per the current spec status
+                return new EncryptedKeySHA1Identifier(element);
+            default:
+                log.log(Level.SEVERE, "WSS0334.unsupported.keyidentifier");
+                throw new XWSSecurityException("Unsupported KeyIdentifier Reference Type encountered");
         }
     }
 

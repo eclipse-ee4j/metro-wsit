@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -297,7 +297,7 @@ public class McServerTube extends AbstractFilterTubeImpl {
                     MessageHeaders headers = message.getHeaders();
                     headers.add(Headers.create(
                             configuration.getRuntimeVersion().getJaxbContext(configuration.getAddressingVersion()),
-                            new MessagePendingElement(Boolean.valueOf(selectionUID != null && responseStorage.hasPendingResponse(selectionUID)))));
+                            new MessagePendingElement(selectionUID != null && responseStorage.hasPendingResponse(selectionUID))));
                 }
             }
 

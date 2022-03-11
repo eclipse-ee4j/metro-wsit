@@ -8,13 +8,8 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-/*
- * SCVAdapter.java
- *
- * Created on August 9, 2006, 2:47 PM
- */
-
 package com.sun.xml.security.core.xenc;
+
 import com.sun.xml.ws.security.opt.impl.enc.CryptoProcessor;
 
 import jakarta.activation.CommandInfo;

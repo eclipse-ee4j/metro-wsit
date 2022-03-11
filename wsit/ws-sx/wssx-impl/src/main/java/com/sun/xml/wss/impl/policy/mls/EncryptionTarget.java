@@ -121,8 +121,7 @@ public class EncryptionTarget extends Target implements Cloneable {
      * @return true if the target argument is equal to this Target
      */
     public boolean equals(EncryptionTarget target) {
-        boolean b1 = _dataEncryptionAlgorithm.equals("") ? true :
-            _dataEncryptionAlgorithm.equals(target.getDataEncryptionAlgorithm());
+        boolean b1 = _dataEncryptionAlgorithm.equals("") || _dataEncryptionAlgorithm.equals(target.getDataEncryptionAlgorithm());
 
         boolean b2 = _cipherReferenceTransforms.equals(target.getCipherReferenceTransforms());
 
@@ -223,13 +222,11 @@ public class EncryptionTarget extends Target implements Cloneable {
          * @return true if the argument transform is equal to this transform
          */
         public boolean equals(Transform transform) {
-            boolean b1 = _transform.equals("") ? true : _transform.equals(transform.getTransform());
+            boolean b1 = _transform.equals("") || _transform.equals(transform.getTransform());
             if (!b1) return false;
 
             boolean b2 = _algorithmParameters.equals(transform.getAlgorithmParameters());
-            if (!b2) return false;
-
-            return true;
+            return b2;
         }
 
         /**

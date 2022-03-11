@@ -8,10 +8,6 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-/*
- * $Id: MimeHeaderCanonicalizer.java,v 1.2 2010-10-21 15:37:19 snajper Exp $
- */
-
 package com.sun.xml.wss.impl.c14n;
 
 import java.nio.charset.StandardCharsets;
@@ -346,7 +342,7 @@ public class MimeHeaderCanonicalizer extends Canonicalizer {
 
     private String _decodeHexadecimal(String input, String charset, String language) throws Exception {
         // ignoring language
-        byte b = Byte.decode("0x"+input.toUpperCase()).byteValue();
+        byte b = Byte.decode("0x" + input.toUpperCase());
         return new String(new byte[] {b}, MimeUtility.javaCharset(charset));
     }
     @SuppressWarnings("unchecked")
@@ -354,7 +350,7 @@ public class MimeHeaderCanonicalizer extends Canonicalizer {
         int index = -1;
         String pname = "";
         String value = "";
-        String decoded = "";
+        StringBuilder decoded = new StringBuilder();
 
         Vector v = makeParameterVector(input);
         for (int i=0; i<v.size(); i++) {
@@ -381,10 +377,10 @@ public class MimeHeaderCanonicalizer extends Canonicalizer {
                 if (ix == -1) {
                     // flush out the previous param
                     if (!pname.equals(""))
-                        decoded += _SC + pname + _EQ + pv;
+                        decoded.append(_SC).append(pname).append(_EQ).append(pv);
 
                     // write the current param
-                    decoded += _SC + pn + _EQ + pv;
+                    decoded.append(_SC).append(pn).append(_EQ).append(pv);
 
                     // reset state
                     pname = "";
@@ -410,7 +406,7 @@ public class MimeHeaderCanonicalizer extends Canonicalizer {
                     if (curr == 0) {
                         // flush out previous param
                         if (!pname.equals(""))
-                            decoded += _SC + pname + _EQ + value;
+                            decoded.append(_SC).append(pname).append(_EQ).append(value);
 
                         // store state
                         pname = pn_i;
@@ -427,14 +423,14 @@ public class MimeHeaderCanonicalizer extends Canonicalizer {
 
         // flush out an unwritten param
         if (!pname.equals(""))
-            decoded += _SC + pname + _EQ + value;
+            decoded.append(_SC).append(pname).append(_EQ).append(value);
 
-        return decoded;
+        return decoded.toString();
     }
 
     private String concatenate2184decoded(String v0, String v1) throws XWSSecurityException {
         boolean v0Quoted = (v0.charAt(0) == _QT.charAt(0) && v0.charAt(v0.length()-1) == _QT.charAt(0));
-        boolean v1Quoted = (v1.charAt(0) == _QT.charAt(0) && v1.charAt(0) == _QT.charAt(0));
+        boolean v1Quoted = (v1.charAt(0) == _QT.charAt(0) && v1.charAt(v1.length()-1) == _QT.charAt(0));
 
         if (v0Quoted != v1Quoted) {
             // log

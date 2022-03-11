@@ -8,13 +8,6 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-/*
- * EncryptedHeaderBlock.java
- *
- * Created on October 13, 2006, 4:48 PM
- *
- */
-
 package com.sun.xml.wss.core;
 
 import com.sun.xml.wss.XWSSecurityException;

@@ -130,12 +130,18 @@ public class JaxwsApplicationMessage extends ApplicationMessageBase {
 
     @Override
     public String toString() {
-        String sb = "JAX-WS Application Message { " + "sequenceId=[ " + this.getSequenceId() + " ], " +
-                "messageNumber=[ " + this.getMessageNumber() + " ], " +
-                "correlationId=[ " + this.getCorrelationId() + " ], " +
-                "nextResendCount=[ " + this.getNextResendCount() + " ], " +
-                "wsaAction=[ " + this.jaxwsMessage.getWsaAction() +
-                " ] }";
-        return sb;
+        StringBuilder sb = new StringBuilder();
+        sb = sb.append("JAX-WS Application Message { sequenceId=[ ")
+               .append(this.getSequenceId())
+               .append(" ], messageNumber=[ ")
+               .append(this.getMessageNumber())
+               .append(" ], correlationId=[ ")
+               .append(this.getCorrelationId())
+               .append(" ], nextResendCount=[ ")
+               .append(this.getNextResendCount())
+               .append(" ], wsaAction=[ ")
+               .append(this.jaxwsMessage.getWsaAction())
+               .append(" ] }");
+        return sb.toString();
     }
 }

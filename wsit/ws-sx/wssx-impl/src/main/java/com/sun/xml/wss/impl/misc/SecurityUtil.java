@@ -92,7 +92,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-
 /**
  * Utility class for the Encryption and Signature related methods
  * @author Ashutosh Shahi
@@ -143,24 +142,24 @@ public class SecurityUtil {
      * NOTE: This method should only be used for DerivedKeyTokenLengths
      **/
     public static int getLengthFromAlgorithm(String algorithm) {
-        if(algorithm.equals(MessageConstants.AES_BLOCK_ENCRYPTION_192)){
-            return 24;
-        } else if(algorithm.equals(MessageConstants.AES_BLOCK_ENCRYPTION_256)){
-            return 32;
-        } else if(algorithm.equals(MessageConstants.AES_BLOCK_ENCRYPTION_128)){
-            return 16;
-        } else if (algorithm.equals(MessageConstants.TRIPLE_DES_BLOCK_ENCRYPTION)) {
-            return 24;
-        } else {
-            throw new UnsupportedOperationException("TODO: not yet implemented keyLength for" + algorithm);
+        switch (algorithm) {
+            case MessageConstants.AES_BLOCK_ENCRYPTION_192:
+                return 24;
+            case MessageConstants.AES_BLOCK_ENCRYPTION_256:
+                return 32;
+            case MessageConstants.AES_BLOCK_ENCRYPTION_128:
+                return 16;
+            case MessageConstants.TRIPLE_DES_BLOCK_ENCRYPTION:
+                return 24;
+            default:
+                throw new UnsupportedOperationException("TODO: not yet implemented keyLength for" + algorithm);
         }
     }
 
     public static String generateUUID() {
         Random rnd = new Random();
         int intRandom = rnd.nextInt();
-        String id = "XWSSGID-"+ System.currentTimeMillis() + intRandom;
-        return id;
+        return "XWSSGID-"+ System.currentTimeMillis() + intRandom;
     }
 
     public static byte[] P_SHA1(byte[] secret, byte[] seed
@@ -485,19 +484,13 @@ public class SecurityUtil {
 
     public static boolean isEncryptedKey(SOAPElement elem) {
 
-        if (MessageConstants.XENC_ENCRYPTED_KEY_LNAME.equals(elem.getLocalName()) &&
-                MessageConstants.XENC_NS.equals(elem.getNamespaceURI())) {
-            return true;
-        }
-        return false;
+        return MessageConstants.XENC_ENCRYPTED_KEY_LNAME.equals(elem.getLocalName()) &&
+                MessageConstants.XENC_NS.equals(elem.getNamespaceURI());
     }
 
     public static boolean isBinarySecret(SOAPElement elem) {
-        if (MessageConstants.BINARY_SECRET_LNAME.equals(elem.getLocalName()) &&
-                WSTrustConstants.WST_NAMESPACE.equals(elem.getNamespaceURI())) {
-            return true;
-        }
-        return false;
+        return MessageConstants.BINARY_SECRET_LNAME.equals(elem.getLocalName()) &&
+                WSTrustConstants.WST_NAMESPACE.equals(elem.getNamespaceURI());
     }
      @SuppressWarnings("unchecked")
     public static SecurityContextTokenImpl locateBySCTId(FilterProcessingContext context, String sctId) throws XWSSecurityException {
@@ -534,9 +527,7 @@ public class SecurityUtil {
         com.sun.xml.wss.core.ReferenceElement ref = ((com.sun.xml.wss.core.SecurityTokenReference)str).getReference();
         if (ref instanceof com.sun.xml.wss.core.reference.KeyIdentifier) {
             String assertionId = ((com.sun.xml.wss.core.reference.KeyIdentifier)ref).getReferenceValue();
-            if (ctx.getSamlIdVSKeyCache().get(assertionId) == null) {
-                ctx.getSamlIdVSKeyCache().put(assertionId, symKey);
-            }
+            ctx.getSamlIdVSKeyCache().putIfAbsent(assertionId, symKey);
         }
     }
      @SuppressWarnings("unchecked")
@@ -549,14 +540,10 @@ public class SecurityUtil {
             }
             if(item instanceof com.sun.xml.ws.security.secext10.KeyIdentifierType){
                 String assertionId = ((com.sun.xml.ws.security.secext10.KeyIdentifierType)item).getValue();
-                if (ctx.getSamlIdVSKeyCache().get(assertionId) == null) {
-                    ctx.getSamlIdVSKeyCache().put(assertionId, symKey);
-                }
+                ctx.getSamlIdVSKeyCache().putIfAbsent(assertionId, symKey);
                 HashMap sentSamlKeys = (HashMap) ctx.getExtraneousProperty(MessageConstants.STORED_SAML_KEYS);
                 if(sentSamlKeys != null){
-                    if(sentSamlKeys.get(assertionId) == null){
-                        sentSamlKeys.put(assertionId,symKey);
-                    }
+                    sentSamlKeys.putIfAbsent(assertionId, symKey);
                 }
             }
         }
@@ -738,8 +725,7 @@ public class SecurityUtil {
                     rd.close();
                     if (factoryClassName != null &&
                             ! "".equals(factoryClassName)) {
-                        Object obj = newInstance(factoryClassName, Thread.currentThread().getContextClassLoader(), spiName);
-                        return obj;
+                        return newInstance(factoryClassName, Thread.currentThread().getContextClassLoader(), spiName);
                     }
                 } catch (Exception e) {
                     throw new XWSSecurityRuntimeException(e);

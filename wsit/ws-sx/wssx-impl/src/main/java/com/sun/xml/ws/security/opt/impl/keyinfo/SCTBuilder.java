@@ -11,9 +11,9 @@
 package com.sun.xml.ws.security.opt.impl.keyinfo;
 import com.sun.xml.ws.security.opt.api.SecurityElement;
 import com.sun.xml.ws.security.opt.api.keyinfo.BuilderResult;
-import com.sun.xml.ws.security.opt.api.reference.DirectReference;
 import com.sun.xml.ws.security.IssuedTokenContext;
 import com.sun.xml.ws.security.SecurityContextTokenInfo;
+import com.sun.xml.ws.security.opt.impl.reference.DirectReference;
 import com.sun.xml.wss.XWSSecurityException;
 import com.sun.xml.wss.impl.MessageConstants;
 import com.sun.xml.wss.impl.misc.SecurityUtil;
@@ -101,7 +101,7 @@ public class SCTBuilder extends TokenBuilder{
         }
 
         if(sct1.getInstance() != null && !context.isExpired()){
-            ((com.sun.xml.ws.security.opt.impl.reference.DirectReference)directRef).setAttribute(
+            directRef.setAttribute(
                     context.getWSSCVersion(context.getSecurityPolicyVersion()), "Instance", sct1.getInstance());
         }
         byte[] proofKey = null;

@@ -157,14 +157,14 @@ public class DerivedKeyTokenHeaderBlock extends SecurityHeaderBlockImpl implemen
                 } else if ( "Offset".equals(element.getLocalName()) ) {
                     try {
                         offsetSpecified = true;
-                        offset = Long.valueOf(element.getValue()).longValue();
+                        offset = Long.valueOf(element.getValue());
                     } catch (NumberFormatException nfe) {
                         throw new XWSSecurityException(nfe);
                     }
                 } else if ( "Length".equals(element.getLocalName()) ) {
                     try{
                         lenSpecified = true;
-                        length = Long.valueOf(element.getValue()).longValue();
+                        length = Long.valueOf(element.getValue());
                     } catch (NumberFormatException nfe) {
                         throw new XWSSecurityException(nfe);
                     }
@@ -173,7 +173,7 @@ public class DerivedKeyTokenHeaderBlock extends SecurityHeaderBlockImpl implemen
                 } else if ( "Generation".equals(element.getLocalName())) {
                     try {
                         genSpecified = true;
-                        generation = Long.valueOf(element.getValue()).longValue();
+                        generation = Long.valueOf(element.getValue());
                     } catch (NumberFormatException nfe) {
                         throw new XWSSecurityException(nfe);
                     }

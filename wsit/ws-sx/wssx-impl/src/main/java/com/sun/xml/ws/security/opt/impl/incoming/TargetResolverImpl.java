@@ -66,7 +66,7 @@ public class TargetResolverImpl implements TargetResolver {
         }
 
         for (Target actualTarget : actualTargets) {
-            if("Signature".equals(policyType) && ((SignatureTarget)actualTarget).isITNever() == true){
+            if("Signature".equals(policyType) && ((SignatureTarget) actualTarget).isITNever()){
                 //ignore resolving the target when the target is S.S or S.E.S.Token target because this breaks oracle interop
                 //need to refine it later if something goes wrong
                 continue;
@@ -137,7 +137,6 @@ public class TargetResolverImpl implements TargetResolver {
         }
         return false;
     }
-    @SuppressWarnings("unchecked")
     private int countSTRTransforms(List<Target> targets, boolean isActualTarget) {
         int strTransformCount = 0;
         for (Target target : targets) {
@@ -171,7 +170,7 @@ public class TargetResolverImpl implements TargetResolver {
                 String val = target.getValue();
                 String id = null;
                 if (val.charAt(0) == '#') {
-                    id = val.substring(1, val.length());
+                    id = val.substring(1);
                 } else {
                     id = val;
                 }

@@ -27,6 +27,7 @@ import java.util.logging.Logger;
 
 import javax.crypto.spec.SecretKeySpec;
 import javax.xml.crypto.KeySelector.Purpose;
+import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 import javax.xml.stream.XMLStreamWriter;
@@ -176,7 +177,7 @@ public class KeyInfoProcessor {
                             }
                         }else {
                             sb = new StringBuilder();
-                            while(reader.getEventType() == reader.CHARACTERS && reader.getEventType() != reader.END_ELEMENT){
+                            while(reader.getEventType() == XMLStreamConstants.CHARACTERS && reader.getEventType() != XMLStreamConstants.END_ELEMENT){
                                 charSeq = ((XMLStreamReaderEx)reader).getPCDATA();
                                 for(int i=0;i<charSeq.length();i++){
                                     sb.append(charSeq.charAt(i));
@@ -228,7 +229,7 @@ public class KeyInfoProcessor {
      */
     private Key buildBinarySecret(XMLStreamReader reader)throws XWSSecurityException,XMLStreamException{
         byte [] value = null;
-        if(reader.getEventType() == reader.CHARACTERS){
+        if(reader.getEventType() == XMLStreamConstants.CHARACTERS){
             if(reader instanceof XMLStreamReaderEx){
                 CharSequence charSeq = ((XMLStreamReaderEx)reader).getPCDATA();
                 if(charSeq instanceof Base64Data){
@@ -266,7 +267,7 @@ public class KeyInfoProcessor {
 
     private String readCharacters(XMLStreamReader reader)throws XMLStreamException{
         StringBuilder sb = new StringBuilder();
-        while(reader.getEventType() == reader.CHARACTERS && reader.getEventType() != reader.END_ELEMENT){
+        while(reader.getEventType() == XMLStreamConstants.CHARACTERS && reader.getEventType() != XMLStreamConstants.END_ELEMENT){
             CharSequence charSeq = ((XMLStreamReaderEx)reader).getPCDATA();
             for(int i=0;i<charSeq.length();i++){
                 sb.append(charSeq.charAt(i));
@@ -301,7 +302,7 @@ public class KeyInfoProcessor {
      * @return  int
      */
     private int getEventType(XMLStreamReader reader) {
-        if(reader.getEventType() == reader.START_ELEMENT){
+        if(reader.getEventType() == XMLStreamConstants.START_ELEMENT){
             if(reader.getLocalName() == SECURITY_TOKEN_REFERENCE){
                 return SECURITY_TOKEN_REFERENCE_ELEMENT;
             }

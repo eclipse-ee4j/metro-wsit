@@ -248,11 +248,8 @@ class AlternativesBasedPolicyResolver implements PolicyResolver {
     }
 
     private boolean isTrustMessage() {
-        if (wstVer.getIssueRequestAction().equals(action) ||
-                wstVer.getIssueResponseAction().equals(action)) {
-            return true;
-        }
-        return false;
+        return wstVer.getIssueRequestAction().equals(action) ||
+                wstVer.getIssueResponseAction().equals(action);
 
     }
 
@@ -267,8 +264,7 @@ class AlternativesBasedPolicyResolver implements PolicyResolver {
     private String getAction(Message msg) {
         if (addVer != null) {
             MessageHeaders hl = msg.getHeaders();
-            String retVal = AddressingUtils.getAction(hl, addVer, tubeConfig.getBinding().getSOAPVersion());
-            return retVal;
+            return AddressingUtils.getAction(hl, addVer, tubeConfig.getBinding().getSOAPVersion());
         }
         return "";
 
@@ -282,22 +278,16 @@ class AlternativesBasedPolicyResolver implements PolicyResolver {
     }
 
     private boolean isSCMessage() {
-        if (wsscVer.getSCTRequestAction().equals(action) ||
+        return wsscVer.getSCTRequestAction().equals(action) ||
                 wsscVer.getSCTResponseAction().equals(action) ||
                 wsscVer.getSCTRenewRequestAction().equals(action) ||
-                wsscVer.getSCTRenewResponseAction().equals(action)) {
-            return true;
-        }
-        return false;
+                wsscVer.getSCTRenewResponseAction().equals(action);
     }
 
     private boolean isSCCancel() {
 
-        if (wsscVer.getSCTCancelResponseAction().equals(action) ||
-                wsscVer.getSCTCancelRequestAction().equals(action)) {
-            return true;
-        }
-        return false;
+        return wsscVer.getSCTCancelResponseAction().equals(action) ||
+                wsscVer.getSCTCancelRequestAction().equals(action);
     }
 
     private String getAction(WSDLOperation operation) {
@@ -331,8 +321,7 @@ class AlternativesBasedPolicyResolver implements PolicyResolver {
                 mps.add(cloneWithId(sph.getMessagePolicy(), p.getId()));
             }
         }
-        PolicyAlternatives p = new PolicyAlternatives(mps);
-        return p;
+        return new PolicyAlternatives(mps);
     }
 
     private MessagePolicy cloneWithId (MessagePolicy toClone, String id) {

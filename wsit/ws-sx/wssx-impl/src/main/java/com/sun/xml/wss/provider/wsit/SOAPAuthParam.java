@@ -92,8 +92,8 @@ public class SOAPAuthParam implements AuthParam {
          this.infoMap = new HashMap<>();
          this.infoMap.put(REQ_PACKET,request);
          this.infoMap.put(RES_PACKET,response);
-         this.requestInPacket = (request == null ? false : true);
-         this.responseInPacket = (response == null ? false : true);
+         this.requestInPacket = (request != null);
+         this.responseInPacket = (response != null);
      } else {
          throw new RuntimeException("argument is not packet");
      }
@@ -230,7 +230,7 @@ public class SOAPAuthParam implements AuthParam {
      }
      if (p == null || p instanceof Packet) {
          getMap().put(REQ_PACKET,p);
-         this.requestInPacket = (p == null ? false : true);
+         this.requestInPacket = (p != null);
          this.request = null;
      } else {
          throw new RuntimeException("argument is not packet");
@@ -250,7 +250,7 @@ public class SOAPAuthParam implements AuthParam {
      }
      if (p == null || p instanceof Packet) {
          getMap().put(RES_PACKET,p);
-         this.responseInPacket = (p == null ? false : true);
+         this.responseInPacket = (p != null);
          this.response = null;
      } else {
          throw new RuntimeException("argument is not packet");

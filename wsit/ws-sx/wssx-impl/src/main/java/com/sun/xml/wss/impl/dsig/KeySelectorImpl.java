@@ -254,12 +254,8 @@ public class KeySelectorImpl extends KeySelector{
         if (algName.equalsIgnoreCase("DSA") &&
                 algURI.equalsIgnoreCase(SignatureMethod.DSA_SHA1)) {
             return true;
-        } else if (algName.equalsIgnoreCase("RSA") &&
-                algURI.equalsIgnoreCase(SignatureMethod.RSA_SHA1)) {
-            return true;
-        } else {
-            return false;
-        }
+        } else return algName.equalsIgnoreCase("RSA") &&
+                algURI.equalsIgnoreCase(SignatureMethod.RSA_SHA1);
     }
 
     private static class SimpleKeySelectorResult implements KeySelectorResult {
@@ -1220,9 +1216,7 @@ public class KeySelectorImpl extends KeySelector{
 
 
     private static  boolean isSecurityTokenReference(Element reference){
-        if(MessageConstants.WSSE_SECURITY_TOKEN_REFERENCE_LNAME.equals(reference.getLocalName()))
-            return true;
-        return false;
+        return MessageConstants.WSSE_SECURITY_TOKEN_REFERENCE_LNAME.equals(reference.getLocalName());
     }
 
 
@@ -1502,8 +1496,7 @@ public class KeySelectorImpl extends KeySelector{
         String label = token.getLabel();
         DerivedKeyToken dkt = new DerivedKeyTokenImpl(offset, length, secret, nonce, label);
         String jceAlgo = SecurityUtil.getSecretKeyAlgorithm(algorithm);
-        Key returnKey = dkt.generateSymmetricKey(jceAlgo);
-        return returnKey;
+            return dkt.generateSymmetricKey(jceAlgo);
         } catch (Exception e){
             logger.log(Level.SEVERE, LogStringsMessages.WSS_1366_UNABLE_GENERATE_SYMMETRIC_KEY_DKT(), e);
             throw new XWSSecurityException(e);

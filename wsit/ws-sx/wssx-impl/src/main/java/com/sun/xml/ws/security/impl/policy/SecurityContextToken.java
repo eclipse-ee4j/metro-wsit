@@ -74,10 +74,7 @@ public class SecurityContextToken extends PolicyAssertion implements com.sun.xml
     @Override
     public boolean isRequireDerivedKeys() {
         populate();
-        if (rdKey != null ) {
-            return true;
-        }
-        return false;
+        return rdKey != null;
     }
 
     @Override

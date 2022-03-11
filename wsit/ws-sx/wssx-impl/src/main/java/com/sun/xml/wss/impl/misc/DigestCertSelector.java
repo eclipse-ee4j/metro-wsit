@@ -60,9 +60,7 @@ public class DigestCertSelector implements CertSelector {
                 throw new RuntimeException("Error while getting certificate's raw content");
             }
 
-            if (Arrays.equals(thumbPrintIdentifier, keyId)) {
-                return true;
-            }
+            return Arrays.equals(thumbPrintIdentifier, keyId);
         }
         return false;
     }

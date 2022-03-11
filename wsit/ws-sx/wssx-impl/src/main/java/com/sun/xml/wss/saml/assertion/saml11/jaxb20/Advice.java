@@ -41,7 +41,6 @@ public class Advice  extends com.sun.xml.wss.saml.internal.saml11.jaxb20.AdviceT
             LogDomainConstants.WSS_API_DOMAIN,
             LogDomainConstants.WSS_API_DOMAIN_BUNDLE);
 
-    @SuppressWarnings("unchecked")
     public static AdviceType fromElement(Element element) throws SAMLException {
         try {
             JAXBContext jc = SAMLJAXBUtil.getJAXBContext();

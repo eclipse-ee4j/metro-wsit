@@ -8,10 +8,6 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-/*
- * $Id: URIResolver.java,v 1.2 2010-10-21 15:37:39 snajper Exp $
- */
-
 package com.sun.xml.wss.impl.resolver;
 
 import java.util.Set;
@@ -190,7 +186,7 @@ public class URIResolver extends ResourceResolverSpi {
    private XMLSignatureInput _resolveCid(Attr uri, String baseUri)
                 throws ResourceResolverException {
 
-      XMLSignatureInput result = null;
+      AttachmentSignatureInput result = null;
       String uriNodeValue = uri.getNodeValue();
 
       if (soapMsg == null) throw generateException(uri, baseUri, errors[1]);
@@ -204,8 +200,8 @@ public class URIResolver extends ResourceResolverSpi {
          }
          Object[] obj = AttachmentSignatureInput._getSignatureInput(_part);
          result = new AttachmentSignatureInput((byte[])obj[1]);
-         ((AttachmentSignatureInput)result).setMimeHeaders((Vector)obj[0]);
-         ((AttachmentSignatureInput)result).setContentType(_part.getContentType());
+         result.setMimeHeaders((Vector)obj[0]);
+         result.setContentType(_part.getContentType());
       } catch (Exception e) {
          // log
           throw new ResourceResolverException(e, uri.getValue(), baseUri, "empty");
@@ -223,7 +219,7 @@ public class URIResolver extends ResourceResolverSpi {
    private XMLSignatureInput _resolveClocation(Attr uri, String baseUri)
                 throws ResourceResolverException, URIResolverException {
       URI uriNew = null;
-      XMLSignatureInput result = null;
+      AttachmentSignatureInput result = null;
       try {
          uriNew = getNewURI(uri.getNodeValue(), baseUri);
       } catch (URI.MalformedURIException ex) {
@@ -241,8 +237,8 @@ public class URIResolver extends ResourceResolverSpi {
          }
          Object[] obj = AttachmentSignatureInput._getSignatureInput(_part);
          result = new AttachmentSignatureInput((byte[])obj[1]);
-         ((AttachmentSignatureInput)result).setMimeHeaders((Vector)obj[0]);
-         ((AttachmentSignatureInput)result).setContentType(_part.getContentType());
+         result.setMimeHeaders((Vector)obj[0]);
+         result.setContentType(_part.getContentType());
       } catch (XWSSecurityException | SOAPException | IOException e) {
          // log
           throw new ResourceResolverException(e, uri.getValue(), baseUri, "empty");
@@ -503,15 +499,15 @@ public class URIResolver extends ResourceResolverSpi {
     }
 
      public NamespaceContext getNamespaceContext(Document doc) {
-            NamespaceContext nsContext = new NamespaceContextImpl();
-            ((NamespaceContextImpl)nsContext).add(
+            NamespaceContextImpl nsContext = new NamespaceContextImpl();
+            nsContext.add(
                     doc.getDocumentElement().getPrefix(), doc.getDocumentElement().getNamespaceURI());
             if (doc.getDocumentElement().getNamespaceURI() == MessageConstants.SOAP_1_2_NS) {
-                ((NamespaceContextImpl)nsContext).add("SOAP-ENV", MessageConstants.SOAP_1_2_NS);
-                ((NamespaceContextImpl)nsContext).add("env", MessageConstants.SOAP_1_2_NS);
+                nsContext.add("SOAP-ENV", MessageConstants.SOAP_1_2_NS);
+                nsContext.add("env", MessageConstants.SOAP_1_2_NS);
             }
-            ((NamespaceContextImpl)nsContext).add("wsu", MessageConstants.WSU_NS);
-            ((NamespaceContextImpl)nsContext).add("wsse", MessageConstants.WSSE_NS);
+            nsContext.add("wsu", MessageConstants.WSU_NS);
+            nsContext.add("wsse", MessageConstants.WSSE_NS);
         return nsContext;
     }
 
@@ -527,7 +523,7 @@ public class URIResolver extends ResourceResolverSpi {
 
     private static final class URIResolverException extends Exception {
         private static final long serialVersionUID = -509497777933987914L;
-    };
+    }
 
     private static final int ID_REFERENCE  = 0;
     private static final int CID_REFERENCE = 1;

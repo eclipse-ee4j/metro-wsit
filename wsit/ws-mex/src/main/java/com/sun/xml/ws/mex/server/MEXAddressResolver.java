@@ -82,8 +82,8 @@ class MEXAddressResolver extends PortAddressResolver {
                     final URL addressUrl = new URL(this.address);
                     try {
                         final URL currentAddressUrl = new URL(currentAddress);
-                        if (currentAddressUrl.getProtocol().toLowerCase().equals("http") &&
-                                addressUrl.getProtocol().toLowerCase().equals("https")) {
+                        if (currentAddressUrl.getProtocol().equalsIgnoreCase("http") &&
+                                addressUrl.getProtocol().equalsIgnoreCase("https")) {
                             result = currentAddress;
                             LOGGER.fine(MessagesMessages.MEX_0019_LEAVE_ADDRESS(currentAddress, portName));
                         }

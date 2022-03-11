@@ -87,7 +87,7 @@ public class SignatureConfirmationFilter {
 
             Object temp = context.getExtraneousProperty("SignatureConfirmation");
             List scList = null;
-            if(temp != null && temp instanceof ArrayList)
+            if(temp instanceof ArrayList)
                 scList = (ArrayList)temp;
             if(scList != null){
 

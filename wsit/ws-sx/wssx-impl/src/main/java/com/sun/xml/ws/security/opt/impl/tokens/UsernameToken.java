@@ -356,10 +356,8 @@ public class UsernameToken extends UsernameTokenType
         byte[] bytesToHash;
         if (decodedNonce != null) {
             bytesToHash = new byte[utf8Bytes.length + decodedNonce.length];
-            for (int i = 0; i < decodedNonce.length; i++)
-                bytesToHash[i] = decodedNonce[i];
-            for (int i = decodedNonce.length; i < utf8Bytes.length + decodedNonce.length; i++)
-                bytesToHash[i] = utf8Bytes[i - decodedNonce.length];
+            System.arraycopy(decodedNonce, 0, bytesToHash, 0, decodedNonce.length);
+            System.arraycopy(utf8Bytes, 0, bytesToHash, decodedNonce.length, utf8Bytes.length);
         } else {
             bytesToHash = utf8Bytes;
         }

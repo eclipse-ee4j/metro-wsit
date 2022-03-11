@@ -253,10 +253,7 @@ public class EncryptedKey implements SecurityHeaderElement, NamespaceContextInfo
         if(StreamUtil._break(reader, "EncryptedKey", MessageConstants.XENC_NS)){
             return true;
         }
-        if(reader.getEventType() == XMLStreamReader.END_DOCUMENT ){
-            return true;
-        }
-        return false;
+        return reader.getEventType() == XMLStreamReader.END_DOCUMENT;
     }
 
     private void processEncryptionMethod(XMLStreamReader reader) throws XMLStreamException,XWSSecurityException{

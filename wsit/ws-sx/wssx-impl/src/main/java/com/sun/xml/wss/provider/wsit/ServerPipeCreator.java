@@ -67,7 +67,6 @@ public class ServerPipeCreator extends ServerPipelineHook {
         props.put(PipeConstants.NEXT_TUBE, context.getTubelineHead());
         props.put(PipeConstants.CONTAINER, context.getEndpoint().getContainer());
         //TODO: Convert GF security pipes to TUBE(s).
-        ServerSecurityTube serverTube = new ServerSecurityTube(props, context.getTubelineHead(), httpBinding);
-        return serverTube;
+        return new ServerSecurityTube(props, context.getTubelineHead(), httpBinding);
     }
 }

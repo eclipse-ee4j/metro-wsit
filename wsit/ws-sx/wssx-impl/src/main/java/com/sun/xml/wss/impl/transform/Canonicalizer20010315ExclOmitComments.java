@@ -864,12 +864,8 @@ public class Canonicalizer20010315ExclOmitComments {
                 && currentNode.getParentNode().getNamespaceURI().equals(MessageConstants.WSSE_NS)) {
                     NamedNodeMap nmap = currentNode.getParentNode().getAttributes();
                     Node node = nmap.getNamedItemNS(MessageConstants.WSU_NS, "Id");
-                    if(node == null){
-                        //System.out.println("ID FOUND");
-                        outputTextToWriter(currentNode.getNodeValue(), this._writer,true);
-                    }else{
-                        outputTextToWriter(currentNode.getNodeValue(), this._writer,false);
-                    }
+                    //System.out.println("ID FOUND");
+                    outputTextToWriter(currentNode.getNodeValue(), this._writer, node == null);
                 }
                 break;
             }

@@ -29,8 +29,6 @@ import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlType;
 import javax.xml.namespace.QName;
 
-import com.sun.xml.ws.security.trust.impl.bindings.RequestSecurityTokenResponseType;
-
 
 /**
  * <p>Java class for RequestSecurityTokenResponseCollectionType complex type.

@@ -10,7 +10,6 @@
 
 package com.sun.xml.ws.security.impl.policy;
 
-
 import com.sun.xml.ws.policy.AssertionSet;
 import com.sun.xml.ws.policy.NestedPolicy;
 import com.sun.xml.ws.policy.PolicyAssertion;
@@ -25,7 +24,6 @@ import javax.xml.namespace.QName;
 import com.sun.xml.ws.security.policy.SecurityAssertionValidator;
 import com.sun.xml.ws.security.policy.SecurityAssertionValidator.AssertionFitness;
 import java.util.Iterator;
-
 
 /**
  *
@@ -118,7 +116,7 @@ public class HttpsToken extends PolicyAssertion implements com.sun.xml.ws.securi
             if(SecurityPolicyVersion.SECURITYPOLICY200507.namespaceUri.equals(
                     spVersion.namespaceUri)){
                 String value = this.getAttributeValue(rccQname);
-                requireCC = Boolean.valueOf(value);
+                requireCC = Boolean.parseBoolean(value);
             }
             NestedPolicy policy = this.getNestedPolicy();
             if(policy == null){

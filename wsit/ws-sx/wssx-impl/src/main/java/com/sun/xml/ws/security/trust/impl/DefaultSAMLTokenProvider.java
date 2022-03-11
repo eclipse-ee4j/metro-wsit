@@ -487,12 +487,8 @@ public class DefaultSAMLTokenProvider implements STSTokenProvider {
     }
 
     private boolean isSAMLAssertion(Element token){
-        if (token.getLocalName().equals("Assertion") &&
-            (token.getNamespaceURI().equals(WSTrustConstants.SAML10_ASSERTION_TOKEN_TYPE) ||
-             token.getNamespaceURI().equals(WSTrustConstants.SAML20_ASSERTION_TOKEN_TYPE))){
-            return true;
-        }
-
-        return false;
+        return token.getLocalName().equals("Assertion") &&
+                (token.getNamespaceURI().equals(WSTrustConstants.SAML10_ASSERTION_TOKEN_TYPE) ||
+                        token.getNamespaceURI().equals(WSTrustConstants.SAML20_ASSERTION_TOKEN_TYPE));
     }
 }

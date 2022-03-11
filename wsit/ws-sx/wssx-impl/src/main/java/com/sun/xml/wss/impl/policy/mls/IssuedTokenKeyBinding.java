@@ -40,12 +40,9 @@ public class IssuedTokenKeyBinding extends KeyBindingBase implements LazyKeyBind
 
     @Override
     public boolean equals(WSSPolicy policy) {
-        if ( !PolicyTypeUtil.issuedTokenKeyBinding(policy)) {
-            return false;
-        }
+        return PolicyTypeUtil.issuedTokenKeyBinding(policy);
 
         //TODO: Check the contents of IssuedTokenContext
-        return true;
     }
 
     @Override

@@ -105,8 +105,7 @@ public class XWSSTubelineAssemblerFactory extends TubelineAssemblerFactory {
                     Method meth = clazz.getMethod("isEnabled", WSBinding.class);
                     Object result = meth.invoke(null, binding);
                     if (result instanceof Boolean) {
-                        boolean ret = ((Boolean)result).booleanValue();
-                        return ret;
+                        return (boolean) (Boolean) result;
                     }
                 } catch (IllegalAccessException | SecurityException | NoSuchMethodException | InvocationTargetException | IllegalArgumentException ex) {
                     throw new WebServiceException(ex);
@@ -130,10 +129,7 @@ public class XWSSTubelineAssemblerFactory extends TubelineAssemblerFactory {
             //only accessible as a Runtime Property on BindingProvider.RequestContext
             //With Metro 2.0 provide a way of disabling the default rule above and one would need to
             //set System Property DISABLE_XWSS_SECURITY to disable the client pipeline.
-            if (disable) {
-                return false;
-            }
-            return true;
+            return !disable;
         }
 
         private static boolean isSecurityConfigPresent(ServerTubeAssemblerContext context) {
@@ -149,9 +145,7 @@ public class XWSSTubelineAssemblerFactory extends TubelineAssemblerFactory {
                     serverConfig = "/WEB-INF/" + serviceLocalName + "_security_config.xml";
                     url = ctxt.getResource(serverConfig);
                 }
-                if (url != null) {
-                    return true;
-                }
+                return url != null;
             } else {
                 //this could be an EJB or JDK6 endpoint
                 //so let us try to locate the config from META-INF classpath
@@ -161,21 +155,16 @@ public class XWSSTubelineAssemblerFactory extends TubelineAssemblerFactory {
                     serverConfig = "META-INF/" + serviceLocalName + "_security_config.xml";
                     url = SecurityUtil.loadFromClasspath(serverConfig);
                 }
-                if (url != null) {
-                    return true;
-                }
+                return url != null;
             }
-            return false;
         }
 
         private static Tube initializeXWSSClientTube(WSDLPort prt, WSService svc, WSBinding bnd, Tube nextP) {
-            Tube ret = new XWSSClientTube(prt,svc, bnd, nextP);
-            return ret;
+            return new XWSSClientTube(prt,svc, bnd, nextP);
         }
 
         private static Tube initializeXWSSServerTube(WSEndpoint epoint, WSDLPort prt, Tube nextP) {
-            Tube ret = new XWSSServerTube(epoint, prt, nextP);
-            return ret;
+            return new XWSSServerTube(epoint, prt, nextP);
         }
     }
 

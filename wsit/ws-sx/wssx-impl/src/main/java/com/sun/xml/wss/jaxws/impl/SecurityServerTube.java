@@ -79,7 +79,6 @@ import com.sun.xml.ws.security.policy.Token;
 import com.sun.xml.ws.security.secconv.WSSCContract;
 import com.sun.xml.ws.security.secconv.WSSCFactory;
 import com.sun.xml.ws.security.trust.WSTrustElementFactory;
-import com.sun.xml.ws.security.trust.elements.BaseSTSRequest;
 import com.sun.xml.ws.security.trust.elements.BaseSTSResponse;
 import com.sun.xml.ws.security.trust.elements.RequestSecurityToken;
 import com.sun.xml.wss.NonceManager;
@@ -167,10 +166,7 @@ public class SecurityServerTube extends SecurityTubeBase {
             if (cntxtClass != null) {
                 contextDelegate = this.loadClass(cntxtClass);
             }
-            boolean isSC = false;
-            if (!this.getSecureConversationPolicies(null, null).isEmpty()){
-                isSC = true;
-            }
+            boolean isSC = !this.getSecureConversationPolicies(null, null).isEmpty();
             sessionManager = SessionManager.getSessionManager(((ServerTubeConfiguration) tubeConfig).getEndpoint(), isSC, props);
             props.put(PipeConstants.ENDPOINT, context.getEndpoint());
             props.put(PipeConstants.POLICY, context.getPolicyMap());
@@ -520,8 +516,7 @@ public class SecurityServerTube extends SecurityTubeBase {
 
     protected ProcessingContext initializeOutgoingProcessingContext(
             Packet packet, boolean isSCMessage, boolean isTrustMessage /*, boolean thereWasAFault*/) {
-        ProcessingContext ctx = initializeOutgoingProcessingContext(packet, isSCMessage/*, thereWasAFault*/);
-        return ctx;
+        return initializeOutgoingProcessingContext(packet, isSCMessage/*, thereWasAFault*/);
     }
 
     @Override
@@ -635,12 +630,10 @@ public class SecurityServerTube extends SecurityTubeBase {
             }
             SecurityPolicyHolder sph = applicableAlternative.getOutMessagePolicyMap().get(cachedOperation);
             if (fault == null) {
-                MessagePolicy faultPolicy1 = (sph != null) ? (sph.getMessagePolicy()) : new MessagePolicy();
-                return faultPolicy1;
+                return (sph != null) ? (sph.getMessagePolicy()) : new MessagePolicy();
             }
             SecurityPolicyHolder faultPolicyHolder = sph.getFaultPolicy(fault);
-            MessagePolicy faultPolicy = (faultPolicyHolder == null) ? new MessagePolicy() : faultPolicyHolder.getMessagePolicy();
-            return faultPolicy;
+            return (faultPolicyHolder == null) ? new MessagePolicy() : faultPolicyHolder.getMessagePolicy();
         }
         return null;
 
@@ -656,7 +649,6 @@ public class SecurityServerTube extends SecurityTubeBase {
 
     // The packet has the Message with RST/SCT inside it
     // TODO: Need to inspect if it is really a Issue or a Cancel
-    @SuppressWarnings("unchecked")
     private Packet invokeSecureConversationContract(
             Packet packet, ProcessingContext ctx, boolean isSCTIssue, String action) {
 
@@ -676,10 +668,10 @@ public class SecurityServerTube extends SecurityTubeBase {
             WSTrustElementFactory wsscEleFac = WSTrustElementFactory.newInstance(wsscVer);
 
             JAXBElement rstEle = msg.readPayloadAsJAXB(WSTrustElementFactory.getContext(wsTrustVer).createUnmarshaller());
-            BaseSTSRequest rst;
+            RequestSecurityToken rst;
 
             rst = wsscEleFac.createRSTFrom(rstEle);
-            URI requestType = ((RequestSecurityToken) rst).getRequestType();
+            URI requestType = rst.getRequestType();
             BaseSTSResponse rstr;
             WSSCContract scContract = WSSCFactory.newWSSCContract(wsscVer);
             scContract.setWSSCServerConfig((Iterator) packet.invocationProperties.get(
@@ -923,8 +915,7 @@ public class SecurityServerTube extends SecurityTubeBase {
                     os.write(val);
                     val = is.read();
                 }
-                String classname = os.toString();
-                return classname;
+                return os.toString();
 
             } catch (IOException ex) {
                 log.log(Level.SEVERE, null, ex);

@@ -22,7 +22,6 @@ import javax.xml.crypto.URIDereferencer;
 import javax.xml.crypto.URIReference;
 import javax.xml.crypto.URIReferenceException;
 import javax.xml.crypto.XMLCryptoContext;
-import com.sun.xml.ws.security.opt.crypto.JAXBData;
 
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBElement;
@@ -88,8 +87,7 @@ public class DSigResolver implements URIDereferencer {
                 AuthenticationTokenPolicy.SAMLAssertionBinding resolvedSAMLBinding =
                         (AuthenticationTokenPolicy.SAMLAssertionBinding) context.getProperty("SAML_CLIENT_CACHE");
                 if (resolvedSAMLBinding != null) {
-                    String id = resolvedSAMLBinding.getAssertionId();
-                    uri = id;
+                    uri = resolvedSAMLBinding.getAssertionId();
                 }
             }
             if (uri == null || uri.equals("")) {
@@ -123,8 +121,7 @@ public class DSigResolver implements URIDereferencer {
         if (attachment == null) {
             throw new URIReferenceException("Attachment Resource with Identifier  " + uri + " was not found");
         }
-        AttachmentData attachData = new AttachmentData(attachment);
-        return attachData;
+        return new AttachmentData(attachment);
     }
 
     /**
@@ -139,12 +136,11 @@ public class DSigResolver implements URIDereferencer {
         try {
             if (elementCache.size() > 0) {
                 Object obj = elementCache.get(uri);
-                if (obj != null && obj instanceof Header) {
+                if (obj instanceof Header) {
                     Header reqdHeader = (Header) obj;
                     JAXBContext jaxbContext = JAXBUtil.getJAXBContext();
                     JAXBElement jb = reqdHeader.readAsJAXB(jaxbContext.createUnmarshaller());
-                    JAXBData jData = new JAXBDataImpl(jb, jaxbContext, filterContext.getNamespaceContext());
-                    return jData;
+                    return new JAXBDataImpl(jb, jaxbContext, filterContext.getNamespaceContext());
                 }
             }
 

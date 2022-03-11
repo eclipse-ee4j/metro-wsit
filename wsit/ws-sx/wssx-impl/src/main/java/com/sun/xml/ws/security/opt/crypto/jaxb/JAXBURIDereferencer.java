@@ -88,9 +88,7 @@ public class JAXBURIDereferencer  implements javax.xml.crypto.URIDereferencer {
     @Override
     public Data dereference(URIReference uRIReference, XMLCryptoContext xMLCryptoContext) throws URIReferenceException {
 
-        JAXBDataImpl data = new JAXBDataImpl(getJaxbElement(), getJbContext(), new com.sun.xml.ws.security.opt.impl.util.NamespaceContextEx(false));
-
-        return data;
+        return new JAXBDataImpl(getJaxbElement(), getJbContext(), new com.sun.xml.ws.security.opt.impl.util.NamespaceContextEx(false));
 
     }
 

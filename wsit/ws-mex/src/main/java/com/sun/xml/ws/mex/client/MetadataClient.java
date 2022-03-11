@@ -50,7 +50,7 @@ import org.w3c.dom.NodeList;
  */
 public class MetadataClient {
 
-    enum Protocol { SOAP_1_2, SOAP_1_1 };
+    enum Protocol { SOAP_1_2, SOAP_1_1 }
 
     private final String [] suffixes = { "" , "/mex" };
     private final MetadataUtil mexUtil;

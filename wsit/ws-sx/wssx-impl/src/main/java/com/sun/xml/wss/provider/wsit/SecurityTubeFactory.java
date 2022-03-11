@@ -392,10 +392,7 @@ public final class SecurityTubeFactory implements TubeFactory, TubelineAssemblyC
         //only accessible as a Runtime Property on BindingProvider.RequestContext
         //With Metro 2.0 provide a way of disabling the default rule above and one would need to
         //set System Property DISABLE_XWSS_SECURITY to disable the client pipeline.
-        if (disable) {
-            return false;
-        }
-        return true;
+        return !disable;
     }
 
     private boolean isSecurityConfigPresent(ServerTubelineAssemblyContext context) {
@@ -411,9 +408,7 @@ public final class SecurityTubeFactory implements TubeFactory, TubelineAssemblyC
                 serverConfig = "/WEB-INF/" + serviceLocalName + "_security_config.xml";
                 url = ctxt.getResource(serverConfig);
             }
-            if (url != null) {
-                return true;
-            }
+            return url != null;
         } else {
             //this could be an EJB or JDK6 endpoint
             //so let us try to locate the config from META-INF classpath
@@ -423,11 +418,8 @@ public final class SecurityTubeFactory implements TubeFactory, TubelineAssemblyC
                 serverConfig = "META-INF/" + serviceLocalName + "_security_config.xml";
                 url = SecurityUtil.loadFromClasspath(serverConfig);
             }
-            if (url != null) {
-                return true;
-            }
+            return url != null;
         }
-        return false;
     }
 
     private Tube initializeXWSSClientTube(ClientTubelineAssemblyContext context) {
@@ -495,7 +487,7 @@ public final class SecurityTubeFactory implements TubeFactory, TubelineAssemblyC
                 JMACAuthConfigFactory.class.getName());
                 }*/
                 AuthConfigFactory factory = AuthConfigFactory.getFactory();
-                if (factory == null || !(factory instanceof JMACAuthConfigFactory)) {
+                if (!(factory instanceof JMACAuthConfigFactory)) {
                     AuthConfigFactory.setFactory(new JMACAuthConfigFactory(loader));
                 }
                 return null; // nothing to return

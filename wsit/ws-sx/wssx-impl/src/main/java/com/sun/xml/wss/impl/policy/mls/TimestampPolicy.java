@@ -152,8 +152,8 @@ public class TimestampPolicy extends WSSPolicy {
 
         try {
             TimestampPolicy tPolicy = (TimestampPolicy) policy;
-            boolean b1 = creationTime.equals("") ? true : creationTime.equalsIgnoreCase(tPolicy.getCreationTime());
-            boolean b2 = getExpirationTime().equals("") ? true : getExpirationTime().equalsIgnoreCase(tPolicy.getExpirationTime());
+            boolean b1 = creationTime.equals("") || creationTime.equalsIgnoreCase(tPolicy.getCreationTime());
+            boolean b2 = getExpirationTime().equals("") || getExpirationTime().equalsIgnoreCase(tPolicy.getExpirationTime());
             assrt = b1 && b2;
         } catch (Exception e) {}
 

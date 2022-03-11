@@ -220,7 +220,7 @@ final class InVmSequenceData implements SequenceData {
      * This method must be called from within a data write lock only.
      */
     private void addUnackedMessageNumber(long messageNumber, boolean received) {
-        final Long newUnackedInstance = Long.valueOf(messageNumber);
+        final Long newUnackedInstance = messageNumber;
 
         data.getAllUnackedMessageNumbers().add(newUnackedInstance);
         if (received) {
@@ -242,7 +242,7 @@ final class InVmSequenceData implements SequenceData {
 
     @Override
     public boolean isFailedOver(long messageNumber) {
-        final Long value = Long.valueOf(messageNumber);
+        final Long value = messageNumber;
         lockRead();
         try {
             return data.getFailedOverUnackedMessageNumbers().contains(value);
@@ -313,7 +313,7 @@ final class InVmSequenceData implements SequenceData {
             Iterator<Long> iterator = data.getReceivedUnackedMessageNumbers().iterator();
             while (iterator.hasNext()) {
                 msgNumberKey = iterator.next();
-                if (msgNumberKey.longValue() == messageNumber) {
+                if (msgNumberKey == messageNumber) {
                     break;
                 }
             }

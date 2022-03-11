@@ -121,7 +121,7 @@ public class XWSSPolicyContainer {
         ClientOutgoingPolicy,
         ServerIncomingPolicy,
         ServerOutgoingPolicy
-    };
+    }
 
     private Section section;
     private List<SecurityPolicy> policyList;
@@ -274,12 +274,10 @@ public class XWSSPolicyContainer {
         //UsernameToken, SAML Token Policy, X509Certificate, issued token
         if ( PolicyTypeUtil.authenticationTokenPolicy(xwssPolicy)) {
             MLSPolicy binding = ((AuthenticationTokenPolicy)xwssPolicy).getFeatureBinding();
-            if ( PolicyTypeUtil.usernameTokenPolicy(binding) ||
+            return PolicyTypeUtil.usernameTokenPolicy(binding) ||
                     PolicyTypeUtil.samlTokenPolicy(binding) ||
                     PolicyTypeUtil.x509CertificateBinding(binding) ||
-                    PolicyTypeUtil.issuedTokenKeyBinding(binding)) {
-                return true;
-            }
+                    PolicyTypeUtil.issuedTokenKeyBinding(binding);
         }
         return false;
     }
@@ -288,10 +286,7 @@ public class XWSSPolicyContainer {
      * @return - true if xwssPolicy is TimestampPolicy else false.
      */
     private boolean isTimestamp( SecurityPolicy xwssPolicy ) {
-        if ( xwssPolicy != null && PolicyTypeUtil.timestampPolicy(xwssPolicy) ) {
-            return true;
-        }
-        return false;
+        return xwssPolicy != null && PolicyTypeUtil.timestampPolicy(xwssPolicy);
     }
     /**
      *

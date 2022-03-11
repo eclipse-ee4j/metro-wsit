@@ -114,8 +114,7 @@ public class ExportSamlAssertionFilter {
                     }
                     version = reader.getAttributeValue(null, "Version");
                     buffer = new MutableXMLStreamBuffer();
-                    StreamWriterBufferCreator bCreator = new StreamWriterBufferCreator(buffer);
-                    XMLStreamWriter writer_tmp = bCreator;
+                    XMLStreamWriter writer_tmp = new StreamWriterBufferCreator(buffer);
                     while (!(XMLStreamReader.END_DOCUMENT == reader.getEventType())) {
                        com.sun.xml.ws.security.opt.impl.util.StreamUtil.writeCurrentEvent(reader, writer_tmp);
                        reader.next();

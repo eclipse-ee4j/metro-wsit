@@ -148,8 +148,7 @@ public class TeeFilter {
         //        } else {
         byte[] xsltBytes = prettyPrintStylesheet.getBytes();
         ByteArrayInputStream bais = new ByteArrayInputStream(xsltBytes);
-        Source stylesheetSource = new StreamSource(bais);
-        return stylesheetSource;
+        return new StreamSource(bais);
         //        }
     }
 

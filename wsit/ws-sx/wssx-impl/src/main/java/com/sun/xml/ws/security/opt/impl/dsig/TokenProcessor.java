@@ -159,23 +159,19 @@ public class TokenProcessor {
             }
 
             builder = new SymmetricTokenBuilder(skb, context, dataEncAlgo,keyEncAlgo);
-            BuilderResult skbResult = builder.process();
-            return skbResult;
+            return builder.process();
         }  else if ( PolicyTypeUtil.derivedTokenKeyBinding(keyBinding)) {
             DerivedTokenKeyBinding dtk = (DerivedTokenKeyBinding)keyBinding;
             ((NamespaceContextEx)context.getNamespaceContext()).addSCNS();
             builder = new DerivedKeyTokenBuilder(context, dtk);
-            BuilderResult dtkResult = builder.process();
-            return dtkResult;
+            return builder.process();
         }  else if ( PolicyTypeUtil.issuedTokenKeyBinding(keyBinding)) {
             IssuedTokenBuilder itb = new IssuedTokenBuilder(context,(IssuedTokenKeyBinding)keyBinding);
-            BuilderResult itbResult = itb.process();
-            return itbResult;
+            return itb.process();
         } else if (PolicyTypeUtil.secureConversationTokenKeyBinding(keyBinding)) {
             ((NamespaceContextEx)context.getNamespaceContext()).addSCNS();
             SCTBuilder sctBuilder = new SCTBuilder(context,(SecureConversationTokenKeyBinding)keyBinding);
-            BuilderResult sctResult = sctBuilder.process();
-            return sctResult;
+            return sctBuilder.process();
         } else if (PolicyTypeUtil.samlTokenPolicy(keyBinding)) {
             ((NamespaceContextEx)context.getNamespaceContext()).addSAMLNS();
             SamlTokenBuilder stb = new SamlTokenBuilder(context,(AuthenticationTokenPolicy.SAMLAssertionBinding)keyBinding,true);
@@ -183,8 +179,7 @@ public class TokenProcessor {
         } else if (PolicyTypeUtil.keyValueTokenBinding(keyBinding)) {
             ((NamespaceContextEx)context.getNamespaceContext()).addSAMLNS();
             KeyValueTokenBuilder sctBuilder = new KeyValueTokenBuilder(context,(AuthenticationTokenPolicy.KeyValueTokenBinding)keyBinding);
-            BuilderResult kvtResult = sctBuilder.process();
-            return kvtResult;
+            return sctBuilder.process();
          } else{
             logger.log(Level.SEVERE, LogStringsMessages.WSS_1703_UNSUPPORTED_KEYBINDING_SIGNATUREPOLICY(keyBinding));
             throw new UnsupportedOperationException("Unsupported Key Binding"+keyBinding);

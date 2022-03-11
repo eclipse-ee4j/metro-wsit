@@ -23,7 +23,6 @@ import java.util.Map;
 /**
  * @author Alexey Stashok
  */
-@SuppressWarnings({"unchecked"})
 public final class ClientConnectionSession extends ConnectionSession {
     private Map<String, Object> attributes = new HashMap<>(2);
     private Map<String, ChannelContext> url2ChannelMap = new HashMap<>();

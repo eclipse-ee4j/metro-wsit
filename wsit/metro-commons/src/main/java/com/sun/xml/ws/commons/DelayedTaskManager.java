@@ -17,9 +17,6 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
-/**
- *
- */
 public final class DelayedTaskManager extends AbstractTaskManager {
 
     private static final Logger LOGGER = Logger.getLogger(DelayedTaskManager.class);
@@ -72,7 +69,6 @@ public final class DelayedTaskManager extends AbstractTaskManager {
             }
         }
     }
-    //
 
     private DelayedTaskManager(String name, int coreThreadPoolSize, Component component) {
         super();

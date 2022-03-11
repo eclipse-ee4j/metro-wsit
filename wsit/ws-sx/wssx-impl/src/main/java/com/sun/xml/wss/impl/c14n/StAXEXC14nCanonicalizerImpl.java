@@ -64,9 +64,7 @@ public class StAXEXC14nCanonicalizerImpl extends StAXC14nCanonicalizerImpl  {
             ElementName qname = elementNames[_depth - 2];
             if(qname.getUtf8Data().getLength() == 11 || qname.getUtf8Data().getLength() == 12){
                 String str = new String(qname.getUtf8Data().getBytes(), qname.getUtf8Data().getLength() - 6, 6);
-                if(str.equals("Advice")){
-                    return true;
-                }
+                return str.equals("Advice");
             }else{
                 return false;
             }

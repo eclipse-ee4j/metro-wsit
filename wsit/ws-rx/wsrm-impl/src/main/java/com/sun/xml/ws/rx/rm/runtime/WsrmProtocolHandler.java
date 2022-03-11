@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -101,19 +101,19 @@ public abstract class WsrmProtocolHandler {
     public final boolean containsProtocolMessage(@NotNull Packet packet) {
         assert packet != null;
 
-        return (packet.getMessage() == null) ? false : rmVersion.protocolVersion.isProtocolAction(getWsaAction(packet.getMessage()));
+        return packet.getMessage() != null && rmVersion.protocolVersion.isProtocolAction(getWsaAction(packet.getMessage()));
     }
 
     public final boolean containsProtocolRequest(@NotNull Packet packet) {
         assert packet != null;
 
-        return (packet.getMessage() == null) ? false : rmVersion.protocolVersion.isProtocolRequest(getWsaAction(packet.getMessage()));
+        return packet.getMessage() != null && rmVersion.protocolVersion.isProtocolRequest(getWsaAction(packet.getMessage()));
     }
 
     public final boolean containsProtocolResponse(@NotNull Packet packet) {
         assert packet != null;
 
-        return (packet.getMessage() == null) ? false : rmVersion.protocolVersion.isProtocolResponse(getWsaAction(packet.getMessage()));
+        return packet.getMessage() != null && rmVersion.protocolVersion.isProtocolResponse(getWsaAction(packet.getMessage()));
     }
 
     protected WsrmProtocolHandler(@NotNull RmRuntimeVersion rmVersion, @NotNull RmConfiguration configuration, @NotNull Communicator communicator) {
@@ -143,7 +143,6 @@ public abstract class WsrmProtocolHandler {
             return null;
         }
         try {
-            @SuppressWarnings(value = "unchecked")
             T result = header.readAsJAXB(getJaxbUnmarshaller());
             return result;
         } catch (JAXBException ex) {
@@ -174,7 +173,7 @@ public abstract class WsrmProtocolHandler {
         assert message != null;
 
         try {
-            @SuppressWarnings("unchecked") T result = message.readPayloadAsJAXB(getJaxbUnmarshaller());
+            T result = message.readPayloadAsJAXB(getJaxbUnmarshaller());
             return result;
         } catch (JAXBException e) {
             throw LOGGER.logSevereException(new RxRuntimeException(LocalizationMessages.WSRM_1123_ERROR_UNMARSHALLING_MESSAGE(), e));

@@ -41,10 +41,8 @@ public class DerivedTokenKeyBinding extends KeyBindingBase {
         }
 
         WSSPolicy dkt = ((DerivedTokenKeyBinding)policy).getOriginalKeyBinding();
-        if ( dkt.getType().intern() != getOriginalKeyBinding().getType().intern() )
-            return false;
+        return dkt.getType().intern() == getOriginalKeyBinding().getType().intern();
         //TODO: check the contents (dkt.getValue() and derivedTokenKeyBinding.getValue()
-        return true;
     }
 
     @Override

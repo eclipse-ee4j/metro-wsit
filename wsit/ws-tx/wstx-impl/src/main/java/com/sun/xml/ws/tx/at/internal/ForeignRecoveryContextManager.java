@@ -33,11 +33,11 @@ import java.util.Map;
 public class ForeignRecoveryContextManager {
 
     private static final int REPLAY_TIMER_INTERVAL_MS =
-            new Integer(System.getProperty("com.sun.xml.ws.tx.at.internal.indoubt.timeout.interval", "10000"));
+            Integer.getInteger("com.sun.xml.ws.tx.at.internal.indoubt.timeout.interval", 10000);
     //It would be easy enough to base this off of transaction timeout, however, as a subordinate, we only have access to
     // the ttl which is not really a true indication of transaction timeout to go by.
     private static final int INDOUBT_TIMEOUT =
-            new Integer(System.getProperty("com.sun.xml.ws.tx.at.internal.indoubt.timeout", "90000"));
+            Integer.getInteger("com.sun.xml.ws.tx.at.internal.indoubt.timeout", 90000);
     private static ForeignRecoveryContextManager singleton = new ForeignRecoveryContextManager();
     volatile int counter;
     private static final Logger LOGGER_ContextRunnable = Logger.getLogger(ContextRunnable.class);
@@ -190,7 +190,7 @@ public class ForeignRecoveryContextManager {
             for (RecoveryContextWorker rc : replayList) {
                 boolean isScheduled = rc.isScheduled();
                 if (!isScheduled){
-                    if((System.currentTimeMillis() - rc.getLastReplayMillis()) > INDOUBT_TIMEOUT * rc.getRetryCount())
+                    if((System.currentTimeMillis() - rc.getLastReplayMillis()) > (long) INDOUBT_TIMEOUT * rc.getRetryCount())
                     {
                         rc.setScheduled(true);
                         rc.incrementRetryCount();

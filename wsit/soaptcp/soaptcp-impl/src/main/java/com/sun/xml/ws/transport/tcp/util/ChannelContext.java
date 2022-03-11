@@ -147,9 +147,7 @@ public class ChannelContext implements WSTCPFastInfosetStreamReaderRecyclable.Re
             logger.log(Level.FINEST, MessagesMessages.WSTCP_1122_CHANNEL_CONTEXT_DECODE_CT(mimeId, params));
         }
 
-        String mimeType = decodeMimeType(mimeId);
-
-        String contentTypeStr = mimeType;
+        String contentTypeStr = decodeMimeType(mimeId);
         if (params.size() > 0) {
             final StringBuilder ctBuf = new StringBuilder(contentTypeStr);
             for(Map.Entry<Integer, String> parameter : params.entrySet()) {

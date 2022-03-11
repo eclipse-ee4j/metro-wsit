@@ -34,12 +34,9 @@ public class SecureConversationTokenKeyBinding extends KeyBindingBase {
 
     @Override
     public boolean equals(WSSPolicy policy) {
-        if ( !PolicyTypeUtil.secureConversationTokenKeyBinding(policy)) {
-            return false;
-        }
+        return PolicyTypeUtil.secureConversationTokenKeyBinding(policy);
 
         //TODO: Check the contents of IssuedTokenContext
-        return true;
     }
 
     @Override

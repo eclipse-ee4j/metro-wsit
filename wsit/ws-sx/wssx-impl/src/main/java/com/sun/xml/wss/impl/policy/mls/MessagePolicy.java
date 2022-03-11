@@ -87,7 +87,7 @@ public class MessagePolicy implements SecurityPolicy {
         StringBuilder securityOperation = new StringBuilder();
         securityOperation.append("_BODY");
 
-        StringBuilder tmpBuffer = new StringBuilder("");
+        StringBuilder tmpBuffer = new StringBuilder();
 
         SignatureTarget sigTarget = null;
         EncryptionTarget encTarget = null;
@@ -263,14 +263,19 @@ public class MessagePolicy implements SecurityPolicy {
 
         String type = securityOperation.toString().intern();
 
-        if ( type == "_SIGN_BODY") {
-            optimizedType = MessageConstants.SIGN_BODY;
-        } else if ( type == "_SIGN_ENCRYPT_BODY") {
-            optimizedType =  MessageConstants.SIGN_ENCRYPT_BODY;
-        } else if (type == "_ENCRYPT_SIGN_BODY") {
-            optimizedType = MessageConstants.NOT_OPTIMIZED;//MessageConstants.ENCRYPT_SIGN_BODY;
-        } else if ( type == "_ENCRYPT_BODY") {
-            optimizedType = MessageConstants.NOT_OPTIMIZED;// MessageConstants.ENCRYPT_BODY;
+        switch (type) {
+            case "_SIGN_BODY":
+                optimizedType = MessageConstants.SIGN_BODY;
+                break;
+            case "_SIGN_ENCRYPT_BODY":
+                optimizedType = MessageConstants.SIGN_ENCRYPT_BODY;
+                break;
+            case "_ENCRYPT_SIGN_BODY":
+                optimizedType = MessageConstants.NOT_OPTIMIZED;//MessageConstants.ENCRYPT_SIGN_BODY;
+                break;
+            case "_ENCRYPT_BODY":
+                optimizedType = MessageConstants.NOT_OPTIMIZED;// MessageConstants.ENCRYPT_BODY;
+                break;
         }
 
         return optimizedType;

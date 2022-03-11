@@ -319,12 +319,9 @@ public abstract class HarnessUtil {
                     "No body element identifying an operation is found");
         }
 
-        String id =
-                firstChild != null ?
-                    "{"+firstChild.getNamespaceURI()+"}"+firstChild.getLocalName() :
-                    null;
-
-        return id;
+        return firstChild != null ?
+            "{"+firstChild.getNamespaceURI()+"}"+firstChild.getLocalName() :
+            null;
     }
 
     /*

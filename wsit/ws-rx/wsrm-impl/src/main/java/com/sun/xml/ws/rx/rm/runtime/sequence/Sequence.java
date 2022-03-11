@@ -89,7 +89,7 @@ public interface Sequence {
                 throw new SequenceTerminatedException(sequenceId, LocalizationMessages.WSRM_1136_WRONG_SEQUENCE_STATE_MESSAGE_REGISTRATION(sequenceId, this), code);
             }
         };
-        private int value;
+        private final int value;
 
         State(int value) {
             this.value = value;

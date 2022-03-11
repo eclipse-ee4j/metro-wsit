@@ -112,10 +112,8 @@ final class Utilities {
             }
             // Unwrap exception and see if it makes sense to retry this request
             // (no need to check for null - handled by instanceof)
-            if (throwable.getCause() instanceof RMRetryException ||
-                    throwable.getCause() instanceof IOException) {
-                return true;
-            }
+            return throwable.getCause() instanceof RMRetryException ||
+                    throwable.getCause() instanceof IOException;
         }
         return false;
     }

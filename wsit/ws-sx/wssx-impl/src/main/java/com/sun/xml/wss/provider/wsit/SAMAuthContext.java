@@ -35,9 +35,6 @@ public class SAMAuthContext implements ServerAuthContext {
      * Creates instance of this class and calls
      * {@link ServerAuthModule#initialize(jakarta.security.auth.message.MessagePolicy, jakarta.security.auth.message.MessagePolicy, CallbackHandler, java.util.Map)}
      *
-     * @param handler
-     * @param serverAuthModule
-     * @throws AuthException
      */
     public SAMAuthContext(final CallbackHandler handler, final ServerAuthModule serverAuthModule) throws AuthException {
         this.serverAuthModule = serverAuthModule;

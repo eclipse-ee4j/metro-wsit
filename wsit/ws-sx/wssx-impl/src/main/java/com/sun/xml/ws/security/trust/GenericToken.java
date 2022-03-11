@@ -8,12 +8,6 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-/*
- * GenericToken.java
- *
- * Created on February 15, 2006, 2:06 PM
- */
-
 package com.sun.xml.ws.security.trust;
 
 import com.sun.xml.ws.security.opt.api.SecurityHeaderElement;

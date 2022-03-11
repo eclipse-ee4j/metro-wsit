@@ -34,7 +34,7 @@ import java.util.HashMap;
 import java.util.logging.Level;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
-import javax.xml.stream.XMLStreamWriter;
+
 import org.w3c.dom.Element;
 
 /**
@@ -78,10 +78,8 @@ public class SamlTokenBuilder extends TokenBuilder{
                     }
                     //version = reader.getAttributeValue(null, "Version");
                     buffer = new MutableXMLStreamBuffer();
-                    StreamWriterBufferCreator bCreator = new StreamWriterBufferCreator(buffer);
-                    XMLStreamWriter writer_tmp = bCreator;
                     while (!(XMLStreamReader.END_DOCUMENT == reader.getEventType())) {
-                        com.sun.xml.ws.security.opt.impl.util.StreamUtil.writeCurrentEvent(reader, writer_tmp);
+                        com.sun.xml.ws.security.opt.impl.util.StreamUtil.writeCurrentEvent(reader, new StreamWriterBufferCreator(buffer));
                         reader.next();
                     }
                 } catch (XMLStreamException ex) {

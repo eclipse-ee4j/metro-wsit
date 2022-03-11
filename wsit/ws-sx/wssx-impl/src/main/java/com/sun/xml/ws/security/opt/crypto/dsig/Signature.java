@@ -8,12 +8,6 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-/*
- * Signature.java
- *
- * Created on January 24, 2006, 3:59 PM
- */
-
 package com.sun.xml.ws.security.opt.crypto.dsig;
 
 import com.sun.xml.ws.security.opt.impl.util.JAXBUtil;
@@ -48,9 +42,6 @@ import com.sun.xml.wss.logging.impl.opt.signature.LogStringsMessages;
  * @author Abhijit Das
  * @author K.Venugopal@sun.com
  */
-
-
-
 @XmlRootElement(name="Signature",namespace = "http://www.w3.org/2000/09/xmldsig#")
 public class Signature extends com.sun.xml.security.core.dsig.SignatureType implements javax.xml.crypto.dsig.XMLSignature {
     @XmlTransient private static final Logger logger = Logger.getLogger(LogDomainConstants.IMPL_OPT_SIGNATURE_DOMAIN,
@@ -310,14 +301,15 @@ public class Signature extends com.sun.xml.security.core.dsig.SignatureType impl
     }
 
     private String getRSASignatureAlgorithm(String signatureAlgo) {
-        if (signatureAlgo.equals(SignatureMethod.RSA_SHA1)) {
-            return MessageConstants.RSA_SHA1;
-        } else if (signatureAlgo.equals(MessageConstants.RSA_SHA256_SIGMETHOD)) {
-            return MessageConstants.RSA_SHA256;
-        } else if (signatureAlgo.equals(MessageConstants.RSA_SHA384_SIGMETHOD)) {
-            return MessageConstants.RSA_SHA384;
-        } else if (signatureAlgo.equals(MessageConstants.RSA_SHA512_SIGMETHOD)) {
-            return MessageConstants.RSA_SHA512;
+        switch (signatureAlgo) {
+            case SignatureMethod.RSA_SHA1:
+                return MessageConstants.RSA_SHA1;
+            case MessageConstants.RSA_SHA256_SIGMETHOD:
+                return MessageConstants.RSA_SHA256;
+            case MessageConstants.RSA_SHA384_SIGMETHOD:
+                return MessageConstants.RSA_SHA384;
+            case MessageConstants.RSA_SHA512_SIGMETHOD:
+                return MessageConstants.RSA_SHA512;
         }
         return null;
     }

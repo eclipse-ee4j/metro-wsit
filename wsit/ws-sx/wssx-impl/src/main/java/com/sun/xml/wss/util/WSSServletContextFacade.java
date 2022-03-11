@@ -55,8 +55,6 @@ public class WSSServletContextFacade {
     /**
      * Sets the servlet context attribute.
      *
-     * @param attributeName
-     * @param attributeValue
      */
     public void setStringAttribute(String attributeName, String attributeValue) {
         context.setAttribute(attributeName, attributeValue);
@@ -65,7 +63,6 @@ public class WSSServletContextFacade {
     /**
      * Don't use this method for non-string attributes.
      *
-     * @param attributeName
      * @return the servlet context attribute.
      */
     public String getStringAttribute(String attributeName) {

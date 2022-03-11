@@ -158,10 +158,9 @@ public class NewWSSCPlugin {
 
     public Packet  createIssuePacket(
             final PolicyAssertion token, final BaseSTSRequest rst, final WSDLPort wsdlPort, final WSBinding binding, final JAXBContext jbCxt, final String endPointAddress, final Packet packet) {
-        final Packet ret = createSendRequestPacket(
-                token, wsdlPort, binding,  jbCxt, rst, wsscVer.getSCTRequestAction(), endPointAddress, packet);
 
-        return ret;
+        return createSendRequestPacket(
+                token, wsdlPort, binding,  jbCxt, rst, wsscVer.getSCTRequestAction(), endPointAddress, packet);
     }
 
     public BaseSTSResponse getRSTR(final JAXBContext jbCxt, final Packet respPacket) {
@@ -237,9 +236,8 @@ public class NewWSSCPlugin {
 
     public Packet  createCancelPacket(
         final BaseSTSRequest rst, final WSDLPort wsdlPort, final WSBinding binding, final JAXBContext jbCxt, final String endPointAddress) {
-        final Packet ret = createSendRequestPacket(
+        return createSendRequestPacket(
                 null, wsdlPort, binding,  jbCxt, rst, wsscVer.getSCTCancelRequestAction(), endPointAddress, null);
-        return ret;
     }
 
 
@@ -414,11 +412,11 @@ public class NewWSSCPlugin {
         random.nextBytes(rawValue);
         final BinarySecret secret = eleFac.createBinarySecret(rawValue, wsTrustVer.getNonceBinarySecretTypeURI());
         final Entropy entropy = reqClientEntropy?eleFac.createEntropy(secret):null;
-        BaseSTSRequest rst = eleFac.createRSTForIssue(tokenType, requestType, null, null, null, entropy, null);
+        RequestSecurityToken rst = eleFac.createRSTForIssue(tokenType, requestType, null, null, null, entropy, null);
 
-        ((RequestSecurityToken)rst).setKeySize(skl);
-        ((RequestSecurityToken)rst).setKeyType(URI.create(wsTrustVer.getSymmetricKeyTypeURI()));
-        ((RequestSecurityToken)rst).setComputedKeyAlgorithm(URI.create(wsTrustVer.getCKPSHA1algorithmURI()));
+        rst.setKeySize(skl);
+        rst.setKeyType(URI.create(wsTrustVer.getSymmetricKeyTypeURI()));
+        rst.setComputedKeyAlgorithm(URI.create(wsTrustVer.getCKPSHA1algorithmURI()));
 
         return rst;
     }
@@ -428,9 +426,8 @@ public class NewWSSCPlugin {
         requestType = URI.create(wsTrustVer.getCancelRequestTypeURI());
 
         final CancelTarget target = eleFac.createCancelTarget((SecurityTokenReference)ctx.getUnAttachedSecurityTokenReference());
-        final BaseSTSRequest rst = eleFac.createRSTForCancel(requestType, target);
 
-        return rst;
+        return eleFac.createRSTForCancel(requestType, target);
     }
 
     private void processRequestSecurityTokenResponse(final BaseSTSRequest rst, final BaseSTSResponse rstr, final IssuedTokenContext context)

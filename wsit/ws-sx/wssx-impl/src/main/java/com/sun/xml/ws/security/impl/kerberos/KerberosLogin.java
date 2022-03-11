@@ -233,7 +233,6 @@ public class KerberosLogin {
             this.token = token;
         }
         @Override
-        @SuppressWarnings("unchecked")
         public Object run() throws Exception {
 
             try {

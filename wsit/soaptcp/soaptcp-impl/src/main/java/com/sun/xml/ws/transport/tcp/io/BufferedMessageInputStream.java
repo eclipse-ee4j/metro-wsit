@@ -43,14 +43,11 @@ public class BufferedMessageInputStream extends InputStream {
 
     public void bufferMessage() throws IOException {
         if (!isBuffered) {
-            final ByteArrayBuffer baBuffer = new ByteArrayBuffer();
-            try {
+            try (ByteArrayBuffer baBuffer = new ByteArrayBuffer()) {
                 baBuffer.write(inputStream);
                 inputStream = baBuffer.newInputStream();
                 bufferedSize = baBuffer.size();
                 isBuffered = true;
-            } finally {
-                baBuffer.close();
             }
         }
     }

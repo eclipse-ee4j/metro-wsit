@@ -38,7 +38,6 @@ import jakarta.xml.ws.handler.MessageContext;
  * @author Alexey Stashok
  */
 
-@SuppressWarnings({"unchecked"})
 @WebService
 public class ServiceChannelWSImpl {
     private static final Logger logger = Logger.getLogger(

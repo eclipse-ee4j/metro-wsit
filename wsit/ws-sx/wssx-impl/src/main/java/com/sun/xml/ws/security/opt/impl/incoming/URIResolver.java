@@ -116,8 +116,7 @@ public class URIResolver implements URIDereferencer{
         if(attachment == null){
             throw new URIReferenceException ("Attachment Resource with Identifier  "+cidRef+" was not found");
         }
-        AttachmentData attachData = new AttachmentData(attachment);
-        return attachData;
+        return new AttachmentData(attachment);
     }
 
 }

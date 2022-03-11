@@ -170,10 +170,7 @@ public class EncryptedData implements SecurityHeaderElement, SecurityElementWrit
         if(StreamUtil._break(reader, "EncryptedData", MessageConstants.XENC_NS)){
             return true;
         }
-        if(reader.getEventType() == XMLStreamReader.END_DOCUMENT ){
-            return true;
-        }
-        return false;
+        return reader.getEventType() == XMLStreamReader.END_DOCUMENT;
     }
 
     public String getEncryptionAlgorithm(){

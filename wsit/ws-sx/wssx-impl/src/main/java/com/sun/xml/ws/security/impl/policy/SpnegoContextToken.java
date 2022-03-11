@@ -66,10 +66,7 @@ public class SpnegoContextToken extends PolicyAssertion implements com.sun.xml.w
     @Override
     public boolean isRequireDerivedKeys() {
         populate();
-        if (rdKey != null ) {
-            return true;
-        }
-        return false;
+        return rdKey != null;
     }
 
 

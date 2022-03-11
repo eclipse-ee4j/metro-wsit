@@ -78,29 +78,20 @@ public class SecureConversationToken extends PolicyAssertion implements com.sun.
     @Override
     public boolean isRequireDerivedKeys() {
         populate();
-        if( rdKey != null){
-            return true;
-        }
-        return false;
+        return rdKey != null;
     }
 
 
         @Override
         public boolean isMustNotSendCancel() {
         populate();
-        if( mustNotSendCancel != null){
-            return true;
+            return mustNotSendCancel != null;
         }
-        return false;
-    }
 
     @Override
     public boolean isMustNotSendRenew() {
         populate();
-        if( mustNotSendRenew != null){
-            return true;
-        }
-        return false;
+        return mustNotSendRenew != null;
     }
 
     @Override

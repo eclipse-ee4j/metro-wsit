@@ -152,13 +152,13 @@ public class SymmetricKeyBinding extends KeyBindingBase {
         try {
             SymmetricKeyBinding skBinding = (SymmetricKeyBinding) policy;
 
-            boolean b1 = _keyIdentifier.equals("") ? true : _keyIdentifier.equals(skBinding.getKeyIdentifier());
+            boolean b1 = _keyIdentifier.equals("") || _keyIdentifier.equals(skBinding.getKeyIdentifier());
 
-            boolean b2 = _keyAlgorithm.equals("") ? true : _keyAlgorithm.equals(skBinding.getKeyAlgorithm());
+            boolean b2 = _keyAlgorithm.equals("") || _keyAlgorithm.equals(skBinding.getKeyAlgorithm());
 
-            boolean b3 = _certAlias.equals("") ? true : _certAlias.equals(skBinding.getCertAlias());
+            boolean b3 = _certAlias.equals("") || _certAlias.equals(skBinding.getCertAlias());
 
-            boolean b4 = (_useReceivedSecret == false) ? true : (_useReceivedSecret == skBinding.getUseReceivedSecret());
+            boolean b4 = !_useReceivedSecret || (_useReceivedSecret == skBinding.getUseReceivedSecret());
             boolean b5 = (this._keyBinding.equals(policy._keyBinding));
             boolean b6 = this.isEKSHA1 == skBinding.usesEKSHA1KeyBinding();
             assrt = b1 && b2 && b3 && b4 && b5 && b6;

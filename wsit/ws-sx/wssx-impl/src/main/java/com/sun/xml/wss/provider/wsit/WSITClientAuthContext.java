@@ -244,7 +244,7 @@ public class WSITClientAuthContext extends WSITAuthContextBase
 
                 //set the isTrustProperty into MessageInfo
                 Map<String, Object> msgInfoMap = messageInfo.getMap();
-                msgInfoMap.put("IS_TRUST_MSG", Boolean.valueOf(isTrustMsg));
+                msgInfoMap.put("IS_TRUST_MSG", isTrustMsg);
 
                 // keep the message
                 //Message msg = packet.getMessage();
@@ -348,7 +348,6 @@ public class WSITClientAuthContext extends WSITAuthContextBase
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public AuthStatus validateResponse(
             MessageInfo messageInfo, Subject clientSubject, Subject serviceSubject) throws AuthException {
 
@@ -373,7 +372,7 @@ public class WSITClientAuthContext extends WSITAuthContextBase
                 resetCachedOperation(ret);
 
                 Boolean trustMsgProp = (Boolean) messageInfo.getMap().get("IS_TRUST_MSG");
-                boolean isTrustMsg = (trustMsgProp != null) ? trustMsgProp.booleanValue() : false;
+                boolean isTrustMsg = trustMsgProp != null && trustMsgProp;
                 if (isTrustMsg) {
                     //String action = getAction(ret);
                     getAction(ret);
@@ -794,7 +793,7 @@ public class WSITClientAuthContext extends WSITAuthContextBase
             }
 
             // Create the configuration
-            STSIssuedTokenConfiguration config = null;
+            DefaultSTSIssuedTokenConfiguration config = null;
             if (issuedTokenContextMap.get(((Token) issuedTokenAssertion).getTokenId()) == null || rtConfig != null) {
                 try {
                     // Get STS information from message context
@@ -822,13 +821,13 @@ public class WSITClientAuthContext extends WSITAuthContextBase
                     // put the server certificate, if available, in the configuration
                     // and make sure the  validition of the server certificate happens only once
                     if (serverCert != null) {
-                        if (isCertValidityVerified == false) {
+                        if (!isCertValidityVerified) {
                             CertificateRetriever cr = new CertificateRetriever();
                             isCertValid = cr.setServerCertInTheSTSConfig(config, secEnv, serverCert);
                             cr = null;
                             isCertValidityVerified = true;
                         }else {
-                             if(isCertValid == true){
+                             if(isCertValid){
                                  config.getOtherOptions().put("Identity", serverCert);
                             }
                         }
@@ -837,7 +836,7 @@ public class WSITClientAuthContext extends WSITAuthContextBase
                     if (rtConfig != null){
                         rtConfig.getOtherOptions().put(STSIssuedTokenConfiguration.ISSUED_TOKEN, config);
                         rtConfig.getOtherOptions().put(STSIssuedTokenConfiguration.APPLIES_TO, packet.endpointAddress.toString());
-                        ((DefaultSTSIssuedTokenConfiguration)config).copy(rtConfig);
+                        config.copy(rtConfig);
                     }
 
                     // Obtain issued token from STS

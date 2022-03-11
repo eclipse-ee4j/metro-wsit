@@ -109,7 +109,7 @@ public final class EnhancedXmlStreamWriterProxy implements InvocationHandler {
 
     private Object handleObjectMethodCall(final Object proxy, final Method method, final Object[] args) {
         if (method.equals(hashCodeMethod)) {
-            return Integer.valueOf(System.identityHashCode(proxy));
+            return System.identityHashCode(proxy);
         } else if (method.equals(equalsMethod)) {
             return (proxy == args[0] ? Boolean.TRUE : Boolean.FALSE);
         } else if (method.equals(toStringMethod)) {

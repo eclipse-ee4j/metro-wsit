@@ -95,7 +95,6 @@ public class ClientSecurityPipe extends AbstractFilterPipeImpl
         return helper;
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public Packet process(Packet request) {
 
@@ -228,7 +227,7 @@ public class ClientSecurityPipe extends AbstractFilterPipeImpl
         // helper returns token in map of msgInfo, using same key
         Object o = info.getMap().get(PipeConstants.SECURITY_TOKEN);
 
-        if (o != null && o instanceof JAXBElement) {
+        if (o instanceof JAXBElement) {
         token = (JAXBElement) o;
         }
 

@@ -11,8 +11,6 @@
 package com.sun.xml.ws.security.opt.impl.incoming.processor;
 
 import org.apache.xml.security.exceptions.Base64DecodingException;
-import com.sun.xml.security.core.dsig.ReferenceType;
-import com.sun.xml.security.core.dsig.TransformsType;
 import com.sun.xml.stream.buffer.MutableXMLStreamBuffer;
 import com.sun.xml.ws.api.message.Header;
 import com.sun.xml.ws.api.message.HeaderList;
@@ -320,7 +318,7 @@ public class SignedInfoProcessor {
                 }
             }
 
-            ReferenceType rt = new Reference();
+            Reference rt = new Reference();
             DigestMethod digestMethod = new DigestMethod();
             digestMethod.setAlgorithm(dm);
             rt.setDigestMethod(digestMethod);
@@ -336,9 +334,9 @@ public class SignedInfoProcessor {
             }
 
             rt.setURI(uri);
-            TransformsType transforms= new Transforms();
+            Transforms transforms= new Transforms();
             transforms.setTransform(tList);
-            rt.setTransforms((Transforms) transforms);
+            rt.setTransforms(transforms);
 
             // policy creation
             Target target = new Target(Target.TARGET_TYPE_VALUE_URI, uri);
@@ -352,9 +350,9 @@ public class SignedInfoProcessor {
 
             fb.addTargetBinding(signTarget);
 
-            if(!processReference((Reference) rt)){
+            if(!processReference(rt)){
                 ArrayList<Reference> refCache = getReferenceList();
-                refCache.add((Reference)rt);
+                refCache.add(rt);
             }
         }catch(XMLStreamException xe){
             logger.log(Level.SEVERE, LogStringsMessages.WSS_1711_ERROR_VERIFYING_SIGNATURE(),xe);
@@ -583,8 +581,7 @@ public class SignedInfoProcessor {
                     pl = prefixList.split(" ");
                 }
                 if(pl != null && pl.length >0){
-                    ArrayList prefixs = new ArrayList();
-                    prefixs.addAll(Arrays.asList(pl));
+                    ArrayList prefixs = new ArrayList(Arrays.asList(pl));
                     exc14nSpec = new ExcC14NParameterSpec(prefixs);
                 }
                 if(reader.hasNext()){

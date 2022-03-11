@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -52,8 +52,7 @@ class WsParser {
             final Unmarshaller unmarshaller = context.createUnmarshaller();
             final JAXBElement<WebservicesType> elements = unmarshaller.unmarshal(reader, WebservicesType.class);
             final WebservicesType root = elements.getValue();
-            final List<WebserviceDescriptionType> descriptions = root.getWebserviceDescription();
-            return descriptions;
+            return root.getWebserviceDescription();
         } catch (JAXBException e) {
             // TODO logging message
             throw LOGGER.logSevereException(new WebServiceException("Failed to unmarshal webservices.xml", e));

@@ -61,14 +61,15 @@ public class DateUtils {
     }
 
     private static String formatInteger(int value, int length) {
-    String val = Integer.toString(value);
+    StringBuilder val = new StringBuilder();
+    val.append(value);
     int diff = length - val.length();
 
     for (int i = 0; i < diff; i++) {
-        val = "0" + val;
+        val.insert(0, "0");
     }
 
-    return val;
+    return val.toString();
     }
 
     /**

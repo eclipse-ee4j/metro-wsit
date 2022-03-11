@@ -19,6 +19,7 @@ import com.sun.xml.ws.transport.tcp.util.TCPConstants;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -122,9 +123,7 @@ public final class WSTCP {
             System.exit(0);
         }
 
-        for(int i=1; i<args.length; i++) {
-            params.add(args[i]);
-        }
+        params.addAll(Arrays.asList(args).subList(1, args.length));
 
         final String contextPath = args[0];
 

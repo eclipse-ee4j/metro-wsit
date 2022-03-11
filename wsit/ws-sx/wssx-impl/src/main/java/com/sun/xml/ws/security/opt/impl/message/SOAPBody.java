@@ -101,7 +101,7 @@ public class SOAPBody{
             if(getBodyContentId() == null)
                 this.message.writePayloadTo(writer);
             else{
-                boolean isSOAP12 = (this.soapVersion == SOAPVersion.SOAP_12) ? true : false;
+                boolean isSOAP12 = this.soapVersion == SOAPVersion.SOAP_12;
                 XMLStreamFilterWithId xmlStreamFilterWithId = new XMLStreamFilterWithId(writer, new NamespaceContextEx(isSOAP12),getBodyContentId());
                 this.message.writePayloadTo(xmlStreamFilterWithId);
             }

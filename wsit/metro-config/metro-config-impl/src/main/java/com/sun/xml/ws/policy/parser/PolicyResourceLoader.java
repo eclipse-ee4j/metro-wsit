@@ -51,13 +51,12 @@ public class PolicyResourceLoader {
             throws IOException, XMLStreamException, SAXException {
         final SDDocumentSource doc = SDDocumentSource.create(resourceUrl);
         final Parser parser = new Parser(doc);
-        final WSDLModel model = WSDLModel.WSDLParser.parse(parser,
+        return WSDLModel.WSDLParser.parse(parser,
                                                            new PolicyEntityResolver(),
                                                            isClient,
                                                            Container.NONE,
                                                            PolicyResolverFactory.DEFAULT_POLICY_RESOLVER
         );
-        return model;
     }
 
 

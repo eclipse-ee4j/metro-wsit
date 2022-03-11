@@ -64,11 +64,7 @@ public class UsernameOrSAMLAlternativeSelector implements AlternativeSelector {
              return false;
          }
 
-         if(firstAlternativeType == secondAlternativeType) {
-             return false;
-         }
-
-         return true;
+        return firstAlternativeType != secondAlternativeType;
     }
 
     private SupportingTokenType determineTokenType(SecurityPolicy recvdPolicy) {

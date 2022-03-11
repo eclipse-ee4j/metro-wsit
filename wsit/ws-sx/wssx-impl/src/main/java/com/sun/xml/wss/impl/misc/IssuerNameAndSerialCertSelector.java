@@ -42,9 +42,7 @@ public class IssuerNameAndSerialCertSelector implements CertSelector {
     @Override
     public boolean match(Certificate cert) {
         if (cert instanceof X509Certificate) {
-           if (this.matchesIssuerSerialAndName(this.serialNumber, this.issuerName, (X509Certificate)cert)) {
-               return true;
-           }
+            return this.matchesIssuerSerialAndName(this.serialNumber, this.issuerName, (X509Certificate) cert);
         }
         return false;
     }
@@ -66,10 +64,7 @@ public class IssuerNameAndSerialCertSelector implements CertSelector {
         BigInteger thisSerialNumber = x509Cert.getSerialNumber();
 
 
-        if (serialNumber.equals(serialNumberMatch)
-                && issuerPrincipal.equals(thisIssuerPrincipal)) {
-            return true;
-        }
-        return false;
+        return serialNumber.equals(serialNumberMatch)
+                && issuerPrincipal.equals(thisIssuerPrincipal);
     }
 }

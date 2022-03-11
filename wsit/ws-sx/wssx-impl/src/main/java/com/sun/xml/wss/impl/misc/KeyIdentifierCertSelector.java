@@ -41,9 +41,7 @@ public class KeyIdentifierCertSelector implements CertSelector {
             }catch (XWSSecurityException ex) {
                 //ignore since not all certs in Certstore may have SKID
             }
-            if (Arrays.equals(keyIdtoMatch, keyId)) {
-                return true;
-            }
+            return Arrays.equals(keyIdtoMatch, keyId);
         }
         return false;
     }

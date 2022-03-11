@@ -36,7 +36,7 @@ class InOrderDeliveryQueue implements DeliveryQueue {
 
         @Override
         public int compare(ApplicationMessage o1, ApplicationMessage o2) {
-            return (o1.getMessageNumber() < o2.getMessageNumber()) ? -1 : (o1.getMessageNumber() > o2.getMessageNumber()) ? 1 : 0;
+            return Long.compare(o1.getMessageNumber(), o2.getMessageNumber());
         }
     }
     private static final Logger LOGGER = Logger.getLogger(InOrderDeliveryQueue.class);

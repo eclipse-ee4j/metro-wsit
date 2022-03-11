@@ -154,10 +154,7 @@ public class NamespaceContextEx implements org.jvnet.staxex.NamespaceContextEx {
 
             @Override
             public boolean hasNext(){
-                if( ++index < list.size() && move()){
-                    return true;
-                }
-                return false;
+                return ++index < list.size() && move();
             }
 
             @Override

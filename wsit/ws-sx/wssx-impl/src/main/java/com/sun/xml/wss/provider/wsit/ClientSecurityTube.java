@@ -146,7 +146,6 @@ public class ClientSecurityTube extends AbstractFilterTubeImpl implements Secure
 
 
 
-    @SuppressWarnings("unchecked")
     private Packet processClientRequest(Packet request) {
        /*
      * XXX should there be code like the following?
@@ -255,7 +254,7 @@ public class ClientSecurityTube extends AbstractFilterTubeImpl implements Secure
         helper.getSessionToken(map,info,clientSubject);
         // helper returns token in map of msgInfo, using same key
         Object o = info.getMap().get(PipeConstants.SECURITY_TOKEN);
-        if (o != null && o instanceof JAXBElement) {
+        if (o instanceof JAXBElement) {
         token = (JAXBElement) o;
         }
     } catch(Exception e) {
@@ -269,7 +268,6 @@ public class ClientSecurityTube extends AbstractFilterTubeImpl implements Secure
     return token;
     }
 
-    @SuppressWarnings("unchecked")
     private Subject getClientSubject(Packet p) {
 
     Subject s = null;

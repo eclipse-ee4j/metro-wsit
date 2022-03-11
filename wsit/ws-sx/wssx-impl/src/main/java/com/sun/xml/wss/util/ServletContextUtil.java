@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2022 Contributors to the Eclipse Foundation
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -44,7 +44,6 @@ public class ServletContextUtil {
     /**
      * Wraps the context or returns null if it is not possible.
      *
-     * @param context
      * @return {@link WSSServletContextFacade} or null
      */
     public static WSSServletContextFacade wrap(Object context) {
@@ -63,7 +62,6 @@ public class ServletContextUtil {
 
 
     /**
-     * @param endpoint
      * @return null or the {@link WSSServletContextFacade} wrapping a Servletcontext instance bound
      *         to this endpoint
      */

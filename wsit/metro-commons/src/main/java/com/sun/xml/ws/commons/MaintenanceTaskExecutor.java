@@ -15,9 +15,6 @@ import com.sun.xml.ws.api.Component;
 import com.sun.xml.ws.commons.DelayedTaskManager.DelayedTask;
 import java.util.concurrent.TimeUnit;
 
-/**
- *
- */
 public class MaintenanceTaskExecutor {
     private static volatile DelayedTaskManager delayedTaskManager = null;
 

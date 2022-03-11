@@ -130,10 +130,7 @@ public class StreamWriterData implements com.sun.xml.ws.security.opt.crypto.Stre
                 int index = 0;
                 @Override
                 public boolean hasNext(){
-                    if(index++ < list.size() && move()){
-                        return true;
-                    }
-                    return false;
+                    return index++ < list.size() && move();
                 }
 
                 @Override

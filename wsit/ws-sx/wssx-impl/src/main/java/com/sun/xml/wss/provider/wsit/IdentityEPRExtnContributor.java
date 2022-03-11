@@ -75,7 +75,7 @@ public class IdentityEPRExtnContributor extends EndpointReferenceExtensionContri
         QName eprQName = new QName("http://schemas.sun.com/2006/03/wss/server", "EnableEPRIdentity");
         CertificateRetriever cr = new CertificateRetriever();
         boolean found = cr.checkforEPRIdentity(wse, eprQName);
-        if (found == false) {
+        if (!found) {
             return null;
         } else {
             //log.log(Level.INFO, "EnableEPRIdentity assertion is enabled");

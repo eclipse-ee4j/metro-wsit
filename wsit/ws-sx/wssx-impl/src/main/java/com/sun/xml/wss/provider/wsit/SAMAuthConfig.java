@@ -38,9 +38,6 @@ public class SAMAuthConfig implements ServerAuthConfig {
 
     /**
      * @param layer - usually SOAP or HttpServlet
-     * @param appContext
-     * @param handler
-     * @param serverAuthModule
      */
     public SAMAuthConfig(String layer, String appContext, CallbackHandler handler, ServerAuthModule serverAuthModule) {
         this.layer = layer;

@@ -8,13 +8,6 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-/*
- * WSTrustUtil.java
- *
- * Created on February 7, 2006, 3:37 PM
- *
- */
-
 package com.sun.xml.ws.security.trust.util;
 
 import com.sun.xml.ws.api.security.trust.WSTrustException;
@@ -341,9 +334,7 @@ public class WSTrustUtil {
             cal.setTimeInMillis(currentTime + lifespan);
             expires.setValue(calendarFormatter.format(cal.getTime()));
 
-            final Lifetime lifetime = WSTrustElementFactory.newInstance(wstVer).createLifetime(created, expires);
-
-            return lifetime;
+            return WSTrustElementFactory.newInstance(wstVer).createLifetime(created, expires);
         }
     }
 

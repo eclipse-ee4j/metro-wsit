@@ -135,21 +135,19 @@ public class ResolverId extends ResourceResolverSpi {
       if (uri == null) return false;
 
       String uriNodeValue = uri.getNodeValue();
-      if (uriNodeValue.startsWith("#")) return true;
-
-      return false;
+       return uriNodeValue.startsWith("#");
    }
 
     public NamespaceContext getNamespaceContext(Document doc) {
-            NamespaceContext nsContext = new NamespaceContextImpl();
-            ((NamespaceContextImpl)nsContext).add(
+            NamespaceContextImpl nsContext = new NamespaceContextImpl();
+            nsContext.add(
                     doc.getDocumentElement().getPrefix(), doc.getDocumentElement().getNamespaceURI());
             if (doc.getDocumentElement().getNamespaceURI() == MessageConstants.SOAP_1_2_NS) {
-                ((NamespaceContextImpl)nsContext).add("SOAP-ENV", MessageConstants.SOAP_1_2_NS);
-                ((NamespaceContextImpl)nsContext).add("env", MessageConstants.SOAP_1_2_NS);
+                nsContext.add("SOAP-ENV", MessageConstants.SOAP_1_2_NS);
+                nsContext.add("env", MessageConstants.SOAP_1_2_NS);
             }
-            ((NamespaceContextImpl)nsContext).add("wsu", MessageConstants.WSU_NS);
-            ((NamespaceContextImpl)nsContext).add("wsse", MessageConstants.WSSE_NS);
+            nsContext.add("wsu", MessageConstants.WSU_NS);
+            nsContext.add("wsse", MessageConstants.WSSE_NS);
         return nsContext;
     }
 

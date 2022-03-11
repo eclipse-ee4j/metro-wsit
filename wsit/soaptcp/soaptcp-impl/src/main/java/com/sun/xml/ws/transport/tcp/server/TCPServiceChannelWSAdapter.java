@@ -65,7 +65,7 @@ public final class TCPServiceChannelWSAdapter extends TCPAdapter {
             super.addCustomPacketSattellites(packet);
             packet.addSatellite(serviceChannelWSSatellite);
         }
-    };
+    }
 
 
     public static final class ServiceChannelWSSatellite extends DistributedPropertySet {

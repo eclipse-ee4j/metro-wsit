@@ -74,10 +74,7 @@ public class RelToken extends PolicyAssertion implements com.sun.xml.ws.security
     @Override
     public boolean isRequireDerivedKeys() {
         populate();
-        if (rdKey != null ) {
-            return true;
-        }
-        return false;
+        return rdKey != null;
     }
 
     @Override

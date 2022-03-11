@@ -104,7 +104,7 @@ public class TargetResolverImpl implements TargetResolver{
             String val = actualTarget.getValue();
             String id = null;
             if(val.charAt(0) == '#')
-                id = val.substring(1,val.length());
+                id = val.substring(1);
             else
                 id = val;
             Element signedElement = doc.getElementById(id);

@@ -465,8 +465,7 @@ public class WSSCContract {
             }
         }
 
-        final BaseSTSResponse rstr = createRenewResponse(renewTgt, serverEntropy, con, secret, proofToken, context, tokenType);
-        return rstr;
+        return createRenewResponse(renewTgt, serverEntropy, con, secret, proofToken, context, tokenType);
     }
 
     private BaseSTSResponse createRenewResponse(final RenewTarget renewTgt, final Entropy serverEntropy, final URI con, final byte[] secret, final RequestedProofToken proofToken, final IssuedTokenContext context, final URI tokenType) throws WSSecureConversationException {
@@ -624,9 +623,7 @@ public class WSSCContract {
             cal.setTimeInMillis(currentTime + this.getSCTokenTimeout());
             expires.setValue(calendarFormatter.format(cal.getTime()));
 
-            final Lifetime lifetime = wsscEleFac.createLifetime(created, expires);
-
-            return lifetime;
+            return wsscEleFac.createLifetime(created, expires);
         }
     }
 

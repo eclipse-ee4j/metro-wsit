@@ -8,10 +8,6 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-/*
- * $Id: SecurityConfigurationXmlReader.java,v 1.2 2010-10-21 15:37:25 snajper Exp $
- */
-
 package com.sun.xml.wss.impl.config;
 
 import com.sun.xml.wss.WSITXMLFactory;
@@ -80,7 +76,6 @@ import com.sun.xml.wss.impl.policy.mls.MessagePolicy;
  *
  * xwssconfig.xsd (the XWS-Security configuration schema)
  */
-
 public class SecurityConfigurationXmlReader implements ConfigurationConstants {
 
     protected static final Logger log = Logger.getLogger(
@@ -305,15 +300,15 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
 
             String optimize = configData.getAttribute(OPTIMIZE_ATTRIBUTE_NAME);
 
-            boolean opt = Boolean.valueOf(optimize);
+            boolean opt = Boolean.parseBoolean(optimize);
 
             declarations.isOptimized(opt);
 
             String retainSecHeader = configData.getAttribute(RETAIN_SEC_HEADER);
-            declarations.retainSecurityHeader(Boolean.valueOf(retainSecHeader));
+            declarations.retainSecurityHeader(Boolean.parseBoolean(retainSecHeader));
 
             String resetMU = configData.getAttribute(RESET_MUST_UNDERSTAND);
-            declarations.resetMustUnderstand(Boolean.valueOf(resetMU));
+            declarations.resetMustUnderstand(Boolean.parseBoolean(resetMU));
 
             Element previousDefinitionElement = null;
             Element eachDefinitionElement = getFirstChildElement(configData);
@@ -386,8 +381,7 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
 
         } else if (DECLARATIVE_CONFIGURATION_ELEMENT_QNAME.equals(qname)) {
             if (dynamicPolicy(configData)) {
-                SecurityPolicy declarations = new DynamicSecurityPolicy();
-                return declarations;
+                return new DynamicSecurityPolicy();
             }
             DeclarativeSecurityConfiguration declarations =
                     new DeclarativeSecurityConfiguration();
@@ -640,10 +634,10 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
                     declarations.receiverSettings().enableWSS11Policy(wss11Enabled);
                 } else if (RETAIN_SEC_HEADER.equalsIgnoreCase(attributeName)) {
                      String retainSecHeader = configurationAttribute.getValue();
-                     declarations.retainSecurityHeader(Boolean.valueOf(retainSecHeader));
+                     declarations.retainSecurityHeader(Boolean.parseBoolean(retainSecHeader));
                 } else if (RESET_MUST_UNDERSTAND.equalsIgnoreCase(attributeName)) {
                      String resetMU = configurationAttribute.getValue();
-                     declarations.resetMustUnderstand(Boolean.valueOf(resetMU));
+                     declarations.resetMustUnderstand(Boolean.parseBoolean(resetMU));
                 } else {
                     log.log(Level.SEVERE,
                             "WSS0412.illegal.attribute.name",
@@ -924,9 +918,7 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
         if (SIGN_OPERATION_ELEMENT_NAME.equals(signElement.getLocalName())) {
             Element signParent =(Element) signElement.getParentNode();
             NodeList timeStampNodes = signParent.getElementsByTagNameNS(ConfigurationConstants.CONFIGURATION_URL,TIMESTAMP_ELEMENT_NAME);
-            if(timeStampNodes.getLength() > 0){
-                return true;
-            }
+            return timeStampNodes.getLength() > 0;
         }else{
             Element signParent =(Element) signElement.getParentNode();
             NodeList timeStampNodes = signParent.getElementsByTagNameNS(ConfigurationConstants.CONFIGURATION_URL,TIMESTAMP_REQUIREMENT_ELEMENT_NAME);
@@ -1358,19 +1350,13 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
     private static  boolean hasX509Sibling(Element keyEncSettings) {
         Element parent = (Element)keyEncSettings.getParentNode();
         NodeList x509Nodes = parent.getElementsByTagNameNS(ConfigurationConstants.CONFIGURATION_URL, X509TOKEN_ELEMENT_NAME);
-        if(x509Nodes.getLength() > 0) {
-            return true;
-        }
-        return false;
+        return x509Nodes.getLength() > 0;
     }
 
     private static boolean hasSymmetricKeySibling(Element keyEncSettings) {
         Element parent = (Element)keyEncSettings.getParentNode();
         NodeList symKeyNodes = parent.getElementsByTagNameNS(ConfigurationConstants.CONFIGURATION_URL, SYMMETRIC_KEY_ELEMENT_NAME);
-        if(symKeyNodes.getLength() > 0) {
-            return true;
-        }
-        return false;
+        return symKeyNodes.getLength() > 0;
     }
 
     private static void setDefaultKeyAlgorithm(SecurityPolicy keyBinding, String algorithm) {
@@ -1858,7 +1844,7 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
             } else if
                     (ENFORCE_ATTRIBUTE_NAME.equalsIgnoreCase(attributeName)) {
                 String enforce_S = targetAttribute.getValue();
-                boolean enforce = Boolean.valueOf(enforce_S);
+                boolean enforce = Boolean.parseBoolean(enforce_S);
                 target.setEnforce(enforce);
             } else if
                     (VALUE_ATTRIBUTE_NAME.equalsIgnoreCase(attributeName)) {
@@ -2151,17 +2137,22 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
         trans.setTransform(algorithm);
         trans.setDisbaleInclusivePrefix(disableInclusivePrefix);
 
-        if(algorithm.equals(Transform.XPATH )){
-            fillXPATHTransformParams(eachDefinitionElement, trans);
-        }else if(algorithm.equals(Transform.XPATH2 )){
-            fillXPATH2TransformParams(eachDefinitionElement, trans);
-        }else if(algorithm.equals(MessageConstants.STR_TRANSFORM_URI)){
-            fillSTRTransformParams(eachDefinitionElement, trans);
-        }else {
-            if(log.getLevel()== Level.FINE){
-                log.log(Level.FINE,"Algorithm Parameters not supported" +
-                        "for transform",algorithm);
-            }
+        switch (algorithm) {
+            case Transform.XPATH:
+                fillXPATHTransformParams(eachDefinitionElement, trans);
+                break;
+            case Transform.XPATH2:
+                fillXPATH2TransformParams(eachDefinitionElement, trans);
+                break;
+            case MessageConstants.STR_TRANSFORM_URI:
+                fillSTRTransformParams(eachDefinitionElement, trans);
+                break;
+            default:
+                if (log.getLevel() == Level.FINE) {
+                    log.log(Level.FINE, "Algorithm Parameters not supported" +
+                            "for transform", algorithm);
+                }
+                break;
         }
 
         return trans;
@@ -2370,9 +2361,7 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
             return false;
 
         if ("true".equals(dynamicFlag) || "1".equals(dynamicFlag)) {
-            if (nl.getLength() == 0) {
-                return true;
-            }
+            return nl.getLength() == 0;
         }
         return false;
     }
@@ -2405,8 +2394,7 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
     private static String generateUUID() {
         //Random rnd = new Random();
         int intRandom = rnd.nextInt();
-        String id = "XWSSGID-"+ System.currentTimeMillis() + intRandom;
-        return id;
+        return "XWSSGID-"+ System.currentTimeMillis() + intRandom;
     }
 
     private static void validateTargetContentOnly(Element target) {
@@ -2421,7 +2409,6 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
                     parentName);
         }
     }
-    @SuppressWarnings("unchecked")
     private static String getSecurityEnvironmentHandler(Element element) {
 
         int secEnvCount = 0;
@@ -2639,10 +2626,7 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
         NodeList services =
                 config.getElementsByTagNameNS(
                 CONFIGURATION_URL, SERVICE_ELEMENT_NAME);
-        if ((services.getLength() > 1) || (services.getLength() == 0)) {
-            return false;
-        }
-        return true;
+        return (services.getLength() <= 1) && (services.getLength() != 0);
     }
 
     private static boolean configHasSingleServiceAndNoPorts(Element config) {
@@ -2658,20 +2642,14 @@ public class SecurityConfigurationXmlReader implements ConfigurationConstants {
                 config.getElementsByTagNameNS(
                 CONFIGURATION_URL, PORT_ELEMENT_NAME);
 
-        if (ports.getLength() == 0) {
-            return true;
-        }
-        return false;
+        return ports.getLength() == 0;
     }
 
     private static boolean configHasOperations(Element config) {
         NodeList ops =
                 config.getElementsByTagNameNS(
                 CONFIGURATION_URL, OPERATION_ELEMENT_NAME);
-        if (ops.getLength() > 0) {
-            return true;
-        }
-        return false;
+        return ops.getLength() > 0;
     }
     @SuppressWarnings("unchecked")
     private static void checkIdUniqueness(Element elem) {

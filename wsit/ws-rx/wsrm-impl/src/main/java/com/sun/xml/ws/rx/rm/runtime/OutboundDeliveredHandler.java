@@ -63,11 +63,8 @@ class OutboundDeliveredHandler {
             if (messageNumber != other.messageNumber)
                 return false;
             if (sequenceId == null) {
-                if (other.sequenceId != null)
-                    return false;
-            } else if (!sequenceId.equals(other.sequenceId))
-                return false;
-            return true;
+                return other.sequenceId == null;
+            } else return sequenceId.equals(other.sequenceId);
         }
     }
 
@@ -94,8 +91,7 @@ class OutboundDeliveredHandler {
      */
     OutboundDelivered retrieve(String sequenceId, long messageNumber) {
         MessageInfo messageInfo = new MessageInfo(sequenceId, messageNumber);
-        OutboundDelivered result = map.get(messageInfo);
-        return result;
+        return map.get(messageInfo);
     }
 
     /**

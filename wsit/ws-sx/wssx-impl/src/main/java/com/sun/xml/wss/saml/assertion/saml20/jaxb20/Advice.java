@@ -55,7 +55,6 @@ public class Advice  extends AdviceType implements com.sun.xml.wss.saml.Advice {
      * @param otherelement A List of any element defined as
      *        <code>&lt;any namespace="##other" processContents="lax"&gt;</code>;
      */
-    @SuppressWarnings("unchecked")
     public Advice(List assertionidreference, List assertion, List otherelement) {
         if ( null != assertionidreference ) {
             setAssertionIDRefOrAssertionURIRefOrAssertion(assertionidreference);

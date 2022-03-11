@@ -181,8 +181,7 @@ public class ProcessingContextImpl extends ProcessingContext {
     }
 
     public KerberosContext getKerberosContext() {
-        KerberosContext krbContext = (KerberosContext)getExtraneousProperty(MessageConstants.KERBEROS_CONTEXT);
-        return krbContext;
+        return (KerberosContext)getExtraneousProperty(MessageConstants.KERBEROS_CONTEXT);
     }
 
     public void setKerberosContext(KerberosContext kerberosContext) {
@@ -251,9 +250,7 @@ public class ProcessingContextImpl extends ProcessingContext {
     }
     @SuppressWarnings("unchecked")
     public HashMap getSamlIdVSKeyCache() {
-        if (getExtraneousProperties().get(SAMLID_VS_KEY_CACHE) == null) {
-            getExtraneousProperties().put(SAMLID_VS_KEY_CACHE, new HashMap());
-        }
+        getExtraneousProperties().computeIfAbsent(SAMLID_VS_KEY_CACHE, k -> new HashMap());
         return (HashMap)getExtraneousProperties().get(SAMLID_VS_KEY_CACHE);
     }
 

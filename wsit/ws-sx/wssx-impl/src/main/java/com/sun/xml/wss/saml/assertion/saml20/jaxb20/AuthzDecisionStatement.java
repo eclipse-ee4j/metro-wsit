@@ -119,8 +119,7 @@ public class AuthzDecisionStatement extends AuthzDecisionStatementType
 
     @Override
     public Evidence getEvidence(){
-        Evidence eve = new Evidence(super.getEvidence());
-        return eve;
+        return new Evidence(super.getEvidence());
     }
 
     @Override

@@ -147,10 +147,8 @@ public class WSTrustElementFactoryImpl extends WSTrustElementFactory {
      */
     @Override
     public  RequestSecurityTokenResponse createRSTRForIssue(final URI tokenType, final URI context, final RequestedSecurityToken token, final AppliesTo scopes, final RequestedAttachedReference attachedReference, final RequestedUnattachedReference unattachedRef, final RequestedProofToken proofToken, final Entropy entropy, final Lifetime lifetime) {
-        final RequestSecurityTokenResponse rstr =
-                new RequestSecurityTokenResponseImpl(tokenType, context, token, scopes,
-                attachedReference, unattachedRef, proofToken, entropy, lifetime, null);
-        return rstr;
+        return new RequestSecurityTokenResponseImpl(tokenType, context, token, scopes,
+        attachedReference, unattachedRef, proofToken, entropy, lifetime, null);
     }
 
     /**
@@ -158,9 +156,7 @@ public class WSTrustElementFactoryImpl extends WSTrustElementFactory {
      */
     @Override
     public  RequestSecurityTokenResponseCollection createRSTRCollectionForIssue(final URI tokenType, final URI context, final RequestedSecurityToken token, final AppliesTo scopes, final RequestedAttachedReference attached, final RequestedUnattachedReference unattached, final RequestedProofToken proofToken, final Entropy entropy, final Lifetime lifetime) {
-        final RequestSecurityTokenResponseCollection rstrCollection =
-                new RequestSecurityTokenResponseCollectionImpl(tokenType, context, token, scopes, attached, unattached, proofToken, entropy, lifetime);
-        return rstrCollection;
+        return new RequestSecurityTokenResponseCollectionImpl(tokenType, context, token, scopes, attached, unattached, proofToken, entropy, lifetime);
     }
 
     /**
@@ -169,9 +165,7 @@ public class WSTrustElementFactoryImpl extends WSTrustElementFactory {
      */
     @Override
     public  RequestSecurityTokenResponse createRSTRForRenew(URI tokenType, final URI context, RequestedSecurityToken token, final RequestedAttachedReference attachedReference, final RequestedUnattachedReference unattachedRef, final RequestedProofToken proofToken, final Entropy entropy, final Lifetime lifetime) {
-        final RequestSecurityTokenResponse rstr =
-                new RequestSecurityTokenResponseImpl(tokenType, context, token, null, attachedReference, unattachedRef, proofToken, entropy, lifetime, null);
-        return rstr;
+        return new RequestSecurityTokenResponseImpl(tokenType, context, token, null, attachedReference, unattachedRef, proofToken, entropy, lifetime, null);
     }
 
     /**

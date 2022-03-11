@@ -1204,16 +1204,13 @@ public class URI implements Serializable
     {
       URI testURI = (URI) p_test;
 
-      if (((m_scheme == null && testURI.m_scheme == null) || (m_scheme != null && testURI.m_scheme != null && m_scheme.equals(
-              testURI.m_scheme))) && ((m_userinfo == null && testURI.m_userinfo == null) || (m_userinfo != null && testURI.m_userinfo != null && m_userinfo.equals(
-              testURI.m_userinfo))) && ((m_host == null && testURI.m_host == null) || (m_host != null && testURI.m_host != null && m_host.equals(
-              testURI.m_host))) && m_port == testURI.m_port && ((m_path == null && testURI.m_path == null) || (m_path != null && testURI.m_path != null && m_path.equals(
-              testURI.m_path))) && ((m_queryString == null && testURI.m_queryString == null) || (m_queryString != null && testURI.m_queryString != null && m_queryString.equals(
-              testURI.m_queryString))) && ((m_fragment == null && testURI.m_fragment == null) || (m_fragment != null && testURI.m_fragment != null && m_fragment.equals(
-              testURI.m_fragment))))
-      {
-        return true;
-      }
+        return ((m_scheme == null && testURI.m_scheme == null) || (m_scheme != null && testURI.m_scheme != null && m_scheme.equals(
+                testURI.m_scheme))) && ((m_userinfo == null && testURI.m_userinfo == null) || (m_userinfo != null && testURI.m_userinfo != null && m_userinfo.equals(
+                testURI.m_userinfo))) && ((m_host == null && testURI.m_host == null) || (m_host != null && testURI.m_host != null && m_host.equals(
+                testURI.m_host))) && m_port == testURI.m_port && ((m_path == null && testURI.m_path == null) || (m_path != null && testURI.m_path != null && m_path.equals(
+                testURI.m_path))) && ((m_queryString == null && testURI.m_queryString == null) || (m_queryString != null && testURI.m_queryString != null && m_queryString.equals(
+                testURI.m_queryString))) && ((m_fragment == null && testURI.m_fragment == null) || (m_fragment != null && testURI.m_fragment != null && m_fragment.equals(
+                testURI.m_fragment)));
     }
 
     return false;
@@ -1364,10 +1361,7 @@ public class URI implements Serializable
         }
       }
 
-      if (numDots != 3)
-      {
-        return false;
-      }
+        return numDots == 3;
     }
     else
     {

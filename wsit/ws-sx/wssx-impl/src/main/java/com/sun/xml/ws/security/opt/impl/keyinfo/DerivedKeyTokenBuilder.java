@@ -101,9 +101,7 @@ public class DerivedKeyTokenBuilder extends TokenBuilder {
            }
            byte[] tempSecret = key.getEncoded();
            secret = new byte[16];
-           for(int i =0;i<=15;i++){
-               secret[i] = tempSecret[i];
-           }
+            System.arraycopy(tempSecret, 0, secret, 0, 16);
 
         } else if ( PolicyTypeUtil.symmetricKeyBinding(originalKeyBinding)) {
             //SymmetricKeyBinding skb = (SymmetricKeyBinding)originalKeyBinding;

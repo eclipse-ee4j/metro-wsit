@@ -424,9 +424,7 @@ public final class FramedMessageInputStream extends InputStream implements LifeC
     }
 
     public boolean isMessageInProcess() {
-        if (currentFrameDataSize == 0 || isEOF()) return false;
-
-        return true;
+        return currentFrameDataSize != 0 && !isEOF();
     }
 
     private boolean isEOF() {
@@ -466,7 +464,8 @@ public final class FramedMessageInputStream extends InputStream implements LifeC
 
     @Override
     public String toString() {
-        String buffer = "ByteBuffer: " +
+
+        return "ByteBuffer: " +
                 byteBuffer +
                 " FrameBytesRead: " +
                 frameBytesRead +
@@ -478,8 +477,6 @@ public final class FramedMessageInputStream extends InputStream implements LifeC
                 isDirectMode +
                 " isReadingHeader: " +
                 isReadingHeader;
-
-        return buffer;
     }
 }
 

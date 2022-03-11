@@ -193,11 +193,11 @@ public abstract class NonceManager extends AbstractMOMRegistrationAware {
 
     public static void deleteInstance(final WSEndpoint endpoint) {
         synchronized (LOCK) {
-            final Object o = endpoint != null ? nonceMgrMap.remove(endpoint) : jaxRPCNonceManager;
+            final NonceManager o = endpoint != null ? nonceMgrMap.remove(endpoint) : jaxRPCNonceManager;
             if (endpoint == null) {
                 jaxRPCNonceManager = null;
             }
-            NonceManager nonceManager = (NonceManager) o;
+            NonceManager nonceManager = o;
             if (endpoint != null && o != null && nonceManager.isRegisteredAtMOM()) {
                 listener.unregisterFromMOM(nonceManager, endpoint);
             }

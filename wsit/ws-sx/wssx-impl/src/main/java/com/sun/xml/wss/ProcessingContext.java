@@ -441,11 +441,7 @@ public class ProcessingContext implements SecurityProcessingContext {
 
     private void setOptimized(){
         if(this.secureMessage != null){
-            if(this.configType == MessageConstants.NOT_OPTIMIZED ){
-                this.secureMessage.setOptimized(false);
-            }else{
-                this.secureMessage.setOptimized(true);
-            }
+            this.secureMessage.setOptimized(this.configType != MessageConstants.NOT_OPTIMIZED);
         }
     }
 

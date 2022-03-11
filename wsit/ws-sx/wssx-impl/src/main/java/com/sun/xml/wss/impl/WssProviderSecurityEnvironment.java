@@ -879,10 +879,7 @@ public class WssProviderSecurityEnvironment implements SecurityEnvironment {
             return false;
         }
 
-        if (Arrays.equals(keyIdMatch, keyId)) {
-            return true;
-        }
-        return false;
+        return Arrays.equals(keyIdMatch, keyId);
     }
 
 
@@ -910,10 +907,7 @@ public class WssProviderSecurityEnvironment implements SecurityEnvironment {
             return false;
         }
 
-        if (Arrays.equals(keyIdMatch, keyId)) {
-            return true;
-        }
-        return false;
+        return Arrays.equals(keyIdMatch, keyId);
     }
 
     private X509Certificate getMatchingCertificate(
@@ -1000,12 +994,8 @@ public class WssProviderSecurityEnvironment implements SecurityEnvironment {
         X500Principal currentIssuerPrincipal = x509Cert.getIssuerX500Principal();
         X500Principal issuerPrincipal = new X500Principal(issuerNameMatch);
 
-        if (serialNumber.equals(serialNumberMatch)
-            && currentIssuerPrincipal.equals(issuerPrincipal)) {
-            return true;
-        }
-
-        return false;
+        return serialNumber.equals(serialNumberMatch)
+                && currentIssuerPrincipal.equals(issuerPrincipal);
     }
 
     private X509Certificate getMatchingCertificate(
@@ -1315,10 +1305,7 @@ public class WssProviderSecurityEnvironment implements SecurityEnvironment {
              throw new XWSSecurityException(pe.getMessage());
          }
 
-        if ((expires != null) && expires.before(created))
-            return true;
-
-        return false;
+        return (expires != null) && expires.before(created);
     }
 
     @Override
@@ -1488,9 +1475,7 @@ public class WssProviderSecurityEnvironment implements SecurityEnvironment {
                     cert = (java.security.cert.X509Certificate)cred;
                 }
             }
-            if (cert != null) {
-                return cert;
-            }
+            return cert;
         }
         return null;
     }

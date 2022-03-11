@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -20,6 +20,7 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.logging.Level;
@@ -193,10 +194,10 @@ class SequenceDataPojo implements Serializable /*Storeable*/ {
             return false;
         }
         final SequenceDataPojo other = (SequenceDataPojo) obj;
-        if ((this.sequenceId == null) ? (other.sequenceId != null) : !this.sequenceId.equals(other.sequenceId)) {
+        if (!Objects.equals(this.sequenceId, other.sequenceId)) {
             return false;
         }
-        if ((this.boundSecurityTokenReferenceId == null) ? (other.boundSecurityTokenReferenceId != null) : !this.boundSecurityTokenReferenceId.equals(other.boundSecurityTokenReferenceId)) {
+        if (!Objects.equals(this.boundSecurityTokenReferenceId, other.boundSecurityTokenReferenceId)) {
             return false;
         }
         if (this.expirationTime != other.expirationTime) {
@@ -217,19 +218,16 @@ class SequenceDataPojo implements Serializable /*Storeable*/ {
         if (this.lastAcknowledgementRequestTime != other.lastAcknowledgementRequestTime) {
             return false;
         }
-        if (this.allUnackedMessageNumbers != other.allUnackedMessageNumbers && (this.allUnackedMessageNumbers == null || !this.allUnackedMessageNumbers.equals(other.allUnackedMessageNumbers))) {
+        if (!Objects.equals(this.allUnackedMessageNumbers, other.allUnackedMessageNumbers)) {
             return false;
         }
-        if (this.receivedUnackedMessageNumbers != other.receivedUnackedMessageNumbers && (this.receivedUnackedMessageNumbers == null || !this.receivedUnackedMessageNumbers.equals(other.receivedUnackedMessageNumbers))) {
+        if (!Objects.equals(this.receivedUnackedMessageNumbers, other.receivedUnackedMessageNumbers)) {
             return false;
         }
-        if (this.unackedNumberToCorrelationIdMap != other.unackedNumberToCorrelationIdMap && (this.unackedNumberToCorrelationIdMap == null || !this.unackedNumberToCorrelationIdMap.equals(other.unackedNumberToCorrelationIdMap))) {
+        if (!Objects.equals(this.unackedNumberToCorrelationIdMap, other.unackedNumberToCorrelationIdMap)) {
             return false;
         }
-        if (this.inbound != other.inbound) {
-            return false;
-        }
-        return true;
+        return this.inbound == other.inbound;
     }
 
     @Override

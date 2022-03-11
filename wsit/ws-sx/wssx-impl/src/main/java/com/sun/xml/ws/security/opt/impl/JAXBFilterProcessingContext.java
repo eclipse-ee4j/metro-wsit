@@ -149,7 +149,7 @@ public class JAXBFilterProcessingContext extends FilterProcessingContext{
     }
 
     public boolean isSOAP12(){
-        return (soapVersion == SOAPVersion.SOAP_12) ? true : false;
+        return soapVersion == SOAPVersion.SOAP_12;
     }
 
     public SecurityHeader getSecurityHeader(){

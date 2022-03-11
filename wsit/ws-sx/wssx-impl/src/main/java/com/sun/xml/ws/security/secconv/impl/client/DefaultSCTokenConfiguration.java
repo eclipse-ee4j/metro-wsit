@@ -226,10 +226,7 @@ public class DefaultSCTokenConfiguration extends SCTokenConfiguration{
 
     @Override
     public boolean isSymmetricBinding(){
-        if(symBinding == null){
-            return false;
-        }
-        return true;
+        return symBinding != null;
     }
 
     @Override
