@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -13,7 +13,6 @@ package com.sun.xml.ws.transport.tcp.connectioncache.impl.transport;
 import com.sun.xml.ws.transport.tcp.connectioncache.spi.concurrent.ConcurrentQueue;
 import com.sun.xml.ws.transport.tcp.connectioncache.spi.transport.Connection;
 import com.sun.xml.ws.transport.tcp.connectioncache.spi.transport.InboundConnectionCache;
-import java.io.IOException ;
 
 import java.util.logging.Logger ;
 

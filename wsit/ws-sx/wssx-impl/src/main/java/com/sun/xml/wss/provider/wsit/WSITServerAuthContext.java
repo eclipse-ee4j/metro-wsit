@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
@@ -71,8 +71,6 @@ import com.sun.xml.wss.impl.misc.WSITProviderSecurityEnvironment;
 import com.sun.xml.wss.impl.policy.mls.MessagePolicy;
 import com.sun.xml.wss.jaxws.impl.Constants;
 import com.sun.xml.wss.provider.wsit.logging.LogStringsMessages;
-import com.sun.xml.wss.util.ServletContextUtil;
-
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -80,6 +78,8 @@ import java.util.Properties;
 import java.util.Set;
 import javax.security.auth.Subject;
 import javax.security.auth.callback.CallbackHandler;
+
+import com.sun.xml.wss.util.ServletContextUtil;
 import jakarta.security.auth.message.AuthStatus;
 import jakarta.security.auth.message.MessageInfo;
 import jakarta.security.auth.message.config.ServerAuthContext;
@@ -88,7 +88,6 @@ import jakarta.xml.soap.SOAPException;
 import jakarta.xml.soap.SOAPMessage;
 import jakarta.xml.ws.WebServiceException;
 
-import static com.sun.xml.wss.jaxws.impl.Constants.SC_ASSERTION;
 import java.net.URI;
 import jakarta.xml.bind.JAXBElement;
 
@@ -429,7 +428,7 @@ public class WSITServerAuthContext extends WSITAuthContextBase implements Server
             if (isSCIssueMessage){
                 List<PolicyAssertion> policies = getInBoundSCP(packet.getMessage());
                 if(!policies.isEmpty()) {
-                    packet.invocationProperties.put(SC_ASSERTION, policies.get(0));
+                    packet.invocationProperties.put(Constants.SC_ASSERTION, policies.get(0));
                 }
             }
         }
@@ -633,7 +632,7 @@ public class WSITServerAuthContext extends WSITAuthContextBase implements Server
     protected MessagePolicy getOutgoingXWSSecurityPolicy(
             Packet packet, boolean isSCMessage) {
         if (isSCMessage) {
-            Token scToken = (Token)packet.invocationProperties.get(SC_ASSERTION);
+            Token scToken = (Token)packet.invocationProperties.get(Constants.SC_ASSERTION);
             return getOutgoingXWSBootstrapPolicy(scToken);
         }
         //Message message = packet.getMessage();
@@ -816,7 +815,7 @@ public class WSITServerAuthContext extends WSITAuthContextBase implements Server
             List<PolicyAssertion> policies = getOutBoundSCP(packet.getMessage());
 
             if(!policies.isEmpty()) {
-                retPacket.invocationProperties.put(SC_ASSERTION, policies.get(0));
+                retPacket.invocationProperties.put(Constants.SC_ASSERTION, policies.get(0));
             }
         }
 

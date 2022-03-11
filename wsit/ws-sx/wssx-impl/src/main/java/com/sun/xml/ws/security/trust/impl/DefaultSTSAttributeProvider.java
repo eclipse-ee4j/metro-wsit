@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -12,7 +12,14 @@ package com.sun.xml.ws.security.trust.impl;
 
 import com.sun.xml.ws.api.security.trust.Claims;
 import com.sun.xml.ws.api.security.trust.STSAttributeProvider;
-import com.sun.xml.wss.saml.*;
+import com.sun.xml.wss.saml.Assertion;
+import com.sun.xml.wss.saml.AssertionUtil;
+import com.sun.xml.wss.saml.Attribute;
+import com.sun.xml.wss.saml.AttributeStatement;
+import com.sun.xml.wss.saml.AuthenticationStatement;
+import com.sun.xml.wss.saml.NameID;
+import com.sun.xml.wss.saml.NameIdentifier;
+import com.sun.xml.wss.saml.SAMLException;
 import com.sun.xml.wss.saml.util.SAMLUtil;
 
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -23,7 +23,7 @@ import com.sun.xml.ws.security.policy.SecurityAssertionValidator;
 import java.util.Collection;
 import java.util.logging.Level;
 import javax.xml.namespace.QName;
-import static com.sun.xml.ws.security.impl.policy.Constants.*;
+
 /**
  *
  * @author K.Venugopal@sun.com
@@ -139,8 +139,8 @@ public class TransportBinding extends PolicyAssertion implements com.sun.xml.ws.
             NestedPolicy policy = this.getNestedPolicy();
             AssertionSet assertions = policy.getAssertionSet();
             if(assertions == null){
-                if(logger.getLevel() == Level.FINE){
-                    logger.log(Level.FINE,"NestedPolicy is null");
+                if(Constants.logger.getLevel() == Level.FINE){
+                    Constants.logger.log(Level.FINE,"NestedPolicy is null");
                 }
                 populated = true;
                 return fitness;
@@ -158,7 +158,7 @@ public class TransportBinding extends PolicyAssertion implements com.sun.xml.ws.
                     includeTimeStamp=true;
                 } else{
                     if(!assertion.isOptional()){
-                        log_invalid_assertion(assertion, isServer,TransportBinding);
+                        Constants.log_invalid_assertion(assertion, isServer, Constants.TransportBinding);
                         fitness = AssertionFitness.HAS_UNKNOWN_ASSERTION;
                     }
                 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -33,7 +33,6 @@ import java.security.cert.PKIXBuilderParameters;
 import java.security.cert.CertificateExpiredException;
 import java.security.cert.CertificateNotYetValidException;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 import java.util.Map;
@@ -75,7 +74,7 @@ import com.sun.xml.wss.saml.Assertion;
 
 import com.sun.xml.wss.impl.policy.mls.AuthenticationTokenPolicy;
 import com.sun.xml.wss.impl.configuration.DynamicApplicationContext;
-import java.io.IOException;
+
 import javax.xml.stream.XMLStreamReader;
 
 import org.ietf.jgss.GSSName;
@@ -96,7 +95,6 @@ import java.util.Collections;
 import java.util.List;
 
 //import jakarta.security.auth.message.callback.PasswordValidationCallback;
-import javax.security.auth.callback.UnsupportedCallbackException;
 import jakarta.security.auth.message.callback.CertStoreCallback;
 import jakarta.security.auth.message.callback.PasswordValidationCallback;
 import jakarta.security.auth.message.callback.PrivateKeyCallback;

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -14,8 +14,6 @@ import javax.xml.namespace.QName;
 import javax.xml.stream.XMLStreamWriter;
 
 import com.sun.istack.logging.Logger;
-
-import static com.sun.xml.ws.xmlfilter.ProcessingStateChange.*;
 
 /**
  *
@@ -46,13 +44,13 @@ public final class MexImportFilteringStateMachine implements FilteringStateMachi
     @Override
     public ProcessingStateChange getStateChange(final Invocation invocation, final XMLStreamWriter writer) {
         LOGGER.entering(invocation);
-        ProcessingStateChange resultingState = NO_CHANGE;
+        ProcessingStateChange resultingState = ProcessingStateChange.NO_CHANGE;
         try {
             switch (invocation.getMethodType()) {
                 case WRITE_START_ELEMENT:
                     if (currentMode == StateMachineMode.INACTIVE) {
                         if (startBuffering(invocation, writer)) {
-                            resultingState = START_BUFFERING;
+                            resultingState = ProcessingStateChange.START_BUFFERING;
                             currentMode = StateMachineMode.BUFFERING;
                         }
                     } else {
@@ -62,7 +60,7 @@ public final class MexImportFilteringStateMachine implements FilteringStateMachi
                 case WRITE_END_ELEMENT:
                     if (currentMode != StateMachineMode.INACTIVE) {
                         if (depth == 0) {
-                            resultingState = (currentMode == StateMachineMode.BUFFERING) ? STOP_BUFFERING : STOP_FILTERING;
+                            resultingState = (currentMode == StateMachineMode.BUFFERING) ? ProcessingStateChange.STOP_BUFFERING : ProcessingStateChange.STOP_FILTERING;
                             currentMode = StateMachineMode.INACTIVE;
                         } else {
                             depth--;
@@ -71,16 +69,16 @@ public final class MexImportFilteringStateMachine implements FilteringStateMachi
                     break;
                 case WRITE_ATTRIBUTE:
                     if (currentMode == StateMachineMode.BUFFERING && startFiltering(invocation, writer)) {
-                        resultingState = START_FILTERING;
+                        resultingState = ProcessingStateChange.START_FILTERING;
                         currentMode = StateMachineMode.FILTERING;
                     }
                     break;
                 case CLOSE:
                     switch (currentMode) {
                         case BUFFERING:
-                            resultingState = STOP_BUFFERING; break;
+                            resultingState = ProcessingStateChange.STOP_BUFFERING; break;
                         case FILTERING:
-                            resultingState = STOP_FILTERING; break;
+                            resultingState = ProcessingStateChange.STOP_FILTERING; break;
                     }
                     currentMode = StateMachineMode.INACTIVE;
                     break;

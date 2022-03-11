@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -8,17 +8,7 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-/*
- * Address.java
- *
- * Created on February 17, 2006, 12:48 PM
- *
- * To change this template, choose Tools | Template Manager
- * and open the template in the editor.
- */
-
 package com.sun.xml.ws.security.addressing.impl.policy;
-
 
 import com.sun.xml.ws.policy.AssertionSet;
 import com.sun.xml.ws.policy.PolicyAssertion;
@@ -27,7 +17,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Collection;
 import java.util.logging.Level;
-import static com.sun.xml.ws.security.addressing.impl.policy.Constants.logger;
+
 /**
  *
  * @author Abhijit Das
@@ -54,8 +44,8 @@ public class Address extends com.sun.xml.ws.policy.PolicyAssertion implements co
                 }
                 populated = true;
             } catch (URISyntaxException ex) {
-                if(logger.getLevel() == Level.SEVERE){
-                    logger.log(Level.SEVERE,LocalizationMessages.WSA_0004_INVALID_EPR_ADDRESS(),ex);
+                if(Constants.logger.getLevel() == Level.SEVERE){
+                    Constants.logger.log(Level.SEVERE, LocalizationMessages.WSA_0004_INVALID_EPR_ADDRESS(),ex);
                 }
             }
         }

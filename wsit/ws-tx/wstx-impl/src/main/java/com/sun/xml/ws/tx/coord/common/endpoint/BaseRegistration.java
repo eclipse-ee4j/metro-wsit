@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -11,10 +11,13 @@
 package com.sun.xml.ws.tx.coord.common.endpoint;
 
 import com.sun.istack.logging.Logger;
-import com.sun.xml.ws.tx.at.localization.LocalizationMessages; 
+import com.sun.xml.ws.tx.at.WSATException;
+import com.sun.xml.ws.tx.at.WSATHelper;
+import com.sun.xml.ws.tx.at.WSATSynchronization;
+import com.sun.xml.ws.tx.at.WSATXAResource;
+import com.sun.xml.ws.tx.at.localization.LocalizationMessages;
 import com.sun.xml.ws.tx.at.runtime.TransactionIdHelper;
 import com.sun.xml.ws.tx.at.runtime.TransactionServices;
-import com.sun.xml.ws.tx.at.*;
 import com.sun.xml.ws.api.tx.at.Transactional;
 import com.sun.xml.ws.tx.at.common.TransactionManagerImpl;
 import com.sun.xml.ws.tx.coord.common.EndpointReferenceBuilder;

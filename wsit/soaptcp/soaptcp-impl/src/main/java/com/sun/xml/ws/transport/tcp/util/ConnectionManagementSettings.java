@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -14,7 +14,7 @@ import com.sun.xml.ws.transport.tcp.resources.MessagesMessages;
 import java.lang.reflect.Method;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import static com.sun.xml.ws.transport.tcp.util.TCPConstants.*;
+
 /**
  * SOAP/TCP connection cache settings
  * 
@@ -53,20 +53,20 @@ public class ConnectionManagementSettings {
     public ConnectionManagementSettings(int highWatermark, 
             int maxParallelConnections, int numberToReclaim) {
         this.highWatermark = highWatermark != DEFAULT_VALUE ? 
-            highWatermark : HIGH_WATER_MARK_CLIENT;
+            highWatermark : TCPConstants.HIGH_WATER_MARK_CLIENT;
         this.maxParallelConnections = maxParallelConnections != DEFAULT_VALUE ? 
-            maxParallelConnections : MAX_PARALLEL_CONNECTIONS_CLIENT;
+            maxParallelConnections : TCPConstants.MAX_PARALLEL_CONNECTIONS_CLIENT;
         this.numberToReclaim = numberToReclaim != DEFAULT_VALUE ? 
-            numberToReclaim : NUMBER_TO_RECLAIM_CLIENT;
+            numberToReclaim : TCPConstants.NUMBER_TO_RECLAIM_CLIENT;
     }
     
     // Server side constructor (inbound connection cache)
     public ConnectionManagementSettings(int highWatermark, int numberToReclaim) {
         this.highWatermark = highWatermark != DEFAULT_VALUE ? 
-            highWatermark : HIGH_WATER_MARK_SERVER;
+            highWatermark : TCPConstants.HIGH_WATER_MARK_SERVER;
         this.maxParallelConnections = DEFAULT_VALUE;
         this.numberToReclaim = numberToReclaim != DEFAULT_VALUE ? 
-            numberToReclaim : NUMBER_TO_RECLAIM_SERVER;
+            numberToReclaim : TCPConstants.NUMBER_TO_RECLAIM_SERVER;
     }
 
     public int getHighWatermark() {

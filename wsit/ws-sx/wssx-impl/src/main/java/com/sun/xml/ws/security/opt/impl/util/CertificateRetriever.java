@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -8,13 +8,9 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.sun.xml.ws.security.opt.impl.util;
 
-import com.sun.xml.ws.security.impl.policy.*;
+import com.sun.xml.ws.security.impl.policy.PolicyUtil;
 import org.apache.xml.security.exceptions.Base64DecodingException;
 import com.sun.xml.ws.api.server.WSEndpoint;
 import com.sun.xml.ws.api.model.wsdl.WSDLBoundOperation;

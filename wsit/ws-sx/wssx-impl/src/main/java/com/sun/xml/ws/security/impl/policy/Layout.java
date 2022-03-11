@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -16,7 +16,7 @@ import com.sun.xml.ws.policy.sourcemodel.AssertionData;
 import com.sun.xml.ws.security.policy.MessageLayout;
 import com.sun.xml.ws.security.policy.SecurityPolicyVersion;
 import java.util.Collection;
-import static com.sun.xml.ws.security.impl.policy.Constants.*;
+
 import com.sun.xml.ws.policy.AssertionSet;
 import com.sun.xml.ws.security.policy.SecurityAssertionValidator;
 
@@ -71,7 +71,7 @@ public class Layout extends PolicyAssertion implements SecurityAssertionValidato
                     ml= MessageLayout.Strict;
                 } else{
                     if(!assertion.isOptional()){
-                        log_invalid_assertion(assertion, isServer,Layout);
+                        Constants.log_invalid_assertion(assertion, isServer, Constants.Layout);
                         fitness = AssertionFitness.HAS_UNKNOWN_ASSERTION;
                     }
                 }

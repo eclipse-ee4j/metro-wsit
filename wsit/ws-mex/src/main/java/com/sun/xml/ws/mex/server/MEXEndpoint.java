@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -50,10 +50,6 @@ import jakarta.xml.ws.ServiceMode;
 import jakarta.xml.ws.WebServiceProvider;
 import jakarta.xml.ws.soap.Addressing;
 
-import static com.sun.xml.ws.mex.MetadataConstants.GET_MDATA_REQUEST;
-import static com.sun.xml.ws.mex.MetadataConstants.GET_REQUEST;
-import static com.sun.xml.ws.mex.MetadataConstants.GET_RESPONSE;
-
 
 @ServiceMode(value=Service.Mode.MESSAGE)
 @WebServiceProvider
@@ -90,14 +86,14 @@ public class MEXEndpoint implements Provider<Message> {
             // TODO: Better error message
             throw new WebServiceException("No wsa:Action specified");
         }
-        else if (action.equals(GET_REQUEST)) {
+        else if (action.equals(MetadataConstants.GET_REQUEST)) {
             final String toAddress = AddressingUtils.getTo(headers, wsaVersion, soapVersion);
             return processGetRequest(requestMsg, toAddress, wsaVersion, soapVersion);
         }
-        else if (action.equals(GET_MDATA_REQUEST)) {
-            String faultText = MessagesMessages.MEX_0017_GET_METADATA_NOT_IMPLEMENTED(GET_MDATA_REQUEST, GET_REQUEST);
+        else if (action.equals(MetadataConstants.GET_MDATA_REQUEST)) {
+            String faultText = MessagesMessages.MEX_0017_GET_METADATA_NOT_IMPLEMENTED(MetadataConstants.GET_MDATA_REQUEST, MetadataConstants.GET_REQUEST);
             logger.warning(faultText);
-            final Message faultMessage = createFaultMessage(faultText, GET_MDATA_REQUEST,
+            final Message faultMessage = createFaultMessage(faultText, MetadataConstants.GET_MDATA_REQUEST,
                 wsaVersion, soapVersion);
             wsContext.getMessageContext().put(BindingProvider.SOAPACTION_URI_PROPERTY, wsaVersion.getDefaultFaultAction());
             return faultMessage;
@@ -134,7 +130,7 @@ public class MEXEndpoint implements Provider<Message> {
 
                 MessageHeaders headers = responseMessage.getHeaders();
                 //headers.add(Headers.create(new QName(wsaVersion.nsUri, "To"), "http://www.w3.org/2005/08/addressing/anonymous"));
-                headers.add(Headers.create(new QName(wsaVersion.nsUri, "Action"), GET_RESPONSE));
+                headers.add(Headers.create(new QName(wsaVersion.nsUri, "Action"), MetadataConstants.GET_RESPONSE));
                 //headers.add(Headers.create(new QName(wsaVersion.nsUri, "MessageID"), "uuid:" + UUID.randomUUID().toString()));
                 //headers.add(Headers.create(new QName(wsaVersion.nsUri, "RelatedTo"), request.getHeaders().getMessageID(wsaVersion, soapVersion)));
 

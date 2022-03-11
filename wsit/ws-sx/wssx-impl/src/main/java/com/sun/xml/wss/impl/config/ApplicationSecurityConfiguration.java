@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -22,6 +22,7 @@ import java.util.Hashtable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.sun.xml.wss.impl.configuration.StaticApplicationContext;
 import com.sun.xml.wss.impl.policy.SecurityPolicy;
 import com.sun.xml.wss.impl.policy.StaticPolicyContext;
 import com.sun.xml.wss.impl.policy.SecurityPolicyContainer;
@@ -29,7 +30,6 @@ import com.sun.xml.wss.impl.policy.SecurityPolicyContainer;
 import com.sun.xml.wss.impl.PolicyTypeUtil;
 import com.sun.xml.wss.impl.MessageConstants;
 import com.sun.xml.wss.logging.LogDomainConstants;
-import com.sun.xml.wss.impl.configuration.*;
 import com.sun.xml.wss.impl.policy.mls.MessagePolicy;
 
 

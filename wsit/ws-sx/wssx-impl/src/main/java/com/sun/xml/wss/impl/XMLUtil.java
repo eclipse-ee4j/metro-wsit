@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -11,7 +11,7 @@
 package com.sun.xml.wss.impl;
 
 import org.apache.xml.security.exceptions.Base64DecodingException;
-import com.sun.xml.wss.logging.LogDomainConstants;
+
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
@@ -55,7 +55,9 @@ import org.apache.xml.security.keys.content.keyvalues.DSAKeyValue;
 import org.apache.xml.security.keys.content.keyvalues.RSAKeyValue;
 import com.sun.xml.wss.impl.misc.Base64;
 //import com.sun.org.apache.xpath.internal.XPathAPI;
-import com.sun.xml.wss.*;
+import com.sun.xml.wss.WSITXMLFactory;
+import com.sun.xml.wss.XWSSecurityException;
+import com.sun.xml.wss.logging.LogDomainConstants;
 import com.sun.xml.wss.logging.LogStringsMessages;
 import java.net.MalformedURLException;
 

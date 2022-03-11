@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -24,7 +24,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import javax.xml.namespace.QName;
-import static com.sun.xml.ws.security.impl.policy.Constants.*;
 
 /**
  *
@@ -89,8 +88,8 @@ public class SupportingTokens extends PolicyAssertion implements com.sun.xml.ws.
         if(!populated){
             NestedPolicy policy = this.getNestedPolicy();
             if(policy == null){
-                if(logger.getLevel() == Level.FINE){
-                    logger.log(Level.FINE,"NestedPolicy is null");
+                if(Constants.logger.getLevel() == Level.FINE){
+                    Constants.logger.log(Level.FINE,"NestedPolicy is null");
                 }
                 populated = true;
                 return;
@@ -116,8 +115,8 @@ public class SupportingTokens extends PolicyAssertion implements com.sun.xml.ws.
                     eeList.add((EncryptedElements)assertion);
                 }else{
                     if(!assertion.isOptional()){
-                        if(logger.getLevel() == Level.SEVERE){
-                            logger.log(Level.SEVERE,LogStringsMessages.SP_0100_INVALID_SECURITY_ASSERTION(assertion, "SecurityContextToken"));
+                        if(Constants.logger.getLevel() == Level.SEVERE){
+                            Constants.logger.log(Level.SEVERE,LogStringsMessages.SP_0100_INVALID_SECURITY_ASSERTION(assertion, "SecurityContextToken"));
                         }
                         if(isServer){
                             throw new UnsupportedPolicyAssertion("Policy assertion "+
@@ -139,8 +138,8 @@ public class SupportingTokens extends PolicyAssertion implements com.sun.xml.ws.
                     eeList.add((EncryptedElements)assertion);
                 }else{
                     if(!assertion.isOptional()){
-                        if(logger.getLevel() == Level.SEVERE){
-                            logger.log(Level.SEVERE,LogStringsMessages.SP_0100_INVALID_SECURITY_ASSERTION(assertion, "SecurityContextToken"));
+                        if(Constants.logger.getLevel() == Level.SEVERE){
+                            Constants.logger.log(Level.SEVERE,LogStringsMessages.SP_0100_INVALID_SECURITY_ASSERTION(assertion, "SecurityContextToken"));
                         }
                         if(isServer){
                             throw new UnsupportedPolicyAssertion("Policy assertion "+

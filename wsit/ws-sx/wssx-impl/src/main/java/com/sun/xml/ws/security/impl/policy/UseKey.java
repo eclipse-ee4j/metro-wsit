@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -27,7 +27,6 @@ import java.net.URISyntaxException;
 import java.util.Collection;
 import java.util.logging.Level;
 import javax.xml.namespace.QName;
-import static com.sun.xml.ws.security.impl.policy.Constants.*;
 
 /** 
  * 
@@ -58,7 +57,7 @@ public class UseKey extends PolicyAssertion implements com.sun.xml.ws.security.p
             try {        
                 this.signatureID = new URI(this.getAttributeValue(sig));       
             } catch (URISyntaxException ex) { 
-                logger.log(Level.SEVERE,LogStringsMessages.SP_0102_INVALID_URI_VALUE(this.getAttributeValue(sig)),ex);
+                Constants.logger.log(Level.SEVERE,LogStringsMessages.SP_0102_INVALID_URI_VALUE(this.getAttributeValue(sig)),ex);
                 fitness = AssertionFitness.HAS_INVALID_VALUE;        
             }   
             populated = true;   

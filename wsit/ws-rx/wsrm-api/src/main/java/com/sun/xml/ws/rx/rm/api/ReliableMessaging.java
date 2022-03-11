@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -15,7 +15,6 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import jakarta.xml.ws.spi.WebServiceFeatureAnnotation;
-import static com.sun.xml.ws.rx.rm.api.ReliableMessagingFeature.*;
 
 /**
  *
@@ -30,12 +29,12 @@ public @interface ReliableMessaging {
     boolean enabled() default true;
 
     RmProtocolVersion version() default RmProtocolVersion.WSRM200702;
-    long sequenceInactivityTimeout() default DEFAULT_SEQUENCE_INACTIVITY_TIMEOUT;
-    long destinationBufferQuota() default DEFAULT_DESTINATION_BUFFER_QUOTA;
+    long sequenceInactivityTimeout() default ReliableMessagingFeature.DEFAULT_SEQUENCE_INACTIVITY_TIMEOUT;
+    long destinationBufferQuota() default ReliableMessagingFeature.DEFAULT_DESTINATION_BUFFER_QUOTA;
     boolean orderedDeliveryEnabled() default false;
-    DeliveryAssurance deliveryAssurance() default DeliveryAssurance.EXACTLY_ONCE;
-    SecurityBinding securityBinding() default SecurityBinding.NONE;
+    ReliableMessagingFeature.DeliveryAssurance deliveryAssurance() default ReliableMessagingFeature.DeliveryAssurance.EXACTLY_ONCE;
+    ReliableMessagingFeature.SecurityBinding securityBinding() default ReliableMessagingFeature.SecurityBinding.NONE;
     boolean persistenceEnabled() default false;
-    long sequenceManagerMaintenancePeriod() default DEFAULT_SEQUENCE_MANAGER_MAINTENANCE_PERIOD;
-    long maxConcurrentSessions() default DEFAULT_MAX_CONCURRENT_SESSIONS;
+    long sequenceManagerMaintenancePeriod() default ReliableMessagingFeature.DEFAULT_SEQUENCE_MANAGER_MAINTENANCE_PERIOD;
+    long maxConcurrentSessions() default ReliableMessagingFeature.DEFAULT_MAX_CONCURRENT_SESSIONS;
 }

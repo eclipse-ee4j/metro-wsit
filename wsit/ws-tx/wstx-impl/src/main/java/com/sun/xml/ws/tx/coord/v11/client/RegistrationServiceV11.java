@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -16,7 +16,13 @@ import com.sun.xml.ws.tx.coord.v11.types.RegistrationRequesterPortType;
 import com.sun.xml.ws.tx.coord.v11.types.RegistrationCoordinatorPortType;
 
 import javax.xml.namespace.QName;
-import jakarta.xml.ws.*;
+
+import jakarta.xml.ws.EndpointReference;
+import jakarta.xml.ws.Service;
+import jakarta.xml.ws.WebEndpoint;
+import jakarta.xml.ws.WebServiceClient;
+import jakarta.xml.ws.WebServiceFeature;
+
 import java.net.MalformedURLException;
 import java.net.URL;
 

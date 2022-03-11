@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -17,7 +17,7 @@ package com.sun.xml.wss.impl.callback;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 
-import javax.security.auth.callback.*;
+import javax.security.auth.callback.Callback;
 
 import com.sun.xml.wss.impl.misc.Base64;
 import org.apache.xml.security.exceptions.Base64DecodingException;

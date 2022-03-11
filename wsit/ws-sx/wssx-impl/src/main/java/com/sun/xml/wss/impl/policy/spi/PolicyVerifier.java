@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -11,7 +11,7 @@
 package com.sun.xml.wss.impl.policy.spi;
 
 import com.sun.xml.wss.impl.PolicyViolationException;
-import com.sun.xml.wss.impl.policy.*;
+import com.sun.xml.wss.impl.policy.SecurityPolicy;
 
 /**
  * This is an internal interface not exposed to developer.

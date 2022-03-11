@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -30,7 +30,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.logging.Level;
-import static com.sun.xml.ws.security.impl.policy.Constants.*;
 import javax.xml.namespace.QName;
 
 
@@ -153,8 +152,8 @@ public class X509Token extends PolicyAssertion implements com.sun.xml.ws.securit
             }
             NestedPolicy policy = this.getNestedPolicy();
             if(policy == null){
-                if(logger.getLevel() == Level.FINE){
-                    logger.log(Level.FINE,"NestedPolicy is null");
+                if(Constants.logger.getLevel() == Level.FINE){
+                    Constants.logger.log(Level.FINE,"NestedPolicy is null");
                 }
                 populated = true;
                 return fitness;
@@ -169,7 +168,7 @@ public class X509Token extends PolicyAssertion implements com.sun.xml.ws.securit
                     reqDK = true;
                 }else{
                     if(!assertion.isOptional()){
-                        log_invalid_assertion(assertion, isServer,"X509Token");
+                        Constants.log_invalid_assertion(assertion, isServer,"X509Token");
                         fitness = AssertionFitness.HAS_UNKNOWN_ASSERTION;
                     }
                 }
@@ -189,7 +188,7 @@ public class X509Token extends PolicyAssertion implements com.sun.xml.ws.securit
                 }
             }
             if(issuer != null && issuerName != null){
-                log_invalid_assertion(issuerName, isServer,SecureConversationToken);
+                Constants.log_invalid_assertion(issuerName, isServer, Constants.SecureConversationToken);
                 fitness = AssertionFitness.HAS_INVALID_VALUE;
             }
             populated = true;

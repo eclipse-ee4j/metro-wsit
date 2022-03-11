@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -19,7 +19,6 @@ import com.sun.xml.ws.security.policy.SecurityPolicyVersion;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
-import static com.sun.xml.ws.security.impl.policy.Constants.*;
 import java.util.logging.Level;
 /**
  *
@@ -78,8 +77,8 @@ public class Wss10 extends PolicyAssertion implements com.sun.xml.ws.security.po
         if(!populated){
             NestedPolicy policy = this.getNestedPolicy();
             if(policy == null){
-                if(logger.getLevel() == Level.FINE){
-                    logger.log(Level.FINE,"NestedPolicy is null");
+                if(Constants.logger.getLevel() == Level.FINE){
+                    Constants.logger.log(Level.FINE,"NestedPolicy is null");
                 }
                 populated = true;
                 return fitness;
@@ -90,7 +89,7 @@ public class Wss10 extends PolicyAssertion implements com.sun.xml.ws.security.po
                     addRequiredProperty(pa.getName().getLocalPart().intern());
                 }else{
                     if(!pa.isOptional()){
-                        log_invalid_assertion(pa, isServer,"Wss10");
+                        Constants.log_invalid_assertion(pa, isServer,"Wss10");
                         fitness = AssertionFitness.HAS_UNKNOWN_ASSERTION;
                     }
                 }

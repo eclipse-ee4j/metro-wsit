@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -27,7 +27,6 @@ import com.sun.xml.wss.impl.PolicyTypeUtil;
 import com.sun.xml.wss.impl.misc.SecurityUtil;
 import com.sun.xml.wss.util.NodeListImpl;
 import com.sun.xml.wss.impl.policy.MLSPolicy;
-import com.sun.xml.wss.impl.policy.PolicyGenerationException;
 import com.sun.xml.wss.impl.policy.mls.AuthenticationTokenPolicy;
 import com.sun.xml.wss.impl.policy.mls.DerivedTokenKeyBinding;
 import com.sun.xml.wss.impl.policy.mls.Parameter;
@@ -82,13 +81,16 @@ import javax.xml.transform.dom.DOMSource;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.NamedNodeMap;
 
-import javax.xml.xpath.*;
-
 import jakarta.xml.soap.AttachmentPart;
 import jakarta.xml.soap.SOAPMessage;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.stream.StreamResult;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpression;
+import javax.xml.xpath.XPathExpressionException;
+import javax.xml.xpath.XPathFactory;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;

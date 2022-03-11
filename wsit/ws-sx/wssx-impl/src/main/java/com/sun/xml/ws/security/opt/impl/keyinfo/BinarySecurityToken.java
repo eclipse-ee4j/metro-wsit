@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -17,6 +17,7 @@
 package com.sun.xml.ws.security.opt.impl.keyinfo;
 
 import com.sun.istack.NotNull;
+import com.sun.xml.wss.logging.LogDomainConstants;
 import org.apache.xml.security.exceptions.Base64DecodingException;
 import org.apache.xml.security.utils.Base64;
 import org.glassfish.jaxb.runtime.api.Bridge;
@@ -47,12 +48,9 @@ import javax.xml.stream.XMLStreamWriter;
 import org.w3c.dom.NodeList;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.ErrorHandler;
-import org.xml.sax.SAXException;
 import com.sun.xml.ws.security.secext10.ObjectFactory;
 import com.sun.xml.wss.logging.impl.crypto.LogStringsMessages;
-import static com.sun.xml.wss.impl.MessageConstants.WSSE_BINARY_SECURITY_TOKEN_LNAME;
-import static com.sun.xml.wss.impl.MessageConstants.WSSE_NS;
-import static com.sun.xml.wss.logging.LogDomainConstants.CRYPTO_IMPL_LOGGER;
+
 /**
  *
  * @author K.Venugopal@sun.com
@@ -91,13 +89,13 @@ public class BinarySecurityToken implements com.sun.xml.ws.security.opt.api.keyi
     @Override
     @NotNull
     public String getNamespaceURI() {
-        return WSSE_NS;
+        return MessageConstants.WSSE_NS;
     }
     
     @Override
     @NotNull
     public String getLocalPart() {
-        return WSSE_BINARY_SECURITY_TOKEN_LNAME;
+        return MessageConstants.WSSE_BINARY_SECURITY_TOKEN_LNAME;
     }
     /**
      * marshalls the BST element into the XMLStreamBuffer
@@ -178,7 +176,7 @@ public class BinarySecurityToken implements com.sun.xml.ws.security.opt.api.keyi
         try {
             return Base64.decode(bst.getValue());
         } catch (Base64DecodingException ex) {
-            CRYPTO_IMPL_LOGGER.log(Level.SEVERE,LogStringsMessages.WSS_1243_BST_DECODING_ERROR(),ex);
+            LogDomainConstants.CRYPTO_IMPL_LOGGER.log(Level.SEVERE,LogStringsMessages.WSS_1243_BST_DECODING_ERROR(),ex);
             return null;
         }
     }

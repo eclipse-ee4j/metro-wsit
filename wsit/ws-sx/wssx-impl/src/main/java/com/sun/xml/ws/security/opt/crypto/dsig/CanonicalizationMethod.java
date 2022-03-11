@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -19,7 +19,6 @@ package com.sun.xml.ws.security.opt.crypto.dsig;
 import com.sun.xml.security.core.dsig.CanonicalizationMethodType;
 import com.sun.xml.wss.logging.LogDomainConstants;
 import java.io.OutputStream;
-import java.security.InvalidAlgorithmParameterException;
 import java.security.spec.AlgorithmParameterSpec;
 import java.util.List;
 import java.util.logging.Logger;
@@ -30,7 +29,7 @@ import javax.xml.crypto.XMLCryptoContext;
 import javax.xml.crypto.dsig.TransformException;
 import javax.xml.crypto.dsig.spec.TransformParameterSpec;
 import com.sun.xml.wss.logging.impl.opt.signature.LogStringsMessages;
-import java.util.logging.Level;
+
 /**
  *
  * @author Abhijit Das

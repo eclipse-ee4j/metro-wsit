@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -20,12 +20,30 @@ package com.sun.xml.security.core.dsig;
 
 
 import java.math.BigInteger;
+
+import com.sun.xml.ws.security.opt.crypto.dsig.DigestMethod;
+import com.sun.xml.ws.security.opt.crypto.dsig.Manifest;
+import com.sun.xml.ws.security.opt.crypto.dsig.Reference;
+import com.sun.xml.ws.security.opt.crypto.dsig.Signature;
+import com.sun.xml.ws.security.opt.crypto.dsig.SignatureMethod;
+import com.sun.xml.ws.security.opt.crypto.dsig.SignatureProperties;
+import com.sun.xml.ws.security.opt.crypto.dsig.SignatureProperty;
+import com.sun.xml.ws.security.opt.crypto.dsig.SignedInfo;
+import com.sun.xml.ws.security.opt.crypto.dsig.Transform;
+import com.sun.xml.ws.security.opt.crypto.dsig.Transforms;
+import com.sun.xml.ws.security.opt.crypto.dsig.keyinfo.DSAKeyValue;
+import com.sun.xml.ws.security.opt.crypto.dsig.keyinfo.KeyInfo;
+import com.sun.xml.ws.security.opt.crypto.dsig.keyinfo.KeyValue;
+import com.sun.xml.ws.security.opt.crypto.dsig.keyinfo.PGPData;
+import com.sun.xml.ws.security.opt.crypto.dsig.keyinfo.RSAKeyValue;
+import com.sun.xml.ws.security.opt.crypto.dsig.keyinfo.RetrievalMethod;
+import com.sun.xml.ws.security.opt.crypto.dsig.keyinfo.SPKIData;
+import com.sun.xml.ws.security.opt.crypto.dsig.keyinfo.X509Data;
+import com.sun.xml.ws.security.opt.crypto.dsig.keyinfo.X509IssuerSerial;
 import jakarta.xml.bind.JAXBElement;
 import jakarta.xml.bind.annotation.XmlElementDecl;
 import jakarta.xml.bind.annotation.XmlRegistry;
 import javax.xml.namespace.QName;
-import com.sun.xml.ws.security.opt.crypto.dsig.*;
-import com.sun.xml.ws.security.opt.crypto.dsig.keyinfo.*;
 
 /**
  * This object contains factory methods for each 

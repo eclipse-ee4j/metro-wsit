@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -41,7 +41,7 @@ import com.sun.xml.wss.impl.policy.mls.WSSPolicy;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.logging.Level;
-import static com.sun.xml.ws.security.impl.policy.Constants.logger;
+
 import com.sun.xml.ws.security.policy.KeyValueToken;
 import com.sun.xml.ws.security.policy.RsaToken;
 import com.sun.xml.wss.impl.policy.mls.SymmetricKeyBinding;
@@ -65,29 +65,29 @@ public class TokenProcessor {
         Set tokenRefTypes = token.getTokenRefernceType();
         if(!tokenRefTypes.isEmpty()){
             if(tokenRefTypes.contains(Token.REQUIRE_THUMBPRINT_REFERENCE)){
-                if(logger.isLoggable(Level.FINEST)){
-                    logger.log(Level.FINEST," ReferenceType set to KeyBinding"+x509CB+" is Thumbprint");
+                if(Constants.logger.isLoggable(Level.FINEST)){
+                    Constants.logger.log(Level.FINEST," ReferenceType set to KeyBinding"+x509CB+" is Thumbprint");
                 }
                 x509CB.setReferenceType(SecurityPolicyUtil.convertToXWSSConstants(Token.REQUIRE_THUMBPRINT_REFERENCE));
             }else if(tokenRefTypes.contains(Token.REQUIRE_KEY_IDENTIFIER_REFERENCE)){
-                if(logger.isLoggable(Level.FINEST)){
-                    logger.log(Level.FINEST," ReferenceType set to KeyBinding"+x509CB+" is KeyIdentifier");
+                if(Constants.logger.isLoggable(Level.FINEST)){
+                    Constants.logger.log(Level.FINEST," ReferenceType set to KeyBinding"+x509CB+" is KeyIdentifier");
                 }
                 x509CB.setReferenceType(SecurityPolicyUtil.convertToXWSSConstants(Token.REQUIRE_KEY_IDENTIFIER_REFERENCE));
             }else if(tokenRefTypes.contains(Token.REQUIRE_ISSUER_SERIAL_REFERENCE)){
-                if(logger.isLoggable(Level.FINEST)){
-                    logger.log(Level.FINEST," ReferenceType set to KeyBinding "+x509CB+" is IssuerSerial");
+                if(Constants.logger.isLoggable(Level.FINEST)){
+                    Constants.logger.log(Level.FINEST," ReferenceType set to KeyBinding "+x509CB+" is IssuerSerial");
                 }
                 x509CB.setReferenceType(SecurityPolicyUtil.convertToXWSSConstants(Token.REQUIRE_ISSUER_SERIAL_REFERENCE));
             }else{
-                if(logger.isLoggable(Level.FINEST)){
-                    logger.log(Level.FINEST," ReferenceType "+x509CB+" set is DirectReference");
+                if(Constants.logger.isLoggable(Level.FINEST)){
+                    Constants.logger.log(Level.FINEST," ReferenceType "+x509CB+" set is DirectReference");
                 }
                 x509CB.setReferenceType(MessageConstants.DIRECT_REFERENCE_TYPE);
             }
         }else{
-            if(logger.isLoggable(Level.FINEST)){
-                logger.log(Level.FINEST," ReferenceType set is REQUIRE_THUMBPRINT_REFERENCE");
+            if(Constants.logger.isLoggable(Level.FINEST)){
+                Constants.logger.log(Level.FINEST," ReferenceType set is REQUIRE_THUMBPRINT_REFERENCE");
             }
             x509CB.setReferenceType(MessageConstants.DIRECT_REFERENCE_TYPE);
         }
@@ -98,19 +98,19 @@ public class TokenProcessor {
         Set tokenRefTypes = token.getTokenRefernceType();
         if(!tokenRefTypes.isEmpty()){
             if(tokenRefTypes.contains(Token.REQUIRE_KEY_IDENTIFIER_REFERENCE)){
-                if(logger.isLoggable(Level.FINEST)){
-                    logger.log(Level.FINEST," ReferenceType set to KeyBinding"+kerberosBinding+" is KeyIdentifier");
+                if(Constants.logger.isLoggable(Level.FINEST)){
+                    Constants.logger.log(Level.FINEST," ReferenceType set to KeyBinding"+kerberosBinding+" is KeyIdentifier");
                 }
                 kerberosBinding.setReferenceType(SecurityPolicyUtil.convertToXWSSConstants(Token.REQUIRE_KEY_IDENTIFIER_REFERENCE));
             } else{
-                if(logger.isLoggable(Level.FINEST)){
-                    logger.log(Level.FINEST," ReferenceType "+kerberosBinding+" set is DirectReference");
+                if(Constants.logger.isLoggable(Level.FINEST)){
+                    Constants.logger.log(Level.FINEST," ReferenceType "+kerberosBinding+" set is DirectReference");
                 }
                 kerberosBinding.setReferenceType(MessageConstants.DIRECT_REFERENCE_TYPE);
             }
         } else{
-            if(logger.isLoggable(Level.FINEST)){
-                logger.log(Level.FINEST," ReferenceType set is DirectReference");
+            if(Constants.logger.isLoggable(Level.FINEST)){
+                Constants.logger.log(Level.FINEST," ReferenceType set is DirectReference");
             }
             kerberosBinding.setReferenceType(MessageConstants.DIRECT_REFERENCE_TYPE);
         }
@@ -354,8 +354,8 @@ public class TokenProcessor {
         }else{
             throw new UnsupportedOperationException("addKeyBinding for "+ token + "is not supported");
         }
-        if(logger.isLoggable(Level.FINEST)){
-            logger.log(Level.FINEST,"KeyBinding type "+policy.getKeyBinding()+ "has been added to policy"+policy);
+        if(Constants.logger.isLoggable(Level.FINEST)){
+            Constants.logger.log(Level.FINEST,"KeyBinding type "+policy.getKeyBinding()+ "has been added to policy"+policy);
         }
     }
     
@@ -368,14 +368,14 @@ public class TokenProcessor {
             if (!spVersion.includeTokenAlways.equals(iTokenType)) {
                 if (iTokenType.endsWith("AlwaysToInitiator")) {
                     xwssToken.setIncludeToken(spVersion.includeTokenAlwaysToRecipient);
-                    if (logger.isLoggable(Level.FINEST)) {
-                        logger.log(Level.FINEST, "Token Inclusion value of INCLUDE ONCE has been set to Token" + xwssToken);
+                    if (Constants.logger.isLoggable(Level.FINEST)) {
+                        Constants.logger.log(Level.FINEST, "Token Inclusion value of INCLUDE ONCE has been set to Token" + xwssToken);
                     }
                     return;
                 } else {
                     xwssToken.setIncludeToken(spVersion.includeTokenNever);
-                    if (logger.isLoggable(Level.FINEST)) {
-                        logger.log(Level.FINEST, "Token Inclusion value of INCLUDE NEVER has been set to Token" + xwssToken);
+                    if (Constants.logger.isLoggable(Level.FINEST)) {
+                        Constants.logger.log(Level.FINEST, "Token Inclusion value of INCLUDE NEVER has been set to Token" + xwssToken);
                     }
                     return;
                 }
@@ -384,21 +384,21 @@ public class TokenProcessor {
             if (spVersion.includeTokenAlwaysToRecipient.equals(iTokenType) ||
                     spVersion.includeTokenOnce.equals(iTokenType)) {
                 xwssToken.setIncludeToken(spVersion.includeTokenNever);
-                if (logger.isLoggable(Level.FINEST)) {
-                    logger.log(Level.FINEST, "Token Inclusion value of INCLUDE NEVER has been set to Token" + xwssToken);
+                if (Constants.logger.isLoggable(Level.FINEST)) {
+                    Constants.logger.log(Level.FINEST, "Token Inclusion value of INCLUDE NEVER has been set to Token" + xwssToken);
                 }
                 return;
             } else if (iTokenType.endsWith("AlwaysToInitiator")) {
                 xwssToken.setIncludeToken(spVersion.includeTokenAlwaysToRecipient);
-                if (logger.isLoggable(Level.FINEST)) {
-                    logger.log(Level.FINEST, "Token Inclusion value of INCLUDE ONCE has been set to Token" + xwssToken);
+                if (Constants.logger.isLoggable(Level.FINEST)) {
+                    Constants.logger.log(Level.FINEST, "Token Inclusion value of INCLUDE ONCE has been set to Token" + xwssToken);
                 }
                 return;
             }
         }
         
-        if(logger.isLoggable(Level.FINEST)){
-            logger.log(Level.FINEST,"Token Inclusion value of"+iTokenType+" has been set to Token"+ xwssToken);
+        if(Constants.logger.isLoggable(Level.FINEST)){
+            Constants.logger.log(Level.FINEST,"Token Inclusion value of"+iTokenType+" has been set to Token"+ xwssToken);
         }
         if(spVersion == SecurityPolicyVersion.SECURITYPOLICY200507){
             xwssToken.setIncludeToken(iTokenType);
@@ -548,8 +548,8 @@ public class TokenProcessor {
             
             return rsaToken;
         }
-        if(logger.isLoggable(Level.SEVERE)){
-            logger.log(Level.SEVERE,LogStringsMessages.SP_0107_UNKNOWN_TOKEN_TYPE(token));
+        if(Constants.logger.isLoggable(Level.SEVERE)){
+            Constants.logger.log(Level.SEVERE,LogStringsMessages.SP_0107_UNKNOWN_TOKEN_TYPE(token));
         }
         
         throw new UnsupportedOperationException("Unsupported  "+ token + "format");

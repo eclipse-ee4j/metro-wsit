@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -11,7 +11,6 @@
 package com.sun.xml.wss.impl.filter;
 
 import com.sun.xml.ws.security.IssuedTokenContext;
-import com.sun.xml.ws.security.opt.api.SecurityElement;
 import com.sun.xml.ws.security.opt.api.keyinfo.TokenBuilder;
 import com.sun.xml.ws.security.opt.impl.keyinfo.X509TokenBuilder;
 import com.sun.xml.ws.security.opt.impl.JAXBFilterProcessingContext;
@@ -45,7 +44,6 @@ import jakarta.xml.soap.SOAPPart;
 
 import com.sun.xml.wss.impl.callback.DynamicPolicyCallback;
 import com.sun.xml.wss.impl.configuration.DynamicApplicationContext;
-import com.sun.xml.wss.impl.policy.mls.MessagePolicy;
 import com.sun.xml.wss.impl.misc.DefaultSecurityEnvironmentImpl;
 import com.sun.xml.wss.impl.HarnessUtil;
 import com.sun.xml.wss.impl.keyinfo.KeyIdentifierStrategy;

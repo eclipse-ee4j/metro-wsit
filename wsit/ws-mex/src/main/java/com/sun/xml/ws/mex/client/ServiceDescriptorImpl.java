@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -26,6 +26,8 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMResult;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamSource;
+
+import com.sun.xml.ws.mex.MetadataConstants;
 import jakarta.xml.ws.WebServiceException;
 import org.w3c.dom.Attr;
 import org.w3c.dom.DOMException;
@@ -39,9 +41,6 @@ import com.sun.xml.ws.mex.MessagesMessages;
 import com.sun.xml.ws.mex.client.schema.Metadata;
 import com.sun.xml.ws.mex.client.schema.MetadataReference;
 import com.sun.xml.ws.mex.client.schema.MetadataSection;
-
-import static com.sun.xml.ws.mex.MetadataConstants.SCHEMA_DIALECT;
-import static com.sun.xml.ws.mex.MetadataConstants.WSDL_DIALECT;
 
 /**
  * This class is used by the JAX-WS code when it needs to retrieve
@@ -114,9 +113,9 @@ public class ServiceDescriptorImpl extends ServiceDescriptor {
     private void handleXml(final MetadataSection section) {
         final String dialect = section.getDialect();
         final String identifier = section.getIdentifier();
-        if (dialect.equals(WSDL_DIALECT)) {
+        if (dialect.equals(MetadataConstants.WSDL_DIALECT)) {
             wsdls.add(createSource(section, identifier));
-        } else if (dialect.equals(SCHEMA_DIALECT)) {
+        } else if (dialect.equals(MetadataConstants.SCHEMA_DIALECT)) {
             schemas.add(createSource(section, identifier));
         } else {
             logger.warning(
@@ -143,9 +142,9 @@ public class ServiceDescriptorImpl extends ServiceDescriptor {
         final String location = section.getLocation();
         final String dialect = section.getDialect();
         final String identifier = section.getIdentifier();
-        if (dialect.equals(WSDL_DIALECT)) {
+        if (dialect.equals(MetadataConstants.WSDL_DIALECT)) {
             wsdls.add(getSourceFromLocation(location, identifier));
-        } else if (dialect.equals(SCHEMA_DIALECT)) {
+        } else if (dialect.equals(MetadataConstants.SCHEMA_DIALECT)) {
             schemas.add(getSourceFromLocation(location, identifier));
         } else {
             logger.warning(
@@ -175,7 +174,7 @@ public class ServiceDescriptorImpl extends ServiceDescriptor {
         
         final Node node = (Node) section.getAny();
         String sysId = identifier;
-        if (section.getDialect().equals(WSDL_DIALECT)) {
+        if (section.getDialect().equals(MetadataConstants.WSDL_DIALECT)) {
             final String targetNamespace = getNamespaceFromNode(node);
             if (sysId == null) {
                 sysId = targetNamespace;

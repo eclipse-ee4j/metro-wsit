@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -8,13 +8,10 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 
 package com.sun.xml.wss.provider.wsit;
 
+import com.sun.xml.ws.api.addressing.AddressingVersion;
 import com.sun.xml.ws.api.message.AddressingUtils;
 import com.sun.xml.ws.api.message.Message;
 import com.sun.xml.ws.api.message.MessageHeaders;
@@ -41,7 +38,6 @@ import jakarta.xml.soap.SOAPMessage;
 import jakarta.xml.soap.SOAPException;
 import org.w3c.dom.NodeList;
 import com.sun.xml.ws.security.policy.Token;
-import com.sun.xml.ws.api.addressing.*;
 import com.sun.xml.ws.rx.mc.api.McProtocolVersion;
 import com.sun.xml.ws.rx.rm.api.RmProtocolVersion;
 import com.sun.xml.ws.security.policy.SecurityPolicyVersion;
@@ -85,8 +81,8 @@ class AlternativesBasedPolicyResolver implements PolicyResolver {
      * Creates a new instance of OperationResolverImpl
      */
      public AlternativesBasedPolicyResolver(List<PolicyAlternativeHolder> alternatives,
-            WSDLBoundOperation cachedOperation, TubeConfiguration tubeConfig,
-            AddressingVersion addVer, boolean client, RmProtocolVersion rmVer, McProtocolVersion mcVer) {
+                                            WSDLBoundOperation cachedOperation, TubeConfiguration tubeConfig,
+                                            AddressingVersion addVer, boolean client, RmProtocolVersion rmVer, McProtocolVersion mcVer) {
 
         this.policyAlternatives = alternatives;
         this.cachedOperation = cachedOperation;

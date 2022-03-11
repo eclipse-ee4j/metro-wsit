@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -17,7 +17,6 @@
 package com.sun.xml.ws.security.opt.crypto.dsig;
 
 import org.apache.xml.security.utils.UnsyncBufferedOutputStream;
-import com.sun.xml.security.core.dsig.TransformsType;
 import com.sun.xml.ws.security.opt.crypto.dsig.internal.DigesterOutputStream;
 import com.sun.xml.ws.security.opt.impl.util.StreamUtil;
 import com.sun.xml.wss.logging.LogDomainConstants;

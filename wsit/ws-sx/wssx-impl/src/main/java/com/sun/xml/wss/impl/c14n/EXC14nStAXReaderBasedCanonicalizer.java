@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import static javax.xml.stream.XMLStreamConstants.*;
+import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 
@@ -42,7 +42,7 @@ public class EXC14nStAXReaderBasedCanonicalizer extends BaseCanonicalizer {
     
     public void canonicalize(XMLStreamReader reader,OutputStream stream,List inclusiveList) throws XMLStreamException, IOException{
         
-        if(reader.hasNext() && reader.getEventType() != START_ELEMENT){
+        if(reader.hasNext() && reader.getEventType() != XMLStreamConstants.START_ELEMENT){
             throw new XMLStreamException("Reader should point to START_ELEMENT EVENT");
         }
         
@@ -52,55 +52,55 @@ public class EXC14nStAXReaderBasedCanonicalizer extends BaseCanonicalizer {
 		int eventType = reader.getEventType();
         do{
             switch(eventType){
-                case START_ELEMENT :{
+                case XMLStreamConstants.START_ELEMENT:{
                     _exC14NContext.push();
                     _index++;
                     writeStartElement(reader);
                     break;
                 }
-                case END_ELEMENT :{
+                case XMLStreamConstants.END_ELEMENT:{
                     _exC14NContext.pop();
                     _index--;
                     writeEndElement(reader);
                     break;
                 }
-                case CDATA:{
+                case XMLStreamConstants.CDATA:{
                     outputTextToWriter(reader.getTextCharacters(),reader.getTextStart(),reader.getTextLength(),_stream);
                     break;
                 }
-                case CHARACTERS :{
+                case XMLStreamConstants.CHARACTERS:{
                     if(!reader.isWhiteSpace()){
                         outputTextToWriter(reader.getText(),_stream);
 					}
                     break;
                 }
-                case COMMENT :{
+                case XMLStreamConstants.COMMENT:{
                     break;
                 }
-                case DTD :{
+                case XMLStreamConstants.DTD:{
                     break;
                 }
-                case END_DOCUMENT :{
+                case XMLStreamConstants.END_DOCUMENT:{
                     
                     break;
                 }
-                case ENTITY_DECLARATION :{
+                case XMLStreamConstants.ENTITY_DECLARATION:{
                     break;
                 }
-                case ENTITY_REFERENCE :{
+                case XMLStreamConstants.ENTITY_REFERENCE:{
                     break;
                 }
-                case  NOTATION_DECLARATION :{
+                case XMLStreamConstants.NOTATION_DECLARATION:{
                     break;
                 }
-                case PROCESSING_INSTRUCTION :{
+                case XMLStreamConstants.PROCESSING_INSTRUCTION:{
                     break;
                 }
-                case SPACE :{
+                case XMLStreamConstants.SPACE:{
                     break;
                 }
                 
-                case START_DOCUMENT :{
+                case XMLStreamConstants.START_DOCUMENT:{
                     break;
                 }
                 default :{

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -11,6 +11,7 @@
 package com.sun.xml.ws.security.impl.policyconv;
 
 import com.sun.xml.ws.policy.PolicyException;
+import com.sun.xml.ws.security.impl.policy.Constants;
 import com.sun.xml.ws.security.policy.Binding;
 import com.sun.xml.ws.security.policy.EncryptedElements;
 import com.sun.xml.ws.security.policy.EncryptedParts;
@@ -24,7 +25,7 @@ import com.sun.xml.wss.impl.policy.mls.TimestampPolicy;
 import com.sun.xml.wss.impl.policy.mls.WSSPolicy;
 import java.util.Vector;
 import java.util.logging.Level;
-import static com.sun.xml.ws.security.impl.policy.Constants.logger;
+
 /**
  *
  * @author K.Venugopal@sun.com
@@ -59,8 +60,8 @@ public class AsymmetricBindingProcessor extends BindingProcessor {
         if(st != null){
             primarySP = new SignaturePolicy();
             primarySP.setUUID(pid.generateID());
-            if(logger.isLoggable(Level.FINEST)){
-                logger.log(Level.FINEST,"ID of Primary signature policy is "+primarySP.getUUID());
+            if(Constants.logger.isLoggable(Level.FINEST)){
+                Constants.logger.log(Level.FINEST,"ID of Primary signature policy is "+primarySP.getUUID());
             }            
             tokenProcessor.addKeyBinding(binding,primarySP,st,true);
             SignaturePolicy.FeatureBinding spFB = (SignaturePolicy.FeatureBinding)primarySP.getFeatureBinding();
@@ -72,8 +73,8 @@ public class AsymmetricBindingProcessor extends BindingProcessor {
             primaryEP = new EncryptionPolicy();
             primaryEP.setUUID(pid.generateID());            
             tokenProcessor.addKeyBinding(binding,primaryEP,et,false);
-            if(logger.isLoggable(Level.FINEST)){
-                logger.log(Level.FINEST,"ID of Encryption policy is "+primaryEP.getUUID());
+            if(Constants.logger.isLoggable(Level.FINEST)){
+                Constants.logger.log(Level.FINEST,"ID of Encryption policy is "+primaryEP.getUUID());
             }
         }
         if(protectionOrder == Binding.SIGN_ENCRYPT){
@@ -85,14 +86,14 @@ public class AsymmetricBindingProcessor extends BindingProcessor {
         }
         addPrimaryTargets();
         if(foundEncryptTargets && binding.getSignatureProtection()){
-            if(logger.isLoggable(Level.FINEST)){
-                logger.log(Level.FINEST,"PrimarySignature will be Encrypted");
+            if(Constants.logger.isLoggable(Level.FINEST)){
+                Constants.logger.log(Level.FINEST,"PrimarySignature will be Encrypted");
             }
             protectPrimarySignature();
         }
         if(binding.isIncludeTimeStamp()){
-            if(logger.isLoggable(Level.FINEST)){
-                logger.log(Level.FINEST,"Timestamp header will be added to the message and will be Integrity protected ");
+            if(Constants.logger.isLoggable(Level.FINEST)){
+                Constants.logger.log(Level.FINEST,"Timestamp header will be added to the message and will be Integrity protected ");
             }
             TimestampPolicy tp = new TimestampPolicy();
             tp.setUUID(pid.generateID());
@@ -102,8 +103,8 @@ public class AsymmetricBindingProcessor extends BindingProcessor {
             }
         }
         if(binding.getTokenProtection()){
-            if(logger.isLoggable(Level.FINEST)){
-                logger.log(Level.FINEST,"Token reference by primary signature with ID "+primarySP.getUUID()+" will be Integrity protected");
+            if(Constants.logger.isLoggable(Level.FINEST)){
+                Constants.logger.log(Level.FINEST,"Token reference by primary signature with ID "+primarySP.getUUID()+" will be Integrity protected");
             }
             if (primarySP != null) {
                 protectToken((WSSPolicy) primarySP.getKeyBinding());

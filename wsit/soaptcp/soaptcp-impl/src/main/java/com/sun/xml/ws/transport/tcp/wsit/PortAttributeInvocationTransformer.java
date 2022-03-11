@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -26,7 +26,6 @@ import java.util.logging.Logger;
 import javax.xml.namespace.QName;
 
 import javax.xml.stream.XMLStreamWriter;
-import static com.sun.xml.ws.transport.tcp.wsit.TCPConstants.*;
 
 /**
  * SOAP/TCP invocation transformer, which is responsible to insert SOAP/TCP 'port' 
@@ -111,7 +110,7 @@ public class PortAttributeInvocationTransformer implements InvocationTransformer
                             XmlStreamWriterMethodType.WRITE_ATTRIBUTE.getMethodName(), 
                             String.class, String.class),
                             new Object[] {
-                                TCPTRANSPORT_PORT_ATTRIBUTE.getLocalPart(),
+                                TCPConstants.TCPTRANSPORT_PORT_ATTRIBUTE.getLocalPart(),
                                 Integer.toString(port)
                             });
                 }
@@ -121,7 +120,7 @@ public class PortAttributeInvocationTransformer implements InvocationTransformer
 
     private boolean isReplacePortAttribute(Invocation invocation) {
         AttributeInfo attr = XmlFilteringUtils.getAttributeNameToWrite(invocation, "");
-        if (TCPTRANSPORT_PORT_ATTRIBUTE.equals(attr.getName())) {
+        if (TCPConstants.TCPTRANSPORT_PORT_ATTRIBUTE.equals(attr.getName())) {
             if (RUNTIME_PORT_CHANGE_VALUE.equals(attr.getValue())) return true;
             
             
@@ -148,6 +147,6 @@ public class PortAttributeInvocationTransformer implements InvocationTransformer
     
     private boolean startBuffering(final Invocation invocation) {
         final QName elementName = XmlFilteringUtils.getElementNameToWrite(invocation, "");
-        return TCPTRANSPORT_POLICY_ASSERTION.equals(elementName);
+        return TCPConstants.TCPTRANSPORT_POLICY_ASSERTION.equals(elementName);
     }    
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -29,11 +29,21 @@ import com.sun.xml.ws.rx.mc.dev.ProtocolMessageHandler;
 import com.sun.xml.ws.rx.mc.dev.WsmcRuntimeProvider;
 import com.sun.xml.ws.rx.rm.api.RmProtocolVersion;
 import com.sun.xml.ws.rx.rm.localization.LocalizationMessages;
-import com.sun.xml.ws.rx.rm.protocol.*;
+import com.sun.xml.ws.rx.rm.protocol.AcknowledgementData;
+import com.sun.xml.ws.rx.rm.protocol.CloseSequenceData;
+import com.sun.xml.ws.rx.rm.protocol.CloseSequenceResponseData;
+import com.sun.xml.ws.rx.rm.protocol.CreateSequenceData;
+import com.sun.xml.ws.rx.rm.protocol.CreateSequenceResponseData;
+import com.sun.xml.ws.rx.rm.protocol.TerminateSequenceData;
+import com.sun.xml.ws.rx.rm.protocol.TerminateSequenceResponseData;
 import com.sun.xml.ws.rx.rm.runtime.LocalIDManager.BoundMessage;
 import com.sun.xml.ws.rx.rm.runtime.delivery.DeliveryQueueBuilder;
 import com.sun.xml.ws.rx.rm.runtime.delivery.PostmanPool;
-import com.sun.xml.ws.rx.rm.runtime.sequence.*;
+import com.sun.xml.ws.rx.rm.runtime.sequence.DuplicateMessageRegistrationException;
+import com.sun.xml.ws.rx.rm.runtime.sequence.Sequence;
+import com.sun.xml.ws.rx.rm.runtime.sequence.SequenceManager;
+import com.sun.xml.ws.rx.rm.runtime.sequence.SequenceManagerFactory;
+import com.sun.xml.ws.rx.rm.runtime.sequence.UnknownSequenceException;
 import com.sun.xml.ws.rx.rm.runtime.sequence.invm.InMemoryLocalIDManager;
 import com.sun.xml.ws.rx.rm.runtime.sequence.persistent.JDBCLocalIDManager;
 import com.sun.xml.ws.rx.rm.runtime.transaction.TransactionException;

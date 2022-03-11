@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -22,14 +22,32 @@ import java.net.URI;
 import com.sun.xml.ws.policy.impl.bindings.AppliesTo;
 import com.sun.xml.ws.policy.Policy;
 import com.sun.xml.ws.policy.impl.bindings.PolicyReference;
+import com.sun.xml.ws.security.trust.elements.AllowPostdating;
+import com.sun.xml.ws.security.trust.elements.Authenticator;
+import com.sun.xml.ws.security.trust.elements.BinaryExchange;
+import com.sun.xml.ws.security.trust.elements.DelegateTo;
+import com.sun.xml.ws.security.trust.elements.Encryption;
+import com.sun.xml.ws.security.trust.elements.Entropy;
+import com.sun.xml.ws.security.trust.elements.Issuer;
+import com.sun.xml.ws.security.trust.elements.Lifetime;
+import com.sun.xml.ws.security.trust.elements.OnBehalfOf;
+import com.sun.xml.ws.security.trust.elements.ProofEncryption;
+import com.sun.xml.ws.security.trust.elements.Renewing;
+import com.sun.xml.ws.security.trust.elements.RequestSecurityTokenResponse;
+import com.sun.xml.ws.security.trust.elements.RequestedAttachedReference;
+import com.sun.xml.ws.security.trust.elements.RequestedProofToken;
+import com.sun.xml.ws.security.trust.elements.RequestedSecurityToken;
+import com.sun.xml.ws.security.trust.elements.RequestedTokenCancelled;
+import com.sun.xml.ws.security.trust.elements.RequestedUnattachedReference;
+import com.sun.xml.ws.security.trust.elements.SignChallenge;
+import com.sun.xml.ws.security.trust.elements.SignChallengeResponse;
+import com.sun.xml.ws.security.trust.elements.UseKey;
 import jakarta.xml.bind.JAXBElement;
 import javax.xml.namespace.QName;
 
 import com.sun.xml.ws.api.security.trust.Status;
 import com.sun.xml.ws.api.security.trust.WSTrustException;
 import com.sun.xml.ws.security.trust.WSTrustVersion;
-
-import com.sun.xml.ws.security.trust.elements.*;
 
 import com.sun.xml.ws.security.trust.impl.wssx.WSTrustVersion13;
 import com.sun.xml.ws.security.trust.impl.wssx.bindings.AllowPostdatingType;

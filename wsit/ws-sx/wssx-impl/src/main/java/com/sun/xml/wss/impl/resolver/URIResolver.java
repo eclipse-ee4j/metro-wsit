@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -35,8 +35,6 @@ import com.sun.xml.wss.impl.MessageConstants;
 import com.sun.xml.wss.logging.LogDomainConstants;
 import com.sun.xml.wss.impl.SecurableSoapMessage;
 import com.sun.xml.wss.XWSSecurityException;
-
-import javax.xml.transform.TransformerException;
 
 import com.sun.xml.wss.swa.MimeConstants;
 import com.sun.xml.wss.impl.misc.URI;

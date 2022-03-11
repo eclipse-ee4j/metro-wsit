@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -17,7 +17,6 @@
 package com.sun.xml.wss.impl.keyinfo;
 
 import com.sun.xml.wss.impl.misc.Base64;
-import com.sun.xml.wss.XWSSecurityException;
 import com.sun.xml.wss.core.KeyInfoHeaderBlock;
 import com.sun.xml.wss.core.SecurityTokenReference;
 import com.sun.xml.wss.impl.SecurableSoapMessage;

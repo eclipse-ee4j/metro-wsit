@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -21,7 +21,6 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.logging.Level;
 import javax.xml.namespace.QName;
-import static com.sun.xml.ws.security.impl.policy.Constants.*;
 
 /**
  * @author K.Venugopal@sun.com, Mayank.Mishra@Sun.com
@@ -101,8 +100,8 @@ public class SpnegoContextToken extends PolicyAssertion implements com.sun.xml.w
                 includeToken = this.getAttributeValue(itQname);
             }
             if(policy == null){
-                if(logger.getLevel() == Level.FINE){
-                    logger.log(Level.FINE,"NestedPolicy is null");
+                if(Constants.logger.getLevel() == Level.FINE){
+                    Constants.logger.log(Level.FINE,"NestedPolicy is null");
                 }
                 populated = true;
                 return fitness;
@@ -116,7 +115,7 @@ public class SpnegoContextToken extends PolicyAssertion implements com.sun.xml.w
                     rdKey = assertion;
                 } else{
                     if(!assertion.isOptional()){
-                        log_invalid_assertion(assertion, isServer,"SpnegoContextToken");
+                        Constants.log_invalid_assertion(assertion, isServer,"SpnegoContextToken");
                         fitness = AssertionFitness.HAS_UNKNOWN_ASSERTION;
                     }
                 }

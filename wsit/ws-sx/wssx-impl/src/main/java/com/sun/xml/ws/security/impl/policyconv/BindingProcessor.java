@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -37,12 +37,12 @@ import com.sun.xml.wss.impl.policy.mls.KeyBindingBase;
 import com.sun.xml.wss.impl.policy.mls.SecureConversationTokenKeyBinding;
 import com.sun.xml.wss.impl.policy.mls.SignaturePolicy;
 import com.sun.xml.wss.impl.policy.mls.SignatureTarget;
+import com.sun.xml.wss.impl.policy.mls.Target;
 import com.sun.xml.wss.impl.policy.mls.TimestampPolicy;
 import com.sun.xml.wss.impl.policy.mls.WSSPolicy;
 import java.util.Vector;
 import javax.xml.crypto.dsig.CanonicalizationMethod;
 import javax.xml.namespace.QName;
-import static com.sun.xml.wss.impl.policy.mls.Target.SIGNATURE_CONFIRMATION;
 
 /**
  *
@@ -92,7 +92,7 @@ public abstract class BindingProcessor {
             SecurityPolicyUtil.setName(et, primarySP);
             epFB.addTargetBinding(et);
             if (foundEncryptTargets && (isWSS11() && requireSC()) && encryptSignConfirm && getBinding().getSignatureProtection()) {
-                eAP.process(SIGNATURE_CONFIRMATION, epFB);
+                eAP.process(Target.SIGNATURE_CONFIRMATION, epFB);
             }
         } else {
             EncryptionPolicy.FeatureBinding epFB = (EncryptionPolicy.FeatureBinding) primaryEP.getFeatureBinding();
@@ -100,7 +100,7 @@ public abstract class BindingProcessor {
             SecurityPolicyUtil.setName(et, primarySP);
             epFB.addTargetBinding(et);
             if (foundEncryptTargets && (isWSS11() && requireSC()) && encryptSignConfirm && getBinding().getSignatureProtection()) {
-                eAP.process(SIGNATURE_CONFIRMATION, epFB);
+                eAP.process(Target.SIGNATURE_CONFIRMATION, epFB);
             }
         }
     }
@@ -268,7 +268,7 @@ public abstract class BindingProcessor {
             }
 
             if (isWSS11() && requireSC()) {
-                iAP.process(SIGNATURE_CONFIRMATION, spFB);
+                iAP.process(Target.SIGNATURE_CONFIRMATION, spFB);
             }
         }
 

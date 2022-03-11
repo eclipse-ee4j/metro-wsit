@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -14,8 +14,6 @@ import javax.xml.namespace.QName;
 import javax.xml.stream.XMLStreamWriter;
 
 import com.sun.istack.logging.Logger;
-
-import static com.sun.xml.ws.xmlfilter.ProcessingStateChange.*;
 
 /**
  *
@@ -42,7 +40,7 @@ public class PrivateElementFilteringStateMachine implements FilteringStateMachin
     @Override
     public ProcessingStateChange getStateChange(final Invocation invocation, final XMLStreamWriter writer) {
         LOGGER.entering(invocation);
-        ProcessingStateChange resultingState = NO_CHANGE;
+        ProcessingStateChange resultingState = ProcessingStateChange.NO_CHANGE;
         try {
             switch (invocation.getMethodType()) {
                 case WRITE_START_ELEMENT:
@@ -51,7 +49,7 @@ public class PrivateElementFilteringStateMachine implements FilteringStateMachin
                     } else {
                         filteringOn = startFiltering(invocation, writer);
                         if (filteringOn) {
-                            resultingState = START_FILTERING;
+                            resultingState = ProcessingStateChange.START_FILTERING;
                         }
                     }
                     break;
@@ -59,7 +57,7 @@ public class PrivateElementFilteringStateMachine implements FilteringStateMachin
                     if (filteringOn) {
                         if (depth == 0) {
                             filteringOn = false;
-                            resultingState = STOP_FILTERING;
+                            resultingState = ProcessingStateChange.STOP_FILTERING;
 //                            return invocation.executeBatch(mirrorWriter);
                         } else {
                             depth--;
@@ -69,7 +67,7 @@ public class PrivateElementFilteringStateMachine implements FilteringStateMachin
                 case CLOSE:
                     if (filteringOn) {
                         filteringOn = false;
-                        resultingState = STOP_FILTERING;
+                        resultingState = ProcessingStateChange.STOP_FILTERING;
                     }
                 default:
                     break;

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -20,7 +20,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 import com.sun.xml.ws.security.policy.Constants;
-import static com.sun.xml.ws.security.impl.policy.Constants.*;
+
 import java.util.logging.Level;
 
 /**
@@ -76,8 +76,8 @@ public class Trust13 extends PolicyAssertion implements com.sun.xml.ws.security.
         if(!populated){
             NestedPolicy policy = this.getNestedPolicy();
             if(policy == null){
-                if(logger.getLevel() == Level.FINE){
-                    logger.log(Level.FINE,"NestedPolicy is null");
+                if(com.sun.xml.ws.security.impl.policy.Constants.logger.getLevel() == Level.FINE){
+                    com.sun.xml.ws.security.impl.policy.Constants.logger.log(Level.FINE,"NestedPolicy is null");
                 }
                 populated = true;
                 return fitness;
@@ -100,7 +100,7 @@ public class Trust13 extends PolicyAssertion implements com.sun.xml.ws.security.
                     addRequiredProperty(Constants.REQUIRE_APPLIES_TO);
                 } else{
                     if(!assertion.isOptional()){
-                        log_invalid_assertion(assertion, isServer,"Trust13");
+                        com.sun.xml.ws.security.impl.policy.Constants.log_invalid_assertion(assertion, isServer,"Trust13");
                         fitness = AssertionFitness.HAS_UNKNOWN_ASSERTION;
                     }
                 }

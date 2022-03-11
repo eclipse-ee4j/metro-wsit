@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -10,15 +10,24 @@
 
 package com.sun.xml.ws.tx.coord.v11;
 
-import org.glassfish.jaxb.runtime.api.JAXBRIContext;
-import com.sun.xml.ws.tx.coord.common.types.*;
-import com.sun.xml.ws.tx.coord.v11.types.*;
 import com.sun.xml.ws.tx.at.WSATConstants;
+import com.sun.xml.ws.tx.coord.common.types.BaseExpires;
+import com.sun.xml.ws.tx.coord.common.types.BaseIdentifier;
+import com.sun.xml.ws.tx.coord.common.types.BaseRegisterResponseType;
+import com.sun.xml.ws.tx.coord.common.types.BaseRegisterType;
+import com.sun.xml.ws.tx.coord.common.types.CoordinationContextIF;
+import com.sun.xml.ws.tx.coord.common.types.CoordinationContextTypeIF;
+import com.sun.xml.ws.tx.coord.v11.types.CoordinationContext;
+import com.sun.xml.ws.tx.coord.v11.types.CoordinationContextType;
+import com.sun.xml.ws.tx.coord.v11.types.Expires;
+import com.sun.xml.ws.tx.coord.v11.types.RegisterResponseType;
+import com.sun.xml.ws.tx.coord.v11.types.RegisterType;
+import jakarta.xml.bind.JAXBException;
+import jakarta.xml.ws.WebServiceException;
+import jakarta.xml.ws.wsaddressing.W3CEndpointReference;
+import org.glassfish.jaxb.runtime.api.JAXBRIContext;
 
 import javax.xml.namespace.QName;
-import jakarta.xml.ws.wsaddressing.W3CEndpointReference;
-import jakarta.xml.ws.WebServiceException;
-import jakarta.xml.bind.JAXBException;
 import java.util.List;
 import java.util.Map;
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -19,6 +19,8 @@ import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.sun.xml.wss.ProcessingContext;
+import com.sun.xml.wss.XWSSecurityException;
 import jakarta.xml.soap.SOAPMessage;
 
 import com.sun.xml.wss.logging.LogDomainConstants;
@@ -28,7 +30,6 @@ import com.sun.xml.wss.impl.policy.SecurityPolicy;
 
 import com.sun.xml.wss.impl.policy.mls.AuthenticationTokenPolicy;
 import com.sun.xml.wss.impl.policy.mls.SymmetricKeyBinding;
-import com.sun.xml.wss.*;
 
 import javax.crypto.SecretKey;
 import java.security.Key;
