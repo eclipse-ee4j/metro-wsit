@@ -9,15 +9,6 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-/*
- * WSITServerAuthContext.java
- *
- * Created on November 1, 2006, 12:01 PM
- *
- * To change this template, choose Tools | Template Manager
- * and open the template in the editor.
- */
-
 package com.sun.xml.wss.provider.wsit;
 
 import com.sun.xml.ws.api.message.AttachmentSet;

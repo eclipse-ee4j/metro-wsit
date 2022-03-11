@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -9,16 +9,6 @@
  */
 
 package common;
-
-/*
- * SampleUsernamePasswordCallbackHandler.java
- *
- * Created on June 17, 2006, 11:50 PM
- *
- * To change this template, choose Tools | Options and locate the template under
- * the Source Creation and Management node. Right-click the template and choose
- * Open. You can then make changes to the template in the Source Editor.
- */
 
 import javax.security.auth.callback.Callback;
 import javax.security.auth.callback.CallbackHandler;

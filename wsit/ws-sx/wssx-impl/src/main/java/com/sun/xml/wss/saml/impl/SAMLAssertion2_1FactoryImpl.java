@@ -8,18 +8,7 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-/*
- * SAMLAssertion1_1FactoryImpl.java
- *
- * Created on August 18, 2005, 12:34 PM
- *
- * To change this template, choose Tools | Options and locate the template under
- * the Source Creation and Management node. Right-click the template and choose
- * Open. You can then make changes to the template in the Source Editor.
- */
-
 package com.sun.xml.wss.saml.impl;
-
 
 import com.sun.xml.ws.security.opt.crypto.dsig.keyinfo.KeyInfo;
 import com.sun.xml.wss.XWSSecurityException;
@@ -62,8 +51,6 @@ import com.sun.xml.wss.saml.util.SAMLUtil;
 import jakarta.xml.bind.JAXBContext;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
-
-
 
 /**
  *

@@ -8,15 +8,6 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-/*
- * SamlToken.java
- *
- * Created on February 28, 2006, 1:45 PM
- *
- * To change this template, choose Tools | Template Manager
- * and open the template in the editor.
- */
-
 package com.sun.xml.ws.security.impl.policy;
 
 import com.sun.xml.ws.policy.AssertionSet;

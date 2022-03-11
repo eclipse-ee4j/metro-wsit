@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -8,20 +8,10 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-/*
- * Transforms.java
- *
- * Created on January 25, 2006, 6:25 PM
- *
- * To change this template, choose Tools | Template Manager
- * and open the template in the editor.
- */
-
 package com.sun.xml.ws.security.opt.crypto.dsig;
 
 import java.util.List;
 import jakarta.xml.bind.annotation.XmlRootElement;
-
 
 /**
  *

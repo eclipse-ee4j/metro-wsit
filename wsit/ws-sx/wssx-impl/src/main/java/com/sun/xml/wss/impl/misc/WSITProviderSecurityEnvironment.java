@@ -8,15 +8,6 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-/*
- * WSITProviderSecurityEnvironment.java
- *
- * Created on November 12, 2006, 1:29 PM
- *
- * To change this template, choose Tools | Template Manager
- * and open the template in the editor.
- */
-
 package com.sun.xml.wss.impl.misc;
 
 import com.sun.xml.wss.AliasSelector;
@@ -132,7 +123,6 @@ import java.net.URLClassLoader;
 import javax.security.auth.kerberos.KerberosPrincipal;
 import javax.security.auth.login.LoginContext;
 import org.ietf.jgss.GSSCredential;
-
 
 /**
  *

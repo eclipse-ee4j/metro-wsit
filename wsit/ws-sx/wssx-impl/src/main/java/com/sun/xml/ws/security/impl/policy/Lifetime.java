@@ -8,15 +8,6 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-/*
- * LifeTimeImpl.java
- *
- * Created on February 23, 2006, 12:00 PM
- *
- * To change this template, choose Tools | Template Manager
- * and open the template in the editor.
- */
-
 package com.sun.xml.ws.security.impl.policy;
 
 import com.sun.xml.ws.policy.AssertionSet;

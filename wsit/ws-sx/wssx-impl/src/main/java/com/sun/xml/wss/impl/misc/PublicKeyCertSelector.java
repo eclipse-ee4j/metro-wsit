@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -8,16 +8,8 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-/*
- * PublicKeyCertSelector.java
- *
- * Created on March 1, 2007, 5:03 PM
- *
- * To change this template, choose Tools | Template Manager
- * and open the template in the editor.
- */
-
 package com.sun.xml.wss.impl.misc;
+
 import com.sun.xml.wss.impl.XWSSecurityRuntimeException;
 import java.security.cert.CertSelector;
 import java.security.cert.Certificate;
