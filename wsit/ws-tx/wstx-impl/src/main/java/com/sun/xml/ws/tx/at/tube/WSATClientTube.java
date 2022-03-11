@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -25,7 +25,10 @@ import com.sun.xml.ws.tx.at.WSATConstants;
 import com.sun.xml.ws.api.tx.at.TransactionalFeature;
 
 import javax.xml.namespace.QName;
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class WSATClientTube extends AbstractFilterTubeImpl implements WSATConstants {
     WSBinding m_wsbinding;

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -32,7 +32,14 @@ import com.sun.xml.ws.mex.client.schema.Metadata;
 import com.sun.xml.ws.policy.impl.bindings.AppliesTo;
 import com.sun.xml.ws.security.IssuedTokenContext;
 import com.sun.xml.ws.security.Token;
-import com.sun.xml.ws.security.trust.*;
+import com.sun.xml.ws.security.trust.GenericToken;
+import com.sun.xml.ws.security.trust.STSIssuedTokenFeature;
+import com.sun.xml.ws.security.trust.TrustPlugin;
+import com.sun.xml.ws.security.trust.WSTrustClientContract;
+import com.sun.xml.ws.security.trust.WSTrustConstants;
+import com.sun.xml.ws.security.trust.WSTrustElementFactory;
+import com.sun.xml.ws.security.trust.WSTrustFactory;
+import com.sun.xml.ws.security.trust.WSTrustVersion;
 import com.sun.xml.ws.security.trust.elements.ActAs;
 import com.sun.xml.ws.security.trust.elements.BinarySecret;
 import com.sun.xml.ws.security.trust.elements.Entropy;
@@ -49,10 +56,11 @@ import java.net.URI;
 import java.net.URL;
 import java.net.URISyntaxException;
 import java.net.MalformedURLException;
-import java.rmi.RemoteException;
 import java.security.SecureRandom;
 import java.util.List;
 import javax.xml.namespace.QName;
+
+import com.sun.xml.wss.jaxws.impl.Constants;
 import jakarta.xml.ws.Dispatch;
 import jakarta.xml.ws.RespectBindingFeature;
 import jakarta.xml.ws.Service;
@@ -721,8 +729,8 @@ public class TrustPluginImpl implements TrustPlugin {
 
     private void setMessageProperties(Map<String, Object> context, STSIssuedTokenConfiguration stsConfig){
         context.putAll(stsConfig.getOtherOptions());
-        if (context.containsKey(com.sun.xml.wss.jaxws.impl.Constants.SC_ASSERTION)){
-            context.remove(com.sun.xml.wss.jaxws.impl.Constants.SC_ASSERTION);
+        if (context.containsKey(Constants.SC_ASSERTION)){
+            context.remove(Constants.SC_ASSERTION);
         }
     }
 

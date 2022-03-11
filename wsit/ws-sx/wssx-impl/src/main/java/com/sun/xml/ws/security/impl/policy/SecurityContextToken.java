@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -26,7 +26,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.logging.Level;
-import static com.sun.xml.ws.security.impl.policy.Constants.*;
 import javax.xml.namespace.QName;
 
 /**
@@ -109,8 +108,8 @@ public class SecurityContextToken extends PolicyAssertion implements com.sun.xml
                 includeToken = this.getAttributeValue(itQname);
             }
             if(policy == null){
-                if(logger.getLevel() == Level.FINE){
-                    logger.log(Level.FINE,"NestedPolicy is null");
+                if(Constants.logger.getLevel() == Level.FINE){
+                    Constants.logger.log(Level.FINE,"NestedPolicy is null");
                 }
                 populated = true;
                 return fitness;
@@ -131,8 +130,8 @@ public class SecurityContextToken extends PolicyAssertion implements com.sun.xml
                     referenceType.add(assertion.getName().getLocalPart().intern());
                 } else{
                     if(!assertion.isOptional()){
-                        if(logger.getLevel() == Level.SEVERE){
-                            logger.log(Level.SEVERE,LogStringsMessages.SP_0100_INVALID_SECURITY_ASSERTION(assertion, "SecurityContextToken"));
+                        if(Constants.logger.getLevel() == Level.SEVERE){
+                            Constants.logger.log(Level.SEVERE,LogStringsMessages.SP_0100_INVALID_SECURITY_ASSERTION(assertion, "SecurityContextToken"));
                         }
                         if(isServer){
                             throw new UnsupportedPolicyAssertion("Policy assertion "+

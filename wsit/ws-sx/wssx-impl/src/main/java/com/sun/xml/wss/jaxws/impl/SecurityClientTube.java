@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -56,7 +56,6 @@ import com.sun.xml.ws.security.SecurityContextToken;
 import com.sun.xml.wss.XWSSecurityException;
 import com.sun.xml.wss.ProcessingContext;
 import com.sun.xml.ws.security.trust.elements.str.SecurityTokenReference;
-import com.sun.xml.ws.security.secconv.WSSecureConversationException;
 import com.sun.xml.ws.security.trust.STSIssuedTokenFeature;
 import com.sun.xml.ws.security.trust.WSTrustElementFactory;
 import com.sun.xml.ws.security.policy.Token;
@@ -85,9 +84,6 @@ import com.sun.xml.wss.impl.policy.mls.EncryptionPolicy;
 import com.sun.xml.wss.impl.policy.mls.EncryptionTarget;
 import com.sun.xml.wss.impl.policy.mls.MessagePolicy;
 import java.util.Properties;
-import static com.sun.xml.wss.jaxws.impl.Constants.SC_ASSERTION;
-import static com.sun.xml.wss.jaxws.impl.Constants.OPERATION_SCOPE;
-import static com.sun.xml.wss.jaxws.impl.Constants.SUN_WSS_SECURITY_CLIENT_POLICY_NS;
 
 import java.util.logging.Level;
 import com.sun.xml.wss.jaxws.impl.logging.LogStringsMessages;
@@ -129,9 +125,9 @@ public class SecurityClientTube extends SecurityTubeBase implements SecureConver
                 while (it.hasNext()) {
                     SecurityPolicyHolder holder = (SecurityPolicyHolder) it.next();
                     if (configAssertions != null) {
-                        configAssertions.addAll(holder.getConfigAssertions(SUN_WSS_SECURITY_CLIENT_POLICY_NS));
+                        configAssertions.addAll(holder.getConfigAssertions(com.sun.xml.wss.jaxws.impl.Constants.SUN_WSS_SECURITY_CLIENT_POLICY_NS));
                     } else {
-                        configAssertions = holder.getConfigAssertions(SUN_WSS_SECURITY_CLIENT_POLICY_NS);
+                        configAssertions = holder.getConfigAssertions(com.sun.xml.wss.jaxws.impl.Constants.SUN_WSS_SECURITY_CLIENT_POLICY_NS);
                     }
                     if (trustConfig != null) {
                         trustConfig.addAll(holder.getConfigAssertions(Constants.SUN_TRUST_CLIENT_SECURITY_POLICY_NS));
@@ -311,7 +307,7 @@ public class SecurityClientTube extends SecurityTubeBase implements SecureConver
         if (isSCRenew(packet)) {
             // To remove the appended policy for using with renew message;
             // Need to refactor to make it logical more clean
-            Token scToken = (Token) packet.invocationProperties.get(SC_ASSERTION);
+            Token scToken = (Token) packet.invocationProperties.get(com.sun.xml.wss.jaxws.impl.Constants.SC_ASSERTION);
             SCTokenConfiguration config = new DefaultSCTokenConfiguration(wsscVer.getNamespaceURI(), false);
             config.getOtherOptions().put("MessagePolicy", getOutgoingXWSBootstrapPolicy(scToken));
             IssuedTokenContext itc = itm.createIssuedTokenContext(config, packet.endpointAddress.toString());
@@ -576,10 +572,10 @@ public class SecurityClientTube extends SecurityTubeBase implements SecureConver
 
         // Get IssuedToken policies from the service
         if (isSCMessage) {
-            Token scToken = (Token) packet.invocationProperties.get(SC_ASSERTION);
+            Token scToken = (Token) packet.invocationProperties.get(com.sun.xml.wss.jaxws.impl.Constants.SC_ASSERTION);
             policies = getIssuedTokenPoliciesFromBootstrapPolicy(scToken);
         } else {
-            policies = getIssuedTokenPolicies(packet, OPERATION_SCOPE);
+            policies = getIssuedTokenPolicies(packet, com.sun.xml.wss.jaxws.impl.Constants.OPERATION_SCOPE);
         }
 
         // Get PreConfiguredSTS policy on the client side

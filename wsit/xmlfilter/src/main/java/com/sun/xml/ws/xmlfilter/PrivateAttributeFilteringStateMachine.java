@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -13,10 +13,7 @@ package com.sun.xml.ws.xmlfilter;
 import javax.xml.stream.XMLStreamWriter;
 
 import com.sun.istack.logging.Logger;
-
-import static com.sun.xml.ws.policy.PolicyConstants.VISIBILITY_ATTRIBUTE;
-import static com.sun.xml.ws.policy.PolicyConstants.VISIBILITY_VALUE_PRIVATE;
-import static com.sun.xml.ws.xmlfilter.ProcessingStateChange.*;
+import com.sun.xml.ws.policy.PolicyConstants;
 
 /**
  *
@@ -38,46 +35,46 @@ public class PrivateAttributeFilteringStateMachine implements FilteringStateMach
     @Override
     public ProcessingStateChange getStateChange(final Invocation invocation, final XMLStreamWriter writer) {
         LOGGER.entering(invocation);
-        ProcessingStateChange resultingState = NO_CHANGE;
+        ProcessingStateChange resultingState = ProcessingStateChange.NO_CHANGE;
         try {
             switch (invocation.getMethodType()) {
                 case WRITE_START_ELEMENT:
                     if (filteringOn) {
                         depth++;
                     } else if (cmdBufferingOn) {
-                        resultingState = RESTART_BUFFERING;
+                        resultingState = ProcessingStateChange.RESTART_BUFFERING;
                     } else {
                         cmdBufferingOn = true;
-                        resultingState = START_BUFFERING;
+                        resultingState = ProcessingStateChange.START_BUFFERING;
                     }
                     break;
                 case WRITE_END_ELEMENT:
                     if (filteringOn) {
                         if (depth == 0) {
                             filteringOn = false;
-                            resultingState = STOP_FILTERING;
+                            resultingState = ProcessingStateChange.STOP_FILTERING;
                         } else {
                             depth--;
                         }
                     } else if (cmdBufferingOn) {
                         cmdBufferingOn = false;
-                        resultingState = STOP_BUFFERING;
+                        resultingState = ProcessingStateChange.STOP_BUFFERING;
                     }
                     break;
                 case WRITE_ATTRIBUTE:
                     if (!filteringOn && cmdBufferingOn && startFiltering(invocation, writer)) {
                         filteringOn = true;
                         cmdBufferingOn = false;
-                        resultingState = START_FILTERING;
+                        resultingState = ProcessingStateChange.START_FILTERING;
                     }
                     break;
                 case CLOSE:
                     if (filteringOn) {
                         filteringOn = false;
-                        resultingState = STOP_FILTERING;
+                        resultingState = ProcessingStateChange.STOP_FILTERING;
                     } else if (cmdBufferingOn) {
                         cmdBufferingOn = false;
-                        resultingState = STOP_BUFFERING;
+                        resultingState = ProcessingStateChange.STOP_BUFFERING;
                     }
                     break;
                 default:
@@ -92,6 +89,6 @@ public class PrivateAttributeFilteringStateMachine implements FilteringStateMach
     
     private boolean startFiltering(final Invocation invocation, final XMLStreamWriter writer) {
         final XmlFilteringUtils.AttributeInfo attributeInfo = XmlFilteringUtils.getAttributeNameToWrite(invocation, XmlFilteringUtils.getDefaultNamespaceURI(writer));
-        return VISIBILITY_ATTRIBUTE.equals(attributeInfo.getName()) && VISIBILITY_VALUE_PRIVATE.equals(attributeInfo.getValue());
+        return PolicyConstants.VISIBILITY_ATTRIBUTE.equals(attributeInfo.getName()) && PolicyConstants.VISIBILITY_VALUE_PRIVATE.equals(attributeInfo.getValue());
     }
 }

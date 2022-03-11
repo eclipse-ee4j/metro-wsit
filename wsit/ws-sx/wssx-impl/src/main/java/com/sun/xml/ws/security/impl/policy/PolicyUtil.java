@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -18,7 +18,6 @@ import com.sun.xml.ws.policy.PolicyAssertion;
 import com.sun.xml.ws.policy.sourcemodel.PolicyModelMarshaller;
 import com.sun.xml.ws.policy.sourcemodel.PolicySourceModel;
 import com.sun.xml.ws.security.policy.AlgorithmSuiteValue;
-import static com.sun.xml.ws.security.impl.policy.Constants.*;
 import com.sun.xml.ws.security.policy.SecurityPolicyVersion;
 import com.sun.xml.wss.WSITXMLFactory;
 
@@ -47,7 +46,7 @@ public class PolicyUtil {
     
     public static boolean isSecurityPolicyNS(PolicyAssertion pa, SecurityPolicyVersion spVersion) {
         if ( spVersion.namespaceUri.equals(pa.getName().getNamespaceURI()) ||
-                MS_SP_NS.equalsIgnoreCase(pa.getName().getNamespaceURI())) {
+                Constants.MS_SP_NS.equalsIgnoreCase(pa.getName().getNamespaceURI())) {
             return true;
         }
         return false;
@@ -80,7 +79,7 @@ public class PolicyUtil {
     }
     
     public static boolean isMEXNS(final PolicyAssertion assertion) {
-        if ( MEX_NS.equals(assertion.getName().getNamespaceURI()) ) {
+        if ( Constants.MEX_NS.equals(assertion.getName().getNamespaceURI()) ) {
             return true;
         }
         return false;
@@ -102,7 +101,7 @@ public class PolicyUtil {
 
     public static boolean isAlgorithmAssertion(PolicyAssertion pa, SecurityPolicyVersion spVersion){
         if ( isSecurityPolicyNS(pa, spVersion) ) {
-            if(pa.getName().getLocalPart().equals(AlgorithmSuite)) {                
+            if(pa.getName().getLocalPart().equals(Constants.AlgorithmSuite)) {
                 return true;
             }
         }
@@ -114,47 +113,47 @@ public class PolicyUtil {
             return false;
         }
         
-        if(pa.getName().getLocalPart().equals(EncryptionToken) ) {
+        if(pa.getName().getLocalPart().equals(Constants.EncryptionToken) ) {
             return true;
-        }else if(pa.getName().getLocalPart().equals(SignatureToken)) {
+        }else if(pa.getName().getLocalPart().equals(Constants.SignatureToken)) {
             return true;
-        }else if(pa.getName().getLocalPart().equals(InitiatorToken)) {
+        }else if(pa.getName().getLocalPart().equals(Constants.InitiatorToken)) {
             return true;
-        }else if(pa.getName().getLocalPart().equals(InitiatorSignatureToken)) {
+        }else if(pa.getName().getLocalPart().equals(Constants.InitiatorSignatureToken)) {
             return true;
-        }else if(pa.getName().getLocalPart().equals(InitiatorEncryptionToken)) {
+        }else if(pa.getName().getLocalPart().equals(Constants.InitiatorEncryptionToken)) {
             return true;
-        }else if(pa.getName().getLocalPart().equals(HttpsToken)) {
+        }else if(pa.getName().getLocalPart().equals(Constants.HttpsToken)) {
             return true;
-        }else if(pa.getName().getLocalPart().equals(IssuedToken)) {
+        }else if(pa.getName().getLocalPart().equals(Constants.IssuedToken)) {
             return true;
-        }else if(pa.getName().getLocalPart().equals(KerberosToken)) {
+        }else if(pa.getName().getLocalPart().equals(Constants.KerberosToken)) {
             return true;
-        }else if(pa.getName().getLocalPart().equals(ProtectionToken)) {
+        }else if(pa.getName().getLocalPart().equals(Constants.ProtectionToken)) {
             return true;
-        }else if(pa.getName().getLocalPart().equals(RecipientToken)) {
+        }else if(pa.getName().getLocalPart().equals(Constants.RecipientToken)) {
             return true;
-        }else if(pa.getName().getLocalPart().equals(RecipientSignatureToken)) {
+        }else if(pa.getName().getLocalPart().equals(Constants.RecipientSignatureToken)) {
             return true;
-        }else if(pa.getName().getLocalPart().equals(RecipientEncryptionToken)) {
+        }else if(pa.getName().getLocalPart().equals(Constants.RecipientEncryptionToken)) {
             return true;
-        }else if(pa.getName().getLocalPart().equals(SupportingTokens)) {
+        }else if(pa.getName().getLocalPart().equals(Constants.SupportingTokens)) {
             return true;
-        }else if(pa.getName().getLocalPart().equals(SC10SecurityContextToken)) {
+        }else if(pa.getName().getLocalPart().equals(Constants.SC10SecurityContextToken)) {
             return true;
-        }else if(pa.getName().getLocalPart().equals(SamlToken)) {
+        }else if(pa.getName().getLocalPart().equals(Constants.SamlToken)) {
             return true;
-        }else if(pa.getName().getLocalPart().equals(UsernameToken)) {
+        }else if(pa.getName().getLocalPart().equals(Constants.UsernameToken)) {
             return true;
-        }else if(pa.getName().getLocalPart().equals(X509Token)) {
+        }else if(pa.getName().getLocalPart().equals(Constants.X509Token)) {
             return true;
-        }else if(pa.getName().getLocalPart().equals(SecureConversationToken)) {
+        }else if(pa.getName().getLocalPart().equals(Constants.SecureConversationToken)) {
             return true;
-        }else if(pa.getName().getLocalPart().equals(TransportToken)) {
+        }else if(pa.getName().getLocalPart().equals(Constants.TransportToken)) {
             return true;
-        }else if(pa.getName().getLocalPart().equals(RsaToken)){
+        }else if(pa.getName().getLocalPart().equals(Constants.RsaToken)){
             return true;
-        }else if(pa.getName().getLocalPart().equals(KeyValueToken)){
+        }else if(pa.getName().getLocalPart().equals(Constants.KeyValueToken)){
             return true;
         }
         return false;
@@ -165,7 +164,7 @@ public class PolicyUtil {
             return false;
         }
         
-        if(assertion.getName().getLocalPart().equals(BootstrapPolicy)) {
+        if(assertion.getName().getLocalPart().equals(Constants.BootstrapPolicy)) {
             return true;
         }
         return false;
@@ -177,10 +176,10 @@ public class PolicyUtil {
         }
         
         String name = assertion.getName().getLocalPart();
-        if(name.equals(EncryptedParts) ||
-                name.equals(SignedParts) ||
-                name.equals(SignedElements) ||
-                name.equals(EncryptedElements)) {
+        if(name.equals(Constants.EncryptedParts) ||
+                name.equals(Constants.SignedParts) ||
+                name.equals(Constants.SignedElements) ||
+                name.equals(Constants.EncryptedElements)) {
             return true;
         }
         return false;
@@ -191,7 +190,7 @@ public class PolicyUtil {
             return false;
         }
         
-        if ( assertion.getName().getLocalPart().equals(XPath) ) {
+        if ( assertion.getName().getLocalPart().equals(Constants.XPath) ) {
             return true;
         }
         return false;
@@ -202,7 +201,7 @@ public class PolicyUtil {
             return false;
         }
         
-        if ( assertion.getName().getLocalPart().equals(XPathFilter20) ) {
+        if ( assertion.getName().getLocalPart().equals(Constants.XPathFilter20) ) {
             return true;
         }
         return false;
@@ -218,21 +217,21 @@ public class PolicyUtil {
             return false;
         }
         
-        if ( assertion.getName().getLocalPart().equals(WssX509V1Token10)) {
+        if ( assertion.getName().getLocalPart().equals(Constants.WssX509V1Token10)) {
             return true;
-        } else if ( assertion.getName().getLocalPart().equals(WssX509V3Token10)) {
+        } else if ( assertion.getName().getLocalPart().equals(Constants.WssX509V3Token10)) {
             return true;
-        } else if ( assertion.getName().getLocalPart().equals(WssX509Pkcs7Token10)) {
+        } else if ( assertion.getName().getLocalPart().equals(Constants.WssX509Pkcs7Token10)) {
             return true;
-        } else if ( assertion.getName().getLocalPart().equals(WssX509PkiPathV1Token10)) {
+        } else if ( assertion.getName().getLocalPart().equals(Constants.WssX509PkiPathV1Token10)) {
             return true;
-        } else if ( assertion.getName().getLocalPart().equals(WssX509V1Token11)) {
+        } else if ( assertion.getName().getLocalPart().equals(Constants.WssX509V1Token11)) {
             return true;
-        } else if ( assertion.getName().getLocalPart().equals(WssX509V3Token11)) {
+        } else if ( assertion.getName().getLocalPart().equals(Constants.WssX509V3Token11)) {
             return true;
-        } else if ( assertion.getName().getLocalPart().equals(WssX509Pkcs7Token11)) {
+        } else if ( assertion.getName().getLocalPart().equals(Constants.WssX509Pkcs7Token11)) {
             return true;
-        } else if ( assertion.getName().getLocalPart().equals(WssX509PkiPathV1Token11)) {
+        } else if ( assertion.getName().getLocalPart().equals(Constants.WssX509PkiPathV1Token11)) {
             return true;
         }
         return false;
@@ -244,13 +243,13 @@ public class PolicyUtil {
             return false;
         }
         
-        if ( assertion.getName().getLocalPart().equals(RequireKeyIdentifierReference)) {
+        if ( assertion.getName().getLocalPart().equals(Constants.RequireKeyIdentifierReference)) {
             return true;
-        } else if ( assertion.getName().getLocalPart().equals(RequireThumbprintReference)) {
+        } else if ( assertion.getName().getLocalPart().equals(Constants.RequireThumbprintReference)) {
             return true;
-        } else if ( assertion.getName().getLocalPart().equals(RequireEmbeddedTokenReference)) {
+        } else if ( assertion.getName().getLocalPart().equals(Constants.RequireEmbeddedTokenReference)) {
             return true;
-        } else if ( assertion.getName().getLocalPart().equals(RequireIssuerSerialReference)) {
+        } else if ( assertion.getName().getLocalPart().equals(Constants.RequireIssuerSerialReference)) {
             return true;
         }
         return false;
@@ -261,15 +260,15 @@ public class PolicyUtil {
             return false;
         }
         
-        if(assertion.getName().getLocalPart().equals(WssUsernameToken10) ||
-                assertion.getName().getLocalPart().equals(WssUsernameToken11)) {
+        if(assertion.getName().getLocalPart().equals(Constants.WssUsernameToken10) ||
+                assertion.getName().getLocalPart().equals(Constants.WssUsernameToken11)) {
             return true;
         }
         return false;
     }
     
     public static boolean useCreated(PolicyAssertion assertion, SecurityPolicyVersion spVersion) {
-       if(assertion.getName().getLocalPart().equals(Created)
+       if(assertion.getName().getLocalPart().equals(Constants.Created)
                /*&& spVersion.namespaceUri.equals(SP13_NS)*/) {
             return true;
         }
@@ -277,7 +276,7 @@ public class PolicyUtil {
     }
 
     public static boolean useNonce(PolicyAssertion assertion, SecurityPolicyVersion spVersion) {
-        if(assertion.getName().getLocalPart().equals(Nonce) /*&&
+        if(assertion.getName().getLocalPart().equals(Constants.Nonce) /*&&
                 spVersion.namespaceUri.equals(SP13_NS)*/) {
             return true;
         }
@@ -311,7 +310,7 @@ public class PolicyUtil {
             return false;
         }
         String localPart = token.getName().getLocalPart();
-        if(localPart.equals(SC10SecurityContextToken)) {
+        if(localPart.equals(Constants.SC10SecurityContextToken)) {
             return true;
         }
         return false;
@@ -333,9 +332,9 @@ public class PolicyUtil {
             return false;
         }
         String localPart = token.getName().getLocalPart();
-        if(localPart.equals(WssKerberosV5ApReqToken11)) {
+        if(localPart.equals(Constants.WssKerberosV5ApReqToken11)) {
             return true;
-        }else if(localPart.equals(WssGssKerberosV5ApReqToken11)){
+        }else if(localPart.equals(Constants.WssGssKerberosV5ApReqToken11)){
             return true;
         }
         return false;
@@ -346,7 +345,7 @@ public class PolicyUtil {
             return false;
         }
         String localPart = token.getName().getLocalPart();
-        if(localPart.equals(RsaKeyValue) && SecurityPolicyVersion.SECURITYPOLICY12NS.namespaceUri.equals(
+        if(localPart.equals(Constants.RsaKeyValue) && SecurityPolicyVersion.SECURITYPOLICY12NS.namespaceUri.equals(
                 spVersion.namespaceUri)){
             return true;
         }
@@ -369,13 +368,13 @@ public class PolicyUtil {
             return false;
         }
         String localPart = token.getName().getLocalPart();
-        if(localPart.equals(WssRelV10Token10)) {
+        if(localPart.equals(Constants.WssRelV10Token10)) {
             return true;
-        }else if(localPart.equals(WssRelV10Token11)){
+        }else if(localPart.equals(Constants.WssRelV10Token11)){
             return true;
-        }else if(localPart.equals(WssRelV20Token10)){
+        }else if(localPart.equals(Constants.WssRelV20Token10)){
             return true;
-        }else if(localPart.equals(WssRelV20Token11)){
+        }else if(localPart.equals(Constants.WssRelV20Token11)){
             return true;
         }
         return false;
@@ -386,7 +385,7 @@ public class PolicyUtil {
             return false;
         }
         
-        if(assertion.getName().getLocalPart().equals(IncludeTimestamp)) {
+        if(assertion.getName().getLocalPart().equals(Constants.IncludeTimestamp)) {
             return true;
         }
         return false;
@@ -397,7 +396,7 @@ public class PolicyUtil {
             return false;
         }
         
-        if(assertion.getName().getLocalPart().equals(DisableTimestampSigning)){
+        if(assertion.getName().getLocalPart().equals(Constants.DisableTimestampSigning)){
             return true;
         }
         return false;
@@ -408,7 +407,7 @@ public class PolicyUtil {
             return false;
         }
         
-        if(assertion.getName().getLocalPart().equals(EncryptBeforeSigning)) {
+        if(assertion.getName().getLocalPart().equals(Constants.EncryptBeforeSigning)) {
             return true;
         }
         return false;
@@ -419,7 +418,7 @@ public class PolicyUtil {
             return false;
         }
         
-        if(assertion.getName().getLocalPart().equals(SignBeforeEncrypting)) {
+        if(assertion.getName().getLocalPart().equals(Constants.SignBeforeEncrypting)) {
             return true;
         }
         return false;
@@ -430,7 +429,7 @@ public class PolicyUtil {
             return false;
         }
         
-        if(assertion.getName().getLocalPart().equals(OnlySignEntireHeadersAndBody)) {
+        if(assertion.getName().getLocalPart().equals(Constants.OnlySignEntireHeadersAndBody)) {
             return true;
         }
         return false;
@@ -441,7 +440,7 @@ public class PolicyUtil {
             return false;
         }
         
-        if(assertion.getName().getLocalPart().equals(Layout)) {
+        if(assertion.getName().getLocalPart().equals(Constants.Layout)) {
             return true;
         }
         return false;
@@ -452,7 +451,7 @@ public class PolicyUtil {
             return false;
         }
         
-        if(assertion.getName().getLocalPart().equals(EncryptedParts)) {
+        if(assertion.getName().getLocalPart().equals(Constants.EncryptedParts)) {
             return true;
         }
         return false;
@@ -463,7 +462,7 @@ public class PolicyUtil {
             return false;
         }
         
-        if(assertion.getName().getLocalPart().equals(EncryptedElements)) {
+        if(assertion.getName().getLocalPart().equals(Constants.EncryptedElements)) {
             return true;
         }
         return false;
@@ -474,7 +473,7 @@ public class PolicyUtil {
             return false;
         }
         
-        if(assertion.getName().getLocalPart().equals(SignedParts)) {
+        if(assertion.getName().getLocalPart().equals(Constants.SignedParts)) {
             return true;
         }
         return false;
@@ -485,7 +484,7 @@ public class PolicyUtil {
             return false;
         }
         
-        if(assertion.getName().getLocalPart().equals(SignedElements)) {
+        if(assertion.getName().getLocalPart().equals(Constants.SignedElements)) {
             return true;
         }
         return false;
@@ -497,7 +496,7 @@ public class PolicyUtil {
             return false;
         }
         
-        if(policyAssertion.getName().getLocalPart().equals(SignedSupportingTokens)) {
+        if(policyAssertion.getName().getLocalPart().equals(Constants.SignedSupportingTokens)) {
             return true;
         }
         return false;
@@ -508,7 +507,7 @@ public class PolicyUtil {
             return false;
         }
         
-        if(policyAssertion.getName().getLocalPart().equals(EndorsingSupportingTokens)) {
+        if(policyAssertion.getName().getLocalPart().equals(Constants.EndorsingSupportingTokens)) {
             return true;
         }
         return false;
@@ -519,7 +518,7 @@ public class PolicyUtil {
             return false;
         }
         
-        if(policyAssertion.getName().getLocalPart().equals(SignedEndorsingSupportingTokens)) {
+        if(policyAssertion.getName().getLocalPart().equals(Constants.SignedEndorsingSupportingTokens)) {
             return true;
         }
         return false;
@@ -531,7 +530,7 @@ public class PolicyUtil {
         }
         
         // SignedEncryptedSupportingTokens in only supported in SecurityPolicy 1.2 namespace
-        if(policyAssertion.getName().getLocalPart().equals(SignedEncryptedSupportingTokens) &&
+        if(policyAssertion.getName().getLocalPart().equals(Constants.SignedEncryptedSupportingTokens) &&
                 policyAssertion.getName().getNamespaceURI().equals(SecurityPolicyVersion.SECURITYPOLICY12NS.namespaceUri)) {
             return true;
         }
@@ -544,7 +543,7 @@ public class PolicyUtil {
         }
         
         // EncryptedSupportingTokens in only supported in SecurityPolicy 1.2 namespace
-        if(policyAssertion.getName().getLocalPart().equals(EncryptedSupportingTokens) &&
+        if(policyAssertion.getName().getLocalPart().equals(Constants.EncryptedSupportingTokens) &&
                 policyAssertion.getName().getNamespaceURI().equals(SecurityPolicyVersion.SECURITYPOLICY12NS.namespaceUri)) {
             return true;
         }
@@ -557,7 +556,7 @@ public class PolicyUtil {
         }
         
         // EndorsingEncryptedSupportingTokens in only supported in SecurityPolicy 1.2 namespace
-        if(policyAssertion.getName().getLocalPart().equals(EndorsingEncryptedSupportingTokens) &&
+        if(policyAssertion.getName().getLocalPart().equals(Constants.EndorsingEncryptedSupportingTokens) &&
                 policyAssertion.getName().getNamespaceURI().equals(SecurityPolicyVersion.SECURITYPOLICY12NS.namespaceUri)) {
             return true;
         }
@@ -570,7 +569,7 @@ public class PolicyUtil {
         }
         
         // SignedEndorsingEncryptedSupportingTokens in only supported in SecurityPolicy 1.2 namespace
-        if(policyAssertion.getName().getLocalPart().equals(SignedEndorsingEncryptedSupportingTokens) &&
+        if(policyAssertion.getName().getLocalPart().equals(Constants.SignedEndorsingEncryptedSupportingTokens) &&
                 policyAssertion.getName().getNamespaceURI().equals(SecurityPolicyVersion.SECURITYPOLICY12NS.namespaceUri)) {
             return true;
         }
@@ -585,9 +584,9 @@ public class PolicyUtil {
         }
         
         String name = policyAssertion.getName().getLocalPart();
-        if(name.equals(SymmetricBinding) ||
-                name.equals(AsymmetricBinding) ||
-                name.equals(TransportBinding)) {
+        if(name.equals(Constants.SymmetricBinding) ||
+                name.equals(Constants.AsymmetricBinding) ||
+                name.equals(Constants.TransportBinding)) {
             
             return true;
         }
@@ -599,7 +598,7 @@ public class PolicyUtil {
             return false;
         }
         
-        if(token.getName().getLocalPart().equals(UsernameToken)) {
+        if(token.getName().getLocalPart().equals(Constants.UsernameToken)) {
             return true;
         }
         return false;
@@ -610,7 +609,7 @@ public class PolicyUtil {
             return false;
         }
         
-        if(token.getName().getLocalPart().equals(SamlToken)) {
+        if(token.getName().getLocalPart().equals(Constants.SamlToken)) {
             return true;
         }
         return false;
@@ -621,15 +620,15 @@ public class PolicyUtil {
             return false;
         }
         String localPart = token.getName().getLocalPart();
-        if(localPart.equals(WssSamlV10Token10)) {
+        if(localPart.equals(Constants.WssSamlV10Token10)) {
             return true;
-        }else if(localPart.equals(WssSamlV10Token11)){
+        }else if(localPart.equals(Constants.WssSamlV10Token11)){
             return true;
-        }else if(localPart.equals(WssSamlV11Token10)){
+        }else if(localPart.equals(Constants.WssSamlV11Token10)){
             return true;
-        }else if(localPart.equals(WssSamlV20Token11)){
+        }else if(localPart.equals(Constants.WssSamlV20Token11)){
             return true;
-        }else if(localPart.equals(WssSamlV11Token11)){
+        }else if(localPart.equals(Constants.WssSamlV11Token11)){
             return true;
         }
         return false;
@@ -640,7 +639,7 @@ public class PolicyUtil {
             return false;
         }
         
-        if(token.getName().getLocalPart().equals(IssuedToken)) {
+        if(token.getName().getLocalPart().equals(Constants.IssuedToken)) {
             return true;
         }
         return false;
@@ -651,7 +650,7 @@ public class PolicyUtil {
             return false;
         }
         
-        if(token.getName().getLocalPart().equals(SecureConversationToken)) {
+        if(token.getName().getLocalPart().equals(Constants.SecureConversationToken)) {
             return true;
         }
         return false;
@@ -662,7 +661,7 @@ public class PolicyUtil {
             return false;
         }
         
-        if(policyAssertion.getName().getLocalPart().equals(X509Token)) {
+        if(policyAssertion.getName().getLocalPart().equals(Constants.X509Token)) {
             return true;
         }
         return false;
@@ -672,7 +671,7 @@ public class PolicyUtil {
         if ( !isSecurityPolicyNS(policyAssertion, spVersion)) {
             return false;
         }
-        if(policyAssertion.getName().getLocalPart().equals(KeyValueToken) && SecurityPolicyVersion.SECURITYPOLICY12NS.namespaceUri.equals(
+        if(policyAssertion.getName().getLocalPart().equals(Constants.KeyValueToken) && SecurityPolicyVersion.SECURITYPOLICY12NS.namespaceUri.equals(
                 spVersion.namespaceUri)) {
             return true;
         }
@@ -684,7 +683,7 @@ public class PolicyUtil {
         if ( !isSecurityPolicyNS(policyAssertion, spVersion)) {
             return false;
         }
-        if(policyAssertion.getName().getLocalPart().equals(RsaToken) && SecurityPolicyVersion.MS_SECURITYPOLICY200507.namespaceUri.equals(
+        if(policyAssertion.getName().getLocalPart().equals(Constants.RsaToken) && SecurityPolicyVersion.MS_SECURITYPOLICY200507.namespaceUri.equals(
                 spVersion.namespaceUri)) {
             return true;
         }
@@ -696,7 +695,7 @@ public class PolicyUtil {
             return false;
         }
         
-        if(assertion.getName().getLocalPart().equals(AsymmetricBinding)) {
+        if(assertion.getName().getLocalPart().equals(Constants.AsymmetricBinding)) {
             return true;
         }
         return false;
@@ -715,7 +714,7 @@ public class PolicyUtil {
             return false;
         }
         
-        if(assertion.getName().getLocalPart().equals(TransportBinding)) {
+        if(assertion.getName().getLocalPart().equals(Constants.TransportBinding)) {
             return true;
         }
         return false;
@@ -734,7 +733,7 @@ public class PolicyUtil {
             return false;
         }
         
-        if(assertion.getName().getLocalPart().equals(SymmetricBinding)) {
+        if(assertion.getName().getLocalPart().equals(Constants.SymmetricBinding)) {
             return true;
         }
         return false;
@@ -768,7 +767,7 @@ public class PolicyUtil {
             return false;
         }
         
-        if(assertion.getName().getLocalPart().equals(SupportingTokens)){
+        if(assertion.getName().getLocalPart().equals(Constants.SupportingTokens)){
             return true;
         }
         return false;
@@ -780,7 +779,7 @@ public class PolicyUtil {
             return false;
         }
         
-        if(assertion.getName().getLocalPart().equals(MustSupportClientChallenge)) {
+        if(assertion.getName().getLocalPart().equals(Constants.MustSupportClientChallenge)) {
             return true;
         }
         return false;
@@ -791,7 +790,7 @@ public class PolicyUtil {
             return false;
         }
         
-        if(assertion.getName().getLocalPart().equals(MustSupportServerChallenge)) {
+        if(assertion.getName().getLocalPart().equals(Constants.MustSupportServerChallenge)) {
             return true;
         }
         return false;
@@ -802,13 +801,13 @@ public class PolicyUtil {
             return false;
         }
         
-        if(assertion.getName().getLocalPart().equals(MustSupportRefKeyIdentifier)) {
+        if(assertion.getName().getLocalPart().equals(Constants.MustSupportRefKeyIdentifier)) {
             return true;
-        }else if( assertion.getName().getLocalPart().equals(MustSupportRefIssuerSerial)) {
+        }else if( assertion.getName().getLocalPart().equals(Constants.MustSupportRefIssuerSerial)) {
             return true;
-        }else if(assertion.getName().getLocalPart().equals(RequireExternalUriReference)) {
+        }else if(assertion.getName().getLocalPart().equals(Constants.RequireExternalUriReference)) {
             return true;
-        }else if(assertion.getName().getLocalPart().equals(RequireEmbeddedTokenReference)) {
+        }else if(assertion.getName().getLocalPart().equals(Constants.RequireEmbeddedTokenReference)) {
             return true;
         }
         return false;
@@ -819,19 +818,19 @@ public class PolicyUtil {
             return false;
         }
         
-        if(assertion.getName().getLocalPart().equals(MustSupportRefKeyIdentifier)) {
+        if(assertion.getName().getLocalPart().equals(Constants.MustSupportRefKeyIdentifier)) {
             return true;
-        }else if( assertion.getName().getLocalPart().equals(MustSupportRefIssuerSerial)) {
+        }else if( assertion.getName().getLocalPart().equals(Constants.MustSupportRefIssuerSerial)) {
             return true;
-        }else if(assertion.getName().getLocalPart().equals(MustSupportRefThumbprint)) {
+        }else if(assertion.getName().getLocalPart().equals(Constants.MustSupportRefThumbprint)) {
             return true;
-        }else if(assertion.getName().getLocalPart().equals(MustSupportRefEncryptedKey)) {
+        }else if(assertion.getName().getLocalPart().equals(Constants.MustSupportRefEncryptedKey)) {
             return true;
-        }else if(assertion.getName().getLocalPart().equals(RequireSignatureConfirmation)) {
+        }else if(assertion.getName().getLocalPart().equals(Constants.RequireSignatureConfirmation)) {
             return true;
-        }else if(assertion.getName().getLocalPart().equals(RequireExternalUriReference)) {
+        }else if(assertion.getName().getLocalPart().equals(Constants.RequireExternalUriReference)) {
             return true;
-        }else if(assertion.getName().getLocalPart().equals(RequireEmbeddedTokenReference)) {
+        }else if(assertion.getName().getLocalPart().equals(Constants.RequireEmbeddedTokenReference)) {
             return true;
         }
         return false;
@@ -846,7 +845,7 @@ public class PolicyUtil {
         }
 
         // RequireClientCertificate as a policy assertion is only supported in SP 1.2 namespace
-        if(assertion.getName().getLocalPart().equals(RequireClientCertificate) &&
+        if(assertion.getName().getLocalPart().equals(Constants.RequireClientCertificate) &&
                 assertion.getName().getNamespaceURI().equals(SecurityPolicyVersion.SECURITYPOLICY12NS.namespaceUri)){
             return true;
         }
@@ -862,7 +861,7 @@ public class PolicyUtil {
         }
         
         // HttpBasicAuthentication as a policy assertion is only supported in SP 1.2 namespace
-        if(assertion.getName().getLocalPart().equals(HttpBasicAuthentication) &&
+        if(assertion.getName().getLocalPart().equals(Constants.HttpBasicAuthentication) &&
                 assertion.getName().getNamespaceURI().equals(SecurityPolicyVersion.SECURITYPOLICY12NS.namespaceUri)){
             return true;
         }
@@ -878,7 +877,7 @@ public class PolicyUtil {
         }
         
         // HttpDigestAuthentication as a policy assertion is only supported in SP 1.2 namespace
-        if(assertion.getName().getLocalPart().equals(HttpDigestAuthentication) &&
+        if(assertion.getName().getLocalPart().equals(Constants.HttpDigestAuthentication) &&
                 assertion.getName().getNamespaceURI().equals(SecurityPolicyVersion.SECURITYPOLICY12NS.namespaceUri)){
             return true;
         }
@@ -890,7 +889,7 @@ public class PolicyUtil {
             return false;
         }
         
-        if(assertion.getName().getLocalPart().equals(RequireClientEntropy)) {
+        if(assertion.getName().getLocalPart().equals(Constants.RequireClientEntropy)) {
             return true;
         }
         return false;
@@ -903,7 +902,7 @@ public class PolicyUtil {
 
         }
         
-        if(assertion.getName().getLocalPart().equals(RequireServerEntropy)) {
+        if(assertion.getName().getLocalPart().equals(Constants.RequireServerEntropy)) {
             return true;
         }
         return false;
@@ -914,7 +913,7 @@ public class PolicyUtil {
             return false;
         }
         
-        if(assertion.getName().getLocalPart().equals(MustSupportIssuedTokens)) {
+        if(assertion.getName().getLocalPart().equals(Constants.MustSupportIssuedTokens)) {
             return true;
         }
         return false;
@@ -925,7 +924,7 @@ public class PolicyUtil {
             return false;
         }
         
-        if(assertion.getName().getLocalPart().equals(RequireRequestSecurityTokenCollection) &&
+        if(assertion.getName().getLocalPart().equals(Constants.RequireRequestSecurityTokenCollection) &&
                 assertion.getName().getNamespaceURI().equals(SecurityPolicyVersion.SECURITYPOLICY12NS.namespaceUri)) {
             return true;
         }
@@ -937,7 +936,7 @@ public class PolicyUtil {
             return false;
         }
         
-        if(assertion.getName().getLocalPart().equals(RequireAppliesTo) &&
+        if(assertion.getName().getLocalPart().equals(Constants.RequireAppliesTo) &&
                 assertion.getName().getNamespaceURI().equals(SecurityPolicyVersion.SECURITYPOLICY12NS.namespaceUri)) {
             return true;
         }
@@ -949,7 +948,7 @@ public class PolicyUtil {
             return false;
         }
         
-        if(assertion.getName().getLocalPart().equals(Issuer)) {
+        if(assertion.getName().getLocalPart().equals(Constants.Issuer)) {
             return true;
         }
         return false;
@@ -961,7 +960,7 @@ public class PolicyUtil {
         }
         
        // Issuer Name only supported for 1.2 namespace
-        if(assertion.getName().getLocalPart().equals(IssuerName) &&
+        if(assertion.getName().getLocalPart().equals(Constants.IssuerName) &&
                 assertion.getName().getNamespaceURI().equals(SecurityPolicyVersion.SECURITYPOLICY12NS.namespaceUri)) {
             return true;
         }
@@ -972,7 +971,7 @@ public class PolicyUtil {
         if ( !isSecurityPolicyNS(assertion, spVersion)) {
             return false;
         }
-        if(assertion.getName().getLocalPart().equals(Wss10)) {
+        if(assertion.getName().getLocalPart().equals(Constants.Wss10)) {
             return true;
         }
         return false;
@@ -983,7 +982,7 @@ public class PolicyUtil {
             return false;
         }
         
-        if(assertion.getName().getLocalPart().equals(Wss11)) {
+        if(assertion.getName().getLocalPart().equals(Constants.Wss11)) {
             return true;
         }
         return false;
@@ -995,7 +994,7 @@ public class PolicyUtil {
         }
         
         // Trust10 assertion is allowed only in 2005/07 namespace     
-        if(assertion.getName().getLocalPart().equals(Trust10) &&
+        if(assertion.getName().getLocalPart().equals(Constants.Trust10) &&
                 assertion.getName().getNamespaceURI().equals(SecurityPolicyVersion.SECURITYPOLICY200507.namespaceUri)) {
             return true;
         }
@@ -1008,7 +1007,7 @@ public class PolicyUtil {
         }
         
         // Trust13 assertion is allowed only in 1.2  namespace     
-        if(assertion.getName().getLocalPart().equals(Trust13) &&
+        if(assertion.getName().getLocalPart().equals(Constants.Trust13) &&
                 assertion.getName().getNamespaceURI().equals(SecurityPolicyVersion.SECURITYPOLICY12NS.namespaceUri)) {
             return true;
         }
@@ -1021,7 +1020,7 @@ public class PolicyUtil {
         }
         
         // MustNotSendCancel assertion is allowed only in 1.2  namespace     
-        if(assertion.getName().getLocalPart().equals(MustNotSendCancel) &&
+        if(assertion.getName().getLocalPart().equals(Constants.MustNotSendCancel) &&
                 assertion.getName().getNamespaceURI().equals(SecurityPolicyVersion.SECURITYPOLICY12NS.namespaceUri)) {
             return true;
         }
@@ -1034,7 +1033,7 @@ public class PolicyUtil {
         }
         
         // MustNotSendCancel assertion is allowed only in 1.2  namespace     
-        if(assertion.getName().getLocalPart().equals(MustNotSendRenew) &&
+        if(assertion.getName().getLocalPart().equals(Constants.MustNotSendRenew) &&
                 assertion.getName().getNamespaceURI().equals(SecurityPolicyVersion.SECURITYPOLICY12NS.namespaceUri)) {
             return true;
         }
@@ -1057,7 +1056,7 @@ public class PolicyUtil {
             return false;
         }
         // sp:Attachments assertion is allowed only in 1.2  namespace
-        if(assertion.getName().getLocalPart().equals(Attachments) &&
+        if(assertion.getName().getLocalPart().equals(Constants.Attachments) &&
                 assertion.getName().getNamespaceURI().equals(SecurityPolicyVersion.SECURITYPOLICY12NS.namespaceUri)) {
             return true;
         }
@@ -1069,7 +1068,7 @@ public class PolicyUtil {
             return false;
         }
         // sp:AttachmentCompleteSignatureTransform assertion is allowed only in 1.2  namespace
-        if(assertion.getName().getLocalPart().equals(AttachmentCompleteSignatureTransform) &&
+        if(assertion.getName().getLocalPart().equals(Constants.AttachmentCompleteSignatureTransform) &&
                 assertion.getName().getNamespaceURI().equals(SecurityPolicyVersion.SECURITYPOLICY12NS.namespaceUri)) {
             return true;
         }
@@ -1081,7 +1080,7 @@ public class PolicyUtil {
             return false;
         }
         // sp:ContentSignatureTransform assertion is allowed only in 1.2  namespace
-        if(assertion.getName().getLocalPart().equals(ContentSignatureTransform) &&
+        if(assertion.getName().getLocalPart().equals(Constants.ContentSignatureTransform) &&
                 assertion.getName().getNamespaceURI().equals(SecurityPolicyVersion.SECURITYPOLICY12NS.namespaceUri)) {
             return true;
         }
@@ -1093,7 +1092,7 @@ public class PolicyUtil {
             return false;
         }
         
-        if ( RequireDerivedKeys.toString().equals(assertion.getName().getLocalPart().toString())) {
+        if ( Constants.RequireDerivedKeys.toString().equals(assertion.getName().getLocalPart().toString())) {
             return true;
         }
         return false;
@@ -1104,37 +1103,37 @@ public class PolicyUtil {
             return null;
         }
         
-        if ( assertion.getName().getLocalPart().equals(Basic256) ) {
+        if ( assertion.getName().getLocalPart().equals(Constants.Basic256) ) {
             return AlgorithmSuiteValue.Basic256;
-        } else if ( assertion.getName().getLocalPart().equals(Basic192)) {
+        } else if ( assertion.getName().getLocalPart().equals(Constants.Basic192)) {
             return AlgorithmSuiteValue.Basic192;
-        } else if ( assertion.getName().getLocalPart().equals(Basic128)) {
+        } else if ( assertion.getName().getLocalPart().equals(Constants.Basic128)) {
             return AlgorithmSuiteValue.Basic128;
-        } else if ( assertion.getName().getLocalPart().equals(TripleDes )) {
+        } else if ( assertion.getName().getLocalPart().equals(Constants.TripleDes)) {
             return AlgorithmSuiteValue.TripleDes;
-        } else if ( assertion.getName().getLocalPart().equals(Basic256Rsa15)) {
+        } else if ( assertion.getName().getLocalPart().equals(Constants.Basic256Rsa15)) {
             return AlgorithmSuiteValue.Basic256Rsa15;
-        } else if ( assertion.getName().getLocalPart().equals(Basic192Rsa15)) {
+        } else if ( assertion.getName().getLocalPart().equals(Constants.Basic192Rsa15)) {
             return AlgorithmSuiteValue.Basic192Rsa15;
-        } else if ( assertion.getName().getLocalPart().equals(Basic128Rsa15)) {
+        } else if ( assertion.getName().getLocalPart().equals(Constants.Basic128Rsa15)) {
             return AlgorithmSuiteValue.Basic128Rsa15;
-        } else if ( assertion.getName().getLocalPart().equals(TripleDesRsa15)) {
+        } else if ( assertion.getName().getLocalPart().equals(Constants.TripleDesRsa15)) {
             return AlgorithmSuiteValue.TripleDesRsa15;
-        } else if ( assertion.getName().getLocalPart().equals(Basic256Sha256)) {
+        } else if ( assertion.getName().getLocalPart().equals(Constants.Basic256Sha256)) {
             return AlgorithmSuiteValue.Basic256Sha256;
-        } else if ( assertion.getName().getLocalPart().equals(Basic192Sha256)) {
+        } else if ( assertion.getName().getLocalPart().equals(Constants.Basic192Sha256)) {
             return AlgorithmSuiteValue.Basic192Sha256;
-        } else if ( assertion.getName().getLocalPart().equals(Basic128Sha256)) {
+        } else if ( assertion.getName().getLocalPart().equals(Constants.Basic128Sha256)) {
             return AlgorithmSuiteValue.Basic128Sha256;
-        } else if ( assertion.getName().getLocalPart().equals(TripleDesSha256)) {
+        } else if ( assertion.getName().getLocalPart().equals(Constants.TripleDesSha256)) {
             return AlgorithmSuiteValue.TripleDesSha256;
-        } else if ( assertion.getName().getLocalPart().equals(Basic256Sha256Rsa15)) {
+        } else if ( assertion.getName().getLocalPart().equals(Constants.Basic256Sha256Rsa15)) {
             return AlgorithmSuiteValue.Basic256Sha256Rsa15;
-        } else if ( assertion.getName().getLocalPart().equals(Basic192Sha256Rsa15)) {
+        } else if ( assertion.getName().getLocalPart().equals(Constants.Basic192Sha256Rsa15)) {
             return AlgorithmSuiteValue.Basic192Sha256Rsa15;
-        } else if ( assertion.getName().getLocalPart().equals(Basic128Sha256Rsa15)) {
+        } else if ( assertion.getName().getLocalPart().equals(Constants.Basic128Sha256Rsa15)) {
             return AlgorithmSuiteValue.Basic128Sha256Rsa15;
-        } else if ( assertion.getName().getLocalPart().equals(TripleDesSha256Rsa15)) {
+        } else if ( assertion.getName().getLocalPart().equals(Constants.TripleDesSha256Rsa15)) {
             return AlgorithmSuiteValue.TripleDesSha256Rsa15;
         }
         return null;
@@ -1145,7 +1144,7 @@ public class PolicyUtil {
             return false;
         }
         
-        if ( assertion.getName().getLocalPart().equals(InclusiveC14N)) {
+        if ( assertion.getName().getLocalPart().equals(Constants.InclusiveC14N)) {
             return true;
         }
         return false;
@@ -1157,7 +1156,7 @@ public class PolicyUtil {
         if(!isSunPolicyNS(assertion)){
             return false;
         }
-        if ( assertion.getName().getLocalPart().equals(InclusiveC14NWithComments)) {
+        if ( assertion.getName().getLocalPart().equals(Constants.InclusiveC14NWithComments)) {
             return true;
         }
         return false;
@@ -1168,8 +1167,8 @@ public class PolicyUtil {
         if(!isSunPolicyNS(assertion)){
             return false;
         }
-        if ( assertion.getName().getLocalPart().equals(InclusiveC14NWithComments)) {
-            if("true".equals(assertion.getAttributeValue(new QName(SUN_WSS_SECURITY_SERVER_POLICY_NS, "forTransforms"))))
+        if ( assertion.getName().getLocalPart().equals(Constants.InclusiveC14NWithComments)) {
+            if("true".equals(assertion.getAttributeValue(new QName(Constants.SUN_WSS_SECURITY_SERVER_POLICY_NS, "forTransforms"))))
                 return true;
         }
         return false;
@@ -1180,8 +1179,8 @@ public class PolicyUtil {
         if(!isSunPolicyNS(assertion)){
             return false;
         }
-        if ( assertion.getName().getLocalPart().equals(InclusiveC14NWithComments)) {
-            if("true".equals(assertion.getAttributeValue(new QName(SUN_WSS_SECURITY_SERVER_POLICY_NS, "forCm"))))
+        if ( assertion.getName().getLocalPart().equals(Constants.InclusiveC14NWithComments)) {
+            if("true".equals(assertion.getAttributeValue(new QName(Constants.SUN_WSS_SECURITY_SERVER_POLICY_NS, "forCm"))))
                 return true;
         }
         return false;
@@ -1191,7 +1190,7 @@ public class PolicyUtil {
         if(!isSunPolicyNS(assertion)){
             return false;
         }
-        if ( assertion.getName().getLocalPart().equals(ExclusiveC14NWithComments)) {
+        if ( assertion.getName().getLocalPart().equals(Constants.ExclusiveC14NWithComments)) {
             return true;
         }
         return false;
@@ -1201,8 +1200,8 @@ public class PolicyUtil {
         if(!isSunPolicyNS(assertion)){
             return false;
         }
-        if ( assertion.getName().getLocalPart().equals(ExclusiveC14NWithComments)) {
-            if("true".equals(assertion.getAttributeValue(new QName(SUN_WSS_SECURITY_SERVER_POLICY_NS, "forTransforms"))))
+        if ( assertion.getName().getLocalPart().equals(Constants.ExclusiveC14NWithComments)) {
+            if("true".equals(assertion.getAttributeValue(new QName(Constants.SUN_WSS_SECURITY_SERVER_POLICY_NS, "forTransforms"))))
                 return true;
         }
         return false;
@@ -1212,8 +1211,8 @@ public class PolicyUtil {
         if(!isSunPolicyNS(assertion)){
             return false;
         }
-        if ( assertion.getName().getLocalPart().equals(ExclusiveC14NWithComments)) {
-            if("true".equals(assertion.getAttributeValue(new QName(SUN_WSS_SECURITY_SERVER_POLICY_NS, "forCm"))))
+        if ( assertion.getName().getLocalPart().equals(Constants.ExclusiveC14NWithComments)) {
+            if("true".equals(assertion.getAttributeValue(new QName(Constants.SUN_WSS_SECURITY_SERVER_POLICY_NS, "forCm"))))
                 return true;
         }
         return false;
@@ -1224,7 +1223,7 @@ public class PolicyUtil {
             return false;
         }
         
-        if ( assertion.getName().getLocalPart().equals(STRTransform10)) {
+        if ( assertion.getName().getLocalPart().equals(Constants.STRTransform10)) {
             return true;
         }
         return false;
@@ -1235,7 +1234,7 @@ public class PolicyUtil {
             return false;
         }
         
-        if ( assertion.getName().getLocalPart().equals(InitiatorToken)) {
+        if ( assertion.getName().getLocalPart().equals(Constants.InitiatorToken)) {
             return true;
         }
         return false;
@@ -1246,7 +1245,7 @@ public class PolicyUtil {
             return false;
         }
 
-        if ( assertion.getName().getLocalPart().equals(InitiatorEncryptionToken)) {
+        if ( assertion.getName().getLocalPart().equals(Constants.InitiatorEncryptionToken)) {
             return true;
         }
         return false;
@@ -1257,7 +1256,7 @@ public class PolicyUtil {
             return false;
         }
 
-        if ( assertion.getName().getLocalPart().equals(InitiatorSignatureToken)) {
+        if ( assertion.getName().getLocalPart().equals(Constants.InitiatorSignatureToken)) {
             return true;
         }
         return false;
@@ -1269,7 +1268,7 @@ public class PolicyUtil {
             return false;
         }
         
-        if ( assertion.getName().getLocalPart().equals(RecipientToken)) {
+        if ( assertion.getName().getLocalPart().equals(Constants.RecipientToken)) {
             return true;
         }
         return false;
@@ -1280,7 +1279,7 @@ public class PolicyUtil {
             return false;
         }
 
-        if ( assertion.getName().getLocalPart().equals(RecipientSignatureToken)) {
+        if ( assertion.getName().getLocalPart().equals(Constants.RecipientSignatureToken)) {
             return true;
         }
         return false;
@@ -1291,7 +1290,7 @@ public class PolicyUtil {
             return false;
         }
 
-        if ( assertion.getName().getLocalPart().equals(RecipientEncryptionToken)) {
+        if ( assertion.getName().getLocalPart().equals(Constants.RecipientEncryptionToken)) {
             return true;
         }
         return false;
@@ -1303,7 +1302,7 @@ public class PolicyUtil {
             return false;
         }
         
-        if ( assertion.getName().getLocalPart().equals(ProtectTokens)) {
+        if ( assertion.getName().getLocalPart().equals(Constants.ProtectTokens)) {
             return true;
         }
         return false;
@@ -1314,7 +1313,7 @@ public class PolicyUtil {
             return false;
         }
         
-        if ( assertion.getName().getLocalPart().equals(EncryptSignature)) {
+        if ( assertion.getName().getLocalPart().equals(Constants.EncryptSignature)) {
             return true;
         }
         return false;
@@ -1325,7 +1324,7 @@ public class PolicyUtil {
             return false;
         }
         
-        if ( assertion.getName().getLocalPart().equals(Created)) {
+        if ( assertion.getName().getLocalPart().equals(Constants.Created)) {
             return true;
         }
         return false;
@@ -1336,7 +1335,7 @@ public class PolicyUtil {
             return false;
         }
         
-        if ( assertion.getName().getLocalPart().equals(Expires)) {
+        if ( assertion.getName().getLocalPart().equals(Constants.Expires)) {
             return true;
         }
         return false;
@@ -1347,7 +1346,7 @@ public class PolicyUtil {
             return false;
         }
         
-        if ( assertion.getName().getLocalPart().equals(SignatureToken)) {
+        if ( assertion.getName().getLocalPart().equals(Constants.SignatureToken)) {
             return true;
         }
         
@@ -1359,7 +1358,7 @@ public class PolicyUtil {
             return false;
         }
         
-        if ( assertion.getName().getLocalPart().equals(EncryptionToken)) {
+        if ( assertion.getName().getLocalPart().equals(Constants.EncryptionToken)) {
             return true;
         }
         return false;
@@ -1370,7 +1369,7 @@ public class PolicyUtil {
             return false;
         }
         
-        if ( assertion.getName().getLocalPart().equals(ProtectionToken)) {
+        if ( assertion.getName().getLocalPart().equals(Constants.ProtectionToken)) {
             return true;
         }
         return false;
@@ -1381,7 +1380,7 @@ public class PolicyUtil {
             return false;
         }
         
-        if ( assertion.getName().getLocalPart().equals(Address)) {
+        if ( assertion.getName().getLocalPart().equals(Constants.Address)) {
             return true;
         }
         
@@ -1393,7 +1392,7 @@ public class PolicyUtil {
             return false;
         }
         
-        if ( assertion.getName().getLocalPart().equals(Metadata)) {
+        if ( assertion.getName().getLocalPart().equals(Constants.Metadata)) {
             return true;
         }        
         return false;
@@ -1404,7 +1403,7 @@ public class PolicyUtil {
             return false;
         }
         
-        if ( assertion.getName().getLocalPart().equals(Metadata)) {
+        if ( assertion.getName().getLocalPart().equals(Constants.Metadata)) {
             return true;
         }
         
@@ -1416,7 +1415,7 @@ public class PolicyUtil {
             return false;
         }
         
-        if ( assertion.getName().getLocalPart().equals(MetadataSection)) {
+        if ( assertion.getName().getLocalPart().equals(Constants.MetadataSection)) {
             return true;
         }
         
@@ -1428,7 +1427,7 @@ public class PolicyUtil {
             return false;
         }
         
-        if ( assertion.getName().getLocalPart().equals(MetadataReference)) {
+        if ( assertion.getName().getLocalPart().equals(Constants.MetadataReference)) {
             return true;
         }
         
@@ -1440,7 +1439,7 @@ public class PolicyUtil {
             return false;
         }
         
-        if ( assertion.getName().getLocalPart().equals(RequestSecurityTokenTemplate)) {
+        if ( assertion.getName().getLocalPart().equals(Constants.RequestSecurityTokenTemplate)) {
             return true;
         }
         return false;
@@ -1451,7 +1450,7 @@ public class PolicyUtil {
             return false;
         }
         
-        if ( assertion.getName().getLocalPart().equals(RequireExternalUriReference)) {
+        if ( assertion.getName().getLocalPart().equals(Constants.RequireExternalUriReference)) {
             return true;
         }
         
@@ -1463,7 +1462,7 @@ public class PolicyUtil {
             return false;
         }
         
-        if ( assertion.getName().getLocalPart().equals(RequireExternalReference)) {
+        if ( assertion.getName().getLocalPart().equals(Constants.RequireExternalReference)) {
             return true;
         }
         
@@ -1475,7 +1474,7 @@ public class PolicyUtil {
             return false;
         }
         
-        if ( assertion.getName().getLocalPart().equals(RequireInternalReference)) {
+        if ( assertion.getName().getLocalPart().equals(Constants.RequireInternalReference)) {
             return true;
         }
         
@@ -1487,7 +1486,7 @@ public class PolicyUtil {
             return false;
         }
         
-        if ( assertion.getName().getLocalPart().equals(EndpointReference)) {
+        if ( assertion.getName().getLocalPart().equals(Constants.EndpointReference)) {
             return true;
         }
         return false;
@@ -1498,7 +1497,7 @@ public class PolicyUtil {
             return false;
         }
         
-        if ( assertion.getName().getLocalPart().equals(Lax)) {
+        if ( assertion.getName().getLocalPart().equals(Constants.Lax)) {
             return true;
         }
         return false;
@@ -1509,7 +1508,7 @@ public class PolicyUtil {
             return false;
         }
         
-        if ( assertion.getName().getLocalPart().equals(LaxTsFirst)) {
+        if ( assertion.getName().getLocalPart().equals(Constants.LaxTsFirst)) {
             return true;
         }
         return false;
@@ -1520,7 +1519,7 @@ public class PolicyUtil {
             return false;
         }
         
-        if ( assertion.getName().getLocalPart().equals(LaxTsLast)) {
+        if ( assertion.getName().getLocalPart().equals(Constants.LaxTsLast)) {
             return true;
         }
         return false;
@@ -1531,7 +1530,7 @@ public class PolicyUtil {
             return false;
         }
         
-        if ( assertion.getName().getLocalPart().equals(Strict)) {
+        if ( assertion.getName().getLocalPart().equals(Constants.Strict)) {
             return true;
         }
         return false;
@@ -1542,7 +1541,7 @@ public class PolicyUtil {
             return false;
         }
         
-        if ( assertion.getName().getLocalPart().equals(KeyType)) {
+        if ( assertion.getName().getLocalPart().equals(Constants.KeyType)) {
             return true;
         }
         
@@ -1554,7 +1553,7 @@ public class PolicyUtil {
             return false;
         }
         
-        if ( assertion.getName().getLocalPart().equals(KeySize)) {
+        if ( assertion.getName().getLocalPart().equals(Constants.KeySize)) {
             return true;
         }
         
@@ -1566,7 +1565,7 @@ public class PolicyUtil {
             return false;
         }
         
-        if ( assertion.getName().getLocalPart().equals(UseKey)) {
+        if ( assertion.getName().getLocalPart().equals(Constants.UseKey)) {
             return true;
         }
         
@@ -1578,7 +1577,7 @@ public class PolicyUtil {
             return false;
         }
         
-        if ( assertion.getName().getLocalPart().equals(Encryption)) {
+        if ( assertion.getName().getLocalPart().equals(Constants.Encryption)) {
             return true;
         }
         return false;
@@ -1589,7 +1588,7 @@ public class PolicyUtil {
             return false;
         }
         
-        if ( assertion.getName().getLocalPart().equals(ProofEncryption)) {
+        if ( assertion.getName().getLocalPart().equals(Constants.ProofEncryption)) {
             return true;
         }
         return false;
@@ -1600,7 +1599,7 @@ public class PolicyUtil {
             return false;
         }
         
-        if ( assertion.getName().getLocalPart().equals(Lifetime)) {
+        if ( assertion.getName().getLocalPart().equals(Constants.Lifetime)) {
             return true;
         }
         return false;
@@ -1610,7 +1609,7 @@ public class PolicyUtil {
         if ( !isSecurityPolicyNS(assertion, spVersion)) {
             return false;
         }
-        if ( assertion.getName().getLocalPart().equals(HEADER)) {
+        if ( assertion.getName().getLocalPart().equals(Constants.HEADER)) {
             return true;
         }
         return false;
@@ -1620,7 +1619,7 @@ public class PolicyUtil {
         if (!isSecurityPolicyNS(assertion, spVersion)) {
             return false;
         }
-        if ( assertion.getName().getLocalPart().equals(RequireKeyIdentifierReference)) {
+        if ( assertion.getName().getLocalPart().equals(Constants.RequireKeyIdentifierReference)) {
             return true;
         }
         return false;
@@ -1630,7 +1629,7 @@ public class PolicyUtil {
         if(!isTrustNS(assertion)){
             return false;
         }
-        if(SignWith.equals(assertion.getName().getLocalPart())){
+        if(Constants.SignWith.equals(assertion.getName().getLocalPart())){
             return true;
         }
         return false;
@@ -1640,7 +1639,7 @@ public class PolicyUtil {
         if(!isTrustNS(assertion)){
             return false;
         }
-        if(EncryptWith.equals(assertion.getName().getLocalPart())){
+        if(Constants.EncryptWith.equals(assertion.getName().getLocalPart())){
             return true;
         }
         return false;
@@ -1650,7 +1649,7 @@ public class PolicyUtil {
         if(!isTrustNS(assertion)){
             return false;
         }
-        if(RequestType.equals(assertion.getName().getLocalPart())){
+        if(Constants.RequestType.equals(assertion.getName().getLocalPart())){
             return true;
         }
         return false;
@@ -1660,7 +1659,7 @@ public class PolicyUtil {
         if(!isTrustNS(assertion)){
             return false;
         }
-        if(SignatureAlgorithm.equals(assertion.getName().getLocalPart())){
+        if(Constants.SignatureAlgorithm.equals(assertion.getName().getLocalPart())){
             return true;
         }
         return false;
@@ -1670,7 +1669,7 @@ public class PolicyUtil {
         if(!isTrustNS(assertion)){
             return false;
         }
-        if(ComputedKeyAlgorithm.equals(assertion.getName().getLocalPart())){
+        if(Constants.ComputedKeyAlgorithm.equals(assertion.getName().getLocalPart())){
             return true;
         }
         return false;
@@ -1680,7 +1679,7 @@ public class PolicyUtil {
         if(!isTrustNS(assertion)){
             return false;
         }
-        if(CanonicalizationAlgorithm.equals(assertion.getName().getLocalPart())){
+        if(Constants.CanonicalizationAlgorithm.equals(assertion.getName().getLocalPart())){
             return true;
         }
         return false;
@@ -1690,7 +1689,7 @@ public class PolicyUtil {
         if(!isTrustNS(assertion)){
             return false;
         }
-        if(EncryptionAlgorithm.equals(assertion.getName().getLocalPart())){
+        if(Constants.EncryptionAlgorithm.equals(assertion.getName().getLocalPart())){
             return true;
         }
         return false;
@@ -1700,7 +1699,7 @@ public class PolicyUtil {
         if(!isTrustNS(assertion)){
             return false;
         }
-        if(AuthenticationType.equals(assertion.getName().getLocalPart())){
+        if(Constants.AuthenticationType.equals(assertion.getName().getLocalPart())){
             return true;
         }
         return false;
@@ -1710,7 +1709,7 @@ public class PolicyUtil {
         if(!Constants.TRUST13_NS.equals(assertion.getName().getNamespaceURI())){
             return false;
         }
-        if(KeyWrapAlgorithm.equals(assertion.getName().getLocalPart())){
+        if(Constants.KeyWrapAlgorithm.equals(assertion.getName().getLocalPart())){
             return true;
         }
         return false;
@@ -1729,9 +1728,9 @@ public class PolicyUtil {
     
     public static boolean isConfigPolicyAssertion(PolicyAssertion assertion){
         String uri = assertion.getName().getNamespaceURI();
-        if(SUN_SECURE_CLIENT_CONVERSATION_POLICY_NS.equals(uri) || SUN_TRUST_CLIENT_SECURITY_POLICY_NS.equals(uri) ||
-                SUN_SECURE_SERVER_CONVERSATION_POLICY_NS.equals(uri) || SUN_TRUST_SERVER_SECURITY_POLICY_NS.equals(uri) ||
-                SUN_WSS_SECURITY_CLIENT_POLICY_NS.equals(uri) ||SUN_WSS_SECURITY_SERVER_POLICY_NS.equals(uri) ){
+        if(Constants.SUN_SECURE_CLIENT_CONVERSATION_POLICY_NS.equals(uri) || Constants.SUN_TRUST_CLIENT_SECURITY_POLICY_NS.equals(uri) ||
+                Constants.SUN_SECURE_SERVER_CONVERSATION_POLICY_NS.equals(uri) || Constants.SUN_TRUST_SERVER_SECURITY_POLICY_NS.equals(uri) ||
+                Constants.SUN_WSS_SECURITY_CLIENT_POLICY_NS.equals(uri) || Constants.SUN_WSS_SECURITY_SERVER_POLICY_NS.equals(uri) ){
             return true;
         }
         return false;
@@ -1741,7 +1740,7 @@ public class PolicyUtil {
         if(!isTrustNS(assertion)){
             return false;
         }
-        if(TokenType.equals(assertion.getName().getLocalPart())){
+        if(Constants.TokenType.equals(assertion.getName().getLocalPart())){
             return true;
         }
         return false;
@@ -1752,7 +1751,7 @@ public class PolicyUtil {
             return false;
         }
         
-        if ( assertion.getName().getLocalPart().equals(PortType)) {
+        if ( assertion.getName().getLocalPart().equals(Constants.PortType)) {
             return true;
         }
         return false;
@@ -1763,7 +1762,7 @@ public class PolicyUtil {
             return false;
         }
         
-        if ( assertion.getName().getLocalPart().equals(ReferenceParameters)) {
+        if ( assertion.getName().getLocalPart().equals(Constants.ReferenceParameters)) {
             return true;
         }
         return false;
@@ -1774,7 +1773,7 @@ public class PolicyUtil {
             return false;
         }
         
-        if ( assertion.getName().getLocalPart().equals(ReferenceProperties)) {
+        if ( assertion.getName().getLocalPart().equals(Constants.ReferenceProperties)) {
             return true;
         }
         return false;
@@ -1785,7 +1784,7 @@ public class PolicyUtil {
             return false;
         }
         
-        if ( assertion.getName().getLocalPart().equals(ServiceName)) {
+        if ( assertion.getName().getLocalPart().equals(Constants.ServiceName)) {
             return true;
         }
         return false;
@@ -1796,7 +1795,7 @@ public class PolicyUtil {
             return false;
         }
         
-        if(assertion.getName().getLocalPart().equals(RequiredElements)){
+        if(assertion.getName().getLocalPart().equals(Constants.RequiredElements)){
             return true;
         }
         return false;
@@ -1806,7 +1805,7 @@ public class PolicyUtil {
         if(!isTrustNS(assertion)){
             return false;
         }
-        if(Claims.equals(assertion.getName().getLocalPart())){
+        if(Constants.Claims.equals(assertion.getName().getLocalPart())){
             return true;
         }
         return false;
@@ -1816,7 +1815,7 @@ public class PolicyUtil {
         if(!isTrustNS(assertion)){
             return false;
         }
-        if(Entropy.equals(assertion.getName().getLocalPart())){
+        if(Constants.Entropy.equals(assertion.getName().getLocalPart())){
             return true;
         }
         return false;
@@ -1828,7 +1827,7 @@ public class PolicyUtil {
             return false;
         }
         
-        if(assertion.getName().getLocalPart().equals(NoPassword)){
+        if(assertion.getName().getLocalPart().equals(Constants.NoPassword)){
             return true;
         }
         return false;
@@ -1839,7 +1838,7 @@ public class PolicyUtil {
             return false;
         }
         
-        if(assertion.getName().getLocalPart().equals(HashPassword) &&
+        if(assertion.getName().getLocalPart().equals(Constants.HashPassword) &&
                 assertion.getName().getNamespaceURI().equals(SecurityPolicyVersion.SECURITYPOLICY12NS.namespaceUri)){
             return true;
         }

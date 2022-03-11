@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -16,13 +16,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.sun.xml.ws.api.addressing.AddressingVersion;
+import com.sun.xml.ws.mex.MetadataConstants;
 import com.sun.xml.ws.mex.client.MetadataClient.Protocol;
-
-import static com.sun.xml.ws.mex.MetadataConstants.GET_REQUEST;
-import static com.sun.xml.ws.mex.MetadataConstants.SOAP_1_1;
-import static com.sun.xml.ws.mex.MetadataConstants.SOAP_1_2;
-import static com.sun.xml.ws.mex.MetadataConstants.WSA_ANON;
-import static com.sun.xml.ws.mex.MetadataConstants.WSA_PREFIX;
 
 /**
  * Class for making mex Get requests (which are the same
@@ -66,25 +61,25 @@ public class MetadataUtil {
         
         // start with soap 1.2
         String soapPrefix = "s12";
-        String soapNamespace = SOAP_1_2;
+        String soapNamespace = MetadataConstants.SOAP_1_2;
         if (protocol == Protocol.SOAP_1_1) {
             soapPrefix = "soap-env";
-            soapNamespace = SOAP_1_1;
+            soapNamespace = MetadataConstants.SOAP_1_1;
         }
         return "<" + soapPrefix + ":Envelope " +
             "xmlns:" + soapPrefix + "='" + soapNamespace + "' " +
-            "xmlns:" + WSA_PREFIX + "='" + AddressingVersion.W3C.nsUri + "'>" +
+            "xmlns:" + MetadataConstants.WSA_PREFIX + "='" + AddressingVersion.W3C.nsUri + "'>" +
             "<" + soapPrefix + ":Header>" +
-            "<" + WSA_PREFIX + ":Action>" +
-            GET_REQUEST +
-            "</" + WSA_PREFIX + ":Action>" +
-            "<" + WSA_PREFIX + ":To>" + address + "</" + WSA_PREFIX + ":To>" +
-            "<" + WSA_PREFIX + ":ReplyTo><" + WSA_PREFIX + ":Address>" +
-            WSA_ANON +
-            "</" + WSA_PREFIX + ":Address></" + WSA_PREFIX + ":ReplyTo>" +
-            "<" + WSA_PREFIX + ":MessageID>" +
+            "<" + MetadataConstants.WSA_PREFIX + ":Action>" +
+                MetadataConstants.GET_REQUEST +
+            "</" + MetadataConstants.WSA_PREFIX + ":Action>" +
+            "<" + MetadataConstants.WSA_PREFIX + ":To>" + address + "</" + MetadataConstants.WSA_PREFIX + ":To>" +
+            "<" + MetadataConstants.WSA_PREFIX + ":ReplyTo><" + MetadataConstants.WSA_PREFIX + ":Address>" +
+                MetadataConstants.WSA_ANON +
+            "</" + MetadataConstants.WSA_PREFIX + ":Address></" + MetadataConstants.WSA_PREFIX + ":ReplyTo>" +
+            "<" + MetadataConstants.WSA_PREFIX + ":MessageID>" +
             "uuid:778b135f-3fdf-44b2-b53e-ebaab7441e40" +
-            "</" + WSA_PREFIX + ":MessageID>" +
+            "</" + MetadataConstants.WSA_PREFIX + ":MessageID>" +
             "</" + soapPrefix + ":Header>" +
             "<" + soapPrefix + ":Body/>" +
             "</" + soapPrefix + ":Envelope>";

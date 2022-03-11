@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -10,6 +10,10 @@
 
 package com.sun.xml.ws.security.opt.impl.util;
 
+import com.sun.xml.ws.security.opt.impl.keyinfo.BinarySecurityToken;
+import com.sun.xml.ws.security.opt.impl.keyinfo.DerivedKey;
+import com.sun.xml.ws.security.opt.impl.keyinfo.SecurityContextToken;
+import com.sun.xml.ws.security.opt.impl.keyinfo.SecurityTokenReference;
 import org.apache.xml.security.algorithms.JCEMapper;
 
 import com.sun.xml.security.core.dsig.KeyInfoType;
@@ -26,7 +30,6 @@ import com.sun.xml.ws.security.opt.api.EncryptedData;
 import com.sun.xml.ws.security.opt.api.EncryptedKey;
 import com.sun.xml.ws.security.opt.api.SecurityElement;
 import com.sun.xml.ws.security.opt.impl.enc.EncryptedHeader;
-import com.sun.xml.ws.security.opt.impl.keyinfo.*;
 import com.sun.xml.ws.security.opt.impl.message.GSHeaderElement;
 import com.sun.xml.ws.security.opt.impl.reference.DirectReference;
 import com.sun.xml.ws.security.opt.api.reference.Reference;

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -23,7 +23,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import javax.xml.namespace.QName;
-import static com.sun.xml.ws.security.impl.policy.Constants.*;
+
 import com.sun.xml.ws.security.policy.SecurityAssertionValidator;
 /**
  *
@@ -108,7 +108,7 @@ public class EncryptedParts extends PolicyAssertion implements com.sun.xml.ws.se
                             this.header.add((Header)assertion);
                         }else{
                             if(!assertion.isOptional()){
-                                log_invalid_assertion(assertion, isServer,EncryptedParts);
+                                Constants.log_invalid_assertion(assertion, isServer, Constants.EncryptedParts);
                                 fitness = AssertionFitness.HAS_UNKNOWN_ASSERTION;
                             }
                         }

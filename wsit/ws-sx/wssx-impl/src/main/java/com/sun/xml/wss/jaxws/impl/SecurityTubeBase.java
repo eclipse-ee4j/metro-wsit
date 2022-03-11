@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -10,7 +10,7 @@
 
 package com.sun.xml.wss.jaxws.impl;
 
-import com.sun.xml.ws.api.addressing.*;
+import com.sun.xml.ws.api.addressing.AddressingVersion;
 import com.sun.xml.ws.api.message.AttachmentSet;
 import com.sun.xml.ws.api.model.wsdl.WSDLFault;
 import com.sun.xml.ws.api.pipe.Tube;
@@ -85,8 +85,6 @@ import com.sun.xml.wss.impl.policy.spi.PolicyVerifier;
 import com.sun.xml.wss.jaxws.impl.logging.LogDomainConstants;
 import com.sun.xml.wss.jaxws.impl.logging.LogStringsMessages;
 import com.sun.xml.wss.provider.wsit.PolicyAlternativeHolder;
-import static com.sun.xml.wss.jaxws.impl.Constants.SC_ASSERTION;
-import static com.sun.xml.wss.jaxws.impl.Constants.bsOperationName;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -442,7 +440,7 @@ public abstract class SecurityTubeBase extends AbstractFilterTubeImpl {
 
 
         if (isSCMessage) {
-            Token scToken = (Token) packet.invocationProperties.get(SC_ASSERTION);
+            Token scToken = (Token) packet.invocationProperties.get(Constants.SC_ASSERTION);
             return getOutgoingXWSBootstrapPolicy(scToken);
         }
         Message message = packet.getMessage();
@@ -934,7 +932,7 @@ public abstract class SecurityTubeBase extends AbstractFilterTubeImpl {
 
     protected List<PolicyAssertion> getOutBoundKTP(Packet packet, boolean isSCMessage) {
         if (isSCMessage) {
-            Token scToken = (Token) packet.invocationProperties.get(SC_ASSERTION);
+            Token scToken = (Token) packet.invocationProperties.get(Constants.SC_ASSERTION);
             return ((SCTokenWrapper) scToken).getKerberosTokens();
         }
         SecurityPolicyHolder sph = null;
@@ -1141,7 +1139,7 @@ public abstract class SecurityTubeBase extends AbstractFilterTubeImpl {
     private Policy getMessageLevelBSP() throws PolicyException {
         QName serviceName = tubeConfig.getWSDLPort().getOwner().getName();
         QName portName = tubeConfig.getWSDLPort().getName();
-        PolicyMapKey operationKey = PolicyMap.createWsdlOperationScopeKey(serviceName, portName, bsOperationName);
+        PolicyMapKey operationKey = PolicyMap.createWsdlOperationScopeKey(serviceName, portName, Constants.bsOperationName);
 
         Policy operationLevelEP = wsPolicyMap.getOperationEffectivePolicy(operationKey);
         return operationLevelEP;

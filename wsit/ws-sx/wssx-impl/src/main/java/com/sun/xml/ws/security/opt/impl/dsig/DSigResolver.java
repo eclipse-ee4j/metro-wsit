@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -24,7 +24,6 @@ import javax.xml.crypto.URIReferenceException;
 import javax.xml.crypto.XMLCryptoContext;
 import com.sun.xml.ws.security.opt.crypto.JAXBData;
 
-import javax.xml.stream.XMLStreamException;
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBElement;
 import jakarta.xml.bind.JAXBException;

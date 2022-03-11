@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
@@ -18,10 +18,11 @@ import java.util.Map;
 import java.security.PrivilegedExceptionAction;
 import java.security.PrivilegedActionException;
 import javax.security.auth.Subject;
-import jakarta.security.auth.message.config.*;
+
 import jakarta.security.auth.message.AuthException;
 import jakarta.security.auth.message.AuthStatus;
 
+import jakarta.security.auth.message.config.ServerAuthContext;
 import jakarta.xml.ws.WebServiceException;
 
 

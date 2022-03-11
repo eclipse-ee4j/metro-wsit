@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -66,7 +66,7 @@ import com.sun.xml.wss.impl.policy.PolicyGenerationException;
 import javax.xml.crypto.dsig.CanonicalizationMethod;
 import javax.xml.crypto.dsig.DigestMethod;
 
-import com.sun.xml.wss.impl.configuration.*;
+import com.sun.xml.wss.impl.configuration.StaticApplicationContext;
 import com.sun.xml.wss.impl.policy.mls.DynamicSecurityPolicy;
 import com.sun.xml.wss.impl.policy.mls.MessagePolicy;
 

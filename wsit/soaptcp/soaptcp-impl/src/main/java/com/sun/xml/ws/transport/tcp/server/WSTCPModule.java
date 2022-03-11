@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -19,7 +19,6 @@ import com.sun.xml.ws.transport.tcp.servicechannel.ServiceChannelWSImpl;
 import java.util.List;
 import java.util.logging.Logger;
 import javax.xml.namespace.QName;
-import org.xml.sax.EntityResolver;
 
 /**
  * WSTCPModule. Singlton class, which contains SOAP/TCP related information.

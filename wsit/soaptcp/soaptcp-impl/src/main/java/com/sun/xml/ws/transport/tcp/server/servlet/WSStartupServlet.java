@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -18,7 +18,7 @@ import com.sun.xml.ws.transport.tcp.server.TCPContext;
 import com.sun.xml.ws.transport.tcp.server.TCPResourceLoader;
 import com.sun.xml.ws.transport.tcp.server.TCPServletContext;
 import com.sun.xml.ws.transport.tcp.server.WSTCPModule;
-import java.io.IOException;
+
 import java.net.URL;
 import java.util.List;
 import java.util.logging.Level;

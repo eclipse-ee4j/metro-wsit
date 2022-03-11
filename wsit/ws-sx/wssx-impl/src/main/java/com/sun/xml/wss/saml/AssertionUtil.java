@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -20,6 +20,7 @@
 
 package com.sun.xml.wss.saml;
 
+import com.sun.xml.wss.impl.callback.SignatureVerificationKeyCallback;
 import com.sun.xml.wss.impl.misc.Base64;
 import org.apache.xml.security.keys.KeyInfo;
 import org.apache.xml.security.keys.content.X509Data;
@@ -52,7 +53,6 @@ import com.sun.xml.wss.core.reference.KeyIdentifier;
 import com.sun.xml.wss.core.reference.X509IssuerSerial;
 import com.sun.xml.wss.logging.LogDomainConstants;
 
-import com.sun.xml.wss.impl.callback.*;
 import com.sun.xml.wss.saml.util.SAMLJAXBUtil;
 import com.sun.xml.wss.saml.util.SAML20JAXBUtil;
 import jakarta.xml.bind.JAXBContext;

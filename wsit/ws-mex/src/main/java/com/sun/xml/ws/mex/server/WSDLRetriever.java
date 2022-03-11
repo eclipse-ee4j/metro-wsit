@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -17,6 +17,8 @@ import java.util.logging.Logger;
 
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
+
+import com.sun.xml.ws.mex.MetadataConstants;
 import jakarta.xml.ws.WebServiceException;
 
 import com.sun.xml.ws.api.message.Packet;
@@ -26,11 +28,6 @@ import com.sun.xml.ws.api.server.ServiceDefinition;
 import com.sun.xml.ws.api.server.WSEndpoint;
 
 import com.sun.xml.ws.mex.MessagesMessages;
-
-import static com.sun.xml.ws.mex.MetadataConstants.MEX_NAMESPACE;
-import static com.sun.xml.ws.mex.MetadataConstants.MEX_PREFIX;
-import static com.sun.xml.ws.mex.MetadataConstants.SCHEMA_DIALECT;
-import static com.sun.xml.ws.mex.MetadataConstants.WSDL_DIALECT;
 
 /**
  * This class is used to add the endpoint's metadata to
@@ -94,14 +91,14 @@ public class WSDLRetriever {
         final String address) throws XMLStreamException {
         
         try {
-            writer.writeStartElement(MEX_PREFIX,
-                "MetadataSection", MEX_NAMESPACE);
+            writer.writeStartElement(MetadataConstants.MEX_PREFIX,
+                "MetadataSection", MetadataConstants.MEX_NAMESPACE);
             if (doc.isWSDL()) {
-                writer.writeAttribute("Dialect", WSDL_DIALECT);
+                writer.writeAttribute("Dialect", MetadataConstants.WSDL_DIALECT);
                 writer.writeAttribute("Identifier",
                     ((SDDocument.WSDL) doc).getTargetNamespace());
             } else if(doc.isSchema()) {
-                writer.writeAttribute("Dialect", SCHEMA_DIALECT);
+                writer.writeAttribute("Dialect", MetadataConstants.SCHEMA_DIALECT);
                 writer.writeAttribute("Identifier",
                     ((SDDocument.Schema) doc).getTargetNamespace());
             }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -13,7 +13,6 @@ package com.sun.xml.ws.security.opt.impl.enc;
 import org.apache.xml.security.algorithms.JCEMapper;
 
 import com.sun.xml.util.XMLCipherAdapter;
-import com.sun.xml.wss.XWSSecurityException;
 import com.sun.xml.wss.impl.c14n.StAXC14nCanonicalizerImpl;
 import com.sun.xml.wss.impl.c14n.StAXEXC14nCanonicalizerImpl;
 import com.sun.xml.wss.logging.LogDomainConstants;
@@ -43,7 +42,7 @@ import javax.crypto.CipherOutputStream;
 import javax.crypto.Cipher;
 import javax.xml.crypto.Data;
 import javax.crypto.CipherInputStream;
-import javax.xml.stream.XMLStreamException;
+
 import org.jvnet.staxex.NamespaceContextEx;
 import org.jvnet.staxex.NamespaceContextEx.Binding;
 import com.sun.xml.wss.impl.XWSSecurityRuntimeException;

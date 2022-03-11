@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -22,9 +22,7 @@ import java.net.URL;
 import java.util.logging.Logger;
 
 import com.sun.xml.ws.mex.MessagesMessages;
-
-import static com.sun.xml.ws.mex.MetadataConstants.ERROR_LOG_LEVEL;
-import static com.sun.xml.ws.mex.MetadataConstants.GET_REQUEST;
+import com.sun.xml.ws.mex.MetadataConstants;
 
 /**
  * Class that handles making the HTTP POST request
@@ -55,7 +53,7 @@ public class HttpPoster {
         conn.setDoInput(true);
         conn.setRequestMethod("POST");
         conn.setRequestProperty("Content-Type", contentType);
-        conn.setRequestProperty("SOAPAction", "\"" + GET_REQUEST + "\"");
+        conn.setRequestProperty("SOAPAction", "\"" + MetadataConstants.GET_REQUEST + "\"");
 
         final Writer writer = new OutputStreamWriter(conn.getOutputStream());
         writer.write(request);
@@ -80,20 +78,20 @@ public class HttpPoster {
             final BufferedReader reader = new BufferedReader(
                 new InputStreamReader(error));
             try {
-                if (logger.isLoggable(ERROR_LOG_LEVEL)) {
-                    logger.log(ERROR_LOG_LEVEL,
+                if (logger.isLoggable(MetadataConstants.ERROR_LOG_LEVEL)) {
+                    logger.log(MetadataConstants.ERROR_LOG_LEVEL,
                         MessagesMessages.MEX_0010_ERROR_FROM_SERVER());
                     String line = reader.readLine();
                     while (line != null) {
-                        logger.log(ERROR_LOG_LEVEL, line);
+                        logger.log(MetadataConstants.ERROR_LOG_LEVEL, line);
                         line = reader.readLine();
                     }
-                    logger.log(ERROR_LOG_LEVEL,
+                    logger.log(MetadataConstants.ERROR_LOG_LEVEL,
                         MessagesMessages.MEX_0011_ERROR_FROM_SERVER_END());
                 }
             } catch (IOException ioe) {
                 // This exception has no more impact.
-                logger.log(ERROR_LOG_LEVEL,
+                logger.log(MetadataConstants.ERROR_LOG_LEVEL,
                     MessagesMessages.MEX_0012_READING_ERROR_STREAM_FAILURE(),
                     ioe);
             } finally {
@@ -101,7 +99,7 @@ public class HttpPoster {
                     reader.close();
                 } catch (IOException ex) {
                     // This exception has no more impact.
-                    logger.log(ERROR_LOG_LEVEL,
+                    logger.log(MetadataConstants.ERROR_LOG_LEVEL,
                         MessagesMessages.MEX_0013_CLOSING_ERROR_STREAM_FAILURE(),
                         ex);
                 }

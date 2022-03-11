@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
@@ -26,6 +26,7 @@ import com.sun.xml.ws.security.secconv.WSSecureConversationException;
 import java.util.Map;
 import javax.security.auth.Subject;
 import javax.security.auth.callback.CallbackHandler;
+
 import jakarta.security.auth.message.MessageInfo;
 import jakarta.security.auth.message.config.ClientAuthConfig;
 import jakarta.security.auth.message.config.ClientAuthContext;

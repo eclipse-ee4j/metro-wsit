@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -14,6 +14,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
+
+import com.sun.xml.ws.mex.MetadataConstants;
 import jakarta.xml.ws.WebServiceException;
 
 import com.sun.xml.stream.buffer.MutableXMLStreamBuffer;
@@ -31,13 +33,6 @@ import com.sun.xml.ws.api.pipe.helper.PipeAdapter;
 import com.sun.xml.ws.api.server.WSEndpoint;
 import com.sun.xml.ws.api.SOAPVersion;
 import com.sun.xml.ws.mex.MessagesMessages;
-
-import static com.sun.xml.ws.mex.MetadataConstants.GET_MDATA_REQUEST;
-import static com.sun.xml.ws.mex.MetadataConstants.GET_REQUEST;
-import static com.sun.xml.ws.mex.MetadataConstants.GET_RESPONSE;
-import static com.sun.xml.ws.mex.MetadataConstants.MEX_NAMESPACE;
-import static com.sun.xml.ws.mex.MetadataConstants.MEX_PREFIX;
-import static com.sun.xml.ws.mex.MetadataConstants.WSA_PREFIX;
 
 /**
  * This pipe handles any mex requests that come through. If a
@@ -101,11 +96,11 @@ public class MetadataServerPipe extends AbstractFilterTubeImpl {
         }
         
         if (action != null) {
-            if (action.equals(GET_REQUEST)) {
+            if (action.equals(MetadataConstants.GET_REQUEST)) {
                 final String toAddress = AddressingUtils.getTo(headers, adVersion, soapVersion);
                 return doReturnWith(processGetRequest(request, toAddress, adVersion));
-            } else if (action.equals(GET_MDATA_REQUEST)) {
-                final Message faultMessage = Messages.create(GET_MDATA_REQUEST,
+            } else if (action.equals(MetadataConstants.GET_MDATA_REQUEST)) {
+                final Message faultMessage = Messages.create(MetadataConstants.GET_MDATA_REQUEST,
                     adVersion, soapVersion);
                 return doReturnWith(request.createServerResponse(
                     faultMessage, adVersion, soapVersion,
@@ -134,7 +129,7 @@ public class MetadataServerPipe extends AbstractFilterTubeImpl {
 
             final Message responseMessage = Messages.create(buffer);
             final Packet response = request.createServerResponse(
-                responseMessage, adVersion, soapVersion, GET_RESPONSE);
+                responseMessage, adVersion, soapVersion, MetadataConstants.GET_RESPONSE);
             return response;
         } catch (XMLStreamException streamE) {
             final String exceptionMessage =
@@ -155,11 +150,11 @@ public class MetadataServerPipe extends AbstractFilterTubeImpl {
         // todo: this line should go away after bug fix - 6418039
         writer.writeNamespace(soapPrefix, soapVersion.nsUri);
 
-        writer.writeNamespace(WSA_PREFIX, adVersion.nsUri);
-        writer.writeNamespace(MEX_PREFIX, MEX_NAMESPACE);
+        writer.writeNamespace(MetadataConstants.WSA_PREFIX, adVersion.nsUri);
+        writer.writeNamespace(MetadataConstants.MEX_PREFIX, MetadataConstants.MEX_NAMESPACE);
 
         writer.writeStartElement(soapPrefix, "Body", soapVersion.nsUri);
-        writer.writeStartElement(MEX_PREFIX, "Metadata", MEX_NAMESPACE);
+        writer.writeStartElement(MetadataConstants.MEX_PREFIX, "Metadata", MetadataConstants.MEX_NAMESPACE);
     }
     
     private void writeEndEnvelope(final XMLStreamWriter writer)

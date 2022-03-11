@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -19,8 +19,13 @@ import com.sun.xml.ws.security.Token;
 import com.sun.xml.ws.security.policy.Issuer;
 import com.sun.xml.ws.security.policy.IssuedToken;
 import com.sun.xml.ws.security.policy.RequestSecurityTokenTemplate;
-import com.sun.xml.ws.security.secext10.*;
-import com.sun.xml.ws.security.trust.*;
+import com.sun.xml.ws.security.secext10.AttributedString;
+import com.sun.xml.ws.security.secext10.BinarySecurityTokenType;
+import com.sun.xml.ws.security.secext10.ObjectFactory;
+import com.sun.xml.ws.security.secext10.UsernameTokenType;
+import com.sun.xml.ws.security.trust.GenericToken;
+import com.sun.xml.ws.security.trust.WSTrustElementFactory;
+import com.sun.xml.ws.security.trust.WSTrustVersion;
 import com.sun.xml.ws.security.trust.logging.LogStringsMessages;
 import com.sun.xml.wss.impl.MessageConstants;
 

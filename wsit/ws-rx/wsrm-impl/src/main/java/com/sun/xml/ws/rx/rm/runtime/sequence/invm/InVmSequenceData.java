@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -11,9 +11,10 @@
 package com.sun.xml.ws.rx.rm.runtime.sequence.invm;
 
 import com.sun.istack.NotNull;
-import com.sun.xml.ws.rx.rm.runtime.sequence.*;
 import com.sun.xml.ws.rx.rm.runtime.ApplicationMessage;
+import com.sun.xml.ws.rx.rm.runtime.sequence.DuplicateMessageRegistrationException;
 import com.sun.xml.ws.rx.rm.runtime.sequence.Sequence.State;
+import com.sun.xml.ws.rx.rm.runtime.sequence.SequenceData;
 import com.sun.xml.ws.rx.util.TimeSynchronizer;
 import java.util.ArrayList;
 import java.util.Iterator;

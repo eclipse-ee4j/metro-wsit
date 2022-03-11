@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -19,7 +19,6 @@ import com.sun.xml.security.core.xenc.EncryptedDataType;
 import com.sun.xml.security.core.xenc.EncryptionMethodType;
 import com.sun.xml.ws.api.SOAPVersion;
 import com.sun.xml.ws.security.IssuedTokenContext;
-import com.sun.xml.ws.security.opt.api.SecurityElement;
 import com.sun.xml.ws.security.opt.api.SecurityHeaderElement;
 import com.sun.xml.ws.security.opt.api.keyinfo.SecurityTokenReference;
 import com.sun.xml.ws.security.opt.crypto.dsig.Signature;
@@ -42,9 +41,7 @@ import com.sun.xml.wss.saml.NameID;
 import com.sun.xml.wss.saml.util.SAMLJAXBUtil;
 
 import java.io.IOException;
-import java.security.InvalidAlgorithmParameterException;
 import java.security.Key;
-import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.cert.CertificateEncodingException;
@@ -75,7 +72,6 @@ import javax.xml.crypto.dsig.Reference;
 import javax.xml.crypto.dsig.SignatureMethod;
 import javax.xml.crypto.dsig.SignedInfo;
 import javax.xml.crypto.dsig.Transform;
-import javax.xml.crypto.dsig.XMLSignContext;
 import javax.xml.crypto.dsig.keyinfo.KeyValue;
 import javax.xml.crypto.dsig.spec.C14NMethodParameterSpec;
 import javax.xml.crypto.dsig.spec.TransformParameterSpec;

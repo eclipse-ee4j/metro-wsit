@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -22,7 +22,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.logging.Level;
-import static com.sun.xml.ws.security.impl.policy.Constants.*;
 
 
 /**
@@ -133,8 +132,8 @@ public class AlgorithmSuite extends com.sun.xml.ws.policy.PolicyAssertion implem
         if(!populated){
             NestedPolicy policy = this.getNestedPolicy();
             if(policy == null){
-                if(logger.isLoggable(Level.FINE)){
-                    logger.log(Level.FINE,"NestedPolicy is null");
+                if(Constants.logger.isLoggable(Level.FINE)){
+                    Constants.logger.log(Level.FINE,"NestedPolicy is null");
                 }
                 if(this.value == null){
                     this.value = AlgorithmSuiteValue.Basic128;
@@ -177,7 +176,7 @@ public class AlgorithmSuite extends com.sun.xml.ws.policy.PolicyAssertion implem
                     }
                 }else{
                     if(!assertion.isOptional()){
-                        log_invalid_assertion(assertion, isServer,AlgorithmSuite);
+                        Constants.log_invalid_assertion(assertion, isServer, Constants.AlgorithmSuite);
                         fitness = AssertionFitness.HAS_UNKNOWN_ASSERTION;
                     }
                 }

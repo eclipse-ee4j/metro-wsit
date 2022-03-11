@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.sun.xml.ws.mex.MetadataConstants;
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBException;
 import jakarta.xml.bind.Unmarshaller;
@@ -34,10 +35,6 @@ import com.sun.xml.ws.mex.client.schema.MetadataSection;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
-import static com.sun.xml.ws.mex.MetadataConstants.ERROR_LOG_LEVEL;
-import static com.sun.xml.ws.mex.MetadataConstants.WSDL_DIALECT;
-import static com.sun.xml.ws.mex.MetadataConstants.SCHEMA_DIALECT;
 
 /**
  * Class used for retrieving metadata at runtime. The intended usage is:
@@ -103,7 +100,7 @@ public class MetadataClient {
                     responseStream = mexUtil.getMetadata(newAddress, p);
                     return createMetadata(responseStream);
                 } catch (IOException e) {
-                    logger.log(ERROR_LOG_LEVEL,
+                    logger.log(MetadataConstants.ERROR_LOG_LEVEL,
                         MessagesMessages.MEX_0006_RETRIEVING_MDATA_FAILURE(
                             p, newAddress));
                 } catch (Exception e) {
@@ -113,7 +110,7 @@ public class MetadataClient {
                 }
             }
         }
-        logger.log(ERROR_LOG_LEVEL,
+        logger.log(MetadataConstants.ERROR_LOG_LEVEL,
             MessagesMessages.MEX_0007_RETURNING_NULL_MDATA());
         return null;
     }
@@ -149,7 +146,7 @@ public class MetadataClient {
     public List<PortInfo> getServiceInformation(@NotNull final Metadata data) {
         List<PortInfo> portInfos = new ArrayList<>();
         for (MetadataSection section : data.getMetadataSection()) {
-            if (section.getDialect().equals(WSDL_DIALECT)) {
+            if (section.getDialect().equals(MetadataConstants.WSDL_DIALECT)) {
                 if (section.getAny() != null) {
                     getServiceInformationFromNode(portInfos, section.getAny());
                 }
@@ -260,11 +257,11 @@ public class MetadataClient {
      */
     private void cleanData(final Metadata mData) {
         for (MetadataSection section : mData.getMetadataSection()) {
-            if (section.getDialect().equals(WSDL_DIALECT) &&
+            if (section.getDialect().equals(MetadataConstants.WSDL_DIALECT) &&
                 section.getAny() != null) {
                 cleanWSDLNode((Node) section.getAny());
             }
-            else if(section.getDialect().equals(SCHEMA_DIALECT) &&
+            else if(section.getDialect().equals(MetadataConstants.SCHEMA_DIALECT) &&
                 section.getAny() != null){
                 cleanSchemaNode((Node) section.getAny());
             }

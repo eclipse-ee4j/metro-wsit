@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -30,7 +30,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import javax.xml.namespace.QName;
-import static com.sun.xml.ws.security.impl.policy.Constants.*;
+
 /**
  *
  * @author K.Venugopal@sun.com
@@ -108,7 +108,7 @@ public class SignedElements extends PolicyAssertion implements com.sun.xml.ws.se
                         addTarget(assertion.getValue());
                     }else{
                         if(!assertion.isOptional()){
-                            log_invalid_assertion(assertion, isServer,SignedElements);
+                            Constants.log_invalid_assertion(assertion, isServer, Constants.SignedElements);
                             fitness = AssertionFitness.HAS_UNKNOWN_ASSERTION;
                         }
                     }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -27,7 +27,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import javax.xml.namespace.QName;
-import static com.sun.xml.ws.security.impl.policy.Constants.*;
 
 /**
  *
@@ -107,8 +106,8 @@ public class RelToken extends PolicyAssertion implements com.sun.xml.ws.security
             NestedPolicy policy = this.getNestedPolicy();
             includeToken = this.getAttributeValue(itQname);
             if(policy == null){
-                if(logger.getLevel() == Level.FINE){
-                    logger.log(Level.FINE,"NestedPolicy is null");
+                if(Constants.logger.getLevel() == Level.FINE){
+                    Constants.logger.log(Level.FINE,"NestedPolicy is null");
                 }
                 populated = true;
                 return fitness;
@@ -130,7 +129,7 @@ public class RelToken extends PolicyAssertion implements com.sun.xml.ws.security
                 } else{
                     if(!assertion.isOptional()){
                         
-                        log_invalid_assertion(assertion, isServer,RelToken);
+                        Constants.log_invalid_assertion(assertion, isServer, Constants.RelToken);
                         fitness = AssertionFitness.HAS_UNKNOWN_ASSERTION;
                     }
                 }

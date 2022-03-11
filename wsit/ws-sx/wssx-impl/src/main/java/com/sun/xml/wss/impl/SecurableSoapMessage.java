@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -10,6 +10,8 @@
 
 package com.sun.xml.wss.impl;
 
+import com.sun.xml.wss.WSITXMLFactory;
+import com.sun.xml.wss.XWSSecurityException;
 import com.sun.xml.wss.impl.dsig.NamespaceContextImpl;
 
 import java.io.IOException;
@@ -53,7 +55,6 @@ import com.sun.xml.wss.logging.LogDomainConstants;
 
 import org.w3c.dom.Node;
 
-import com.sun.xml.wss.*;
 import com.sun.xml.wss.logging.LogStringsMessages;
 import com.sun.xml.wss.util.NodeListImpl;
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -14,6 +14,8 @@
 
 package com.sun.xml.wss.impl;
 
+import com.sun.xml.wss.ProcessingContext;
+import com.sun.xml.wss.XWSSecurityException;
 import com.sun.xml.wss.impl.policy.verifier.MessagePolicyVerifier;
 import com.sun.xml.wss.impl.policy.verifier.TargetResolver;
 import java.util.Iterator;
@@ -33,7 +35,6 @@ import com.sun.xml.wss.impl.filter.SignatureConfirmationFilter;
 import com.sun.xml.wss.impl.filter.AuthenticationTokenFilter;
 import com.sun.xml.wss.impl.policy.mls.MessagePolicy;
 import com.sun.xml.wss.logging.LogDomainConstants;
-import com.sun.xml.wss.*;
 import com.sun.xml.wss.impl.policy.PolicyAlternatives;
 import com.sun.xml.wss.impl.policy.PolicyUtils;
 import com.sun.xml.wss.impl.policy.SecurityPolicy;

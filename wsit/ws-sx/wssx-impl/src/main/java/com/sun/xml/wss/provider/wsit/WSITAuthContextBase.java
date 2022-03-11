@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
@@ -11,6 +11,7 @@
 
 package com.sun.xml.wss.provider.wsit;
 
+import com.sun.xml.ws.api.addressing.AddressingVersion;
 import com.sun.xml.ws.api.model.wsdl.WSDLFault;
 import com.sun.xml.ws.security.impl.policyconv.XWSSPolicyGenerator;
 import com.sun.xml.ws.security.policy.CertStoreConfig;
@@ -51,6 +52,7 @@ import com.sun.xml.ws.policy.PolicyException;
 import com.sun.xml.ws.policy.PolicyMap;
 import com.sun.xml.ws.policy.PolicyMapKey;
 import com.sun.xml.ws.policy.PolicyMerger;
+import com.sun.xml.wss.jaxws.impl.Constants;
 import com.sun.xml.wss.jaxws.impl.TubeConfiguration;
 import com.sun.xml.ws.security.policy.AsymmetricBinding;
 import com.sun.xml.ws.security.policy.AlgorithmSuite;
@@ -92,7 +94,6 @@ import com.sun.xml.ws.security.policy.WSSAssertion;
 
 import java.util.Properties;
 
-import com.sun.xml.ws.api.addressing.*;
 import com.sun.xml.ws.api.pipe.Tube;
 import com.sun.xml.ws.api.policy.ModelUnmarshaller;
 import com.sun.xml.ws.api.server.WSEndpoint;
@@ -110,9 +111,6 @@ import com.sun.xml.wss.impl.ProcessingContextImpl;
 import com.sun.xml.wss.impl.SecurableSoapMessage;
 import com.sun.xml.wss.impl.SecurityAnnotator;
 import com.sun.xml.wss.impl.WssSoapFaultException;
-
-import static com.sun.xml.wss.jaxws.impl.Constants.rstSCTURI;
-import static com.sun.xml.wss.jaxws.impl.Constants.SC_ASSERTION;
 
 import com.sun.xml.wss.jaxws.impl.RMPolicyResolver;
 import java.util.Map;
@@ -614,7 +612,7 @@ public abstract class WSITAuthContextBase  {
     //TODO:POLALT : should this method look over all alternatives
     protected List<PolicyAssertion> getOutBoundKTP(Packet packet, boolean isSCMessage){
         if(isSCMessage){
-            Token scToken = (Token)packet.invocationProperties.get(SC_ASSERTION);
+            Token scToken = (Token)packet.invocationProperties.get(Constants.SC_ASSERTION);
             return ((SCTokenWrapper)scToken).getKerberosTokens();
         }
         SecurityPolicyHolder sph = null;
@@ -871,7 +869,7 @@ public abstract class WSITAuthContextBase  {
         }
         
         String action = getAction(packet);
-        if (rstSCTURI.equals(action)){
+        if (Constants.rstSCTURI.equals(action)){
             return true;
         }
         return false;
@@ -1645,7 +1643,7 @@ TR/SCT"))) && this.bootStrapAlgoSuite != null){            ctx.setAlgorithmSuite
         
         
         if (isSCMessage) {
-            Token scToken = (Token)packet.invocationProperties.get(SC_ASSERTION);
+            Token scToken = (Token)packet.invocationProperties.get(Constants.SC_ASSERTION);
             return getOutgoingXWSBootstrapPolicy(scToken);
         }
         Message message = packet.getMessage();

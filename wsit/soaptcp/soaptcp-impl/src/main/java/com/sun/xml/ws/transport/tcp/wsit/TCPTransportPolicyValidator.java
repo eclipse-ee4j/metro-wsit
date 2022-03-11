@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -16,8 +16,6 @@ import com.sun.xml.ws.policy.spi.PolicyAssertionValidator.Fitness;
 import java.util.ArrayList;
 import javax.xml.namespace.QName;
 
-import static com.sun.xml.ws.transport.tcp.wsit.TCPConstants.*;
-
 /**
  * @author Marek Potociar (marek.potociar at sun.com)
  */
@@ -27,9 +25,9 @@ public final class TCPTransportPolicyValidator implements PolicyAssertionValidat
     private static final ArrayList<QName> commonSupportedAssertions = new ArrayList<>(2);
     
     static {
-        clientSupportedAssertions.add(SELECT_OPTIMAL_TRANSPORT_ASSERTION);
-        commonSupportedAssertions.add(TCPTRANSPORT_POLICY_ASSERTION);
-        commonSupportedAssertions.add(TCPTRANSPORT_CONNECTION_MANAGEMENT_ASSERTION);
+        clientSupportedAssertions.add(TCPConstants.SELECT_OPTIMAL_TRANSPORT_ASSERTION);
+        commonSupportedAssertions.add(TCPConstants.TCPTRANSPORT_POLICY_ASSERTION);
+        commonSupportedAssertions.add(TCPConstants.TCPTRANSPORT_CONNECTION_MANAGEMENT_ASSERTION);
     }
     
     /** Creates a new instance of TCPTransportPolicyValidator */
@@ -49,8 +47,8 @@ public final class TCPTransportPolicyValidator implements PolicyAssertionValidat
     
     @Override
     public String[] declareSupportedDomains() {
-        return new String[] {TCPTRANSPORT_POLICY_NAMESPACE_URI,
-        CLIENT_TRANSPORT_NS, TCPTRANSPORT_CONNECTION_MANAGEMENT_NAMESPACE_URI};
+        return new String[] {TCPConstants.TCPTRANSPORT_POLICY_NAMESPACE_URI,
+                TCPConstants.CLIENT_TRANSPORT_NS, TCPConstants.TCPTRANSPORT_CONNECTION_MANAGEMENT_NAMESPACE_URI};
     }
     
 }

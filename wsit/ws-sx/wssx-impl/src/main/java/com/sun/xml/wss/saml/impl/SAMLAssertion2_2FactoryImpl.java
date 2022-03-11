@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -28,8 +28,38 @@ import java.util.List;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.namespace.QName;
+
+import com.sun.xml.wss.saml.Action;
+import com.sun.xml.wss.saml.Advice;
+import com.sun.xml.wss.saml.AnyType;
+import com.sun.xml.wss.saml.Assertion;
+import com.sun.xml.wss.saml.AssertionIDRef;
+import com.sun.xml.wss.saml.AssertionIDReference;
+import com.sun.xml.wss.saml.Attribute;
+import com.sun.xml.wss.saml.AttributeDesignator;
+import com.sun.xml.wss.saml.AttributeStatement;
+import com.sun.xml.wss.saml.AudienceRestriction;
+import com.sun.xml.wss.saml.AudienceRestrictionCondition;
+import com.sun.xml.wss.saml.AuthenticationStatement;
+import com.sun.xml.wss.saml.AuthnContext;
+import com.sun.xml.wss.saml.AuthnDecisionStatement;
+import com.sun.xml.wss.saml.AuthnStatement;
+import com.sun.xml.wss.saml.AuthorityBinding;
+import com.sun.xml.wss.saml.AuthorizationDecisionStatement;
+import com.sun.xml.wss.saml.Conditions;
+import com.sun.xml.wss.saml.DoNotCacheCondition;
+import com.sun.xml.wss.saml.Evidence;
+import com.sun.xml.wss.saml.KeyInfoConfirmationData;
+import com.sun.xml.wss.saml.NameID;
+import com.sun.xml.wss.saml.NameIdentifier;
+import com.sun.xml.wss.saml.OneTimeUse;
+import com.sun.xml.wss.saml.SAMLAssertionFactory;
+import com.sun.xml.wss.saml.SAMLException;
+import com.sun.xml.wss.saml.Subject;
+import com.sun.xml.wss.saml.SubjectConfirmation;
+import com.sun.xml.wss.saml.SubjectConfirmationData;
+import com.sun.xml.wss.saml.SubjectLocality;
 import org.w3c.dom.Element;
-import com.sun.xml.wss.saml.*;
 import com.sun.xml.wss.saml.util.SAMLUtil;
 import jakarta.xml.bind.JAXBContext;
 import javax.xml.stream.XMLStreamException;

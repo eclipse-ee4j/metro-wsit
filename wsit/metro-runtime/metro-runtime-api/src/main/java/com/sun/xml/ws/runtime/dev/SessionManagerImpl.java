@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -26,7 +26,7 @@ import com.sun.xml.ws.security.SecurityContextToken;
 import com.sun.xml.ws.security.SecurityContextTokenInfo;
 import com.sun.xml.ws.security.SecurityTokenReference;
 import com.sun.xml.ws.security.Token;
-import com.sun.xml.wss.XWSSecurityException;
+
 import java.net.URI;
 import java.security.Key;
 import java.security.KeyPair;

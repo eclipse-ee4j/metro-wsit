@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -10,6 +10,7 @@
 
 package com.sun.xml.wss.jaxws.impl;
 
+import com.sun.xml.ws.api.addressing.AddressingVersion;
 import com.sun.xml.ws.api.message.AddressingUtils;
 import com.sun.xml.ws.api.message.Message;
 import com.sun.xml.ws.api.message.MessageHeaders;
@@ -37,7 +38,6 @@ import jakarta.xml.soap.SOAPException;
 import java.util.HashMap;
 import org.w3c.dom.NodeList;
 import com.sun.xml.ws.security.policy.Token;
-import com.sun.xml.ws.api.addressing.*;
 import com.sun.xml.ws.rx.mc.api.McProtocolVersion;
 import com.sun.xml.ws.rx.rm.api.RmProtocolVersion;
 import com.sun.xml.ws.security.policy.SecurityPolicyVersion;

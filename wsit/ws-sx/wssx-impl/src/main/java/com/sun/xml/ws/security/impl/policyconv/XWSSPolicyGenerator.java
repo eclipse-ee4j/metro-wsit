@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -10,6 +10,7 @@
 
 package com.sun.xml.ws.security.impl.policyconv;
 
+import com.sun.xml.ws.security.impl.policy.Constants;
 import com.sun.xml.ws.security.impl.policy.PolicyUtil;
 import com.sun.xml.ws.policy.Policy;
 import com.sun.xml.ws.policy.PolicyAssertion;
@@ -37,7 +38,6 @@ import com.sun.xml.ws.security.policy.SignedSupportingTokens;
 import com.sun.xml.ws.security.policy.SupportingTokens;
 import com.sun.xml.ws.security.policy.SymmetricBinding;
 import com.sun.xml.ws.security.policy.TransportBinding;
-import static com.sun.xml.ws.security.impl.policy.Constants.*;
 import com.sun.xml.wss.impl.policy.PolicyGenerationException;
 import com.sun.xml.wss.impl.policy.mls.EncryptionPolicy;
 import com.sun.xml.wss.impl.policy.mls.MessagePolicy;
@@ -145,8 +145,8 @@ public class XWSSPolicyGenerator {
             return;
         }
         if(PolicyUtil.isTransportBinding(binding, spVersion)){
-            if(logger.isLoggable(Level.FINE)){
-                logger.log(Level.FINE, "TransportBinding was configured in the policy");
+            if(Constants.logger.isLoggable(Level.FINE)){
+                Constants.logger.log(Level.FINE, "TransportBinding was configured in the policy");
             }
             TransportBindingProcessor tbp= new TransportBindingProcessor((TransportBinding)binding,isServer, isIncoming,_policyContainer);
             tbp.process();
@@ -160,8 +160,8 @@ public class XWSSPolicyGenerator {
             _policyContainer.setPolicyContainerMode(_binding.getLayout());
             if(PolicyUtil.isSymmetricBinding(binding.getName(), spVersion)) {
                 
-                if(logger.isLoggable(Level.FINE)){
-                    logger.log(Level.FINE, "SymmetricBinding was configured in the policy");
+                if(Constants.logger.isLoggable(Level.FINE)){
+                    Constants.logger.log(Level.FINE, "SymmetricBinding was configured in the policy");
                 }
                 SymmetricBindingProcessor sbp =  new SymmetricBindingProcessor((SymmetricBinding) _binding, _policyContainer,
                         isServer, isIncoming,signedParts,encryptedParts,
@@ -175,8 +175,8 @@ public class XWSSPolicyGenerator {
                 
             }else if(PolicyUtil.isAsymmetricBinding(binding.getName(), spVersion) ){
                 
-                if(logger.isLoggable(Level.FINE)){
-                    logger.log(Level.FINE, "AsymmetricBinding was configured in the policy");
+                if(Constants.logger.isLoggable(Level.FINE)){
+                    Constants.logger.log(Level.FINE, "AsymmetricBinding was configured in the policy");
                 }
                 AsymmetricBindingProcessor abp = new AsymmetricBindingProcessor((AsymmetricBinding) _binding, _policyContainer,
                         isServer, isIncoming,signedParts,encryptedParts,
@@ -200,7 +200,7 @@ public class XWSSPolicyGenerator {
                 mp = _policyContainer.getMessagePolicy(false);
             }
         }catch(PolicyGenerationException ex){
-            logger.log(Level.SEVERE,LogStringsMessages.SP_0113_UNABLE_TO_DIGEST_POLICY(effectivePolicy),ex);
+            Constants.logger.log(Level.SEVERE,LogStringsMessages.SP_0113_UNABLE_TO_DIGEST_POLICY(effectivePolicy),ex);
             throw new PolicyException("Unable to digest SecurityPolicy ");
         }
         //try{
@@ -208,7 +208,7 @@ public class XWSSPolicyGenerator {
             try{
                 mp.setWSSAssertion(getWssAssertion((com.sun.xml.ws.security.policy.WSSAssertion) wssAssertion));
             } catch (PolicyGenerationException ex) {
-                logger.log(Level.SEVERE,LogStringsMessages.SP_0104_ERROR_SIGNATURE_CONFIRMATION_ELEMENT(ex.getMessage()),ex);
+                Constants.logger.log(Level.SEVERE,LogStringsMessages.SP_0104_ERROR_SIGNATURE_CONFIRMATION_ELEMENT(ex.getMessage()),ex);
                 throw new PolicyException(LogStringsMessages.SP_0104_ERROR_SIGNATURE_CONFIRMATION_ELEMENT(ex.getMessage()));
             }
         }
@@ -224,7 +224,7 @@ public class XWSSPolicyGenerator {
                         new com.sun.xml.ws.security.impl.policyconv.RequiredElementsProcessor(reqElements, mp);
                 rep.process();
             } catch (PolicyGenerationException ex) {
-                logger.log(Level.SEVERE,LogStringsMessages.SP_0103_ERROR_REQUIRED_ELEMENTS(ex.getMessage()),ex);
+                Constants.logger.log(Level.SEVERE,LogStringsMessages.SP_0103_ERROR_REQUIRED_ELEMENTS(ex.getMessage()),ex);
                 throw new PolicyException(LogStringsMessages.SP_0103_ERROR_REQUIRED_ELEMENTS(ex.getMessage()));
             }
         }
@@ -336,31 +336,31 @@ public class XWSSPolicyGenerator {
         
         switch(layout) {
             case Strict :{
-                if(logger.isLoggable(Level.FINE)){
-                    logger.log(Level.FINE,"MessageLayout has been configured to be  STRICT ");
+                if(Constants.logger.isLoggable(Level.FINE)){
+                    Constants.logger.log(Level.FINE,"MessageLayout has been configured to be  STRICT ");
                 }
                 return com.sun.xml.wss.impl.MessageLayout.Strict;
             }
             case Lax :{
-                if(logger.isLoggable(Level.FINE)){
-                    logger.log(Level.FINE,"MessageLayout has been configured to be LAX ");
+                if(Constants.logger.isLoggable(Level.FINE)){
+                    Constants.logger.log(Level.FINE,"MessageLayout has been configured to be LAX ");
                 }
                 return com.sun.xml.wss.impl.MessageLayout.Lax;
             }
             case LaxTsFirst :{
-                if(logger.isLoggable(Level.FINE)){
-                    logger.log(Level.FINE,"MessageLayout has been configured to be LaxTimestampFirst ");
+                if(Constants.logger.isLoggable(Level.FINE)){
+                    Constants.logger.log(Level.FINE,"MessageLayout has been configured to be LaxTimestampFirst ");
                 }
                 return com.sun.xml.wss.impl.MessageLayout.LaxTsFirst;
             }
             case LaxTsLast :{
-                if(logger.isLoggable(Level.FINE)){
-                    logger.log(Level.FINE,"MessageLayout has been configured tp be LaxTimestampLast ");
+                if(Constants.logger.isLoggable(Level.FINE)){
+                    Constants.logger.log(Level.FINE,"MessageLayout has been configured tp be LaxTimestampLast ");
                 }
                 return com.sun.xml.wss.impl.MessageLayout.LaxTsLast;
             }default :{
-                if(logger.isLoggable(Level.SEVERE)){
-                    logger.log(Level.SEVERE,LogStringsMessages.SP_0106_UNKNOWN_MESSAGE_LAYOUT(layout));
+                if(Constants.logger.isLoggable(Level.SEVERE)){
+                    Constants.logger.log(Level.SEVERE,LogStringsMessages.SP_0106_UNKNOWN_MESSAGE_LAYOUT(layout));
                 }
                 throw new RuntimeException(LogStringsMessages.SP_0106_UNKNOWN_MESSAGE_LAYOUT(layout));
             }

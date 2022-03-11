@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -41,7 +41,6 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 import java.util.logging.Level;
 import com.sun.xml.wss.logging.impl.opt.LogStringsMessages;
-import static com.sun.xml.wss.BasicSecurityProfile.*;
 
 /**
  *
@@ -92,7 +91,7 @@ public class SecurityHeaderProcessor {
                 switch (eventType){
                     case TIMESTAMP_ELEMENT : {
                         if(context.isBSP() && bspContext.isTimeStampFound()){
-                            log_bsp_3203();
+                            BasicSecurityProfile.log_bsp_3203();
                         }
                         bspContext.setTimeStampFound(true);
                         TimestampHeader timestamp = new TimestampHeader(message,creator,(HashMap) currentParentNS, context);

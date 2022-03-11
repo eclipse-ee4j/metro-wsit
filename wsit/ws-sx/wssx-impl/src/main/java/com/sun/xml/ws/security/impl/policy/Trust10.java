@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -21,7 +21,7 @@ import java.util.Set;
 import java.util.logging.Level;
 import com.sun.xml.ws.security.policy.SecurityAssertionValidator;
 import com.sun.xml.ws.security.policy.Constants;
-import static com.sun.xml.ws.security.impl.policy.Constants.*;
+
 /**
  *
  * @author K.Venugopal@sun.com
@@ -77,8 +77,8 @@ public class Trust10 extends PolicyAssertion implements com.sun.xml.ws.security.
         if(!populated){
             NestedPolicy policy = this.getNestedPolicy();
             if(policy == null){
-                if(logger.getLevel() == Level.FINE){
-                    logger.log(Level.FINE,"NestedPolicy is null");
+                if(com.sun.xml.ws.security.impl.policy.Constants.logger.getLevel() == Level.FINE){
+                    com.sun.xml.ws.security.impl.policy.Constants.logger.log(Level.FINE,"NestedPolicy is null");
                 }
                 populated = true;
                 return fitness;
@@ -97,7 +97,7 @@ public class Trust10 extends PolicyAssertion implements com.sun.xml.ws.security.
                     addRequiredProperty(Constants.MUST_SUPPORT_ISSUED_TOKENS);
                 }else{
                     if(!assertion.isOptional()){
-                        log_invalid_assertion(assertion, isServer,"Trust10");
+                        com.sun.xml.ws.security.impl.policy.Constants.log_invalid_assertion(assertion, isServer,"Trust10");
                         fitness = AssertionFitness.HAS_UNKNOWN_ASSERTION;
                     }
                 }

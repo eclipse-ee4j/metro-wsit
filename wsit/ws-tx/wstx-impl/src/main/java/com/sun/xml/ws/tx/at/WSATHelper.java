@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -11,7 +11,10 @@
 package com.sun.xml.ws.tx.at;
 
 import com.sun.istack.logging.Logger;
-import com.sun.xml.ws.tx.at.localization.LocalizationMessages; 
+import com.sun.xml.ws.tx.at.common.CoordinatorIF;
+import com.sun.xml.ws.tx.at.common.ParticipantIF;
+import com.sun.xml.ws.tx.at.common.WSATVersion;
+import com.sun.xml.ws.tx.at.localization.LocalizationMessages;
 import com.sun.xml.ws.api.message.Header;
 import com.sun.xml.ws.api.message.MessageHeaders;
 import com.sun.xml.ws.tx.at.runtime.TransactionIdHelper;
@@ -19,7 +22,6 @@ import com.sun.xml.ws.tx.at.runtime.TransactionServices;
 import com.sun.xml.ws.api.tx.at.Transactional;
 import com.sun.xml.ws.tx.at.internal.BranchXidImpl;
 import com.sun.xml.ws.tx.at.internal.TransactionServicesImpl;
-import com.sun.xml.ws.tx.at.common.*;
 import com.sun.xml.ws.tx.at.common.client.CoordinatorProxyBuilder;
 import com.sun.xml.ws.tx.at.common.client.ParticipantProxyBuilder;
 import com.sun.xml.ws.tx.at.internal.XidImpl;

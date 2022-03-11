@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
@@ -97,8 +97,6 @@ import jakarta.security.auth.message.MessageInfo;
 import jakarta.security.auth.message.config.ClientAuthContext;
 import jakarta.xml.bind.JAXBElement;
 
-import static com.sun.xml.wss.jaxws.impl.Constants.SC_ASSERTION;
-import static com.sun.xml.wss.jaxws.impl.Constants.OPERATION_SCOPE;
 import com.sun.xml.wss.provider.wsit.logging.LogStringsMessages;
 import jakarta.xml.soap.SOAPException;
 import jakarta.xml.soap.SOAPFault;
@@ -332,7 +330,7 @@ public class WSITClientAuthContext extends WSITAuthContextBase
         packet.setMessage(msg);
         if(isSCMessage){
             if(isSCRenew(packet)){
-                Token scToken = (Token)packet.invocationProperties.get(SC_ASSERTION);
+                Token scToken = (Token)packet.invocationProperties.get(Constants.SC_ASSERTION);
                 SCTokenConfiguration config = new DefaultSCTokenConfiguration(wsscVer.getNamespaceURI(), false);
                 config.getOtherOptions().put("MessagePolicy", getOutgoingXWSBootstrapPolicy(scToken));
                 IssuedTokenContext itc =itm.createIssuedTokenContext(config, packet.endpointAddress.toString());
@@ -779,10 +777,10 @@ public class WSITClientAuthContext extends WSITAuthContextBase
 
         // Get IssuedToken policies from the service
         if (isSCMessage) {
-            Token scToken = (Token) packet.invocationProperties.get(SC_ASSERTION);
+            Token scToken = (Token) packet.invocationProperties.get(Constants.SC_ASSERTION);
             policies = getIssuedTokenPoliciesFromBootstrapPolicy(scToken);
         } else {
-            policies = getIssuedTokenPolicies(packet, OPERATION_SCOPE);
+            policies = getIssuedTokenPolicies(packet, Constants.OPERATION_SCOPE);
         }
 
         // Get PreConfiguredSTS policy on the client side

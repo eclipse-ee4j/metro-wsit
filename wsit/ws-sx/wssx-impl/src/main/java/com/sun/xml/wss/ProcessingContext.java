@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -10,18 +10,21 @@
 
 package com.sun.xml.wss;
 
-import com.sun.xml.wss.impl.*;
 import java.util.Map;
 import java.util.Random;
 import java.util.HashMap;
 
+import com.sun.xml.wss.impl.MessageConstants;
+import com.sun.xml.wss.impl.MessageLayout;
+import com.sun.xml.wss.impl.SecurableSoapMessage;
+import com.sun.xml.wss.impl.misc.DefaultSecurityEnvironmentImpl;
 import jakarta.xml.soap.SOAPMessage;
 
 import com.sun.xml.wss.impl.policy.SecurityPolicy;
 import com.sun.xml.wss.impl.policy.StaticPolicyContext;
 
 import javax.security.auth.callback.CallbackHandler;
-import com.sun.xml.wss.impl.misc.*;
+
 /**
  * This class represents a Context that is used by the XWS-Security Runtime to
  * apply/verify Security Policies on an Outgoing/Incoming SOAP Message.

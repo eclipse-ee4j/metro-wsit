@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -32,7 +32,7 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.logging.Level;
 import javax.xml.namespace.QName;
-import static com.sun.xml.ws.security.impl.policy.Constants.*;
+
 import com.sun.xml.ws.security.policy.SecurityAssertionValidator.AssertionFitness;
 
 /**
@@ -142,8 +142,8 @@ public class KerberosToken extends PolicyAssertion implements com.sun.xml.ws.sec
             }
             NestedPolicy policy = this.getNestedPolicy();
             if(policy == null){
-                if(logger.getLevel() == Level.FINE){
-                    logger.log(Level.FINE,"NestedPolicy is null");
+                if(Constants.logger.getLevel() == Level.FINE){
+                    Constants.logger.log(Level.FINE,"NestedPolicy is null");
                 }
                 populated = true;
                 return fitness;
@@ -159,7 +159,7 @@ public class KerberosToken extends PolicyAssertion implements com.sun.xml.ws.sec
                     reqDK = true;
                 } else{
                     if(!assertion.isOptional()){
-                        log_invalid_assertion(assertion, isServer,KerberosToken);
+                        Constants.log_invalid_assertion(assertion, isServer, Constants.KerberosToken);
                         fitness = AssertionFitness.HAS_UNKNOWN_ASSERTION;
                     }
                 }
@@ -179,7 +179,7 @@ public class KerberosToken extends PolicyAssertion implements com.sun.xml.ws.sec
                 }
             }
             if(issuer != null && issuerName != null){
-                log_invalid_assertion(issuerName, isServer,SecureConversationToken);
+                Constants.log_invalid_assertion(issuerName, isServer, Constants.SecureConversationToken);
                 fitness = AssertionFitness.HAS_INVALID_VALUE;
             }
             populated = true;

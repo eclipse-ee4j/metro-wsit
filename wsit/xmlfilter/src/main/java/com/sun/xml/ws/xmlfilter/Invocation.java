@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -20,7 +20,6 @@ import javax.xml.stream.XMLStreamWriter;
 
 import com.sun.istack.logging.Logger;
 import com.sun.xml.ws.xmlfilter.localization.LocalizationMessages;
-import static com.sun.xml.ws.xmlfilter.XmlStreamWriterMethodType.WRITE_CHARACTERS;
 
 /**
  * The class represents a wrapper around {@code XMLStreamWriter} invocations.
@@ -51,7 +50,7 @@ public final class Invocation {
         final Object[] arguments;
         final XmlStreamWriterMethodType methodType = XmlStreamWriterMethodType.getMethodType(method.getName());
 
-        if (methodType == WRITE_CHARACTERS && args.length == 3) {
+        if (methodType == XmlStreamWriterMethodType.WRITE_CHARACTERS && args.length == 3) {
             final Integer start = (Integer) args[1];
             final Integer length = (Integer) args[2];
             final char[] charArrayCopy = new char[length.intValue()];

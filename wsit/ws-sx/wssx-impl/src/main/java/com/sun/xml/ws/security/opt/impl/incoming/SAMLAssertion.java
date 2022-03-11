@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -38,8 +38,6 @@ import javax.xml.crypto.KeySelector.Purpose;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 import javax.xml.stream.XMLStreamWriter;
-import static com.sun.xml.wss.impl.MessageConstants.SIGNATURE_LNAME;
-import static com.sun.xml.wss.impl.MessageConstants.DSIG_NS;
 import javax.security.auth.Subject;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLOutputFactory;
@@ -304,7 +302,7 @@ public class SAMLAssertion implements SecurityHeaderElement,PolicyBuilder,TokenV
                 reader.next();
                 switch(reader.getEventType()){
                     case XMLStreamReader.START_ELEMENT :{                        
-                        if(reader.getLocalName() == SIGNATURE_LNAME && reader.getNamespaceURI() == DSIG_NS){
+                        if(reader.getLocalName() == MessageConstants.SIGNATURE_LNAME && reader.getNamespaceURI() == MessageConstants.DSIG_NS){
                             sig = new Signature(jpc,samlHeaderNSContext,creator,false);
                             jpc.isSamlSignatureKey(true);
                             sig.process(reader, false);  
@@ -378,7 +376,7 @@ public class SAMLAssertion implements SecurityHeaderElement,PolicyBuilder,TokenV
                                 while(!(reader.getLocalName()== SUBJECT_CONFIRMATION_ELEMENT  &&
                                         reader.getEventType() == reader.END_ELEMENT)){
                                     reader.next();
-                                    if(reader.getEventType() == reader.START_ELEMENT && reader.getLocalName() == KEYINFO_ELEMENT && reader.getNamespaceURI() == DSIG_NS){
+                                    if(reader.getEventType() == reader.START_ELEMENT && reader.getLocalName() == KEYINFO_ELEMENT && reader.getNamespaceURI() == MessageConstants.DSIG_NS){
                                         jpc.isSAMLEK(true);
                                         KeyInfoProcessor kip = new KeyInfoProcessor(jpc,Purpose.VERIFY, true);
                                         key = kip.getKey(reader);

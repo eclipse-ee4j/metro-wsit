@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -9,7 +9,6 @@
  */
 
 package com.sun.xml.ws.security.impl.policy;
-import static com.sun.xml.ws.security.impl.policy.Constants.*;
 import com.sun.xml.ws.policy.AssertionSet;
 import com.sun.xml.ws.policy.NestedPolicy;
 import com.sun.xml.ws.policy.PolicyAssertion;
@@ -84,7 +83,7 @@ public class TransportToken extends Token implements com.sun.xml.ws.security.pol
                     token = (HttpsToken) assertion;
                 }else{
                     if(!assertion.isOptional()){
-                        log_invalid_assertion(assertion, isServer,"TransportToken");
+                        Constants.log_invalid_assertion(assertion, isServer,"TransportToken");
                         fitness = AssertionFitness.HAS_UNKNOWN_ASSERTION;
                     }
                 }

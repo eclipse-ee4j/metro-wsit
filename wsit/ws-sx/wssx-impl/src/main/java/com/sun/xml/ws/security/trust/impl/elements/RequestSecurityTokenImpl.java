@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -24,9 +24,26 @@ import com.sun.xml.ws.api.security.trust.WSTrustException;
 import com.sun.xml.ws.policy.impl.bindings.AppliesTo;
 import com.sun.xml.ws.policy.Policy;
 import com.sun.xml.ws.policy.impl.bindings.PolicyReference;
+import com.sun.xml.ws.security.trust.elements.ActAs;
+import com.sun.xml.ws.security.trust.elements.AllowPostdating;
+import com.sun.xml.ws.security.trust.elements.BinaryExchange;
+import com.sun.xml.ws.security.trust.elements.CancelTarget;
+import com.sun.xml.ws.security.trust.elements.DelegateTo;
+import com.sun.xml.ws.security.trust.elements.Encryption;
+import com.sun.xml.ws.security.trust.elements.Entropy;
+import com.sun.xml.ws.security.trust.elements.Issuer;
+import com.sun.xml.ws.security.trust.elements.Lifetime;
+import com.sun.xml.ws.security.trust.elements.OnBehalfOf;
+import com.sun.xml.ws.security.trust.elements.Participants;
+import com.sun.xml.ws.security.trust.elements.ProofEncryption;
+import com.sun.xml.ws.security.trust.elements.RenewTarget;
+import com.sun.xml.ws.security.trust.elements.Renewing;
+import com.sun.xml.ws.security.trust.elements.RequestSecurityToken;
+import com.sun.xml.ws.security.trust.elements.SecondaryParameters;
+import com.sun.xml.ws.security.trust.elements.SignChallenge;
+import com.sun.xml.ws.security.trust.elements.UseKey;
+import com.sun.xml.ws.security.trust.elements.ValidateTarget;
 import jakarta.xml.bind.JAXBElement;
-
-import com.sun.xml.ws.security.trust.elements.*;
 
 import com.sun.xml.ws.security.trust.impl.bindings.AllowPostdatingType;
 import com.sun.xml.ws.security.trust.impl.bindings.BinaryExchangeType;

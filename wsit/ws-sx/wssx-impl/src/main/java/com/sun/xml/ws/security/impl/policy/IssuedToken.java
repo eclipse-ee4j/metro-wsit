@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -22,7 +22,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.logging.Level;
 import javax.xml.namespace.QName;
-import static com.sun.xml.ws.security.impl.policy.Constants.*;
+
 import com.sun.xml.ws.security.policy.SecurityAssertionValidator;
 /**
  *
@@ -144,28 +144,28 @@ public class IssuedToken extends PolicyAssertion implements  com.sun.xml.ws.secu
                         claims = (Claims)assertion;
                     } else{
                         if(!assertion.isOptional()){
-                            log_invalid_assertion(assertion, isServer,IssuedToken);
+                            Constants.log_invalid_assertion(assertion, isServer, Constants.IssuedToken);
                             fitness = AssertionFitness.HAS_UNKNOWN_ASSERTION;
                         }
                     }
                 }
             }
             if(issuer != null && issuerName != null){
-                log_invalid_assertion(issuerName, isServer,SecureConversationToken);
+                Constants.log_invalid_assertion(issuerName, isServer, Constants.SecureConversationToken);
                 fitness = AssertionFitness.HAS_INVALID_VALUE;
             }
             NestedPolicy policy = this.getNestedPolicy();
             if(policy == null){
-                if(logger.getLevel() == Level.FINE){
-                    logger.log(Level.FINE,"NestedPolicy is null");
+                if(Constants.logger.getLevel() == Level.FINE){
+                    Constants.logger.log(Level.FINE,"NestedPolicy is null");
                 }
                 populated = true;
                 return fitness;
             }
             AssertionSet as = policy.getAssertionSet();
             if(as == null){
-                if(logger.getLevel() == Level.FINE){
-                    logger.log(Level.FINE," Nested Policy is empty");
+                if(Constants.logger.getLevel() == Level.FINE){
+                    Constants.logger.log(Level.FINE," Nested Policy is empty");
                 }
                 populated = true;
                 return fitness;
@@ -185,7 +185,7 @@ public class IssuedToken extends PolicyAssertion implements  com.sun.xml.ws.secu
                     referenceType.add(assertion.getName().getLocalPart().intern());
                 } else{
                     if(!assertion.isOptional()){
-                        log_invalid_assertion(assertion, isServer,IssuedToken);
+                        Constants.log_invalid_assertion(assertion, isServer, Constants.IssuedToken);
                         fitness = AssertionFitness.HAS_UNKNOWN_ASSERTION;
                     }
                 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
@@ -89,7 +89,6 @@ import com.sun.xml.wss.impl.NewSecurityRecipient;
 import com.sun.xml.wss.impl.PolicyResolver;
 import com.sun.xml.wss.impl.misc.DefaultCallbackHandler;
 
-import static com.sun.xml.wss.jaxws.impl.Constants.SC_ASSERTION;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 
@@ -372,7 +371,7 @@ public class SecurityServerTube extends SecurityTubeBase {
                 if (isSCIssueMessage) {
                     List<PolicyAssertion> policies = getInBoundSCP(packet.getMessage());
                     if (!policies.isEmpty()) {
-                        packet.invocationProperties.put(SC_ASSERTION, policies.get(0));
+                        packet.invocationProperties.put(com.sun.xml.wss.jaxws.impl.Constants.SC_ASSERTION, policies.get(0));
                     }
                 }
             }
@@ -594,7 +593,7 @@ public class SecurityServerTube extends SecurityTubeBase {
     protected MessagePolicy getOutgoingXWSSecurityPolicy(
             Packet packet, boolean isSCMessage) {
         if (isSCMessage) {
-            Token scToken = (Token) packet.invocationProperties.get(SC_ASSERTION);
+            Token scToken = (Token) packet.invocationProperties.get(com.sun.xml.wss.jaxws.impl.Constants.SC_ASSERTION);
             return getOutgoingXWSBootstrapPolicy(scToken);
         }
 
@@ -742,7 +741,7 @@ public class SecurityServerTube extends SecurityTubeBase {
             List<PolicyAssertion> policies = getOutBoundSCP(packet.getMessage());
 
             if (!policies.isEmpty()) {
-                retPacket.invocationProperties.put(SC_ASSERTION, policies.get(0));
+                retPacket.invocationProperties.put(com.sun.xml.wss.jaxws.impl.Constants.SC_ASSERTION, policies.get(0));
             }
         }
 

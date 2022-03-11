@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -75,8 +75,6 @@ import java.util.Map;
 import jakarta.xml.ws.WebServiceException;
 
 import com.sun.xml.wss.logging.impl.opt.LogStringsMessages;
-
-import static com.sun.xml.wss.BasicSecurityProfile.*;
 
 import com.sun.xml.ws.security.opt.impl.util.VerifiedMessageXMLStreamReader;
 import com.sun.xml.wss.impl.WssSoapFaultException;
@@ -334,7 +332,7 @@ public final class SecurityRecipient {
                 switch (eventType) {
                     case TIMESTAMP_ELEMENT: {
                         if (context.isBSP() && bspContext.isTimeStampFound()) {
-                            log_bsp_3203();
+                            BasicSecurityProfile.log_bsp_3203();
                         }
                         bspContext.setTimeStampFound(true);
                         TimestampHeader timestamp = new TimestampHeader(message, creator, currentParentNS, context);

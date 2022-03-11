@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -33,12 +33,10 @@ import com.sun.xml.ws.security.opt.crypto.dsig.keyinfo.SPKIData;
 import com.sun.xml.ws.security.opt.crypto.dsig.keyinfo.X509Data;
 import com.sun.xml.ws.security.opt.crypto.dsig.keyinfo.X509IssuerSerial;
 import java.math.BigInteger;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 import jakarta.xml.bind.JAXBContext;
-import jakarta.xml.bind.JAXBException;
+
 import javax.xml.crypto.Data;
 import javax.xml.crypto.MarshalException;
 import javax.xml.crypto.URIDereferencer;
