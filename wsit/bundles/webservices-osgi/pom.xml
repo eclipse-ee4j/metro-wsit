@@ -496,6 +496,5 @@
             JAXWS-API/${jaxws-api.version} JAXB-RI/${jaxb.version} JAXB-API/${xml.bind-api.version}
         </build.version>
         <jacoco.skip>true</jacoco.skip>
-        <mf.dir>${project.build.outputDirectory}</mf.dir>
     </properties>
 </project>
