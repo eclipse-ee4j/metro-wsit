@@ -19,7 +19,7 @@ import com.sun.xml.ws.rx.RxRuntimeException;
 
 /**
  *
- * @author Marek Potociar <marek.potociar at sun.com>
+ * @author Marek Potociar
  */
 public class ClientTest extends TestCase {
     private static final Logger LOGGER = Logger.getLogger(ClientTest.class.getName());

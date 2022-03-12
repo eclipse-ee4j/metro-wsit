@@ -11,6 +11,8 @@
 package com.sun.xml.ws.security.opt.impl.util;
 
 import com.sun.xml.wss.impl.MessageConstants;
+
+import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 import javax.xml.stream.XMLStreamWriter;
@@ -279,7 +281,7 @@ public class StreamUtil {
 
     public static String getCV(XMLStreamReaderEx reader) throws  XMLStreamException{
         StringBuilder sb = new StringBuilder();
-        while(reader.getEventType() == reader.CHARACTERS && reader.getEventType() != reader.END_ELEMENT){
+        while(reader.getEventType() == XMLStreamConstants.CHARACTERS && reader.getEventType() != XMLStreamConstants.END_ELEMENT){
             CharSequence charSeq = reader.getPCDATA();
             for(int i=0;i<charSeq.length();i++){
                 sb.append(charSeq.charAt(i));

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -75,7 +75,7 @@ public final class AtTubeFactory implements TubeFactory {
     /**
      * Checks to see whether WS-Atomic Transactions are enabled or not.
      *
-     * @param policyMap policy map for {@link this} assembler
+     * @param policyMap policy map for {@link AtTubeFactory} assembler
      * @param wsdlPort the WSDLPort object
      * @param isServerSide true if this method is being called from {@link PipelineAssembler#createServer(ServerPipeAssemblerContext)}
      * @return true if Transactions is enabled, false otherwise

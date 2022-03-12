@@ -151,6 +151,7 @@ public interface Assertion extends Token {
      * @param value A <code>java.math.BigInteger</code> representing saml major version.
      *
      */
+    @Deprecated
     void setMajorVersion(java.math.BigInteger value);
 
     /**
@@ -159,6 +160,7 @@ public interface Assertion extends Token {
      * @param value A <code>java.math.BigInteger</code> representing saml minor version.
      *
      */
+    @Deprecated
     void setMinorVersion(java.math.BigInteger value);
 
     /**
@@ -167,6 +169,7 @@ public interface Assertion extends Token {
      * @param version A <code>java.lang.String</code> representing saml version
      *
      */
+    @Deprecated
     void setVersion(String version);
 
     /**

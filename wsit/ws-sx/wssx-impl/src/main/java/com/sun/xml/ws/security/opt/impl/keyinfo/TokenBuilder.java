@@ -27,6 +27,7 @@ import com.sun.xml.ws.security.opt.crypto.dsig.keyinfo.KeyValue;
 import com.sun.xml.ws.security.opt.crypto.dsig.keyinfo.RSAKeyValue;
 import com.sun.xml.wss.impl.MessageConstants;
 import com.sun.xml.wss.impl.policy.mls.AuthenticationTokenPolicy;
+import com.sun.xml.wss.impl.policy.mls.KeyBindingBase;
 import com.sun.xml.wss.impl.policy.mls.SignaturePolicy;
 import com.sun.xml.wss.impl.policy.mls.WSSPolicy;
 import com.sun.xml.ws.security.opt.impl.JAXBFilterProcessingContext;
@@ -74,8 +75,8 @@ public abstract class TokenBuilder implements com.sun.xml.ws.security.opt.api.ke
      */
     @SuppressWarnings("static-access")
     protected BinarySecurityToken createBinarySecurityToken(AuthenticationTokenPolicy.X509CertificateBinding binding, X509Certificate x509Cert) throws XWSSecurityException {
-        if (binding.INCLUDE_NEVER.equals(binding.getIncludeToken()) ||
-                binding.INCLUDE_NEVER_VER2.equals(binding.getIncludeToken())) {
+        if (KeyBindingBase.INCLUDE_NEVER.equals(binding.getIncludeToken()) ||
+                KeyBindingBase.INCLUDE_NEVER_VER2.equals(binding.getIncludeToken())) {
             return null;
         }
         String id = getID(binding);
@@ -141,8 +142,8 @@ public abstract class TokenBuilder implements com.sun.xml.ws.security.opt.api.ke
     @SuppressWarnings("static-access")
     protected BinarySecurityToken createKerberosBST(AuthenticationTokenPolicy.KerberosTokenBinding binding,
             byte[] kerbToken) throws XWSSecurityException {
-        if (binding.INCLUDE_NEVER.equals(binding.getIncludeToken()) ||
-                binding.INCLUDE_NEVER_VER2.equals(binding.getIncludeToken())) {
+        if (KeyBindingBase.INCLUDE_NEVER.equals(binding.getIncludeToken()) ||
+                KeyBindingBase.INCLUDE_NEVER_VER2.equals(binding.getIncludeToken())) {
             return null;
         }
         String id = getID(binding);

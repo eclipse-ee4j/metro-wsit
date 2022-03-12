@@ -27,6 +27,9 @@
 
     <properties>
         <spotbugs.skip>true</spotbugs.skip>
+        <comp.xlint>-Xlint:none</comp.xlint>
+        <comp.xdoclint>-Xdoclint:none</comp.xdoclint>
+        <jdoc.doclint>none</jdoc.doclint>
     </properties>
 
     <modules>

@@ -33,6 +33,7 @@ import java.security.Key;
 import java.util.HashMap;
 import javax.crypto.Cipher;
 import javax.xml.crypto.KeySelector.Purpose;
+import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 import javax.xml.stream.XMLStreamWriter;
@@ -98,7 +99,7 @@ public class EncryptedData implements SecurityHeaderElement, SecurityElementWrit
 
         if(StreamUtil.moveToNextElement(reader)){
             int refElement = getEventType(reader);
-            while(reader.getEventType() != reader.END_DOCUMENT){
+            while(reader.getEventType() != XMLStreamConstants.END_DOCUMENT){
                 switch(refElement){
                     case ENCRYPTIONMETHOD_ELEMENT :{
                         encryptionMethod = reader.getAttributeValue(null,"Algorithm");

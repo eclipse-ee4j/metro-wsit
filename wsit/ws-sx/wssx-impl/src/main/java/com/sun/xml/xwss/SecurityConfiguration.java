@@ -54,7 +54,7 @@ public class SecurityConfiguration implements XWSSecurityConfiguration {
                     createApplicationSecurityConfiguration(config);
             callbackhandler = (CallbackHandler) Class.forName(
                     configuration.getSecurityEnvironmentHandler(), true,
-                    Thread.currentThread().getContextClassLoader()).newInstance();
+                    Thread.currentThread().getContextClassLoader()).getConstructor().newInstance();
             securityEnvironment =
                     new DefaultSecurityEnvironmentImpl(callbackhandler);
 
@@ -82,7 +82,7 @@ public class SecurityConfiguration implements XWSSecurityConfiguration {
                 createApplicationSecurityConfiguration(config);
             callbackhandler = (CallbackHandler)Class.forName(
                 configuration.getSecurityEnvironmentHandler(),true,
-                Thread.currentThread().getContextClassLoader()).newInstance();
+                Thread.currentThread().getContextClassLoader()).getConstructor().newInstance();
             securityEnvironment =
                 new DefaultSecurityEnvironmentImpl(callbackhandler);
         } catch (Exception e) {

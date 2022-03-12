@@ -18,7 +18,7 @@ import java.util.Iterator;
  * This interface identifies targets in the message that need to be integrity protected. The targets if present should be integrity protected.
  * <p>
  *  <B>Syntax:</B>
- * <p>
+ *
  *  <pre>{@code
  *   <xmp>
  *       <sp:SignedParts ... >

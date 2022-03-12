@@ -13,7 +13,7 @@ import java.util.Iterator;
 
 /**
  * Used to specify the header elements that the message MUST contain.
- * <p>
+ *
  * <pre>{@code
  *  <xmp>
  *      <sp:RequiredElements XPathVersion="xs:anyURI"? ... >

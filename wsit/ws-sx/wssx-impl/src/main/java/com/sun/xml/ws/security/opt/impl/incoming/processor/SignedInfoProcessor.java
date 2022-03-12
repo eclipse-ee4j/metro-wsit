@@ -54,6 +54,8 @@ import javax.xml.crypto.URIReferenceException;
 import javax.xml.crypto.XMLStructure;
 import javax.xml.crypto.dsig.XMLSignatureException;
 import com.sun.xml.ws.security.opt.impl.dsig.ExcC14NParameterSpec;
+
+import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 import javax.xml.stream.XMLStreamWriter;
@@ -143,7 +145,7 @@ public class SignedInfoProcessor {
             boolean referencesFound = false;
             if(StreamUtil.moveToNextElement(reader)){
                 int refElement = getEventType(reader);
-                while(reader.getEventType() != reader.END_DOCUMENT){
+                while(reader.getEventType() != XMLStreamConstants.END_DOCUMENT){
                     switch(refElement){
                     case CANONICALIZATION_METHOD_EVENT :{
                         readCanonicalizationMethod(reader);
@@ -193,7 +195,7 @@ public class SignedInfoProcessor {
             si.setReference(getReferenceList());
             XMLStreamReader siReader = siBuffer.readAsXMLStreamReader();
             while(siReader.hasNext() ){
-                if(siReader.getEventType() == siReader.START_ELEMENT){
+                if(siReader.getEventType() == XMLStreamConstants.START_ELEMENT){
                     if(siReader.getLocalName() == "SignedInfo".intern()){
                         break;
                     }
@@ -207,9 +209,9 @@ public class SignedInfoProcessor {
                     break;
                 }
                 siReader.next();
-                if(siReader.getEventType() == siReader.END_ELEMENT){
+                if(siReader.getEventType() == XMLStreamConstants.END_ELEMENT){
                     counter --;
-                }else if(siReader.getEventType() == siReader.START_ELEMENT){
+                }else if(siReader.getEventType() == XMLStreamConstants.START_ELEMENT){
                     counter++;
                 }
             }

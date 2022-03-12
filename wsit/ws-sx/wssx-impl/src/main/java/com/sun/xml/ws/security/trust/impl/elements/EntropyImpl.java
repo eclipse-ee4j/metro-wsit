@@ -120,9 +120,9 @@ public class EntropyImpl extends EntropyType implements Entropy {
      */
     @Override
     public final void setEntropyType(@NotNull final String type)  {
-        if (!(type.equalsIgnoreCase(this.BINARY_SECRET_TYPE)  ||
-                type.equalsIgnoreCase(this.CUSTOM_TYPE)
-                || type.equalsIgnoreCase(this.ENCRYPTED_KEY_TYPE))) {
+        if (!(type.equalsIgnoreCase(Entropy.BINARY_SECRET_TYPE)  ||
+                type.equalsIgnoreCase(Entropy.CUSTOM_TYPE)
+                || type.equalsIgnoreCase(Entropy.ENCRYPTED_KEY_TYPE))) {
             log.log(Level.SEVERE,
                     LogStringsMessages.WST_0022_INVALID_ENTROPY(type));
             throw new RuntimeException(LogStringsMessages.WST_0022_INVALID_ENTROPY(type));

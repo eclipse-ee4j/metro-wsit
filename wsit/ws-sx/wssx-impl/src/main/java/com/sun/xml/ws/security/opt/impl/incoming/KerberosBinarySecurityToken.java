@@ -33,6 +33,7 @@ import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 import javax.xml.stream.XMLStreamWriter;
@@ -186,7 +187,7 @@ public class KerberosBinarySecurityToken implements com.sun.xml.ws.security.opt.
              throw new XWSSecurityRuntimeException(LogStringsMessages.WSS_1603_ERROR_READING_STREAM(null));
         }
 
-        if(reader.getEventType() != reader.END_ELEMENT){
+        if(reader.getEventType() != XMLStreamConstants.END_ELEMENT){
             reader.next();
         }        //else it is end of BST.
     }

@@ -115,7 +115,7 @@ public class NewSecurityRecipient {
 
         if(PolicyUtils.isEmpty(pol)){
             PolicyResolver opResolver =
-                    (PolicyResolver)fpContext.getExtraneousProperty(fpContext.OPERATION_RESOLVER);
+                    (PolicyResolver)fpContext.getExtraneousProperty(ProcessingContext.OPERATION_RESOLVER);
             if(opResolver != null){
                 pol = opResolver.resolvePolicy(fpContext);
             }

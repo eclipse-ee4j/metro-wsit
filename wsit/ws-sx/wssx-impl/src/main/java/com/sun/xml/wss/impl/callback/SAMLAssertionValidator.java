@@ -21,6 +21,7 @@ import javax.xml.stream.XMLStreamReader;
  * base interface.
  *
  */
+@Deprecated
 public interface SAMLAssertionValidator {
 
         /**

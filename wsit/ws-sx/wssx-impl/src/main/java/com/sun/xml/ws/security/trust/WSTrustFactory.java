@@ -88,7 +88,7 @@ public class WSTrustFactory {
             if (clazz != null) {
                 @SuppressWarnings("unchecked")
                 Class<WSTrustContract<BaseSTSRequest, BaseSTSResponse>> typedClass = (Class<WSTrustContract<BaseSTSRequest, BaseSTSResponse>>) clazz;
-                contract = typedClass.newInstance();
+                contract = typedClass.getConstructor().newInstance();
                 contract.init(config);
             }
         } catch (ClassNotFoundException ex) {

@@ -151,7 +151,7 @@ public class SecurityRecipient {
      *       After every such reduction, an attempt is made to resolve the policy identifier
      *       (operation name) that can be used for policy resolution, which should be contained
      *       in C and is used further for message processing.
-     * <P>
+     *
      * @param context an instance of com.sun.xml.wss.ProcessingContext
      * @exception com.sun.xml.wss.XWSSecurityException if there was an unexpected error
      *     while verifying the message. OR if the security in the incoming

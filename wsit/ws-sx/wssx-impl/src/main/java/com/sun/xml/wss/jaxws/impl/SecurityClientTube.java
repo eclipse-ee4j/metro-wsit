@@ -782,7 +782,7 @@ public class SecurityClientTube extends SecurityTubeBase implements SecureConver
         try {
             if (ret != null) {
                 Class handler = loadClass(ret);
-                Object obj = handler.newInstance();
+                Object obj = handler.getConstructor().newInstance();
                 if (!(obj instanceof CallbackHandler)) {
                     log.log(Level.SEVERE,
                             LogStringsMessages.WSSTUBE_0033_INVALID_CALLBACK_HANDLER_CLASS(ret));

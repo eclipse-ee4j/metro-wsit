@@ -12,48 +12,45 @@ package com.sun.xml.wss.impl.filter;
 
 import com.sun.xml.ws.security.IssuedTokenContext;
 import com.sun.xml.ws.security.opt.api.keyinfo.TokenBuilder;
-import com.sun.xml.ws.security.opt.impl.keyinfo.X509TokenBuilder;
 import com.sun.xml.ws.security.opt.impl.JAXBFilterProcessingContext;
 import com.sun.xml.ws.security.opt.impl.crypto.SSEData;
+import com.sun.xml.ws.security.opt.impl.keyinfo.X509TokenBuilder;
 import com.sun.xml.ws.security.opt.impl.message.GSHeaderElement;
 import com.sun.xml.ws.security.opt.impl.util.NamespaceContextEx;
 import com.sun.xml.ws.security.opt.impl.util.WSSElementFactory;
 import com.sun.xml.ws.security.trust.GenericToken;
 import com.sun.xml.wss.NonceManager;
-import java.security.cert.X509Certificate;
 import com.sun.xml.wss.ProcessingContext;
 import com.sun.xml.wss.XWSSecurityException;
+import com.sun.xml.wss.core.SecurityHeader;
+import com.sun.xml.wss.core.SecurityTokenReference;
+import com.sun.xml.wss.core.Timestamp;
+import com.sun.xml.wss.core.UsernameToken;
 import com.sun.xml.wss.impl.FilterProcessingContext;
+import com.sun.xml.wss.impl.HarnessUtil;
 import com.sun.xml.wss.impl.MessageConstants;
 import com.sun.xml.wss.impl.SecurableSoapMessage;
 import com.sun.xml.wss.impl.XMLUtil;
-import com.sun.xml.wss.logging.LogDomainConstants;
-
-import com.sun.xml.wss.core.SecurityHeader;
-import com.sun.xml.wss.core.SecurityTokenReference;
-import com.sun.xml.wss.core.UsernameToken;
-import com.sun.xml.wss.core.Timestamp;
-import com.sun.xml.wss.impl.policy.mls.AuthenticationTokenPolicy;
-import com.sun.xml.wss.impl.policy.mls.TimestampPolicy;
-
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import jakarta.xml.soap.SOAPElement;
-import jakarta.xml.soap.SOAPPart;
-
 import com.sun.xml.wss.impl.callback.DynamicPolicyCallback;
 import com.sun.xml.wss.impl.configuration.DynamicApplicationContext;
-import com.sun.xml.wss.impl.misc.DefaultSecurityEnvironmentImpl;
-import com.sun.xml.wss.impl.HarnessUtil;
 import com.sun.xml.wss.impl.keyinfo.KeyIdentifierStrategy;
+import com.sun.xml.wss.impl.misc.DefaultSecurityEnvironmentImpl;
+import com.sun.xml.wss.impl.misc.SecurityUtil;
+import com.sun.xml.wss.impl.policy.mls.AuthenticationTokenPolicy;
+import com.sun.xml.wss.impl.policy.mls.IssuedTokenKeyBinding;
+import com.sun.xml.wss.impl.policy.mls.KeyBindingBase;
+import com.sun.xml.wss.impl.policy.mls.TimestampPolicy;
+import com.sun.xml.wss.logging.LogDomainConstants;
+import com.sun.xml.wss.logging.impl.filter.LogStringsMessages;
+import jakarta.xml.soap.SOAPElement;
+import jakarta.xml.soap.SOAPPart;
+import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-import com.sun.xml.wss.impl.misc.SecurityUtil;
-import com.sun.xml.wss.impl.policy.mls.IssuedTokenKeyBinding;
-import com.sun.xml.wss.logging.impl.filter.LogStringsMessages;
 import javax.xml.crypto.Data;
-import org.w3c.dom.Element;
+import java.security.cert.X509Certificate;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * processes diferent types of tokens like Username,X509,IssuedToken... etc
@@ -502,11 +499,11 @@ public class AuthenticationTokenFilter {
         AuthenticationTokenPolicy authPolicy = (AuthenticationTokenPolicy)context.getSecurityPolicy();
         IssuedTokenKeyBinding itkb = (IssuedTokenKeyBinding)authPolicy.getFeatureBinding();
         String itType = itkb.getIncludeToken();
-        boolean includeToken  = (itkb.INCLUDE_ALWAYS_TO_RECIPIENT.equals(itType) ||
-                          itkb.INCLUDE_ALWAYS.equals(itType) ||
-                          itkb.INCLUDE_ALWAYS_VER2.equals(itType) ||
-                          itkb.INCLUDE_ALWAYS_TO_RECIPIENT_VER2.equals(itType)
-                          );
+        boolean includeToken = (KeyBindingBase.INCLUDE_ALWAYS_TO_RECIPIENT.equals(itType) ||
+                KeyBindingBase.INCLUDE_ALWAYS.equals(itType) ||
+                KeyBindingBase.INCLUDE_ALWAYS_VER2.equals(itType) ||
+                KeyBindingBase.INCLUDE_ALWAYS_TO_RECIPIENT_VER2.equals(itType)
+        );
         if(context instanceof JAXBFilterProcessingContext){
             JAXBFilterProcessingContext opContext = (JAXBFilterProcessingContext)context;
             com.sun.xml.ws.security.opt.impl.outgoing.SecurityHeader secHeader =

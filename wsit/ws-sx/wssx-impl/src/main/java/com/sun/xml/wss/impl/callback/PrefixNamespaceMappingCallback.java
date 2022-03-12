@@ -41,6 +41,7 @@ import java.util.Properties;
  *
  * @deprecated : since XWS 2.0 EA
  */
+@Deprecated
 public class PrefixNamespaceMappingCallback extends XWSSCallback implements Callback {
 
     private Properties prefixNamespaceMappings = null;

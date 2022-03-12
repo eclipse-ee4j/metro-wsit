@@ -76,9 +76,11 @@ public class WSATServerHelper implements WSATServer {
      * builder can not be null.
      * //ref params
      * //"Identifier in registerOperation is null" wscoor:InvalidState if omitted
+     * <pre>{@code
      * ReferenceParameters referenceParameters = registrationCoordinatorEndpointReference.getReferenceParameters();
      * List<Object> list = referenceParameters.getElements();
      * for (Object aList : list) header.addChildElement((SOAPElement) aList);
+     * }</pre>
      * //Request messages
      * //    MUST include a wsa:MessageID header.
      * //    MUST include a wsa:ReplyTo header.

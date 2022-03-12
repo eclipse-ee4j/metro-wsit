@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -31,6 +31,7 @@ import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 import javax.xml.stream.XMLStreamWriter;
@@ -89,7 +90,7 @@ public class DerivedKeyToken implements SecurityHeaderElement, NamespaceContextI
             SecurityTokenProcessor stp = new SecurityTokenProcessor(pc, null);
             try {
                 XMLStreamReader breader = buffer.readAsXMLStreamReader();
-                if (breader.getEventType() != breader.START_ELEMENT) {
+                if (breader.getEventType() != XMLStreamConstants.START_ELEMENT) {
                     StreamUtil.moveToNextStartOREndElement(breader);
                 }
                 pc.getSecurityContext().setInferredKB(null);
@@ -172,7 +173,7 @@ public class DerivedKeyToken implements SecurityHeaderElement, NamespaceContextI
 
         if (StreamUtil.moveToNextElement(reader)) {
             int refElement = getEventType(reader);
-            while (reader.getEventType() != reader.END_DOCUMENT) {
+            while (reader.getEventType() != XMLStreamConstants.END_DOCUMENT) {
                 switch (refElement) {
                     case SECURITY_TOKEN_REFERENCE_ELEMENT: {
                        // pc.getSecurityContext().setInferredKB(null);
@@ -202,8 +203,8 @@ public class DerivedKeyToken implements SecurityHeaderElement, NamespaceContextI
                         if (reader instanceof XMLStreamReaderEx) {
                             reader.next();
                             StringBuilder sb = null;
-                            if (reader.getEventType() == XMLStreamReader.CHARACTERS &&
-                                    reader.getEventType() != reader.END_ELEMENT) {
+                            if (reader.getEventType() == XMLStreamConstants.CHARACTERS &&
+                                    reader.getEventType() != XMLStreamConstants.END_ELEMENT) {
                                 CharSequence charSeq = ((XMLStreamReaderEx) reader).getPCDATA();
                                 if (charSeq instanceof Base64Data) {
                                     Base64Data bd = (Base64Data) ((XMLStreamReaderEx) reader).getPCDATA();

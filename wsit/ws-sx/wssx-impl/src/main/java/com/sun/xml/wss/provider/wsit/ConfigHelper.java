@@ -312,12 +312,12 @@ public abstract class ConfigHelper /*implements RegistrationListener*/ {
             }
 
             if (ret != null) {
-                return (CallbackHandler)ret.newInstance();
+                return (CallbackHandler)ret.getConstructor().newInstance();
             }
         } catch (ClassNotFoundException e) {
             // ignore
 
-        } catch(InstantiationException | IllegalAccessException e) {
+        } catch(ReflectiveOperationException e) {
 
         }
         if (DEFAULT_HANDLER_CLASS.equals(jmacHandler)) {

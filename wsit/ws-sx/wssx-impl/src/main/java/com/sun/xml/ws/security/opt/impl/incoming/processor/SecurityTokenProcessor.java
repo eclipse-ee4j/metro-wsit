@@ -22,6 +22,7 @@ import java.math.BigInteger;
 import java.security.Key;
 import java.util.logging.Logger;
 import javax.xml.crypto.KeySelector.Purpose;
+import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 import com.sun.xml.ws.security.opt.impl.util.StreamUtil;
@@ -166,7 +167,7 @@ public class SecurityTokenProcessor {
      * @return int
      */
     private int getReferenceType(XMLStreamReader reader){
-        if(reader.getEventType() == reader.START_ELEMENT){
+        if(reader.getEventType() == XMLStreamConstants.START_ELEMENT){
             if(reader.getLocalName() == DIRECT_REFERENCE_ELEMENT){
                 return DIRECT_REFERENCE;
             }else if(reader.getLocalName() == KEYIDENTIFIER_ELEMENT){
@@ -273,7 +274,7 @@ public class SecurityTokenProcessor {
      * @return int
      */
     private int getEventTypeForX509Data(XMLStreamReader reader) {
-        if(reader.getEventType() == reader.START_ELEMENT){
+        if(reader.getEventType() == XMLStreamConstants.START_ELEMENT){
             if(reader.getLocalName() == X509ISSUERSERIAL_ELEMENT){
                 return X509ISSUERSERIAL;
             }
@@ -348,7 +349,7 @@ public class SecurityTokenProcessor {
      * @return int
      */
     private int getEventTypeForX509IssuerSerial(XMLStreamReader reader) {
-        if(reader.getEventType() == reader.START_ELEMENT){
+        if(reader.getEventType() == XMLStreamConstants.START_ELEMENT){
             if(reader.getLocalName() == X509ISSUERNAME_ELEMENT){
                 return X509ISSUERNAME;
             } else if(reader.getLocalName() == X509SERIALNUMBER_ELEMENT){

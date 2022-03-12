@@ -139,12 +139,12 @@ public class WSSPolicyConsumerImpl {
 
             ClassLoader loader = this.getClass().getClassLoader();
             Class providerClass = Class.forName(providerName, true, loader);
-            provider = (Provider) providerClass.newInstance();
+            provider = (Provider) providerClass.getConstructor().newInstance();
         } catch (Exception ex1) {
             try {
                 ClassLoader tccl = Thread.currentThread().getContextClassLoader();
                 Class providerClass = Class.forName(providerName, true, tccl);
-                provider = (Provider) providerClass.newInstance();
+                provider = (Provider) providerClass.getConstructor().newInstance();
             }catch (Exception ex) {
                 logger.log(Level.WARNING, LogStringsMessages.WSS_1324_DSIG_FACTORY(), ex);
             }

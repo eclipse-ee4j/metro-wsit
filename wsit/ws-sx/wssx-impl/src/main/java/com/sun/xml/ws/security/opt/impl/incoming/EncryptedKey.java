@@ -36,6 +36,7 @@ import java.util.HashMap;
 import java.util.List;
 import javax.crypto.Cipher;
 import javax.xml.crypto.KeySelector.Purpose;
+import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 import javax.xml.stream.XMLStreamWriter;
@@ -171,7 +172,7 @@ public class EncryptedKey implements SecurityHeaderElement, NamespaceContextInfo
 
         if(StreamUtil.moveToNextElement(reader)){
             int refElement = getEventType(reader);
-            while(reader.getEventType() != reader.END_DOCUMENT){
+            while(reader.getEventType() != XMLStreamConstants.END_DOCUMENT){
                 switch(refElement){
                     case ENCRYPTIONMETHOD_ELEMENT : {
                         processEncryptionMethod(reader);
@@ -263,7 +264,7 @@ public class EncryptedKey implements SecurityHeaderElement, NamespaceContextInfo
             throw new XWSSecurityException(LogStringsMessages.WSS_1925_EMPTY_ENCMETHOD_ED());
         }
 
-        while(reader.getEventType() != reader.END_DOCUMENT){
+        while(reader.getEventType() != XMLStreamConstants.END_DOCUMENT){
             int eventType = getEventType(reader);
             switch(eventType){
                 case DIGEST_METHOD_ELEMENT :{

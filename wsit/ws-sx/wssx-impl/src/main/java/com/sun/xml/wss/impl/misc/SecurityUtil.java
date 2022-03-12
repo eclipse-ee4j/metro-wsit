@@ -700,7 +700,7 @@ public class SecurityUtil {
             } else {
                 spiClass = classLoader.loadClass(className);
             }
-            return spiClass.newInstance();
+            return spiClass.getConstructor().newInstance();
         } catch (ClassNotFoundException x) {
             throw new XWSSecurityRuntimeException(
                     "The "  +  spiName + " :"  + className + " specified in META-INF/services was not found", x);

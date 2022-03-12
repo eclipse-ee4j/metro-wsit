@@ -722,10 +722,10 @@
             -Djava.awt.headless=true -Xmx256m
         </argLine>
         <!-- exclude big groups from the Xlint -->
-        <comp.xlint>-Xlint:all,-rawtypes,-unchecked,-serial</comp.xlint>
+        <comp.xlint>-Xlint:all,-rawtypes,-unchecked</comp.xlint>
         <!-- -Xdoclint:-missing does not seem to work properly on the infra -->
-        <comp.xdoclint>-Xdoclint:none</comp.xdoclint>
-        <warn.limit>150</warn.limit>
+        <comp.xdoclint>-Xdoclint:all,-missing</comp.xdoclint>
+        <warn.limit>150000</warn.limit>
         <jdoc.doclint>all,-missing</jdoc.doclint>
     </properties>
 

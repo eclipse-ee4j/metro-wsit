@@ -19,7 +19,6 @@ import com.sun.xml.ws.policy.sourcemodel.AssertionData;
 import com.sun.xml.ws.policy.spi.AssertionCreationException;
 import com.sun.xml.ws.policy.spi.PolicyAssertionCreator;
 import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.logging.Level;
@@ -91,37 +90,16 @@ public class AddressingPolicyAssertionCreator implements PolicyAssertionCreator 
             if(cons != null){
                 try {
                     return (PolicyAssertion) cons.newInstance(assertionData, nestedAssertions, nestedAlternative);
-                } catch (IllegalArgumentException ex) {
-                    if(LOGGER.isLoggable(Level.SEVERE)){
-                        LOGGER.log(Level.SEVERE,LocalizationMessages.WSA_0003_ERROR_INSTANTIATING(assertionData.getName()));
-                    }
-
-                    throw new AssertionCreationException(assertionData,ex);
-                } catch (InvocationTargetException ex) {
-                    if(LOGGER.isLoggable(Level.SEVERE)){
-                        LOGGER.log(Level.SEVERE,LocalizationMessages.WSA_0003_ERROR_INSTANTIATING(assertionData.getName()));
-                    }
-                    throw new AssertionCreationException(assertionData,ex);
-                } catch (InstantiationException ex) {
-                    if(LOGGER.isLoggable(Level.SEVERE)){
-                        LOGGER.log(Level.SEVERE,LocalizationMessages.WSA_0003_ERROR_INSTANTIATING(assertionData.getName()));
-                    }
-                    throw new AssertionCreationException(assertionData,ex);
-                } catch (IllegalAccessException ex) {
-                    if(LOGGER.isLoggable(Level.SEVERE)){
+                } catch (ReflectiveOperationException ex) {
+                    if(LOGGER.isLoggable(Level.SEVERE)) {
                         LOGGER.log(Level.SEVERE,LocalizationMessages.WSA_0003_ERROR_INSTANTIATING(assertionData.getName()));
                     }
                     throw new AssertionCreationException(assertionData,ex);
                 }
             }else{
                 try{
-                    return (PolicyAssertion)cl.newInstance();
-                } catch (InstantiationException ex) {
-                    if(LOGGER.isLoggable(Level.SEVERE)){
-                        LOGGER.log(Level.SEVERE,LocalizationMessages.WSA_0003_ERROR_INSTANTIATING(assertionData.getName()));
-                    }
-                    throw new AssertionCreationException(assertionData,ex);
-                } catch (IllegalAccessException ex) {
+                    return (PolicyAssertion)cl.getConstructor().newInstance();
+                } catch (ReflectiveOperationException ex) {
                     if(LOGGER.isLoggable(Level.SEVERE)){
                         LOGGER.log(Level.SEVERE,LocalizationMessages.WSA_0003_ERROR_INSTANTIATING(assertionData.getName()));
                     }

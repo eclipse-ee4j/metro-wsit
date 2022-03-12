@@ -23,7 +23,10 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.Iterator;
 
-import junit.framework.*;
+import com.sun.xml.ws.security.policy.Token;
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
 
 /**
  *
@@ -77,7 +80,7 @@ public class IssuedTokenTest extends TestCase {
             for(PolicyAssertion assertion : as) {
                 assertEquals("Invalid assertion","IssuedToken",assertion.getName().getLocalPart());
                 IssuedToken it = (IssuedToken)assertion;
-                assertEquals("Invalid Dervied Keys", "RequireDerivedKeys", it.REQUIRE_DERIVED_KEYS);
+                assertEquals("Invalid Dervied Keys", "RequireDerivedKeys", Token.REQUIRE_DERIVED_KEYS);
             }
         } else {
             throw new Exception("No Assertions found!. Unmarshalling of "+fileName+" failed!");

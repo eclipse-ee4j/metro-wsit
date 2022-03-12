@@ -28,7 +28,7 @@ import com.sun.xml.wss.impl.misc.SecurityHeaderBlockImpl;
 /**
  * Corresponds to Schema definition for EncryptedData.
  * Schema definition for EncryptedData is as follows:
- * <p>
+ *
  * <pre>{@code
  * <xmp>
  * <element name='EncryptedData' type='xenc:EncryptedDataType'/>

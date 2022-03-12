@@ -100,7 +100,7 @@ public class CanonicalizerFactory {
                                              String implementingClass) throws XWSSecurityException {
          try {
              Class _class = Class.forName(implementingClass);
-             Canonicalizer canonicalizer = (Canonicalizer)_class.newInstance();
+             Canonicalizer canonicalizer = (Canonicalizer)_class.getConstructor().newInstance();
              _canonicalizers.put(baseMimeType, canonicalizer);
          } catch (Exception e) {
              // log
