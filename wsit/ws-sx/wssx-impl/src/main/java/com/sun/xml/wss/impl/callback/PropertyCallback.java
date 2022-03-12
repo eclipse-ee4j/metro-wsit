@@ -27,6 +27,7 @@ import javax.security.auth.callback.Callback;
  * @deprecated This callback is no longer supported by the XWS-Security runtime, use the XWS-Security configuration
  * file to set the above property values instead.
  */
+@Deprecated
 public class PropertyCallback extends XWSSCallback implements Callback {
 
     public static final long MAX_NONCE_AGE = 900000 ;

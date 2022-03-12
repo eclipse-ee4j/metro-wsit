@@ -84,7 +84,7 @@ public interface OutboundConnectionCache<C extends Connection>
      * that return connections in LRU order, with the least recently used
      * connection first.  This is done to aid a finder that wishes to consider
      * load balancing in its determination of an appropriate connection.
-     * <P>
+     *
      */
     C get( ContactInfo<C> cinfo, ConnectionFinder<C> finder
     ) throws IOException ;

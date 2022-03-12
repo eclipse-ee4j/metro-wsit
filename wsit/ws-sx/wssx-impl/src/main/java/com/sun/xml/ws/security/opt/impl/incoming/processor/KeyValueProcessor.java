@@ -226,7 +226,7 @@ public class KeyValueProcessor {
     }
 
     private int getKeyValueEventType(XMLStreamReader reader) {
-        if(reader.getEventType() == reader.START_ELEMENT){
+        if(reader.getEventType() == XMLStreamConstants.START_ELEMENT){
             if(reader.getLocalName() == RSA_KEY_VALUE){
                 return RSA_KEY_VALUE_ELEMENT;
             }
@@ -239,7 +239,7 @@ public class KeyValueProcessor {
     }
 
     private int getRSAKVEventType(XMLStreamReader reader) {
-        if(reader.getEventType() == reader.START_ELEMENT){
+        if(reader.getEventType() == XMLStreamConstants.START_ELEMENT){
             if(reader.getLocalName() == MODULUS){
                 return MODULUS_ELEMENT;
             }

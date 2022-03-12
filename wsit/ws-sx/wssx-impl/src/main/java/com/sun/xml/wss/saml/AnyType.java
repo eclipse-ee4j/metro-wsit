@@ -22,7 +22,7 @@ import java.util.List;
 /**
  * Java content class for anyType complex type.
  * <p>The following schema fragment specifies the expected content contained within this java content object. (defined at  line unknown)
- * <p>
+ *
  * <pre>
  * &lt;complexType name="anyType"&gt;
  *   &lt;complexContent&gt;

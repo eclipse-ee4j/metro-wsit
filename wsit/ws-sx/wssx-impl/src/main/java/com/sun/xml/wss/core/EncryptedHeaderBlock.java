@@ -35,7 +35,7 @@ import org.w3c.dom.UserDataHandler;
 /**
  * Corresponds to Schema definition for EncryptedData.
  * Schema definition for EncryptedData is as follows:
- * <p>
+ *
  * <pre>{@code
  * <xmp>
  * <element name='EncryptedHeader' type='wsse11:EncryptedHeaderType'/>

@@ -30,6 +30,7 @@ import com.sun.xml.wss.impl.policy.mls.DerivedTokenKeyBinding;
 import com.sun.xml.wss.impl.policy.mls.EncryptionPolicy;
 import com.sun.xml.wss.impl.policy.mls.EncryptionTarget;
 import com.sun.xml.wss.impl.policy.mls.IssuedTokenKeyBinding;
+import com.sun.xml.wss.impl.policy.mls.KeyBindingBase;
 import com.sun.xml.wss.impl.policy.mls.MessagePolicy;
 import com.sun.xml.wss.impl.policy.mls.SecureConversationTokenKeyBinding;
 import com.sun.xml.wss.impl.policy.mls.SignaturePolicy;
@@ -41,6 +42,7 @@ import com.sun.xml.wss.impl.policy.mls.WSSPolicy;
 import com.sun.xml.wss.impl.policy.spi.PolicyVerifier;
 import com.sun.xml.wss.logging.LogDomainConstants;
 import com.sun.xml.wss.logging.LogStringsMessages;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -641,8 +643,8 @@ public class MessagePolicyVerifier implements PolicyVerifier{
     private void correctIncludeTokenPolicy(AuthenticationTokenPolicy.X509CertificateBinding x509Bind,
             WSSAssertion wssAssertion){
         String iTokenType = x509Bind.getIncludeToken();
-        if(x509Bind.INCLUDE_NEVER.equals(iTokenType) ||
-                x509Bind.INCLUDE_NEVER_VER2.equals(iTokenType)){
+        if(KeyBindingBase.INCLUDE_NEVER.equals(iTokenType) ||
+                KeyBindingBase.INCLUDE_NEVER_VER2.equals(iTokenType)){
             if(MessageConstants.DIRECT_REFERENCE_TYPE.equals(x509Bind.getReferenceType())){
                 if(wssAssertion != null){
                     if(wssAssertion.getRequiredProperties().contains(WSSAssertion.MUST_SUPPORT_REF_KEYIDENTIFIER))
@@ -654,10 +656,10 @@ public class MessagePolicyVerifier implements PolicyVerifier{
                     x509Bind.setReferenceType(MessageConstants.KEY_INDETIFIER_TYPE);
                 }
             }
-        } else if(x509Bind.INCLUDE_ALWAYS_TO_RECIPIENT.equals(iTokenType) ||
-                  x509Bind.INCLUDE_ALWAYS.equals(iTokenType) ||
-                  x509Bind.INCLUDE_ALWAYS_VER2.equals(iTokenType) ||
-                  x509Bind.INCLUDE_ALWAYS_TO_RECIPIENT_VER2.equals(iTokenType)){
+        } else if (KeyBindingBase.INCLUDE_ALWAYS_TO_RECIPIENT.equals(iTokenType) ||
+                KeyBindingBase.INCLUDE_ALWAYS.equals(iTokenType) ||
+                KeyBindingBase.INCLUDE_ALWAYS_VER2.equals(iTokenType) ||
+                KeyBindingBase.INCLUDE_ALWAYS_TO_RECIPIENT_VER2.equals(iTokenType)) {
             x509Bind.setReferenceType(MessageConstants.DIRECT_REFERENCE_TYPE);
         }
     }

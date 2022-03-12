@@ -17,7 +17,6 @@ import com.sun.xml.ws.policy.spi.AssertionCreationException;
 import com.sun.xml.ws.policy.spi.PolicyAssertionCreator;
 import com.sun.xml.ws.security.policy.SecurityPolicyVersion;
 import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.logging.Level;
@@ -173,23 +172,7 @@ public class SecurityPolicyAssertionCreator implements PolicyAssertionCreator{
             if(cons != null){
                 try {
                     return (PolicyAssertion)cons.newInstance(assertionData,nestedAssertions,nestedAlternative);
-                } catch (IllegalArgumentException ex) {
-                    if(Constants.logger.isLoggable(Level.SEVERE)){
-                        Constants.logger.log(Level.SEVERE,LogStringsMessages.SP_0112_ERROR_INSTANTIATING(assertionData.getName()));
-                    }
-
-                    throw new AssertionCreationException(assertionData,ex);
-                } catch (InvocationTargetException ex) {
-                    if(Constants.logger.isLoggable(Level.SEVERE)){
-                        Constants.logger.log(Level.SEVERE,LogStringsMessages.SP_0112_ERROR_INSTANTIATING(assertionData.getName()));
-                    }
-                    throw new AssertionCreationException(assertionData,ex);
-                } catch (InstantiationException ex) {
-                    if(Constants.logger.isLoggable(Level.SEVERE)){
-                        Constants.logger.log(Level.SEVERE,LogStringsMessages.SP_0112_ERROR_INSTANTIATING(assertionData.getName()));
-                    }
-                    throw new AssertionCreationException(assertionData,ex);
-                } catch (IllegalAccessException ex) {
+                } catch (ReflectiveOperationException ex) {
                     if(Constants.logger.isLoggable(Level.SEVERE)){
                         Constants.logger.log(Level.SEVERE,LogStringsMessages.SP_0112_ERROR_INSTANTIATING(assertionData.getName()));
                     }
@@ -197,13 +180,8 @@ public class SecurityPolicyAssertionCreator implements PolicyAssertionCreator{
                 }
             }else{
                 try{
-                    return (PolicyAssertion)cl.newInstance();
-                } catch (InstantiationException ex) {
-                    if(Constants.logger.isLoggable(Level.SEVERE)){
-                        Constants.logger.log(Level.SEVERE,LogStringsMessages.SP_0112_ERROR_INSTANTIATING(assertionData.getName()));
-                    }
-                    throw new AssertionCreationException(assertionData,ex);
-                } catch (IllegalAccessException ex) {
+                    return (PolicyAssertion)cl.getConstructor().newInstance();
+                } catch (ReflectiveOperationException ex) {
                     if(Constants.logger.isLoggable(Level.SEVERE)){
                         Constants.logger.log(Level.SEVERE,LogStringsMessages.SP_0112_ERROR_INSTANTIATING(assertionData.getName()));
                     }

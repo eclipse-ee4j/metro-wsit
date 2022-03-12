@@ -492,8 +492,8 @@ public class Canonicalizer20010315ExclOmitComments {
      *
      * The string value of the node is modified by replacing
      * <UL>
-     * <LI>all ampersands (&) with <CODE>&amp;amp;</CODE></LI>
-     * <LI>all open angle brackets (<) with <CODE>&amp;lt;</CODE></LI>
+     * <LI>all ampersands (&amp;) with <CODE>&amp;amp;</CODE></LI>
+     * <LI>all open angle brackets (&lt;) with <CODE>&amp;lt;</CODE></LI>
      * <LI>all quotation mark characters with <CODE>&amp;quot;</CODE></LI>
      * <LI>and the whitespace characters <CODE>#x9</CODE>, #xA, and #xD, with character
      * references. The character references are written in uppercase

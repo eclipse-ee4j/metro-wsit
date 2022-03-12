@@ -18,6 +18,7 @@ import com.sun.xml.wss.impl.MessageConstants;
 import com.sun.xml.wss.impl.policy.mls.AuthenticationTokenPolicy;
 import com.sun.xml.ws.security.opt.api.keyinfo.BinarySecurityToken;
 import com.sun.xml.ws.security.opt.api.reference.DirectReference;
+import com.sun.xml.wss.impl.policy.mls.KeyBindingBase;
 import com.sun.xml.wss.logging.impl.opt.token.LogStringsMessages;
 import java.util.logging.Level;
 
@@ -86,19 +87,19 @@ public class KerberosTokenBuilder extends TokenBuilder {
             return;
         }
         String itVersion = binding.getIncludeToken();
-        if(binding.INCLUDE_ALWAYS.equals(itVersion)
-                || binding.INCLUDE_ALWAYS_TO_RECIPIENT.equals(itVersion)
-                || binding.INCLUDE_ALWAYS_VER2.equals(itVersion)
-                || binding.INCLUDE_ALWAYS_TO_RECIPIENT_VER2.equals(itVersion)){
+        if(KeyBindingBase.INCLUDE_ALWAYS.equals(itVersion)
+                || KeyBindingBase.INCLUDE_ALWAYS_TO_RECIPIENT.equals(itVersion)
+                || KeyBindingBase.INCLUDE_ALWAYS_VER2.equals(itVersion)
+                || KeyBindingBase.INCLUDE_ALWAYS_TO_RECIPIENT_VER2.equals(itVersion)){
             // This should never happen as Always and AlwaysToRecipient
             // are not allowed for Kerberos Tokens
             logger.log(Level.SEVERE, LogStringsMessages.WSS_1822_KERBEROS_ALWAYS_NOTALLOWED());
             throw new XWSSecurityException(LogStringsMessages.WSS_1822_KERBEROS_ALWAYS_NOTALLOWED());
-        } else if(binding.INCLUDE_NEVER.equals(itVersion) ||
-               binding.INCLUDE_NEVER_VER2.equals(itVersion) ){
+        } else if(KeyBindingBase.INCLUDE_NEVER.equals(itVersion) ||
+                KeyBindingBase.INCLUDE_NEVER_VER2.equals(itVersion) ){
             binding.setReferenceType(MessageConstants.KEY_INDETIFIER_TYPE);
-        } else if(binding.INCLUDE_ONCE.equals(itVersion)
-                || binding.INCLUDE_ONCE_VER2.equals(itVersion)){
+        } else if(KeyBindingBase.INCLUDE_ONCE.equals(itVersion)
+                || KeyBindingBase.INCLUDE_ONCE_VER2.equals(itVersion)){
             binding.setReferenceType(MessageConstants.DIRECT_REFERENCE_TYPE);
         }
     }

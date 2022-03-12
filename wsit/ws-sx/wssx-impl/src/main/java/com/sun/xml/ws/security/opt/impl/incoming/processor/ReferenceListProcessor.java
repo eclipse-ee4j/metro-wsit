@@ -16,6 +16,7 @@ import com.sun.xml.wss.impl.policy.mls.EncryptionPolicy;
 import com.sun.xml.wss.impl.policy.mls.EncryptionTarget;
 import com.sun.xml.wss.impl.policy.mls.Target;
 import java.util.ArrayList;
+import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 
@@ -40,8 +41,8 @@ public class ReferenceListProcessor {
     public void process(XMLStreamReader reader) throws XMLStreamException{
         refList = new ArrayList<>(2);
         if(StreamUtil.moveToNextStartOREndElement(reader)){
-            while(reader.getEventType() != reader.END_DOCUMENT){
-                if(reader.getEventType() == XMLStreamReader.START_ELEMENT){
+            while(reader.getEventType() != XMLStreamConstants.END_DOCUMENT){
+                if(reader.getEventType() == XMLStreamConstants.START_ELEMENT){
                     if(reader.getLocalName() == "DataReference" && reader.getNamespaceURI() == MessageConstants.XENC_NS){
                         String uri = reader.getAttributeValue(null,"URI");
                         if(uri.startsWith("#")){
@@ -72,7 +73,7 @@ public class ReferenceListProcessor {
     }
 
     public boolean _exit(XMLStreamReader reader){
-        if(reader.getEventType() == XMLStreamReader.END_ELEMENT){
+        if(reader.getEventType() == XMLStreamConstants.END_ELEMENT){
             return reader.getLocalName() == "ReferenceList" && reader.getNamespaceURI() == MessageConstants.XENC_NS;
         }
         return false;

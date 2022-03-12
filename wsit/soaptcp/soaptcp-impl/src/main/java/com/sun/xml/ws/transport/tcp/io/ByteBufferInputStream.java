@@ -19,7 +19,7 @@ import java.nio.ByteBuffer;
 public class ByteBufferInputStream extends InputStream {
 
     /**
-     * The wrapped <code>ByteBuffer</code<
+     * The wrapped <code>ByteBuffer</code>
      */
     private ByteBuffer byteBuffer;
 

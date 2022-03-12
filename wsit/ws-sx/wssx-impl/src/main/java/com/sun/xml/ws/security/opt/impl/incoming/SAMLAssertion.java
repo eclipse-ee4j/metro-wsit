@@ -35,6 +35,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
 import javax.xml.crypto.KeySelector.Purpose;
+import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 import javax.xml.stream.XMLStreamWriter;
@@ -312,7 +313,7 @@ public class SAMLAssertion implements SecurityHeaderElement,PolicyBuilder,TokenV
                     reader.next();
                     break;
                 }else{
-                    if(reader.getEventType() == reader.START_ELEMENT && reader.getLocalName().equals("Advice")){
+                    if(reader.getEventType() == XMLStreamConstants.START_ELEMENT && reader.getLocalName().equals("Advice")){
                         skipAdviceValidation(reader);
                     }
                 }
@@ -346,13 +347,13 @@ public class SAMLAssertion implements SecurityHeaderElement,PolicyBuilder,TokenV
         int adviceElementCount = 1;
         try{
             while(!(reader.getLocalName().equals("Advice") &&
-                        reader.getEventType() == reader.END_ELEMENT &&
+                        reader.getEventType() == XMLStreamConstants.END_ELEMENT &&
                             adviceElementCount == 0)){
                 reader.next();
-                if(reader.getEventType() == reader.START_ELEMENT && reader.getLocalName().equals("Advice")){
+                if(reader.getEventType() == XMLStreamConstants.START_ELEMENT && reader.getLocalName().equals("Advice")){
                     adviceElementCount++;
                 }
-                if(reader.getEventType() == reader.END_ELEMENT && reader.getLocalName().equals("Advice")){
+                if(reader.getEventType() == XMLStreamConstants.END_ELEMENT && reader.getLocalName().equals("Advice")){
                     adviceElementCount--;
                 }
             }
@@ -365,15 +366,15 @@ public class SAMLAssertion implements SecurityHeaderElement,PolicyBuilder,TokenV
         if(key == null){
             try{
                 XMLStreamReader reader = readHeader();
-                while(reader.getEventType() != reader.END_DOCUMENT){
+                while(reader.getEventType() != XMLStreamConstants.END_DOCUMENT){
                     switch(reader.getEventType()){
-                        case XMLStreamReader.START_ELEMENT :{
+                        case XMLStreamConstants.START_ELEMENT :{
                             if (reader.getLocalName() == SUBJECT_CONFIRMATION_ELEMENT){
                                 reader.next();
                                 while(!(reader.getLocalName()== SUBJECT_CONFIRMATION_ELEMENT  &&
-                                        reader.getEventType() == reader.END_ELEMENT)){
+                                        reader.getEventType() == XMLStreamConstants.END_ELEMENT)){
                                     reader.next();
-                                    if(reader.getEventType() == reader.START_ELEMENT && reader.getLocalName() == KEYINFO_ELEMENT && reader.getNamespaceURI() == MessageConstants.DSIG_NS){
+                                    if(reader.getEventType() == XMLStreamConstants.START_ELEMENT && reader.getLocalName() == KEYINFO_ELEMENT && reader.getNamespaceURI() == MessageConstants.DSIG_NS){
                                         jpc.isSAMLEK(true);
                                         KeyInfoProcessor kip = new KeyInfoProcessor(jpc,Purpose.VERIFY, true);
                                         key = kip.getKey(reader);
@@ -389,16 +390,16 @@ public class SAMLAssertion implements SecurityHeaderElement,PolicyBuilder,TokenV
                         }
                     }
                     if(reader.hasNext()){
-                        if(reader.getEventType() == reader.START_ELEMENT && reader.getLocalName().equals("Advice")){
+                        if(reader.getEventType() == XMLStreamConstants.START_ELEMENT && reader.getLocalName().equals("Advice")){
                             int adviceElementCount = 1;
                             while(!(reader.getLocalName().equals("Advice") &&
-                                    reader.getEventType() == reader.END_ELEMENT &&
+                                    reader.getEventType() == XMLStreamConstants.END_ELEMENT &&
                                     adviceElementCount == 0)){
                                 reader.next();
-                                if(reader.getEventType() == reader.START_ELEMENT && reader.getLocalName().equals("Advice")){
+                                if(reader.getEventType() == XMLStreamConstants.START_ELEMENT && reader.getLocalName().equals("Advice")){
                                     adviceElementCount++;
                                 }
-                                if(reader.getEventType() == reader.END_ELEMENT && reader.getLocalName().equals("Advice")){
+                                if(reader.getEventType() == XMLStreamConstants.END_ELEMENT && reader.getLocalName().equals("Advice")){
                                     adviceElementCount--;
                                 }
                             }
@@ -418,7 +419,7 @@ public class SAMLAssertion implements SecurityHeaderElement,PolicyBuilder,TokenV
     }
 
     private boolean _break(XMLStreamReader reader) {
-        if(reader.getEventType() == reader.END_ELEMENT){
+        if(reader.getEventType() == XMLStreamConstants.END_ELEMENT){
             if(reader.getLocalName() == MessageConstants.SAML_ASSERTION_LNAME ){
                 String uri = reader.getNamespaceURI();
                 return uri == MessageConstants.SAML_v2_0_NS || uri == MessageConstants.SAML_v1_0_NS || uri == MessageConstants.SAML_v1_1_NS;

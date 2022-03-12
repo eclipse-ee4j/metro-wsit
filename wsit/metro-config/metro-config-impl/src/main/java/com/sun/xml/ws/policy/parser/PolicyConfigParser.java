@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -229,7 +229,6 @@ public final class PolicyConfigParser {
      * {@code null} is returned as a result of this method call. In case
      * of any other problems that may occur while locating the WSIT config file, a
      * {@link PolicyException} is thrown.
-     * <p>
      *
      * @param configFileIdentifier base of WSIT config file name (web service name for WSIT service
      *        config file or "client" for WSIT client configuration). Must not be {@code null}.

@@ -24,7 +24,7 @@ import wsrm.v1_0.invm.basicorderedoneway.common.EvenMessageDelayingFilter;
 
 /**
  *
- * @author Marek Potociar <marek.potociar at sun.com>
+ * @author Marek Potociar
  */
 public class ClientTest extends TestCase {
 

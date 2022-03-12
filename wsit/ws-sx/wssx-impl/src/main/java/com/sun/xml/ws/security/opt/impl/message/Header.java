@@ -250,8 +250,6 @@ public class Header implements com.sun.xml.ws.api.message.Header {
      * {@link XMLStreamReader}), then the JAX-WS team requests
      * that you talk to us.
      *
-     * <p>
-     *
      * @return
      *      must not null.
      */
@@ -275,6 +273,7 @@ public class Header implements com.sun.xml.ws.api.message.Header {
      * @deprecated
      *      Use {@link #readAsJAXB(Bridge)}. To be removed after JavaOne.
      */
+    @Deprecated
     public <T> T readAsJAXB(Bridge<T> bridge, BridgeContext context) {
         throw new UnsupportedOperationException();
     }

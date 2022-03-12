@@ -110,7 +110,7 @@ public abstract class XWSSProcessorFactory {
             } else {
                 spiClass = classLoader.loadClass(className);
             }
-            return spiClass.newInstance();
+            return spiClass.getConstructor().newInstance();
         } catch (ClassNotFoundException x) {
             throw new XWSSecurityException(
                 "Processor Factory " + className + " not found", x);

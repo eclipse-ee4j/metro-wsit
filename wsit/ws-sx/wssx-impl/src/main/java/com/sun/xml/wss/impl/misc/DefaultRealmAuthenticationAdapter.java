@@ -181,16 +181,14 @@ public class DefaultRealmAuthenticationAdapter extends RealmAuthenticationAdapte
             }
 
             if (ret != null) {
-                return (CallbackHandler)ret.newInstance();
+                return (CallbackHandler)ret.getConstructor().newInstance();
             }
         } catch (ClassNotFoundException e) {
             // ignore
             //throw new RuntimeException(e);
 
-        } catch(InstantiationException e) {
+        } catch(ReflectiveOperationException e) {
             //throw new RuntimeException(e);
-        } catch(IllegalAccessException ex) {
-            //throw new RuntimeException(ex);
         }
         //throw new RuntimeException("Internal Error: Could Not Load CallbackHandler Class: " + classname);
         return null;

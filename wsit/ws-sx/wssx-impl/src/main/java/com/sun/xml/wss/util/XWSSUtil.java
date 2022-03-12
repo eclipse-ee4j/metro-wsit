@@ -330,9 +330,9 @@ public abstract class XWSSUtil {
                 }
             } else {
                 try {
-                    selector = (CertSelector) certSelectorClass.newInstance();
+                    selector = (CertSelector) certSelectorClass.getConstructor().newInstance();
                     return selector;
-                } catch (InstantiationException | IllegalAccessException ex) {
+                } catch (ReflectiveOperationException ex) {
                     log.log(Level.SEVERE, "WSS0812.exception.instantiating.certselector", ex);
                     throw new RuntimeException(ex);
                 }

@@ -285,5 +285,8 @@
         <dep.sources>${project.build.directory}/generated-sources/dependencies</dep.sources>
         <dep.sources.mr>${project.build.directory}/generated-sources/dependencies-mr</dep.sources.mr>
         <dep.sources.jaxb>${project.build.directory}/generated-sources/dependencies-jaxb</dep.sources.jaxb>
+        <comp.xlint>-Xlint:none</comp.xlint>
+        <comp.xdoclint>-Xdoclint:none</comp.xdoclint>
+        <jdoc.doclint>none</jdoc.doclint>
     </properties>
 </project>

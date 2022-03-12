@@ -31,7 +31,7 @@ import jakarta.transaction.UserTransaction;
 
 /**
  * Access hosting JTA 1.1 TransactionManager and TransactionSynchronizationRegistry.
- * <p>
+ *
  * <p> Dependencies: Sun Java System Application Server publishes TM at JNDI name:
  *
  * @author jf39279

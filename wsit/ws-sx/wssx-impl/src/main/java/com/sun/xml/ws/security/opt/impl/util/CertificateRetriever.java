@@ -43,6 +43,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
+import java.sql.Ref;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.security.auth.callback.Callback;
@@ -227,16 +228,13 @@ public class CertificateRetriever {
             return null;
         }
         try {
-            com.sun.xml.wss.AliasSelector as = (AliasSelector) aliasSelectorClass.newInstance();
+            com.sun.xml.wss.AliasSelector as = (AliasSelector) aliasSelectorClass.getConstructor().newInstance();
             String myAlias = as.select(new java.util.HashMap());//passing empty map as runtime properties is not available here;
             if (myAlias == null) {
                 log.log(Level.WARNING, LogStringsMessages.WSS_0823_ALIAS_NOTFOUND_FOR_ALIAS_SELECTOR());
             }
             return myAlias;
-        } catch (InstantiationException ex) {
-            log.log(Level.WARNING, LogStringsMessages.WSS_0818_ERROR_PUTTING_CERTIFICATE_EPRIDENTITY(), ex);
-            return null;
-        } catch (IllegalAccessException ex) {
+        } catch (ReflectiveOperationException ex) {
             log.log(Level.WARNING, LogStringsMessages.WSS_0818_ERROR_PUTTING_CERTIFICATE_EPRIDENTITY(), ex);
             return null;
         }
@@ -269,7 +267,7 @@ public class CertificateRetriever {
         Callback[] callbacks = new Callback[1];
         callbacks[0] = ksc;
         try {
-            javax.security.auth.callback.CallbackHandler cbh = (CallbackHandler) callbackHandlerClass.newInstance();
+            javax.security.auth.callback.CallbackHandler cbh = (CallbackHandler) callbackHandlerClass.getConstructor().newInstance();
             cbh.handle(callbacks);
             X509Certificate cert = null;
             cert = (X509Certificate) ((ksc.getKeystore() != null) ? (ksc.getKeystore().getCertificate(alias)) : null);
@@ -277,19 +275,7 @@ public class CertificateRetriever {
                 log.log(Level.WARNING, LogStringsMessages.WSS_0821_CERTIFICATE_NOT_FOUND_FOR_ALIAS(alias));
             }
             return cert;
-        } catch (IOException ex) {
-            log.log(Level.WARNING, LogStringsMessages.WSS_0818_ERROR_PUTTING_CERTIFICATE_EPRIDENTITY(), ex);
-            return null;
-        } catch (UnsupportedCallbackException ex) {
-            log.log(Level.WARNING, LogStringsMessages.WSS_0818_ERROR_PUTTING_CERTIFICATE_EPRIDENTITY(), ex);
-            return null;
-        } catch (InstantiationException ex) {
-            log.log(Level.WARNING,LogStringsMessages.WSS_0818_ERROR_PUTTING_CERTIFICATE_EPRIDENTITY(), ex);
-            return null;
-        } catch (IllegalAccessException ex) {
-            log.log(Level.WARNING, LogStringsMessages.WSS_0818_ERROR_PUTTING_CERTIFICATE_EPRIDENTITY(), ex);
-            return null;
-        } catch (KeyStoreException ex) {
+        } catch (IOException | KeyStoreException | ReflectiveOperationException | UnsupportedCallbackException ex) {
             log.log(Level.WARNING, LogStringsMessages.WSS_0818_ERROR_PUTTING_CERTIFICATE_EPRIDENTITY(), ex);
             return null;
         }

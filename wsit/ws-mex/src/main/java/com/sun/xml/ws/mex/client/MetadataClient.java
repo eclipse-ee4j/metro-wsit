@@ -23,6 +23,7 @@ import jakarta.xml.bind.JAXBException;
 import jakarta.xml.bind.Unmarshaller;
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 
@@ -212,7 +213,7 @@ public class MetadataClient {
         int state = 0;
         do {
             state = reader.next();
-        } while (state != reader.START_ELEMENT ||
+        } while (state != XMLStreamConstants.START_ELEMENT ||
             !reader.getLocalName().equals("Metadata"));
 
         final Unmarshaller uMarhaller = jaxbContext.createUnmarshaller();

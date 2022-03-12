@@ -46,6 +46,7 @@ import javax.xml.crypto.KeySelector.Purpose;
 import javax.xml.crypto.dsig.Reference;
 import javax.xml.crypto.dsig.XMLSignatureException;
 
+import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 import javax.xml.stream.XMLStreamWriter;
@@ -169,7 +170,7 @@ public class Signature implements SecurityHeaderElement,NamespaceContextInfo, Se
 
             if(StreamUtil.moveToNextElement(reader)){
                 int refElement = getEventType(reader);
-                while(reader.getEventType() != reader.END_DOCUMENT){
+                while(reader.getEventType() != XMLStreamConstants.END_DOCUMENT){
                     switch(refElement){
                     case SIGNEDINFO_EVENT :{
                         sip = new SignedInfoProcessor(signatureRoot,currentParentNS,reader,context, signPolicy,buffer);
@@ -188,7 +189,7 @@ public class Signature implements SecurityHeaderElement,NamespaceContextInfo, Se
                         if(reader instanceof XMLStreamReaderEx){
                             reader.next();
                             StringBuilder sb = null;
-                            while(reader.getEventType() == reader.CHARACTERS && reader.getEventType() != reader.END_ELEMENT){
+                            while(reader.getEventType() == XMLStreamConstants.CHARACTERS && reader.getEventType() != XMLStreamConstants.END_ELEMENT){
                                 CharSequence charSeq = ((XMLStreamReaderEx)reader).getPCDATA();
                                 if(charSeq instanceof Base64Data){
                                     Base64Data bd = (Base64Data) ((XMLStreamReaderEx)reader).getPCDATA();

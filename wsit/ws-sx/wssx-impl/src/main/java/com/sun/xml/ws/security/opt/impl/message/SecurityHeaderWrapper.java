@@ -238,6 +238,7 @@ public class SecurityHeaderWrapper implements com.sun.xml.ws.api.message.Header 
      * @deprecated
      *      Use {@link #readAsJAXB(Bridge)}. To be removed after JavaOne.
      */
+    @Deprecated
     public <T> T readAsJAXB(Bridge<T> bridge, BridgeContext context) {
         throw new UnsupportedOperationException();
     }

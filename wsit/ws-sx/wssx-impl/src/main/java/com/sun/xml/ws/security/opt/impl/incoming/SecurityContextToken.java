@@ -22,6 +22,7 @@ import java.io.OutputStream;
 import java.net.URI;
 import java.util.HashMap;
 import java.util.List;
+import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamReader;
 import javax.xml.stream.XMLStreamException;
 
@@ -138,7 +139,7 @@ public class SecurityContextToken implements SecurityHeaderElement, NamespaceCon
 
         if(StreamUtil.moveToNextElement(reader)){
             int refElement = getEventType(reader);
-            while(reader.getEventType() != reader.END_DOCUMENT){
+            while(reader.getEventType() != XMLStreamConstants.END_DOCUMENT){
                 switch(refElement){
                     case IDENTIFIER_ELEMENT : {
                         identifier = reader.getElementText();

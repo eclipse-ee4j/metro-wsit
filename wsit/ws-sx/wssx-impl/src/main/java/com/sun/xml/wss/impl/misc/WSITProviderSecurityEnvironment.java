@@ -267,11 +267,8 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
         }
         if (samlCbHandler != null) {
             try {
-                samlHandler = (CallbackHandler) samlCbHandler.newInstance();
-            } catch (InstantiationException ex) {
-                log.log(Level.SEVERE, LogStringsMessages.WSS_0715_EXCEPTION_CREATING_NEWINSTANCE(), ex);
-                throw new XWSSecurityException(ex);
-            } catch (IllegalAccessException ex) {
+                samlHandler = (CallbackHandler) samlCbHandler.getConstructor().newInstance();
+            } catch (ReflectiveOperationException ex) {
                 log.log(Level.SEVERE, LogStringsMessages.WSS_0715_EXCEPTION_CREATING_NEWINSTANCE(), ex);
                 throw new XWSSecurityException(ex);
             }
@@ -284,11 +281,8 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
 
         if (samlValidator != null) {
             try {
-                sValidator = (SAMLAssertionValidator) samlValidator.newInstance();
-            } catch (InstantiationException ex) {
-                log.log(Level.SEVERE, LogStringsMessages.WSS_0715_EXCEPTION_CREATING_NEWINSTANCE(), ex);
-                throw new XWSSecurityException(ex);
-            } catch (IllegalAccessException ex) {
+                sValidator = (SAMLAssertionValidator) samlValidator.getConstructor().newInstance();
+            } catch (ReflectiveOperationException ex) {
                 log.log(Level.SEVERE, LogStringsMessages.WSS_0715_EXCEPTION_CREATING_NEWINSTANCE(), ex);
                 throw new XWSSecurityException(ex);
             }
@@ -323,13 +317,13 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
 
         try {
             if (certificateValidator != null) {
-                certValidator = (CertificateValidationCallback.CertificateValidator) certificateValidator.newInstance();
+                certValidator = (CertificateValidationCallback.CertificateValidator) certificateValidator.getConstructor().newInstance();
             }
             if (usernameValidator != null) {
-                pwValidator = (com.sun.xml.wss.impl.callback.PasswordValidationCallback.PasswordValidator) usernameValidator.newInstance();
+                pwValidator = (com.sun.xml.wss.impl.callback.PasswordValidationCallback.PasswordValidator) usernameValidator.getConstructor().newInstance();
             }
             if (timestampValidator != null) {
-                tsValidator = (TimestampValidationCallback.TimestampValidator) timestampValidator.newInstance();
+                tsValidator = (TimestampValidationCallback.TimestampValidator) timestampValidator.getConstructor().newInstance();
             }
         } catch (Exception e) {
             log.log(Level.SEVERE, com.sun.xml.wss.logging.impl.misc.LogStringsMessages.WSS_1523_ERROR_GETTING_NEW_INSTANCE_CALLBACK_HANDLER(), e);
@@ -1024,25 +1018,16 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
         LoginContext lc = null;
         try {
             if (keyStoreCBH != null) {
-                keystoreCbHandlerClass = (CallbackHandler) loadClass(keyStoreCBH).newInstance();
+                keystoreCbHandlerClass = (CallbackHandler) loadClass(keyStoreCBH).getConstructor().newInstance();
                 lc = new LoginContext(jaasLoginModuleForKeystore, keystoreCbHandlerClass);
             }else {
                 lc = new LoginContext(jaasLoginModuleForKeystore);
             }
             lc.login();
             return lc.getSubject();
-        } catch (InstantiationException ex) {
+        } catch (ReflectiveOperationException | XWSSecurityException | LoginException ex) {
             log.log(Level.SEVERE, LogStringsMessages.WSS_0817_KEYSTORE_LOGIN_MODULE_LOGIN_ERROR(), ex);
              throw new XWSSecurityRuntimeException(ex);
-        } catch (IllegalAccessException ex) {
-            log.log(Level.SEVERE, LogStringsMessages.WSS_0817_KEYSTORE_LOGIN_MODULE_LOGIN_ERROR(), ex);
-             throw new XWSSecurityRuntimeException(ex);
-        } catch (XWSSecurityException ex) {
-            log.log(Level.SEVERE, LogStringsMessages.WSS_0817_KEYSTORE_LOGIN_MODULE_LOGIN_ERROR(), ex);
-             throw new XWSSecurityRuntimeException(ex);
-        } catch (LoginException ex) {
-            log.log(Level.SEVERE, LogStringsMessages.WSS_0817_KEYSTORE_LOGIN_MODULE_LOGIN_ERROR(), ex);
-            throw new XWSSecurityRuntimeException(ex);
         }
     }
 
@@ -1474,11 +1459,8 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
                         AliasSelector selector = null;
                         try {
                             selector = (AliasSelector)
-                                this.keystoreCertSelectorClass.newInstance();
-                        } catch (IllegalAccessException ex) {
-                            log.log(Level.SEVERE,LogStringsMessages.WSS_0811_EXCEPTION_INSTANTIATING_ALIASSELECTOR(), ex);
-                            throw new RuntimeException(ex);
-                        } catch (InstantiationException ex) {
+                                this.keystoreCertSelectorClass.getConstructor().newInstance();
+                        } catch (ReflectiveOperationException ex) {
                             log.log(Level.SEVERE,LogStringsMessages.WSS_0811_EXCEPTION_INSTANTIATING_ALIASSELECTOR(), ex);
                             throw new RuntimeException(ex);
                         }
@@ -2308,7 +2290,7 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
             }
 
             if (usernameCbHandler != null) {
-                usernameHandler = (CallbackHandler) usernameCbHandler.newInstance();
+                usernameHandler = (CallbackHandler) usernameCbHandler.getConstructor().newInstance();
                 usernameHandler.handle(cbs);
                 nameCallback.setName(((javax.security.auth.callback.NameCallback) cbs[0]).getName());
             } else {
@@ -2382,7 +2364,7 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
         }
         try {
             if (passwordCbHandler != null) {
-                passwordHandler = (CallbackHandler) passwordCbHandler.newInstance();
+                passwordHandler = (CallbackHandler) passwordCbHandler.getConstructor().newInstance();
                 passwordHandler.handle(cbs);
                 char[] pass = ((javax.security.auth.callback.PasswordCallback) cbs[0]).getPassword();
                 pwdCallback.setPassword(pass);

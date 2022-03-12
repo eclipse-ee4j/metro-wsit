@@ -105,9 +105,9 @@ public class EntropyImpl extends EntropyType implements Entropy {
      */
     @Override
     public void setEntropyType(String type)  {
-        if (!(type.equalsIgnoreCase(this.BINARY_SECRET_TYPE)  ||
-                type.equalsIgnoreCase(this.CUSTOM_TYPE)
-                || type.equalsIgnoreCase(this.ENCRYPTED_KEY_TYPE))) {
+        if (!(type.equalsIgnoreCase(Entropy.BINARY_SECRET_TYPE)  ||
+                type.equalsIgnoreCase(Entropy.CUSTOM_TYPE)
+                || type.equalsIgnoreCase(Entropy.ENCRYPTED_KEY_TYPE))) {
             throw new RuntimeException("Invalid Entropy Type");
         }
         entropyType = type;

@@ -1776,12 +1776,12 @@ TR/SCT"))) && this.bootStrapAlgoSuite != null){            ctx.setAlgorithmSuite
             }
 
             if (ret != null) {
-                return (CallbackHandler)ret.newInstance();
+                return (CallbackHandler)ret.getConstructor().newInstance();
             }
         } catch (ClassNotFoundException e) {
             // ignore
 
-        } catch(InstantiationException | IllegalAccessException e) {
+        } catch(ReflectiveOperationException e) {
 
         }
         log.log(Level.SEVERE,

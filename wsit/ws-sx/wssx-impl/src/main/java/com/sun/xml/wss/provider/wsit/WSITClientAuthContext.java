@@ -652,7 +652,7 @@ public class WSITClientAuthContext extends WSITAuthContextBase
         try {
             if (ret != null) {
                 Class handlerClass = loadClass(ret);
-                Object obj = handlerClass.newInstance();
+                Object obj = handlerClass.getConstructor().newInstance();
                 if (!(obj instanceof CallbackHandler)) {
                     log.log(Level.SEVERE,
                             LogStringsMessages.WSITPVD_0031_INVALID_CALLBACK_HANDLER_CLASS(ret));

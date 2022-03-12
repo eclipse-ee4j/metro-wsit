@@ -31,7 +31,7 @@ public class DerivedKeyTokenImpl implements DerivedKeyToken {
     private long length = 32; // Default length
     private long offset = 0; // Default offset
     private long generation = 0;
-    private String label = this.DEFAULT_DERIVEDKEYTOKEN_LABEL;
+    private String label = DerivedKeyToken.DEFAULT_DERIVEDKEYTOKEN_LABEL;
     private byte[] secret, nonce;
 
     /** Creates a new instance of DerivedKeyTokenImpl */
@@ -82,7 +82,7 @@ public class DerivedKeyTokenImpl implements DerivedKeyToken {
     @Override
     public URI getAlgorithm() {
         try {
-            return new URI(this.DEFAULT_DERIVED_KEY_TOKEN_ALGORITHM);
+            return new URI(DerivedKeyToken.DEFAULT_DERIVED_KEY_TOKEN_ALGORITHM);
         } catch (URISyntaxException ex) {
             //ignore
         }
@@ -101,7 +101,7 @@ public class DerivedKeyTokenImpl implements DerivedKeyToken {
 
     @Override
     public String getType() {
-        return this.DERIVED_KEY_TOKEN_TYPE;
+        return DerivedKeyToken.DERIVED_KEY_TOKEN_TYPE;
     }
 
     @Override

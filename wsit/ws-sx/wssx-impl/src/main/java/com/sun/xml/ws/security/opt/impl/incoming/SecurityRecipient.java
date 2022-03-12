@@ -26,6 +26,7 @@ import com.sun.xml.ws.security.opt.impl.incoming.processor.SecurityHeaderProcess
 import com.sun.xml.ws.security.opt.impl.incoming.processor.SecurityTokenProcessor;
 import com.sun.xml.ws.security.opt.impl.util.StreamUtil;
 import com.sun.xml.ws.streaming.XMLStreamReaderUtil;
+import com.sun.xml.wss.ProcessingContext;
 import com.sun.xml.wss.XWSSecurityException;
 import com.sun.xml.wss.impl.MessageConstants;
 import com.sun.xml.wss.impl.PolicyResolver;
@@ -900,7 +901,7 @@ public final class SecurityRecipient {
         //boolean isTrust = context.isTrustMessage();
         if (PolicyUtils.isEmpty(msgPolicy)) {
             PolicyResolver opResolver =
-                    (PolicyResolver) context.getExtraneousProperty(context.OPERATION_RESOLVER);
+                    (PolicyResolver) context.getExtraneousProperty(ProcessingContext.OPERATION_RESOLVER);
             if (opResolver != null) {
                 msgPolicy = opResolver.resolvePolicy(context);
             }

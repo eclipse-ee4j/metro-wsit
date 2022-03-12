@@ -109,7 +109,7 @@ public class WSTrustUtil {
     public static byte[] generateRandomSecret(final int keySize) {
         // Create binary secret
         final SecureRandom random = new SecureRandom();
-        final byte[] secret = new byte[(int)keySize];
+        final byte[] secret = new byte[keySize];
         random.nextBytes(secret);
         return secret;
     }

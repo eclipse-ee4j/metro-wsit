@@ -178,7 +178,7 @@ public class EXC14nStAXReaderBasedCanonicalizer extends BaseCanonicalizer {
     }
 
     private void updatedNamespaceContext(XMLStreamReader reader){
-        if(reader.getEventType() != reader.START_ELEMENT){
+        if(reader.getEventType() != XMLStreamConstants.START_ELEMENT){
             return;
         }
         int count = reader.getNamespaceCount();

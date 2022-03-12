@@ -14,7 +14,7 @@ import java.util.Iterator;
 
 /**
  * Identifies targets that if present in the message should be confidentiality protected.
- *<p>
+ *
  *  <pre>{@code
  *   <xmp>
  *      <sp:EncryptedParts ... >

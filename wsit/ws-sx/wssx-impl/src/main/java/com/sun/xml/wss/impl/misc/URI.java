@@ -1449,7 +1449,7 @@ public class URI implements Serializable
 
   /**
    * Determine whether a character is a reserved character:
-   * ';', '/', '?', ':', '@', '&', '=', '+', '$' or ','
+   * ';', '/', '?', ':', '@', '&amp;', '=', '+', '$' or ','
    *
    *
    * @param p_char the character to check

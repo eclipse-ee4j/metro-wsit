@@ -828,24 +828,15 @@ public class DefaultSecurityEnvironmentImpl implements SecurityEnvironment {
         LoginContext lc = null;
         try {
             if (keyStoreCBH != null) {
-                keystoreCbHandlerClass = (CallbackHandler) loadClass(keyStoreCBH).newInstance();
+                keystoreCbHandlerClass = (CallbackHandler) loadClass(keyStoreCBH).getConstructor().newInstance();
                 lc = new LoginContext(JAASLoginModuleForKeystore, keystoreCbHandlerClass);
             } else {
                 lc = new LoginContext(JAASLoginModuleForKeystore);
             }
             lc.login();
             return lc.getSubject();
-        } catch (InstantiationException ex) {
+        } catch (ReflectiveOperationException | XWSSecurityException | LoginException ex) {
             log.log(Level.SEVERE, LogStringsMessages.WSS_0817_KEYSTORE_LOGIN_MODULE_LOGIN_ERROR() , ex);
-            throw new XWSSecurityRuntimeException(ex);
-        } catch (IllegalAccessException ex) {
-            log.log(Level.SEVERE, LogStringsMessages.WSS_0817_KEYSTORE_LOGIN_MODULE_LOGIN_ERROR(), ex);
-            throw new XWSSecurityRuntimeException(ex);
-        } catch (XWSSecurityException ex) {
-            log.log(Level.SEVERE, LogStringsMessages.WSS_0817_KEYSTORE_LOGIN_MODULE_LOGIN_ERROR(), ex);
-            throw new XWSSecurityRuntimeException(ex);
-        } catch (LoginException ex) {
-            log.log(Level.SEVERE, LogStringsMessages.WSS_0817_KEYSTORE_LOGIN_MODULE_LOGIN_ERROR(), ex);
             throw new XWSSecurityRuntimeException(ex);
         }
     }

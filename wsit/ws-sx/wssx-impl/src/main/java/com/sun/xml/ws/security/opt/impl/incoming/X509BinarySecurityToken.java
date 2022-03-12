@@ -44,6 +44,7 @@ import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
 import java.util.logging.Logger;
+import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamReader;
 import org.jvnet.staxex.XMLStreamReaderEx;
 import org.jvnet.staxex.Base64Data;
@@ -229,7 +230,7 @@ public class X509BinarySecurityToken implements com.sun.xml.ws.security.opt.api.
              throw new XWSSecurityRuntimeException(LogStringsMessages.WSS_1603_ERROR_READING_STREAM(null));
         }
 
-        if(reader.getEventType() != reader.END_ELEMENT){
+        if(reader.getEventType() != XMLStreamConstants.END_ELEMENT){
             reader.next();
         }        //else it is end of BST.
     }

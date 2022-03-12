@@ -84,7 +84,7 @@ public abstract class KeyIdentifierSPI {
             if (spiClass == null) {
                 spiClass = Class.forName(className);
             }
-            return (KeyIdentifierSPI)spiClass.newInstance();
+            return (KeyIdentifierSPI)spiClass.getConstructor().newInstance();
         } catch (ClassNotFoundException x) {
             throw new RuntimeException(
                     "The KeyIdentifierSPI class: " + className + " specified was not found", x);
