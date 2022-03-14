@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2023 Oracle and/or its affiliates. All rights reserved.
  * Copyright 1995-2005 The Apache Software Foundation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -24,8 +24,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-
-
 import org.w3c.dom.Attr;
 import org.w3c.dom.Node;
 
@@ -38,12 +36,12 @@ import org.w3c.dom.Node;
  **/
 public class NameSpaceSymbTable {
 
-	/**The map betwen prefix-> entry table. */
-	HashMap<String,NameSpaceSymbEntry>  symb = new HashMap<String,NameSpaceSymbEntry>();
-	/**The level of nameSpaces (for Inclusive visibility).*/
-	int nameSpaces=0;
-	/**The stacks for removing the definitions when doing pop.*/
-	List level = new ArrayList();
+    /**The map betwen prefix-{@literal >} entry table. */
+    HashMap<String,NameSpaceSymbEntry>  symb = new HashMap<>();
+    /**The level of nameSpaces (for Inclusive visibility).*/
+    int nameSpaces=0;
+    /**The stacks for removing the definitions when doing pop.*/
+    List level = new ArrayList();
     boolean cloned=true;
 	static final String XMLNS="xmlns";
     /**

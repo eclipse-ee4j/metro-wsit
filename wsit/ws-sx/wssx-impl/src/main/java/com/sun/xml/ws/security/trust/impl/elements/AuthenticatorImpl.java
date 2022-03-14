@@ -14,12 +14,11 @@
 
 package com.sun.xml.ws.security.trust.impl.elements;
 
-import org.apache.xml.security.exceptions.Base64DecodingException;
-import org.apache.xml.security.utils.Base64;
 import com.sun.xml.ws.security.trust.elements.Authenticator;
 import com.sun.xml.ws.security.trust.impl.bindings.AuthenticatorType;
 
 
+import java.util.Base64;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import com.sun.xml.ws.security.trust.logging.LogDomainConstants;
@@ -60,13 +59,13 @@ public class AuthenticatorImpl extends AuthenticatorType implements Authenticato
     }
     
     public String getTextCombinedHash() {
-        return Base64.encode(getRawCombinedHash());
+        return Base64.getMimeEncoder().encodeToString(getRawCombinedHash());
     }
     
     public void setTextCombinedHash(final String encodedCombinedHash) {
         try {
-            setRawCombinedHash(Base64.decode(encodedCombinedHash));
-        } catch (Base64DecodingException de) {
+            setRawCombinedHash(Base64.getMimeDecoder().decode(encodedCombinedHash));
+        } catch (IllegalArgumentException de) {
             log.log(Level.SEVERE,
                     LogStringsMessages.WST_0020_ERROR_DECODING(encodedCombinedHash), de);
             throw new RuntimeException(LogStringsMessages.WST_0020_ERROR_DECODING(encodedCombinedHash) , de);

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -16,7 +16,7 @@ import com.sun.xml.ws.util.Pool;
  * @author Alexey Stashok
  */
 public final class ByteBufferStreamPool<T extends LifeCycle> {
-    
+
     private final Pool<T> pool;
     public ByteBufferStreamPool(final Class<T> memberClass) {
         pool = new Pool<T>() {
@@ -26,22 +26,22 @@ public final class ByteBufferStreamPool<T extends LifeCycle> {
                     member = ByteBufferStreamPool.this.create(memberClass);
                 } catch (Exception e) {
                 }
-                
+
                 return member;
             }
         };
     }
-    
-    private T create(final Class<T> memberClass) throws InstantiationException, IllegalAccessException {
-        return memberClass.newInstance();
+
+    private T create(final Class<T> memberClass) throws ReflectiveOperationException {
+        return memberClass.getConstructor().newInstance();
     }
-    
+
     public T take() {
         final T member = pool.take();
         member.activate();
         return member;
     }
-    
+
     public void release(final T member) {
         member.passivate();
         pool.recycle(member);

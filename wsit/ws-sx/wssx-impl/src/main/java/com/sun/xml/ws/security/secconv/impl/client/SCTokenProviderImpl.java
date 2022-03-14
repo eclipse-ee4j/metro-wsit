@@ -53,12 +53,12 @@ public class SCTokenProviderImpl implements IssuedTokenProvider {
             LogDomainConstants.WSSC_IMPL_DOMAIN,
             LogDomainConstants.WSSC_IMPL_DOMAIN_BUNDLE);
     /**
-     * Map of SecurityContextId --> IssuedTokenContext
+     * Map of SecurityContextId --{@literal >} IssuedTokenContext
      */
     private Map<String, IssuedTokenContext> issuedTokenContextMap
             = new HashMap<String, IssuedTokenContext>();    
     /**
-     * Map of wsu:Instance --> SecurityContextTokenInfo
+     * Map of wsu:Instance --{@literal >} SecurityContextTokenInfo
      */
     private Map<String, SecurityContextTokenInfo> securityContextTokenMap
             = new HashMap<String, SecurityContextTokenInfo>();    
