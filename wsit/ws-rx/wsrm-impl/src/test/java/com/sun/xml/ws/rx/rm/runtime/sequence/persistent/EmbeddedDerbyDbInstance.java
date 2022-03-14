@@ -35,14 +35,14 @@ public class EmbeddedDerbyDbInstance {
         this.connectionUrl = String.format("jdbc:derby:%s;create=true", databaseName);
         try {
             // Loading the Derby JDBC driver. When the embedded Driver is used, this action also start the Derby engine.
-            Class.forName(EMBEDDED_DERBY_DRIVER_CLASS_NAME).newInstance();
+            Class.forName(EMBEDDED_DERBY_DRIVER_CLASS_NAME).getConstructor().newInstance();
             LOGGER.config(EMBEDDED_DERBY_DRIVER_CLASS_NAME + " loaded.");
         } catch (java.lang.ClassNotFoundException ex) {
             LOGGER.severe(String.format("Unable to load JDBC driver class '%s'. Please, check your classpath", EMBEDDED_DERBY_DRIVER_CLASS_NAME), ex);
-        } catch (InstantiationException ex) {
-            LOGGER.severe(String.format("Unable to instantiate the JDBC driver class '%s'. Please, check your classpath", EMBEDDED_DERBY_DRIVER_CLASS_NAME), ex);
         } catch (IllegalAccessException ex) {
             LOGGER.severe(String.format("Unable to access the JDBC driver class '%s'. Please, check your security policy", EMBEDDED_DERBY_DRIVER_CLASS_NAME), ex);
+        } catch (ReflectiveOperationException ex) {
+            LOGGER.severe(String.format("Unable to instantiate the JDBC driver class '%s'. Please, check your classpath", EMBEDDED_DERBY_DRIVER_CLASS_NAME), ex);
         }
 
         this.connection = createConnection(databaseName, connectionUrl);

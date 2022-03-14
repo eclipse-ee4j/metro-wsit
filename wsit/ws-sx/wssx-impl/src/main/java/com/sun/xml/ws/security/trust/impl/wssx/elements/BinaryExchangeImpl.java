@@ -14,10 +14,10 @@
 
 package com.sun.xml.ws.security.trust.impl.wssx.elements;
 
-import org.apache.xml.security.exceptions.Base64DecodingException;
-import org.apache.xml.security.utils.Base64;
 import com.sun.xml.ws.security.trust.elements.BinaryExchange;
 import com.sun.xml.ws.security.trust.impl.wssx.bindings.BinaryExchangeType;
+
+import java.util.Base64;
 
 /**
  *
@@ -41,8 +41,8 @@ public class BinaryExchangeImpl extends BinaryExchangeType implements BinaryExch
     @Override
     public byte[] getRawValue() {
         try {
-            return Base64.decode(getTextValue());
-        } catch (Base64DecodingException de) {
+            return Base64.getMimeDecoder().decode(getTextValue());
+        } catch (IllegalArgumentException de) {
             throw new RuntimeException("Error while decoding " +
                     de.getMessage());
         }
@@ -60,7 +60,7 @@ public class BinaryExchangeImpl extends BinaryExchangeType implements BinaryExch
 
     @Override
     public void setRawValue(byte[] rawText) {
-        super.setValue(Base64.encode(rawText));
+        super.setValue(Base64.getMimeEncoder().encodeToString(rawText));
     }
 
 }

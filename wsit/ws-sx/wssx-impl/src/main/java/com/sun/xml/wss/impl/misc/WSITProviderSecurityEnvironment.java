@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.security.cert.CertSelector;
 import java.security.cert.CertStore;
 import java.security.cert.CertStoreException;
+import java.util.Base64;
 import java.util.Collection;
 import javax.security.auth.callback.UnsupportedCallbackException;
 import javax.security.auth.login.LoginException;
@@ -62,8 +63,7 @@ import javax.security.auth.x500.X500PrivateCredential;
 import javax.security.auth.callback.NameCallback;
 import javax.security.auth.callback.PasswordCallback;
 import javax.crypto.SecretKey;
-import org.apache.xml.security.utils.Base64;
-import org.apache.xml.security.exceptions.Base64DecodingException;
+
 import com.sun.xml.ws.api.server.Container;
 import com.sun.xml.ws.security.impl.kerberos.KerberosContext;
 import com.sun.xml.ws.security.impl.kerberos.KerberosLogin;
@@ -455,7 +455,7 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
                  Iterator it = set.iterator();
                  while (it.hasNext()) {
                     X500PrivateCredential cred = (X500PrivateCredential)it.next();
-                    if (matchesKeyIdentifier(Base64.decode(keyIdentifier),
+                    if (matchesKeyIdentifier(Base64.getMimeDecoder().decode(keyIdentifier),
                                              cred.getCertificate()))
                        return cred.getPrivateKey();
                  }
@@ -2009,8 +2009,8 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
     private byte[] getDecodedBase64EncodedData(String encodedData)
         throws XWSSecurityException {
         try {
-            return Base64.decode(encodedData);
-        } catch (Base64DecodingException e) {
+            return Base64.getMimeDecoder().decode(encodedData);
+        } catch (IllegalArgumentException e) {
             log.log(Level.SEVERE, LogStringsMessages.WSS_0144_UNABLETO_DECODE_BASE_64_DATA(e.getMessage()) ,e);
             throw new SecurityHeaderException(
                 "Unable to decode Base64 encoded data", e);
@@ -2890,7 +2890,7 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
                  Iterator it = set.iterator();
                  while (it.hasNext()) {
                     X500PrivateCredential cred = (X500PrivateCredential)it.next();
-                    if (matchesThumbPrint(Base64.decode(keyIdentifier),
+                    if (matchesThumbPrint(Base64.getMimeDecoder().decode(keyIdentifier),
                                              cred.getCertificate()))
                        return cred.getPrivateKey();
                  }

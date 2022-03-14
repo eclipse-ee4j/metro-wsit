@@ -14,11 +14,10 @@
 
 package com.sun.xml.ws.security.trust.impl.wssx.elements;
 
-import org.apache.xml.security.exceptions.Base64DecodingException;
-import org.apache.xml.security.utils.Base64;
 import com.sun.xml.ws.security.trust.elements.Authenticator;
 import com.sun.xml.ws.security.trust.impl.wssx.bindings.AuthenticatorType;
 
+import java.util.Base64;
 import java.util.List;
 
 /**
@@ -58,14 +57,14 @@ public class AuthenticatorImpl extends AuthenticatorType implements Authenticato
 
     @Override
     public String getTextCombinedHash() {
-        return Base64.encode(getRawCombinedHash());
+        return Base64.getMimeEncoder().encodeToString(getRawCombinedHash());
     }
 
     @Override
     public void setTextCombinedHash(String encodedCombinedHash) {
         try {
-            setRawCombinedHash(Base64.decode(encodedCombinedHash));
-        } catch (Base64DecodingException de) {
+            setRawCombinedHash(Base64.getMimeDecoder().decode(encodedCombinedHash));
+        } catch (IllegalArgumentException de) {
             throw new RuntimeException("Error while decoding " +
                     de.getMessage());
         }

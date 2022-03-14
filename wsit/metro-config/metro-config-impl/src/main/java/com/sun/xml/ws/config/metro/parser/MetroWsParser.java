@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -87,8 +87,8 @@ class MetroWsParser {
     }
 
     private static FeatureReader instantiateFeatureReader(String className)
-            throws ClassNotFoundException, InstantiationException, IllegalAccessException {
-        return Class.forName(className).asSubclass(FeatureReader.class).newInstance();
+            throws ReflectiveOperationException {
+        return Class.forName(className).asSubclass(FeatureReader.class).getConstructor().newInstance();
     }
 
     public MetroWsParser() throws WebServiceException {

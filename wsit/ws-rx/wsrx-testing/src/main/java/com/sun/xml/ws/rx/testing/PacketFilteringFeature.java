@@ -71,10 +71,10 @@ public final class PacketFilteringFeature extends WebServiceFeature {
 
         for (Class<? extends PacketFilter> filterClass : filterClasses) {
             try {
-                final PacketFilter filter = filterClass.newInstance();
+                final PacketFilter filter = filterClass.getConstructor().newInstance();
                 filter.configure(context);
                 filters.add(filter);
-            } catch (InstantiationException | IllegalAccessException ex) {
+            } catch (ReflectiveOperationException ex) {
                 LOGGER.warning("Error instantiating packet filter of class [" + filterClass.getName() + "]", ex);
             }
         }
