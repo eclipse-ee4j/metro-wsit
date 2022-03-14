@@ -1,20 +1,11 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
  * http://www.eclipse.org/org/documents/edl-v10.php.
  *
  * SPDX-License-Identifier: BSD-3-Clause
- */
-
-/*
- * WSITProviderSecurityEnvironment.java
- *
- * Created on November 12, 2006, 1:29 PM
- *
- * To change this template, choose Tools | Template Manager
- * and open the template in the editor.
  */
 
 package com.sun.xml.wss.impl.misc;
@@ -25,6 +16,7 @@ import java.io.IOException;
 import java.security.cert.CertSelector;
 import java.security.cert.CertStore;
 import java.security.cert.CertStoreException;
+import java.util.Base64;
 import java.util.Collection;
 import javax.security.auth.callback.UnsupportedCallbackException;
 import javax.security.auth.login.LoginException;
@@ -72,8 +64,7 @@ import javax.security.auth.x500.X500PrivateCredential;
 import javax.security.auth.callback.NameCallback;
 import javax.security.auth.callback.PasswordCallback;
 import javax.crypto.SecretKey;
-import org.apache.xml.security.utils.Base64;
-import org.apache.xml.security.exceptions.Base64DecodingException;
+
 import com.sun.xml.ws.api.server.Container;
 import com.sun.xml.ws.security.impl.kerberos.KerberosContext;
 import com.sun.xml.ws.security.impl.kerberos.KerberosLogin;
@@ -163,7 +154,7 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
             LogDomainConstants.WSS_API_DOMAIN,LogDomainConstants.WSS_API_DOMAIN_BUNDLE);
     public static final String USERNAME_CBH = "username.callback.handler";
     public static final String PASSWORD_CBH = "password.callback.handler";
-    
+
     private static final SimpleDateFormat calendarFormatter1 =
         new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
     private static final SimpleDateFormat calendarFormatter2 =
@@ -175,7 +166,7 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
     // Nonce clean-up timer
     static final boolean USE_DAEMON_THREAD = true;
     static final Timer nonceCleanupTimer = new Timer(USE_DAEMON_THREAD);
-    
+
     private String myAlias;
     private String keyPwd;
     private String peerEntityAlias;
@@ -194,32 +185,32 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
     private Class passwordCbHandler;
     private String mcs;
     private String tfl;
-    private String mna; 
-           
+    private String mna;
+
     protected long maxClockSkewG;
     protected long timestampFreshnessLimitG;
     protected long maxNonceAge = MessageConstants.MAX_NONCE_AGE;
-   
+
     private boolean isAppClient = true;
-    
+
     private X509Certificate selfCertificate = null;
-    
+
     private String certSelectorClassName;
     private String crlSelectorClassName;
     private Class certSelectorClass;
     private Class crlSelectorClass;
-    
+
     protected String revocationEnabledAttr;
     protected boolean revocationEnabled = false;
-    
+
     private String keystoreCertSelectorClassName;
     private String truststoreCertSelectorClassName;
-    
+
     private Class keystoreCertSelectorClass;
     private Class truststoreCertSelectorClass;
-    
+
     private Container container = null;
-    
+
     private String useXWSSCallbacksStr;
     private boolean useXWSSCallbacks=false;
     private CertificateValidationCallback.CertificateValidator certValidator;
@@ -227,7 +218,7 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
     private Class usernameValidator;
     private Class timestampValidator;
     private com.sun.xml.wss.impl.callback.PasswordValidationCallback.PasswordValidator pwValidator;
-    private TimestampValidationCallback.TimestampValidator tsValidator; 
+    private TimestampValidationCallback.TimestampValidator tsValidator;
     private String jaasLoginModuleForKeystore;
     private Subject loginContextSubjectForKeystore;
     private String keyStoreCBH;
@@ -252,9 +243,9 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
                     ;
                 }// log.INFO
 
-            //while (aliases.hasMoreElements()) {                     
-            //   aliases_keypwds.put(aliases.nextToken(), keypwds.nextToken());                      
-            //}                  
+            //while (aliases.hasMoreElements()) {
+            //   aliases_keypwds.put(aliases.nextToken(), keypwds.nextToken());
+            //}
             }
             container = (Container) _securityOptions.get("CONTAINER");
         }
@@ -273,7 +264,7 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
 
         this.myUsername = configAssertions.getProperty(DefaultCallbackHandler.MY_USERNAME);
         this.myPassword = configAssertions.getProperty(DefaultCallbackHandler.MY_PASSWORD);
-        this.samlCBH = configAssertions.getProperty(DefaultCallbackHandler.SAML_CBH);        
+        this.samlCBH = configAssertions.getProperty(DefaultCallbackHandler.SAML_CBH);
         if (this.samlCBH != null) {
             samlCbHandler = loadClass(samlCBH);
         }
@@ -332,7 +323,7 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
         timestampValidator = loadClass(tV);
         usernameCbHandler = loadClass(uCBH);
         passwordCbHandler = loadClass(pCBH);
-        
+
         try {
             if (certificateValidator != null) {
                 certValidator = (CertificateValidationCallback.CertificateValidator) certificateValidator.newInstance();
@@ -372,14 +363,14 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
         jaasLoginModuleForKeystore = configAssertions.getProperty(DefaultCallbackHandler.JAAS_KEYSTORE_LOGIN_MODULE);
         keyStoreCBH = configAssertions.getProperty(DefaultCallbackHandler.KEYSTORE_CBH);
         loginContextSubjectForKeystore = initJAASKeyStoreLoginModule();
-        
+
     //keep the self certificate handy
 //           if (_handler != null && this.myAlias != null) {
 //               try {
-//                   PrivateKeyCallback.Request request = 
+//                   PrivateKeyCallback.Request request =
 //                           new PrivateKeyCallback.AliasRequest(this.myAlias);
 //                   PrivateKeyCallback pkCallback = new PrivateKeyCallback(request);
-//                   
+//
 //                   Callback[] callbacks = new Callback[] { pkCallback };
 //                   _handler.handle(callbacks);
 //                   Certificate[] chain = pkCallback.getChain();
@@ -430,19 +421,19 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
             log.log(Level.SEVERE,LogStringsMessages.WSS_0222_CANNOT_LOCATE_PRIVKEY(alias), new Object[] {alias});
            throw new XWSSecurityException(
              "Unable to locate private key for the alias: " + alias);
-        } 
+        }
 
         return privateKey;
     }
 
     /*
-     * Retrieves the PrivateKey corresponding to the cert 
+     * Retrieves the PrivateKey corresponding to the cert
      * with the given KeyIdentifier value
      *
      * @param keyIdentifier an Opaque identifier indicating
      * the X509 certificate
      *
-     * @return the PrivateKey corresponding to the cert 
+     * @return the PrivateKey corresponding to the cert
      *  with the given KeyIdentifier value
      *
      * @throws XWSSecurityException
@@ -473,14 +464,14 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
                  Iterator it = set.iterator();
                  while (it.hasNext()) {
                     X500PrivateCredential cred = (X500PrivateCredential)it.next();
-                    if (matchesKeyIdentifier(Base64.decode(keyIdentifier), 
+                    if (matchesKeyIdentifier(Base64.getMimeDecoder().decode(keyIdentifier),
                                              cred.getCertificate()))
                        return cred.getPrivateKey();
                  }
               }
            }
 
-           PrivateKeyCallback.Request request = 
+           PrivateKeyCallback.Request request =
                    new PrivateKeyCallback.SubjectKeyIDRequest(keyIdentifier);
            PrivateKeyCallback pkCallback = new PrivateKeyCallback(request);
            Callback[] callbacks = null;
@@ -492,7 +483,7 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
             }
            _handler.handle(callbacks);
 
-           return pkCallback.getKey(); 
+           return pkCallback.getKey();
         } catch (Exception e) {
             log.log(Level.SEVERE, LogStringsMessages.WSS_0216_CALLBACKHANDLER_HANDLE_EXCEPTION("PrivateKeyCallback.SubjectKeyIDRequest"),
                     new Object[] { "PrivateKeyCallback.SubjectKeyIDRequest"});
@@ -502,11 +493,11 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
     }
 
     /*
-     * Retrieves the PrivateKey corresponding to the given cert 
+     * Retrieves the PrivateKey corresponding to the given cert
      *
      * @param cert an X509 certificate
      *
-     * @return the PrivateKey corresponding to the cert 
+     * @return the PrivateKey corresponding to the cert
      *
      * @throws XWSSecurityException
      */
@@ -546,9 +537,9 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
               }
            }
 
-           PrivateKeyCallback.Request request = 
+           PrivateKeyCallback.Request request =
                    new PrivateKeyCallback.IssuerSerialNumRequest(
-                        cert.getIssuerX500Principal(), cert.getSerialNumber());     
+                        cert.getIssuerX500Principal(), cert.getSerialNumber());
            PrivateKeyCallback pkCallback = new PrivateKeyCallback(request);
            Callback[] callbacks = null;
            if (this.useXWSSCallbacks) {
@@ -559,7 +550,7 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
             }
            _handler.handle(callbacks);
 
-           return pkCallback.getKey(); 
+           return pkCallback.getKey();
         } catch (Exception e) {
             log.log(Level.SEVERE, LogStringsMessages.WSS_0216_CALLBACKHANDLER_HANDLE_EXCEPTION("PrivateKeyCallback.IssuerSerialNumRequest"),
                     new Object[] { "PrivateKeyCallback.IssuerSerialNumRequest"});
@@ -614,9 +605,9 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
               }
            }
 
-           PrivateKeyCallback.Request request = 
+           PrivateKeyCallback.Request request =
                    new PrivateKeyCallback.IssuerSerialNumRequest(
-                            new X500Principal(issuerName), serialNumber);     
+                            new X500Principal(issuerName), serialNumber);
             PrivateKeyCallback pkCallback = new PrivateKeyCallback(request);
             Callback[] callbacks = null;
             if (this.useXWSSCallbacks) {
@@ -627,7 +618,7 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
             }
             _handler.handle(callbacks);
 
-           return pkCallback.getKey(); 
+           return pkCallback.getKey();
         } catch (Exception e) {
             log.log(Level.SEVERE, LogStringsMessages.WSS_0216_CALLBACKHANDLER_HANDLE_EXCEPTION("PrivateKeyCallback.IssuerSerialNumRequest"),
                     new Object[] { "PrivateKeyCallback.IssuerSerialNumRequest"});
@@ -639,14 +630,14 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
     /**
      * Retrieves a reasonable default value for the current user's
      * X509Certificate if one exists.
-     * 
+     *
      * @return the default certificate for the current user
      *
      * @throws XWSSecurityException
      */
-    public X509Certificate getDefaultCertificate(Map context) 
+    public X509Certificate getDefaultCertificate(Map context)
         throws XWSSecurityException {
-        /* 
+        /*
           use PrivateKeyCallback to get the
           certChain - return the first certificate
         */
@@ -659,14 +650,14 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
         Subject subject = getSubject(context);
         if (subject != null) {
            Set set = subject.getPublicCredentials(X509Certificate.class);
-           if (set != null && set.size() == 1) 
-              return ((X509Certificate)(set.toArray())[0]); 
+           if (set != null && set.size() == 1)
+              return ((X509Certificate)(set.toArray())[0]);
         }
-        
+
         if (this.myAlias != null || this.keystoreCertSelectorClass != null) {
             return this.getCertificate(context, this.myAlias, true);
         }
- 
+
         PrivateKeyCallback pkCallback = new PrivateKeyCallback(null);
         Callback[] _callbacks = null;
         if (this.useXWSSCallbacks) {
@@ -684,7 +675,7 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
             log.log(Level.SEVERE,LogStringsMessages.WSS_0217_CALLBACKHANDLER_HANDLE_EXCEPTION_LOG(),e);
             throw new XWSSecurityException(e);
         }
-        
+
         Certificate[] chain = pkCallback.getChain();
         if (chain == null) {
             log.log(Level.SEVERE, LogStringsMessages.WSS_0296_NULL_CHAIN_CERT());
@@ -702,7 +693,7 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
      * @param password
      * @return true if the username-password pair is valid
      */
-    public boolean authenticateUser(Map context,String username, String password) 
+    public boolean authenticateUser(Map context,String username, String password)
            throws XWSSecurityException {
         if (pwValidator != null) {
             com.sun.xml.wss.impl.callback.PasswordValidationCallback.PlainTextPasswordRequest request =
@@ -713,11 +704,11 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
             passwordValidationCallback.setValidator(pwValidator);
             return passwordValidationCallback.getResult();
         }
-         
+
         /*
           use PasswordValidationCallback
         */
-        char[] pwd = (password == null) ? null : password.toCharArray(); 
+        char[] pwd = (password == null) ? null : password.toCharArray();
         PasswordValidationCallback pvCallback = new PasswordValidationCallback(
                 this.getRequesterSubject(context),username, pwd);
         Callback[] callbacks = null;
@@ -735,15 +726,15 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
            throw new XWSSecurityException(e);
         }
 
-        // zero the password 
+        // zero the password
         if (pwd != null)
            pvCallback.clearPassword();
 
         if (log.isLoggable(Level.FINE)) {
             log.log(Level.FINE,"Username Authentication done for " + username);
         }
-        
-        return pvCallback.getResult(); 
+
+        return pvCallback.getResult();
     }
 
     /**
@@ -766,7 +757,7 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
             }
             passwordValidationCallback.getResult();
             password =  request.getPassword();
-        }      
+        }
         return password;
     }
 
@@ -786,7 +777,7 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
         String nonce,
         String created)
         throws XWSSecurityException {
-        
+
          boolean result = false;
          if (pwValidator != null) {
             com.sun.xml.wss.impl.callback.PasswordValidationCallback.DigestPasswordRequest request =
@@ -800,7 +791,7 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
             }
             return passwordValidationCallback.getResult();
         }
-         
+
         if (this.useXWSSCallbacks) {
             com.sun.xml.wss.impl.callback.PasswordValidationCallback.DigestPasswordRequest request =
                     new com.sun.xml.wss.impl.callback.PasswordValidationCallback.DigestPasswordRequest(
@@ -809,7 +800,7 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
                     new com.sun.xml.wss.impl.callback.PasswordValidationCallback(request);
             ProcessingContext.copy(passwordValidationCallback.getRuntimeProperties(), context);
             Callback[] callbacks = new Callback[]{passwordValidationCallback};
-           
+
             try {
                 _handler.handle(callbacks);
                 if (passwordValidationCallback.getValidator() != null) {
@@ -837,7 +828,7 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
                 throw new XWSSecurityException(e);
             }
         }
- 
+
         try {
             RealmAuthenticationAdapter adapter = RealmAuthenticationAdapter.newInstance(null);
             if (adapter != null) {
@@ -854,7 +845,7 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
             log.log(Level.FINE, "Username Authentication done for " + username);
         }
         return result;
-    }  
+    }
 
     /**
      * Validate an X509Certificate.
@@ -862,14 +853,14 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
      * @throws XWSSecurityException
      *     if there is some problem during validation.
      */
-    public boolean validateCertificate(X509Certificate cert, Map context) 
+    public boolean validateCertificate(X509Certificate cert, Map context)
         throws XWSSecurityException {
-        
+
         if (this.certValidator != null) {
             CertificateValidationCallback certValCallback = new CertificateValidationCallback(cert, context);
             certValCallback.setValidator(certValidator);
             certValCallback.setRevocationEnabled(revocationEnabled);
-            return certValCallback.getResult();            
+            return certValCallback.getResult();
         }
         if (this.useXWSSCallbacks) {
             CertificateValidationCallback certValCallback = new CertificateValidationCallback(cert, context);
@@ -889,10 +880,10 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
             }
             return certValCallback.getResult();
         }
-        
+
         /*
-          use TrustStore and CertStore 
-        */ 
+          use TrustStore and CertStore
+        */
         try {
             cert.checkValidity();
         } catch (CertificateExpiredException e) {
@@ -920,13 +911,13 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
         certSelector.setCertificate(cert);
         PKIXBuilderParameters parameters;
         CertPathValidator certPathValidator = null;
-        CertPath certPath = null;        
+        CertPath certPath = null;
         List<Certificate> certChainList = new ArrayList<Certificate>();
         boolean caFound = false;
-        Principal certChainIssuer = null;        
+        Principal certChainIssuer = null;
         int noOfEntriesInTrustStore = 0;
         boolean isIssuerCertMatched = false;
-        
+
         try {
             Callback[] callbacks = null;
             CertStoreCallback csCallback = null;
@@ -944,7 +935,7 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
                callbacks = new Callback[] { tsCallback };
             }
 
-            
+
            try {
              _handler.handle(callbacks);
            } catch (Exception e) {
@@ -952,7 +943,7 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
                     new Object[] { "Validate an X509Certificate"});
              throw new XWSSecurityException(e);
            }
-           
+
             Certificate[] certChain = null;
             String certAlias = tsCallback.getTrustStore().getCertificateAlias(cert);
             if(certAlias!= null){
@@ -961,26 +952,26 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
             if(certChain == null){
                 certChainList.add(cert);
                 certChainIssuer = cert.getIssuerX500Principal();
-                noOfEntriesInTrustStore = tsCallback.getTrustStore().size();                
+                noOfEntriesInTrustStore = tsCallback.getTrustStore().size();
 	    }else{
 		certChainList = Arrays.asList(certChain);
-	    }            
-            while(!caFound && noOfEntriesInTrustStore-- != 0 && certChain == null){                
-                Enumeration aliases = tsCallback.getTrustStore().aliases();                
+	    }
+            while(!caFound && noOfEntriesInTrustStore-- != 0 && certChain == null){
+                Enumeration aliases = tsCallback.getTrustStore().aliases();
                 while (aliases.hasMoreElements()){
-                    String alias = (String) aliases.nextElement();                                      
-                    Certificate certificate = tsCallback.getTrustStore().getCertificate(alias);                    
+                    String alias = (String) aliases.nextElement();
+                    Certificate certificate = tsCallback.getTrustStore().getCertificate(alias);
                     if (certificate == null || !"X.509".equals(certificate.getType()) || certChainList.contains(certificate)) {
                         continue;
                     }
-                    X509Certificate x509Cert = (X509Certificate) certificate;                    
+                    X509Certificate x509Cert = (X509Certificate) certificate;
                     if(certChainIssuer.equals(x509Cert.getSubjectX500Principal())){
                         certChainList.add(certificate);
                         if(x509Cert.getSubjectX500Principal().equals(x509Cert.getIssuerX500Principal())){
-                            caFound = true;                            
+                            caFound = true;
                             break;
-                        }else{                            
-                            certChainIssuer = x509Cert.getIssuerDN();                            
+                        }else{
+                            certChainIssuer = x509Cert.getIssuerDN();
                             if(!isIssuerCertMatched){
 	                        isIssuerCertMatched = true;
                             }
@@ -990,14 +981,14 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
                     }
                 }
                 if(!caFound){
-                    if(!isIssuerCertMatched){                        
-                        break;                        
+                    if(!isIssuerCertMatched){
+                        break;
                     }else{
                         isIssuerCertMatched = false;
                     }
                 }
             }
-            try{                                                
+            try{
                 CertificateFactory cf = CertificateFactory.getInstance("X.509");
                 certPath = cf.generateCertPath(certChainList);
                 certPathValidator = CertPathValidator.getInstance("PKIX");
@@ -1005,11 +996,11 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
                 log.log(Level.SEVERE, com.sun.xml.wss.logging.impl.misc.LogStringsMessages.WSS_1518_FAILEDTO_VALIDATE_CERTIFICATE(), e);
                 throw new CertificateValidationCallback.CertificateValidationException(e.getMessage(), e);
             }
-           
+
             parameters = new PKIXBuilderParameters(tsCallback.getTrustStore(), certSelector);
             parameters.setRevocationEnabled(revocationEnabled);
             parameters.addCertStore(csCallback.getCertStore());
-            
+
         } catch (Exception e) {
             // Log Message
             log.log(Level.SEVERE, LogStringsMessages.WSS_0223_FAILED_CERTIFICATE_VALIDATION(), e);
@@ -1017,7 +1008,7 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
                         e.getMessage(), e);
         }
 
-        try {            
+        try {
             certPathValidator.validate(certPath, parameters);
         } catch (Exception e) {
             log.log(Level.SEVERE, LogStringsMessages.WSS_0223_FAILED_CERTIFICATE_VALIDATION(), e);
@@ -1028,7 +1019,7 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
         if (log.isLoggable(Level.FINE)) {
             log.log(Level.FINE,"Certificate Validation called on certificate " + cert.getSubjectDN());
         }
-        
+
         return true;
     }
 
@@ -1058,7 +1049,7 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
         } catch (LoginException ex) {
             log.log(Level.SEVERE, LogStringsMessages.WSS_0817_KEYSTORE_LOGIN_MODULE_LOGIN_ERROR(), ex);
             throw new XWSSecurityRuntimeException(ex);
-        }       
+        }
     }
 
     private boolean isTrustedSelfSigned(X509Certificate cert) throws XWSSecurityException {
@@ -1110,7 +1101,7 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
                         e.getMessage(), e);
         }
     }
-    
+
     /**
      * @param keyIdMatch
      *            KeyIdentifier to search for
@@ -1118,7 +1109,7 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
      */
     public X509Certificate getMatchingCertificate(Map context, byte[] keyIdMatch)
         throws XWSSecurityException {
-        
+
         Subject subject = getSubject(context);
         if (subject != null) {
            Set set = subject.getPrivateCredentials(X500PrivateCredential.class);
@@ -1162,12 +1153,12 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
                return (X509Certificate)chain[0];
            }
            for (int i=0; i<chain.length; i++) {
-               X509Certificate x509Cert = (X509Certificate)chain[i]; 
+               X509Certificate x509Cert = (X509Certificate)chain[i];
                if (matchesKeyIdentifier(keyIdMatch, x509Cert))
                   return x509Cert;
-           }  
-        } 
- 
+           }
+        }
+
         // if not found, look in CertStore followed by TrustStore
         CertStore certStore = csCallback.getCertStore();
         if (certStore != null) {
@@ -1191,22 +1182,22 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
                 //ex.printStackTrace();
                 log.log(Level.SEVERE, LogStringsMessages.WSS_0713_ERROR_IN_CERTSTORE_LOOKUP(),ex);
                 throw new XWSSecurityException(ex);
-            }   
+            }
         }
-        
-        KeyStore trustStore = tsCallback.getTrustStore();
-        if (trustStore != null) { 
-           X509Certificate otherPartyCert = getMatchingCertificate(keyIdMatch, trustStore);
-           if (otherPartyCert != null) 
-               return otherPartyCert;
-        } 
 
-        // if still not found, throw Exception  
+        KeyStore trustStore = tsCallback.getTrustStore();
+        if (trustStore != null) {
+           X509Certificate otherPartyCert = getMatchingCertificate(keyIdMatch, trustStore);
+           if (otherPartyCert != null)
+               return otherPartyCert;
+        }
+
+        // if still not found, throw Exception
         log.log(Level.SEVERE,LogStringsMessages.WSS_0706_NO_MATCHING_CERT(keyIdMatch),
                 new Object[] { keyIdMatch });
         throw new XWSSecurityException(
             "No Matching Certificate for :"
-                + new String(keyIdMatch) 
+                + new String(keyIdMatch)
                 + " found in KeyStore or TrustStore");
     }
 
@@ -1235,7 +1226,7 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
 
         PrivateKeyCallback.Request request = new PrivateKeyCallback.IssuerSerialNumRequest(
                                                        new X500Principal(issuerName),
-                                                       serialNumber);     
+                                                       serialNumber);
         PrivateKeyCallback pkCallback = new PrivateKeyCallback(request);
         TrustStoreCallback tsCallback = new TrustStoreCallback();
         CertStoreCallback csCallback = new CertStoreCallback();
@@ -1247,7 +1238,7 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
         } else {
             callbacks = new Callback[]{pkCallback, tsCallback, csCallback};
         }
-        
+
         try {
           _handler.handle(callbacks);
         } catch (Exception e) {
@@ -1262,19 +1253,19 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
                return (X509Certificate)chain[0];
            }
            for (int i=0; i < chain.length; i++) {
-               X509Certificate x509Cert = (X509Certificate)chain[i]; 
-               if ( 
+               X509Certificate x509Cert = (X509Certificate)chain[i];
+               if (
                    matchesIssuerSerialAndName(
                                    serialNumber,
                                    issuerName,
                                    x509Cert)) return x509Cert;
            }
-        } else {           
+        } else {
             if ( log.isLoggable(Level.FINE)){
                 log.log(Level.FINE, LogStringsMessages.WSS_0296_NULL_CHAIN_CERT());
             }
-        } 
- 
+        }
+
         // if not found, look in CertStore followed by TrustStore
         CertStore certStore = csCallback.getCertStore();
         if (certStore != null) {
@@ -1299,23 +1290,23 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
                 //ex.printStackTrace();
                 log.log(Level.SEVERE, LogStringsMessages.WSS_0713_ERROR_IN_CERTSTORE_LOOKUP(),ex);
                 throw new XWSSecurityException(ex);
-            }   
+            }
         }
-        
+
         // if not found, look in Truststore
         KeyStore trustStore = tsCallback.getTrustStore();
-        if (trustStore != null) { 
-            X509Certificate otherPartyCert = getMatchingCertificate(serialNumber, 
+        if (trustStore != null) {
+            X509Certificate otherPartyCert = getMatchingCertificate(serialNumber,
                                                                     issuerName,
                                                                     trustStore);
-            if (otherPartyCert != null) 
+            if (otherPartyCert != null)
                 return otherPartyCert;
         } else {
             // log
             log.log(Level.SEVERE, LogStringsMessages.WSS_0707_NULL_TRUSTSTORE());
         }
 
-        // if still not found, throw Exception    
+        // if still not found, throw Exception
         log.log(Level.SEVERE, LogStringsMessages.WSS_0706_NO_MATCHING_CERT( issuerName +" : " + serialNumber),
                 new Object[] { issuerName +" : " + serialNumber });
         throw new XWSSecurityException(
@@ -1330,19 +1321,19 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
      */
     public X509Certificate getMatchingCertificate(Map context, byte[] keyIdMatch, String valueType)
         throws XWSSecurityException {
-        
+
         X509Certificate certificate = XWSSUtil.matchesProgrammaticInfo(context, keyIdMatch, valueType);
         if (certificate != null) {
             return certificate;
         }
         if (MessageConstants.KEY_INDETIFIER_TYPE.equals(valueType)){
             return getMatchingCertificate(context, keyIdMatch);
-        } 
-        
+        }
+
         if (!MessageConstants.THUMB_PRINT_TYPE.equals(valueType)) {
             throw new XWSSecurityException(
-                "Internal Error : Unsupported Valuetype :" 
-                    + valueType + " passed to getMatchingCertificate()");                
+                "Internal Error : Unsupported Valuetype :"
+                    + valueType + " passed to getMatchingCertificate()");
         }
         Subject subject = getSubject(context);
         if (subject != null) {
@@ -1389,9 +1380,9 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
                if (matchesThumbPrint(keyIdMatch, x509Cert)) {
                    return x509Cert;
                }
-           }  
-        } 
- 
+           }
+        }
+
          // if not found, look in CertStore followed by TrustStore
         CertStore certStore = csCallback.getCertStore();
         if (certStore != null) {
@@ -1415,17 +1406,17 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
                 //ex.printStackTrace();
                 log.log(Level.SEVERE, LogStringsMessages.WSS_0713_ERROR_IN_CERTSTORE_LOOKUP(),ex);
                 throw new XWSSecurityException(ex);
-            }   
+            }
         }
-       
-        // if not found, look in Truststore 
+
+        // if not found, look in Truststore
         KeyStore trustStore = tsCallback.getTrustStore();
-        if (trustStore != null) { 
+        if (trustStore != null) {
            X509Certificate otherPartyCert = getMatchingCertificate(keyIdMatch, trustStore, valueType);
            if (otherPartyCert != null) return otherPartyCert;
-        } 
+        }
 
-        // if still not found, throw Exception   
+        // if still not found, throw Exception
         log.log(Level.SEVERE, LogStringsMessages.WSS_0706_NO_MATCHING_CERT(keyIdMatch),
                 new Object[] { keyIdMatch });
         throw new XWSSecurityException(
@@ -1437,7 +1428,7 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
     public SecretKey getSecretKey(Map context, String alias, boolean encryptMode)
         throws XWSSecurityException {
         /*
-           Use SecretKeyCallback 
+           Use SecretKeyCallback
         */
         SecretKeyCallback.Request request = new SecretKeyCallback.AliasRequest(alias);
         SecretKeyCallback skCallback = new SecretKeyCallback(request);
@@ -1455,7 +1446,7 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
                     new Object[] { "SecretKeyCallback.AliasRequest"});
             throw new XWSSecurityException(e);
         }
- 
+
         return (SecretKey) skCallback.getKey();
     }
 
@@ -1511,7 +1502,7 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
                 }
             }
         }
-       
+
         PrivateKeyCallback pkCallback = null;
         if (forSigning) {
             try {
@@ -1527,7 +1518,7 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
                         }
                     }
                 }
-                
+
                 PrivateKeyCallback.Request request = new PrivateKeyCallback.AliasRequest(actualAlias);
                 pkCallback = new PrivateKeyCallback(request);
 
@@ -1543,7 +1534,7 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
                 log.log(Level.SEVERE,LogStringsMessages.WSS_0221_CANNOT_LOCATE_CERT(alias), new Object[] {alias});
                 throw new XWSSecurityException(e);
             }
-            
+
             Certificate[] chain = pkCallback.getChain();
             if (chain != null){
                 cert = (X509Certificate)chain[0];
@@ -1581,7 +1572,7 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
                     }
                 }
             } else {
-                
+
                 //actualAlias == null || "".equals(actualAlias)
                 // first if certStore configured then give it a chance
                 if (this.certSelectorClass != null) {
@@ -1603,7 +1594,7 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
                         log.log(Level.SEVERE,LogStringsMessages.WSS_0221_CANNOT_LOCATE_CERT(alias), new Object[] {alias});
                         throw new XWSSecurityException(ex);
                     }
-                    
+
                     if (csCallback.getCertStore() != null) {
                         CertSelector selector = XWSSUtil.getCertSelector(certSelectorClass, context);
                         if (selector != null) {
@@ -1620,9 +1611,9 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
                         }
                     }
                 }
-                
+
                 if (cert == null && this.truststoreCertSelectorClass != null) {
-                    
+
                     TrustStoreCallback tsCallback = new TrustStoreCallback();
                     Callback[] _callbacks = null;
                     if (this.useXWSSCallbacks) {
@@ -1640,9 +1631,9 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
                         log.log(Level.SEVERE,LogStringsMessages.WSS_0221_CANNOT_LOCATE_CERT(alias), new Object[] {alias});
                         throw new XWSSecurityException(ex);
                     }
-                    
+
                     KeyStore trustStore = tsCallback.getTrustStore();
-                    
+
                     if (trustStore != null) {
                         if (this.truststoreCertSelectorClass != null) {
                             CertSelector selector = XWSSUtil.getCertSelector(truststoreCertSelectorClass, context);
@@ -1671,23 +1662,23 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
                             }
                         }
                     }
-                } 
+                }
                 if (cert == null) {
                     cert = getDynamicCertificate(context);
                 }
             }
         }
-        
+
         if (cert == null) {
             log.log(Level.SEVERE,LogStringsMessages.WSS_0221_CANNOT_LOCATE_CERT(actualAlias));
            throw new XWSSecurityException(
              "Unable to locate certificate for the alias '" + actualAlias + "'");
-        } 
+        }
 
         return cert;
     }
 
-  
+
     private boolean isMyCert(X509Certificate certificate, Map context) {
         try {
             X509Certificate cert = getDefaultCertificate(context);
@@ -1758,7 +1749,7 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
         return false;
     }
 
-      
+
     private boolean matchesThumbPrint(
         byte[] keyIdMatch,
         X509Certificate x509Cert) throws XWSSecurityException {
@@ -1809,8 +1800,8 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
             log.log(Level.SEVERE, LogStringsMessages.WSS_0706_NO_MATCHING_CERT(keyIdMatch),
                     new Object[] { keyIdMatch });
             throw new XWSSecurityException(
-                "No Matching Certificate for :" 
-                    + new String(keyIdMatch) + " found in KeyStore.", kEx);    
+                "No Matching Certificate for :"
+                    + new String(keyIdMatch) + " found in KeyStore.", kEx);
         }
         return null;
     }
@@ -1826,8 +1817,8 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
         }
         if (!MessageConstants.THUMB_PRINT_TYPE.equals(valueType)) {
             throw new XWSSecurityException(
-                "Internal Error : Unsupported Valuetype :" 
-                    + valueType + " passed to getMatchingCertificate()");                
+                "Internal Error : Unsupported Valuetype :"
+                    + valueType + " passed to getMatchingCertificate()");
         }
         // now handle thumbprint here
         if (kStore == null) {
@@ -1855,12 +1846,12 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
             log.log(Level.SEVERE, LogStringsMessages.WSS_0706_NO_MATCHING_CERT(keyIdMatch),
                     new Object[] { keyIdMatch });
             throw new XWSSecurityException(
-                "No Matching Certificate for :" 
-                    + new String(keyIdMatch) + " found in KeyStore.", kEx);                
+                "No Matching Certificate for :"
+                    + new String(keyIdMatch) + " found in KeyStore.", kEx);
         }
         return null;
     }
-    
+
     private boolean matchesIssuerSerialAndName(
         BigInteger serialNumberMatch,
         String issuerNameMatch,
@@ -1912,8 +1903,8 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
             log.log(Level.SEVERE, LogStringsMessages.WSS_0706_NO_MATCHING_CERT(issuerName + " : " + serialNumber),
                     new Object[] { issuerName + " : " + serialNumber });
             throw new XWSSecurityException(
-                "No Matching Certificate for :" 
-                    + issuerName + " : " + serialNumber + " found in KeyStore.", kEx);                
+                "No Matching Certificate for :"
+                    + issuerName + " : " + serialNumber + " found in KeyStore.", kEx);
         }
         return null;
     }
@@ -1922,7 +1913,7 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
         PublicKey publicKey,
         KeyStore kStore)
         throws XWSSecurityException {
-                                                                                                                                                                                    
+
         if (kStore == null) {
             return null;
         }
@@ -1953,7 +1944,7 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
         Subject subject,
         String username,
         String password) {
-        
+
         CallerPrincipalCallback pvCallback = new CallerPrincipalCallback(subject, username);
         Callback[] callbacks = new Callback[] { pvCallback };
         try {
@@ -1964,11 +1955,11 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
            throw new XWSSecurityRuntimeException(e);
         }
     }
-    
+
     public void updateOtherPartySubject(
         final Subject subject,
         final X509Certificate cert) {
-      
+
        Principal principal = cert.getSubjectX500Principal();
        AccessController.doPrivileged(
                 new PrivilegedAction<Object>() {
@@ -1977,7 +1968,7 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
                 return null;
             }
         });
-        
+
         CallerPrincipalCallback pvCallback = new CallerPrincipalCallback(subject,principal);
         Callback[] callbacks = new Callback[] { pvCallback };
         try {
@@ -2022,7 +2013,7 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
             log.log(Level.SEVERE, LogStringsMessages.WSS_0706_NO_MATCHING_CERT(keyIdentifier),
                     new Object[] { keyIdentifier });
         throw new XWSSecurityException("No Matching Certificate for :"
-                + keyIdentifier + " found in KeyStore ");            
+                + keyIdentifier + " found in KeyStore ");
         }
     }
 
@@ -2036,7 +2027,7 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
             throw new XWSSecurityException(e);
         }
     }
-    
+
     public PublicKey getPublicKey(Map context, byte[] identifier, String valueType)
     throws XWSSecurityException {
         return getCertificate(context, identifier, valueType).getPublicKey();
@@ -2045,8 +2036,8 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
     private byte[] getDecodedBase64EncodedData(String encodedData)
         throws XWSSecurityException {
         try {
-            return Base64.decode(encodedData);
-        } catch (Base64DecodingException e) {
+            return Base64.getMimeDecoder().decode(encodedData);
+        } catch (IllegalArgumentException e) {
             log.log(Level.SEVERE, LogStringsMessages.WSS_0144_UNABLETO_DECODE_BASE_64_DATA(e.getMessage()) ,e);
             throw new SecurityHeaderException(
                 "Unable to decode Base64 encoded data", e);
@@ -2101,9 +2092,9 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
         }
         //TODO: Log here
         throw new XWSSecurityRuntimeException("Could not locate Matching Private Key for: " + publicKey);
-        
+
     }
-    
+
     public X509Certificate getCertificate(Map context, byte[] ski) {
         X509Certificate cert = XWSSUtil.matchesProgrammaticInfo(context, ski, MessageConstants.KEY_INDETIFIER_TYPE);
         if (cert != null) {
@@ -2115,7 +2106,7 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
             throw new RuntimeException(ex);
         }
     }
-    
+
     public X509Certificate getCertificate(Map context, PublicKey publicKey, boolean forSign)
         throws XWSSecurityException {
 
@@ -2139,7 +2130,7 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
         	    }
          	}
 	    }
-                                                                                                                                                             
+
         if (!forSign) {
             CertStoreCallback csCallback = new CertStoreCallback();
             TrustStoreCallback tsCallback = new TrustStoreCallback();
@@ -2151,7 +2142,7 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
             } else {
                 callbacks = new Callback[]{csCallback, tsCallback};
             }
-                                                                                                                                                             
+
             try {
 	            _handler.handle(callbacks);
             } catch (Exception e) {
@@ -2192,18 +2183,18 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
             }
         } else {
             // search in keystore
-            //TODO: not required currently, and also we cannot browse the GF keystore via 196 callbacks 
+            //TODO: not required currently, and also we cannot browse the GF keystore via 196 callbacks
         }
-                                                                                                                                                             
+
         // if still not found, throw Exception
         log.log(Level.SEVERE, LogStringsMessages.WSS_0216_CALLBACKHANDLER_HANDLE_EXCEPTION(publicKey),
             new Object[] { publicKey });
         throw new XWSSecurityException(
             "No Matching Certificate for :"
             + publicKey
-            + " found in KeyStore or TrustStore");                
+            + " found in KeyStore or TrustStore");
     }
-    
+
     public X509Certificate getCertificate(Map context, byte[] identifier, String valueType)
     throws XWSSecurityException {
         if (context != null) {
@@ -2219,7 +2210,7 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
         //Handle Thumbprint Reference here
         return this.getMatchingCertificate(context, identifier, valueType);
     }
-    
+
 
     public boolean validateSamlIssuer(String issuer) {
         return true;
@@ -2289,7 +2280,7 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
         return c.getTime();
     }
 
-     
+
     public String getUsername(Map context) throws XWSSecurityException {
         if (context == null) {
             return null;
@@ -2306,7 +2297,7 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
                 return username;
             }
         }
-        
+
         NameCallback nameCallback = new NameCallback("Username: ");
         try {
             Callback[] cbs = null;
@@ -2342,7 +2333,7 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
         return nameCallback.getName();
     }
 
-     
+
     public String getPassword(Map context) throws XWSSecurityException {
 
         //actually check if myPassword starts with $ etc
@@ -2380,7 +2371,7 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
             }
             if (password != null) {
                 return password;
-            } 
+            }
         }
         PasswordCallback pwdCallback = new PasswordCallback("Password: ", false);
         Callback[] cbs = null;
@@ -2421,14 +2412,14 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
 
         return new String(pwdCallback.getPassword());
     }
-  
+
     public boolean validateAndCacheNonce(Map context, String nonce, String created, long nonceAge) throws XWSSecurityException {
         NonceManager nonceMgr = null;
         if (this.mna != null) {
             nonceMgr = NonceManager.getInstance(this.maxNonceAge, (WSEndpoint)context.get(MessageConstants.WSENDPOINT));
         } else {
             nonceMgr = NonceManager.getInstance(nonceAge, (WSEndpoint)context.get(MessageConstants.WSENDPOINT));
-        }   
+        }
         return nonceMgr.validateNonce(nonce, created);
     }
 
@@ -2436,8 +2427,8 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
     public void validateTimestamp(Map context, String created,
                String expires, long maxClockSkew, long freshnessLimit)
                throws XWSSecurityException{
-        
-        
+
+
         if (this.tsValidator != null) {
             TimestampValidationCallback.UTCTimestampRequest request =
                     new TimestampValidationCallback.UTCTimestampRequest(
@@ -2481,7 +2472,7 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
                 log.log(Level.SEVERE, LogStringsMessages.WSS_0229_FAILED_VALIDATING_TIME_STAMP(), e);
                 throw SOAPUtil.newSOAPFaultException(MessageConstants.WSSE_INVALID_SECURITY_TOKEN, e.getMessage(), e);
             }
-            
+
         }
         if (expiresBeforeCreated(created, expires)) {
             log.log(Level.SEVERE, LogStringsMessages.WSS_0232_EXPIRED_MESSAGE());
@@ -2516,7 +2507,7 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
                         expires = calendarFormatter1.parse(expirationTime);
                     }
                 }
-            
+
             } catch (java.text.ParseException pe) {
                 synchronized(calendarFormatter2) {
                     created = calendarFormatter2.parse(creationTime);
@@ -2531,7 +2522,7 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
              log.log(Level.SEVERE, LogStringsMessages.WSS_0394_ERROR_PARSING_EXPIRATIONTIME());
              throw new XWSSecurityException(pe.getMessage());
          }
-                                                                                                                                                             
+
         if ((expires != null) && expires.before(created))
             return true;
 
@@ -2544,7 +2535,7 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
     long maxClockSkew,
     long timestampFreshnessLimit)
     throws XWSSecurityException {
-        
+
         if (this.tsValidator != null) {
             TimestampValidationCallback.UTCTimestampRequest request =
                     new TimestampValidationCallback.UTCTimestampRequest(
@@ -2567,7 +2558,7 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
                 throw SOAPUtil.newSOAPFaultException(MessageConstants.WSSE_INVALID_SECURITY_TOKEN, e.getMessage(), e);
             }
         }
-        
+
         if (this.useXWSSCallbacks) {
             TimestampValidationCallback.UTCTimestampRequest request =
                     new TimestampValidationCallback.UTCTimestampRequest(
@@ -2590,19 +2581,19 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
                 log.log(Level.SEVERE, LogStringsMessages.WSS_0229_FAILED_VALIDATING_TIME_STAMP(), e);
                 throw SOAPUtil.newSOAPFaultException(MessageConstants.WSSE_INVALID_SECURITY_TOKEN, e.getMessage(), e);
             }
-            
+
         }
-        
+
         long maxClockSkewActual  = maxClockSkew;
         long freshnessLimitActual = timestampFreshnessLimit;
-        
+
         if (this.mcs != null && this.maxClockSkewG >= 0) {
             maxClockSkewActual = this.maxClockSkewG;
         }
         if (this.tfl != null && this.timestampFreshnessLimitG > 0) {
-            freshnessLimitActual = this.timestampFreshnessLimitG;    
+            freshnessLimitActual = this.timestampFreshnessLimitG;
         }
-        
+
         Date created;
         try {
             synchronized(calendarFormatter1) {
@@ -2619,11 +2610,11 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
                     "Exception while parsing Creation Time :" + pe1.getMessage());
             }
         }
-            
+
         Date current = null;
         try {
             current = getFreshnessAndSkewAdjustedDate(maxClockSkewActual, freshnessLimitActual);
-          
+
         } catch (java.text.ParseException pe) {
             log.log(Level.SEVERE,LogStringsMessages.WSS_0712_ERROR_ADJUST_SKEW_FRESHNESS_TIME(), pe);
             throw new XWSSecurityException(pe.getMessage());
@@ -2637,7 +2628,7 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
                 "Creation Time is older than configured Timestamp Freshness Interval!",
                 xwsse, true);
         }
-            
+
         Date currentTime = getGMTDateWithSkewAdjusted(new GregorianCalendar(), maxClockSkewActual, true);
 
         if (currentTime.before(created)) {
@@ -2655,14 +2646,14 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
         throws XWSSecurityException {
         long maxClockSkewActual  = maxClockSkew;
         long freshnessLimitActual = timestampFreshnessLimit;
-        
+
         if (this.mcs != null && this.maxClockSkewG >= 0) {
             maxClockSkewActual = this.maxClockSkewG;
         }
         if (this.tfl != null && this.timestampFreshnessLimitG > 0) {
-            freshnessLimitActual = this.timestampFreshnessLimitG;    
+            freshnessLimitActual = this.timestampFreshnessLimitG;
         }
-        
+
         if (expirationTime != null) {
             Date expires;
             try {
@@ -2680,7 +2671,7 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
                         "Exception while parsing Expiration Time :" + pe1.getMessage());
                 }
             }
-                
+
             Date currentTime = getGMTDateWithSkewAdjusted(new GregorianCalendar(), maxClockSkewActual, false);
 
             if (expires.before(currentTime)) {
@@ -2698,7 +2689,7 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
         return _handler;
     }
 
-  
+
     public void validateSAMLAssertion(Map context, Element assertion) throws XWSSecurityException {
         //Subject subj = (Subject) context.get(MessageConstants.AUTH_SUBJECT);
         if (sValidator != null) {
@@ -2719,10 +2710,10 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
             }
         }
     }
-    
+
     public Element locateSAMLAssertion(Map context, Element binding, String assertionId, Document ownerDoc)
     throws XWSSecurityException {
-        
+
         if (samlHandler != null) {
             SAMLCallback sc = new SAMLCallback();
             sc.setAssertionId(assertionId);
@@ -2738,24 +2729,24 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
                 throw new XWSSecurityException(ex);
             }
             return sc.getAssertionElement();
-            
+
         }else {
             log.log(Level.SEVERE, LogStringsMessages.WSS_0717_NO_SAML_CALLBACK_HANDLER());
             throw new XWSSecurityException(
                     new UnsupportedCallbackException(null, "A Required SAML Callback Handler was not specified in configuration : Cannot Populate SAML Assertion"));
         }
-        
+
     }
-    
+
     public AuthenticationTokenPolicy.SAMLAssertionBinding populateSAMLPolicy(Map fpcontext, AuthenticationTokenPolicy.SAMLAssertionBinding samlBinding,
             DynamicApplicationContext context)
             throws XWSSecurityException {
-        
-        AuthenticationTokenPolicy.SAMLAssertionBinding ret = 
+
+        AuthenticationTokenPolicy.SAMLAssertionBinding ret =
                 (AuthenticationTokenPolicy.SAMLAssertionBinding)samlBinding.clone();
         if (AuthenticationTokenPolicy.SAMLAssertionBinding.SV_ASSERTION.equals(samlBinding.getAssertionType())) {
-            
-            if (samlHandler != null) {            
+
+            if (samlHandler != null) {
                 SAMLCallback sc = new SAMLCallback();
                 SecurityUtil.copy(sc.getRuntimeProperties(), fpcontext);
                 sc.setConfirmationMethod(SAMLCallback.SV_ASSERTION_TYPE);
@@ -2774,17 +2765,17 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
                 ret.setAssertion(sc.getAssertionReader());
                 ret.setAuthorityBinding(sc.getAuthorityBindingElement());
                 ret.setSAMLVersion(sc.getSAMLVersion());
-                
+
             }else {
                 log.log(Level.SEVERE, LogStringsMessages.WSS_0717_NO_SAML_CALLBACK_HANDLER());
                 throw new XWSSecurityException(
                         new UnsupportedCallbackException(null, "A Required SAML Callback Handler was not specified in configuration : Cannot Populate SAML Assertion"));
             }
-            
+
         } else {
 
             if (samlHandler != null) {
-                
+
                 SAMLCallback sc = new SAMLCallback();
                 SecurityUtil.copy(sc.getRuntimeProperties(), fpcontext);
                 sc.setConfirmationMethod(SAMLCallback.HOK_ASSERTION_TYPE);
@@ -2812,11 +2803,11 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
                 throw new XWSSecurityException(
                         new UnsupportedCallbackException(
                         null, "A Required SAML Callback Handler was not specified in configuration : Cannot Populate SAML Assertion"));
-            } 
+            }
         }
         return ret;
     }
-    
+
 
     private static Date getGMTDateWithSkewAdjusted(
     Calendar c, long maxClockSkew, boolean addSkew) {
@@ -2826,12 +2817,12 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
         }
         long beforeTime = c.getTimeInMillis();
         long currentTime = beforeTime - offset;
-        
+
         if (addSkew)
             currentTime = currentTime + maxClockSkew;
         else
             currentTime = currentTime - maxClockSkew;
-        
+
         c.setTimeInMillis(currentTime);
         return c.getTime();
     }
@@ -2846,11 +2837,11 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
         }
         long beforeTime = c.getTimeInMillis();
         long currentTime = beforeTime - offset;
-        
+
         // allow for clock_skew and timestamp_freshness
         long adjustedTime = currentTime - maxClockSkew - timestampFreshnessLimit;
         c.setTimeInMillis(adjustedTime);
-        
+
         return c.getTime();
     }
 
@@ -2879,31 +2870,31 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
                 //allow tests that use same cert for client and server
                 return self;
             }
-        } 
+        }
         /*
         String keyId = (String)context.get(MessageConstants.REQUESTER_KEYID);
         String issuerName = (String)context.get(MessageConstants.REQUESTER_ISSUERNAME);
         BigInteger issuerSerial = (BigInteger)context.get(MessageConstants.REQUESTER_SERIAL);
-        //TODO: we are not looking for Thumbprints similarly here 
+        //TODO: we are not looking for Thumbprints similarly here
         if (keyId != null) {
             try {
                 cert = getMatchingCertificate(keyId.getBytes(), trustStore);
-                if (cert != null) 
+                if (cert != null)
                     return cert;
             } catch (XWSSecurityException e) {}
         } else if ((issuerName != null) && (issuerSerial != null)) {
             try {
                 cert = getMatchingCertificate(issuerSerial, issuerName, trustStore);
-                if (cert != null) 
+                if (cert != null)
                     return cert;
             } catch (XWSSecurityException e) {}
         } */
-        
+
         return null;
     }
-    
 
-    public PrivateKey getPrivateKey(Map context, byte[] keyIdentifier, String valueType) 
+
+    public PrivateKey getPrivateKey(Map context, byte[] keyIdentifier, String valueType)
         throws XWSSecurityException {
         X509Certificate cert = XWSSUtil.matchesProgrammaticInfo(context, keyIdentifier, valueType);
         if (cert != null) {
@@ -2917,8 +2908,8 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
         }
         if (!MessageConstants.THUMB_PRINT_TYPE.equals(valueType)) {
             throw new XWSSecurityException(
-                "Internal Error : Unsupported Valuetype :" 
-                    + valueType + " passed to getPrivateKey()");                
+                "Internal Error : Unsupported Valuetype :"
+                    + valueType + " passed to getPrivateKey()");
         }
         //Handle Thumbprint type here
         try {
@@ -2929,14 +2920,14 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
                  Iterator it = set.iterator();
                  while (it.hasNext()) {
                     X500PrivateCredential cred = (X500PrivateCredential)it.next();
-                    if (matchesThumbPrint(Base64.decode(keyIdentifier), 
+                    if (matchesThumbPrint(Base64.getMimeDecoder().decode(keyIdentifier),
                                              cred.getCertificate()))
                        return cred.getPrivateKey();
                  }
               }
            }
 
-           PrivateKeyCallback.Request request = 
+           PrivateKeyCallback.Request request =
                    new PrivateKeyCallback.DigestRequest(keyIdentifier, "SHA-1");
            PrivateKeyCallback pkCallback = new PrivateKeyCallback(request);
            Callback[] callbacks = null;
@@ -2948,7 +2939,7 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
             }
            _handler.handle(callbacks);
 
-           return pkCallback.getKey(); 
+           return pkCallback.getKey();
         } catch (Exception e) {
             log.log(Level.SEVERE,LogStringsMessages.WSS_0216_CALLBACKHANDLER_HANDLE_EXCEPTION("PrivateKeyCallback.SubjectKeyIDRequest"),
                     new Object[] { "PrivateKeyCallback.SubjectKeyIDRequest"});
@@ -2968,7 +2959,7 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
                 } else {
                     sValidator.validate(assertion);
                 }
-                
+
             } catch (SAMLAssertionValidator.SAMLValidationException e) {
                 log.log(Level.SEVERE, LogStringsMessages.WSS_0716_FAILED_VALIDATE_SAML_ASSERTION(), e);
                 throw new XWSSecurityException(e);
@@ -2982,14 +2973,14 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
                 return;
         }
         AccessController.doPrivileged(
-           
+
                 new PrivilegedAction<Object>() {
             public Object run() {
                 subject.getPublicCredentials().add(assertion);
                 return null;
             }
         });
-                
+
     }
 
     public boolean isSelfCertificate(X509Certificate cert) {
@@ -2997,7 +2988,7 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
 //        if (this.selfCertificate != null && this.selfCertificate.equals(cert)) {
 //            return true;
 //        }
-//        
+//
 //        if (_handler != null) {
 //            String alias = this.myAlias;
 //            if (alias == null) {
@@ -3015,14 +3006,14 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
 //                    }
 //                    alias = selector.select(null);
 //                }
-//                
+//
 //            }
 //            if (alias != null) {
 //                try {
 //                    PrivateKeyCallback.Request request =
 //                            new PrivateKeyCallback.AliasRequest(alias);
 //                    PrivateKeyCallback pkCallback = new PrivateKeyCallback(request);
-//                    
+//
 //                    Callback[] callbacks = new Callback[] { pkCallback };
 //                    _handler.handle(callbacks);
 //                    Certificate[] chain = pkCallback.getChain();
@@ -3040,7 +3031,7 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
 //        }
 //        return false;
     }
-    
+
     private Class loadClass(String classname) throws XWSSecurityException {
         if (classname == null) {
             return null;
@@ -3081,7 +3072,7 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
         throw new XWSSecurityException("Could not find User Class " + classname);
     }
 
-    
+
 
     public void updateOtherPartySubject(Subject subject, Subject bootStrapSubject) {
         SecurityUtil.copySubject(subject, bootStrapSubject);
@@ -3089,7 +3080,7 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
 
     public KerberosContext doKerberosLogin() throws XWSSecurityException {
         if(krbLoginModule == null || krbLoginModule.equals("")){
-           throw new XWSSecurityException("Login Module for Kerberos login is not set or could not be obtained"); 
+           throw new XWSSecurityException("Login Module for Kerberos login is not set or could not be obtained");
         }
         if(krbServicePrincipal == null || krbServicePrincipal.equals("")){
             throw new XWSSecurityException("Kerberos Service Principal is not set or could not be obtained");
@@ -3101,10 +3092,10 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
         return new KerberosLogin().login(krbLoginModule, tokenValue);
     }
 
-    public void updateOtherPartySubject(final Subject subject, 
-            final GSSName clientCred, 
+    public void updateOtherPartySubject(final Subject subject,
+            final GSSName clientCred,
             final GSSCredential gssCred) {
-        
+
         try {
             final KerberosPrincipal kerbPrincipal = new KerberosPrincipal(clientCred.toString());
             CallerPrincipalCallback pvCallback = new CallerPrincipalCallback(subject, kerbPrincipal.getName());
@@ -3123,7 +3114,7 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
                     return null; // nothing to return
                 }
             });
-        
+
         } catch (Exception e) {
             log.log(Level.SEVERE, LogStringsMessages.WSS_0216_CALLBACKHANDLER_HANDLE_EXCEPTION("CallerPrincipalCallback"),
                     new Object[]{"CallerPrincipalCallback"});

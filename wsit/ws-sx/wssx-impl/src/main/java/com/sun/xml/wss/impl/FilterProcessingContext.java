@@ -96,7 +96,7 @@ public class FilterProcessingContext extends ProcessingContextImpl {
      *
      * For sender side optimizations concerning reducing the export of
      * the token to a single occasion per message, the Cache would require
-     * more dimensions (>2).
+     * more dimensions ({@code >2}).
      */
     private HashMap tokenCache = new HashMap();
     /**

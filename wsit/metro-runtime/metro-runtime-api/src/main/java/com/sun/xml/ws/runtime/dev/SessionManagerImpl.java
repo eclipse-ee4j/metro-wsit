@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -58,27 +58,27 @@ import org.glassfish.ha.store.api.BackingStoreFactory;
  * @author Mike Grogan
  */
 public class SessionManagerImpl extends SessionManager {
-    
+
     /**
-     * Map of session id --> session
+     * Map of session id --{@literal >} session
      */
     private Map<String, Session> sessionMap
             = new HashMap<String, Session>();
     /**
-     * Map of SecurityContextId --> IssuedTokenContext
+     * Map of SecurityContextId --{@literal >} IssuedTokenContext
      */
     private Map<String, IssuedTokenContext> issuedTokenContextMap
             = new HashMap<String, IssuedTokenContext>();
     /**
-     * Map of wsu:Instance --> SecurityContextTokenInfo
+     * Map of wsu:Instance --{@literal >} SecurityContextTokenInfo
      */
     private Map<String, SecurityContextTokenInfo> securityContextTokenInfoMap
             = new HashMap<String, SecurityContextTokenInfo>();
 
     private final BackingStore<StickyKey, HASecurityContextTokenInfo> sctBs;
-    
 
-    
+
+
     /** Creates a new instance of SessionManagerImpl */
     public SessionManagerImpl(WSEndpoint endpoint, boolean isSC) {
         if (isSC){
@@ -92,13 +92,13 @@ public class SessionManagerImpl extends SessionManager {
             sctBs = null;
         }
     }
-    
+
     /** Creates a new instance of SessionManagerImpl */
     public SessionManagerImpl(WSEndpoint endpoint, boolean isSC, Properties config) {
         this(endpoint,isSC);
         SessionManagerImpl.setConfig(config);
     }
-    
+
     /**
      * Returns an existing session identified by the Key else null
      *
@@ -149,8 +149,8 @@ public class SessionManagerImpl extends SessionManager {
      * @param key The Session key to be used.
      * @return The new Session.. <code>null</code> if the given
      * class cannot be instantiated.
-     * 
-     */ 
+     *
+     */
     public  Session createSession(String key, Class clasz) {
         //Issue 17328 - clear expired sessions after timeout
         Properties props = getConfig();
@@ -165,41 +165,39 @@ public class SessionManagerImpl extends SessionManager {
             Calendar expCal = Calendar.getInstance(Locale.getDefault());
             expCal.setTimeInMillis(expDate.getTime());
             if(Calendar.getInstance(Locale.getDefault()).compareTo(expCal)> (timeOut * 60 * 1000)) {
-               terminateSession(session.getSessionKey()); 
+               terminateSession(session.getSessionKey());
             }
         }
         Session sess;
         try {
-            sess = new Session(this, key, clasz.newInstance());
-        } catch (InstantiationException e) {
-            return null;
-        } catch (IllegalAccessException ee) {
+            sess = new Session(this, key, clasz.getConstructor().newInstance());
+        } catch (ReflectiveOperationException e) {
             return null;
         }
-        
+
         sessionMap.put(key, sess);
         return sess;
-        
+
     }
-    
-    
+
+
     /**
      * Creates a Session with the given key, using the specified Object
      * as a holder for user-defined data.
      *
      * @param key The Session key to be used.
      * @param obj The object to use as a holder for user data in the session.
-     * @return The new Session. 
-     * 
-     */ 
+     * @return The new Session.
+     *
+     */
     public Session createSession(String key, Object obj) {
         Session session = new Session(this, key, Collections.synchronizedMap(new HashMap<String, String>()));
         sessionMap.put(key, session);
-        
+
         return session;
     }
-    
-    public Session createSession(String key, SecurityContextTokenInfo sctInfo) {  
+
+    public Session createSession(String key, SecurityContextTokenInfo sctInfo) {
         Session session = new Session(this, key, Collections.synchronizedMap(new HashMap<String, String>()));
         session.setSecurityInfo(sctInfo);
         sessionMap.put(key, session);
@@ -215,23 +213,23 @@ public class SessionManagerImpl extends SessionManager {
                 HaContext.updateHaInfo(new HaInfo(stickyKey.getHashKey(), replicaId, false));
             }
         }
-        
+
         return session;
     }
-    
+
      /**
-     * Creates a Session with the given key, using an instance of 
+     * Creates a Session with the given key, using an instance of
      * synchronized {@code java.util.Map<String, String>} a sa holder for user-defined data.
      *
      * @param key The Session key to be used.
      * @return The new Session.
-     * 
-     */ 
-    public Session createSession(String key) {   
+     *
+     */
+    public Session createSession(String key) {
        return createSession(key, Collections.synchronizedMap(new HashMap<String, String>()));
     }
-    
-     
+
+
     /**
      * Does nothing in this implementation.
      *
@@ -246,30 +244,30 @@ public class SessionManagerImpl extends SessionManager {
      * @param key The key of the security context to be looked
      * @return IssuedTokenContext for security context key
      */
-    
+
     public IssuedTokenContext getSecurityContext(String key, boolean checkExpiry){
-        IssuedTokenContext ctx = issuedTokenContextMap.get(key);        
+        IssuedTokenContext ctx = issuedTokenContextMap.get(key);
         if(ctx == null){
             // recovery of security context in case of crash
             boolean recovered = false;
-            Session session = getSession(key);            
+            Session session = getSession(key);
             if (session != null) {
                 // recreate context info based on data stored in the session
                 SecurityContextTokenInfo sctInfo = session.getSecurityInfo();
                 if (sctInfo != null) {
                     ctx = sctInfo.getIssuedTokenContext();
-                    // Add it to the Session Manager's local cache, after possible crash                
-                    addSecurityContext(key, ctx);               
+                    // Add it to the Session Manager's local cache, after possible crash
+                    addSecurityContext(key, ctx);
                     recovered = true;
                 }
             }
-            
-            if (!recovered){                
+
+            if (!recovered){
                 throw new WebServiceException("Could not locate SecureConversation session for Id:" + key);
             }
         }else if (ctx.getSecurityContextTokenInfo() == null && ctx.getSecurityToken() != null){
             String sctInfoKey = ((SecurityContextToken)ctx.getSecurityToken()).getIdentifier().toString()+"_"+
-                            ((SecurityContextToken)ctx.getSecurityToken()).getInstance();                    
+                            ((SecurityContextToken)ctx.getSecurityToken()).getInstance();
             //ctx.setSecurityContextTokenInfo(securityContextTokenInfoMap.get(((SecurityContextToken)ctx.getSecurityToken()).getInstance()));
             ctx.setSecurityContextTokenInfo(securityContextTokenInfoMap.get(sctInfoKey));
         }
@@ -283,16 +281,16 @@ public class SessionManagerImpl extends SessionManager {
             }
             long beforeTime = c.getTimeInMillis();
             long currentTime = beforeTime - offset;
-            
+
             c.setTimeInMillis(currentTime);
-            
+
             Date currentTimeInDateFormat = c.getTime();
             if(!(currentTimeInDateFormat.after(ctx.getCreationTime())
                 && currentTimeInDateFormat.before(ctx.getExpirationTime()))){
                 throw new WSSecureConversationRuntimeException(new QName("RenewNeeded"), "The provided context token has expired");
-            }            
+            }
         }
-        
+
         return ctx;
     }
 
@@ -306,14 +304,14 @@ public class SessionManagerImpl extends SessionManager {
         issuedTokenContextMap.put(key, itctx);
         SecurityContextTokenInfo sctInfo = itctx.getSecurityContextTokenInfo();
         if(sctInfo.getInstance() != null){
-            String sctInfoKey = sctInfo.getIdentifier().toString()+"_"+ sctInfo.getInstance();                    
+            String sctInfoKey = sctInfo.getIdentifier().toString()+"_"+ sctInfo.getInstance();
             //securityContextTokenInfoMap.put(((SecurityContextToken)itctx.getSecurityToken()).getInstance(), itctx.getSecurityContextTokenInfo());
             securityContextTokenInfoMap.put(sctInfoKey, sctInfo);
         }
     }
-    
+
     static class HASecurityContextTokenInfo implements SecurityContextTokenInfo{
-        
+
         String identifier = null;
         String extId = null;
         String instance = null;
@@ -323,9 +321,9 @@ public class SessionManagerImpl extends SessionManager {
         Date expirationTime = null;
 
         public HASecurityContextTokenInfo() {
-            
+
         }
-        
+
         public HASecurityContextTokenInfo(SecurityContextTokenInfo sctInfo) {
             identifier = sctInfo.getIdentifier();
             extId = sctInfo.getExternalId();
@@ -339,11 +337,11 @@ public class SessionManagerImpl extends SessionManager {
             }
         }
 
-    
+
         public String getIdentifier() {
             return identifier;
         }
-    
+
         public void setIdentifier(final String identifier) {
             this.identifier = identifier;
         }
@@ -358,7 +356,7 @@ public class SessionManagerImpl extends SessionManager {
         public void setExternalId(final String externalId) {
             this.extId = externalId;
         }
-    
+
         public String getInstance() {
             return instance;
         }
@@ -386,7 +384,7 @@ public class SessionManagerImpl extends SessionManager {
                 secretMap.put(instance, newKey);
             }
         }
-    
+
         public Date getCreationTime() {
             return new Date(creationTime.getTime());
         }
@@ -406,7 +404,7 @@ public class SessionManagerImpl extends SessionManager {
         public Set getInstanceKeys() {
           return secretMap.keySet();
         }
-    
+
         public IssuedTokenContext getIssuedTokenContext() {
 
             final IssuedTokenContext itc = new HAIssuedTokenContext();
@@ -414,14 +412,14 @@ public class SessionManagerImpl extends SessionManager {
             itc.setExpirationTime(getExpirationTime());
             itc.setProofKey(getSecret());
             itc.setSecurityContextTokenInfo(this);
-        
+
             return itc;
         }
 
         public IssuedTokenContext getIssuedTokenContext(SecurityTokenReference reference) {
             return null;
         }
-        
+
         @Override
         public String toString(){
             String str = "Identifier=" + identifier + " : Secret=" + Arrays.toString(secret) +
@@ -430,7 +428,7 @@ public class SessionManagerImpl extends SessionManager {
             return str;
         }
     }
-    
+
     static class HAIssuedTokenContext implements IssuedTokenContext {
         X509Certificate x509Certificate = null;
         Token securityToken = null;
@@ -684,7 +682,7 @@ public class SessionManagerImpl extends SessionManager {
 
         public String getSignWith(){
             return signWith;
-        }    
+        }
 
         public void setEncryptWith(String encryptWithAlgo){
             this.encryptWith = encryptWithAlgo;

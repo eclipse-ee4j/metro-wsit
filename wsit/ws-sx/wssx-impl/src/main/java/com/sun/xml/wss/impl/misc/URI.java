@@ -22,6 +22,7 @@ package com.sun.xml.wss.impl.misc;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * A class to represent a Uniform Resource Identifier (URI). This class
@@ -1193,6 +1194,7 @@ public class URI implements Serializable
    * @return true if p_test is a URI with all values equal to this
    *         URI, false otherwise
    */
+  @Override
   public boolean equals(Object p_test)
   {
 
@@ -1215,11 +1217,17 @@ public class URI implements Serializable
     return false;
   }
 
+  @Override
+  public int hashCode() {
+    return Objects.hash(m_scheme, m_userinfo, m_host, m_path, m_port, m_fragment, m_queryString);
+  }
+
   /**
    * Get the URI as a string specification. See RFC 2396 Section 5.2.
    *
    * @return the URI string specification
    */
+  @Override
   public String toString()
   {
 

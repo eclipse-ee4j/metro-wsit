@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -68,15 +68,13 @@ public final class PacketFilteringFeature extends WebServiceFeature {
 
     List<PacketFilter> createFilters(RuntimeContext context) {
         List<PacketFilter> filters = new ArrayList<PacketFilter>(filterClasses.size());
-        
+
         for (Class<? extends PacketFilter> filterClass : filterClasses) {
             try {
-                final PacketFilter filter = filterClass.newInstance();
+                final PacketFilter filter = filterClass.getConstructor().newInstance();
                 filter.configure(context);
                 filters.add(filter);
-            } catch (InstantiationException ex) {
-                LOGGER.warning("Error instantiating packet filter of class [" + filterClass.getName() + "]", ex);
-            } catch (IllegalAccessException ex) {
+            } catch (ReflectiveOperationException ex) {
                 LOGGER.warning("Error instantiating packet filter of class [" + filterClass.getName() + "]", ex);
             }
         }

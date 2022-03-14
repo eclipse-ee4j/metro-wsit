@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -17,8 +17,7 @@
 package com.sun.xml.ws.security.opt.impl.keyinfo;
 
 import com.sun.istack.NotNull;
-import org.apache.xml.security.exceptions.Base64DecodingException;
-import org.apache.xml.security.utils.Base64;
+import com.sun.xml.wss.logging.LogDomainConstants;
 import com.sun.xml.bind.api.Bridge;
 import com.sun.xml.bind.api.BridgeContext;
 import com.sun.xml.stream.buffer.XMLStreamBufferResult;
@@ -31,6 +30,7 @@ import com.sun.xml.wss.impl.MessageConstants;
 
 import java.io.OutputStream;
 import java.security.cert.X509Certificate;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -58,37 +58,37 @@ import static com.sun.xml.wss.logging.LogDomainConstants.CRYPTO_IMPL_LOGGER;
  * @author K.Venugopal@sun.com
  */
 public class BinarySecurityToken implements com.sun.xml.ws.security.opt.api.keyinfo.BinarySecurityToken,SecurityHeaderElement, SecurityElementWriter {
-    
+
     private BinarySecurityTokenType bst = null;
-    
+
     private SOAPVersion soapVersion = SOAPVersion.SOAP_11;
     /** Creates a new instance of BinarySecurityToken */
     public BinarySecurityToken(BinarySecurityTokenType token,SOAPVersion sv) {
         this.bst = token;
         this.soapVersion = sv;
     }
-    
+
     public String getValueType() {
         return bst.getValueType();
     }
-    
+
     public String getEncodingType() {
         return bst.getEncodingType();
     }
-    
+
     public String getId() {
         return bst.getId();
     }
-    
+
     public void setId(String id) {
         bst.setId(id);
     }
-    
+
     @NotNull
     public String getNamespaceURI() {
         return WSSE_NS;
     }
-    
+
     @NotNull
     public String getLocalPart() {
         return WSSE_BINARY_SECURITY_TOKEN_LNAME;
@@ -110,15 +110,15 @@ public class BinarySecurityToken implements com.sun.xml.ws.security.opt.api.keyi
         }
         return xbr.getXMLStreamBuffer().readAsXMLStreamReader();
     }
-    
+
     public <T> T readAsJAXB(Unmarshaller unmarshaller) throws JAXBException {
         throw new UnsupportedOperationException();
     }
-    
+
     public <T> T readAsJAXB(Bridge<T> bridge, BridgeContext context) throws JAXBException {
         throw new UnsupportedOperationException();
     }
-    
+
     public <T> T readAsJAXB(Bridge<T> bridge) throws JAXBException {
         throw new UnsupportedOperationException();
     }
@@ -137,7 +137,7 @@ public class BinarySecurityToken implements com.sun.xml.ws.security.opt.api.keyi
                 if (os != null) {
                     streamWriter.writeCharacters("");        // Force completion of open elems
                     Marshaller writer = getMarshaller();
-                    
+
                     writer.marshal(bstElem, os);
                     return;
                 }
@@ -148,18 +148,18 @@ public class BinarySecurityToken implements com.sun.xml.ws.security.opt.api.keyi
             throw new XMLStreamException(e);
         }
     }
-    
+
     public void writeTo(SOAPMessage saaj) throws SOAPException {
         NodeList nl = saaj.getSOAPHeader().getElementsByTagNameNS(MessageConstants.WSSE_NS,MessageConstants.WSSE_SECURITY_LNAME);
         try {
             Marshaller writer = getMarshaller();
-         
+
             writer.marshal(bst,nl.item(0));
         } catch (JAXBException ex) {
             throw new SOAPException(ex);
         }
     }
-    
+
     public void writeTo(ContentHandler contentHandler, ErrorHandler errorHandler) throws SAXException {
         throw new UnsupportedOperationException();
     }
@@ -169,20 +169,20 @@ public class BinarySecurityToken implements com.sun.xml.ws.security.opt.api.keyi
     */
     public byte[] getTokenValue() {
         try {
-            return Base64.decode(bst.getValue());
-        } catch (Base64DecodingException ex) {
-            CRYPTO_IMPL_LOGGER.log(Level.SEVERE,LogStringsMessages.WSS_1243_BST_DECODING_ERROR(),ex);
+            return Base64.getMimeDecoder().decode(bst.getValue());
+        } catch (IllegalArgumentException ex) {
+            LogDomainConstants.CRYPTO_IMPL_LOGGER.log(Level.SEVERE,LogStringsMessages.WSS_1243_BST_DECODING_ERROR(),ex);
             return null;
         }
     }
-    
+
     private Marshaller getMarshaller() throws JAXBException{
         return JAXBUtil.createMarshaller(soapVersion);
     }
-    
+
     public void writeTo(OutputStream os) {
     }
-    
+
     public boolean refersToSecHdrWithId(String id) {
         return false;
     }
@@ -211,5 +211,5 @@ public class BinarySecurityToken implements com.sun.xml.ws.security.opt.api.keyi
             throw new XMLStreamException(jbe);
         }
     }
-    
+
 }

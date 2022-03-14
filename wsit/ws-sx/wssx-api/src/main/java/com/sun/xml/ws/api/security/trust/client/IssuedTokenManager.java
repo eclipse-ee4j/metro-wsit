@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -27,50 +27,50 @@ public class IssuedTokenManager {
     private final Map<String, IssuedTokenProvider> itpMap = new HashMap<String, IssuedTokenProvider>();
     private final Map<String, String> itpClassMap = new HashMap<String, String>();
     private static IssuedTokenManager manager = new IssuedTokenManager();
-    
+
     /** Creates a new instance of IssuedTokenManager */
     private IssuedTokenManager() {
         addDefaultProviders();
     }
-    
+
     public static IssuedTokenManager getInstance(){
         synchronized (IssuedTokenManager.class) {
              return manager;
          }
     }
-    
+
     public IssuedTokenContext createIssuedTokenContext(IssuedTokenConfiguration config, String appliesTo){
         IssuedTokenContext ctx = new IssuedTokenContextImpl();
         ctx.getSecurityPolicy().add(config);
         ctx.setEndpointAddress(appliesTo);
-        
+
         return ctx;
     }
-    
+
     public void getIssuedToken(IssuedTokenContext ctx)throws WSTrustException {
         IssuedTokenConfiguration config = (IssuedTokenConfiguration)ctx.getSecurityPolicy().get(0);
         IssuedTokenProvider provider = getIssuedTokenProvider(config.getProtocol());
         provider.issue(ctx);
     }
-    
+
     public void renewIssuedToken(IssuedTokenContext ctx)throws WSTrustException {
         IssuedTokenConfiguration config = (IssuedTokenConfiguration)ctx.getSecurityPolicy().get(0);
         IssuedTokenProvider provider = getIssuedTokenProvider(config.getProtocol());
         provider.renew(ctx);
     }
-    
+
     public void cancelIssuedToken(IssuedTokenContext ctx)throws WSTrustException {
         IssuedTokenConfiguration config = (IssuedTokenConfiguration)ctx.getSecurityPolicy().get(0);
         IssuedTokenProvider provider = getIssuedTokenProvider(config.getProtocol());
         provider.cancel(ctx);
     }
-    
+
     public void validateIssuedToken(IssuedTokenContext ctx)throws WSTrustException {
         IssuedTokenConfiguration config = (IssuedTokenConfiguration)ctx.getSecurityPolicy().get(0);
         IssuedTokenProvider provider = getIssuedTokenProvider(config.getProtocol());
         provider.validate(ctx);
     }
-    
+
     private void addDefaultProviders(){
         itpClassMap.put(STSIssuedTokenConfiguration.PROTOCOL_10, "com.sun.xml.ws.security.trust.impl.client.STSIssuedTokenProviderImpl");
         itpClassMap.put(STSIssuedTokenConfiguration.PROTOCOL_13, "com.sun.xml.ws.security.trust.impl.client.STSIssuedTokenProviderImpl");
@@ -98,7 +98,7 @@ public class IssuedTokenManager {
                         if (clazz != null) {
                             @SuppressWarnings("unchecked")
                             Class<IssuedTokenProvider> typedClass = (Class<IssuedTokenProvider>)clazz;
-                            itp = (IssuedTokenProvider)typedClass.newInstance();
+                            itp = typedClass.getConstructor().newInstance();
                             itpMap.put(protocol, itp);
                         }
                     } catch (Exception e) {
@@ -109,7 +109,7 @@ public class IssuedTokenManager {
                 }
             }
         }
-        
+
         return itp;
     }
 }
