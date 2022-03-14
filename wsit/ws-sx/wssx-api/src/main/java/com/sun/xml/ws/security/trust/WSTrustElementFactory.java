@@ -142,7 +142,7 @@ public abstract class WSTrustElementFactory {
             if (clazz != null) {
                 @SuppressWarnings("unchecked")
                 Class<WSTrustElementFactory> typedClass = (Class<WSTrustElementFactory>) clazz;
-                fac = typedClass.newInstance();
+                fac = typedClass.getConstructor().newInstance();
             }
         } catch (Exception ex) {
             throw new RuntimeException("unable to initialize the WSTrustElementFactory for the protocol " + nsUri, ex);

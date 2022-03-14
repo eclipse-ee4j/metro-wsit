@@ -33,8 +33,8 @@ public final class ByteBufferStreamPool<T extends LifeCycle> {
         };
     }
 
-    private T create(final Class<T> memberClass) throws InstantiationException, IllegalAccessException {
-        return memberClass.newInstance();
+    private T create(final Class<T> memberClass) throws ReflectiveOperationException {
+        return memberClass.getConstructor().newInstance();
     }
 
     public T take() {

@@ -10,7 +10,6 @@
 
 package com.sun.xml.security.core.dsig;
 
-import org.apache.xml.security.utils.Base64;
 import org.glassfish.jaxb.runtime.v2.util.ByteArrayOutputStreamEx;
 import com.sun.xml.ws.streaming.MtomStreamWriter;
 import com.sun.xml.ws.util.xml.XMLStreamWriterFilter;
@@ -18,6 +17,7 @@ import com.sun.xml.wss.logging.LogDomainConstants;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Base64;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import jakarta.activation.DataHandler;
@@ -67,7 +67,7 @@ public class CustomStreamWriterImpl extends XMLStreamWriterFilter implements XML
         if (len > 1000) {
             sw.writeBinary(dh);
         } else {
-            sw.writePCDATA(Base64.encode(data));
+            sw.writePCDATA(Base64.getMimeEncoder().encodeToString(data));
         }
     }
 

@@ -43,7 +43,6 @@ import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
-import java.sql.Ref;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.security.auth.callback.Callback;

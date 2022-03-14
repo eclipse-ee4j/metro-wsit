@@ -60,17 +60,17 @@ import org.glassfish.ha.store.api.BackingStoreFactory;
 public class SessionManagerImpl extends SessionManager {
 
     /**
-     * Map of session id --> session
+     * Map of session id --{@literal >} session
      */
     private Map<String, Session> sessionMap
             = new HashMap<>();
     /**
-     * Map of SecurityContextId --> IssuedTokenContext
+     * Map of SecurityContextId --{@literal >} IssuedTokenContext
      */
     private Map<String, IssuedTokenContext> issuedTokenContextMap
             = new HashMap<>();
     /**
-     * Map of wsu:Instance --> SecurityContextTokenInfo
+     * Map of wsu:Instance --{@literal >} SecurityContextTokenInfo
      */
     private Map<String, SecurityContextTokenInfo> securityContextTokenInfoMap
             = new HashMap<>();
@@ -175,8 +175,8 @@ public class SessionManagerImpl extends SessionManager {
         }
         Session sess;
         try {
-            sess = new Session(this, key, clasz.newInstance());
-        } catch (InstantiationException | IllegalAccessException e) {
+            sess = new Session(this, key, clasz.getConstructor().newInstance());
+        } catch (ReflectiveOperationException e) {
             return null;
         }
 

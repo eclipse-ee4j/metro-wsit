@@ -18,8 +18,6 @@ package com.sun.xml.ws.security.opt.impl.keyinfo;
 
 import com.sun.istack.NotNull;
 import com.sun.xml.wss.logging.LogDomainConstants;
-import org.apache.xml.security.exceptions.Base64DecodingException;
-import org.apache.xml.security.utils.Base64;
 import org.glassfish.jaxb.runtime.api.Bridge;
 import org.glassfish.jaxb.runtime.api.BridgeContext;
 import com.sun.xml.stream.buffer.XMLStreamBufferResult;
@@ -32,6 +30,7 @@ import com.sun.xml.wss.impl.MessageConstants;
 
 import java.io.OutputStream;
 import java.security.cert.X509Certificate;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -174,8 +173,8 @@ public class BinarySecurityToken implements com.sun.xml.ws.security.opt.api.keyi
     @Override
     public byte[] getTokenValue() {
         try {
-            return Base64.decode(bst.getValue());
-        } catch (Base64DecodingException ex) {
+            return Base64.getMimeDecoder().decode(bst.getValue());
+        } catch (IllegalArgumentException ex) {
             LogDomainConstants.CRYPTO_IMPL_LOGGER.log(Level.SEVERE,LogStringsMessages.WSS_1243_BST_DECODING_ERROR(),ex);
             return null;
         }

@@ -27,11 +27,9 @@ import com.sun.xml.ws.security.trust.impl.bindings.BinarySecretType;
 
 import com.sun.xml.ws.security.trust.elements.BinarySecret;
 
-import org.apache.xml.security.utils.Base64;
-import org.apache.xml.security.exceptions.Base64DecodingException;
-
 import com.sun.istack.NotNull;
 
+import java.util.Base64;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import com.sun.xml.ws.security.trust.logging.LogDomainConstants;
@@ -92,7 +90,7 @@ public class BinarySecretImpl extends BinarySecretType implements BinarySecret {
      @Override
      @NotNull
      public String getTextValue() {
-        return Base64.encode(getRawValue());
+        return Base64.getMimeEncoder().encodeToString(getRawValue());
      }
 
      @Override
@@ -103,8 +101,8 @@ public class BinarySecretImpl extends BinarySecretType implements BinarySecret {
      @Override
      public void setTextValue(@NotNull final String encodedText) {
          try {
-             setValue(Base64.decode(encodedText));
-         } catch (Base64DecodingException de) {
+             setValue(Base64.getMimeDecoder().decode(encodedText));
+         } catch (IllegalArgumentException de) {
             log.log(Level.SEVERE,
                     LogStringsMessages.WST_0020_ERROR_DECODING(encodedText), de);
              throw new RuntimeException(LogStringsMessages.WST_0020_ERROR_DECODING(encodedText), de);

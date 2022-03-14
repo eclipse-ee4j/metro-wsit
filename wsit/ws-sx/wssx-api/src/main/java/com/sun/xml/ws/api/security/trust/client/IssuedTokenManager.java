@@ -98,7 +98,7 @@ public class IssuedTokenManager {
                         if (clazz != null) {
                             @SuppressWarnings("unchecked")
                             Class<IssuedTokenProvider> typedClass = (Class<IssuedTokenProvider>)clazz;
-                            itp = typedClass.newInstance();
+                            itp = typedClass.getConstructor().newInstance();
                             itpMap.put(protocol, itp);
                         }
                     } catch (Exception e) {

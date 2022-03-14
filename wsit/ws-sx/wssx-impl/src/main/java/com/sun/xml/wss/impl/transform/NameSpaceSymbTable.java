@@ -24,11 +24,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-
-
 import org.w3c.dom.Attr;
 import org.w3c.dom.Node;
-
 
 /**
  * A stack based Symble Table.
@@ -38,7 +35,7 @@ import org.w3c.dom.Node;
  **/
 public class NameSpaceSymbTable {
 
-    /**The map betwen prefix-> entry table. */
+    /**The map betwen prefix-{@literal >} entry table. */
     HashMap<String,NameSpaceSymbEntry>  symb = new HashMap<>();
     /**The level of nameSpaces (for Inclusive visibility).*/
     int nameSpaces=0;
