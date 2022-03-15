@@ -37,8 +37,8 @@
         <inject-api.version>2.0.1.MR</inject-api.version>
         <el-api.version>5.0.0</el-api.version>
 
-        <!-- CQ: #22139 -->
-        <santuario.version>2.1.7</santuario.version>
+        <!-- CQ: #23979 -->
+        <santuario.version>2.3.0</santuario.version>
         <!-- CQ: #22187 -->
         <slf4j-api.version>1.7.32</slf4j-api.version>
         <!-- CQ: #22186 -->
