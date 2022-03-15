@@ -43,7 +43,7 @@
         <commons-codec.version>1.15</commons-codec.version>
 
         <!-- CQ: #18393 -->
-        <stax-utils.version>20060502</stax-utils.version>
+        <stax-utils.version>20070216</stax-utils.version>
 
         <grizzly.version>2.4.4</grizzly.version>
         <tomcat.coyote.version>9.0.71</tomcat.coyote.version>

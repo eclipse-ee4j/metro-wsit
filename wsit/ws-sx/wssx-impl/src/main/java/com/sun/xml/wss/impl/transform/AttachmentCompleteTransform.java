@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -19,51 +19,60 @@ import javax.mail.internet.ContentType;
 import com.sun.xml.wss.impl.c14n.Canonicalizer;
 import com.sun.xml.wss.impl.c14n.CanonicalizerFactory;
 import com.sun.xml.wss.impl.c14n.MimeHeaderCanonicalizer;
-
 import com.sun.xml.wss.impl.resolver.AttachmentSignatureInput;
-
+import org.apache.xml.security.c14n.CanonicalizationException;
+import org.apache.xml.security.c14n.InvalidCanonicalizerException;
+import org.apache.xml.security.signature.XMLSignatureInput;
 import org.apache.xml.security.transforms.TransformSpi;
-import org.apache.xml.security.signature.XMLSignatureInput; 
 import org.apache.xml.security.transforms.TransformationException;
+import org.w3c.dom.Element;
+import org.xml.sax.SAXException;
+
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.IOException;
+import java.io.OutputStream;
 
 public class AttachmentCompleteTransform extends TransformSpi {
 
    private static final String implementedTransformURI =
-          "http://docs.oasis-open.org/wss/2004/XX/" + 
+          "http://docs.oasis-open.org/wss/2004/XX/" +
           "oasis-2004XX-wss-swa-profile-1.0#Attachment-Complete-Transform";
 
    protected String engineGetURI() {
        return implementedTransformURI;
    }
 
-   protected XMLSignatureInput enginePerformTransform(
-             XMLSignatureInput input)
-             throws TransformationException {
+   @Override
+   protected XMLSignatureInput enginePerformTransform(XMLSignatureInput input, OutputStream os,
+                                                      Element transformElement, String baseURI,
+                                                      boolean secureValidation)
+           throws IOException, CanonicalizationException, InvalidCanonicalizerException,
+                  TransformationException, ParserConfigurationException, SAXException {
        try {
             return new XMLSignatureInput(_canonicalize(input));
        } catch (Exception e) {
             // log
             throw new TransformationException(e.getMessage(), e);
-       }  
+       }
    }
 
    private byte[] _canonicalize(XMLSignatureInput input) throws Exception {
        byte[] inputContentBytes = input.getBytes();
-       //ContentType contentType = new ContentType(((AttachmentSignatureInput)input).getContentType()); 
+       //ContentType contentType = new ContentType(((AttachmentSignatureInput)input).getContentType());
 
-       // rf. RFC822 
+       // rf. RFC822
        MimeHeaderCanonicalizer mHCanonicalizer = CanonicalizerFactory.getMimeHeaderCanonicalizer("US-ASCII");
        byte[] outputHeaderBytes = mHCanonicalizer._canonicalize( ((AttachmentSignatureInput)input).getMimeHeaders().iterator());
-        
-       Canonicalizer canonicalizer = 
+
+       Canonicalizer canonicalizer =
                              CanonicalizerFactory.
                                    getCanonicalizer(((AttachmentSignatureInput)input).getContentType());
-       byte[] outputContentBytes = canonicalizer.canonicalize(inputContentBytes); 
+       byte[] outputContentBytes = canonicalizer.canonicalize(inputContentBytes);
 
        byte[] outputBytes = new byte[outputHeaderBytes.length+outputContentBytes.length];
        System.arraycopy(outputHeaderBytes, 0, outputBytes, 0, outputHeaderBytes.length);
-       System.arraycopy(outputContentBytes, 0, outputBytes, 
-                                   outputHeaderBytes.length, outputContentBytes.length); 
+       System.arraycopy(outputContentBytes, 0, outputBytes,
+                                   outputHeaderBytes.length, outputContentBytes.length);
 
        return outputBytes;
    }

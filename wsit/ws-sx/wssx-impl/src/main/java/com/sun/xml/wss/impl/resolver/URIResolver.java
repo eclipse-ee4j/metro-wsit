@@ -43,6 +43,7 @@ import com.sun.xml.wss.impl.misc.URI;
 import org.apache.xml.security.utils.XMLUtils;
 import org.apache.xml.security.signature.XMLSignatureInput;
 import org.apache.xml.security.utils.resolver.ResourceResolver;
+import org.apache.xml.security.utils.resolver.ResourceResolverContext;
 import org.apache.xml.security.utils.resolver.ResourceResolverSpi;
 import org.apache.xml.security.utils.resolver.ResourceResolverException;
 import com.sun.xml.wss.WSITXMLFactory;
@@ -56,7 +57,6 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
-import org.apache.xml.security.utils.resolver.ResourceResolverContext;
 
 /**
  * This resolver is used for resolving URIs.
@@ -136,7 +136,8 @@ public class URIResolver extends ResourceResolverSpi {
                   try { 
                      result = _resolveClocation(uri, baseURI);
                   } catch (URIResolverException ure) {
-                     result = ResourceResolver.getInstance(uri, baseURI, false).resolve(uri, baseURI, false);
+                     ResourceResolverContext resContext = new ResourceResolverContext(uri, baseURI, false);
+                     result = ResourceResolver.resolve(resContext);
                   }
                   break; 
           default:
