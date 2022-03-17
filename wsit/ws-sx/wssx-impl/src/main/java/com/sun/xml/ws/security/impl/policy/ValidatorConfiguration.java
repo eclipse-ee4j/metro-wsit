@@ -63,7 +63,7 @@ public class ValidatorConfiguration extends PolicyAssertion implements com.sun.x
 
     private synchronized AssertionFitness populate(boolean isServer) {
         if(!populated){
-            this.ast  = this.getNestedAssertionsIterator();
+            this.ast  = this.getParametersIterator();
             populated  = true;
         }
         return fitness;

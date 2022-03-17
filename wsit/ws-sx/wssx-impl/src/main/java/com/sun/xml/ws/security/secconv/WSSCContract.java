@@ -645,7 +645,7 @@ public class WSSCContract {
                 if (!SC_CONFIGURATION.equals(assertion.getName().getLocalPart())) {
                     continue;
                 }
-                final Iterator<PolicyAssertion> wsscConfig = assertion.getNestedAssertionsIterator();
+                final Iterator<PolicyAssertion> wsscConfig = assertion.getParametersIterator();
                 while(wsscConfig.hasNext()){
                     final PolicyAssertion serviceSCPolicy = wsscConfig.next();
                     if(LIFETIME.equals(serviceSCPolicy.getName().getLocalPart())){

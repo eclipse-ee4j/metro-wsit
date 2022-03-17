@@ -160,7 +160,7 @@ public class Canonicalizer20010315ExclOmitComments {
                 return null;
                 */
             } catch (IOException ex) {
-                throw new CanonicalizationException("empty", ex);
+                throw new CanonicalizationException(ex, "empty");
             }
         } finally {
             this._inclusiveNSSet = null;

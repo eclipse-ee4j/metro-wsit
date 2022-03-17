@@ -179,9 +179,9 @@ public class RequestSecurityTokenTemplate extends PolicyAssertion implements com
 
     private synchronized AssertionFitness populate(boolean isServer) {
         if(!populated){
-            if ( this.hasNestedAssertions() ) {
+            if ( this.hasParameters() ) {
 
-                Iterator <PolicyAssertion> it =this.getNestedAssertionsIterator();
+                Iterator <PolicyAssertion> it =this.getParametersIterator();
                 while( it.hasNext() ) {
                     PolicyAssertion assertion = it.next();
                     if (this.wstVer == null){

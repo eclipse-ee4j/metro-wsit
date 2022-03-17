@@ -233,7 +233,7 @@ public abstract class BaseSTSImpl implements BaseSTS {
             config.setEncryptIssuedToken(Boolean.parseBoolean(assertion.getAttributeValue(Q_ET)));
             config.setEncryptIssuedKey(Boolean.parseBoolean(assertion.getAttributeValue(Q_EK)));
             final Iterator<PolicyAssertion> stsConfig =
-                    assertion.getNestedAssertionsIterator();
+                    assertion.getParametersIterator();
             while(stsConfig.hasNext()){
                 final PolicyAssertion serviceSTSPolicy = stsConfig.next();
                 if(LIFETIME.equals(serviceSTSPolicy.getName().getLocalPart())){
@@ -252,7 +252,7 @@ public abstract class BaseSTSImpl implements BaseSTS {
 
                 if(SERVICE_PROVIDERS.equals(serviceSTSPolicy.getName().getLocalPart())){
                     final Iterator<PolicyAssertion> serviceProviders =
-                    serviceSTSPolicy.getNestedAssertionsIterator();
+                    serviceSTSPolicy.getParametersIterator();
                     String endpointUri = null;
                     while(serviceProviders.hasNext()){
                         final PolicyAssertion serviceProvider = serviceProviders.next();
@@ -261,7 +261,7 @@ public abstract class BaseSTSImpl implements BaseSTS {
                              endpointUri = serviceProvider.getAttributeValue(new QName("", END_POINT.toLowerCase()));
                         }
                         final DefaultTrustSPMetadata data = new DefaultTrustSPMetadata(endpointUri);
-                        final Iterator<PolicyAssertion> spConfig = serviceProvider.getNestedAssertionsIterator();
+                        final Iterator<PolicyAssertion> spConfig = serviceProvider.getParametersIterator();
                         while(spConfig.hasNext()){
                             final PolicyAssertion policy = spConfig.next();
                             if(ALIAS.equals(policy.getName().getLocalPart())){

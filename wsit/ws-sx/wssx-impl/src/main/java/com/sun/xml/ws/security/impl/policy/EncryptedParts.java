@@ -91,9 +91,9 @@ public class EncryptedParts extends PolicyAssertion implements com.sun.xml.ws.se
 
     private synchronized AssertionFitness populate(boolean isServer) {
         if(!populated){
-            if ( this.hasNestedAssertions() ) {
+            if ( this.hasParameters() ) {
 
-                Iterator <PolicyAssertion> it = this.getNestedAssertionsIterator();
+                Iterator <PolicyAssertion> it = this.getParametersIterator();
                 while( it.hasNext() ) {
                     PolicyAssertion assertion = it.next();
                     if ( PolicyUtil.isBody(assertion, spVersion)) {

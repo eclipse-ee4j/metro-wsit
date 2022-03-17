@@ -10,7 +10,8 @@
 
 package com.sun.xml.ws.transport.tcp.server;
 
-import com.sun.xml.ws.api.DistributedPropertySet;
+import com.oracle.webservices.api.message.BaseDistributedPropertySet;
+import com.oracle.webservices.api.message.PropertySet;
 import com.sun.istack.NotNull;
 import com.sun.xml.ws.api.message.Packet;
 import com.sun.xml.ws.api.pipe.Codec;
@@ -19,6 +20,8 @@ import com.sun.xml.ws.transport.tcp.util.ChannelContext;
 import com.sun.xml.ws.transport.tcp.util.TCPConstants;
 import com.sun.xml.ws.transport.tcp.util.WSTCPException;
 import java.io.IOException;
+import java.lang.invoke.MethodHandles;
+
 import jakarta.xml.soap.SOAPException;
 import jakarta.xml.soap.SOAPMessage;
 
@@ -68,7 +71,7 @@ public final class TCPServiceChannelWSAdapter extends TCPAdapter {
     }
 
 
-    public static final class ServiceChannelWSSatellite extends DistributedPropertySet {
+    public static final class ServiceChannelWSSatellite extends BaseDistributedPropertySet {
         private final TCPServiceChannelWSAdapter serviceChannelWSAdapter;
         private ChannelContext channelContext;
 
@@ -80,23 +83,23 @@ public final class TCPServiceChannelWSAdapter extends TCPAdapter {
             this.channelContext = channelContext;
         }
 
-        @com.sun.xml.ws.api.PropertySet.Property(TCPConstants.ADAPTER_REGISTRY)
+        @PropertySet.Property(TCPConstants.ADAPTER_REGISTRY)
         public @NotNull WSTCPAdapterRegistry getAdapterRegistry() {
             return serviceChannelWSAdapter.adapterRegistry;
         }
 
-        @com.sun.xml.ws.api.PropertySet.Property(TCPConstants.CHANNEL_CONTEXT)
+        @PropertySet.Property(TCPConstants.CHANNEL_CONTEXT)
         public ChannelContext getChannelContext() {
             return channelContext;
         }
 
         private static final PropertyMap model;
         static {
-            model = parse(ServiceChannelWSSatellite.class);
+            model = parse(ServiceChannelWSSatellite.class, MethodHandles.lookup());
         }
 
         @Override
-        public DistributedPropertySet.PropertyMap getPropertyMap() {
+        public PropertyMap getPropertyMap() {
             return model;
         }
 

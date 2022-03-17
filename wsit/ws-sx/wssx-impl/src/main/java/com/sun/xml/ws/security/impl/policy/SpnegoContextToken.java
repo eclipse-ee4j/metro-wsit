@@ -118,8 +118,8 @@ public class SpnegoContextToken extends PolicyAssertion implements com.sun.xml.w
                 }
             }
 
-            if ( this.hasNestedAssertions() ) {
-                Iterator <PolicyAssertion> it = this.getNestedAssertionsIterator();
+            if ( this.hasParameters() ) {
+                Iterator <PolicyAssertion> it = this.getParametersIterator();
                 while(it.hasNext()){
                     PolicyAssertion assertion = it.next();
                     if(PolicyUtil.isIssuer(assertion, spVersion)){

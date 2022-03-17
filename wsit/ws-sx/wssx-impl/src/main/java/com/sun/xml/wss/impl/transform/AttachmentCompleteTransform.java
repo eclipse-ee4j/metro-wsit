@@ -51,7 +51,7 @@ public class AttachmentCompleteTransform extends TransformSpi {
             return new XMLSignatureInput(_canonicalize(input));
        } catch (Exception e) {
             // log
-            throw new TransformationException(e.getMessage(), e);
+            throw new TransformationException(e, e.getMessage());
        }
    }
 

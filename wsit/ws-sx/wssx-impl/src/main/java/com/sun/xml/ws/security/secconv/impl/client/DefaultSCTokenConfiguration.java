@@ -188,7 +188,7 @@ public class DefaultSCTokenConfiguration extends SCTokenConfiguration{
                 }
 
             }
-            final Iterator<PolicyAssertion> sctConfig = localToken.getNestedAssertionsIterator();
+            final Iterator<PolicyAssertion> sctConfig = localToken.getParametersIterator();
             while(sctConfig.hasNext()){
                 final PolicyAssertion sctConfigPolicy = sctConfig.next();
                 if(LIFETIME.equals(sctConfigPolicy.getName().getLocalPart())){
