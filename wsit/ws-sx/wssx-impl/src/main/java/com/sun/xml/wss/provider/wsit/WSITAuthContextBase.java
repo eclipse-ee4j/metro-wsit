@@ -289,7 +289,7 @@ public abstract class WSITAuthContextBase  {
         soapVersion = pipeConfig.getBinding().getSOAPVersion();
         isSOAP12 = soapVersion == SOAPVersion.SOAP_12;
         wsPolicyMap = pipeConfig.getPolicyMap();
-        soapFactory = pipeConfig.getBinding().getSOAPVersion().saajSoapFactory;
+        soapFactory = pipeConfig.getBinding().getSOAPVersion().getSOAPFactory();
 
         if(wsPolicyMap != null){
             collectPolicies(wsPolicyMap,policyAlternatives);

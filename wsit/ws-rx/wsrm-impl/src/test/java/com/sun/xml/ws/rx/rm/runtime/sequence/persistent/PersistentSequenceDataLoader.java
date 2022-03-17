@@ -16,8 +16,6 @@ import com.sun.xml.ws.rx.rm.runtime.sequence.SequenceDataLoader;
 import com.sun.xml.ws.rx.util.TimeSynchronizer;
 import java.io.PrintWriter;
 import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.SQLFeatureNotSupportedException;
 import java.util.logging.Logger;
 import javax.sql.DataSource;
 

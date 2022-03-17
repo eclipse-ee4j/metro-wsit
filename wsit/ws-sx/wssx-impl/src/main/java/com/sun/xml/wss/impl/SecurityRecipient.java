@@ -8,10 +8,6 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-/*
- * $Id: SecurityRecipient.java,v 1.2 2010-10-21 15:37:15 snajper Exp $
- */
-
 package com.sun.xml.wss.impl;
 
 import com.sun.xml.wss.ProcessingContext;

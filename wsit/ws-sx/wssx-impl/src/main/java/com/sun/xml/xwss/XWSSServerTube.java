@@ -58,10 +58,6 @@ import jakarta.xml.ws.soap.SOAPFaultException;
 import org.w3c.dom.NodeList;
 
 
-/**
- *
- *
- */
 public class XWSSServerTube extends AbstractFilterTubeImpl {
 
     protected static final String FAILURE = "com.sun.xml.ws.shd.failure";
@@ -92,8 +88,8 @@ public class XWSSServerTube extends AbstractFilterTubeImpl {
         }
         soapVersion = endPoint.getBinding().getSOAPVersion();
         isSOAP12 = soapVersion == SOAPVersion.SOAP_12;
-        soapFactory = soapVersion.saajSoapFactory;
-        messageFactory = soapVersion.saajMessageFactory;
+        soapFactory = soapVersion.getSOAPFactory();
+        messageFactory = soapVersion.getMessageFactory();
     }
 
     public XWSSServerTube(XWSSServerTube that, TubeCloner cloner) {

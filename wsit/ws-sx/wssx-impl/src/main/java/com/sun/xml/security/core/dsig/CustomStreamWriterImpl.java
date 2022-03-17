@@ -11,7 +11,6 @@
 package com.sun.xml.security.core.dsig;
 
 import org.glassfish.jaxb.runtime.v2.util.ByteArrayOutputStreamEx;
-import com.sun.xml.ws.streaming.MtomStreamWriter;
 import com.sun.xml.ws.util.xml.XMLStreamWriterFilter;
 import com.sun.xml.wss.logging.LogDomainConstants;
 import java.io.IOException;
@@ -25,6 +24,7 @@ import jakarta.xml.bind.attachment.AttachmentMarshaller;
 import javax.xml.stream.XMLStreamException;
 import org.jvnet.staxex.NamespaceContextEx;
 import org.jvnet.staxex.XMLStreamWriterEx;
+import org.jvnet.staxex.util.MtomStreamWriter;
 
 /**
  *

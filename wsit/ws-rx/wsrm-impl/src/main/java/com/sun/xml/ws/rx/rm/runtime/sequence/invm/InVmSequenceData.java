@@ -163,9 +163,6 @@ final class InVmSequenceData implements SequenceData {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public long incrementAndGetLastMessageNumber(boolean received) {
         updateLastActivityTime();
@@ -183,9 +180,6 @@ final class InVmSequenceData implements SequenceData {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void registerReceivedUnackedMessageNumber(long messageNumber) throws DuplicateMessageRegistrationException {
         updateLastActivityTime();

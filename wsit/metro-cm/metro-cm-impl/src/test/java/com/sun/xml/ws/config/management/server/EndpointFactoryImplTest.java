@@ -23,18 +23,14 @@ import com.sun.xml.ws.api.pipe.FiberContextSwitchInterceptor;
 import com.sun.xml.ws.api.pipe.ServerTubeAssemblerContext;
 import com.sun.xml.ws.api.pipe.ThrowableContainerPropertySet;
 import com.sun.xml.ws.api.server.Container;
-import com.sun.xml.ws.api.server.EndpointComponent;
 import com.sun.xml.ws.api.server.ServiceDefinition;
 import com.sun.xml.ws.api.server.WSEndpoint;
-import com.sun.xml.ws.api.server.WSEndpoint.CompletionCallback;
-import com.sun.xml.ws.api.server.WSEndpoint.PipeHead;
 import com.sun.xml.ws.policy.PolicyMap;
 import com.sun.xml.ws.policy.parser.PolicyResourceLoader;
 import com.sun.xml.ws.wsdl.OperationDispatcher;
 
 import java.net.URL;
 import java.util.List;
-import java.util.Set;
 import java.util.concurrent.Executor;
 import javax.xml.namespace.QName;
 import jakarta.xml.ws.EndpointReference;
@@ -171,11 +167,6 @@ public class EndpointFactoryImplTest extends TestCase {
 
         @Override
         public ServiceDefinition getServiceDefinition() {
-            return null;
-        }
-
-        @Override
-        public Set<EndpointComponent> getComponentRegistry() {
             return null;
         }
 

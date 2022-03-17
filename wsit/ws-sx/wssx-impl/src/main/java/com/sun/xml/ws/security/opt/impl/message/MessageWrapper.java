@@ -43,11 +43,12 @@ public class MessageWrapper extends com.sun.xml.ws.api.message.Message{
     private boolean isOneWay = false;
     private SecuredMessage sm;
     private List headers;
-    private MessageHeaders hl = new HeaderList();
+    private MessageHeaders hl;
     private MutableXMLStreamBuffer bufferedMsg = null;
     public MessageWrapper(SecuredMessage sm,boolean oneWay){
         this.sm = sm;
         this.isOneWay = oneWay;
+        hl = new HeaderList(sm.getSOAPVersion());
         this.headers = sm.getHeaders();
         for(int i=0;i<headers.size();i++){
             Object obj = headers.get(i);
@@ -74,8 +75,7 @@ public class MessageWrapper extends com.sun.xml.ws.api.message.Message{
      */
     @Override
     public boolean hasHeaders(){
-        // FIXME: RJE -- remove cast when MessageHeaders supports hasHeaders()
-        return (((HeaderList)hl).size() > 0);
+        return hl.hasHeaders();
     }
 
     /**
