@@ -167,25 +167,16 @@ public final class InVmSequenceManager extends AbstractMOMRegistrationAware impl
                 TimeUnit.MILLISECONDS, container);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public boolean persistent() {
         return false;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public String uniqueEndpointId() {
         return uniqueEndpointId;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Map<String, Sequence> sequences() {
         try {
@@ -197,9 +188,6 @@ public final class InVmSequenceManager extends AbstractMOMRegistrationAware impl
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Map<String, String> boundSequences() {
         try {
@@ -211,17 +199,11 @@ public final class InVmSequenceManager extends AbstractMOMRegistrationAware impl
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public long concurrentlyOpenedInboundSequencesCount() {
         return actualConcurrentInboundSequences.longValue();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Sequence createOutboundSequence(String sequenceId, String strId, long expirationTime) throws DuplicateSequenceException {
         SequenceDataPojo sequenceDataPojo = new SequenceDataPojo(sequenceId, strId, expirationTime, false, sequenceDataBs);
@@ -235,9 +217,6 @@ public final class InVmSequenceManager extends AbstractMOMRegistrationAware impl
         return registerSequence(new OutboundSequence(data, this.outboundQueueBuilder, this));
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Sequence createInboundSequence(String sequenceId, String strId, long expirationTime) throws DuplicateSequenceException {
         final long actualSessions = actualConcurrentInboundSequences.incrementAndGet();
@@ -259,17 +238,11 @@ public final class InVmSequenceManager extends AbstractMOMRegistrationAware impl
         return registerSequence(new InboundSequence(data, this.inboundQueueBuilder, this));
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public String generateSequenceUID() {
         return "uuid:" + UUID.randomUUID();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Sequence closeSequence(String sequenceId) throws UnknownSequenceException {
         Sequence sequence = getSequence(sequenceId);
@@ -277,9 +250,6 @@ public final class InVmSequenceManager extends AbstractMOMRegistrationAware impl
         return sequence;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Sequence getSequence(String sequenceId) throws UnknownSequenceException {
         if (sequenceId == null) {
@@ -305,9 +275,6 @@ public final class InVmSequenceManager extends AbstractMOMRegistrationAware impl
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Sequence getInboundSequence(String sequenceId) throws UnknownSequenceException {
         final Sequence sequence = getSequence(sequenceId);
@@ -319,9 +286,6 @@ public final class InVmSequenceManager extends AbstractMOMRegistrationAware impl
         return sequence;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Sequence getOutboundSequence(String sequenceId) throws UnknownSequenceException {
         final Sequence sequence = getSequence(sequenceId);
@@ -333,9 +297,6 @@ public final class InVmSequenceManager extends AbstractMOMRegistrationAware impl
         return sequence;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public boolean isValid(String sequenceId) {
         if (sequenceId == null) {
@@ -374,9 +335,6 @@ public final class InVmSequenceManager extends AbstractMOMRegistrationAware impl
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Sequence terminateSequence(String sequenceId) throws UnknownSequenceException {
         Sequence sequence = tryTerminateSequence(sequenceId);
@@ -387,9 +345,6 @@ public final class InVmSequenceManager extends AbstractMOMRegistrationAware impl
         return sequence;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void bindSequences(String referenceSequenceId, String boundSequenceId) throws UnknownSequenceException {
         try {
@@ -408,9 +363,6 @@ public final class InVmSequenceManager extends AbstractMOMRegistrationAware impl
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Sequence getBoundSequence(String referenceSequenceId) throws UnknownSequenceException {
         try {
@@ -445,9 +397,6 @@ public final class InVmSequenceManager extends AbstractMOMRegistrationAware impl
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public long currentTimeInMillis() {
         return System.currentTimeMillis();

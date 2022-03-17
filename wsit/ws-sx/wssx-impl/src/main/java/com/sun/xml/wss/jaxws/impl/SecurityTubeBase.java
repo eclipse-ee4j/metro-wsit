@@ -239,7 +239,7 @@ public abstract class SecurityTubeBase extends AbstractFilterTubeImpl {
         //addressingEnabled = (pipeConfig.getBinding().getAddressingVersion() == null) ?  false : true;
         isSOAP12 = (soapVersion == SOAPVersion.SOAP_12);
         wsPolicyMap = tubeConfig.getPolicyMap();
-        soapFactory = tubeConfig.getBinding().getSOAPVersion().saajSoapFactory;
+        soapFactory = tubeConfig.getBinding().getSOAPVersion().getSOAPFactory();
         //unmarshaller as instance variable of the pipe
         if (wsPolicyMap != null) {
             collectPolicies(policyAlternatives);

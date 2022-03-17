@@ -85,8 +85,8 @@ public class XWSSClientTube extends AbstractFilterTubeImpl {
 
         soapVersion = bnd.getSOAPVersion();
         isSOAP12 = soapVersion == SOAPVersion.SOAP_12;
-        soapFactory = soapVersion.saajSoapFactory;
-        messageFactory = soapVersion.saajMessageFactory;
+        soapFactory = soapVersion.getSOAPFactory();
+        messageFactory = soapVersion.getMessageFactory();
 
     }
 

@@ -228,7 +228,7 @@ public final class SecurityRecipient {
 
                 // If SOAP header blocks are present (i.e. not <soap:Header/>)
                 if (message.getEventType() == XMLStreamConstants.START_ELEMENT) {
-                    this.headers = new HeaderList();
+                    this.headers = new HeaderList(soapVersion);
                     // Cache SOAP header blocks
                     //cacheHeaders(message, parentNS);
                     cacheHeaders(message, parentNS, ctx);

@@ -96,7 +96,7 @@ public abstract class AbstractSoapFaultException extends RxRuntimeException {
 
     protected final Message createSoapFaultMessage(RuntimeContext rc, boolean attachSequenceFaultElement) {
         try {
-            SOAPFault soapFault = rc.soapVersion.saajSoapFactory.createFault();
+            SOAPFault soapFault = rc.soapVersion.getSOAPFactory().createFault();
 
             // common SOAP1.1 and SOAP1.2 Fault settings
             if (faultReasonText != null) {
@@ -150,7 +150,7 @@ public abstract class AbstractSoapFaultException extends RxRuntimeException {
             this.rc = rc;
 
             try {
-                this.detail = rc.soapVersion.saajSoapFactory.createDetail();
+                this.detail = rc.soapVersion.getSOAPFactory().createDetail();
             } catch (SOAPException ex) {
                 throw new RxRuntimeException("Error creating a SOAP fault detail", ex);
             }

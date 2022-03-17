@@ -349,7 +349,7 @@ public class McServerTube extends AbstractFilterTubeImpl {
 
     private Packet createSoapFaultResponse(Packet request, SOAPVersion soapVersion, AddressingVersion av, String action, QName code, QName subcode, String faultReasonText, List<SoapFaultDetailEntry> detailEntries) {
         try {
-            SOAPFault soapFault = soapVersion.saajSoapFactory.createFault();
+            SOAPFault soapFault = soapVersion.getSOAPFactory().createFault();
 
             // common SOAP1.1 and SOAP1.2 Fault settings
             if (faultReasonText != null) {

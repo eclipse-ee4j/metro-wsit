@@ -575,9 +575,6 @@ final class PersistentSequenceData implements SequenceData {
         return getFieldData(fLastActivityTime);
     }
 
-    /**
-     * {@inheritDoc }
-     */
     @Override
     public long incrementAndGetLastMessageNumber(boolean received) {
         Connection con = cm.getConnection();
@@ -731,9 +728,6 @@ final class PersistentSequenceData implements SequenceData {
         }
     }
 
-    /**
-     * {@inheritDoc }
-     */
     @Override
     public void registerReceivedUnackedMessageNumber(long messageNumber) throws DuplicateMessageRegistrationException {
         Connection con = cm.getConnection();

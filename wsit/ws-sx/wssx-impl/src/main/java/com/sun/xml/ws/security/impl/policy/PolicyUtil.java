@@ -55,10 +55,10 @@ public class PolicyUtil {
     }
 
     public static boolean isAddressingNS(PolicyAssertion pa) {
-        if ( AddressingVersion.MEMBER.getNsUri().equals(pa.getName().getNamespaceURI()) ) {
+        if ( AddressingVersion.MEMBER.nsUri.equals(pa.getName().getNamespaceURI()) ) {
             return true;
         }
-        return AddressingVersion.W3C.getNsUri().equals(pa.getName().getNamespaceURI());
+        return AddressingVersion.W3C.nsUri.equals(pa.getName().getNamespaceURI());
     }
 
     public static boolean isTrustNS(PolicyAssertion pa) {

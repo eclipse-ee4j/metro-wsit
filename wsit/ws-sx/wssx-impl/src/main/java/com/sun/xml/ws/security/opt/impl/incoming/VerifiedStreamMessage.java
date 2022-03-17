@@ -185,7 +185,7 @@ public final class VerifiedStreamMessage extends AbstractMessageImpl {
     @Override
     public HeaderList getHeaders() {
         if (headers == null) {
-            headers = new HeaderList();
+            headers = new HeaderList(soapVersion);
         }
         // FIXME: RJE -- remove cast once getHeaders returns MessageContext
         return (HeaderList) headers;
