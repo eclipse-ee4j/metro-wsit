@@ -1236,7 +1236,7 @@ attribute.getNamespaceURI().equals(MessageConstants.NAMESPACES_NS)) {
         @SuppressWarnings("unchecked")
         public WSSProvider() {
             /* We are the XMLDSig provider */
-            super("WSS_TRANSFORM", 1.0, INFO);
+            super("WSS_TRANSFORM", "1.0", INFO);
             final Map map = new HashMap();
             map.put("TransformService."+MessageConstants.ATTACHMENT_COMPLETE_TRANSFORM_URI, "com.sun.xml.wss.impl.transform.ACTransform");
             map.put("TransformService."+MessageConstants.ATTACHMENT_COMPLETE_TRANSFORM_URI+" MechanismType", "DOM");

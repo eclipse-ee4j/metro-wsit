@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -50,6 +50,7 @@ public abstract class BaseProxyBuilder<T, B extends BaseProxyBuilder<T,B>> {
      * specifiy the wsa:to and endpoint reference parameters of the proxy built by this builder
      * @param to EndpointReference
      */
+    @SuppressWarnings({"unchecked"})
     public B to(EndpointReference to) {
         this.to = to;
         return (B) this;
@@ -58,6 +59,7 @@ public abstract class BaseProxyBuilder<T, B extends BaseProxyBuilder<T,B>> {
     /**
      * specifiy the wsa:replyTo of the proxy built by this builder
      */
+    @SuppressWarnings({"unchecked"})
     public B replyTo(EndpointReference replyTo) {
         this.replyTo = replyTo;
         if(replyTo!=null)
@@ -68,6 +70,7 @@ public abstract class BaseProxyBuilder<T, B extends BaseProxyBuilder<T,B>> {
     /**
      * specify the transaction ID as the reference parameters
      */
+    @SuppressWarnings({"unchecked"})
     public B txIdForReference(String txId, String bqual) {
         EndpointReference endpointReference = version.newEndpointReferenceBuilder().address(getDefaultCallbackAddress()).
                 referenceParameter(

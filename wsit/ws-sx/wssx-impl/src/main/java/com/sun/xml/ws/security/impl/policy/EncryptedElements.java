@@ -92,8 +92,8 @@ public class EncryptedElements extends PolicyAssertion implements  com.sun.xml.w
     private synchronized AssertionFitness populate(boolean isServer) {
         if(!populated){
             this.xpathVersion = this.getAttributeValue(XPathVersion);
-            if ( this.hasNestedAssertions() ) {
-                Iterator <PolicyAssertion> it = this.getNestedAssertionsIterator();
+            if ( this.hasParameters() ) {
+                Iterator <PolicyAssertion> it = this.getParametersIterator();
                 if ( it.hasNext() ) {
                     PolicyAssertion assertion = it.next();
                     if ( PolicyUtil.isXPath(assertion, spVersion)) {

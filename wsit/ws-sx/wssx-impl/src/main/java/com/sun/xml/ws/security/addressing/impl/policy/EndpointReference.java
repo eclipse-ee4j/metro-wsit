@@ -46,8 +46,8 @@ public class EndpointReference extends com.sun.xml.ws.policy.PolicyAssertion  {
         }
         synchronized (this.getClass()){
             if(!populated){
-                if ( this.hasNestedAssertions() ) {
-                    Iterator <PolicyAssertion> it = this.getNestedAssertionsIterator();
+                if ( this.hasParameters() ) {
+                    Iterator <PolicyAssertion> it = this.getParametersIterator();
                     while ( it.hasNext() ) {
                         PolicyAssertion assertion = it.next();
                         if ( PolicyUtil.isAddress(assertion)) {

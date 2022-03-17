@@ -10,9 +10,10 @@
 
 package com.sun.xml.ws.transport.tcp.client;
 
+import com.oracle.webservices.api.message.BaseDistributedPropertySet;
+import com.oracle.webservices.api.message.PropertySet;
 import com.sun.istack.NotNull;
 import com.sun.istack.Nullable;
-import com.sun.xml.ws.api.DistributedPropertySet;
 import com.sun.xml.ws.transport.tcp.io.Connection;
 import com.sun.xml.ws.transport.tcp.io.DataInOutUtils;
 import com.sun.xml.ws.transport.tcp.util.ChannelContext;
@@ -23,6 +24,7 @@ import com.sun.xml.ws.transport.tcp.util.WSTCPException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.invoke.MethodHandles;
 import java.nio.charset.StandardCharsets;
 
 import jakarta.xml.soap.SOAPException;
@@ -31,7 +33,7 @@ import jakarta.xml.soap.SOAPMessage;
 /**
  * @author Alexey Stashok
  */
-public class TCPClientTransport extends DistributedPropertySet {
+public class TCPClientTransport extends BaseDistributedPropertySet {
     private ChannelContext channelContext;
     private Connection connection;
 
@@ -145,18 +147,18 @@ public class TCPClientTransport extends DistributedPropertySet {
         return TCPConstants.OK;
     }
 
-    @com.sun.xml.ws.api.PropertySet.Property(TCPConstants.CHANNEL_CONTEXT)
+    @PropertySet.Property(TCPConstants.CHANNEL_CONTEXT)
     public ChannelContext getConnectionContext() {
         return channelContext;
     }
 
     private static final PropertyMap model;
     static {
-        model = parse(TCPClientTransport.class);
+        model = parse(TCPClientTransport.class, MethodHandles.lookup());
     }
 
     @Override
-    public DistributedPropertySet.PropertyMap getPropertyMap() {
+    protected PropertyMap getPropertyMap() {
         return model;
     }
 

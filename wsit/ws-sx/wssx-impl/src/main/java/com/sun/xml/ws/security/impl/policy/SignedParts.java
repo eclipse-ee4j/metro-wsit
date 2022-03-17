@@ -84,8 +84,8 @@ public class SignedParts extends PolicyAssertion implements com.sun.xml.ws.secur
 
     private synchronized AssertionFitness populate(boolean isServer) {
         if(!populated){
-            if(this.hasNestedAssertions()){
-                Iterator <PolicyAssertion> it = this.getNestedAssertionsIterator();
+            if(this.hasParameters()){
+                Iterator <PolicyAssertion> it = this.getParametersIterator();
                 while( it.hasNext() ) {
                     PolicyAssertion as = it.next();
                     if(PolicyUtil.isBody(as, spVersion)){

@@ -90,9 +90,9 @@ public class SignedElements extends PolicyAssertion implements com.sun.xml.ws.se
         if ( !populated ) {
             this.xpathVersion = this.getAttributeValue(XPathVersion);
 
-            if ( this.hasNestedAssertions() ) {
+            if ( this.hasParameters() ) {
 
-                Iterator <PolicyAssertion> it = this.getNestedAssertionsIterator();
+                Iterator <PolicyAssertion> it = this.getParametersIterator();
                 while( it.hasNext() ) {
                     PolicyAssertion assertion = it.next();
                     if ( PolicyUtil.isXPath(assertion, spVersion)) {
