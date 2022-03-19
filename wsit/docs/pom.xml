@@ -31,6 +31,10 @@
         <module>getting-started</module>
     </modules>
 
+    <properties>
+        <jacoco.skip>true</jacoco.skip>
+    </properties>
+
     <profiles>
         <profile>
             <id>release-docs</id>
@@ -38,6 +42,7 @@
                 <pluginManagement>
                     <plugins>
                         <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
                             <artifactId>maven-antrun-plugin</artifactId>
                             <executions>
                                 <execution>
