@@ -28,51 +28,53 @@
     <build>
         <plugins>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-antrun-plugin</artifactId>
                 <executions>
                     <execution>
-                        <configuration>
-                            <tasks>
-                                <echo message="Preparing char entities"/>
-                                <mkdir dir="${src.dir}"/>
-                                <copy todir="${src.dir}">
-                                    <fileset dir="src/docbook"/>
-                                </copy>
-                            </tasks>
-                        </configuration>
                         <id>process-entities</id>
                         <phase>package</phase>
                         <goals>
                             <goal>run</goal>
                         </goals>
+                        <configuration>
+                            <target>
+                                <echo message="Preparing char entities"/>
+                                <mkdir dir="${src.dir}"/>
+                                <copy todir="${src.dir}">
+                                    <fileset dir="${project.basedir}/src/docbook" excludes="**/samples/**"/>
+                                </copy>
+
+                                <copy todir="${project.build.directory}/docbook/style">
+                                    <fileset dir="${src.dir}/style"/>
+                                </copy>
+                                <copy todir="${project.build.directory}/docbook/icons">
+                                    <fileset dir="${src.dir}/icons"/>
+                                </copy>
+
+                                <mkdir dir="${project.build.directory}/docbook/download"/>
+                                <macrodef name="java-bundle">
+                                    <attribute name="name"/>
+                                    <sequential>
+                                        <zip destfile="${project.build.directory}/docbook/download/@{name}.zip"
+                                             basedir="${project.basedir}/src/docbook/samples/" includes="@{name}/**"/>
+                                    </sequential>
+                                </macrodef>
+
+                                <java-bundle name="csclient"/>
+                                <java-bundle name="wsit-enabled-fromjava"/>
+                                <java-bundle name="wsit-enabled-fromwsdl"/>
+                                <java-bundle name="wsit-jaxws-fromjava" />
+                                <java-bundle name="wsit-jaxws-fromwsdl" />
+                                <java-bundle name="wsit-external-metadata" />
+                            </target>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
             <plugin>
                 <groupId>com.agilejava.docbkx</groupId>
                 <artifactId>docbkx-maven-plugin</artifactId>
-                <dependencies>
-                    <dependency>
-                        <groupId>net.sf.docbook</groupId>
-                        <artifactId>docbook-xml</artifactId>
-                        <version>5.0-all</version>
-                        <type>zip</type>
-                        <classifier>resources</classifier>
-                        <scope>runtime</scope>
-                    </dependency>
-                    <dependency>
-                        <groupId>net.sf.xslthl</groupId>
-                        <artifactId>xslthl</artifactId>
-                        <version>2.0.1</version>
-                        <scope>runtime</scope>
-                    </dependency>
-                    <dependency>
-                        <groupId>net.sf.offo</groupId>
-                        <artifactId>fop-hyph</artifactId>
-                        <version>1.2</version>
-                        <scope>runtime</scope>
-                    </dependency>
-                </dependencies>
                 <configuration>
                     <xincludeSupported>true</xincludeSupported>
                     <sourceDirectory>${src.dir}</sourceDirectory>
@@ -92,38 +94,6 @@
                     <highlightDefaultLanguage>true</highlightDefaultLanguage>
                     <htmlLongdesc>false</htmlLongdesc>
                     <keepRelativeImageUris>true</keepRelativeImageUris>
-
-                    <preProcess>
-                        <copy todir="${project.build.directory}/docbook/figures">
-                            <fileset dir="${src.dir}/figures" />
-                        </copy>
-                        <copy todir="${project.build.directory}/docbook/style">
-                            <fileset dir="${src.dir}/style" />
-                        </copy>
-                        <copy todir="${project.build.directory}/docbook/samples">
-                            <fileset dir="${src.dir}/samples" />
-                        </copy>
-                        <copy todir="${project.build.directory}/docbook/icons">
-                            <fileset dir="${src.dir}/icons" />
-                        </copy>
-
-                        <mkdir dir="${project.build.directory}/docbook/download" />
-
-                        <macrodef name="java-bundle">
-                            <attribute name="name"/>
-                            <sequential>
-                                <zip destfile="${project.build.directory}/docbook/download/@{name}.zip"
-                                        basedir="${project.build.directory}/docbook/samples/" includes="@{name}/**"/>
-                            </sequential>
-                        </macrodef>
-
-                        <java-bundle name="csclient" />
-                        <java-bundle name="wsit-enabled-fromjava" />
-                        <java-bundle name="wsit-enabled-fromwsdl" />
-                        <java-bundle name="wsit-jaxws-fromjava" />
-                        <java-bundle name="wsit-jaxws-fromwsdl" />
-                        <java-bundle name="wsit-external-metadata" />
-                    </preProcess>
                 </configuration>
                 <executions>
                     <execution>
