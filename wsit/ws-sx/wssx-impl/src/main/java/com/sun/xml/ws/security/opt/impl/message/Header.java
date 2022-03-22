@@ -10,6 +10,7 @@
 
 package com.sun.xml.ws.security.opt.impl.message;
 
+import com.sun.xml.bind.api.BridgeContext;
 import com.sun.xml.ws.security.opt.api.SecurityElementWriter;
 import com.sun.xml.ws.security.opt.api.SecurityHeaderElement;
 import com.sun.xml.ws.spi.db.XMLBridge;
@@ -18,7 +19,6 @@ import com.sun.xml.wss.impl.c14n.AttributeNS;
 import com.sun.istack.NotNull;
 import com.sun.istack.Nullable;
 import org.glassfish.jaxb.runtime.api.Bridge;
-import org.glassfish.jaxb.runtime.api.BridgeContext;
 import com.sun.xml.ws.api.SOAPVersion;
 import java.util.Vector;
 import org.xml.sax.ContentHandler;
@@ -268,15 +268,6 @@ public class Header implements com.sun.xml.ws.api.message.Header {
         throw new UnsupportedOperationException();
     }
 
-
-    /**
-     * @deprecated
-     *      Use {@link #readAsJAXB(Bridge)}. To be removed after JavaOne.
-     */
-    @Deprecated
-    public <T> T readAsJAXB(Bridge<T> bridge, BridgeContext context) {
-        throw new UnsupportedOperationException();
-    }
 
     /**
      * Reads the header as a JAXB object by using the given unmarshaller.
