@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-    Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
+    Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
 
     This program and the accompanying materials are made available under the
     terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -4342,13 +4342,7 @@ KerberosServer {
                 <step>
                     <para><emphasis role="bold"> Run the Project (right-click
                     the Project and select Run). The STS WSDL displays in a
-                    browser window. </emphasis> <note>
-                            <para>If you are receiving compilation errors during
-                            the build, you may need to update your JRE's JAX-WS
-                            version to the latest release version. See <xref 
-                            linkend="using-jax-ws-2.x---metro-1.x-2.0-with-java-se-6">here</xref>
-                            for more details.</para>
-                        </note></para>
+                    browser window. </emphasis></para>
                 </step>
             </procedure>
         </task>
