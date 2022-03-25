@@ -715,7 +715,7 @@ public class SecurityServerTube extends SecurityTubeBase {
 
             // construct the complete message here containing the RSTR and the
             // correct Action headers if any and return the message.
-            retMsg = Messages.create(WSTrustElementFactory.getContext(wsTrustVer).createMarshaller(), wsscEleFac.toJAXBElement(rstr), soapVersion);
+            retMsg = Messages.create(WSTrustElementFactory.getContext(wsTrustVer), wsscEleFac.toJAXBElement(rstr), soapVersion);
         } catch (com.sun.xml.wss.XWSSecurityException ex) {
             log.log(Level.SEVERE, LogStringsMessages.WSSTUBE_0031_ERROR_INVOKE_SC_CONTRACT(), ex);
             throw new RuntimeException(LogStringsMessages.WSSTUBE_0031_ERROR_INVOKE_SC_CONTRACT(), ex);

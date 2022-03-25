@@ -776,7 +776,7 @@ public class WSITServerAuthContext extends WSITAuthContextBase implements Server
 
             // construct the complete message here containing the RSTR and the
             // correct Action headers if any and return the message.
-            retMsg = Messages.create(WSTrustElementFactory.getContext(wsTrustVer).createMarshaller(), wsscEleFac.toJAXBElement(rstr), soapVersion);
+            retMsg = Messages.create(WSTrustElementFactory.getContext(wsTrustVer), wsscEleFac.toJAXBElement(rstr), soapVersion);
 
         } catch (jakarta.xml.bind.JAXBException ex) {
             log.log(Level.SEVERE, LogStringsMessages.WSITPVD_0001_PROBLEM_MAR_UNMAR(), ex);
