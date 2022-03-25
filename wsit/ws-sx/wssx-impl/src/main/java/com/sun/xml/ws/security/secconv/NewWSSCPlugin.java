@@ -19,6 +19,7 @@ import com.sun.xml.ws.api.WSBinding;
 import com.sun.xml.ws.api.model.wsdl.WSDLPort;
 import com.sun.xml.ws.api.pipe.Pipe;
 import com.sun.xml.ws.api.security.trust.WSTrustException;
+import com.sun.xml.ws.message.jaxb.JAXBMessage;
 import com.sun.xml.ws.policy.AssertionSet;
 import com.sun.xml.ws.policy.PolicyAssertion;
 import com.sun.xml.ws.security.IssuedTokenContext;
@@ -281,17 +282,7 @@ public class NewWSSCPlugin {
 
     private Packet createSendRequestPacket(
             PolicyAssertion issuedToken, final WSDLPort wsdlPort, final WSBinding binding, final JAXBContext jbCxt, final BaseSTSRequest rst, final String action, final String endPointAddress, final Packet packet) {
-        Marshaller marshaller;
-
-        try {
-            marshaller = jbCxt.createMarshaller();
-        } catch (JAXBException ex){
-            log.log(Level.SEVERE,
-                    LogStringsMessages.WSSC_0016_PROBLEM_MAR_UNMAR(), ex);
-            throw new RuntimeException(LogStringsMessages.WSSC_0016_PROBLEM_MAR_UNMAR(), ex);
-        }
-
-        final Message request = Messages.create(marshaller, eleFac.toJAXBElement(rst), binding.getSOAPVersion());
+        final Message request = JAXBMessage.create(jbCxt, eleFac.toJAXBElement(rst), binding.getSOAPVersion());
 
         // Log Request created
         if (log.isLoggable(Level.FINE)) {
@@ -328,11 +319,9 @@ public class NewWSSCPlugin {
     }
 
     private BaseSTSResponse sendRequest(final PolicyAssertion issuedToken, final WSDLPort wsdlPort, final WSBinding binding, final Pipe securityPipe, final JAXBContext jbCxt, final BaseSTSRequest rst, final String action, final String endPointAddress, final Packet packet) {
-        Marshaller marshaller;
         Unmarshaller unmarshaller;
 
         try {
-            marshaller = jbCxt.createMarshaller();
             unmarshaller = jbCxt.createUnmarshaller();
         } catch (JAXBException ex){
             log.log(Level.SEVERE,
@@ -340,7 +329,7 @@ public class NewWSSCPlugin {
             throw new RuntimeException(LogStringsMessages.WSSC_0016_PROBLEM_MAR_UNMAR(), ex);
         }
 
-        final Message request = Messages.create(marshaller, eleFac.toJAXBElement((RequestSecurityToken)rst), binding.getSOAPVersion());
+        final Message request = JAXBMessage.create(jbCxt, eleFac.toJAXBElement(rst), binding.getSOAPVersion());
 
         // Log Request created
         if (log.isLoggable(Level.FINE)) {

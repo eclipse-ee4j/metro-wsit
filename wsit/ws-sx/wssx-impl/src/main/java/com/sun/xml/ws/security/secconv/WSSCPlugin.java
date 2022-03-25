@@ -22,6 +22,7 @@ import com.sun.xml.ws.api.pipe.Engine;
 import com.sun.xml.ws.api.pipe.Fiber;
 import com.sun.xml.ws.api.pipe.Tube;
 import com.sun.xml.ws.api.security.secconv.client.SCTokenConfiguration;
+import com.sun.xml.ws.message.jaxb.JAXBMessage;
 import com.sun.xml.ws.policy.AssertionSet;
 import com.sun.xml.ws.policy.PolicyAssertion;
 import com.sun.xml.ws.security.IssuedTokenContext;
@@ -299,7 +300,6 @@ public class WSSCPlugin {
     }
 
     private BaseSTSResponse sendRequest(final SCTokenConfiguration sctConfig, final BaseSTSRequest rst, final String endPointAddress, final String action) {
-        Marshaller marshaller;
         Unmarshaller unmarshaller;
         final JAXBContext jaxbContext;
         WSSCVersion wsscVer = WSSCVersion.getInstance(sctConfig.getProtocol());
@@ -312,14 +312,13 @@ public class WSSCPlugin {
         WSTrustElementFactory eleFac = WSTrustElementFactory.newInstance(wsTrustVer);
         jaxbContext = WSTrustElementFactory.getContext(wsTrustVer);
          try {
-           marshaller = jaxbContext.createMarshaller();
            unmarshaller = jaxbContext.createUnmarshaller();
         } catch (JAXBException ex){
            log.log(Level.SEVERE,"WSSC0016.problem.mar.unmar", ex);
           throw new RuntimeException("Problem creating JAXB Marshaller/Unmarshaller", ex);
         }
 
-        final Message request = Messages.create(marshaller, eleFac.toJAXBElement(rst), sctConfig.getWSBinding().getSOAPVersion());
+        final Message request = JAXBMessage.create(jaxbContext, eleFac.toJAXBElement(rst), sctConfig.getWSBinding().getSOAPVersion());
 
         // Log Request created
         if (log.isLoggable(Level.FINE)) {
