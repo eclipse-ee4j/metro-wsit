@@ -113,8 +113,7 @@
         <dependency>
             <groupId>org.glassfish.grizzly</groupId>
             <artifactId>grizzly-http-servlet</artifactId>
-            <!-- TODO fix me once grizzly supports servlet6 -->
-<!--            <scope>provided</scope>-->
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.glassfish.grizzly</groupId>
