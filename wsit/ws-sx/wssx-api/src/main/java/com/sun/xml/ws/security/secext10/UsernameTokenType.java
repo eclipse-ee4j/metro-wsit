@@ -97,6 +97,9 @@ public class UsernameTokenType {
     @XmlAnyAttribute
     private Map<QName, String> otherAttributes = new HashMap<>();
 
+    public UsernameTokenType() {
+    }
+
     /**
      * Gets the value of the username property.
      *

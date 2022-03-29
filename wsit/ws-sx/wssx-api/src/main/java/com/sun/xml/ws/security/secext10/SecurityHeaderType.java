@@ -62,6 +62,9 @@ public class SecurityHeaderType {
     @XmlAnyAttribute
     private Map<QName, String> otherAttributes = new HashMap<>();
 
+    public SecurityHeaderType() {
+    }
+
     /**
      * Gets the value of the any property.
      *

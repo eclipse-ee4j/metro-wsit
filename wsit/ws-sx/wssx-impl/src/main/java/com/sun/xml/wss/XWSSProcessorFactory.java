@@ -34,6 +34,11 @@ public abstract class XWSSProcessorFactory {
               "com.sun.xml.wss.impl.misc.XWSSProcessorFactory2_0Impl";
 
     /**
+     * Default constructor.
+     */
+    protected XWSSProcessorFactory() {}
+
+    /**
      * Creates a new instance of <code>XWSSProcessorFactory</code>
      *
      * @return a new instance of <code>XWSSProcessorFactory</code>
@@ -56,9 +61,9 @@ public abstract class XWSSProcessorFactory {
             String systemProp =
                 System.getProperty(XWSS_PROCESSOR_FACTORY_PROPERTY);
             if( systemProp!=null) {
-                return (XWSSProcessorFactory)newInstance(systemProp, classLoader);
+                return newInstance(systemProp, classLoader);
             } else {
-                return (XWSSProcessorFactory)newInstance(DEFAULT_XWSS_PROCESSOR_FACTORY, classLoader);
+                return newInstance(DEFAULT_XWSS_PROCESSOR_FACTORY, classLoader);
             }
         } catch (SecurityException se) {
                throw new XWSSecurityException(se.toString(), se);
@@ -100,15 +105,16 @@ public abstract class XWSSProcessorFactory {
         InputStream securityConfiguration) throws XWSSecurityException;
      */
 
-    private static Object newInstance(String className,
+    @SuppressWarnings({"unchecked"})
+    private static XWSSProcessorFactory newInstance(String className,
                                       ClassLoader classLoader)
         throws XWSSecurityException {
         try {
-            Class spiClass;
+            Class<? extends XWSSProcessorFactory> spiClass;
             if (classLoader == null) {
-                spiClass = Class.forName(className);
+                spiClass = (Class<? extends XWSSProcessorFactory>) Class.forName(className);
             } else {
-                spiClass = classLoader.loadClass(className);
+                spiClass = (Class<? extends XWSSProcessorFactory>) classLoader.loadClass(className);
             }
             return spiClass.getConstructor().newInstance();
         } catch (ClassNotFoundException x) {

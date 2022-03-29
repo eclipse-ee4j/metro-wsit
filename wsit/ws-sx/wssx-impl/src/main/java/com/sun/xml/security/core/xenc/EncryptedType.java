@@ -83,6 +83,9 @@ public abstract class EncryptedType {
     @XmlAttribute(name = "Type")
     protected String type;
 
+    protected EncryptedType() {
+    }
+
     /**
      * Gets the value of the encryptionMethod property.
      *

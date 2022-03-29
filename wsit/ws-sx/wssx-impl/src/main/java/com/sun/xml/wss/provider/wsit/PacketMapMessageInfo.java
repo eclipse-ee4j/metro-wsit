@@ -24,14 +24,14 @@ public class PacketMapMessageInfo implements PacketMessageInfo {
 
     private SOAPAuthParam soapAuthParam;
 
-    private Map<Object, Object> infoMap;
+    private Map<String, Object> infoMap;
 
     public PacketMapMessageInfo(Packet reqPacket, Packet resPacket) {
     soapAuthParam = new SOAPAuthParam(reqPacket,resPacket,0);
     }
 
     @Override
-    public Map getMap() {
+    public Map<String, Object> getMap() {
     if (this.infoMap == null) {
         this.infoMap = soapAuthParam.getMap();
     }

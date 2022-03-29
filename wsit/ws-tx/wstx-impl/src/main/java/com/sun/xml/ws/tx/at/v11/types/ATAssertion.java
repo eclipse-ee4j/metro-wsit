@@ -56,6 +56,11 @@ public class ATAssertion {
     private Map<QName, String> otherAttributes = new HashMap<>();
 
     /**
+     * Default constructor.
+     */
+    public ATAssertion() {}
+
+    /**
      * Gets the value of the any property.
      *
      * <p>

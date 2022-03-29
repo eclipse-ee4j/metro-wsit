@@ -96,7 +96,7 @@ public class WSATHelper<T> {
     protected WSATVersion<T> builderFactory;
     private Map<Xid, Transaction> m_xidToTransactionMap = new HashMap<>();
 
-    WSATHelper WSATVersion(WSATVersion builderFactory) {
+    WSATHelper WSATVersion(WSATVersion<T> builderFactory) {
         this.builderFactory = builderFactory;
         return this;
     }

@@ -32,6 +32,11 @@ public final class RmTubeFactory implements TubeFactory {
     private static final Logger LOGGER = Logger.getLogger(RmTubeFactory.class);
 
     /**
+     * Default constructor.
+     */
+    public RmTubeFactory() {}
+
+    /**
      * Adds RM tube to the client-side tubeline, depending on whether RM is enabled or not.
      *
      * @param context Metro client tubeline assembler context

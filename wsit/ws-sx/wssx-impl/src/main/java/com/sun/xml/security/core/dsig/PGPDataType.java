@@ -71,6 +71,9 @@ public class PGPDataType {
     @XmlAnyElement(lax = true)
     protected List<Object> content;
 
+    public PGPDataType() {
+    }
+
     /**
      * Gets the rest of the content model.
      *

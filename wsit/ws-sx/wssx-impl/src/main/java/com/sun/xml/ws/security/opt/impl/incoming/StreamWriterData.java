@@ -125,7 +125,7 @@ public class StreamWriterData implements com.sun.xml.ws.security.opt.crypto.Stre
         }
 
         @Override
-        public Iterator getPrefixes(final String namespaceURI) {
+        public Iterator<String> getPrefixes(final String namespaceURI) {
             return new Iterator(){
                 int index = 0;
                 @Override
@@ -134,7 +134,7 @@ public class StreamWriterData implements com.sun.xml.ws.security.opt.crypto.Stre
                 }
 
                 @Override
-                public Object next(){
+                public String next(){
                     return list.get(index).getPrefix();
                 }
 

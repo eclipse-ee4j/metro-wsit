@@ -37,6 +37,8 @@ public class SecurityPrefixMapper implements PrefixMapper {
         prefixMap.put(Constants.SUN_SECURE_SERVER_CONVERSATION_POLICY_NS, "sscp");
     }
 
+    public SecurityPrefixMapper() {}
+
     @Override
     public Map<String, String> getPrefixMap() {
         return prefixMap;

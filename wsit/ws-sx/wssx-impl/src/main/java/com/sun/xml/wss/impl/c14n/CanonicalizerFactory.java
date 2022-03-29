@@ -26,11 +26,13 @@ import com.sun.xml.wss.swa.MimeConstants;
  *
  * @author  XWS-Security Team
  */
-public class CanonicalizerFactory {
+public final class CanonicalizerFactory {
 
     static MimeHeaderCanonicalizer _mhCanonicalizer = null;
 
-    static HashMap<String, Object> _canonicalizers = new HashMap<>(10);
+    static HashMap<String, Canonicalizer> _canonicalizers = new HashMap<>(10);
+
+    private CanonicalizerFactory() {}
 
     public static final Canonicalizer getCanonicalizer(String mimeType) throws Exception {
         ContentType contentType = new ContentType(mimeType);
@@ -43,8 +45,7 @@ public class CanonicalizerFactory {
         // use primaryMimeType as the key.
         // i.e. text canonicalizer will apply to text/* etc.
         String primaryMimeType = contentType.getPrimaryType();
-        Canonicalizer _canonicalizer =
-                           (Canonicalizer)_canonicalizers.get(primaryMimeType);
+        Canonicalizer _canonicalizer = _canonicalizers.get(primaryMimeType);
 
         if (_canonicalizer == null) {
             _canonicalizer = newCanonicalizer(primaryMimeType);
@@ -99,8 +100,9 @@ public class CanonicalizerFactory {
     public static void registerCanonicalizer(String baseMimeType,
                                              String implementingClass) throws XWSSecurityException {
          try {
-             Class _class = Class.forName(implementingClass);
-             Canonicalizer canonicalizer = (Canonicalizer)_class.getConstructor().newInstance();
+             @SuppressWarnings({"unchecked"})
+             Class<? extends Canonicalizer> _class = (Class<? extends Canonicalizer>) Class.forName(implementingClass);
+             Canonicalizer canonicalizer = _class.getConstructor().newInstance();
              _canonicalizers.put(baseMimeType, canonicalizer);
          } catch (Exception e) {
              // log

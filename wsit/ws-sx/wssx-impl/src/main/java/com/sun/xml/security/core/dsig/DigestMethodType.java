@@ -62,6 +62,9 @@ public class DigestMethodType {
     @XmlAttribute(name = "Algorithm", required = true)
     protected String algorithm;
 
+    public DigestMethodType() {
+    }
+
     /**
      * Gets the value of the content property.
      *

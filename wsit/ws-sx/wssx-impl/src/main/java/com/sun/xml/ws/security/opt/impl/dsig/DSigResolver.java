@@ -52,6 +52,8 @@ public class DSigResolver implements URIDereferencer {
     private static final Logger logger = Logger.getLogger(LogDomainConstants.IMPL_OPT_SIGNATURE_DOMAIN,
             LogDomainConstants.IMPL_OPT_SIGNATURE_DOMAIN_BUNDLE);
 
+    private DSigResolver() {}
+
     /**
      *
      * create a new instance of this class

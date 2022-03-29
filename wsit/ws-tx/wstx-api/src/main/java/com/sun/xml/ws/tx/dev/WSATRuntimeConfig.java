@@ -210,6 +210,11 @@ public final class WSATRuntimeConfig {
     //do NOT make this static
     public class WSATRecoveryEventListener implements RecoveryEventListener {
 
+        /**
+         * Default constructor.
+         */
+        public WSATRecoveryEventListener() {}
+
         @Override
         public void beforeRecovery(boolean delegated, String instance) {
             if(wsatRecoveryEventListener!=null) wsatRecoveryEventListener.beforeRecovery(delegated, instance);

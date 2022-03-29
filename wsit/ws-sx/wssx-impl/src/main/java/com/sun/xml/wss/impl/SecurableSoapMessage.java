@@ -408,12 +408,12 @@ public final class SecurableSoapMessage extends SOAPMessage {
     }
 
     @Override
-    public Iterator getAttachments() {
+    public Iterator<AttachmentPart> getAttachments() {
         return soapMessage.getAttachments();
     }
 
     @Override
-    public Iterator getAttachments(MimeHeaders headers) {
+    public Iterator<AttachmentPart> getAttachments(MimeHeaders headers) {
         return soapMessage.getAttachments(headers);
     }
 

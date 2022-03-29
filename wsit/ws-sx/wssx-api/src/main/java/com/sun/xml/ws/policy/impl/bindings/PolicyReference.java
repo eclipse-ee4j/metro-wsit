@@ -65,6 +65,11 @@ public class PolicyReference {
     private Map<QName, String> otherAttributes = new HashMap<>();
 
     /**
+     * Default constructor.
+     */
+    public PolicyReference() {}
+
+    /**
      * Gets the value of the digest property.
      *
      * @return

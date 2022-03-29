@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -22,6 +22,8 @@ import javax.security.auth.callback.Callback;
 public class KeyStoreCallback extends XWSSCallback implements Callback {
 
     private KeyStore keystore;
+
+    public KeyStoreCallback() {}
 
     public KeyStore getKeystore() {
         return keystore;

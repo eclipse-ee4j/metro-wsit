@@ -36,6 +36,8 @@ public abstract class KeyBindingBase extends WSSPolicy {
     protected byte[] claims;
     protected String claimsDialect;
 
+    protected KeyBindingBase() {}
+
     public boolean policyTokenWasSet() {
         return policyToken;
     }

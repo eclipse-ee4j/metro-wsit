@@ -52,6 +52,9 @@ public class PasswordString
     @XmlAttribute(name = "Type")
     protected String type;
 
+    public PasswordString() {
+    }
+
     /**
      * Gets the value of the type property.
      *

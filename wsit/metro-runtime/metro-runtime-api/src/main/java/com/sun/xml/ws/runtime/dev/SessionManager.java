@@ -54,7 +54,7 @@ public abstract class SessionManager extends AbstractMOMRegistrationAware {
     private static Properties config = null;
 
     private static final Object LOCK = new Object();
-    private static final Map<WSEndpoint, SessionManager> SESSION_MANAGERS = new HashMap<>();
+    private static final Map<WSEndpoint<?>, SessionManager> SESSION_MANAGERS = new HashMap<>();
     private static final WSEndpointCollectionBasedMOMListener listener;
     public static final String TIMEOUT_INTERVAL = "session-timeout";
     public static final String SESSION_THRESHOLD = "session-threshold";
@@ -121,7 +121,7 @@ public abstract class SessionManager extends AbstractMOMRegistrationAware {
      * class cannot be instantiated.
      *
      */
-    public abstract Session createSession(String key, Class clasz);
+    public abstract Session createSession(String key, Class<?> clasz);
 
      /**
      * Creates a Session with the given key, using the specified Object

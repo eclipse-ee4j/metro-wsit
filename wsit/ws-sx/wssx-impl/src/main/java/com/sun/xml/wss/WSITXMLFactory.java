@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -31,11 +31,13 @@ import org.xml.sax.SAXNotSupportedException;
  * TODO: Refactor this code to istack-commons,
  * Replica of XMLFactory in JAXB internal
  */
-public class WSITXMLFactory {
+public final class WSITXMLFactory {
 
 
     public static final boolean DISABLE_SECURE_PROCESSING =
             Boolean.parseBoolean(System.getProperty(MessageConstants.DISABLE_XML_SECURITY));
+
+    private WSITXMLFactory() {}
 
     private static boolean xmlFeatureValue(boolean runtimeSetting) {
         return !(DISABLE_SECURE_PROCESSING || (!DISABLE_SECURE_PROCESSING && runtimeSetting));

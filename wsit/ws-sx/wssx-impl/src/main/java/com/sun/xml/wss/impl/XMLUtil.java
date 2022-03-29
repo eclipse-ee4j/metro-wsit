@@ -61,7 +61,9 @@ import com.sun.xml.wss.logging.LogDomainConstants;
 import com.sun.xml.wss.logging.LogStringsMessages;
 import java.net.MalformedURLException;
 
-public class XMLUtil {
+public final class XMLUtil {
+
+    private XMLUtil() {}
 
     /**
      * This is a custom XML handler to load the dtds from the classpath

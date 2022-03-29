@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2017, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -24,16 +24,16 @@ import java.util.Map;
 public class WSEndpointCollectionBasedMOMListener<T extends MOMRegistrationAware> implements LazyMOMProvider.DefaultScopeChangeListener {
 
     private final Object lock;
-    private final Map<WSEndpoint, T> registrationAwareMap;
+    private final Map<WSEndpoint<?>, T> registrationAwareMap;
     private final String registrationName;
 
     private LazyMOMProvider.Scope lazyMOMProviderScope = LazyMOMProvider.Scope.STANDALONE;
 
-    public WSEndpointCollectionBasedMOMListener(String registrationName, Map<WSEndpoint, T> registrationAwareMap) {
+    public WSEndpointCollectionBasedMOMListener(String registrationName, Map<WSEndpoint<?>, T> registrationAwareMap) {
         this(new Object(), registrationName, registrationAwareMap);
     }
 
-    public WSEndpointCollectionBasedMOMListener(Object lock, String registrationName, Map<WSEndpoint, T> registrationAwareMap) {
+    public WSEndpointCollectionBasedMOMListener(Object lock, String registrationName, Map<WSEndpoint<?>, T> registrationAwareMap) {
         this.lock = lock;
         this.registrationName = registrationName;
         this.registrationAwareMap = registrationAwareMap;
@@ -58,7 +58,7 @@ public class WSEndpointCollectionBasedMOMListener<T extends MOMRegistrationAware
 
     private void registerObjectsAtMOM() {
         synchronized (lock) {
-            for (Map.Entry<WSEndpoint, T> entry : registrationAwareMap.entrySet()) {
+            for (Map.Entry<WSEndpoint<?>, T> entry : registrationAwareMap.entrySet()) {
                 registerAtMOM(entry.getValue(), entry.getKey());
             }
         }
@@ -99,7 +99,7 @@ public class WSEndpointCollectionBasedMOMListener<T extends MOMRegistrationAware
 
     private void unregisterObjectsFromMOM() {
         synchronized (lock) {
-            for (Map.Entry<WSEndpoint, T> entry : registrationAwareMap.entrySet()) {
+            for (Map.Entry<WSEndpoint<?>, T> entry : registrationAwareMap.entrySet()) {
                 if (entry.getValue().isRegisteredAtMOM()) {
                     unregisterFromMOM(entry.getValue(), entry.getKey());
                 }

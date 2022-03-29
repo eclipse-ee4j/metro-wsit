@@ -35,7 +35,7 @@ import jakarta.xml.ws.soap.SOAPFaultException;
  *
  * @author ashutosh.shahi@sun.com
  */
-public class SOAPUtil {
+public final class SOAPUtil {
 
     private static boolean enableFaultDetail = false;
     private static final String WSS_DEBUG_PROPERTY = "com.sun.xml.wss.debug";
@@ -72,9 +72,7 @@ public class SOAPUtil {
     }
 
     /** Creates a new instance of SOAPUtil */
-    public SOAPUtil() {
-
-    }
+    private SOAPUtil() {}
 
     public static String getIdFromFragmentRef(String ref) {
         char start = ref.charAt(0);

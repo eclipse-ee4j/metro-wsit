@@ -52,6 +52,9 @@ public class KeyIdentifierType
     @XmlAttribute(name = "ValueType")
     protected String valueType;
 
+    public KeyIdentifierType() {
+    }
+
     /**
      * Gets the value of the valueType property.
      *

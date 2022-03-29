@@ -68,6 +68,11 @@ public class OperatorContentType {
     protected List<Object> policyOrAllOrExactlyOne;
 
     /**
+     * Default constructor.
+     */
+    public OperatorContentType() {}
+
+    /**
      * Gets the value of the policyOrAllOrExactlyOne property.
      *
      * <p>

@@ -142,7 +142,7 @@ public class IdentityEPRExtnContributor extends EndpointReferenceExtensionContri
         return ID_QNAME;
     }
 
-    public XMLStreamReader readHeader(IdentityType identityElem) throws XMLStreamException {
+    private XMLStreamReader readHeader(IdentityType identityElem) throws XMLStreamException {
         XMLStreamBufferResult xbr = new XMLStreamBufferResult();
         JAXBElement<IdentityType> idElem =
                 (new com.sun.xml.security.core.ai.ObjectFactory()).createIdentity(identityElem);

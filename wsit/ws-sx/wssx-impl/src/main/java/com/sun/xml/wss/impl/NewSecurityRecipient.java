@@ -46,7 +46,7 @@ import com.sun.xml.wss.logging.LogStringsMessages;
  * supplied in an instance of a com.sun.xml.wss.ProcessingContext
  * @see ProcessingContext
  */
-public class NewSecurityRecipient {
+public final class NewSecurityRecipient {
 
     private static Logger log = Logger.getLogger(
             LogDomainConstants.WSS_API_DOMAIN,
@@ -62,6 +62,8 @@ public class NewSecurityRecipient {
             throw new RuntimeException(ex);
         }
     }
+
+    private NewSecurityRecipient() {}
 
     /**
      * Validate security in an Inbound SOAPMessage.

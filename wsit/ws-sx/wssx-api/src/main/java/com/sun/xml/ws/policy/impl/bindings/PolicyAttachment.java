@@ -81,6 +81,11 @@ public class PolicyAttachment {
     private Map<QName, String> otherAttributes = new HashMap<>();
 
     /**
+     * Default constructor.
+     */
+    public PolicyAttachment() {}
+
+    /**
      * Gets the value of the appliesTo property.
      *
      * @return

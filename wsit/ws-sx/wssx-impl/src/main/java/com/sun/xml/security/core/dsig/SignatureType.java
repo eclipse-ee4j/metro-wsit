@@ -81,6 +81,9 @@ public class SignatureType {
     @XmlID
     protected String id;
 
+    public SignatureType() {
+    }
+
     /*
       Gets the value of the signedInfo property.
 

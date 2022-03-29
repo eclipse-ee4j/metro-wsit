@@ -64,6 +64,9 @@ public class ManifestType {
     @XmlID
     protected String id;
 
+    public ManifestType() {
+    }
+
     /**
      * Gets the value of the reference property.
      *

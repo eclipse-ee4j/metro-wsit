@@ -78,6 +78,7 @@ public class MandatoryTargetPolicy extends WSSPolicy {
     public static class FeatureBinding extends WSSPolicy {
         private List<Target> targets = new ArrayList<>();
 
+        public FeatureBinding() {}
 
         /**
          * adds the Target representing the Header element that must be present in the message.

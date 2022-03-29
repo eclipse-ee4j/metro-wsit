@@ -84,6 +84,8 @@ public class TimestampType {
     @XmlAnyAttribute
     private Map<QName, String> otherAttributes = new HashMap<>();
 
+    public TimestampType() {}
+
     /**
      * Gets the value of the created property.
      *

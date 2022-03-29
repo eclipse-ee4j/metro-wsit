@@ -372,6 +372,7 @@ public class SAMLUtil {
             //throw new URIReferenceException("Resource "+uri+" was not found");
         }
 
+        @SuppressWarnings({"fallthrough"})
         void toNodeSet(final Node rootNode,final Set<Object> result){
             switch (rootNode.getNodeType()) {
                 case Node.ELEMENT_NODE:

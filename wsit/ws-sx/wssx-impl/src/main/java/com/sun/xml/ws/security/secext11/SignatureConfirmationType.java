@@ -55,6 +55,8 @@ public class SignatureConfirmationType {
     @XmlID
     protected String id;
 
+    public SignatureConfirmationType() {}
+
     /**
      * Gets the value of the value property.
      *

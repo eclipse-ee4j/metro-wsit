@@ -45,8 +45,8 @@ public enum EjbTransactionType {
         return this;
     }
 
-    public static boolean isContainerManagedEJB(Class c) {
-        TransactionManagement tm = (TransactionManagement) c.getAnnotation(TransactionManagement.class);
+    public static boolean isContainerManagedEJB(Class<?> c) {
+        TransactionManagement tm = c.getAnnotation(TransactionManagement.class);
         if (tm != null) {
             switch (tm.value()) {
                 case BEAN:

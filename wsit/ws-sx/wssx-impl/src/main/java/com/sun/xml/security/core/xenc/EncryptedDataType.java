@@ -45,7 +45,10 @@ public class EncryptedDataType
     extends EncryptedType
 {
 
- @Override
+    public EncryptedDataType() {
+    }
+
+    @Override
  public String getType() {
      return null;
  }

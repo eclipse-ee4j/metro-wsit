@@ -74,6 +74,9 @@ public class SecurityTokenReferenceType {
     @XmlAnyAttribute
     private Map<QName, String> otherAttributes = new HashMap<>();
 
+    public SecurityTokenReferenceType() {
+    }
+
     /**
      * Gets the value of the any property.
      *

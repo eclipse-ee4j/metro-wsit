@@ -32,6 +32,8 @@ import org.w3c.dom.NodeList;
 import org.w3c.dom.TypeInfo;
 import org.w3c.dom.UserDataHandler;
 
+import javax.xml.namespace.QName;
+
 /**
  * Corresponds to Schema definition for EncryptedData.
  * Schema definition for EncryptedData is as follows:
@@ -265,12 +267,12 @@ public class EncryptedHeaderBlock extends SOAPElementExtension implements SOAPEl
     }
 
     @Override
-    public Iterator getAllAttributes() {
+    public Iterator<Name> getAllAttributes() {
         return delegateElement.getAllAttributes();
     }
 
     @Override
-    public Iterator getAllAttributesAsQNames() {
+    public Iterator<QName> getAllAttributesAsQNames() {
          return delegateElement.getAllAttributesAsQNames();
     }
 
@@ -280,12 +282,12 @@ public class EncryptedHeaderBlock extends SOAPElementExtension implements SOAPEl
     }
 
     @Override
-    public Iterator getNamespacePrefixes() {
+    public Iterator<String> getNamespacePrefixes() {
         return delegateElement.getNamespacePrefixes();
     }
 
     @Override
-    public Iterator getVisibleNamespacePrefixes() {
+    public Iterator<String> getVisibleNamespacePrefixes() {
         return delegateElement.getVisibleNamespacePrefixes();
     }
 
@@ -305,12 +307,12 @@ public class EncryptedHeaderBlock extends SOAPElementExtension implements SOAPEl
     }
 
     @Override
-    public Iterator getChildElements() {
+    public Iterator<jakarta.xml.soap.Node> getChildElements() {
         return delegateElement.getChildElements();
     }
 
     @Override
-    public Iterator getChildElements(Name name) {
+    public Iterator<jakarta.xml.soap.Node> getChildElements(Name name) {
         return delegateElement.getChildElements(name);
     }
 

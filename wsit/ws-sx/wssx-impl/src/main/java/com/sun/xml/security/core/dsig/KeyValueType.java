@@ -66,6 +66,9 @@ public class KeyValueType {
     @XmlAnyElement(lax = true)
     protected List<Object> content;
 
+    public KeyValueType() {
+    }
+
     /**
      * Gets the value of the content property.
      *

@@ -46,6 +46,8 @@ public class PrefixNamespaceMappingCallback extends XWSSCallback implements Call
 
     private Properties prefixNamespaceMappings = null;
 
+    public PrefixNamespaceMappingCallback() {}
+
     /**
      * Set the prefix:namespace-uri mappings to be registered
      *

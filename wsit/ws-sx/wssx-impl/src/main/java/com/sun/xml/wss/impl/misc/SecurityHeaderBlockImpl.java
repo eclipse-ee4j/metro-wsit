@@ -41,6 +41,8 @@ import com.sun.xml.wss.XWSSecurityException;
 import com.sun.xml.wss.core.SecurityHeaderBlock;
 import com.sun.xml.wss.logging.LogStringsMessages;
 
+import javax.xml.namespace.QName;
+
 /**
  * @author XWS-Security Development Team
  */
@@ -198,7 +200,7 @@ public abstract class SecurityHeaderBlockImpl extends SOAPElementExtension imple
     }
 
     @Override
-    public Iterator getAllAttributes() {
+    public Iterator<Name> getAllAttributes() {
         return delegateElement.getAllAttributes();
     }
 
@@ -233,12 +235,12 @@ public abstract class SecurityHeaderBlockImpl extends SOAPElementExtension imple
     }
 
     @Override
-    public Iterator getChildElements() {
+    public Iterator<jakarta.xml.soap.Node> getChildElements() {
         return delegateElement.getChildElements();
     }
 
     @Override
-    public Iterator getChildElements(Name arg0) {
+    public Iterator<jakarta.xml.soap.Node> getChildElements(Name arg0) {
         return delegateElement.getChildElements(arg0);
     }
 
@@ -283,7 +285,7 @@ public abstract class SecurityHeaderBlockImpl extends SOAPElementExtension imple
     }
 
     @Override
-    public Iterator getNamespacePrefixes() {
+    public Iterator<String> getNamespacePrefixes() {
         return delegateElement.getNamespacePrefixes();
     }
 
@@ -353,7 +355,7 @@ public abstract class SecurityHeaderBlockImpl extends SOAPElementExtension imple
     }
 
     @Override
-    public Iterator getVisibleNamespacePrefixes() {
+    public Iterator<String> getVisibleNamespacePrefixes() {
         return delegateElement.getVisibleNamespacePrefixes();
     }
 
@@ -594,7 +596,7 @@ public abstract class SecurityHeaderBlockImpl extends SOAPElementExtension imple
     }
 
     @Override
-    public Iterator getAllAttributesAsQNames() {
+    public Iterator<QName> getAllAttributesAsQNames() {
         return delegateElement.getAllAttributesAsQNames();
     }
 

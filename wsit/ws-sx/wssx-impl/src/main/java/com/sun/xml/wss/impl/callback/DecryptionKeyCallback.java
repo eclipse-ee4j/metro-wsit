@@ -53,6 +53,8 @@ public class DecryptionKeyCallback extends XWSSCallback implements Callback {
 
         PrivateKey privateKey;
 
+        protected PrivateKeyRequest() {}
+
         /**
          * Set the PrivateKey to be used for Decryption.
          * @param privateKey <code>java.security.PrivateKey</code>
@@ -205,6 +207,8 @@ public class DecryptionKeyCallback extends XWSSCallback implements Callback {
     public static abstract class SymmetricKeyRequest implements Request {
 
         SecretKey symmetricKey;
+
+        protected SymmetricKeyRequest() {}
 
         /**
          * Constructor.

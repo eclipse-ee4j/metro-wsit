@@ -112,7 +112,7 @@ public class MEXEndpoint implements Provider<Message> {
         final SOAPVersion soapVersion) {
 
         try {
-            WSEndpoint ownerEndpoint = findEndpoint();
+            WSEndpoint<?> ownerEndpoint = findEndpoint();
 
             // If the owner endpoint has been found, then
             // get its metadata and write it to the response message
@@ -160,9 +160,10 @@ public class MEXEndpoint implements Provider<Message> {
      *
      * @return The endpoint that owns the actual service or null.
      */
-    private WSEndpoint findEndpoint() {
+    @SuppressWarnings({"unchecked"})
+    private WSEndpoint<?> findEndpoint() {
 
-        WSEndpoint wsEndpoint = (WSEndpoint) wsContext.getMessageContext().get(JAXWSProperties.WSENDPOINT);
+        WSEndpoint<?> wsEndpoint = (WSEndpoint<?>) wsContext.getMessageContext().get(JAXWSProperties.WSENDPOINT);
         HttpServletRequest servletRequest = (HttpServletRequest)wsContext.getMessageContext().get(MessageContext.SERVLET_REQUEST);
         if (servletRequest == null) {
             // TODO: better error message
@@ -171,7 +172,7 @@ public class MEXEndpoint implements Provider<Message> {
 
         // Derive the address of the owner endpoint.
         // e.g. http://localhost/foo/mex --> http://localhost/foo
-        WSEndpoint ownerEndpoint = null;
+        WSEndpoint<?> ownerEndpoint = null;
         ServletModule module = wsEndpoint.getContainer().getSPI(ServletModule.class);
         String baseAddress = module.getContextPath(servletRequest);
         String ownerEndpointAddress = null;

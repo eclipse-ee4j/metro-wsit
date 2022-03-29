@@ -110,7 +110,7 @@ public class HANonceManager extends NonceManager {
         return true;
     }
 
-    public class nonceCleanupTask implements Runnable {
+    private class nonceCleanupTask implements Runnable {
 
         @Override
         public void run() {
@@ -132,7 +132,7 @@ public class HANonceManager extends NonceManager {
         backingStore.remove(new StickyKey(key));
     }
 
-    static public class HAPojo implements Serializable {
+    private static class HAPojo implements Serializable {
 
         private static final long serialVersionUID = 5214186833541531653L;
         byte[] data;

@@ -74,6 +74,9 @@ public class EncryptionPropertyType {
     @XmlAnyAttribute
     private Map<QName, String> otherAttributes = new HashMap<>();
 
+    public EncryptionPropertyType() {
+    }
+
     /**
      * Gets the value of the content property.
      *

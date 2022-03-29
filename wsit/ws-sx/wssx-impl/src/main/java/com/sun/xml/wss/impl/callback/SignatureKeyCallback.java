@@ -52,6 +52,8 @@ public class SignatureKeyCallback extends XWSSCallback implements Callback {
 
         X509Certificate certificate;
 
+        protected PrivKeyCertRequest() {}
+
         /**
          * Set the Private Key used for Signature Calculation.
          *
@@ -101,6 +103,7 @@ public class SignatureKeyCallback extends XWSSCallback implements Callback {
      */
     public static class DefaultPrivKeyCertRequest
         extends PrivKeyCertRequest {
+        public DefaultPrivKeyCertRequest() {}
     }
 
     /**

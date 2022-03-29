@@ -66,6 +66,9 @@ public class TransformType {
     @XmlAttribute(name = "Algorithm", required = true)
     protected String algorithm;
 
+    public TransformType() {
+    }
+
     /**
      * Gets the value of the content property.
      *

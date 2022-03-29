@@ -40,11 +40,13 @@ import com.sun.xml.wss.logging.LogStringsMessages;
  * supplied in an instance of a com.sun.xml.wss.ProcessingContext
  * @see ProcessingContext
  */
-public class SecurityAnnotator {
+public final class SecurityAnnotator {
 
     private static Logger log = Logger.getLogger(
         LogDomainConstants.WSS_API_DOMAIN,
         LogDomainConstants.WSS_API_DOMAIN_BUNDLE);
+
+    private SecurityAnnotator() {}
 
     /**
      * Secure an Outbound SOAP Message.

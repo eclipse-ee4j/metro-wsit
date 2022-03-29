@@ -800,6 +800,7 @@ public class Canonicalizer20010315ExclOmitComments {
         }
     }
 
+    @SuppressWarnings({"fallthrough"})
     void removeNodes(Node rootNode,Set result){
         try{
             switch (rootNode.getNodeType()) {

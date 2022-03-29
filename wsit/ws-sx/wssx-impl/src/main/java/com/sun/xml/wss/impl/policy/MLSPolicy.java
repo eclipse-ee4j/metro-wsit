@@ -25,6 +25,7 @@ public abstract class MLSPolicy implements SecurityPolicy {
 
     protected boolean readonly = false;
 
+    protected MLSPolicy() {}
 
     /**
      * Get FeatureBinding component

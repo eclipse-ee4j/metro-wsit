@@ -52,6 +52,9 @@ public class EncodedString
     @XmlAttribute(name = "EncodingType")
     protected String encodingType;
 
+    public EncodedString() {
+    }
+
     /**
      * Gets the value of the encodingType property.
      *

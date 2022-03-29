@@ -23,4 +23,5 @@ package com.sun.xml.ws.security.opt.impl.enc;
  */
 public class KeyEncryptionProcessor extends CryptoProcessor{
 
+    public KeyEncryptionProcessor() {}
 }

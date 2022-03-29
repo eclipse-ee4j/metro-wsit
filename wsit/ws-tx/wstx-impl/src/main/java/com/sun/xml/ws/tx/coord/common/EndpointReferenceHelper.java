@@ -22,6 +22,7 @@ import java.util.List;
 
 public abstract class EndpointReferenceHelper {
 
+    private EndpointReferenceHelper() {}
 
     public static EndpointReferenceHelper newInstance(EndpointReference epr){
       if(epr == null) throw new IllegalArgumentException("EndpointReference can't be null");

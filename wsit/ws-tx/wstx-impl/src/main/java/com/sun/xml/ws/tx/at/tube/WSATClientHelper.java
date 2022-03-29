@@ -52,10 +52,10 @@ public class WSATClientHelper implements WSATClient {
     public List<Header> doHandleRequest(TransactionalAttribute transactionalAttribute, Map<String, Object> map) {
         try {
             if (TransactionManagerImpl.getInstance().getTransactionManager().getTransaction()==null)
-                return new ArrayList();
+                return new ArrayList<>();
         } catch (SystemException e) {
             e.printStackTrace();
-            return new ArrayList();
+            return new ArrayList<>();
         }
         return processTransactionalRequest(transactionalAttribute, map);
     }

@@ -66,6 +66,9 @@ public class EmbeddedType {
     @XmlAnyAttribute
     private Map<QName, String> otherAttributes = new HashMap<>();
 
+    public EmbeddedType() {
+    }
+
     /**
      * Gets the value of the any property.
      *

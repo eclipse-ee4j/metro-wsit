@@ -60,6 +60,9 @@ public class SignatureValueType {
     @XmlID
     protected String id;
 
+    public SignatureValueType() {
+    }
+
     /**
      * Gets the value of the value property.
      *

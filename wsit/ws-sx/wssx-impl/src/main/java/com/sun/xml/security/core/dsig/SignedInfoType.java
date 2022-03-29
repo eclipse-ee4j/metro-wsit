@@ -76,6 +76,9 @@ public class SignedInfoType {
     @XmlID
     protected String id;
 
+    public SignedInfoType() {
+    }
+
     /**
      * Gets the value of the canonicalizationMethod property.
      *

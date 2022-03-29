@@ -22,6 +22,8 @@ package com.sun.xml.ws.security.opt.impl.enc;
  */
 public class DataEncryptionProcessor extends CryptoProcessor{
 
+    public DataEncryptionProcessor() {}
+
 //    private String dataEncAlgo = "";
 //
 //

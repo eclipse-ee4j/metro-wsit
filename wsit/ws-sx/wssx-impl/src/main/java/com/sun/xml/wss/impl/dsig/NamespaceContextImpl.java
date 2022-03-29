@@ -14,6 +14,7 @@ import com.sun.xml.wss.impl.MessageConstants;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import javax.xml.namespace.NamespaceContext;
 
@@ -24,10 +25,10 @@ import javax.xml.namespace.NamespaceContext;
  */
 public class NamespaceContextImpl implements NamespaceContext{
 
-    HashMap namespaceMap = null;
+    private Map<String, String> namespaceMap = null;
 
     public NamespaceContextImpl(){
-        namespaceMap = new HashMap(10);
+        namespaceMap = new HashMap<>(10);
         this.add("SOAP-ENV","http://schemas.xmlsoap.org/soap/envelope/" );
         this.add("env","http://schemas.xmlsoap.org/soap/envelope/" );
         this.add("ds", MessageConstants.DSIG_NS);
@@ -44,17 +45,13 @@ public class NamespaceContextImpl implements NamespaceContext{
      * @param prefix Namespace Prefix
      * @param uri NamespaceURI
      */
-    @SuppressWarnings("unchecked")
     public void add(String prefix,String uri){
         namespaceMap.put(prefix,uri);
-
     }
-    /**
-     *
-     */
+
     @Override
     public String getNamespaceURI(String prefix) {
-        return    (String)namespaceMap.get(prefix);
+        return namespaceMap.get(prefix);
     }
 
     /**
@@ -63,10 +60,10 @@ public class NamespaceContextImpl implements NamespaceContext{
      */
     @Override
     public String getPrefix(String namespaceURI) {
-        Iterator iterator = namespaceMap.keySet().iterator();
+        Iterator<String> iterator = namespaceMap.keySet().iterator();
         while(iterator.hasNext()){
-            String prefix = (String)iterator.next();
-            String uri = (String)namespaceMap.get(prefix);
+            String prefix = iterator.next();
+            String uri = namespaceMap.get(prefix);
             if(namespaceURI.equals(uri))
                 return prefix;
 
@@ -79,15 +76,14 @@ public class NamespaceContextImpl implements NamespaceContext{
      * @return Iterator to list of prefixes associated with the namespaceURI
      */
     @Override
-    @SuppressWarnings("unchecked")
-    public Iterator getPrefixes(String namespaceURI) {
+    public Iterator<String> getPrefixes(String namespaceURI) {
 
-        ArrayList prefixList = new ArrayList();
-        Iterator iterator = namespaceMap.keySet().iterator();
+        List<String> prefixList = new ArrayList<>();
+        Iterator<String> iterator = namespaceMap.keySet().iterator();
         while(iterator.hasNext()){
-            String prefix = (String)iterator.next();
+            String prefix = iterator.next();
 
-            String uri = (String)namespaceMap.get(prefix);
+            String uri = namespaceMap.get(prefix);
 
             if(namespaceURI.equals(uri)){
                 prefixList.add(prefix);
@@ -96,7 +92,7 @@ public class NamespaceContextImpl implements NamespaceContext{
         return  prefixList.iterator();
     }
 
-    public Map getMap(){
+    public Map<String, String> getMap(){
         return namespaceMap;
     }
 }

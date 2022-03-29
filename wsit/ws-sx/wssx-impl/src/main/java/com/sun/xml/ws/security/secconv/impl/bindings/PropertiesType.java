@@ -54,6 +54,9 @@ public class PropertiesType {
     @XmlAnyElement(lax = true)
     protected List<Object> any;
 
+    public PropertiesType() {
+    }
+
     /**
      * Gets the value of the any property.
      *

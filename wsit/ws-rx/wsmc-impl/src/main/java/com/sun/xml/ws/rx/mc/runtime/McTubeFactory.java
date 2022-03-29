@@ -28,6 +28,12 @@ import jakarta.xml.ws.WebServiceException;
  * @see MakeConnectionSupportedFeature
  */
 public final class McTubeFactory implements TubeFactory {
+
+    /**
+     * Default constructor.
+     */
+    public McTubeFactory() {}
+
     /**
      * Adds RM tube to the client-side tubeline, depending on whether RM is enabled or not.
      *

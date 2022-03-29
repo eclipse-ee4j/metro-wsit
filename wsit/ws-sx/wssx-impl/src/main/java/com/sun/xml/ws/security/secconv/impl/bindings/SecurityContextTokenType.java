@@ -85,6 +85,9 @@ public class SecurityContextTokenType {
     @XmlAnyAttribute
     private Map<QName, String> otherAttributes = new HashMap<>();
 
+    public SecurityContextTokenType() {
+    }
+
     /**
      * Gets the value of the any property.
      *

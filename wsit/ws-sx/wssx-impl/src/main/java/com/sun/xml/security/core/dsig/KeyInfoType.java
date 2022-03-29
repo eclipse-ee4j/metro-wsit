@@ -86,6 +86,9 @@ public class KeyInfoType {
     @XmlID
     protected String id;
 
+    public KeyInfoType() {
+    }
+
     /**
      * Gets the value of the content property.
      *

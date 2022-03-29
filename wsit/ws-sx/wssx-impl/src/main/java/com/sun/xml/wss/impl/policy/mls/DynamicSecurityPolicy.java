@@ -24,6 +24,8 @@ import com.sun.xml.wss.impl.policy.SecurityPolicyGenerator;
  */
 public class DynamicSecurityPolicy extends com.sun.xml.wss.impl.policy.DynamicSecurityPolicy {
 
+    public DynamicSecurityPolicy() {}
+
     /**
      * Return the associated SecurityPolicy generator
      * @return SecurityPolicyGenerator, the associated generator

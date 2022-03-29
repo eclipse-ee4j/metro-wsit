@@ -33,6 +33,7 @@ public abstract class RegistrationProxyBuilder {
     protected long timeout;
     protected String callbackAddress;
 
+    protected RegistrationProxyBuilder() {}
 
     public RegistrationProxyBuilder feature(WebServiceFeature feature){
         if(feature == null) return  this;
@@ -82,6 +83,8 @@ public abstract class RegistrationProxyBuilder {
     }
 
     public abstract class RegistrationProxyF<T extends EndpointReference,K,P,D> implements RegistrationIF<T,K,P> {
+
+        protected RegistrationProxyF() {}
 
         @Override
         public BaseRegisterResponseType<T,P> registerOperation(BaseRegisterType<T,K> parameters){

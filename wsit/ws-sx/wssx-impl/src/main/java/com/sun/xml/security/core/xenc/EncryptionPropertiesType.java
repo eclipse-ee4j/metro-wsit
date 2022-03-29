@@ -63,6 +63,9 @@ public class EncryptionPropertiesType {
     @XmlID
     protected String id;
 
+    public EncryptionPropertiesType() {
+    }
+
     /**
      * Gets the value of the encryptionProperty property.
      *

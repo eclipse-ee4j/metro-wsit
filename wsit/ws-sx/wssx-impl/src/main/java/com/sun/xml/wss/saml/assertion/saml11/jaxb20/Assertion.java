@@ -716,7 +716,7 @@ public class Assertion  extends com.sun.xml.wss.saml.internal.saml11.jaxb20.Asse
             return null;
             //throw new URIReferenceException("Resource "+uri+" was not found");
         }
-        @SuppressWarnings("unchecked")
+        @SuppressWarnings({"unchecked", "fallthrough"})
         void toNodeSet(final Node rootNode,final Set result){
             switch (rootNode.getNodeType()) {
                 case Node.ELEMENT_NODE:

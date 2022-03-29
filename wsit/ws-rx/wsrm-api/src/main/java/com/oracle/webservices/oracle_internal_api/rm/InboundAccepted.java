@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -11,6 +11,8 @@
 package com.oracle.webservices.oracle_internal_api.rm;
 
 import com.oracle.webservices.api.message.BasePropertySet;
+
+import java.lang.invoke.MethodHandles;
 
 /**
  * {@code InboundAccepted} is created by the RMD.
@@ -31,6 +33,11 @@ public abstract class InboundAccepted
      * @see #setAccepted
      */
     public static final String ACCEPTED_PROPERTY = "com.oracle.webservices.api.rm.inbound.accepted.accepted";
+
+    /**
+     * Default constructor.
+     */
+    protected InboundAccepted() {}
 
     /**
      * @return the value set via {@link #setAccepted} or {@code null}
@@ -114,7 +121,7 @@ public abstract class InboundAccepted
     private static final PropertyMap model;
 
     static {
-        model = parse(InboundAccepted.class);
+        model = parse(InboundAccepted.class, MethodHandles.lookup());
     }
 
     @Override

@@ -79,6 +79,9 @@ public class ReferenceType {
     @XmlAttribute(name = "URI")
     protected String uri;
 
+    public ReferenceType() {
+    }
+
     /*
       Gets the value of the transforms property.
 

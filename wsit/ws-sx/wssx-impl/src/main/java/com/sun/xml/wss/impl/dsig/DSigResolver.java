@@ -310,7 +310,7 @@ public class DSigResolver implements URIDereferencer{
             };
         }
     }
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({"unchecked", "fallthrough"})
     void toNodeSet (final Node rootNode,final Set result){
         //handle EKSHA1 under DKT
         if (rootNode == null) return;

@@ -23,7 +23,7 @@ import jakarta.xml.ws.WebServiceException;
  *
  * @author K.Venugopal@sun.com
  */
-public class JAXBUtil {
+public final class JAXBUtil {
     public static final WSSNamespacePrefixMapper prefixMapper11 = new WSSNamespacePrefixMapper();
     public static final WSSNamespacePrefixMapper prefixMapper12 = new WSSNamespacePrefixMapper(true);
     private static ThreadLocal<WeakReference<JAXBContext>> jc = new ThreadLocal<>();
@@ -34,6 +34,8 @@ public class JAXBUtil {
     static {
         initJAXBContext();
     }
+
+    private JAXBUtil() {}
 
     public static JAXBContext getCustomIdentityJAXBContext() {
         initCustomJAXBContext();

@@ -46,6 +46,11 @@ public class ATAlwaysCapability {
     private Map<QName, String> otherAttributes = new HashMap<>();
 
     /**
+     * Default constructor.
+     */
+    public ATAlwaysCapability() {}
+
+    /**
      * Gets a map that contains attributes that aren't bound to any typed property on this class.
      *
      * <p>

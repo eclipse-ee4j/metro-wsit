@@ -14,7 +14,9 @@ package com.sun.xml.ws.security.secconv;
  * Common Constants pertaining to WS-SecureConversation
  * @author WS-Trust Implementation Team
  */
-public class WSSCConstants {
+public final class WSSCConstants {
+
+    private WSSCConstants() {}
 
     /** the SecureConversation namespace URI */
     public static final String WSC_NAMESPACE = "http://schemas.xmlsoap.org/ws/2005/02/sc";

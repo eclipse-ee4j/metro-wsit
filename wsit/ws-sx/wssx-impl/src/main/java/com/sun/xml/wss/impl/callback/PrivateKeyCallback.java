@@ -33,6 +33,8 @@ public class PrivateKeyCallback extends XWSSCallback implements Callback {
      */
     private String   alias;
 
+    public PrivateKeyCallback() {}
+
     public PrivateKey getKey() {
         return key;
     }

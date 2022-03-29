@@ -1575,7 +1575,7 @@ public class DefaultCallbackHandler implements CallbackHandler {
                                 caFound = true;
                                 break;
                             } else {
-                                certChainIssuer = x509Cert.getIssuerDN();
+                                certChainIssuer = x509Cert.getIssuerX500Principal();
                                 if (!isIssuerCertMatched) {
                                     isIssuerCertMatched = true;
                                 }

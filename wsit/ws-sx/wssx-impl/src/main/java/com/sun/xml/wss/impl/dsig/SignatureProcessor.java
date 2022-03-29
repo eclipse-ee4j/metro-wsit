@@ -1981,7 +1981,7 @@ public class SignatureProcessor{
                 case MessageConstants.X509_ISSUER_TYPE: {
                     X509Certificate xCert = certInfo.getX509Certificate();
                     X509IssuerSerial xis = new X509IssuerSerial(secureMessage.getSOAPPart(),
-                            xCert.getIssuerDN().getName(), xCert.getSerialNumber());
+                            xCert.getIssuerX500Principal().getName(), xCert.getSerialNumber());
                     SecurityTokenReference secTokenRef = new SecurityTokenReference(secureMessage.getSOAPPart());
                     secTokenRef.setReference(xis);
                     secTokenRef.setWsuId(strId);

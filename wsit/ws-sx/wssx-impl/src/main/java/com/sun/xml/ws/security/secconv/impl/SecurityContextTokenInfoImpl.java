@@ -128,7 +128,7 @@ public class SecurityContextTokenInfoImpl implements SecurityContextTokenInfo {
     }
 
     @Override
-    public Set getInstanceKeys() {
+    public Set<String> getInstanceKeys() {
         return secretMap.keySet();
     }
 

@@ -52,11 +52,13 @@ import com.sun.xml.wss.impl.callback.DynamicPolicyCallback;
 import com.sun.xml.wss.logging.LogStringsMessages;
 import org.w3c.dom.NodeList;
 
-public abstract class HarnessUtil {
+public final class HarnessUtil {
 
     private static Logger log = Logger.getLogger(
             LogDomainConstants.WSS_API_DOMAIN,
             LogDomainConstants.WSS_API_DOMAIN_BUNDLE);
+
+    private HarnessUtil() {}
 
     /**
      * @param fpContext com.sun.xml.wss.FilterProcessingContext

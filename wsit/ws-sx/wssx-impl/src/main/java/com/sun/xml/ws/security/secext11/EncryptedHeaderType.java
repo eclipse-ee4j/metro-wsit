@@ -79,6 +79,8 @@ public class EncryptedHeaderType {
     @XmlAttribute(namespace = "http://www.w3.org/2003/05/soap-envelope")
     protected String role;
 
+    public EncryptedHeaderType() {}
+
     /**
      * Gets the value of the encryptedData property.
      *

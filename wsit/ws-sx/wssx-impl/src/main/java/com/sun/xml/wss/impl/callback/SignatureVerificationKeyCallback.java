@@ -50,6 +50,8 @@ public class SignatureVerificationKeyCallback extends XWSSCallback implements Ca
 
         X509Certificate certificate;
 
+        protected X509CertificateRequest() {}
+
         /**
          * Set the X509Certificate used for Signature Verification.
          *

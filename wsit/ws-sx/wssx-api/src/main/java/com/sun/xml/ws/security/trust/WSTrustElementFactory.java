@@ -107,6 +107,8 @@ public abstract class WSTrustElementFactory {
         }
     }
 
+    protected WSTrustElementFactory() {}
+
     public static JAXBContext getContext() {
         return jaxbContext;
     }

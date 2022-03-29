@@ -70,6 +70,9 @@ public class SignaturePropertyType {
     @XmlAttribute(name = "Target", required = true)
     protected String target;
 
+    public SignaturePropertyType() {
+    }
+
     /**
      * Gets the value of the content property.
      *

@@ -72,6 +72,8 @@ public class BinarySecurityTokenType
     @XmlAnyAttribute
     private Map<QName, String> otherAttributes = new HashMap<>();
 
+    public BinarySecurityTokenType() {
+    }
 
 
     /**

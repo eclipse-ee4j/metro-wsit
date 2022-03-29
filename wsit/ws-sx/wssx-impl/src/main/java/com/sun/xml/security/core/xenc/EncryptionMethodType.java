@@ -69,6 +69,9 @@ public class EncryptionMethodType {
     @XmlAttribute(name = "Algorithm", required = true)
     protected String algorithm;
 
+    public EncryptionMethodType() {
+    }
+
     /**
      * Gets the value of the content property.
      *

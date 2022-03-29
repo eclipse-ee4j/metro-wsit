@@ -20,9 +20,11 @@ import java.util.logging.Level;
  *
  * @author Marek Potociar (marek.potociar at sun.com)
  */
-public class HaContext {
+public final class HaContext {
 
     private static final Logger LOGGER = Logger.getLogger(HaContext.class);
+
+    private HaContext() {}
 
     /**
      * Internal state data of the HA context

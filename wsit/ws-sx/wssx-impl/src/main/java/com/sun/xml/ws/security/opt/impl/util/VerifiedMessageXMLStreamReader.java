@@ -12,6 +12,7 @@ package com.sun.xml.ws.security.opt.impl.util;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import javax.xml.XMLConstants;
 import javax.xml.namespace.NamespaceContext;
@@ -295,17 +296,17 @@ public class VerifiedMessageXMLStreamReader implements XMLStreamReader{
         }
 
         @Override
-        public Iterator getPrefixes(String namespaceURI) {
+        public Iterator<String> getPrefixes(String namespaceURI) {
             return  new InternalIterator(parent.getPrefixes(namespaceURI), this.bodyEnvNs, namespaceURI);
         }
 
     }
     private static final class InternalIterator implements Iterator {
-        ArrayList<String> arr = new ArrayList<>();
-        Iterator internal = null;
-        public InternalIterator(Iterator parent, Map<String, String> bodyEnvNs, String namespaceURI) {
+        List<String> arr = new ArrayList<>();
+        Iterator<String> internal = null;
+        public InternalIterator(Iterator<String> parent, Map<String, String> bodyEnvNs, String namespaceURI) {
             while (parent.hasNext()) {
-                arr.add((String)parent.next());
+                arr.add(parent.next());
             }
             if (namespaceURI != null) {
                 Iterator<Map.Entry<String, String>> it = bodyEnvNs.entrySet().iterator();
@@ -325,7 +326,7 @@ public class VerifiedMessageXMLStreamReader implements XMLStreamReader{
         }
 
         @Override
-        public Object next() {
+        public String next() {
             return internal.next();
         }
 

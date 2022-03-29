@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -33,6 +33,8 @@ public class WsawAddressingPrefixMapper implements PrefixMapper {
         prefixMap.put(AddressingVersion.W3C.policyNsUri, "wsapw3c");
         prefixMap.put(AddressingVersion.W3C.nsUri, "wsaw3c");
     }
+
+    public WsawAddressingPrefixMapper() {}
 
     @Override
     public Map<String, String> getPrefixMap() {

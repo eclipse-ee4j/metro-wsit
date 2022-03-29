@@ -7,32 +7,105 @@
  *
  * SPDX-License-Identifier: BSD-3-Clause
  */
-
+@SuppressWarnings({"requires-transitive-automatic"}) //santuario 2.3
 module org.glassfish.metro.wsit.impl {
 
-    requires transitive org.glassfish.metro.wsit.api;
-    requires java.security.jgss;
-    requires java.transaction.xa;
+    requires transitive java.security.jgss;
     requires java.sql;
     requires java.rmi;
     requires transitive java.xml.crypto;
+    requires transitive jakarta.security.auth.message;
+    requires transitive jakarta.transaction;
+    requires transitive jakarta.resource;
+    requires static jakarta.cdi;
     requires jdk.security.auth;
-    requires com.sun.xml.ws.rt;
-    requires com.sun.xml.ws.fi;
-    requires com.sun.xml.ws.policy;
+    requires transitive org.apache.santuario.xmlsec;
 
+    requires transitive org.glassfish.metro.wsit.api;
+    requires com.sun.xml.ws.fi;
     requires com.sun.xml.fastinfoset;
     requires static com.sun.xml.ws.servlet;
-    requires gmbal;
-    requires transitive org.glassfish.ha.api;
 
-    exports com.sun.xml.ws.assembler.metro.jaxws;
+    exports com.sun.xml.security.core.dsig;
+    exports com.sun.xml.security.core.xenc;
+    exports com.sun.xml.ws.api.security.secconv;
+    exports com.sun.xml.ws.api.security.trust;
+    exports com.sun.xml.ws.api.security.trust.client;
+    exports com.sun.xml.ws.api.security.trust.config;
     exports com.sun.xml.ws.assembler.metro;
+    exports com.sun.xml.ws.assembler.metro.dev;
+    exports com.sun.xml.ws.assembler.metro.jaxws;
+    exports com.sun.xml.ws.policy.impl.bindings;
+    exports com.sun.xml.ws.rx;
     exports com.sun.xml.ws.rx.mc.runtime;
+    exports com.sun.xml.ws.rx.message;
+    exports com.sun.xml.ws.rx.rm.faults;
+    exports com.sun.xml.ws.rx.rm.protocol;
     exports com.sun.xml.ws.rx.rm.runtime;
+    exports com.sun.xml.ws.rx.rm.runtime.delivery;
+    exports com.sun.xml.ws.rx.rm.runtime.sequence;
+    exports com.sun.xml.ws.rx.rm.runtime.transaction;
     exports com.sun.xml.ws.rx.testing;
+    exports com.sun.xml.ws.rx.util;
+    exports com.sun.xml.ws.security;
+    exports com.sun.xml.ws.security.addressing.policy;
+    exports com.sun.xml.ws.security.impl.kerberos;
+    exports com.sun.xml.ws.security.impl.policy;
+    exports com.sun.xml.ws.security.impl.policyconv;
+    exports com.sun.xml.ws.security.opt.api;
+    exports com.sun.xml.ws.security.opt.api.keyinfo;
+    exports com.sun.xml.ws.security.opt.api.reference;
+    exports com.sun.xml.ws.security.opt.api.tokens;
+    exports com.sun.xml.ws.security.opt.crypto;
+    exports com.sun.xml.ws.security.opt.crypto.dsig;
+    exports com.sun.xml.ws.security.opt.crypto.dsig.internal;
+    exports com.sun.xml.ws.security.opt.crypto.dsig.keyinfo;
+    exports com.sun.xml.ws.security.opt.impl;
+    exports com.sun.xml.ws.security.opt.impl.dsig;
+    exports com.sun.xml.ws.security.opt.impl.enc;
+    exports com.sun.xml.ws.security.opt.impl.incoming;
+    exports com.sun.xml.ws.security.opt.impl.keyinfo;
+    exports com.sun.xml.ws.security.opt.impl.message;
+    exports com.sun.xml.ws.security.opt.impl.outgoing;
+    exports com.sun.xml.ws.security.opt.impl.reference;
+    exports com.sun.xml.ws.security.opt.impl.tokens;
+    exports com.sun.xml.ws.security.opt.impl.util;
+    exports com.sun.xml.ws.security.policy;
+    exports com.sun.xml.ws.security.secconv;
+    exports com.sun.xml.ws.security.secconv.impl.bindings;
+    exports com.sun.xml.ws.security.secconv.impl.wssx.bindings;
+    exports com.sun.xml.ws.security.secext10;
+    exports com.sun.xml.ws.security.secext11;
+    exports com.sun.xml.ws.security.spi;
+    exports com.sun.xml.ws.security.trust;
+    exports com.sun.xml.ws.security.trust.elements;
+    exports com.sun.xml.ws.security.trust.elements.str;
+    exports com.sun.xml.ws.security.trust.impl;
+    exports com.sun.xml.ws.security.trust.impl.wssx;
+    exports com.sun.xml.ws.security.wsu10;
+    exports com.sun.xml.ws.tx.at;
+    exports com.sun.xml.ws.tx.at.common;
+    exports com.sun.xml.ws.tx.at.common.client;
     exports com.sun.xml.ws.tx.at.runtime;
+    exports com.sun.xml.ws.tx.at.v10.types;
+    exports com.sun.xml.ws.tx.at.v11.types;
+    exports com.sun.xml.ws.tx.coord.common;
+    exports com.sun.xml.ws.tx.coord.common.client;
+    exports com.sun.xml.ws.tx.coord.common.types;
+    exports com.sun.xml.wss;
+    exports com.sun.xml.wss.core;
+    exports com.sun.xml.wss.impl;
+    exports com.sun.xml.wss.impl.c14n;
+    exports com.sun.xml.wss.impl.callback;
+    exports com.sun.xml.wss.impl.configuration;
+    exports com.sun.xml.wss.impl.misc;
+    exports com.sun.xml.wss.impl.policy;
+    exports com.sun.xml.wss.impl.policy.mls;
+    exports com.sun.xml.wss.impl.policy.spi;
+    exports com.sun.xml.wss.impl.policy.verifier;
+    exports com.sun.xml.wss.jaxws.impl;
     exports com.sun.xml.wss.provider.wsit;
+    exports com.sun.xml.wss.saml;
 
     opens com.sun.xml.ws.assembler.metro.jaxws to com.sun.xml.ws.rt, com.sun.xml.ws;
 
