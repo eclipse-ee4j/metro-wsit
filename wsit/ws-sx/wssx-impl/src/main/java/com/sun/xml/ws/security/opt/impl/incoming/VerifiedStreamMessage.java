@@ -13,7 +13,6 @@ package com.sun.xml.ws.security.opt.impl.incoming;
 import com.sun.istack.NotNull;
 import com.sun.istack.Nullable;
 import com.sun.istack.XMLStreamReaderToContentHandler;
-import org.glassfish.jaxb.runtime.api.Bridge;
 import com.sun.xml.stream.buffer.stax.StreamReaderBufferCreator;
 import com.sun.xml.ws.api.SOAPVersion;
 import com.sun.xml.ws.api.message.AttachmentSet;
@@ -263,20 +262,6 @@ public final class VerifiedStreamMessage extends AbstractMessageImpl {
         } catch (PrivilegedActionException ex) {
             throw new XWSSecurityRuntimeException(ex);
         }
-    }
-
-    @Override
-    public <T> T readPayloadAsJAXB(Bridge<T> bridge) throws JAXBException {
-        cacheMessage();
-        if (!hasPayload()) {
-            return null;
-        }
-        assert unconsumed();
-        T r = bridge.unmarshal(reader,
-                hasAttachments() ? new AttachmentUnmarshallerImpl(getAttachments()) : null);
-        XMLStreamReaderUtil.close(reader);
-        XMLStreamReaderFactory.recycle(reader);
-        return r;
     }
 
     @Override

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -338,15 +338,6 @@ public class GenericSecuredHeader extends AbstractHeaderImpl implements SecuredH
     public <T> T readAsJAXB(Unmarshaller um) throws jakarta.xml.bind.JAXBException {
         try {
             return (T) um.unmarshal(completeHeader.readAsXMLStreamReader());
-        } catch (Exception e) {
-            throw new JAXBException(e);
-        }
-    }
-
-    @Override
-    public <T> T readAsJAXB(org.glassfish.jaxb.runtime.api.Bridge<T> bridge) throws jakarta.xml.bind.JAXBException {
-        try {
-            return bridge.unmarshal(completeHeader.readAsXMLStreamReader());
         } catch (Exception e) {
             throw new JAXBException(e);
         }

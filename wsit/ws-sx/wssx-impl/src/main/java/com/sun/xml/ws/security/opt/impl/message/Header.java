@@ -18,7 +18,6 @@ import com.sun.xml.wss.impl.c14n.StAXAttr;
 import com.sun.xml.wss.impl.c14n.AttributeNS;
 import com.sun.istack.NotNull;
 import com.sun.istack.Nullable;
-import org.glassfish.jaxb.runtime.api.Bridge;
 import com.sun.xml.ws.api.SOAPVersion;
 import java.util.Vector;
 import org.xml.sax.ContentHandler;
@@ -268,14 +267,6 @@ public class Header implements com.sun.xml.ws.api.message.Header {
         throw new UnsupportedOperationException();
     }
 
-
-    /**
-     * Reads the header as a JAXB object by using the given unmarshaller.
-     */
-    @Override
-    public <T> T readAsJAXB(Bridge<T> bridge) {
-        throw new UnsupportedOperationException();
-    }
 
     /**
      * Writes out the header.
