@@ -82,6 +82,9 @@ public class DSAKeyValueType {
     @XmlElement(name = "PgenCounter", namespace = "http://www.w3.org/2000/09/xmldsig#")
     protected byte[] pgenCounter;
 
+    public DSAKeyValueType() {
+    }
+
     /**
      * Gets the value of the p property.
      *

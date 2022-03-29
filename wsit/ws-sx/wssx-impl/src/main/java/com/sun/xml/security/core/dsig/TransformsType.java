@@ -55,6 +55,9 @@ public class TransformsType {
     @XmlElement(name = "Transform", namespace = "http://www.w3.org/2000/09/xmldsig#" , type=com.sun.xml.ws.security.opt.crypto.dsig.Transform.class)
     protected List<Transform> transform;
 
+    public TransformsType() {
+    }
+
     /**
      * Gets the value of the transform property.
      *

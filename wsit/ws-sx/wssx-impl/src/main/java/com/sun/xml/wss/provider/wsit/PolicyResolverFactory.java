@@ -26,7 +26,9 @@ import java.util.List;
  *
  * @author vbkumarjayanti
  */
-public class PolicyResolverFactory {
+public final class PolicyResolverFactory {
+
+    private PolicyResolverFactory() {}
 
     public static PolicyResolver createPolicyResolver(List<PolicyAlternativeHolder>
             alternatives, WSDLBoundOperation cachedOperation, TubeConfiguration tubeConfig,

@@ -85,9 +85,11 @@ import com.sun.xml.ws.security.trust.WSTrustElementFactory;
 import com.sun.xml.wss.logging.LogStringsMessages;
 
 
-public class KeyResolver {
+public final class KeyResolver {
 
     private static Logger log = Logger.getLogger(LogDomainConstants.WSS_API_DOMAIN, LogDomainConstants.WSS_API_DOMAIN_BUNDLE);
+
+    private KeyResolver() {}
 
     /**
      * If a SecurityTokenReference is present inside the KeyInfo,

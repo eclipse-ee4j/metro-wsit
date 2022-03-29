@@ -68,6 +68,8 @@ public class AttributedURI {
     @XmlAnyAttribute
     private Map<QName, String> otherAttributes = new HashMap<>();
 
+    public AttributedURI() {}
+
     /**
      * Gets the value of the value property.
      *

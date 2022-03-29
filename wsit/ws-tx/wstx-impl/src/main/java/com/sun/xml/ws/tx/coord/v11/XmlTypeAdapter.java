@@ -94,7 +94,7 @@ public class XmlTypeAdapter {
         }
 
         @Override
-        public Map getOtherAttributes() {
+        public Map<QName, String> getOtherAttributes() {
             return delegate.getOtherAttributes();
         }
     }

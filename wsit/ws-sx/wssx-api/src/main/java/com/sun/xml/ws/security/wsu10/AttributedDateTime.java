@@ -68,6 +68,8 @@ public class AttributedDateTime {
     @XmlAnyAttribute
     private Map<QName, String> otherAttributes = new HashMap<>();
 
+    public AttributedDateTime() {}
+
     /**
      * Gets the value of the value property.
      *

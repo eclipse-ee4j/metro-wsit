@@ -73,6 +73,9 @@ public class X509DataType {
     @XmlAnyElement(lax = true)
     protected List<Object> x509IssuerSerialOrX509SKIOrX509SubjectName;
 
+    public X509DataType() {
+    }
+
     /**
      * Gets the value of the x509IssuerSerialOrX509SKIOrX509SubjectName property.
      *

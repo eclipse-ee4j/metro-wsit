@@ -27,7 +27,7 @@ import java.util.logging.Logger;
  * Class that can be used on the ServerSide by the SEI implementation methods, Callback Handlers
  * and Standalone SAAJ Applications using XWSS.
  */
-public class SubjectAccessor {
+public final class SubjectAccessor {
 
     private static Logger log =
             Logger.getLogger(
@@ -36,6 +36,8 @@ public class SubjectAccessor {
 
 
     private static ThreadLocal<Subject> wssThreadCtx = new ThreadLocal<>();
+
+    private SubjectAccessor() {}
 
     /**
      *@return the Requester's Subject if one is available, null otherwise.

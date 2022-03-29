@@ -54,6 +54,11 @@ public class Notification {
     private Map<QName, String> otherAttributes = new HashMap<>();
 
     /**
+     * Default constructor.
+     */
+    public Notification() {}
+
+    /**
      * Gets the value of the any property.
      *
      * <p>

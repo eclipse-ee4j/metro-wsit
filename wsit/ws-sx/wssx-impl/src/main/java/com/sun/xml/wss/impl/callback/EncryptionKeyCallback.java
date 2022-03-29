@@ -50,6 +50,8 @@ public class EncryptionKeyCallback extends XWSSCallback implements Callback {
 
         X509Certificate certificate;
 
+        protected X509CertificateRequest() {}
+
         public void setX509Certificate(X509Certificate certificate) {
             this.certificate = certificate;
         }
@@ -65,6 +67,7 @@ public class EncryptionKeyCallback extends XWSSCallback implements Callback {
      */
     public static class DefaultX509CertificateRequest
         extends X509CertificateRequest {
+        public DefaultX509CertificateRequest() {}
     }
 
     /**
@@ -103,6 +106,8 @@ public class EncryptionKeyCallback extends XWSSCallback implements Callback {
     public static abstract class SymmetricKeyRequest implements Request {
 
         SecretKey symmetricKey;
+
+        protected SymmetricKeyRequest() {}
 
         /**
          * Constructor.

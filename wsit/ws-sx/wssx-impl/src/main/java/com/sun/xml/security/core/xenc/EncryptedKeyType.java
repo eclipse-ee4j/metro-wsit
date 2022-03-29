@@ -64,6 +64,9 @@ public class EncryptedKeyType
     @XmlAttribute(name = "Recipient")
     protected String recipient;
 
+    public EncryptedKeyType() {
+    }
+
     /**
      * Gets the value of the referenceList property.
      *

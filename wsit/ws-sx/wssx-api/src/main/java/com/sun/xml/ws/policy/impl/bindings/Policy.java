@@ -63,6 +63,11 @@ public class Policy
     protected String id;
 
     /**
+     * Default constructor.
+     */
+    public Policy() {}
+
+    /**
      * Gets the value of the targetNamespace property.
      *
      * @return

@@ -33,6 +33,7 @@ public class DefaultSTSConfiguration implements STSConfiguration{
 
     private Map<String, Object> otherOptions = new HashMap<>();
 
+    public DefaultSTSConfiguration() {}
 
     @Override
     public void addTrustSPMetadata(final TrustSPMetadata data, final String spEndpoint){

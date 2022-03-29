@@ -66,6 +66,8 @@ public abstract class ConfigHelper /*implements RegistrationListener*/ {
     protected CallbackHandler cbh;
     protected AuthConfigRegistrationWrapper listenerWrapper = null;
 
+    protected ConfigHelper() {}
+
     protected void init(String layer, String appContext,
             Map<String, Object> map, CallbackHandler cbh) {
 
@@ -450,11 +452,11 @@ public abstract class ConfigHelper /*implements RegistrationListener*/ {
             this.jmacProviderRegisID = jmacProviderRegisID;
         }
 
-        public ConfigData getConfigData() {
+        private ConfigData getConfigData() {
             return data;
         }
 
-        public void setConfigData(ConfigData data) {
+        private void setConfigData(ConfigData data) {
             this.data = data;
         }
 

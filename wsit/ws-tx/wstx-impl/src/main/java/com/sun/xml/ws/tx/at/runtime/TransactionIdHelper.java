@@ -25,6 +25,11 @@ public abstract class TransactionIdHelper {
   }
 
   /**
+   * Default constructor.
+   */
+  protected TransactionIdHelper() {}
+
+  /**
    * Returns the TransactionIdHelper instance.
    *
    * @return the TransactionIdHelper instance.

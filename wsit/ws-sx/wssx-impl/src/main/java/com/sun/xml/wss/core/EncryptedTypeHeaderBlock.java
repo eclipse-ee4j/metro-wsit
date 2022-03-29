@@ -72,6 +72,11 @@ public abstract class EncryptedTypeHeaderBlock extends SecurityHeaderBlockImpl {
             LogDomainConstants.WSS_API_DOMAIN_BUNDLE);
 
     /**
+     * Default constructor.
+     */
+    protected EncryptedTypeHeaderBlock() {}
+
+    /**
      * Returns null if id attr is not present
      */
     @Override

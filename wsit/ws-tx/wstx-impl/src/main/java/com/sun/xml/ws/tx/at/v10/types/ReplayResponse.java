@@ -43,6 +43,11 @@ public class ReplayResponse {
     protected Outcome outcome;
 
     /**
+     * Default constructor.
+     */
+    public ReplayResponse() {}
+
+    /**
      * Gets the value of the outcome property.
      *
      * @return

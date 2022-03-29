@@ -59,6 +59,9 @@ public class ReferenceType {
     @XmlAnyAttribute
     private Map<QName, String> otherAttributes = new HashMap<>();
 
+    public ReferenceType() {
+    }
+
     /**
      * Gets the value of the uri property.
      *

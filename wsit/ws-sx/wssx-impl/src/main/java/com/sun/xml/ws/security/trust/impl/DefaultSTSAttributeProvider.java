@@ -43,6 +43,8 @@ import org.w3c.dom.Element;
  */
 public class DefaultSTSAttributeProvider implements STSAttributeProvider{
 
+    public DefaultSTSAttributeProvider() {}
+
     @Override
     public Map<QName, List<String>> getClaimedAttributes(final Subject subject, final String appliesTo, final String tokenType, final Claims claims){
         final Set<Principal> principals = subject.getPrincipals();

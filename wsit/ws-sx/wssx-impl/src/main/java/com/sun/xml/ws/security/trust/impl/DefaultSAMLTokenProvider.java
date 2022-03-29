@@ -86,6 +86,8 @@ public class DefaultSAMLTokenProvider implements STSTokenProvider {
     protected static final String SAML_SENDER_VOUCHES_1_0 = "urn:oasis:names:tc:SAML:1.0:cm:sender-vouches";
     protected static final String SAML_SENDER_VOUCHES_2_0 = "urn:oasis:names:tc:SAML:2.0:cm:sender-vouches";
 
+    public DefaultSAMLTokenProvider() {}
+
     @Override
     public void generateToken(IssuedTokenContext ctx) throws WSTrustException {
 

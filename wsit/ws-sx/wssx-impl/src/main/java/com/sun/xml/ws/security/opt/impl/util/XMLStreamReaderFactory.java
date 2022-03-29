@@ -26,7 +26,7 @@ import java.net.URL;
  *
  * @author Santiago.PericasGeertsen@sun.com
  */
-public class XMLStreamReaderFactory {
+public final class XMLStreamReaderFactory {
 
     /**
      * StAX input factory shared by all threads.
@@ -55,6 +55,8 @@ public class XMLStreamReaderFactory {
             // falls through
         }
     }
+
+    private XMLStreamReaderFactory() {}
 
     // -- XML ------------------------------------------------------------
 

@@ -788,7 +788,7 @@ public class DefaultSecurityEnvironmentImpl implements SecurityEnvironment {
                     e);
         }
         if (log.isLoggable(Level.FINE)) {
-            log.log(Level.FINE, "Certificate Validation called on certificate {0}", cert.getSubjectDN());
+            log.log(Level.FINE, "Certificate Validation called on certificate {0}", cert.getSubjectX500Principal());
         }
         return certValCallback.getResult();
 

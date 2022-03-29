@@ -20,9 +20,11 @@ import java.net.URI;
  *
  * @author Jiandong Guo
  */
-public class WSSCElementFactory extends WSTrustElementFactoryImpl{
+public final class WSSCElementFactory extends WSTrustElementFactoryImpl{
 
     private static final WSSCElementFactory scElemFactory = new WSSCElementFactory();
+
+    public WSSCElementFactory() {}
 
     public static WSSCElementFactory newInstance() {
         return scElemFactory;

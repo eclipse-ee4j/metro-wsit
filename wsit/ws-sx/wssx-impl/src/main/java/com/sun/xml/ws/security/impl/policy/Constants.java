@@ -14,8 +14,9 @@ import com.sun.xml.ws.policy.PolicyAssertion;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class Constants {
+public final class Constants {
 
+    private Constants() {}
 
     //Namespace constants
 

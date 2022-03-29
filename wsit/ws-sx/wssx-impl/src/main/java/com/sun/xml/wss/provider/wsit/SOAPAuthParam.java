@@ -35,7 +35,7 @@ import jakarta.xml.soap.SOAPMessage;
   */
 public class SOAPAuthParam implements AuthParam {
 
-    private HashMap<Object, Object> infoMap;
+    private HashMap<String, Object> infoMap;
 
     private boolean requestInPacket;
     private boolean responseInPacket;
@@ -105,7 +105,7 @@ public class SOAPAuthParam implements AuthParam {
       *
       * @return the SOAP request object, which may be null.
       */
-     public Map<Object, Object> getMap() {
+     public Map<String, Object> getMap() {
      if (this.infoMap == null) {
          this.infoMap = new HashMap<>();
      }

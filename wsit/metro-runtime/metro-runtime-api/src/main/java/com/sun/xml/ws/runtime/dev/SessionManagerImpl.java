@@ -156,7 +156,7 @@ public class SessionManagerImpl extends SessionManager {
      *
      */
     @Override
-    public  Session createSession(String key, Class clasz) {
+    public  Session createSession(String key, Class<?> clasz) {
         //Issue 17328 - clear expired sessions after timeout
         Properties props = getConfig();
         String timeout = (String)props.get(TIMEOUT_INTERVAL);
@@ -427,7 +427,7 @@ public class SessionManagerImpl extends SessionManager {
         }
 
         @Override
-        public Set getInstanceKeys() {
+        public Set<String> getInstanceKeys() {
           return secretMap.keySet();
         }
 

@@ -50,7 +50,7 @@ public abstract class NonceManager extends AbstractMOMRegistrationAware {
             LogDomainConstants.WSS_API_DOMAIN_BUNDLE);
     public static final String nonceManager = "com.sun.xml.xwss.NonceManager";
     private static final String NONCE_MANAGER = "NonceManager"; // monitoring
-    private static WeakHashMap<WSEndpoint, NonceManager> nonceMgrMap = new WeakHashMap<>();
+    private static WeakHashMap<WSEndpoint<?>, NonceManager> nonceMgrMap = new WeakHashMap<>();
     private static NonceManager jaxRPCNonceManager = null;
     private long maxNonceAge;
     private static final Object LOCK = new Object();
@@ -61,6 +61,11 @@ public abstract class NonceManager extends AbstractMOMRegistrationAware {
         listener = new WSEndpointCollectionBasedMOMListener(LOCK, NONCE_MANAGER, nonceMgrMap);
         listener.initialize();
     }
+
+    /**
+     * Default constructor.
+     */
+    protected NonceManager() {}
 
     /**
      *

@@ -56,6 +56,9 @@ public class CipherReferenceType {
     @XmlAttribute(name = "URI", required = true)
     protected String uri;
 
+    public CipherReferenceType() {
+    }
+
     /**
      * Gets the value of the transforms property.
      *

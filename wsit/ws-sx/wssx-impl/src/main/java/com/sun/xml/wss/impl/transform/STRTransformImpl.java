@@ -85,7 +85,7 @@ public class STRTransformImpl {
         }
         return nodeSet;
     }
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({"unchecked", "fallthrough"})
     static final void toNodeSet(final Node rootNode,final Set result){
         //handle EKSHA1 under DKT
         if (rootNode == null) return;

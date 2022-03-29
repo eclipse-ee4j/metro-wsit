@@ -55,6 +55,11 @@ public class UsingPolicy {
     private Map<QName, String> otherAttributes = new HashMap<>();
 
     /**
+     * Default constructor.
+     */
+    public UsingPolicy() {}
+
+    /**
      * Gets a map that contains attributes that aren't bound to any typed property on this class.
      *
      * <p>

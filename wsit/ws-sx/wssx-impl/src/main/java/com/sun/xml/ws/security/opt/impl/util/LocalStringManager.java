@@ -53,7 +53,7 @@ public interface LocalStringManager {
      * @return A formatted localized string
      */
     String getLocalString(
-            Class callerClass,
+            Class<?> callerClass,
             String key,
             String defaultFormat,
             Object[] arguments

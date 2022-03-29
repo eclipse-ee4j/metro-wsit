@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -11,6 +11,8 @@
 package com.oracle.webservices.oracle_internal_api.rm;
 
 import com.oracle.webservices.api.message.BasePropertySet;
+
+import java.lang.invoke.MethodHandles;
 
 /**
  * {@code OutboundDelivered} is created by a user of client-side (i.e., RMS) RM.
@@ -31,6 +33,11 @@ public abstract class OutboundDelivered
      * @see #setDelivered
      */
     public static final String DELIVERED_PROPERTY = "com.oracle.webservices.api.rm.outbound.delivered.delivered";
+
+    /**
+     * Default constructor.
+     */
+    protected OutboundDelivered() {}
 
     /**
      * @return The value set by {@link #setDelivered} or {@code null}
@@ -85,7 +92,7 @@ public abstract class OutboundDelivered
     private static final PropertyMap model;
 
     static {
-        model = parse(OutboundDelivered.class);
+        model = parse(OutboundDelivered.class, MethodHandles.lookup());
     }
 
     @Override

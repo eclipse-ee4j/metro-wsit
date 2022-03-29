@@ -24,12 +24,12 @@ import java.util.List;
  */
 public class UsernameOrSAMLAlternativeSelector implements AlternativeSelector {
 
-
-
     private enum SupportingTokenType {
 
         USERNAME, SAML, UNKNOWN
     }
+
+    public UsernameOrSAMLAlternativeSelector() {}
 
     @Override
     public MessagePolicy selectAlternative(ProcessingContext ctx, List<MessagePolicy> alternatives, SecurityPolicy recvdPolicy) {

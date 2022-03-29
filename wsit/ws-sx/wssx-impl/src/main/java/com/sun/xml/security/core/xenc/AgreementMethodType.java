@@ -71,6 +71,9 @@ public class AgreementMethodType {
     @XmlAttribute(name = "Algorithm", required = true)
     protected String algorithm;
 
+    public AgreementMethodType() {
+    }
+
     /**
      * Gets the value of the content property.
      *

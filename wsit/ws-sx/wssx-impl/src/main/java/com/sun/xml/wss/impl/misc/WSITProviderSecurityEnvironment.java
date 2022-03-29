@@ -510,13 +510,13 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
             }
            Subject subject = getSubject(context);
            if (subject != null) {
-              Set set = subject.getPrivateCredentials(X500PrivateCredential.class);
+              Set<X500PrivateCredential> set = subject.getPrivateCredentials(X500PrivateCredential.class);
               if (set != null) {
                  String issuerName = org.apache.xml.security.utils.RFC2253Parser.normalize(
-                                  cert.getIssuerDN().getName());
-                 Iterator it = set.iterator();
+                                  cert.getIssuerX500Principal().getName());
+                 Iterator<X500PrivateCredential> it = set.iterator();
                  while (it.hasNext()) {
-                    X500PrivateCredential cred = (X500PrivateCredential)it.next();
+                    X500PrivateCredential cred = it.next();
                     X509Certificate x509Cert = cred.getCertificate();
                     BigInteger serialNo = x509Cert.getSerialNumber();
                    X500Principal currentIssuerPrincipal = x509Cert.getIssuerX500Principal();
@@ -865,7 +865,7 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
                         e, true);
             }
             if (log.isLoggable(Level.FINE)) {
-                log.log(Level.FINE, "Certificate Validation called on certificate " + cert.getSubjectDN());
+                log.log(Level.FINE, "Certificate Validation called on certificate " + cert.getSubjectX500Principal());
             }
             return certValCallback.getResult();
         }
@@ -946,9 +946,9 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
         certChainList = Arrays.asList(certChain);
         }
             while(!caFound && noOfEntriesInTrustStore-- != 0 && certChain == null){
-                Enumeration aliases = tsCallback.getTrustStore().aliases();
+                Enumeration<String> aliases = tsCallback.getTrustStore().aliases();
                 while (aliases.hasMoreElements()){
-                    String alias = (String) aliases.nextElement();
+                    String alias = aliases.nextElement();
                     Certificate certificate = tsCallback.getTrustStore().getCertificate(alias);
                     if (certificate == null || !"X.509".equals(certificate.getType()) || certChainList.contains(certificate)) {
                         continue;
@@ -960,7 +960,7 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
                             caFound = true;
                             break;
                         }else{
-                            certChainIssuer = x509Cert.getIssuerDN();
+                            certChainIssuer = x509Cert.getIssuerX500Principal();
                             if(!isIssuerCertMatched){
                             isIssuerCertMatched = true;
                             }
@@ -1005,7 +1005,7 @@ public class WSITProviderSecurityEnvironment implements SecurityEnvironment {
         }
 
         if (log.isLoggable(Level.FINE)) {
-            log.log(Level.FINE,"Certificate Validation called on certificate " + cert.getSubjectDN());
+            log.log(Level.FINE,"Certificate Validation called on certificate " + cert.getSubjectX500Principal());
         }
 
         return true;

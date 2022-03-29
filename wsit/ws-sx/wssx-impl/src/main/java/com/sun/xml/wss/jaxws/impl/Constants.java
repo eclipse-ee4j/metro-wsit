@@ -20,7 +20,8 @@ import javax.xml.namespace.QName;
  *
  * @author K.Venugopal@sun.com
  */
-public abstract class Constants {
+public final class Constants {
+    private Constants() {}
     public static final String OPERATION_SCOPE = "operation-policy-scope".intern();
     public static final String BINDING_SCOPE = "binding-policy-scope".intern();
     public static final String rstSCTURI = "http://schemas.xmlsoap.org/ws/2005/02/trust/RST/SCT".intern();

@@ -37,6 +37,8 @@ import com.sun.xml.wss.impl.misc.SecurityHeaderBlockImpl;
 import com.sun.xml.wss.impl.misc.SOAPElementExtension;
 import com.sun.xml.wss.impl.MessageConstants;
 
+import javax.xml.namespace.QName;
+
 /**
  * @author XWS-Security Development Team
  */
@@ -339,7 +341,7 @@ public class SecurityHeader extends SOAPElementExtension implements SOAPElement 
     }
 
     @Override
-    public Iterator getAllAttributes() {
+    public Iterator<Name> getAllAttributes() {
         return delegateHeader.getAllAttributes();
     }
 
@@ -374,12 +376,12 @@ public class SecurityHeader extends SOAPElementExtension implements SOAPElement 
     }
 
     @Override
-    public Iterator getChildElements() {
+    public Iterator<jakarta.xml.soap.Node> getChildElements() {
         return delegateHeader.getChildElements();
     }
 
     @Override
-    public Iterator getChildElements(Name arg0) {
+    public Iterator<jakarta.xml.soap.Node> getChildElements(Name arg0) {
         return delegateHeader.getChildElements(arg0);
     }
 
@@ -424,7 +426,7 @@ public class SecurityHeader extends SOAPElementExtension implements SOAPElement 
     }
 
     @Override
-    public Iterator getNamespacePrefixes() {
+    public Iterator<String> getNamespacePrefixes() {
         return delegateHeader.getNamespacePrefixes();
     }
 
@@ -494,7 +496,7 @@ public class SecurityHeader extends SOAPElementExtension implements SOAPElement 
     }
 
     @Override
-    public Iterator getVisibleNamespacePrefixes() {
+    public Iterator<String> getVisibleNamespacePrefixes() {
         return delegateHeader.getVisibleNamespacePrefixes();
     }
 
@@ -723,7 +725,7 @@ public class SecurityHeader extends SOAPElementExtension implements SOAPElement 
     }
 
    @Override
-   public Iterator getAllAttributesAsQNames() {
+   public Iterator<QName> getAllAttributesAsQNames() {
        return  delegateHeader. getAllAttributesAsQNames();
    }
 

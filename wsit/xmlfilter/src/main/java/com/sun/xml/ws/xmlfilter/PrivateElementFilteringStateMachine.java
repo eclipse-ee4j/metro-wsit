@@ -69,6 +69,7 @@ public class PrivateElementFilteringStateMachine implements FilteringStateMachin
                         filteringOn = false;
                         resultingState = ProcessingStateChange.STOP_FILTERING;
                     }
+                    break;
                 default:
                     break;
             }

@@ -94,6 +94,9 @@ public class DerivedKeyTokenType {
     @XmlID
     protected String id;
 
+    public DerivedKeyTokenType() {
+    }
+
     /**
      * Gets the value of the securityTokenReference property.
      *

@@ -137,8 +137,8 @@ public class WssProviderSecurityEnvironment implements SecurityEnvironment {
               if (mo_aliases != null && mo_keypwds != null) {
                  StringTokenizer aliases = new StringTokenizer(mo_aliases, " ");
                  StringTokenizer keypwds = new StringTokenizer(mo_keypwds, " ");
-                 if (aliases.countTokens() != keypwds.countTokens())
-                    ;// log.INFO
+//                 if (aliases.countTokens() != keypwds.countTokens())
+                    // log.INFO
 
 //                 while (aliases.hasMoreElements()) {
 //                    aliases_keypwds.put(aliases.nextToken(), keypwds.nextToken());
@@ -239,14 +239,14 @@ public class WssProviderSecurityEnvironment implements SecurityEnvironment {
         try {
            Subject subject = getSubject(context);
            if (subject != null) {
-              Set set = subject.getPrivateCredentials(X500PrivateCredential.class);
+              Set<X500PrivateCredential> set = subject.getPrivateCredentials(X500PrivateCredential.class);
               if (set != null) {
                  String issuerName = org.apache.xml.security.utils.
                                 RFC2253Parser.normalize(
-                                  cert.getIssuerDN().getName());
-                 Iterator it = set.iterator();
+                                  cert.getIssuerX500Principal().getName());
+                 Iterator<X500PrivateCredential> it = set.iterator();
                  while (it.hasNext()) {
-                    X500PrivateCredential cred = (X500PrivateCredential)it.next();
+                    X500PrivateCredential cred = it.next();
                     X509Certificate x509Cert = cred.getCertificate();
                     BigInteger serialNo = x509Cert.getSerialNumber();
                     X500Principal currentIssuerPrincipal = x509Cert.getIssuerX500Principal();
@@ -499,9 +499,9 @@ public class WssProviderSecurityEnvironment implements SecurityEnvironment {
         certChainList = Arrays.asList(certChain);
         }
             while(!caFound && noOfEntriesInTrustStore-- != 0 && certChain == null){
-                Enumeration aliases = tsCallback.getTrustStore().aliases();
+                Enumeration<String> aliases = tsCallback.getTrustStore().aliases();
                 while (aliases.hasMoreElements()) {
-                    String alias = (String) aliases.nextElement();
+                    String alias = aliases.nextElement();
                     Certificate certificate = tsCallback.getTrustStore().getCertificate(alias);
                     if (certificate == null || !"X.509".equals(certificate.getType()) || certChainList.contains(certificate)) {
                         continue;
@@ -513,7 +513,7 @@ public class WssProviderSecurityEnvironment implements SecurityEnvironment {
                             caFound = true;
                             break;
                         }else{
-                            certChainIssuer = x509Cert.getIssuerDN();
+                            certChainIssuer = x509Cert.getIssuerX500Principal();
                             if(!isIssuerCertMatched){
                             isIssuerCertMatched = true;
                             }

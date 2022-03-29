@@ -20,8 +20,9 @@ import com.sun.xml.wss.impl.policy.SecurityPolicy;
 /*
  * A type utility class for policies (useful for avoiding instanceof checks).
  */
-public  class PolicyTypeUtil {
+public final class PolicyTypeUtil {
 
+    private PolicyTypeUtil() {}
 
     public static final String SEC_POLICY_CONTAINER_TYPE = "SecurityPolicyContainer";
     public static final String DYN_SEC_POLICY_TYPE= "DynamicSecurityPolicy";
@@ -169,10 +170,6 @@ public  class PolicyTypeUtil {
     public static boolean derivedTokenKeyBinding(SecurityPolicy policy) {
         if ( policy == null ) return false;
         return ( policy.getType() == DERIVED_TOKEN_KEY_BINDING);
-    }
-
-    public String getTIMESTAMP_POLICY_TYPE() {
-        return TIMESTAMP_POLICY_TYPE;
     }
 
     public static boolean issuedTokenKeyBinding(SecurityPolicy policy) {

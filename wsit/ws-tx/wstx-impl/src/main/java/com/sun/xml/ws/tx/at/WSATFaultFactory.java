@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -61,7 +61,7 @@ import java.util.Locale;
  * </S11:Envelope>
  * }
  */
-public class WSATFaultFactory {
+public final class WSATFaultFactory {
     static final String INVALID_STATE = "InvalidState";
     static final String INVALID_PROTOCOL = "InvalidProtocol";
     static final String INVALID_PARAMETERS = "InvalidParameters";
@@ -75,6 +75,8 @@ public class WSATFaultFactory {
     private static final String SENDER = "Sender";
     static final QName FAULT_CODE_Q_NAME = new QName(SOAPConstants.URI_NS_SOAP_1_2_ENVELOPE, SENDER);
     private static boolean m_isSOAP11 = true;
+
+    private WSATFaultFactory() {}
 
     /**
      * 4.1. Invalid State

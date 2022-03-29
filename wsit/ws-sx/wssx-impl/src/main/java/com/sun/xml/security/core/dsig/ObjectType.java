@@ -71,6 +71,9 @@ public class ObjectType {
     @XmlAttribute(name = "MimeType")
     protected String mimeType;
 
+    public ObjectType() {
+    }
+
     /**
      * Gets the value of the content property.
      *

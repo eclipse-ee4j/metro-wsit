@@ -26,6 +26,8 @@ public abstract class EndpointReferenceBuilder<T extends EndpointReference> {
     protected String address;
     protected List<Element> referenceParameters = new ArrayList<>();
 
+    protected EndpointReferenceBuilder() {}
+
     public static EndpointReferenceBuilder newInstance(Transactional.Version version) {
         if(Transactional.Version.WSAT10 == version||Transactional.Version.DEFAULT == version)
           return MemberSubmission();
@@ -82,6 +84,8 @@ public abstract class EndpointReferenceBuilder<T extends EndpointReference> {
     }
 
     static class MemberSubmissionEndpointReferenceBuilder extends EndpointReferenceBuilder<MemberSubmissionEndpointReference>{
+
+        MemberSubmissionEndpointReferenceBuilder() {}
 
         @Override
         public MemberSubmissionEndpointReference build() {

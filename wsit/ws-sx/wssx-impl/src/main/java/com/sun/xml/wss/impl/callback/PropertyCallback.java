@@ -38,6 +38,8 @@ public class PropertyCallback extends XWSSCallback implements Callback {
     long freshnessLimit = TIMESTAMP_FRESHNESS_LIMIT;
     long maxNonceAge = MAX_NONCE_AGE;
 
+    public PropertyCallback() {}
+
     /**
      *@param skew the assumed maximum skew (milliseconds) between the local times of any two systems
      */

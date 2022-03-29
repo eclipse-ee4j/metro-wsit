@@ -60,6 +60,9 @@ public class SPKIDataType {
     @XmlAnyElement(lax = true)
     protected List<Object> spkiSexpAndAny;
 
+    public SPKIDataType() {
+    }
+
     /**
      * Gets the value of the spkiSexpAndAny property.
      *

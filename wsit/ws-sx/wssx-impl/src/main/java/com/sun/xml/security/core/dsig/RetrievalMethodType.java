@@ -62,6 +62,9 @@ public class RetrievalMethodType {
     @XmlAttribute(name = "URI")
     protected String uri;
 
+    public RetrievalMethodType() {
+    }
+
     /**
      * Gets the value of the transforms property.
      *

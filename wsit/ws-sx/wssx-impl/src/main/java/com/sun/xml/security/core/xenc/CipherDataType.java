@@ -57,6 +57,9 @@ public class CipherDataType {
     @XmlElement(name = "CipherReference", namespace = "http://www.w3.org/2001/04/xmlenc#")
     protected CipherReferenceType cipherReference;
 
+    public CipherDataType() {
+    }
+
     /**
      * Gets the value of the cipherValue property.
      *

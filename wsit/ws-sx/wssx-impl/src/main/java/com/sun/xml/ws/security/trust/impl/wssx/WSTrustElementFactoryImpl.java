@@ -128,7 +128,6 @@ public class WSTrustElementFactoryImpl extends WSTrustElementFactory {
             LogDomainConstants.TRUST_IMPL_DOMAIN_BUNDLE);
 
     public WSTrustElementFactoryImpl(){
-
     }
 
     /**

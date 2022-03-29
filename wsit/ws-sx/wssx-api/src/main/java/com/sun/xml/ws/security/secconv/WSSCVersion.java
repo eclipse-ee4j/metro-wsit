@@ -33,6 +33,8 @@ public abstract class WSSCVersion {
         return WSSC_10;
     }
 
+    protected WSSCVersion() {}
+
     public abstract String getNamespaceURI();
 
     public abstract String getSCTTokenTypeURI();

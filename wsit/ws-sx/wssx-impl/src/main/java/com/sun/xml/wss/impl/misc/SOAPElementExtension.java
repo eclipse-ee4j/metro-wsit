@@ -10,6 +10,7 @@
 
 package com.sun.xml.wss.impl.misc;
 
+import jakarta.xml.soap.Node;
 import jakarta.xml.soap.SOAPElement;
 import jakarta.xml.soap.SOAPException;
 
@@ -17,7 +18,9 @@ import javax.xml.namespace.QName;
 
 import java.util.Iterator;
 
-public class SOAPElementExtension {
+public abstract class SOAPElementExtension {
+
+    protected SOAPElementExtension() {}
 
     public SOAPElement addChildElement(QName qname) throws SOAPException {
         throw new UnsupportedOperationException("Not Yet Implemented");
@@ -44,7 +47,7 @@ public class SOAPElementExtension {
     public boolean removeAttribute(QName qname) {
         throw new UnsupportedOperationException("Not Yet Implemented");
     }
-    public Iterator getChildElements(QName qname) {
+    public Iterator<Node> getChildElements(QName qname) {
         throw new UnsupportedOperationException("Not Yet Implemented");
     }
 

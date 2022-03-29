@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -36,6 +36,9 @@ import jakarta.xml.ws.WebServiceFeature;
  * @author Marek Potociar (marek.potociar at sun.com)
  */
 public final class SecurityFeatureConfigurator implements PolicyFeatureConfigurator {
+
+    public SecurityFeatureConfigurator() {}
+
     /*
      * Empty marker class that is used to tell JAX-WS RI that client session
      * stickiness should be enabled.
@@ -48,6 +51,8 @@ public final class SecurityFeatureConfigurator implements PolicyFeatureConfigura
 
         private boolean nonceManagerUsed;
         private boolean scUsed;
+
+        public SecurityStickyFeature() {}
 
         @Override
         public String getID() {

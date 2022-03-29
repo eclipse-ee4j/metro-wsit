@@ -28,6 +28,7 @@ public abstract class XWSSCallback {
 
     Map runtimeProperties = null;
 
+    protected XWSSCallback() {}
 
     public Map getRuntimeProperties() {
         if ( runtimeProperties == null)

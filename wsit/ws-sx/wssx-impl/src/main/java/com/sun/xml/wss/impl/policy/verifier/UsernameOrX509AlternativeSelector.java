@@ -24,12 +24,12 @@ import java.util.List;
  */
 public class UsernameOrX509AlternativeSelector implements AlternativeSelector {
 
-
-
     private enum SupportingTokenType {
 
         USERNAME, X509, UNKNOWN
     }
+
+    public UsernameOrX509AlternativeSelector() {}
 
     @Override
     public MessagePolicy selectAlternative(ProcessingContext ctx, List<MessagePolicy> alternatives, SecurityPolicy recvdPolicy) {

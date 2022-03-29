@@ -22,6 +22,8 @@ public class PendingRequestManager {
     private static final Logger LOGGER = Logger.getLogger(PendingRequestManager.class);
     static ConcurrentHashMap<String, ResponseBox> pendingRequests = new ConcurrentHashMap<>();
 
+    public PendingRequestManager() {}
+
     public static ResponseBox reqisterRequest(String msgId) {
         ResponseBox box = new ResponseBox();
         pendingRequests.put(msgId, box);

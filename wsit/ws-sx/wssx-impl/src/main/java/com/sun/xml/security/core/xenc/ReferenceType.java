@@ -58,6 +58,9 @@ public class ReferenceType {
     @XmlAttribute(name = "URI", required = true)
     protected String uri;
 
+    public ReferenceType() {
+    }
+
     /**
      * Gets the value of the any property.
      *

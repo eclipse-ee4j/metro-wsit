@@ -64,6 +64,9 @@ public class ReferenceList {
     })
     protected List<JAXBElement<ReferenceType>> dataReferenceOrKeyReference;
 
+    public ReferenceList() {
+    }
+
     /**
      * Gets the value of the dataReferenceOrKeyReference property.
      *

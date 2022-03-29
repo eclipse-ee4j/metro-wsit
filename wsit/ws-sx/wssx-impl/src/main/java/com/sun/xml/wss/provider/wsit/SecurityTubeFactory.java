@@ -96,6 +96,11 @@ public final class SecurityTubeFactory implements TubeFactory, TubelineAssemblyC
        }
     }
 
+    /**
+     * Default constructor.
+     */
+    public SecurityTubeFactory() {}
+
     @Override
     public void prepareContext(ClientTubelineAssemblyContext context) throws WebServiceException {
         if (isSecurityEnabled(context.getPolicyMap(), context.getWsdlPort())) {

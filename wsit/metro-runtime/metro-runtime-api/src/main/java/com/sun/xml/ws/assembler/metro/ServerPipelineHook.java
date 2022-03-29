@@ -24,6 +24,12 @@ import com.sun.xml.ws.policy.PolicyMap;
  * @author Arun Gupta
  */
 public class ServerPipelineHook extends com.sun.xml.ws.api.server.ServerPipelineHook {
+
+    /**
+     * Default constructor.
+     */
+    public ServerPipelineHook() {}
+
     /**
      * Called during the server-side pipeline construction process once to allow a
      * container to register a pipe for security on the service endpoint.

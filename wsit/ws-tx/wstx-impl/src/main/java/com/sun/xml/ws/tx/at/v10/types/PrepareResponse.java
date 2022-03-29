@@ -43,6 +43,11 @@ public class PrepareResponse {
     protected Vote vote;
 
     /**
+     * Default constructor.
+     */
+    public PrepareResponse() {}
+
+    /**
      * Gets the value of the vote property.
      *
      * @return

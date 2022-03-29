@@ -120,10 +120,10 @@ public class LocalStringManagerImpl implements LocalStringManager {
      */
     @Override
     public String getLocalString(
-    Class callerClass,
+    Class<?> callerClass,
     String key,
     String defaultFormat,
-    Object... arguments
+    Object[] arguments
     ) {
     MessageFormat f = new MessageFormat(
         getLocalString(callerClass, key, defaultFormat));

@@ -233,6 +233,8 @@ public class PasswordValidationCallback extends XWSSCallback implements Callback
      */
     public static class DigestPasswordValidator implements PasswordValidator {
 
+        public DigestPasswordValidator() {}
+
          @Override
          public boolean validate(Request request) throws PasswordValidationException {
 
@@ -283,11 +285,12 @@ public class PasswordValidationCallback extends XWSSCallback implements Callback
     }
 
     public abstract static class WsitDigestPasswordValidator extends DigestPasswordValidator {
-
-         public abstract void setPassword(Request request);
+        protected WsitDigestPasswordValidator() {}
+        public abstract void setPassword(Request request);
     }
 
     public abstract static class DerivedKeyPasswordValidator implements PasswordValidator {
+        protected DerivedKeyPasswordValidator() {}
         public abstract void setPassword(Request request);
       }
 

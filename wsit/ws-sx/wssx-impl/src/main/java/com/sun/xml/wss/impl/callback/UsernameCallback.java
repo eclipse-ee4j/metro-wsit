@@ -27,6 +27,8 @@ public class UsernameCallback extends XWSSCallback implements Callback {
 
     private String username;
 
+    public UsernameCallback() {}
+
     /**
      * Set the Username.
      *

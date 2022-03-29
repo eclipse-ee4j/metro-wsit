@@ -22,7 +22,9 @@ import javax.xml.namespace.QName;
  *
  * @author Manveen Kaur
  */
-public class MessageConstants {
+public final class MessageConstants {
+
+    private MessageConstants() {}
 
     public static final long MAX_NONCE_AGE=900000;
     public static final int NOT_OPTIMIZED = 0 ;

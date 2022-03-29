@@ -106,7 +106,7 @@ public final class RuntimeContext {
     final DestinationMessageHandler destinationMessageHandler;
     private final AtomicBoolean closed = new AtomicBoolean(false);
     public final TransactionHandler transactionHandler;
-    public final OutboundDeliveredHandler outboundDeliveredHandler;
+    final OutboundDeliveredHandler outboundDeliveredHandler;
 
     // It is used to retain user supplied information that needs to be
     // propagated with every RM message including protocol messages.

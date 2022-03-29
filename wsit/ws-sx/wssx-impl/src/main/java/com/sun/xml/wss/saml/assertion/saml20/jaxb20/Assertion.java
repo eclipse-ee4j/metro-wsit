@@ -716,6 +716,7 @@ public class Assertion extends AssertionType implements com.sun.xml.wss.saml.Ass
             //throw new URIReferenceException("Resource "+uri+" was not found");
         }
 
+        @SuppressWarnings({"fallthrough"})
         void toNodeSet(final Node rootNode,final Set result){
             switch (rootNode.getNodeType()) {
                 case Node.ELEMENT_NODE:

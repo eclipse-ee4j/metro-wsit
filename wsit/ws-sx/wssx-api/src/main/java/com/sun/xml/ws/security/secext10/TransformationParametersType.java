@@ -62,6 +62,9 @@ public class TransformationParametersType {
     @XmlAnyAttribute
     private Map<QName, String> otherAttributes = new HashMap<>();
 
+    public TransformationParametersType() {
+    }
+
     /**
      * Gets the value of the any property.
      *

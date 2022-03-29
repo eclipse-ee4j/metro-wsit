@@ -147,8 +147,8 @@ public class NamespaceContextEx implements org.jvnet.staxex.NamespaceContextEx {
     }
 
     @Override
-    public Iterator getPrefixes(final String namespaceURI) {
-        return new Iterator(){
+    public Iterator<String> getPrefixes(final String namespaceURI) {
+        return new Iterator<String>(){
 
             int index = 0;
 
@@ -158,7 +158,7 @@ public class NamespaceContextEx implements org.jvnet.staxex.NamespaceContextEx {
             }
 
             @Override
-            public Object next(){
+            public String next(){
                 return list.get(index).getPrefix();
             }
 

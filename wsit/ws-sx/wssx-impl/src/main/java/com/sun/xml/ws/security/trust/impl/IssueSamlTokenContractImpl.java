@@ -90,12 +90,14 @@ import org.w3c.dom.Element;
 
 import java.util.TimeZone;
 
-public  class IssueSamlTokenContractImpl extends IssueSamlTokenContract {
+public class IssueSamlTokenContractImpl extends IssueSamlTokenContract {
 
     private static final Logger log =
             Logger.getLogger(
             LogDomainConstants.TRUST_IMPL_DOMAIN,
             LogDomainConstants.TRUST_IMPL_DOMAIN_BUNDLE);
+
+    public IssueSamlTokenContractImpl() {}
 
     @Override
     public Token createSAMLAssertion(final String appliesTo, final String tokenType, final String keyType, final String assertionId, final String issuer, final  Map<QName, List<String>> claimedAttrs, final IssuedTokenContext context) throws WSTrustException {

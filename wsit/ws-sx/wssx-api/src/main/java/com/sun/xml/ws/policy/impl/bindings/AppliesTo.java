@@ -65,6 +65,11 @@ public class AppliesTo {
     private Map<QName, String> otherAttributes = new HashMap<>();
 
     /**
+     * Default constructor.
+     */
+    public AppliesTo() {}
+
+    /**
      * Gets the value of the any property.
      *
      * <p>

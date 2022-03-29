@@ -59,6 +59,9 @@ public class X509IssuerSerialType {
     @XmlElement(name = "X509SerialNumber", namespace = "http://www.w3.org/2000/09/xmldsig#")
     protected BigInteger x509SerialNumber;
 
+    public X509IssuerSerialType() {
+    }
+
     /**
      * Gets the value of the x509IssuerName property.
      *

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -24,6 +24,12 @@ public class RMRetryException
     extends Exception
 {
     private static final long serialVersionUID = -7381285499489493236L;
+
+    /**
+     * Default constructor.
+     */
+    public RMRetryException() {}
+
 }
 
 // End of file.

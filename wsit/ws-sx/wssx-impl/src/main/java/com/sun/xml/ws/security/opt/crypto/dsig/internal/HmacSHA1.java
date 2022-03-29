@@ -33,6 +33,8 @@ public class HmacSHA1 {
     private MessageDigest digest;
     private int byte_length;
 
+    public HmacSHA1() {}
+
     /**
      * Initialize with the key
      *

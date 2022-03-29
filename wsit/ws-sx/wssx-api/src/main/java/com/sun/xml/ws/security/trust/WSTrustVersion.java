@@ -33,6 +33,8 @@ public abstract class WSTrustVersion {
         return WS_TRUST_10;
     }
 
+    protected WSTrustVersion() {}
+
     public abstract String getNamespaceURI();
 
     public abstract String getIssueRequestTypeURI();

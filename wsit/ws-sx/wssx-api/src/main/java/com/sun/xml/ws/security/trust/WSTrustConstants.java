@@ -14,7 +14,9 @@ package com.sun.xml.ws.security.trust;
  * Common Constants pertaining to WS-Trust
  * @author WS-Trust Implementation Team
  */
-public class WSTrustConstants {
+public final class WSTrustConstants {
+
+    private WSTrustConstants() {}
 
     public static final String SAML_CONFIRMATION_METHOD = "Saml-Confirmation-Method";
 

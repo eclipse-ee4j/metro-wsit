@@ -36,6 +36,11 @@ public final class AtTubeFactory implements TubeFactory {
     private static final QName AT_ASSERTION = new QName(WSAT_SOAP_NSURI, "ATAssertion");
 
     /**
+     * Default constructor.
+     */
+    public AtTubeFactory() {}
+
+    /**
      * Adds TX tube to the client-side tubeline, depending on whether TX is enabled or not.
      *
      * @param context wsit client tubeline assembler context

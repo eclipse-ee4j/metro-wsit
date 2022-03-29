@@ -21,6 +21,7 @@ import javax.xml.namespace.QName;
  */
 public abstract class WSSecurityPolicyFactory{
 
+    protected WSSecurityPolicyFactory() {}
 
     public static WSSecurityPolicyFactory getInstance(){
         //default

@@ -33,6 +33,8 @@ import org.w3c.dom.TypeInfo;
 import com.sun.xml.wss.XWSSecurityException;
 import com.sun.xml.wss.impl.misc.SOAPElementExtension;
 
+import javax.xml.namespace.QName;
+
 /**
  * @author Vishal Mahajan
  */
@@ -51,6 +53,11 @@ public abstract class ReferenceElement extends SOAPElementExtension implements S
             soapFactory = sf;
         }
     }
+
+    /**
+     * Default constructor.
+     */
+    protected ReferenceElement() {}
 
     protected void setSOAPElement(SOAPElement delegateElement) {
         this.delegateElement = delegateElement;
@@ -125,7 +132,7 @@ public abstract class ReferenceElement extends SOAPElementExtension implements S
     }
 
     @Override
-    public Iterator getAllAttributes() {
+    public Iterator<Name> getAllAttributes() {
         return delegateElement.getAllAttributes();
     }
 
@@ -160,12 +167,12 @@ public abstract class ReferenceElement extends SOAPElementExtension implements S
     }
 
     @Override
-    public Iterator getChildElements() {
+    public Iterator<jakarta.xml.soap.Node> getChildElements() {
         return delegateElement.getChildElements();
     }
 
     @Override
-    public Iterator getChildElements(Name arg0) {
+    public Iterator<jakarta.xml.soap.Node> getChildElements(Name arg0) {
         return delegateElement.getChildElements(arg0);
     }
 
@@ -210,7 +217,7 @@ public abstract class ReferenceElement extends SOAPElementExtension implements S
     }
 
     @Override
-    public Iterator getNamespacePrefixes() {
+    public Iterator<String> getNamespacePrefixes() {
         return delegateElement.getNamespacePrefixes();
     }
 
@@ -280,7 +287,7 @@ public abstract class ReferenceElement extends SOAPElementExtension implements S
     }
 
     @Override
-    public Iterator getVisibleNamespacePrefixes() {
+    public Iterator<String> getVisibleNamespacePrefixes() {
         return delegateElement.getVisibleNamespacePrefixes();
     }
 
@@ -509,7 +516,7 @@ public abstract class ReferenceElement extends SOAPElementExtension implements S
     }
 
     @Override
-    public Iterator getAllAttributesAsQNames() {
+    public Iterator<QName> getAllAttributesAsQNames() {
            return delegateElement.getAllAttributesAsQNames();
     }
 

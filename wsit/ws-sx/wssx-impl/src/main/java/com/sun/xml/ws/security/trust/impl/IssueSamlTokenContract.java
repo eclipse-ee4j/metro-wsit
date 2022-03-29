@@ -87,6 +87,7 @@ public abstract class IssueSamlTokenContract implements com.sun.xml.ws.api.secur
 
     private static final int DEFAULT_KEY_SIZE = 256;
 
+    protected IssueSamlTokenContract() {}
 
     @Override
     public void init(final STSConfiguration stsConfig) {

@@ -16,7 +16,9 @@ import com.sun.xml.ws.tx.at.WSATConstants;
 import com.sun.xml.ws.tx.at.WSATHelper;
 
 
-public class WSCUtil {
+public final class WSCUtil {
+
+    private WSCUtil() {}
 
     public static Element referenceElementTxId(String txId) {
         Element ele = DOMUtil.createDom().createElementNS(WSATConstants.WLA_WSAT_NS_URI,WSATConstants.WSAT_WSAT +":"+WSATConstants.TXID);

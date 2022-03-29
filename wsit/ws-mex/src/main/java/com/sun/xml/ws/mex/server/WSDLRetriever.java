@@ -37,7 +37,7 @@ import com.sun.xml.ws.mex.MessagesMessages;
  */
 public class WSDLRetriever {
 
-    private final WSEndpoint endpoint;
+    private final WSEndpoint<?> endpoint;
 
     private static final Logger logger =
         Logger.getLogger(WSDLRetriever.class.getName());
@@ -59,7 +59,7 @@ public class WSDLRetriever {
         }
     };
 
-    public WSDLRetriever(WSEndpoint endpoint) {
+    public WSDLRetriever(WSEndpoint<?> endpoint) {
         this.endpoint = endpoint;
     }
 

@@ -66,6 +66,8 @@ public class AttributedString {
     @XmlAnyAttribute
     private Map<QName, String> otherAttributes = new HashMap<>();
 
+    public AttributedString() {
+    }
 
 
     /**

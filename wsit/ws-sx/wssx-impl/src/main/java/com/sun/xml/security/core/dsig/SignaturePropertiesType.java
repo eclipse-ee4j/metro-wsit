@@ -65,6 +65,9 @@ public class SignaturePropertiesType {
     @XmlID
     protected String id;
 
+    public SignaturePropertiesType() {
+    }
+
     /**
      * Gets the value of the signatureProperty property.
      *
