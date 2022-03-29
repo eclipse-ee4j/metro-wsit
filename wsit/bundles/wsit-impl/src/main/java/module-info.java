@@ -10,7 +10,7 @@
 
 module org.glassfish.metro.wsit.impl {
 
-    requires org.glassfish.metro.wsit.api;
+    requires transitive org.glassfish.metro.wsit.api;
     requires java.security.jgss;
     requires java.transaction.xa;
     requires java.sql;

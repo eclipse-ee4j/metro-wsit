@@ -18,7 +18,6 @@ package com.sun.xml.ws.security.opt.impl.keyinfo;
 
 import com.sun.istack.NotNull;
 import com.sun.xml.wss.logging.LogDomainConstants;
-import org.glassfish.jaxb.runtime.api.Bridge;
 import com.sun.xml.stream.buffer.XMLStreamBufferResult;
 import com.sun.xml.ws.api.SOAPVersion;
 import com.sun.xml.ws.security.opt.api.SecurityElementWriter;
@@ -117,9 +116,6 @@ public class BinarySecurityToken implements com.sun.xml.ws.security.opt.api.keyi
         throw new UnsupportedOperationException();
     }
 
-    public <T> T readAsJAXB(Bridge<T> bridge) {
-        throw new UnsupportedOperationException();
-    }
     /**
      *  writes the binary security token to the XMLStreamWriter
      * @param streamWriter XMLStreamWriter

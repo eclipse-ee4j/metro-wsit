@@ -49,7 +49,7 @@
 
         <hk2.version>3.0.3</hk2.version>
         <grizzly.version>4.0.0-M1</grizzly.version>
-        <tomcat.coyote.version>10.1.0-M11</tomcat.coyote.version>
+        <tomcat.coyote.version>10.1.0-M12</tomcat.coyote.version>
 
         <junit.version>4.13.2</junit.version>
 

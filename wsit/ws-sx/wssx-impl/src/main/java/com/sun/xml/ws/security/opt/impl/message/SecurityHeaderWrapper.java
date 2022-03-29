@@ -15,7 +15,6 @@ import com.sun.xml.ws.api.addressing.WSEndpointReference;
 import com.sun.xml.ws.security.opt.impl.outgoing.SecurityHeader;
 import com.sun.xml.ws.spi.db.XMLBridge;
 import com.sun.istack.NotNull;
-import org.glassfish.jaxb.runtime.api.Bridge;
 import com.sun.xml.ws.api.SOAPVersion;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.ErrorHandler;
@@ -229,14 +228,6 @@ public class SecurityHeaderWrapper implements com.sun.xml.ws.api.message.Header 
      */
     @Override
     public <T> T readAsJAXB(Unmarshaller unmarshaller) {
-        throw new UnsupportedOperationException();
-    }
-
-    /**
-     * Reads the header as a JAXB object by using the given unmarshaller.
-     */
-    @Override
-    public <T> T readAsJAXB(Bridge<T> bridge) {
         throw new UnsupportedOperationException();
     }
 
