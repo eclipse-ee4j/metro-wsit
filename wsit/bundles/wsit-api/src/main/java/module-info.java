@@ -22,11 +22,15 @@ module org.glassfish.metro.wsit.api {
     requires transitive org.glassfish.ha.api;
 
     exports com.oracle.webservices.oracle_internal_api.rm;
+    exports com.sun.xml.ws.api.transport.tcp;
     exports com.sun.xml.ws.api.tx.at;
-    exports com.sun.xml.ws.commons.ha;
     exports com.sun.xml.ws.commons;
+    exports com.sun.xml.ws.commons.ha;
     exports com.sun.xml.ws.config.management;
+    exports com.sun.xml.ws.config.metro;
     exports com.sun.xml.ws.metro.api.config.management;
+    exports com.sun.xml.ws.policy.config;
+    exports com.sun.xml.ws.transport.tcp.dev;
     exports com.sun.xml.ws.rx.mc.api;
     exports com.sun.xml.ws.rx.mc.dev;
     exports com.sun.xml.ws.rx.rm.api;

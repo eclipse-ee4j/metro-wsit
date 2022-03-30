@@ -134,7 +134,19 @@
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
+            <artifactId>metro-config-api</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
             <artifactId>metro-cm-api</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>soaptcp-api</artifactId>
             <version>${project.version}</version>
             <scope>provided</scope>
         </dependency>
@@ -158,21 +170,10 @@
         </dependency>
 
         <!-- TODO: put back once split packages are resolved -->
-<!--        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>metro-config-api</artifactId>
-            <version>${project.version}</version>
-            <scope>provided</scope>
-        </dependency>
+<!--
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>metro-runtime-api</artifactId>
-            <version>${project.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>soaptcp-api</artifactId>
             <version>${project.version}</version>
             <scope>provided</scope>
         </dependency>

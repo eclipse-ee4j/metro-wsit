@@ -64,7 +64,7 @@ public class WSEndpointCollectionBasedMOMListener<T extends MOMRegistrationAware
         }
     }
 
-    public void registerAtMOM(MOMRegistrationAware momRegistrationAware, WSEndpoint wsEndpoint) {
+    public void registerAtMOM(MOMRegistrationAware momRegistrationAware, WSEndpoint<?> wsEndpoint) {
         registerAtMOM(momRegistrationAware, wsEndpoint.getManagedObjectManager());
     }
 
@@ -112,7 +112,7 @@ public class WSEndpointCollectionBasedMOMListener<T extends MOMRegistrationAware
         momRegistrationAware.setRegisteredAtMOM(false);
     }
 
-    public void unregisterFromMOM(MOMRegistrationAware momRegistrationAware, WSEndpoint wsEndpoint) {
+    public void unregisterFromMOM(MOMRegistrationAware momRegistrationAware, WSEndpoint<?> wsEndpoint) {
         registerAtMOM(momRegistrationAware, wsEndpoint.getManagedObjectManager());
     }
 

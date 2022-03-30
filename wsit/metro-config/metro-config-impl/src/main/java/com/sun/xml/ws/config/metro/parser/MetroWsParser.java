@@ -65,7 +65,7 @@ class MetroWsParser {
     static {
         try {
             nameToReader.put(NamespaceVersion.v1_5.asQName(XmlToken.Policy),
-                    instantiateFeatureReader("com.sun.xml.ws.policy.config.PolicyFeatureReader"));
+                    instantiateFeatureReader("com.sun.xml.ws.policy.config.dev.PolicyFeatureReader"));
             nameToReader.put(TCP_TRANSPORT_ELEMENT_NAME,
                     instantiateFeatureReader("com.sun.xml.ws.transport.tcp.dev.TcpTransportFeatureReader"));
             nameToReader.put(TUBELINE_ELEMENT_NAME,

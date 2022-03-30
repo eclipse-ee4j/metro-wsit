@@ -366,16 +366,6 @@
             <artifactId>metro-runtime-api</artifactId>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>soaptcp-api</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>metro-config-api</artifactId>
-            <scope>provided</scope>
-        </dependency>
     </dependencies>
 
     <properties>

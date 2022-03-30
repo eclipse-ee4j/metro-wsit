@@ -15,20 +15,22 @@ import java.io.ByteArrayOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import junit.framework.TestCase;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
  *
  * @author Marek Potociar (marek.potociar at sun.com)
  */
-public class StickyKeyTest extends TestCase {
+public class StickyKeyTest {
 
-    public StickyKeyTest(String testName) {
-        super(testName);
+    public StickyKeyTest() {
     }
 
     /**
      * Test of serialization method
      */
+    @Test
     public void testSerialization() throws Exception {
         StickyKey original = new StickyKey("abc", "def");
 
@@ -44,30 +46,32 @@ public class StickyKeyTest extends TestCase {
         Object _replica = ois.readObject();
         ois.close();
 
-        assertTrue("Unexpected replica class: " + _replica.getClass(), _replica instanceof StickyKey);
+        Assert.assertTrue("Unexpected replica class: " + _replica.getClass(), _replica instanceof StickyKey);
         StickyKey replica = (StickyKey) _replica;
 
-        assertEquals("Original and replica are expected to be equal", original, replica);
-        assertEquals(original.key, replica.key);
-        assertEquals(original.getHashKey(), replica.getHashKey());
+        Assert.assertEquals("Original and replica are expected to be equal", original, replica);
+        Assert.assertEquals(original.key, replica.key);
+        Assert.assertEquals(original.getHashKey(), replica.getHashKey());
     }
 
 
     /**
      * Test of equals method, of class StickyKey.
      */
+    @Test
     public void testEquals() {
-        assertTrue(new StickyKey("abc", "def").equals(new StickyKey("abc", "def")));
-        assertTrue(new StickyKey("abc", "def").equals(new StickyKey("abc", "cba")));
-        assertFalse(new StickyKey("cba", "def").equals(new StickyKey("abc", "def")));
+        Assert.assertTrue(new StickyKey("abc", "def").equals(new StickyKey("abc", "def")));
+        Assert.assertTrue(new StickyKey("abc", "def").equals(new StickyKey("abc", "cba")));
+        Assert.assertFalse(new StickyKey("cba", "def").equals(new StickyKey("abc", "def")));
     }
 
     /**
      * Test of hashCode method, of class StickyKey.
      */
+    @Test
     public void testHashCode() {
-        assertEquals(new StickyKey("abc", "def").hashCode(), new StickyKey("abc", "def").hashCode());
-        assertEquals(new StickyKey("abc", "def").hashCode(), new StickyKey("abc", "cba").hashCode());
-        assertFalse(new StickyKey("cba", "def").hashCode() == new StickyKey("abc", "def").hashCode());
+        Assert.assertEquals(new StickyKey("abc", "def").hashCode(), new StickyKey("abc", "def").hashCode());
+        Assert.assertEquals(new StickyKey("abc", "def").hashCode(), new StickyKey("abc", "cba").hashCode());
+        Assert.assertFalse(new StickyKey("cba", "def").hashCode() == new StickyKey("abc", "def").hashCode());
     }
 }
