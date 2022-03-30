@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -8,11 +8,12 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-package com.sun.xml.ws.policy.config;
+package com.sun.xml.ws.policy.config.dev;
 
 import com.sun.istack.logging.Logger;
 import com.sun.xml.ws.config.metro.dev.FeatureReader;
 import com.sun.xml.ws.policy.PolicyException;
+import com.sun.xml.ws.policy.config.PolicyFeature;
 import com.sun.xml.ws.policy.sourcemodel.PolicyModelUnmarshaller;
 import com.sun.xml.ws.policy.sourcemodel.PolicySourceModel;
 
@@ -23,7 +24,7 @@ import jakarta.xml.ws.WebServiceException;
  *
  * @author Fabian Ritzmann
  */
-public class PolicyFeatureReader implements FeatureReader {
+public class PolicyFeatureReader implements FeatureReader<PolicyFeature> {
 
     private static final Logger LOGGER = Logger.getLogger(PolicyFeatureReader.class);
 

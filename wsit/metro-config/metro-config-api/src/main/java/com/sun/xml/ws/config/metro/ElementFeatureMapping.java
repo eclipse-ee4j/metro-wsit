@@ -11,6 +11,8 @@
 package com.sun.xml.ws.config.metro;
 
 import com.sun.xml.ws.config.metro.dev.FeatureReader;
+import jakarta.xml.ws.WebServiceFeature;
+
 import javax.xml.namespace.QName;
 
 /**
@@ -18,10 +20,10 @@ import javax.xml.namespace.QName;
  *
  * @author Fabian Ritzmann
  */
-public interface ElementFeatureMapping {
+public interface ElementFeatureMapping<T extends WebServiceFeature> {
 
     QName getElementName();
 
-    FeatureReader getFeatureReader();
+    FeatureReader<T> getFeatureReader();
 
 }

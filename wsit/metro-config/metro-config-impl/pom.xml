@@ -42,6 +42,8 @@
                             com/sun/xml/ws/policy/parser/PolicyWSDLParserExtensionTest.java
                         </exclude>
                     </excludes>
+                    <!-- TODO: missing export in jaxws-ri M4, fixed in later versions -->
+                    <argLine>--add-exports com.sun.xml.ws.rt/com.sun.xml.ws.runtime.config=org.glassfish.metro.config.impl</argLine>
                 </configuration>
             </plugin>
         </plugins>

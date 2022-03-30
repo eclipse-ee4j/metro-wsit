@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -32,9 +32,12 @@ import jakarta.xml.ws.WebServiceFeature;
  *
  * @author Fabian Ritzmann
  */
-public abstract class SimpleFeatureReader<T extends WebServiceFeature> implements FeatureReader {
+public abstract class SimpleFeatureReader<T extends WebServiceFeature> implements FeatureReader<T> {
 
     private static final Logger LOGGER = Logger.getLogger(SimpleFeatureReader.class);
+
+    protected SimpleFeatureReader() {
+    }
 
     @Override
     public T parse(final XMLEventReader reader) throws WebServiceException {
@@ -42,9 +45,9 @@ public abstract class SimpleFeatureReader<T extends WebServiceFeature> implement
             final StartElement element = reader.nextEvent().asStartElement();
             boolean attributeEnabled = true;
             final QName elementName = element.getName();
-            final Iterator iterator = element.getAttributes();
+            final Iterator<Attribute> iterator = element.getAttributes();
             while (iterator.hasNext()) {
-                final Attribute nextAttribute = (Attribute) iterator.next();
+                final Attribute nextAttribute = iterator.next();
                 final QName attributeName = nextAttribute.getName();
                 if (ENABLED_ATTRIBUTE_NAME.equals(attributeName)) {
                     attributeEnabled = ParserUtil.parseBooleanValue(nextAttribute.getValue());

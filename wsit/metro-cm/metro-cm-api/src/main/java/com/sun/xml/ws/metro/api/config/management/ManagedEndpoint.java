@@ -263,7 +263,7 @@ public class ManagedEndpoint<T> extends WSEndpoint<T>{
     }
 
     @Override
-    public boolean equalsProxiedInstance(WSEndpoint endpoint) {
+    public boolean equalsProxiedInstance(WSEndpoint<?> endpoint) {
         if (endpointDelegate == null) {
             return (endpoint == null);
         }
