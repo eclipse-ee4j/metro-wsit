@@ -216,14 +216,6 @@
                     </archive>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <configuration>
-                    <doclint>none</doclint>
-                    <quiet>true</quiet>
-                </configuration>
-            </plugin>
         </plugins>
     </build>
 
@@ -490,11 +482,12 @@
     </dependencies>
 
     <properties>
+        <!-- issues in dependencies (staxutils) -->
+        <comp.xdoclint>-Xdoclint:none</comp.xdoclint>
+        <jdoc.doclint>none</jdoc.doclint>
+
         <dep.sources>${project.build.directory}/generated-sources/dependencies</dep.sources>
         <build.id>${scmBranch}-${buildNumber}; ${timestamp}</build.id>
-        <build.version>Eclipse Metro/${project.version} (${build.id}) JAXWS-RI/${jaxws.ri.version}
-            JAXWS-API/${jaxws-api.version} JAXB-RI/${jaxb.version} JAXB-API/${xml.bind-api.version}
-        </build.version>
-        <jacoco.skip>true</jacoco.skip>
+        <build.version>Eclipse Metro/${project.version} (${build.id}) XMLWS-Impl/${jaxws.ri.version} XMLWS-API/${jaxws-api.version} XMLB-Impl/${jaxb.version} XMLB-API/${jaxb-api.version}</build.version>
     </properties>
 </project>

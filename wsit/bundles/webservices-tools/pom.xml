@@ -165,18 +165,6 @@ wscompile
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <configuration>
-                    <quiet>true</quiet>
-                    <minmemory>128m</minmemory>
-                    <maxmemory>512m</maxmemory>
-                    <sourceFileExcludes>
-                        <sourceFileExclude>META-INF/**</sourceFileExclude>
-                    </sourceFileExcludes>
-                </configuration>
-            </plugin>
         </plugins>
     </build>
 
@@ -214,7 +202,7 @@ wscompile
     </dependencies>
     <properties>
         <build.id>${scmBranch}-${buildNumber}; ${timestamp}</build.id>
-        <build.version>Eclipse Metro/${project.version} (${build.id}) JAXWS-RI/${jaxws.ri.version} JAXWS-API/${jaxws-api.version} JAXB-RI/${jaxb.version} JAXB-API/${jaxb-api.version}</build.version>
+        <build.version>Eclipse Metro/${project.version} (${build.id}) XMLWS-Impl/${jaxws.ri.version} XMLWS-API/${jaxws-api.version} XMLB-Impl/${jaxb.version} XMLB-API/${jaxb-api.version}</build.version>
         <dep.sources>${project.build.directory}/generated-sources/dependencies</dep.sources>
     </properties>
 </project>
