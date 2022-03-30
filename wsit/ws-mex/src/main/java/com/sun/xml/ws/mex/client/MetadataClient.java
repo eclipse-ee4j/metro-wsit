@@ -126,7 +126,7 @@ public class MetadataClient {
     public Metadata retrieveMetadata(
         @NotNull final MetadataReference reference) {
 
-        final List nodes = reference.getAny();
+        final List<Object> nodes = reference.getAny();
         for (Object o : nodes) {
             final Node node = (Node) o;
             if (node.getLocalName().equals("Address")) {

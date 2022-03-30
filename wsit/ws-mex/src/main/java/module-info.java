@@ -8,10 +8,11 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-module org.glassfish.metro.cm.api {
+module org.glassfish.metro.ws.mex {
 
-    requires transitive com.sun.xml.ws.rt;
+    requires com.sun.xml.ws.rt;
+    requires com.sun.xml.ws.servlet;
 
-    exports com.sun.xml.ws.config.management;
-    exports com.sun.xml.ws.metro.api.config.management;
+    provides com.sun.xml.ws.api.wsdl.parser.MetadataResolverFactory with
+            com.sun.xml.ws.mex.client.MetadataResolverFactoryImpl;
 }

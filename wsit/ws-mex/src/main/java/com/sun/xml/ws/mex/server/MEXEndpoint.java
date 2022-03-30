@@ -69,7 +69,8 @@ public class MEXEndpoint implements Provider<Message> {
             throw new WebServiceException("Malformed MEX Request");
         }
 
-        WSEndpoint wsEndpoint = (WSEndpoint) wsContext.getMessageContext().get(JAXWSProperties.WSENDPOINT);
+        @SuppressWarnings({"unchecked"})
+        WSEndpoint<?> wsEndpoint = (WSEndpoint<?>) wsContext.getMessageContext().get(JAXWSProperties.WSENDPOINT);
         SOAPVersion soapVersion = wsEndpoint.getBinding().getSOAPVersion();
 
         // try w3c version of ws-a first, then member submission version
