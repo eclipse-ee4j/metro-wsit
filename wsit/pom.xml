@@ -395,8 +395,8 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <showDeprecation>true</showDeprecation>
-                    <showWarnings>true</showWarnings>
+                    <showDeprecation>${comp.showdetails}</showDeprecation>
+                    <showWarnings>${comp.showdetails}</showWarnings>
                 </configuration>
                 <executions>
                     <execution>
@@ -667,6 +667,7 @@
         <comp.xlint>-Xlint:all,-rawtypes,-unchecked</comp.xlint>
         <!-- -Xdoclint:-missing does not seem to work properly on the infra -->
         <comp.xdoclint>-Xdoclint:all,-missing</comp.xdoclint>
+        <comp.showdetails>true</comp.showdetails>
         <warn.limit>150000</warn.limit>
         <jdoc.doclint>all,-missing</jdoc.doclint>
         <!-- not interested in warnings from tests (yet) -->

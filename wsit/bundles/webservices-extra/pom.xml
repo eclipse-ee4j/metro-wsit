@@ -46,7 +46,7 @@
                             <classifier>sources</classifier>
                             <excludeTransitive>true</excludeTransitive>
                             <excludes>module-info.*,META-INF/versions/**, META-INF/MANIFEST.MF,META-INF/LICENSE*,META-INF/NOTICE*,
-                                META-INF/gfprobe-provider.xml,annotations,doc-files,doc-files/**</excludes>
+                                META-INF/gfprobe-provider.xml,annotations,doc-files,doc-files/**,pom.xml,exclude-common.xml</excludes>
                             <outputDirectory>${dep.sources}</outputDirectory>
                         </configuration>
                     </execution>
@@ -91,8 +91,6 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <configuration>
-                    <doclint>none</doclint>
-                    <quiet>true</quiet>
                     <excludePackageNames>com.sun.grizzly.*</excludePackageNames>
                 </configuration>
             </plugin>
@@ -171,7 +169,13 @@
             <optional>true</optional>
         </dependency>
     </dependencies>
+
     <properties>
+        <comp.xlint>-Xlint:none</comp.xlint>
+        <comp.xdoclint>-Xdoclint:none</comp.xdoclint>
+        <comp.showdetails>false</comp.showdetails>
+        <jdoc.doclint>none</jdoc.doclint>
+
         <dep.sources>${project.build.directory}/generated-sources/dependencies</dep.sources>
     </properties>
 </project>

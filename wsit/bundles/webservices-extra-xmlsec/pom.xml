@@ -252,14 +252,6 @@
                     </excludes>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <configuration>
-                    <doclint>none</doclint>
-                    <quiet>true</quiet>
-                </configuration>
-            </plugin>
         </plugins>
     </build>
 
@@ -287,6 +279,7 @@
         <dep.sources.jaxb>${project.build.directory}/generated-sources/dependencies-jaxb</dep.sources.jaxb>
         <comp.xlint>-Xlint:none</comp.xlint>
         <comp.xdoclint>-Xdoclint:none</comp.xdoclint>
+        <comp.showdetails>false</comp.showdetails>
         <jdoc.doclint>none</jdoc.doclint>
     </properties>
 </project>

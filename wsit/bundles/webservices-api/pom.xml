@@ -141,6 +141,10 @@
         </dependency>
     </dependencies>
     <properties>
+        <!-- issues in jakarta mail api -->
+        <comp.xdoclint>-Xdoclint:none</comp.xdoclint>
+        <jdoc.doclint>none</jdoc.doclint>
+
         <dep.sources>${project.build.directory}/generated-sources/dependencies</dep.sources>
     </properties>
 </project>
