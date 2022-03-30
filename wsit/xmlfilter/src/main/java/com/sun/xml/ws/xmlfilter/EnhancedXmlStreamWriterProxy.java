@@ -94,7 +94,7 @@ public final class EnhancedXmlStreamWriterProxy implements InvocationHandler {
 
         Object result = null;
         try {
-            final Class declaringClass = method.getDeclaringClass();
+            final Class<?> declaringClass = method.getDeclaringClass();
             if (declaringClass == Object.class) {
                 return handleObjectMethodCall(proxy, method, args);
             } else {

@@ -8,10 +8,10 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-module org.glassfish.metro.cm.api {
+module org.glassfish.metro.xmlfilter {
 
-    requires transitive com.sun.xml.ws.rt;
+    requires transitive java.xml;
+    requires com.sun.xml.ws.rt;
 
-    exports com.sun.xml.ws.config.management;
-    exports com.sun.xml.ws.metro.api.config.management;
+    exports com.sun.xml.ws.xmlfilter;
 }

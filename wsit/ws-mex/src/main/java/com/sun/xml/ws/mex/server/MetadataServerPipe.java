@@ -55,7 +55,7 @@ public class MetadataServerPipe extends AbstractFilterTubeImpl {
     private static final Logger logger =
         Logger.getLogger(MetadataServerPipe.class.getName());
 
-    public MetadataServerPipe(WSEndpoint endpoint, Pipe next) {
+    public MetadataServerPipe(WSEndpoint<?> endpoint, Pipe next) {
         super(PipeAdapter.adapt(next));
         wsdlRetriever = new WSDLRetriever(endpoint);
         soapVersion = endpoint.getBinding().getSOAPVersion();
