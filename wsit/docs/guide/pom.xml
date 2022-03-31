@@ -19,7 +19,7 @@
     <parent>
         <artifactId>docs</artifactId>
         <groupId>org.glassfish.metro</groupId>
-        <version>4.0.0-SNAPSHOT</version>
+        <version>4.0.0-M4</version>
     </parent>
 
     <artifactId>guide</artifactId>
