@@ -26,7 +26,7 @@
     <packaging>jar</packaging>
     <name>Metro Web Services xmlsec dependencies repackaged</name>
     <description>
-        This module contains the compilation of all public Metro APIs.
+        This module contains repackaged dependencies for Apache Santuario (xmlsec).
     </description>
 
     <build>
@@ -43,77 +43,10 @@
                         </goals>
                         <configuration>
                             <includeScope>provided</includeScope>
-                            <excludeArtifactIds>FastInfoset</excludeArtifactIds>
                             <classifier>sources</classifier>
                             <excludeTransitive>true</excludeTransitive>
                             <excludes>module-info.*,META-INF/MANIFEST.MF,META-INF/LICENSE*,META-INF/NOTICE*</excludes>
                             <outputDirectory>${dep.sources}</outputDirectory>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>unpack-old-jaxb</id>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>unpack</goal>
-                        </goals>
-                        <configuration>
-                            <artifactItems>
-                                <artifactItem>
-                                    <groupId>jakarta.xml.bind</groupId>
-                                    <artifactId>jakarta.xml.bind-api</artifactId>
-                                    <version>2.3.3</version>
-                                    <classifier>sources</classifier>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>com.sun.activation</groupId>
-                                    <artifactId>jakarta.activation</artifactId>
-                                    <version>1.2.2</version>
-                                    <classifier>sources</classifier>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>org.jvnet.staxex</groupId>
-                                    <artifactId>stax-ex</artifactId>
-                                    <version>1.8.3</version>
-                                    <classifier>sources</classifier>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>com.sun.xml.bind</groupId>
-                                    <artifactId>jaxb-impl</artifactId>
-                                    <version>2.3.5</version>
-                                    <classifier>sources</classifier>
-                                </artifactItem>
-                            </artifactItems>
-                            <excludes>
-                                module-info.*,META-INF/versions/**,META-INF/MANIFEST.MF,META-INF/LICENSE*,META-INF/NOTICE*,META-INF/mailcap.default,pom.xml
-                            </excludes>
-                            <outputDirectory>${dep.sources.jaxb}</outputDirectory>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>unpack-old-jaxb-mr</id>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>unpack</goal>
-                        </goals>
-                        <configuration>
-                            <artifactItems>
-                                <artifactItem>
-                                    <groupId>jakarta.xml.bind</groupId>
-                                    <artifactId>jakarta.xml.bind-api</artifactId>
-                                    <version>2.3.3</version>
-                                    <classifier>sources</classifier>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>com.sun.xml.bind</groupId>
-                                    <artifactId>jaxb-impl</artifactId>
-                                    <version>2.3.5</version>
-                                    <classifier>sources</classifier>
-                                </artifactItem>
-                            </artifactItems>
-                            <includes>META-INF/versions/9/**</includes>
-                            <!-- don't worry about versioned files from istack -->
-                            <excludes>**/istack/**</excludes>
-                            <outputDirectory>${dep.sources.mr}</outputDirectory>
                         </configuration>
                     </execution>
                 </executions>
@@ -136,12 +69,6 @@
                                         <exclude>**/*.java</exclude>
                                     </excludes>
                                 </resource>
-                                <resource>
-                                    <directory>${dep.sources.jaxb}</directory>
-                                    <excludes>
-                                        <exclude>**/*.java</exclude>
-                                    </excludes>
-                                </resource>
                             </resources>
                         </configuration>
                     </execution>
@@ -155,59 +82,6 @@
                             <sources>
                                 <source>${dep.sources}</source>
                             </sources>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>add-mr-resource</id>
-                        <phase>prepare-package</phase>
-                        <goals>
-                            <goal>add-resource</goal>
-                        </goals>
-                        <configuration>
-                            <resources>
-                                <resource>
-                                    <directory>${dep.sources.mr}</directory>
-                                </resource>
-                            </resources>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>com.sun.wts.tools.ant</groupId>
-                <artifactId>package-rename-task</artifactId>
-                <version>1.5.2</version>
-                <executions>
-                    <execution>
-                        <id>repackage-old-jaxb</id>
-                        <goals>
-                            <goal>rename</goal>
-                        </goals>
-                        <configuration>
-                            <srcDir>${dep.sources.jaxb}</srcDir>
-                            <patterns>
-                                <com.sun.activation>internal.com.sun.activation</com.sun.activation>
-                                <com.sun.istack>internal.com.sun.istack</com.sun.istack>
-                                <org.jvnet.staxex>internal.org.jvnet.staxex</org.jvnet.staxex>
-                            </patterns>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>default-compile-mr</id>
-                        <goals>
-                            <goal>compile</goal>
-                        </goals>
-                        <configuration>
-                            <compileSourceRoots>
-                                <compileSourceRoot>${dep.sources.mr}/META-INF/versions/9</compileSourceRoot>
-                            </compileSourceRoots>
-                            <outputDirectory>${project.build.outputDirectory}/META-INF/versions/9</outputDirectory>
                         </configuration>
                     </execution>
                 </executions>
@@ -224,16 +98,6 @@
                         </goals>
                         <configuration>
                             <niceManifest>true</niceManifest>
-                            <instructions>
-                                <Export-Package>
-                                    !META-INF.*,
-                                    !org.glassfish.hk2.osgiresourcelocator,
-                                    *
-                                </Export-Package>
-                                <DynamicImport-Package>
-                                    org.glassfish.hk2.osgiresourcelocator
-                                </DynamicImport-Package>
-                            </instructions>
                         </configuration>
                     </execution>
                 </executions>
@@ -243,9 +107,6 @@
                 <configuration>
                     <archive>
                         <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
-                        <manifestEntries>
-                            <Multi-Release>true</Multi-Release>
-                        </manifestEntries>
                     </archive>
                     <excludes>
                         <exclude>org/slf4j/impl/StaticLoggerBinder*</exclude>
@@ -266,17 +127,9 @@
             <artifactId>commons-codec</artifactId>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>com.sun.xml.fastinfoset</groupId>
-            <artifactId>FastInfoset</artifactId>
-            <scope>provided</scope>
-            <optional>true</optional>
-        </dependency>
     </dependencies>
     <properties>
         <dep.sources>${project.build.directory}/generated-sources/dependencies</dep.sources>
-        <dep.sources.mr>${project.build.directory}/generated-sources/dependencies-mr</dep.sources.mr>
-        <dep.sources.jaxb>${project.build.directory}/generated-sources/dependencies-jaxb</dep.sources.jaxb>
         <comp.xlint>-Xlint:none</comp.xlint>
         <comp.xdoclint>-Xdoclint:none</comp.xdoclint>
         <comp.showdetails>false</comp.showdetails>

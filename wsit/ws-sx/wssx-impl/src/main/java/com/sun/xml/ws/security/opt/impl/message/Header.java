@@ -10,7 +10,6 @@
 
 package com.sun.xml.ws.security.opt.impl.message;
 
-import com.sun.xml.bind.api.BridgeContext;
 import com.sun.xml.ws.security.opt.api.SecurityElementWriter;
 import com.sun.xml.ws.security.opt.api.SecurityHeaderElement;
 import com.sun.xml.ws.spi.db.XMLBridge;
