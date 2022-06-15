@@ -34,6 +34,9 @@ import org.xml.sax.SAXException;
  */
 public class PolicyResourceLoader {
 
+    private PolicyResourceLoader() {
+    }
+
     /**
      * Parse the given URL and return the resulting WSDLModel.
      *

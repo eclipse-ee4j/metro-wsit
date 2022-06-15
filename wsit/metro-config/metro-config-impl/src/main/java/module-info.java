@@ -13,6 +13,8 @@ module org.glassfish.metro.config.impl {
     requires transitive org.glassfish.metro.config.api;
     requires com.sun.xml.ws.policy;
 
+    exports com.sun.xml.ws.policy.parser;
+
     opens com.sun.xml.ws.config.metro.parser.jsr109 to jakarta.xml.bind;
 
     uses com.sun.xml.ws.config.metro.ElementFeatureMapping;

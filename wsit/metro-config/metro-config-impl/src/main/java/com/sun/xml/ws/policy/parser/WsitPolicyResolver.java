@@ -45,6 +45,9 @@ public class WsitPolicyResolver implements PolicyResolver {
 
     private static final Logger LOGGER = Logger.getLogger(WsitPolicyResolver.class);
 
+    public WsitPolicyResolver() {
+    }
+
     @Override
     public PolicyMap resolve(ServerContext context) throws WebServiceException {
         final Class<?> endpointClass = context.getEndpointClass();
