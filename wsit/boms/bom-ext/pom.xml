@@ -33,7 +33,7 @@
         <ejb-api.version>4.0.1</ejb-api.version>
         <transaction-api.version>2.0.1</transaction-api.version>
         <interceptor-api.version>2.1.0</interceptor-api.version>
-        <cdi-api.version>4.0.0</cdi-api.version>
+        <cdi-api.version>4.0.1</cdi-api.version>
         <inject-api.version>2.0.1</inject-api.version>
         <el-api.version>5.0.0</el-api.version>
 
@@ -48,8 +48,8 @@
         <stax-utils.version>20070216</stax-utils.version>
 
         <hk2.version>3.0.3</hk2.version>
-        <grizzly.version>4.0.0-M2</grizzly.version>
-        <tomcat.coyote.version>10.1.0-M14</tomcat.coyote.version>
+        <grizzly.version>4.0.0</grizzly.version>
+        <tomcat.coyote.version>10.1.0-M16</tomcat.coyote.version>
 
         <junit.version>4.13.2</junit.version>
 
