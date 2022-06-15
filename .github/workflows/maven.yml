@@ -44,7 +44,7 @@ jobs:
         id: build
         run: |
           cd wsit
-          mvn -B -V -U -C -Dalltests=true -Pstaging,oss-release clean verify org.glassfish.copyright:glassfish-copyright-maven-plugin:check -Dgpg.skip=true
+          mvn -B -V -U -C -Dalltests=true -Pstaging,oss-release,dependency-check clean verify org.glassfish.copyright:glassfish-copyright-maven-plugin:check -Dgpg.skip=true
           cd ..
           echo "::set-output name=jdk::${{ matrix.java_version }}"
       - name: Upload binary image
