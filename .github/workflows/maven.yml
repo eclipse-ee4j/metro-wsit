@@ -83,7 +83,7 @@ jobs:
         run: |
           export ROOT=`pwd`
           unzip -q -d image metro.zip
-          wget -q -O tomcat.zip https://dlcdn.apache.org/tomcat/tomcat-10/v10.1.0-M14/bin/apache-tomcat-10.1.0-M14.zip
+          wget -q -O tomcat.zip https://dlcdn.apache.org/tomcat/tomcat-10/v10.1.0-M16/bin/apache-tomcat-10.1.0-M16.zip
           unzip -q tomcat.zip
           cd wsit
-          mvn -B -V -U -C -am -Dalltests=true -Dgpg.skip=true -Pstaging,oss-release clean verify -pl :wsit-tests-e2e -Dtomcat.home=$ROOT/apache-tomcat-10.1.0-M14 -Dws.transport=${{ matrix.test_suite }} -Dws.localImage=$ROOT/image
+          mvn -B -V -U -C -am -Dalltests=true -Dgpg.skip=true -Pstaging,oss-release clean verify -pl :wsit-tests-e2e -Dtomcat.home=$ROOT/apache-tomcat-10.1.0-M16 -Dws.transport=${{ matrix.test_suite }} -Dws.localImage=$ROOT/image
