@@ -27,6 +27,7 @@
     <name>Metro Web Services Stack Tests</name>
 
     <properties>
+        <spotbugs.skip>true</spotbugs.skip>
         <test.harness.version>3.0.0-M2</test.harness.version>
         <metro.dep.classifier></metro.dep.classifier>
         <!-- DEFAULT = JAXB, TOPLINK = MOXy -->
