@@ -14,7 +14,7 @@
 <project basedir="." default="help" name="wsit-enabled-fromjava">
 
     <property environment="env"/>
-    <property file="etc/build.properties" />
+    <property file="etc/build.properties"/>
     <property name="build.home" value="${basedir}/build"/>
     <property name="build.classes.home" value="${build.home}/classes"/>
     <property name="build.war.home" value="${build.home}/war"/>
@@ -36,92 +36,89 @@
 	There are 2 ways to designate a tomcat build.
     -->
     <condition property="bld.for.tomcat" value="true">
-          <or>
-	     <and>
-                 <not><isset property="as.home"/></not>
-                 <isset property="catalina.home"/>
-             </and>
-
-             <and> 
-                 <isset property="as.home"/> 
-                 <isset property="catalina.home"/>
-                 <isset property="use.tomcat"/>
-             </and>
-          </or>
+        <or>
+            <and>
+                <not>
+                    <isset property="as.home"/>
+                </not>
+                <isset property="catalina.home"/>
+            </and>
+            <and>
+                <isset property="as.home"/>
+                <isset property="catalina.home"/>
+                <isset property="use.tomcat"/>
+            </and>
+        </or>
     </condition>
-    
+
     <!--  
         Verify that one of the two supported containers is identified
         for use.  If these are not set correctly lib.home and deploy.dir
         will not be correct and all elements that use them will not be correct.
     -->
-    <fail message="Web container not identified. Require AS_HOME or CATALINA_HOME be set" >
-          <condition >
-              <and> 
-                  <not><isset property="as.home"/></not> 
-                  <not><isset property="catalina.home"/></not>
-              </and>
-          </condition>
-      </fail> 
-   <fail message="Two Web containers identified. Only one allowed AS_HOME or CATALINA_HOME" >
-      <condition>
-          <and> 
-              <isset property="as.home"/> 
-              <isset property="catalina.home"/>
-              <not><isset property="use.tomcat"/></not>
-          </and>
-      </condition>
-   </fail>
-    
+    <fail message="Web container not identified. Require AS_HOME or CATALINA_HOME be set">
+        <condition>
+            <and>
+                <not>
+                    <isset property="as.home"/>
+                </not>
+                <not>
+                    <isset property="catalina.home"/>
+                </not>
+            </and>
+        </condition>
+    </fail>
+    <fail message="Two Web containers identified. Only one allowed AS_HOME or CATALINA_HOME">
+        <condition>
+            <and>
+                <isset property="as.home"/>
+                <isset property="catalina.home"/>
+                <not>
+                    <isset property="use.tomcat"/>
+                </not>
+            </and>
+        </condition>
+    </fail>
 
     <condition property="lib.home" value="${catalina.home}/shared/lib" else="${as.home}/lib">
         <isset property="bld.for.tomcat"/>
     </condition>
 
-    <condition property="lib.endorsed" value="${catalina.home}/endorsed" else="${as.home}/lib/endorsed">
-        <isset property="bld.for.tomcat"/>
-    </condition>
-
     <condition property="deploy.dir" value="${catalina.home}/webapps" else="${as.home}/domains/${domain}/autodeploy">
         <isset property="bld.for.tomcat"/>
-    </condition> 
- 
-    <condition property="modules.home" value="" else="${as.home}/modules">
-	<isset property="bld.for.tomcat"/>
     </condition>
 
-    <condition property="modules.endorsed" value="" else="${as.home}/modules/endorsed">
-	<isset property="bld.for.tomcat"/>
+    <condition property="modules.home" value="" else="${as.home}/modules">
+        <isset property="bld.for.tomcat"/>
     </condition>
 
     <path id="wsit.classpath">
-        <!-- GF v2 Classpath -->
-        <fileset dir="${lib.home}">
-            <include name="webservices-rt.jar"/>
-            <include name="webservices-tools.jar"/>
-            <include name="webservices-extra.jar"/>
-            <include name="webservices-extra-api.jar"/>
-            <include name="javaee.jar"/>
-            <include name="activation.jar"/>
-        </fileset>
-        <fileset dir="${lib.endorsed}">
-            <include name="webservices-api.jar"/>
-        </fileset>
-        <!-- GF v3 Classpath -->
+        <!-- GF Classpath -->
         <fileset dir="${modules.home}">
+            <include name="angus-activation.jar"/>
             <include name="gmbal.jar"/>
-            <include name="webservices-osgi.jar"/>
             <include name="ha-api.jar"/>
-        </fileset>
-        <fileset dir="${modules.endorsed}">
-            <include name="jaxb-api.jar"/>
+            <include name="jakarta.activation-api.jar"/>
+            <include name="jakarta.xml.bind-api.jar"/>
+            <include name="jaxb-osgi.jar"/>
             <include name="webservices-api-osgi.jar"/>
+            <include name="webservices-extra-jdk-packages.jar"/>
+            <include name="webservices-extra-xmlsec.jar"/>
+            <include name="webservices-osgi.jar"/>
+            <include name="xmlsec.jar"/>
         </fileset>
-    </path>
-
-    <path id="wsit.endorsed">
-        <pathelement location="${lib.endorsed}"/>
-        <pathelement location="${modules.endorsed}"/>
+        <fileset dir="${lib.home}">
+            <!-- GF API -->
+            <include name="jakartaee.jar"/>
+            <!-- Tomcat Classpath -->
+            <include name="jakarta.annotation-api.jar"/>
+            <include name="webservices-api.jar"/>
+            <include name="webservices-extra.jar"/>
+            <include name="webservices-rt.jar"/>
+            <include name="webservices-extra-xmlsec.jar"/>
+            <include name="webservices-tools.jar"/>
+            <include name="xmlsec.jar"/>
+        </fileset>
     </path>
 
     <taskdef name="wsimport" classname="com.sun.tools.ws.ant.WsImport">
@@ -135,26 +132,23 @@
     </target>
 
     <target name="clean">
-        <delete dir="${build.home}" includeEmptyDirs="true" />
+        <delete dir="${build.home}" includeEmptyDirs="true"/>
     </target>
 
     <target name="build-server-java" depends="setup">
         <javac
-            fork="true"
-            debug="${debug}"
-        target="1.5"
-       	verbose="${verbose}"
-       	destdir="${build.classes.home}"
-            srcdir="${basedir}/src"
-      	sourcepath="${basedir}/src">
-
+                fork="true"
+                debug="${debug}"
+                release="${release}"
+                verbose="${verbose}"
+                destdir="${build.classes.home}"
+                srcdir="${basedir}/src"
+                sourcepath="${basedir}/src">
             <classpath>
                 <path refid="wsit.classpath"/>
             </classpath>
-
-                <include name="**/server/*.java"/>
-                <include name="**/common/*.java"/>
-
+            <include name="**/server/*.java"/>
+            <include name="**/common/*.java"/>
         </javac>
         <!-- copy handlers descriptor file -->
         <copy todir="${build.classes.home}">
@@ -166,42 +160,42 @@
 
     <target name="create-war">
         <war warfile="${war.file}" webxml="etc/web.xml">
-    	      <webinf dir="${basedir}/etc" includes="sun-jaxws.xml"/>
-              <webinf file="${basedir}/etc/wsit-fromjava.server.AddNumbersImpl.xml"/>
-    	      <zipfileset
-                dir="${basedir}/etc"
-                includes="*.wsdl, *.xsd"
-                prefix="WEB-INF/wsdl"/>
-    	      <classes dir="${build.classes.home}"/>
+            <webinf dir="${basedir}/etc" includes="sun-jaxws.xml"/>
+            <webinf file="${basedir}/etc/wsit-fromjava.server.AddNumbersImpl.xml"/>
+            <zipfileset
+                    dir="${basedir}/etc"
+                    includes="*.wsdl, *.xsd"
+                    prefix="WEB-INF/wsdl"/>
+            <classes dir="${build.classes.home}"/>
         </war>
     </target>
 
     <target name="generate-client" depends="setup">
         <wsimport
-            debug="${debug}"
-            verbose="${verbose}"
-            keep="${keep}"
-            extension="${extension}"
-            destdir="${build.classes.home}"
-            wsdl="${client.wsdl}">
+                debug="${debug}"
+                verbose="${verbose}"
+                keep="${keep}"
+                extension="${extension}"
+                destdir="${build.classes.home}"
+                wsdl="${client.wsdl}">
             <binding dir="${basedir}/etc" includes="${client.binding}"/>
         </wsimport>
     </target>
 
     <target name="client" depends="generate-client">
         <javac
-            fork="true"
-            debug="true"
-            srcdir="${basedir}/src"
-            destdir="${build.classes.home}"
-            includes="**/client/**,**/common/**">
+                fork="true"
+                release="${release}"
+                debug="${debug}"
+                srcdir="${basedir}/src"
+                destdir="${build.classes.home}"
+                includes="**/client/**,**/common/**">
             <classpath refid="wsit.classpath"/>
         </javac>
     </target>
 
     <target name="run">
         <java fork="true" classname="${client}">
-            <jvmarg value="-Djava.endorsed.dirs=${toString:wsit.endorsed}"/>
             <!--
             <jvmarg value="-Xdebug"/>
             <jvmarg value="-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005"/>
@@ -225,14 +219,9 @@
     </target>
 
     <target name="server" depends="setup">
-
-        <antcall target="clean" />
-
-        <antcall target="build-server-java" />
-
-        <antcall target="create-war" />
-
-        <antcall target="deploy" />
+        <antcall target="clean"/>
+        <antcall target="build-server-java"/>
+        <antcall target="create-war"/>
+        <antcall target="deploy"/>
     </target>
-
 </project>

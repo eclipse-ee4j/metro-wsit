@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-    Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
+    Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
 
     This program and the accompanying materials are made available under the
     terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -1114,8 +1114,7 @@
     <section xml:id="using_rm-ha_support">
         <title>High Availability Support in Reliable Messaging</title>
 
-        <para>Starting with the <link
-        xlink:href="https://eclipse-ee4j.github.io/metro-wsit//2.1/">Metro 2.1 release</link> Metro
+        <para>Starting with the Metro 2.1 release Metro
         implementation of reliable messaging supports deployment in clustered
         environment configurations of the <link
         xlink:href="https://eclipse-ee4j.github.io/glassfish/">GlassFish</link> Application

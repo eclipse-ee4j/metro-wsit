@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-    Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
+    Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
 
     This program and the accompanying materials are made available under the
     terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -92,25 +92,24 @@
                 <listitem>
                     <para><link
                     xlink:href="https://www.oracle.com/java/technologies/javase-downloads.html">Java
-                    SE 8</link> or later,</para>
+                    SE 11</link> or later,</para>
                 </listitem>
 
                 <listitem>
                     <para><link xlink:href="http://ant.apache.org/">Apache Ant
-                    1.9.7</link> or later,</para>
+                    1.10.6</link> or later,</para>
                 </listitem>
 
                 <listitem>
                     <para>web container: either <link
                     xlink:href="https://eclipse-ee4j.github.io/glassfish/">GlassFish</link>
                     or <link
-                    xlink:href="http://tomcat.apache.org/">Apache Tomcat
-                    7.0</link></para>
+                    xlink:href="http://tomcat.apache.org/">Apache Tomcat 10.1.x</link></para>
                 </listitem>
 
                 <listitem>
                     <para><link xlink:href="https://eclipse-ee4j.github.io/metro-wsit/">Metro
-                    Standalone Budle 2.x</link> (in case of using Apache
+                    Standalone Budle</link> (in case of using Apache
                     Tomcat as a web container)</para>
                 </listitem>
             </itemizedlist>
@@ -122,15 +121,15 @@
 
             <para>The following steps are required only if using Apache Tomcat
             as a web container (GlassFish already contains Metro
-            libraries): Unzip downloaded Metro Standalone Bundle and copy all
+            libraries): Unzip downloaded Metro Standalone Bundle, copy all
             <literal>.jar</literal> files from the <literal>lib/</literal>
             directory into
-            <literal>&lt;tomcat-install-directory&gt;/endorsed</literal>
+            <literal>&lt;tomcat-install-directory&gt;/shared/lib</literal> and
+            add <literal>${catalina.home}/shared/lib/*.jar</literal> to
+            <literal>shared.loader</literal> property in
+            <literal>&lt;tomcat-install-directory&gt;/conf/catalina.properties</literal>
             (where <literal>&lt;tomcat-install-directory&gt;</literal> points
-            to your Apache Tomcat installation directory). Also put a copy of
-            the <literal>servlet-api.jar</literal> library
-            (<literal>&lt;tomcat-install-directory&gt;/lib</literal>) into
-            <literal>endorsed/</literal> libs.</para>
+                to your Apache Tomcat installation directory).</para>
         </section>
 
         <section>

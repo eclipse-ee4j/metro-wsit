@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-    Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
+    Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
 
     This program and the accompanying materials are made available under the
     terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -47,7 +47,7 @@ $ wsimport -p org.acme.foo second.wsdl</programlisting>
         overwritten multiple times, but since they are identical, in the end
         this will produce the desired result. If the common part is separated
         into its own namespace, you can use <link
-        xlink:href="https://eclipse-ee4j.github.io/jaxb-ri/doc/user-guide/ch03.html#customization-of-schema-compilation-customizing-java-packages">a
+        xlink:href="https://eclipse-ee4j.github.io/jaxb-ri/4.0.0/docs/ch03.html#customization-of-schema-compilation-customizing-java-packages">a
         Jakarta XML Binding customization</link> so that the common part will go to the
         overwritten package while everything else will get its own
         package.</para>
