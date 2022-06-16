@@ -59,8 +59,8 @@ jobs:
     #   modify them (or add more) to build your code if your project, please refer to the EXAMPLE below for guidance.
 
     - run: |
-      cd wsit
-      mvn -B -V -U -C -Pstaging clean verify
+        cd wsit
+        mvn -B -V -U -C -Pstaging clean verify
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v2
