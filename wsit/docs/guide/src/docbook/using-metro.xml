@@ -24,7 +24,7 @@
          xmlns:tns="http://java.sun.com/xml/ns/jax-ws/ri/runtime"
          xmlns:svg="http://www.w3.org/2000/svg"
          xmlns:m="http://www.w3.org/1998/Math/MathML"
-         xmlns:javaee="http://java.sun.com/xml/ns/javaee"
+         xmlns:javaee="https://jakarta.ee/xml/ns/jakartaee"
          xmlns:html="http://www.w3.org/1999/xhtml"
          xmlns:db="http://docbook.org/ns/docbook">
     <title>Using Metro</title>
@@ -112,8 +112,7 @@
         result, we were not able to provide first class support for our
         Maven-based users.</para>
 
-        <para>This has changed with <link
-        xlink:href="https://eclipse-ee4j.github.io/metro-wsit/2.1/">Metro 2.1 release</link>.
+        <para>This has changed with Metro 2.1 release.
         Metro 2.1 has brought a significant change to the Metro build process
         as one of the major tasks in the release was to switch Metro build
         system from Ant to Maven. The main Metro build as well as the whole
@@ -1895,14 +1894,14 @@ WEB-INF/wsdl/schema.xsd WSDL imports this Schema</programlisting>
 <xsd:schema
         xmlns:xsd="http://www.w3.org/2001/XMLSchema"
         xmlns:tns="http://java.sun.com/xml/ns/jax-ws/ri/runtime"
-        xmlns:javaee="http://java.sun.com/xml/ns/javaee"
+        xmlns:javaee="https://jakarta.ee/xml/ns/jakartaee"
         targetNamespace="http://java.sun.com/xml/ns/jax-ws/ri/runtime"
         elementFormDefault="qualified"
         attributeFormDefault="unqualified"
         version="1.0">
 
-    <xsd:import namespace="http://java.sun.com/xml/ns/javaee"
-                schemaLocation="http://java.sun.com/xml/ns/javaee/javaee_web_services_metadata_handler_2_0.xsd"/>
+    <xsd:import namespace="https://jakarta.ee/xml/ns/jakartaee"
+                schemaLocation="https://jakarta.ee/xml/ns/jakartaee/jakartaee_web_services_metadata_handler_3_0.xsd"/>
 
     <xsd:element name="endpoints">
         <xsd:complexType>
@@ -2114,7 +2113,7 @@ WEB-INF/wsdl/schema.xsd WSDL imports this Schema</programlisting>
 &lt;endpoints xmlns="http://java.sun.com/xml/ns/jax-ws/ri/runtime"
            version="2.0"&gt;
     &lt;endpoint name="MyHello"&gt;
-        &lt;handler-chains xmlns="http://java.sun.com/xml/ns/javaee"&gt;
+        &lt;handler-chains xmlns="https://jakarta.ee/xml/ns/jakartaee"&gt;
             &lt;handler-chain&gt;
                 &lt;handler&gt;
                     &lt;handler-name&gt;MyHandler&lt;/handler-name&gt;
@@ -2327,11 +2326,11 @@ WEB-INF/wsdl/schema.xsd WSDL imports this Schema</programlisting>
 
                     <programlisting language="xml">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
 &lt;application xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-             xmlns="http://java.sun.com/xml/ns/javaee"
-             xmlns:application="http://java.sun.com/xml/ns/javaee/application_5.xsd"
-             xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
-                 http://java.sun.com/xml/ns/javaee/application_5.xsd"
-             id="Application_ID" version="5"&gt;
+             xmlns="https://jakarta.ee/xml/ns/jakartaee"
+             xmlns:application="https://jakarta.ee/xml/ns/jakartaee/application_10.xsd"
+             xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee
+                 https://jakarta.ee/xml/ns/jakartaee/application_10.xsd"
+             id="Application_ID" version="10"&gt;
   &lt;module&gt;
     &lt;web&gt;
       &lt;web-uri&gt;metro-custom-tubes.war&lt;/web-uri&gt;
@@ -2354,8 +2353,8 @@ WEB-INF/wsdl/schema.xsd WSDL imports this Schema</programlisting>
         xsi:schemaLocation="
             http://www.bea.com/ns/weblogic/weblogic-application
             http://www.bea.com/ns/weblogic/weblogic-application.xsd
-            http://java.sun.com/xml/ns/j2ee
-            http://java.sun.com/xml/ns/j2ee/j2ee_1_4.xsd"&gt;
+            https://jakarta.ee/xml/ns/jakartaee
+            https://jakarta.ee/xml/ns/jakartaee/application_10.xsd"&gt;
     &lt;wls:application-param&gt;
         &lt;wls:param-name&gt;webapp.encoding.default&lt;/wls:param-name&gt;
         &lt;wls:param-value&gt;UTF-8&lt;/wls:param-value&gt;
@@ -3054,8 +3053,7 @@ byte[] response = proxy.echoStringAsBinary(input);</programlisting>
 
             <para>Let us try to create a client for the <link
             xlink:href="http://131.107.72.15/MTOM_Service_Indigo/Soap11MtomUtf8.svc">NET
-            3.0 MTOM endpoint</link>. I am using <link
-            xlink:href="https://eclipse-ee4j.github.io/metro-wsit/1.0/">Metro 1.0</link>.</para>
+            3.0 MTOM endpoint</link>. I am using Metro 1.0.</para>
 
             <para>First I save the .NET 3.0 MTOM <link
             xlink:href="http://131.107.72.15/MTOM_Service_Indigo/Soap11MtomUtf8.svc?wsdl">WSDL</link>

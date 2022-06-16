@@ -30,3 +30,5 @@ wsit/ws-sx/wssx-impl/golden.mh
 wsit/ws-sx/wssx-impl/golden.msg
 wsit/ws-sx/wssx-impl/recvd.mh
 wsit/ws-sx/wssx-impl/recvd.msg
+
+**/samples/**/build/
