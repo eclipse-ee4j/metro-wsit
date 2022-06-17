@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!--
 
-    Copyright (c) 2011, 2020 Oracle and/or its affiliates. All rights reserved.
+    Copyright (c) 2011, 2022 Oracle and/or its affiliates. All rights reserved.
 
     This program and the accompanying materials are made available under the
     terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -34,9 +34,11 @@
         <copy toDir="${catalina.lib.home}" overwrite="true">
             <fileset dir="lib">
                 <include name="webservices-api.jar"/>
-                <include name="webservices-rt.jar"/>
-                <include name="webservices-tools.jar"/>
                 <include name="webservices-extra.jar"/>
+                <include name="webservices-rt.jar"/>
+                <include name="webservices-extra-xmlsec.jar"/>
+                <include name="webservices-tools.jar"/>
+                <include name="xmlsec.jar"/>
             </fileset>
         </copy>
         <echo message="... installation complete."/>
@@ -52,7 +54,14 @@
     <target name="uninstall" depends="init"
             description="Remove the Metro jar files.">
         <delete quiet="true">
-            <fileset dir="${catalina.lib.home}" includes="webservices-api.jar, webservices-rt.jar, webservices-tools.jar, webservices-extra.jar"/>
+            <fileset dir="${catalina.lib.home}">
+                <include name="webservices-api.jar"/>
+                <include name="webservices-extra.jar"/>
+                <include name="webservices-rt.jar"/>
+                <include name="webservices-extra-xmlsec.jar"/>
+                <include name="webservices-tools.jar"/>
+                <include name="xmlsec.jar"/>
+            </fileset>
         </delete>
     </target>
 
