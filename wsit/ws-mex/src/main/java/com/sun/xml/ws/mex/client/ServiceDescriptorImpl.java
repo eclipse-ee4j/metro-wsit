@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -26,6 +26,9 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMResult;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamSource;
+
+import com.sun.xml.ws.mex.MetadataConstants;
+import com.sun.xml.ws.util.xml.XmlUtil;
 import javax.xml.ws.WebServiceException;
 import org.w3c.dom.Attr;
 import org.w3c.dom.DOMException;
@@ -57,22 +60,22 @@ import static com.sun.xml.ws.mex.MetadataConstants.WSDL_DIALECT;
  * wsdl).
  */
 public class ServiceDescriptorImpl extends ServiceDescriptor {
-    
+
     private final List<Source> wsdls;
     private final List<Source> schemas;
-    
+
     // holds nodes that are missing location attributes
     private final List<Node> importsToPatch;
-    
+
     // holds sysId for wsdls, key is wsdl targetNamespace
     private final Map<String, String> nsToSysIdMap;
 
     private static final String LOCATION = "location";
     private static final String NAMESPACE = "namespace";
-    
+
     private static final Logger logger =
         Logger.getLogger(ServiceDescriptorImpl.class.getName());
-    
+
     /**
      * The ServiceDescriptorImpl constructor does the work of
      * parsing the data in the Metadata object.
@@ -134,7 +137,7 @@ public class ServiceDescriptorImpl extends ServiceDescriptor {
         final MetadataReference ref = section.getMetadataReference();
         populateLists(new MetadataClient().retrieveMetadata(ref));
     }
-    
+
     /*
      * A mex location is simply the url of a document that can
      * be retrieved with an http GET call.
@@ -153,7 +156,7 @@ public class ServiceDescriptorImpl extends ServiceDescriptor {
                 dialect, identifier));
         }
     }
-    
+
     public List<Source> getWSDLs() {
         return wsdls;
     }
@@ -161,7 +164,7 @@ public class ServiceDescriptorImpl extends ServiceDescriptor {
     public List<Source> getSchemas() {
         return schemas;
     }
-    
+
     /*
      * Helper method used by handleXml() to turn the xml DOM nodes
      * into Sources objects. This method is also responsible for
@@ -170,7 +173,7 @@ public class ServiceDescriptorImpl extends ServiceDescriptor {
      */
     private Source createSource(final MetadataSection section,
         final String identifier) {
-        
+
         final Node node = (Node) section.getAny();
         String sysId = identifier;
         if (section.getDialect().equals(WSDL_DIALECT)) {
@@ -189,7 +192,7 @@ public class ServiceDescriptorImpl extends ServiceDescriptor {
         source.setSystemId(sysId);
         return source;
     }
-    
+
     /*
      * Turn the address of a document into a source. The document
      * referred to in a mex location element must be retrievable
@@ -197,7 +200,7 @@ public class ServiceDescriptorImpl extends ServiceDescriptor {
      */
     private Source getSourceFromLocation(final String address,
         final String identifier) {
-        
+
         try {
             final HttpPoster poster = new HttpPoster();
             final InputStream response = poster.makeGetCall(address);
@@ -215,7 +218,7 @@ public class ServiceDescriptorImpl extends ServiceDescriptor {
             throw new WebServiceException(exceptionMessage, ioe);
         }
     }
-    
+
     /*
      * This method used when metadata section did not include
      * an identifier. The node passed in must be a wsdl:definitions
@@ -244,7 +247,7 @@ public class ServiceDescriptorImpl extends ServiceDescriptor {
             final Node importNode = kids.item(i);
             if (importNode.getLocalName() != null &&
                 importNode.getLocalName().equals("import")) {
-                
+
                 final Node location =
                     importNode.getAttributes().getNamedItem(LOCATION);
                 if (location == null) {
@@ -253,7 +256,7 @@ public class ServiceDescriptorImpl extends ServiceDescriptor {
             }
         }
     }
-    
+
     /*
      * This method used when metadata location section did not include
      * an identifier. Since we need to read some of this information
@@ -267,10 +270,10 @@ public class ServiceDescriptorImpl extends ServiceDescriptor {
      */
     private Source parseAndConvertStream(final String address,
         final InputStream stream) {
-        
+
         try {
-            final Transformer xFormer =
-                TransformerFactory.newInstance().newTransformer();
+
+            final Transformer xFormer = XmlUtil.newTransformer();
             Source source = new StreamSource(stream);
             final DOMResult result = new DOMResult();
             xFormer.transform(source, result);
@@ -309,5 +312,5 @@ public class ServiceDescriptorImpl extends ServiceDescriptor {
             atts.setNamedItem(locationAtt);
         }
     }
-    
+
 }
