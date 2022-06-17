@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <!--
 
-    Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
+    Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
 
     This program and the accompanying materials are made available under the
     terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -13,9 +13,58 @@
 
 <html>
     <head>
-
         <title>Metro -- Samples Documentation</title>
-        <link rel="stylesheet" type="text/css" href="style/default.css"/>
+        <style type="text/css">
+            body {
+                background-color: white;
+            }
+
+            h1, h2 {
+                text-align: center;
+                font-family: sans-serif;
+                color: #000099;
+            }
+
+            h3, h4, h5, h6 {
+                text-align: left;
+                font-family: sans-serif;
+                color: #000099;
+            }
+
+            code {
+                font-family: Courier, monospace;
+            }
+
+            diff {
+                font-family: Courier, monospace;
+                color: red;
+            }
+
+            table.property {
+                margin-left: 2em;
+            }
+
+            table.property tr td {
+                background-color: rgb(240,240,255);
+                padding: 0.2em;
+            }
+
+            pre.code {
+                background-color: rgb(240,240,255);
+                border: 1px solid navy;
+                color: black;
+                font-weight: bold;
+                padding: 0.5em;
+                margin-left: 2em;
+            }
+
+            /*
+            hr {
+                align: center;
+                width: 70%;
+            }
+            */
+        </style>
     </head>
 
     <body>
@@ -23,22 +72,22 @@
         <h2 style="text-align: left"><font color="#000000">Samples</font></h2>
         <p>
             This document explains the samples that are bundled along with Metro.
-            The samples included with Metro that is distributed on Java.net documents
-            how to use Metro in a non-JavaEE 5 servlet container. This means that
+            The samples included with Metro documents
+            how to use Metro in a non-Jakarta EE servlet container. This means that
             you can these Metro sample applications in any servlet container that
             has been enabled with Metro. Applications that use the proprietary
-            deployment and servlet will run in a Metro-enabled JavaEE 5 servlet
+            deployment and servlet will run in a Metro-enabled Jakarta EE servlet
             container, but they will be non-portable. If you wish to use these
-            Metro samples in a JavaEE container in a JavaEE portable manner you
-            need to modify them to use the standard JavaEE 5 deployment descriptor;
-            please refer to the <a href="http://java.sun.com/javaee/index.jsp">JavaEE 5</a>
-            or <a href="https://javaee.github.io/glassfish">GlassFish</a>
+            Metro samples in a Jakarta EE container in a Jakarta EE portable manner you
+            need to modify them to use the standard Jakarta EE deployment descriptor;
+            please refer to the <a href="https://jakarta.ee/">Jakarta EE</a>
+            or <a href="https://glassfish.org/">GlassFish</a>
             documentation/samples.
         </p>
         <p>
             All these samples are tested to run on
-            <a href="https://javaee.github.io/glassfish">Glassfish AS</a> and on Apache
-            Tomcat 5.x.
+            <a href="https://glassfish.org/">Glassfish AS</a> and on Apache
+            Tomcat 10.1.x.
         </p>
 
         <h2>
@@ -49,7 +98,7 @@
             directory in the bundle:
         </p>
         <ul>
-            <li><code>docs/</code> - contains Metro samples documentation, particularly <code>index.html</code> (this file)</li>
+            <li><code>index.html</code> (this file) - contains Metro samples documentation</li>
             <li>sample directories - please consult a nested <code>README</code> file in each sample directory for the description 
                 of the sample and specific instructions how to run the sample.</li>
         </ul>
@@ -65,14 +114,14 @@
             <li>
                 <p style="margin-bottom: 0in;">
                     <a href="http://www.oracle.com/technetwork/java/javase/downloads/index.html">Download</a>
-                    Java Platform, Standard Edition 6.0 Update 20 or later. Set
-                    <code>JAVA_HOME</code> to the JavaSE 6.0 installation directory.
+                    Java SE 11 or later. Set
+                    <code>JAVA_HOME</code> to the Java SE installation directory.
                 </p>
             </li>
             <li>
                 <p style="margin-bottom: 0in;">
-                    <a href="https://javaee.github.io/glassfish/download">Download</a>
-                    GlassFish Open Source Edition 3.1 or later application server and install it.
+                    <a href="https://glassfish.org/">Download</a>
+                    GlassFish 7 or later application server and install it.
                 </p>
             </li>
             <li>
@@ -106,8 +155,7 @@
 
             <li>
                 <p style="margin-bottom: 0in;">
-                    <a href="https://javaee.github.io/glassfish">GlassFish</a> Open 
-                    Source Edition 3.1 integrates Metro 2.1. So you may just start
+                    <a href="https://glassfish.org/">GlassFish</a> integrates Metro. So you may just start
                     using it and skip step 6 below unless you want to use the
                     latest Metro build.
                 </p>
@@ -265,7 +313,7 @@
         <br>
         <p>
             We appreciate your feedback, please send it to
-            <a href="mailto:metro@javaee.groups.io">metro@javaee.groups.io</a>.
+            <a href="mailto:metro-dev@eclipse.org">metro-dev@eclipse.org</a>.
         </p>
     </body>
 </html>
