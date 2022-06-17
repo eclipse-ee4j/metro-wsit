@@ -28,6 +28,7 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamSource;
 
 import com.sun.xml.ws.mex.MetadataConstants;
+import com.sun.xml.ws.util.xml.XmlUtil;
 import jakarta.xml.ws.WebServiceException;
 import org.w3c.dom.Attr;
 import org.w3c.dom.DOMException;
@@ -270,8 +271,8 @@ public class ServiceDescriptorImpl extends ServiceDescriptor {
         final InputStream stream) {
 
         try {
-            final Transformer xFormer =
-                TransformerFactory.newInstance().newTransformer();
+
+            final Transformer xFormer = XmlUtil.newTransformer();
             Source source = new StreamSource(stream);
             final DOMResult result = new DOMResult();
             xFormer.transform(source, result);

@@ -18,6 +18,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.sun.xml.ws.mex.MetadataConstants;
+import com.sun.xml.ws.util.xml.XmlUtil;
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBException;
 import jakarta.xml.bind.Unmarshaller;
@@ -207,7 +208,7 @@ public class MetadataClient {
     private Metadata createMetadata(final InputStream stream)
         throws XMLStreamException, JAXBException {
 
-        final XMLInputFactory factory = XMLInputFactory.newInstance();
+        final XMLInputFactory factory = XmlUtil.newXMLInputFactory(false);
         final XMLStreamReader reader =
             factory.createXMLStreamReader(stream);
         int state = 0;
