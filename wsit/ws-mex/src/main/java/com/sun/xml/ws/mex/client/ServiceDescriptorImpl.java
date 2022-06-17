@@ -273,7 +273,7 @@ public class ServiceDescriptorImpl extends ServiceDescriptor {
 
         try {
 
-            final Transformer xFormer = XmlUtil.newTransformer();
+            final Transformer xFormer = XmlUtil.newTransformerFactory(false).newTransformer();
             Source source = new StreamSource(stream);
             final DOMResult result = new DOMResult();
             xFormer.transform(source, result);
