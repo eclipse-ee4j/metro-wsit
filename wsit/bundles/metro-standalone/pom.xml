@@ -40,7 +40,7 @@
                         <configuration>
                             <includeArtifactIds>jaxws-ri</includeArtifactIds>
                             <includes>jaxws-ri/bin/**, jaxws-ri/samples/**</includes>
-                            <excludes>jaxws-ri/samples/docs/**</excludes>
+                            <excludes>jaxws-ri/samples/index.html</excludes>
                             <outputDirectory>${project.build.directory}/unpacked-dependencies</outputDirectory>
                             <overWriteReleases>false</overWriteReleases>
                             <overWriteSnapshots>true</overWriteSnapshots>
