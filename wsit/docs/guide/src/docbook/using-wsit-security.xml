@@ -102,7 +102,7 @@
                             <imageobject>
                                 <imagedata contentdepth="100%"
                                            fileref="figures/tango_ws_edit_collapsed.png"
-                                           scalefit="1" width="100%"></imagedata>
+                                           scalefit="1" width="100%"/>
                             </imageobject>
 
                             <textobject>
@@ -282,7 +282,7 @@
                             <imageobject>
                                 <imagedata contentdepth="100%"
                                            fileref="figures/web_svc_ref_wsit.png"
-                                           scalefit="1" width="100%"></imagedata>
+                                           scalefit="1" width="100%"/>
                             </imageobject>
 
                             <textobject>
@@ -392,32 +392,32 @@
 
                             <entry><para> X </para></entry>
 
-                            <entry></entry>
+                            <entry/>
 
-                            <entry></entry>
+                            <entry/>
 
-                            <entry></entry>
+                            <entry/>
 
                             <entry><para> X </para></entry>
 
-                            <entry></entry>
+                            <entry/>
                         </row>
 
                         <row>
                             <entry><para>Username Authentication with Password
                             Derived Keys</para></entry>
 
-                            <entry></entry>
+                            <entry/>
 
-                            <entry></entry>
+                            <entry/>
 
-                            <entry></entry>
+                            <entry/>
 
-                            <entry></entry>
+                            <entry/>
 
                             <entry><para> X </para></entry>
 
-                            <entry></entry>
+                            <entry/>
                         </row>
 
                         <row>
@@ -427,28 +427,28 @@
 
                             <entry><para> X (no alias) </para></entry>
 
-                            <entry></entry>
+                            <entry/>
 
-                            <entry></entry>
+                            <entry/>
 
-                            <entry></entry>
+                            <entry/>
 
-                            <entry></entry>
+                            <entry/>
                         </row>
 
                         <row>
                             <entry><para>Symmetric Binding with Kerberos
                             Tokens</para></entry>
 
-                            <entry></entry>
+                            <entry/>
 
-                            <entry></entry>
+                            <entry/>
 
-                            <entry></entry>
+                            <entry/>
 
-                            <entry></entry>
+                            <entry/>
 
-                            <entry></entry>
+                            <entry/>
 
                             <entry><para> X </para></entry>
                         </row>
@@ -456,68 +456,68 @@
                         <row>
                             <entry><para>Transport Security</para></entry>
 
-                            <entry></entry>
+                            <entry/>
 
-                            <entry></entry>
+                            <entry/>
 
-                            <entry></entry>
-
-                            <entry><para> X </para></entry>
+                            <entry/>
 
                             <entry><para> X </para></entry>
 
-                            <entry></entry>
+                            <entry><para> X </para></entry>
+
+                            <entry/>
                         </row>
 
                         <row>
                             <entry><para>Message Authentication over SSL -
                             Username Token</para></entry>
 
-                            <entry></entry>
+                            <entry/>
 
-                            <entry></entry>
+                            <entry/>
 
-                            <entry></entry>
-
-                            <entry><para> X </para></entry>
+                            <entry/>
 
                             <entry><para> X </para></entry>
 
-                            <entry></entry>
+                            <entry><para> X </para></entry>
+
+                            <entry/>
                         </row>
 
                         <row>
                             <entry><para>Message Authentication over SSL - X.509
                             Token</para></entry>
 
-                            <entry></entry>
+                            <entry/>
 
                             <entry><para> X (no alias) </para></entry>
 
-                            <entry></entry>
+                            <entry/>
 
                             <entry><para> X </para></entry>
 
-                            <entry></entry>
+                            <entry/>
 
-                            <entry></entry>
+                            <entry/>
                         </row>
 
                         <row>
                             <entry><para>SAML Authorization over
                             SSL</para></entry>
 
-                            <entry></entry>
+                            <entry/>
 
-                            <entry></entry>
+                            <entry/>
 
-                            <entry></entry>
+                            <entry/>
 
                             <entry><para> X </para></entry>
 
-                            <entry></entry>
+                            <entry/>
 
-                            <entry></entry>
+                            <entry/>
                         </row>
 
                         <row>
@@ -527,13 +527,13 @@
 
                             <entry><para> X </para></entry>
 
-                            <entry></entry>
+                            <entry/>
 
-                            <entry></entry>
+                            <entry/>
 
-                            <entry></entry>
+                            <entry/>
 
-                            <entry></entry>
+                            <entry/>
                         </row>
 
                         <row>
@@ -544,13 +544,13 @@
 
                             <entry><para> X (no alias) </para></entry>
 
-                            <entry></entry>
+                            <entry/>
 
-                            <entry></entry>
+                            <entry/>
 
-                            <entry></entry>
+                            <entry/>
 
-                            <entry></entry>
+                            <entry/>
                         </row>
 
                         <row>
@@ -560,13 +560,13 @@
 
                             <entry><para> X (no alias) </para></entry>
 
-                            <entry></entry>
+                            <entry/>
 
-                            <entry></entry>
+                            <entry/>
 
-                            <entry></entry>
+                            <entry/>
 
-                            <entry></entry>
+                            <entry/>
                         </row>
 
                         <row>
@@ -578,11 +578,11 @@
 
                             <entry><para> X </para></entry>
 
-                            <entry></entry>
+                            <entry/>
 
-                            <entry></entry>
+                            <entry/>
 
-                            <entry></entry>
+                            <entry/>
                         </row>
 
                         <row>
@@ -595,11 +595,11 @@
 
                             <entry><para> X </para></entry>
 
-                            <entry></entry>
+                            <entry/>
 
-                            <entry></entry>
+                            <entry/>
 
-                            <entry></entry>
+                            <entry/>
                         </row>
 
                         <row>
@@ -612,11 +612,11 @@
 
                             <entry><para> X </para></entry>
 
-                            <entry></entry>
+                            <entry/>
 
-                            <entry></entry>
+                            <entry/>
 
-                            <entry></entry>
+                            <entry/>
                         </row>
                     </tbody>
                 </tgroup>
@@ -747,42 +747,42 @@
                             <entry><para>Username Authentication with Symmetric
                             Key</para></entry>
 
-                            <entry></entry>
+                            <entry/>
 
                             <entry><para> X </para></entry>
 
                             <entry><para> X </para></entry>
 
-                            <entry></entry>
+                            <entry/>
 
-                            <entry></entry>
+                            <entry/>
 
-                            <entry></entry>
+                            <entry/>
 
                             <entry><para> X </para></entry>
 
-                            <entry></entry>
+                            <entry/>
                         </row>
 
                         <row>
                             <entry><para>Username Authentication with Password
                             Derived Keys</para></entry>
 
-                            <entry></entry>
+                            <entry/>
 
-                            <entry></entry>
-
-                            <entry><para> X </para></entry>
-
-                            <entry></entry>
-
-                            <entry></entry>
-
-                            <entry></entry>
+                            <entry/>
 
                             <entry><para> X </para></entry>
 
-                            <entry></entry>
+                            <entry/>
+
+                            <entry/>
+
+                            <entry/>
+
+                            <entry><para> X </para></entry>
+
+                            <entry/>
                         </row>
 
                         <row>
@@ -792,36 +792,36 @@
 
                             <entry><para> X </para></entry>
 
-                            <entry></entry>
+                            <entry/>
 
-                            <entry></entry>
+                            <entry/>
 
-                            <entry></entry>
+                            <entry/>
 
-                            <entry></entry>
+                            <entry/>
 
-                            <entry></entry>
+                            <entry/>
 
-                            <entry></entry>
+                            <entry/>
                         </row>
 
                         <row>
                             <entry><para>Symmetric Binding with Kerberos
                             Tokens</para></entry>
 
-                            <entry></entry>
+                            <entry/>
 
-                            <entry></entry>
+                            <entry/>
 
-                            <entry></entry>
+                            <entry/>
 
-                            <entry></entry>
+                            <entry/>
 
-                            <entry></entry>
+                            <entry/>
 
-                            <entry></entry>
+                            <entry/>
 
-                            <entry></entry>
+                            <entry/>
 
                             <entry><para> X </para></entry>
                         </row>
@@ -829,42 +829,42 @@
                         <row>
                             <entry><para>Transport Security</para></entry>
 
-                            <entry></entry>
+                            <entry/>
 
-                            <entry></entry>
+                            <entry/>
 
-                            <entry></entry>
+                            <entry/>
 
-                            <entry></entry>
+                            <entry/>
 
-                            <entry></entry>
-
-                            <entry><para> X </para></entry>
+                            <entry/>
 
                             <entry><para> X </para></entry>
 
-                            <entry></entry>
+                            <entry><para> X </para></entry>
+
+                            <entry/>
                         </row>
 
                         <row>
                             <entry><para>Message Authentication over SSL -
                             Username Token</para></entry>
 
-                            <entry></entry>
+                            <entry/>
 
-                            <entry></entry>
-
-                            <entry><para> X </para></entry>
-
-                            <entry></entry>
-
-                            <entry></entry>
+                            <entry/>
 
                             <entry><para> X </para></entry>
 
+                            <entry/>
+
+                            <entry/>
+
                             <entry><para> X </para></entry>
 
-                            <entry></entry>
+                            <entry><para> X </para></entry>
+
+                            <entry/>
                         </row>
 
                         <row>
@@ -873,19 +873,19 @@
 
                             <entry><para> X </para></entry>
 
-                            <entry></entry>
+                            <entry/>
 
-                            <entry></entry>
+                            <entry/>
 
-                            <entry></entry>
+                            <entry/>
 
-                            <entry></entry>
+                            <entry/>
 
                             <entry><para> X </para></entry>
 
-                            <entry></entry>
+                            <entry/>
 
-                            <entry></entry>
+                            <entry/>
                         </row>
 
                         <row>
@@ -896,17 +896,17 @@
 
                             <entry><para> X </para></entry>
 
-                            <entry></entry>
+                            <entry/>
 
                             <entry><para> X </para></entry>
 
-                            <entry></entry>
+                            <entry/>
 
                             <entry><para> X </para></entry>
 
-                            <entry></entry>
+                            <entry/>
 
-                            <entry></entry>
+                            <entry/>
                         </row>
 
                         <row>
@@ -916,17 +916,17 @@
 
                             <entry><para> X </para></entry>
 
-                            <entry></entry>
+                            <entry/>
 
-                            <entry></entry>
+                            <entry/>
 
-                            <entry></entry>
+                            <entry/>
 
-                            <entry></entry>
+                            <entry/>
 
-                            <entry></entry>
+                            <entry/>
 
-                            <entry></entry>
+                            <entry/>
                         </row>
 
                         <row>
@@ -937,17 +937,17 @@
 
                             <entry><para> X </para></entry>
 
-                            <entry></entry>
+                            <entry/>
 
                             <entry><para> X </para></entry>
 
-                            <entry></entry>
+                            <entry/>
 
-                            <entry></entry>
+                            <entry/>
 
-                            <entry></entry>
+                            <entry/>
 
-                            <entry></entry>
+                            <entry/>
                         </row>
 
                         <row>
@@ -957,17 +957,17 @@
 
                             <entry><para> X </para></entry>
 
-                            <entry></entry>
+                            <entry/>
 
                             <entry><para> X </para></entry>
 
-                            <entry></entry>
+                            <entry/>
 
-                            <entry></entry>
+                            <entry/>
 
-                            <entry></entry>
+                            <entry/>
 
-                            <entry></entry>
+                            <entry/>
                         </row>
 
                         <row>
@@ -977,17 +977,17 @@
 
                             <entry><para> X </para></entry>
 
-                            <entry></entry>
+                            <entry/>
 
-                            <entry></entry>
+                            <entry/>
 
                             <entry><para> X </para></entry>
 
-                            <entry></entry>
+                            <entry/>
 
-                            <entry></entry>
+                            <entry/>
 
-                            <entry></entry>
+                            <entry/>
                         </row>
 
                         <row>
@@ -998,17 +998,17 @@
 
                             <entry><para> X </para></entry>
 
-                            <entry></entry>
+                            <entry/>
 
-                            <entry></entry>
+                            <entry/>
 
                             <entry><para> X </para></entry>
 
-                            <entry></entry>
+                            <entry/>
 
-                            <entry></entry>
+                            <entry/>
 
-                            <entry></entry>
+                            <entry/>
                         </row>
 
                         <row>
@@ -1019,17 +1019,17 @@
 
                             <entry><para> X </para></entry>
 
-                            <entry></entry>
+                            <entry/>
 
-                            <entry></entry>
+                            <entry/>
 
                             <entry><para> X </para></entry>
 
-                            <entry></entry>
+                            <entry/>
 
-                            <entry></entry>
+                            <entry/>
 
-                            <entry></entry>
+                            <entry/>
                         </row>
                     </tbody>
                 </tgroup>
@@ -1198,7 +1198,7 @@
                                         <imageobject>
                                             <imagedata contentdepth="100%"
                                                        fileref="figures/web_svc_ref_wsit.png"
-                                                       scalefit="1" width="100%"></imagedata>
+                                                       scalefit="1" width="100%"/>
                                         </imageobject>
 
                                         <textobject>
@@ -2180,7 +2180,7 @@ HTTPS hostname wrong: should be &lt;hostname as in the certificate&gt;</programl
                                         <imageobject>
                                             <imagedata contentdepth="100%"
                                                        fileref="figures/security-web-xml.png"
-                                                       scalefit="1" width="100%"></imagedata>
+                                                       scalefit="1" width="100%"/>
                                         </imageobject>
 
                                         <textobject>
@@ -2692,7 +2692,8 @@ Certificate fingerprint (MD5): E4:E3:A9:02:3C:B0:36:0C:C1:48:6E:0E:3E:5C:5E:84</
 
                     <thead>
                         <row>
-                            <entry><para></para></entry>
+                            <entry>
+                                <para/></entry>
 
                             <entry><para>Keystore Alias</para></entry>
 
@@ -2738,7 +2739,8 @@ Certificate fingerprint (MD5): E4:E3:A9:02:3C:B0:36:0C:C1:48:6E:0E:3E:5C:5E:84</
 
                     <thead>
                         <row>
-                            <entry><para></para></entry>
+                            <entry>
+                                <para/></entry>
 
                             <entry><para>Keystore Alias</para></entry>
 
@@ -2878,7 +2880,7 @@ Certificate fingerprint (MD5): E4:E3:A9:02:3C:B0:36:0C:C1:48:6E:0E:3E:5C:5E:84</
                                     <imageobject>
                                         <imagedata contentdepth="100%"
                                                    fileref="figures/security-keystore-configuration.png"
-                                                   scalefit="1" width="100%"></imagedata>
+                                                   scalefit="1" width="100%"/>
                                     </imageobject>
 
                                     <textobject>
@@ -3512,7 +3514,7 @@ Certificate fingerprint (MD5): E4:E3:A9:02:3C:B0:36:0C:C1:48:6E:0E:3E:5C:5E:84</
             </itemizedlist></para>
 
         <para>Note that in a Windows environment you can set up a Kerberos KDC
-        only on Window Server editions 2000, 2003 and 2008. The KDC is bundled
+        only on Window Server editions 2000, 2022 and 2008. The KDC is bundled
         in these editions with its own Kerberos implementation as part of
         Active Directory. You can not install MIT Kerberos KDC on Windows. A
         Windows XP/Vista system can act as a client of the Windows Server
@@ -3735,7 +3737,7 @@ KerberosServer {
                                 <imageobject>
                                     <imagedata contentdepth="100%"
                                                fileref="figures/security-operation-level.png"
-                                               scalefit="1" width="100%"></imagedata>
+                                               scalefit="1" width="100%"/>
                                 </imageobject>
 
                                 <textobject>
@@ -3842,7 +3844,7 @@ KerberosServer {
                             <imageobject>
                                 <imagedata contentdepth="100%"
                                            fileref="figures/security-message-parts.png"
-                                           scalefit="1" width="100%"></imagedata>
+                                           scalefit="1" width="100%"/>
                             </imageobject>
 
                             <textobject>
@@ -8018,7 +8020,7 @@ public class SampleWsitDigestPasswordValidator extends
                 <title>To Create and Secure the STS with
                 SecureConversationToken (STS+SC)</title>
 
-                <para></para>
+                <para/>
             </formalpara>
 
             <para>Same as provided in <xref linkend="gfrlq"
@@ -8172,7 +8174,7 @@ public class SampleWsitDigestPasswordValidator extends
                 <title>To Secure the Example Web Service Client Application
                 (STS+SC)</title>
 
-                <para></para>
+                <para/>
             </formalpara>
 
             <para>Same as provided in <xref linkend="gfrls"
@@ -8216,7 +8218,7 @@ public class SampleWsitDigestPasswordValidator extends
             <formalpara xml:id="gfzgj">
                 <title>To Set Up Your System for Kerberos Profile</title>
 
-                <para></para>
+                <para/>
             </formalpara>
 
             <para>If your system is not already set up to use Kerberos, refer
@@ -8305,7 +8307,7 @@ public class SampleWsitDigestPasswordValidator extends
                                     <imageobject>
                                         <imagedata contentdepth="100%"
                                                    fileref="figures/kerberos_server_config.png"
-                                                   scalefit="1" width="100%"></imagedata>
+                                                   scalefit="1" width="100%"/>
                                     </imageobject>
 
                                     <textobject>
@@ -8500,7 +8502,7 @@ public class SampleWsitDigestPasswordValidator extends
                                 <imageobject>
                                     <imagedata contentdepth="100%"
                                                fileref="figures/kerberos_client_config.png"
-                                               scalefit="1" width="100%"></imagedata>
+                                               scalefit="1" width="100%"/>
                                 </imageobject>
 
                                 <textobject>

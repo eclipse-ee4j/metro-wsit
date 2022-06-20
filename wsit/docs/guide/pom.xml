@@ -98,7 +98,6 @@
                     <highlightDefaultLanguage>true</highlightDefaultLanguage>
                     <htmlLongdesc>false</htmlLongdesc>
                     <keepRelativeImageUris>true</keepRelativeImageUris>
-                    <useStandardOutput>true</useStandardOutput>
                 </configuration>
                 <executions>
                     <execution>

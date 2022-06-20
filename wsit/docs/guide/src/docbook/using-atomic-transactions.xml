@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-    Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
+    Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
 
     This program and the accompanying materials are made available under the
     terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -1401,7 +1401,7 @@ public class WsatBankTransferServlet extends HttpServlet {
                 <imageobject>
                     <imagedata contentdepth="100%"
                                fileref="figures/TX-flow.png" scalefit="1"
-                               width="100%"></imagedata>
+                               width="100%"/>
                 </imageobject>
 
                 <textobject>
@@ -1428,7 +1428,7 @@ public class WsatBankTransferServlet extends HttpServlet {
                 <imageobject>
                     <imagedata contentdepth="100%"
                                fileref="figures/example-architecture.png"
-                               scalefit="1" width="100%"></imagedata>
+                               scalefit="1" width="100%"/>
                 </imageobject>
 
                 <textobject>
@@ -2217,7 +2217,7 @@ public class WsatBankTransferServlet extends HttpServlet {
                             <imageobject>
                                 <imagedata contentdepth="100%"
                                            fileref="figures/results_basicWSTX.png"
-                                           scalefit="1" width="100%"></imagedata>
+                                           scalefit="1" width="100%"/>
                             </imageobject>
 
                             <textobject>

@@ -93,7 +93,7 @@
                 <imageobject>
                     <imagedata contentdepth="100%"
                                fileref="figures/WSITwebServicesFeatures.png"
-                               scalefit="1" width="100%"></imagedata>
+                               scalefit="1" width="100%"/>
                 </imageobject>
 
                 <textobject>
@@ -144,7 +144,7 @@
                     <imageobject>
                         <imagedata contentdepth="100%"
                                    fileref="figures/bootstrappingConfiguration.png"
-                                   scalefit="1" width="100%"></imagedata>
+                                   scalefit="1" width="100%"/>
                     </imageobject>
 
                     <textobject>
@@ -559,7 +559,7 @@
                     <imageobject>
                         <imagedata contentdepth="100%"
                                    fileref="figures/BootstrappingConfigStandards.png"
-                                   scalefit="1" width="100%"></imagedata>
+                                   scalefit="1" width="100%"/>
                     </imageobject>
 
                     <textobject>
@@ -633,7 +633,7 @@
                     <imageobject>
                         <imagedata contentdepth="100%"
                                    fileref="figures/MessageOptimizationStandards.png"
-                                   scalefit="1" width="100%"></imagedata>
+                                   scalefit="1" width="100%"/>
                     </imageobject>
 
                     <textobject>
@@ -755,7 +755,7 @@
                     <imageobject>
                         <imagedata contentdepth="100%"
                                    fileref="figures/reliableMessagingStandards.png"
-                                   scalefit="1" width="100%"></imagedata>
+                                   scalefit="1" width="100%"/>
                     </imageobject>
 
                     <textobject>
@@ -841,7 +841,7 @@
                     <imageobject>
                         <imagedata contentdepth="100%"
                                    fileref="figures/webServicesSecurityStandards.png"
-                                   scalefit="1" width="100%"></imagedata>
+                                   scalefit="1" width="100%"/>
                     </imageobject>
 
                     <textobject>
@@ -1065,7 +1065,7 @@
                     <imageobject>
                         <imagedata contentdepth="100%"
                                    fileref="figures/appMessageExWORM.png"
-                                   scalefit="1" width="100%"></imagedata>
+                                   scalefit="1" width="100%"/>
                     </imageobject>
 
                     <textobject>
@@ -1093,7 +1093,7 @@
                     <imageobject>
                         <imagedata contentdepth="100%"
                                    fileref="figures/appMessageExWRM.png"
-                                   scalefit="1" width="100%"></imagedata>
+                                   scalefit="1" width="100%"/>
                     </imageobject>
 
                     <textobject>
@@ -1142,7 +1142,7 @@
                         <imageobject>
                             <imagedata contentdepth="100%"
                                        fileref="figures/securityPolicyExchange.png"
-                                       scalefit="1" width="100%"></imagedata>
+                                       scalefit="1" width="100%"/>
                         </imageobject>
 
                         <textobject>
@@ -1252,7 +1252,7 @@
                         <imageobject>
                             <imagedata contentdepth="100%"
                                        fileref="figures/trustSecureConversation.png"
-                                       scalefit="1" width="100%"></imagedata>
+                                       scalefit="1" width="100%"/>
                         </imageobject>
 
                         <textobject>
@@ -1327,7 +1327,7 @@
                         <imageobject>
                             <imagedata contentdepth="100%"
                                        fileref="figures/secureConversation.png"
-                                       scalefit="1" width="100%"></imagedata>
+                                       scalefit="1" width="100%"/>
                         </imageobject>
 
                         <textobject>

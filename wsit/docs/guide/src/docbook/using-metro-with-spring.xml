@@ -71,7 +71,7 @@
                         <imageobject>
                             <imagedata contentdepth="100%"
                                        fileref="figures/spring-new-project.png"
-                                       scalefit="1" width="100%"></imagedata>
+                                       scalefit="1" width="100%"/>
                         </imageobject>
                     </mediaobject>
                 </figure></para>
@@ -87,7 +87,7 @@
                         <imageobject>
                             <imagedata contentdepth="100%"
                                        fileref="figures/spring-new-webapp.png"
-                                       scalefit="1" width="100%"></imagedata>
+                                       scalefit="1" width="100%"/>
                         </imageobject>
                     </mediaobject>
                 </figure></para>
@@ -104,7 +104,7 @@
                         <imageobject>
                             <imagedata contentdepth="100%"
                                        fileref="figures/spring-new-framework.png"
-                                       scalefit="1" width="100%"></imagedata>
+                                       scalefit="1" width="100%"/>
                         </imageobject>
                     </mediaobject>
                 </figure></para>
@@ -127,7 +127,7 @@
                         <imageobject>
                             <imagedata contentdepth="100%"
                                        fileref="figures/spring-add-lib.png"
-                                       scalefit="1" width="100%"></imagedata>
+                                       scalefit="1" width="100%"/>
                         </imageobject>
                     </mediaobject>
                 </figure></para>
@@ -157,7 +157,7 @@
                         <imageobject>
                             <imagedata contentdepth="100%"
                                        fileref="figures/spring-new-webservice.png"
-                                       scalefit="1" width="100%"></imagedata>
+                                       scalefit="1" width="100%"/>
                         </imageobject>
                     </mediaobject>
                 </figure></para>
@@ -359,7 +359,7 @@ class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"
                         <imageobject>
                             <imagedata contentdepth="100%"
                                        fileref="figures/spring-nb65-new-project.png"
-                                       scalefit="1" width="100%"></imagedata>
+                                       scalefit="1" width="100%"/>
                         </imageobject>
                     </mediaobject>
                 </figure></para>
@@ -375,7 +375,7 @@ class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"
                         <imageobject>
                             <imagedata contentdepth="100%"
                                        fileref="figures/spring-nb65-new-webapp.png"
-                                       scalefit="1" width="100%"></imagedata>
+                                       scalefit="1" width="100%"/>
                         </imageobject>
                     </mediaobject>
                 </figure></para>
@@ -390,7 +390,7 @@ class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"
                         <imageobject>
                             <imagedata contentdepth="100%"
                                        fileref="figures/spring-nb65-new-webapp-2.png"
-                                       scalefit="1" width="100%"></imagedata>
+                                       scalefit="1" width="100%"/>
                         </imageobject>
                     </mediaobject>
                 </figure></para>
@@ -406,7 +406,7 @@ class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"
                         <imageobject>
                             <imagedata contentdepth="100%"
                                        fileref="figures/spring-nb65-new-framework.png"
-                                       scalefit="1" width="100%"></imagedata>
+                                       scalefit="1" width="100%"/>
                         </imageobject>
                     </mediaobject>
                 </figure></para>
@@ -429,7 +429,7 @@ class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"
                         <imageobject>
                             <imagedata contentdepth="100%"
                                        fileref="figures/spring-nb65-add-lib.png"
-                                       scalefit="1" width="100%"></imagedata>
+                                       scalefit="1" width="100%"/>
                         </imageobject>
                     </mediaobject>
                 </figure></para>
@@ -459,7 +459,7 @@ class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"
                         <imageobject>
                             <imagedata contentdepth="100%"
                                        fileref="figures/spring-nb65-new-webservice.png"
-                                       scalefit="1" width="100%"></imagedata>
+                                       scalefit="1" width="100%"/>
                         </imageobject>
                     </mediaobject>
                 </figure></para>
@@ -652,7 +652,7 @@ class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"
                     <imageobject>
                         <imagedata contentdepth="100%"
                                    fileref="figures/spring-edit-attributes.png"
-                                   scalefit="1" width="100%"></imagedata>
+                                   scalefit="1" width="100%"/>
                     </imageobject>
                 </mediaobject>
             </figure></para>

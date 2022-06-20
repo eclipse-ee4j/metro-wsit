@@ -53,7 +53,7 @@ $ wsimport -p org.acme.foo second.wsdl</programlisting>
         package.</para>
 
         <programlisting>$ cat common.jaxb
-&lt;bindings xmlns="http://java.sun.com/xml/ns/jaxb" version="2.1"&gt;
+&lt;bindings xmlns="https://jakarta.ee/xml/ns/jaxb" version="3.0"&gt;
   &lt;bindings scd="x-schema::tns" xmlns:tns="http://common.schema.ns/"&gt;
     &lt;schemaBindings&gt;
       &lt;package name="org.acme.foo.common" /&gt;
@@ -166,7 +166,7 @@ line 1 of http://131.107.72.15/Security_WsSecurity_Service_Indigo/WSSecureConver
 
             <programlisting>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
 &lt;jaxb:bindings
-  xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" jaxb:version="2.0"
+  xmlns:jaxb="https://jakarta.ee/xml/ns/jaxb" jaxb:version="3.0"
   xmlns:xjc= "http://java.sun.com/xml/ns/jaxb/xjc" jaxb:extensionBindingPrefixes="xjc"&gt;
 
   &lt;jaxb:globalBindings&gt;
