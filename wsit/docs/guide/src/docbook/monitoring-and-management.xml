@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-    Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
+    Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
 
     This program and the accompanying materials are made available under the
     terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -326,7 +326,7 @@ com.sun.xml.ws.monitoring.client</programlisting>
                     <imageobject>
                         <imagedata contentdepth="100%"
                                    fileref="figures/jconsole-overview.png"
-                                   scalefit="1" width="100%"></imagedata>
+                                   scalefit="1" width="100%"/>
                     </imageobject>
                 </mediaobject>
             </figure></para>
@@ -469,7 +469,7 @@ amx:name=http-//localhost-8080/AddNumbersService/AddNumbersService,pp=/mon/serve
                         <imageobject>
                             <imagedata contentdepth="100%"
                                        fileref="figures/jconsole-wsclient.png"
-                                       scalefit="1" width="100%"></imagedata>
+                                       scalefit="1" width="100%"/>
                         </imageobject>
                     </mediaobject>
                 </figure></para>
@@ -558,7 +558,7 @@ Name = http-//localhost-8080/AddNumbersService/AddNumbersService;</programlistin
                         <imageobject>
                             <imagedata contentdepth="100%"
                                        fileref="figures/jconsole-wsendpoint.png"
-                                       scalefit="1" width="100%"></imagedata>
+                                       scalefit="1" width="100%"/>
                         </imageobject>
                     </mediaobject>
                 </figure></para>
@@ -741,7 +741,7 @@ sessions = [ {
                         <imageobject>
                             <imagedata contentdepth="100%"
                                        fileref="figures/jconsole-wsrmsequencemanager.png"
-                                       scalefit="1" width="100%"></imagedata>
+                                       scalefit="1" width="100%"/>
                         </imageobject>
                     </mediaobject>
                 </figure></para>

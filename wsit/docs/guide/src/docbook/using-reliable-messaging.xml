@@ -77,8 +77,8 @@
         linkend="using_metro-developing_with_nb" xrefstyle="select:title" />.
         Once the web service is created, a design view of the web service
         should open in the editor window. If the design view is not opened,
-        locate your web service in the <guilabel>Projects</guilabel><emphasis
-        role="bold"></emphasis> view and double-click the web service to open
+        locate your web service in the <emphasis role="bold"><guilabel>Projects
+        </guilabel> view</emphasis> and double-click the web service to open
         it in the editor window.</para>
 
         <para>In the design view, there is a <guilabel>Quality of
@@ -90,7 +90,7 @@
                     <imageobject>
                         <imagedata contentdepth="100%"
                                    fileref="figures/nb6_5-qos-ws-design-view.png"
-                                   scalefit="1" width="100%"></imagedata>
+                                   scalefit="1" width="100%"/>
                     </imageobject>
                 </mediaobject>
             </figure> In this section you may either simply check the
@@ -106,7 +106,7 @@
                     <imageobject>
                         <imagedata contentdepth="100%"
                                    fileref="figures/nb6_5-qos-dialog-main.png"
-                                   scalefit="1" width="100%"></imagedata>
+                                   scalefit="1" width="100%"/>
                     </imageobject>
                 </mediaobject>
             </figure> <note>
@@ -127,7 +127,7 @@
                     <imageobject>
                         <imagedata contentdepth="100%"
                                    fileref="figures/nb6_5-qos-dialog-advanced-rm.png"
-                                   scalefit="1" width="100%"></imagedata>
+                                   scalefit="1" width="100%"/>
                     </imageobject>
                 </mediaobject>
             </figure></para>
