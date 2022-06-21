@@ -8,15 +8,15 @@ description: [Eclipse Metro]
 
 links:
   source: https://github.com/eclipse-ee4j/metro-wsit
-  api: https://javadoc.io/doc/org.glassfish.metro/webservices-api/3.0.0/index.html
+  api: https://javadoc.io/doc/org.glassfish.metro/webservices-api/4.0.0/index.html
   sbinding: https://jakarta.ee/specifications/xml-binding/
   sws: https://jakarta.ee/specifications/xml-web-services/
   smetadata: https://jakarta.ee/specifications/web-services-metadata/
   ssoap: https://jakarta.ee/specifications/soap-attachments/
   sews: https://jakarta.ee/specifications/enterprise-ws/
-  gstarted: https://eclipse-ee4j.github.io/metro-wsit/3.0.0/getting-started/
-  guide: https://eclipse-ee4j.github.io/metro-wsit/3.0.0/guide/
-  javadocsrt:  https://javadoc.io/doc/org.glassfish.metro/webservices-rt/3.0.0/index.html
-  javadocstools:  https://javadoc.io/doc/org.glassfish.metro/webservices-tools/3.0.0/index.html
-  download: https://repo1.maven.org/maven2/org/glassfish/metro/metro-standalone/3.0.0/metro-standalone-3.0.0.zip
+  gstarted: https://eclipse-ee4j.github.io/metro-wsit/4.0.0/getting-started/
+  guide: https://eclipse-ee4j.github.io/metro-wsit/4.0.0/guide/
+  javadocsrt:  https://javadoc.io/doc/org.glassfish.metro/webservices-rt/4.0.0/index.html
+  javadocstools:  https://javadoc.io/doc/org.glassfish.metro/webservices-tools/4.0.0/index.html
+  download: https://repo1.maven.org/maven2/org/glassfish/metro/metro-standalone/4.0.0/metro-standalone-4.0.0.zip
   mailinglist: https://accounts.eclipse.org/mailing-list/metro-dev

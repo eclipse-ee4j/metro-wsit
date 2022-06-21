@@ -7,12 +7,9 @@ hello world web service to reliable, secured, and transacted web service
 that involves .NET services. The Metro web service stack is a part of
 the GlassFish community, but it can be also used outside GlassFish.
 
-Eclipse Metro consists of [Eclipse Implementation](https://eclipse-ee4j.github.io/metro-jax-ws)
-of Jakarta XML Web Services and Web Services Interoperability Technology project (WSIT).
-
-[Eclipse Implementation](https://eclipse-ee4j.github.io/metro-jax-ws) of Jakarta XML
-Web Services provides core web servicing support and the base framework for extensions
-provided by the WSIT layer.
+Eclipse Metro consists of [Eclipse Implementation of Jakarta XML Web Services](https://eclipse-ee4j.github.io/metro-jax-ws)
+and Web Services Interoperability Technology project (WSIT). Eclipse Implementation of Jakarta XML Web Services
+provides core web services support and the base framework for extensions provided by the WSIT layer.
 
 Web Services Interoperability Technologies (WSIT) includes implementations of:
 
@@ -71,7 +68,7 @@ The release includes the following documentation:
 Previous versions of Eclipse Metro are available for download
 as well as for consumption [through maven](https://repo1.maven.org/maven2/org/glassfish/metro/metro-standalone/).
 
-## Documentation for version 2.4.x
+## Documentation
 The release includes the following documentation:
 * [Getting Started](/2.4.4/getting-started/index.html)
 * [Users Guide](/2.4.4/guide/index.html)

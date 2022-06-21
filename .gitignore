@@ -1,5 +1,7 @@
+.idea/
 _site/
 *.lock
+*.iml
 .jekyll-metadata
 /2.4.4/guide/download/MetroMtomService/build/
 /2.4.4/guide/download/MetroMtomService/dist/
