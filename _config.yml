@@ -3,8 +3,8 @@ github: [metadata]
 remote_theme: eclipsefdn/jekyll-theme-eclipsefdn
 #theme: jekyll-theme-eclipsefdn # for local execution
 
-title: [Jakarta XML Web Services]
-description: [Eclipse Metro]
+title: [Eclipse Metro]
+description: [Jakarta XML Web Services]
 
 links:
   source: https://github.com/eclipse-ee4j/metro-wsit
