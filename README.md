@@ -36,14 +36,14 @@ This project is part of [Eclipse Metro](https://projects.eclipse.org/projects/ee
 # <a name="Download_Metro_Release"></a>Download Eclipse Metro Release
 
 The latest stable release of Eclipse Metro is available for
-[download](https://repo1.maven.org/maven2/org/glassfish/metro/metro-standalone/3.0.0/metro-standalone-3.0.0.zip)
+[download](https://repo1.maven.org/maven2/org/glassfish/metro/metro-standalone/4.0.0/metro-standalone-4.0.0.zip)
 as well as for consumption through maven.
 ```
         <dependencies>
             <dependency>
                 <groupId>org.glassfish.metro</groupId>
                 <artifactId>webservices-api</artifactId>
-                <version>3.0.0</version>
+                <version>4.0.0</version>
             </dependency>
         </dependencies>
 
@@ -51,16 +51,16 @@ as well as for consumption through maven.
             <dependency>
                 <groupId>org.glassfish.metro</groupId>
                 <artifactId>webservices-rt</artifactId>
-                <version>3.0.0</version>
+                <version>4.0.0</version>
             </dependency>
         </dependencies>
 ```
 
 ## Documentation
 The release includes the following documentation:
-* [Getting Started](/3.0.0/getting-started/index.html)
-* [Users Guide](/3.0.0/guide/index.html)
-* [Change log](https://github.com/eclipse-ee4j/metro-wsit/releases/tag/3.0.0)
+* [Getting Started](/4.0.0/getting-started/index.html)
+* [Users Guide](/4.0.0/guide/index.html)
+* [Change log](https://github.com/eclipse-ee4j/metro-wsit/releases/tag/4.0.0)
 
 
 # <a name="Download_Archive"></a>Download previous versions
@@ -68,7 +68,14 @@ The release includes the following documentation:
 Previous versions of Eclipse Metro are available for download
 as well as for consumption [through maven](https://repo1.maven.org/maven2/org/glassfish/metro/metro-standalone/).
 
-## Documentation
+## Documentation for version 3.0.x
+The release includes the following documentation:
+* [Getting Started](/3.0.0/getting-started/index.html)
+* [Users Guide](/3.0.0/guide/index.html)
+* [Change log](https://github.com/eclipse-ee4j/metro-wsit/releases/tag/3.0.0)
+* 
+
+## Documentation for version 2.4.x
 The release includes the following documentation:
 * [Getting Started](/2.4.4/getting-started/index.html)
 * [Users Guide](/2.4.4/guide/index.html)
