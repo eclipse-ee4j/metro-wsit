@@ -670,7 +670,6 @@
                                         <exclude>org/ietf/**</exclude>
                                         <exclude>org/jcp/**</exclude>
                                         <exclude>org/kohsuke/**</exclude>
-                                        <exclude>org/slf4j/**</exclude>
                                         <exclude>com/sun/xml/ws/test/**</exclude>
                                         <!-- -tests -->
                                         <exclude>wspolicy/**</exclude>

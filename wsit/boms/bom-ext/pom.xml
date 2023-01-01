@@ -38,9 +38,8 @@
         <el-api.version>5.0.1</el-api.version>
 
         <!-- CQ: #24092 -->
-        <santuario.version>3.0.2</santuario.version>
-        <!-- CQ: #22187 -->
-        <slf4j-api.version>1.7.36</slf4j-api.version>
+        <santuario.version>4.0.0-SNAPSHOT</santuario.version>
+
         <!-- CQ: #22186 -->
         <commons-codec.version>1.16.0</commons-codec.version>
 
@@ -120,23 +119,11 @@
                 <groupId>org.apache.santuario</groupId>
                 <artifactId>xmlsec</artifactId>
                 <version>${santuario.version}</version>
-                <exclusions>
-                    <!-- depends on jaxb2 which we are repackaging with other deps -->
-                    <exclusion>
-                        <groupId>*</groupId>
-                        <artifactId>*</artifactId>
-                    </exclusion>
-                </exclusions>
             </dependency>
             <dependency>
                 <groupId>commons-codec</groupId>
                 <artifactId>commons-codec</artifactId>
                 <version>${commons-codec.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.slf4j</groupId>
-                <artifactId>slf4j-api</artifactId>
-                <version>${slf4j-api.version}</version>
             </dependency>
 
             <dependency>
