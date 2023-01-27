@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021, 2022 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -15,8 +15,8 @@ module org.glassfish.metro.wsit.impl {
     requires java.rmi;
     requires transitive java.xml.crypto;
     requires transitive jakarta.security.auth.message;
-    requires transitive jakarta.transaction;
-    requires transitive jakarta.resource;
+    requires static jakarta.transaction;
+    requires static jakarta.resource;
     requires static jakarta.cdi;
     requires jdk.security.auth;
     requires transitive org.apache.santuario.xmlsec;

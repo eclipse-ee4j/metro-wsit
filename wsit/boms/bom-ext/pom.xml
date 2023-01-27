@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-    Copyright (c) 2013, 2022 Oracle and/or its affiliates. All rights reserved.
+    Copyright (c) 2013, 2023 Oracle and/or its affiliates. All rights reserved.
 
     This program and the accompanying materials are made available under the
     terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -38,7 +38,7 @@
         <el-api.version>5.0.0</el-api.version>
 
         <!-- CQ: #24092 -->
-        <santuario.version>3.0.0</santuario.version>
+        <santuario.version>3.0.1</santuario.version>
         <!-- CQ: #22187 -->
         <slf4j-api.version>1.7.36</slf4j-api.version>
         <!-- CQ: #22186 -->
@@ -49,7 +49,8 @@
 
         <hk2.version>3.0.3</hk2.version>
         <grizzly.version>4.0.0</grizzly.version>
-        <tomcat.coyote.version>10.1.0-M16</tomcat.coyote.version>
+        <tomcat.coyote.version>10.1.4</tomcat.coyote.version>
+        <graal.sdk.version>22.3.0</graal.sdk.version>
 
         <junit.version>4.13.2</junit.version>
 
@@ -186,6 +187,13 @@
                 <groupId>org.apache.tomcat</groupId>
                 <artifactId>tomcat-coyote</artifactId>
                 <version>${tomcat.coyote.version}</version>
+            </dependency>
+
+            <!-- Testing -->
+            <dependency>
+                <groupId>org.graalvm.sdk</groupId>
+                <artifactId>graal-sdk</artifactId>
+                <version>${graal.sdk.version}</version>
             </dependency>
 
             <!-- Testing -->
