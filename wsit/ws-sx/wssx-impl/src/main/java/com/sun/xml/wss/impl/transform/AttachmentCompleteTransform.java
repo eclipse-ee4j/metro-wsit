@@ -8,13 +8,7 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-/*
- * $Id: AttachmentCompleteTransform.java,v 1.2 2010-10-21 15:37:44 snajper Exp $
- */
-
 package com.sun.xml.wss.impl.transform;
-
-import javax.mail.internet.ContentType;
 
 import com.sun.xml.wss.impl.c14n.Canonicalizer;
 import com.sun.xml.wss.impl.c14n.CanonicalizerFactory;
