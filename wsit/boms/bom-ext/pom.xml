@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-    Copyright (c) 2013, 2022 Oracle and/or its affiliates. All rights reserved.
+    Copyright (c) 2013, 2023 Oracle and/or its affiliates. All rights reserved.
 
     This program and the accompanying materials are made available under the
     terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -36,9 +36,9 @@
         <xmlrpc-impl.version>1.1.6</xmlrpc-impl.version>
 
         <!-- CQ: #22139 -->
-        <santuario.version>2.1.7</santuario.version>
+        <santuario.version>2.3.2</santuario.version>
         <!-- CQ: #22187 -->
-        <slf4j-api.version>1.7.30</slf4j-api.version>
+        <slf4j-api.version>1.7.36</slf4j-api.version>
         <!-- CQ: #22186 -->
         <commons-codec.version>1.15</commons-codec.version>
 
@@ -46,7 +46,7 @@
         <stax-utils.version>20060502</stax-utils.version>
 
         <grizzly.version>2.4.4</grizzly.version>
-        <tomcat.coyote.version>9.0.8</tomcat.coyote.version>
+        <tomcat.coyote.version>9.0.71</tomcat.coyote.version>
 
         <jaxws.home.uri>http://eclipse-ee4j.github.io/metro-jax-ws</jaxws.home.uri>
     </properties>

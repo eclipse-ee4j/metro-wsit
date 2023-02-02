@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-    Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
+    Copyright (c) 1997, 2023 Oracle and/or its affiliates. All rights reserved.
 
     This program and the accompanying materials are made available under the
     terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -111,16 +111,6 @@
                     <version>3.2.0</version>
                 </plugin>
                 <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-enforcer-plugin</artifactId>
-                    <version>3.0.0-M3</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-source-plugin</artifactId>
-                    <version>3.2.1</version>
-                </plugin>
-                <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>buildnumber-maven-plugin</artifactId>
                     <version>1.4</version>
@@ -128,17 +118,17 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-clean-plugin</artifactId>
-                    <version>3.1.0</version>
+                    <version>3.2.0</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-assembly-plugin</artifactId>
-                    <version>3.3.0</version>
+                    <version>3.4.2</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.felix</groupId>
                     <artifactId>maven-bundle-plugin</artifactId>
-                    <version>5.1.1</version>
+                    <version>5.1.4</version>
                     <configuration>
                         <niceManifest>true</niceManifest>
                         <instructions>
@@ -149,12 +139,12 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.8.1</version>
+                    <version>3.10.1</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-dependency-plugin</artifactId>
-                    <version>3.2.0</version>
+                    <version>3.5.0</version>
                 </plugin>
                 <plugin>
                     <groupId>com.sun.istack</groupId>
@@ -164,7 +154,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-jar-plugin</artifactId>
-                    <version>3.2.0</version>
+                    <version>3.3.0</version>
                 </plugin>
                 <plugin>
                     <groupId>com.google.code.maven-replacer-plugin</groupId>
@@ -174,7 +164,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-resources-plugin</artifactId>
-                    <version>3.2.0</version>
+                    <version>3.3.0</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -184,7 +174,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
-                    <version>3.0.0-M4</version>
+                    <version>3.0.0-M8</version>
                 </plugin>
                 <plugin>
                     <groupId>com.agilejava.docbkx</groupId>
@@ -198,7 +188,6 @@
                     <configuration>
                         <skip>${spotbugs.skip}</skip>
                         <threshold>${spotbugs.threshold}</threshold>
-                        <findbugsXmlWithMessages>true</findbugsXmlWithMessages>
                         <excludeFilterFile>
                             ${spotbugs.common},${spotbugs.exclude}
                         </excludeFilterFile>
@@ -221,11 +210,6 @@
                         <ignoreYear>${copyright.ignoreyear}</ignoreYear>
                         <quiet>false</quiet>
                     </configuration>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-javadoc-plugin</artifactId>
-                    <version>3.3.0</version>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -483,31 +467,6 @@
         <!-- module>contribs</module -->
     </modules>
 
-    <reporting>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-report-plugin</artifactId>
-                <version>3.0.0-M4</version>
-                <configuration>
-                    <aggregate>true</aggregate>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>findbugs-maven-plugin</artifactId>
-                <version>${spotbugs.version}</version>
-                <configuration>
-                    <skip>${spotbugs.skip}</skip>
-                    <threshold>${spotbugs.threshold}</threshold>
-                    <excludeFilterFile>
-                        ${spotbugs.common},${spotbugs.exclude}
-                    </excludeFilterFile>
-                </configuration>
-            </plugin>
-        </plugins>
-    </reporting>
-
     <profiles>
         <profile>
             <id>coverage</id>
@@ -640,7 +599,7 @@
                         <plugin>
                             <groupId>org.apache.maven.plugins</groupId>
                             <artifactId>maven-antrun-plugin</artifactId>
-                            <version>3.0.0</version>
+                            <version>3.1.0</version>
                         </plugin>
                     </plugins>
                 </pluginManagement>
@@ -712,7 +671,7 @@
         <spotbugs.exclude/>
         <spotbugs.skip>false</spotbugs.skip>
         <spotbugs.threshold>High</spotbugs.threshold>
-        <spotbugs.version>4.5.0.0</spotbugs.version>
+        <spotbugs.version>4.7.3.0</spotbugs.version>
 
         <release.repository.url>https://jakarta.oss.sonatype.org/content/repositories/releases/</release.repository.url>
 
