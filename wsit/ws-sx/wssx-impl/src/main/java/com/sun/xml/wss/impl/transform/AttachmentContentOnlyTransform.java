@@ -73,3 +73,4 @@ public class AttachmentContentOnlyTransform extends TransformSpi {
    public boolean returnsOctetStream () { return true; }
    public boolean returnsNodeSet ()     { return false; }
 }
+
