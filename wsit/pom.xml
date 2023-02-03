@@ -241,11 +241,15 @@
                     <version>8.0.1</version>
                     <configuration>
                         <failBuildOnCVSS>7</failBuildOnCVSS>
+                        <skipProvidedScope>true</skipProvidedScope>
                         <assemblyAnalyzerEnabled>false</assemblyAnalyzerEnabled>
                         <formats>
                             <format>HTML</format>
                             <format>CSV</format>
                         </formats>
+                        <suppressionFiles>
+                            <suppressionFile>${owasp.suppression.file}</suppressionFile>
+                        </suppressionFiles>
                     </configuration>
                 </plugin>
                 <plugin>
@@ -695,6 +699,7 @@
         <copyright.scmonly>true</copyright.scmonly>
         <copyright.template>${project.build.commonResourcesDirectory}/config/copyright.txt</copyright.template>
         <copyright.update>false</copyright.update>
+        <owasp.suppression.file>${project.build.commonResourcesDirectory}/config/suppression.xml</owasp.suppression.file>
         <spotbugs.common>${project.build.commonResourcesDirectory}/config/exclude-common.xml</spotbugs.common>
         <spotbugs.exclude/>
         <spotbugs.skip>false</spotbugs.skip>
