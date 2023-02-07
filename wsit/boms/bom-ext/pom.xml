@@ -171,17 +171,6 @@
             </dependency>
 
             <dependency>
-                <groupId>org.glassfish.metro</groupId>
-                <artifactId>keyidspi-ibm-impl</artifactId>
-                <version>1.1</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>*</groupId>
-                        <artifactId>*</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-            <dependency>
                 <groupId>net.java.dev.stax-utils</groupId>
                 <artifactId>stax-utils</artifactId>
                 <version>${stax-utils.version}</version>
