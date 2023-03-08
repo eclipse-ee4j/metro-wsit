@@ -18,7 +18,7 @@
         <groupId>org.glassfish.metro</groupId>
         <artifactId>metro-bom</artifactId>
         <relativePath>../bom/pom.xml</relativePath>
-        <version>2.4.7-SNAPSHOT</version>
+        <version>2.4.10-SNAPSHOT</version>
     </parent>
 
     <groupId>org.glassfish.metro</groupId>
@@ -170,17 +170,6 @@
                 <version>${grizzly.version}</version>
             </dependency>
 
-            <dependency>
-                <groupId>org.glassfish.metro</groupId>
-                <artifactId>keyidspi-ibm-impl</artifactId>
-                <version>1.1</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>*</groupId>
-                        <artifactId>*</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
             <dependency>
                 <groupId>net.java.dev.stax-utils</groupId>
                 <artifactId>stax-utils</artifactId>
