@@ -732,12 +732,26 @@ public abstract class SecurityTubeBase extends AbstractFilterTubeImpl {
             //This will be used for setting credentials like  spVersion... etc for binding level policies
             setPolicyCredentials(endpointPolicy);
 
-            //This will be used for setting credentials like  spVersion... etc for operation level policies
+            //This will be used for setting credentials like  spVersion... etc for operation and message level policies
             for (WSDLBoundOperation operation : tubeConfig.getWSDLPort().getBinding().getBindingOperations()) {
                 QName operationName = new QName(operation.getBoundPortType().getName().getNamespaceURI(), operation.getName().getLocalPart());
                 PolicyMapKey operationKey = PolicyMap.createWsdlOperationScopeKey(serviceName, portName, operationName);
                 Policy operationPolicy = wsPolicyMap.getOperationEffectivePolicy(operationKey);
                 setPolicyCredentials(operationPolicy);
+
+                PolicyMapKey messageKey = PolicyMap.createWsdlMessageScopeKey(
+                        serviceName, portName, operationName);
+                Policy inputMessagePolicy = wsPolicyMap.getInputMessageEffectivePolicy(messageKey);
+                setPolicyCredentials(inputMessagePolicy);
+                Policy outputMessagePolicy = wsPolicyMap.getOutputMessageEffectivePolicy(messageKey);
+                setPolicyCredentials(outputMessagePolicy);
+                for (WSDLFault fault : operation.getOperation().getFaults()) {
+                    PolicyMapKey faultKey = PolicyMap.createWsdlFaultMessageScopeKey(
+                            serviceName, portName, operationName,
+                            new QName(operationName.getNamespaceURI(), fault.getName()));
+                    Policy faultPolicy = wsPolicyMap.getFaultMessageEffectivePolicy(faultKey);
+                    setPolicyCredentials(faultPolicy);
+                }
             }
 
             if (endpointPolicy == null) {
