@@ -569,7 +569,8 @@ public class SecurityServerTube extends SecurityTubeBase {
             }
             // set the policy, issued-token-map, and extraneous properties
             //ctx.setIssuedTokenContextMap(issuedTokenContextMap);
-            if (isSCMessage) {
+            if (isSCMessage || policy.getAlgorithmSuite() != null) {
+                //override the binding level suite
                 ctx.setAlgorithmSuite(policy.getAlgorithmSuite());
             } else {
                 ctx.setAlgorithmSuite(getAlgoSuite(getBindingAlgorithmSuite(packet)));
