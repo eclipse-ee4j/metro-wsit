@@ -36,15 +36,11 @@
         <cdi-api.version>4.0.1</cdi-api.version>
         <inject-api.version>2.0.1</inject-api.version>
         <el-api.version>5.0.1</el-api.version>
-
-        <!-- CQ: #24092 -->
         <santuario.version>4.0.0-SNAPSHOT</santuario.version>
-
-        <!-- CQ: #22186 -->
         <commons-codec.version>1.16.0</commons-codec.version>
 
-        <!-- CQ: #18393 -->
         <stax-utils.version>20070216</stax-utils.version>
+        <woodstox-core.version>6.4.0</woodstox-core.version>
 
         <hk2.version>3.0.5</hk2.version>
         <grizzly.version>4.0.1</grizzly.version>
@@ -125,6 +121,11 @@
                 <artifactId>commons-codec</artifactId>
                 <version>${commons-codec.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.fasterxml.woodstox</groupId>
+                <artifactId>woodstox-core</artifactId>
+                <version>${woodstox-core.version}</version>
+            </dependency>
 
             <dependency>
                 <groupId>org.glassfish.grizzly</groupId>
@@ -189,7 +190,6 @@
                 <artifactId>junit</artifactId>
                 <version>${junit.version}</version>
             </dependency>
-
         </dependencies>
     </dependencyManagement>
 
