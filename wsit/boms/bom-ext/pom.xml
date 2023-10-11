@@ -35,22 +35,22 @@
         <interceptor-api.version>2.1.0</interceptor-api.version>
         <cdi-api.version>4.0.1</cdi-api.version>
         <inject-api.version>2.0.1</inject-api.version>
-        <el-api.version>5.0.0</el-api.version>
+        <el-api.version>5.0.1</el-api.version>
 
         <!-- CQ: #24092 -->
-        <santuario.version>3.0.1</santuario.version>
+        <santuario.version>3.0.2</santuario.version>
         <!-- CQ: #22187 -->
         <slf4j-api.version>1.7.36</slf4j-api.version>
         <!-- CQ: #22186 -->
-        <commons-codec.version>1.15</commons-codec.version>
+        <commons-codec.version>1.16.0</commons-codec.version>
 
         <!-- CQ: #18393 -->
         <stax-utils.version>20070216</stax-utils.version>
 
-        <hk2.version>3.0.3</hk2.version>
-        <grizzly.version>4.0.0</grizzly.version>
-        <tomcat.coyote.version>10.1.13</tomcat.coyote.version>
-        <graal.sdk.version>22.3.0</graal.sdk.version>
+        <hk2.version>3.0.5</hk2.version>
+        <grizzly.version>4.0.1</grizzly.version>
+        <tomcat.coyote.version>10.1.14</tomcat.coyote.version>
+        <graal.sdk.version>22.3.3</graal.sdk.version>
 
         <junit.version>4.13.2</junit.version>
 
