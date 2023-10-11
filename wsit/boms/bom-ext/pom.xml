@@ -36,7 +36,7 @@
         <cdi-api.version>4.0.1</cdi-api.version>
         <inject-api.version>2.0.1</inject-api.version>
         <el-api.version>5.0.1</el-api.version>
-        <santuario.version>4.0.0-SNAPSHOT</santuario.version>
+        <santuario.version>4.0.0-M1</santuario.version>
         <commons-codec.version>1.16.0</commons-codec.version>
 
         <stax-utils.version>20070216</stax-utils.version>
