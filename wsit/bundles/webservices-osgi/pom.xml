@@ -202,7 +202,7 @@
                                 <probe-provider-class-names>
                                     com.sun.xml.ws.transport.http.servlet.JAXWSRIDeploymentProbeProvider,com.sun.xml.ws.transport.http.servlet.JAXWSRIServletProbeProvider
                                 </probe-provider-class-names>
-                                <_contract>!JavaServlet,*</_contract>
+                                <_contract>!JakartaServlet,*</_contract>
                             </instructions>
                         </configuration>
                     </execution>
