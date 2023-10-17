@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!--
 
-    Copyright (c) 1997, 2018 Oracle and/or its affiliates
+    Copyright (c) 1997, 2023 Oracle and/or its affiliates
 
     This program and the accompanying materials are made available under the
     terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -19,7 +19,7 @@
     <parent>
         <groupId>org.eclipse.ee4j</groupId>
         <artifactId>project</artifactId>
-        <version>1.0.5</version>
+        <version>1.0.8</version>
     </parent>
 
     <groupId>org.glassfish.metro</groupId>
@@ -29,7 +29,7 @@
 
     <name>Key Identifier SPI Implementation for IBM JDK</name>
     <description>
-        Formely com.sun.xml.wss.core.reference:keyidspi-ibm-impl:1.0,
+        Formerly com.sun.xml.wss.core.reference:keyidspi-ibm-impl:1.0,
         provides JRE vendor specific implementation of
         com.sun.xml.wss.core.reference.KeyIdentifierSPI SPI.
     </description>
@@ -70,7 +70,7 @@
         <dependency>
             <groupId>org.glassfish.metro</groupId>
             <artifactId>wssx-impl</artifactId>
-            <version>2.4.3</version>
+            <version>2.4.4</version>
         </dependency>
     </dependencies>
 

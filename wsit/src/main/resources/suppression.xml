@@ -20,4 +20,11 @@
         <cve>CVE-2022-37422</cve>
         <cve>CVE-2022-45129</cve>
     </suppress>
+    <suppress>
+        <notes><![CDATA[
+      file name: tomcat-coyote-10.1.15.jar
+      ]]></notes>
+        <packageUrl regex="true">^pkg:maven/org\.apache\.tomcat/tomcat-coyote@.*$</packageUrl>
+        <cve>CVE-2023-42794</cve>
+    </suppress>
 </suppressions>
