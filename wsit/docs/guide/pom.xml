@@ -20,6 +20,7 @@
         <artifactId>docs</artifactId>
         <groupId>org.glassfish.metro</groupId>
         <version>2.4.10-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
 
     <artifactId>guide</artifactId>
@@ -29,55 +30,57 @@
     <build>
         <plugins>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-antrun-plugin</artifactId>
                 <executions>
                     <execution>
+                        <id>pre-process</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
                         <configuration>
                             <target>
                                 <echo message="Preparing char entities"/>
                                 <mkdir dir="${src.dir}"/>
                                 <copy todir="${src.dir}">
-                                    <fileset dir="src/docbook"/>
+                                    <fileset dir="${project.basedir}/src/docbook" excludes="**/download/**"/>
                                 </copy>
                                 <replace file="${src.dir}/metro.ent" token="$version" value="${project.version}"/>
                                 <replace file="${src.dir}/metro.ent" token="$repository" value="${javanet.repository.id}"/>
                                 <replace file="${src.dir}/metro.ent" token="$jax-ws.version" value="${www.guide.jaxws.version}"/>
                                 <replace file="${src.dir}/metro.ent" token="$jaxws.home.uri" value="${www.guide.jaxws.home.uri}"/>
+
+                                <copy todir="${project.build.directory}/docbook/figures">
+                                    <fileset dir="${src.dir}/figures" />
+                                </copy>
+                                <copy todir="${project.build.directory}/docbook/style">
+                                    <fileset dir="${src.dir}/style"/>
+                                </copy>
+                                <copy todir="${project.build.directory}/docbook/icons">
+                                    <fileset dir="${src.dir}/icons"/>
+                                </copy>
+
+                                <mkdir dir="${project.build.directory}/docbook/download"/>
+                                <macrodef name="java-bundle">
+                                    <attribute name="name"/>
+                                    <sequential>
+                                        <zip destfile="${project.build.directory}/docbook/download/@{name}.zip"
+                                             basedir="${project.basedir}/src/docbook/download/" includes="@{name}/**"/>
+                                    </sequential>
+                                </macrodef>
+
+                                <java-bundle name="MetroMtomService"/>
+                                <java-bundle name="portable-client-withwsdl"/>
+                                <java-bundle name="WCFMtomClient"/>
                             </target>
                         </configuration>
-                        <id>process-entities</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
                     </execution>
                 </executions>
             </plugin>
             <plugin>
                 <groupId>com.agilejava.docbkx</groupId>
                 <artifactId>docbkx-maven-plugin</artifactId>
-                <dependencies>
-                    <dependency>
-                        <groupId>net.sf.docbook</groupId>
-                        <artifactId>docbook-xml</artifactId>
-                        <version>5.0-all</version>
-                        <type>zip</type>
-                        <classifier>resources</classifier>
-                        <scope>runtime</scope>
-                    </dependency>
-                    <dependency>
-                        <groupId>net.sf.xslthl</groupId>
-                        <artifactId>xslthl</artifactId>
-                        <version>2.0.1</version>
-                        <scope>runtime</scope>
-                    </dependency>
-                    <dependency>
-                        <groupId>net.sf.offo</groupId>
-                        <artifactId>fop-hyph</artifactId>
-                        <version>1.2</version>
-                        <scope>runtime</scope>
-                    </dependency>
-                </dependencies>
                 <configuration>
                     <xincludeSupported>true</xincludeSupported>
                     <sourceDirectory>${src.dir}</sourceDirectory>
@@ -96,22 +99,6 @@
                     <highlightDefaultLanguage>true</highlightDefaultLanguage>
                     <htmlLongdesc>false</htmlLongdesc>
                     <keepRelativeImageUris>true</keepRelativeImageUris>
-                    <useStandardOutput>true</useStandardOutput>
-
-                    <preProcess>
-                        <copy todir="${project.build.directory}/docbook/figures">
-                            <fileset dir="${src.dir}/figures" />
-                        </copy>
-                        <copy todir="${project.build.directory}/docbook/download">
-                            <fileset dir="${src.dir}/download" />
-                        </copy>
-                        <copy todir="${project.build.directory}/docbook/style">
-                            <fileset dir="${src.dir}/style" />
-                        </copy>
-                        <copy todir="${project.build.directory}/docbook/icons">
-                            <fileset dir="${src.dir}/icons" />
-                        </copy>
-                    </preProcess>
                 </configuration>
                 <executions>
                     <execution>
@@ -152,6 +139,7 @@
                 </executions>
             </plugin>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
                 <configuration>
                     <descriptors>
@@ -177,6 +165,7 @@
             <build>
                 <plugins>
                     <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-dependency-plugin</artifactId>
                         <executions>
                             <execution>
@@ -201,6 +190,7 @@
                         </executions>
                     </plugin>
                     <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-antrun-plugin</artifactId>
                         <executions>
                             <execution>
