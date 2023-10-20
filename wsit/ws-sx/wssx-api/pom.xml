@@ -68,11 +68,6 @@
             <groupId>org.apache.santuario</groupId>
             <artifactId>xmlsec</artifactId>
         </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>webservices-extra-xmlsec</artifactId>
-            <version>${project.version}</version>
-        </dependency>
     </dependencies>
 
 </project>

@@ -164,13 +164,6 @@
             <artifactId>xmlsec</artifactId>
         </dependency>
 
-        <!-- santuario requires old "javax" jaxb runtime -->
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>webservices-extra-xmlsec</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
         <!-- Test scope -->
         <dependency>
             <groupId>junit</groupId>

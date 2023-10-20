@@ -189,7 +189,6 @@
                                     org.glassfish.pfl.tf.timer.spi;resolution:=optional,
                                     org.glassfish.webservice;resolution:=optional,
                                     org.glassfish.webservice.monitoring;resolution:=optional,
-                                    org.slf4j.impl;resolution:=optional,
                                     sun.misc;resolution:=optional,
                                     sun.security.util;resolution:=optional,
                                     sun.security.x509;resolution:=optional,
@@ -365,12 +364,6 @@
         <dependency>
             <groupId>org.apache.santuario</groupId>
             <artifactId>xmlsec</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>webservices-extra-xmlsec</artifactId>
-            <version>${project.version}</version>
         </dependency>
 
         <dependency>

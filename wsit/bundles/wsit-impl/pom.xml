@@ -266,13 +266,6 @@
             <artifactId>xmlsec</artifactId>
         </dependency>
 
-        <!-- santuario requires old "javax" jaxb runtime -->
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>webservices-extra-xmlsec</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
         <dependency>
             <groupId>org.glassfish.grizzly</groupId>
             <artifactId>grizzly-framework</artifactId>

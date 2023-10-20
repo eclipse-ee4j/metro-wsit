@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2023 Contributors to the Eclipse Foundation
  * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  * Copyright 1995-2005 The Apache Software Foundation
  *
@@ -17,40 +18,40 @@
 
 package com.sun.xml.wss.impl.transform;
 
+import com.sun.xml.wss.WSITXMLFactory;
+import com.sun.xml.wss.impl.MessageConstants;
 import com.sun.xml.wss.logging.LogDomainConstants;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
-
-import org.apache.xml.security.c14n.CanonicalizationException;
-import org.apache.xml.security.c14n.helper.C14nHelper;
-import org.apache.xml.security.transforms.params.InclusiveNamespaces;
-import org.apache.xml.security.utils.Constants;
-import java.util.logging.Logger;
-import org.w3c.dom.Attr;
-import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
 
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
+import java.util.logging.Logger;
 
-import org.apache.xml.security.c14n.helper.AttrCompare;
-import org.apache.xml.security.utils.XMLUtils;
-import com.sun.xml.wss.WSITXMLFactory;
-import com.sun.xml.wss.impl.MessageConstants;
 import javax.xml.crypto.Data;
 import javax.xml.crypto.NodeSetData;
 import javax.xml.crypto.URIDereferencer;
 import javax.xml.crypto.URIReferenceException;
 import javax.xml.crypto.XMLCryptoContext;
 import javax.xml.crypto.dom.DOMURIReference;
+
+import org.apache.xml.security.c14n.CanonicalizationException;
+import org.apache.xml.security.c14n.helper.AttrCompare;
+import org.apache.xml.security.c14n.helper.C14nHelper;
+import org.apache.xml.security.transforms.params.InclusiveNamespaces;
+import org.apache.xml.security.utils.Constants;
+import org.apache.xml.security.utils.XMLUtils;
+import org.w3c.dom.Attr;
 import org.w3c.dom.Comment;
+import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
 import org.w3c.dom.ProcessingInstruction;
 
 /**
@@ -800,7 +801,6 @@ public class Canonicalizer20010315ExclOmitComments {
         }
     }
 
-    @SuppressWarnings({"fallthrough"})
     void removeNodes(Node rootNode,Set result){
         try{
             switch (rootNode.getNodeType()) {
@@ -823,7 +823,9 @@ public class Canonicalizer20010315ExclOmitComments {
     final void printBinaryToken(Node currentNode, NameSpaceSymbTable ns )
     throws CanonicalizationException, IOException ,URIReferenceException{
         //handle EKSHA1 under DKT
-        if (currentNode == null) return;
+        if (currentNode == null) {
+            return;
+        }
 
         boolean currentNodeIsVisible = this._xpathNodeSet.contains(currentNode);
         if(!currentNodeIsVisible){
@@ -912,8 +914,9 @@ public class Canonicalizer20010315ExclOmitComments {
                 // we output all Attrs which are available
                 Attr defNS = currentElement.getAttributeNodeNS(MessageConstants.NAMESPACES_NS, "xmlns");
                 Iterator attrs = handleAttributes(currentElement,ns, currentNodeIsVisible);
-                if ( defNS != null )
+                if ( defNS != null ) {
                     outputAttrToWriter(defNS.getNodeName(), defNS.getNodeValue(), writer);
+                }
                 while (attrs.hasNext()) {
                     Attr attr = (Attr) attrs.next();
                     outputAttrToWriter(attr.getNodeName(), attr.getNodeValue(), writer);

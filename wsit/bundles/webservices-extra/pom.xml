@@ -26,7 +26,7 @@
     <name>Metro Web Services Extra Runtime non-OSGi Bundle</name>
     <description>
         This module contains the compilation of all additional classes required
-        for running Metro outside JavaEE container
+        for running Metro outside Jakarta EE container
     </description>
 
     <build>

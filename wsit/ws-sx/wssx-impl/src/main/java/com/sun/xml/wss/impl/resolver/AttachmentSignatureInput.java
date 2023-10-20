@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2023 Contributors to the Eclipse Foundation
  * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
@@ -10,18 +11,18 @@
 
 package com.sun.xml.wss.impl.resolver;
 
-import java.util.Vector;
-import java.util.Iterator;
-import java.io.IOException;
-import java.io.ByteArrayOutputStream;
-
-import jakarta.xml.soap.SOAPException;
 import jakarta.xml.soap.AttachmentPart;
+import jakarta.xml.soap.SOAPException;
 
-import org.apache.xml.security.signature.XMLSignatureInput;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.Iterator;
+import java.util.Vector;
 
-public class AttachmentSignatureInput extends XMLSignatureInput {
-   private String _cType = null;
+import org.apache.xml.security.signature.XMLSignatureByteInput;
+
+public class AttachmentSignatureInput extends XMLSignatureByteInput {
+   private String _cType;
    private Vector _mhs = new Vector();
 
    public AttachmentSignatureInput(byte[] input) {
@@ -44,12 +45,13 @@ public class AttachmentSignatureInput extends XMLSignatureInput {
        return _cType;
    }
 
-   @SuppressWarnings("unchecked")
    public static final Object[] _getSignatureInput(AttachmentPart _part) throws SOAPException, IOException {
        Iterator mhItr = _part.getAllMimeHeaders();
 
        Vector mhs = new Vector();
-       while (mhItr.hasNext()) mhs.add(mhItr.next());
+       while (mhItr.hasNext()) {
+           mhs.add(mhItr.next());
+       }
 
        // extract Content
        //Object content = _part.getContent();

@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2023 Contributors to the Eclipse Foundation
  * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
@@ -18,17 +19,20 @@ import com.sun.xml.wss.impl.c14n.Canonicalizer;
 import com.sun.xml.wss.impl.c14n.CanonicalizerFactory;
 import com.sun.xml.wss.impl.c14n.MimeHeaderCanonicalizer;
 import com.sun.xml.wss.impl.resolver.AttachmentSignatureInput;
+
+import java.io.IOException;
+import java.io.OutputStream;
+
+import javax.xml.parsers.ParserConfigurationException;
+
 import org.apache.xml.security.c14n.CanonicalizationException;
 import org.apache.xml.security.c14n.InvalidCanonicalizerException;
+import org.apache.xml.security.signature.XMLSignatureByteInput;
 import org.apache.xml.security.signature.XMLSignatureInput;
 import org.apache.xml.security.transforms.TransformSpi;
 import org.apache.xml.security.transforms.TransformationException;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
-
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.IOException;
-import java.io.OutputStream;
 
 public class AttachmentCompleteTransform extends TransformSpi {
 
@@ -48,7 +52,7 @@ public class AttachmentCompleteTransform extends TransformSpi {
            throws IOException, CanonicalizationException, InvalidCanonicalizerException,
                   TransformationException, ParserConfigurationException, SAXException {
        try {
-            return new XMLSignatureInput(_canonicalize(input));
+            return new XMLSignatureByteInput(_canonicalize(input));
        } catch (Exception e) {
             // log
             throw new TransformationException(e, e.getMessage());

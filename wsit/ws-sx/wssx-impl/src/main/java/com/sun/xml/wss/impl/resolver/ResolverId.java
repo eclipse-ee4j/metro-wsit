@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2023 Contributors to the Eclipse Foundation
  * Copyright (c) 2010, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
@@ -14,37 +15,38 @@
 
 package com.sun.xml.wss.impl.resolver;
 
+import com.sun.xml.wss.WSITXMLFactory;
+import com.sun.xml.wss.impl.MessageConstants;
 import com.sun.xml.wss.impl.XWSSecurityRuntimeException;
+import com.sun.xml.wss.impl.dsig.NamespaceContextImpl;
+import com.sun.xml.wss.impl.misc.URI;
+import com.sun.xml.wss.logging.LogDomainConstants;
+import com.sun.xml.wss.logging.LogStringsMessages;
+
 import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.xml.namespace.NamespaceContext;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathExpressionException;
+import javax.xml.xpath.XPathFactory;
 
+import org.apache.xml.security.signature.XMLSignatureInput;
+import org.apache.xml.security.signature.XMLSignatureNodeSetInput;
+import org.apache.xml.security.utils.XMLUtils;
+import org.apache.xml.security.utils.resolver.ResourceResolverContext;
+import org.apache.xml.security.utils.resolver.ResourceResolverException;
+import org.apache.xml.security.utils.resolver.ResourceResolverSpi;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
-import com.sun.xml.wss.impl.misc.URI;
-import org.apache.xml.security.signature.XMLSignatureInput;
-import org.apache.xml.security.utils.XMLUtils;
-import org.apache.xml.security.utils.resolver.ResourceResolverContext;
-import org.apache.xml.security.utils.resolver.ResourceResolverException;
-import org.apache.xml.security.utils.resolver.ResourceResolverSpi;
-import com.sun.xml.wss.WSITXMLFactory;
-import com.sun.xml.wss.impl.MessageConstants;
-import com.sun.xml.wss.impl.dsig.NamespaceContextImpl;
-import com.sun.xml.wss.logging.LogDomainConstants;
-import com.sun.xml.wss.logging.LogStringsMessages;
-import javax.xml.namespace.NamespaceContext;
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpression;
-import javax.xml.xpath.XPathFactory;
 
 
 /**
@@ -111,8 +113,8 @@ public class ResolverId extends ResourceResolverSpi {
                   LogStringsMessages.WSS_0604_CANNOT_FIND_ELEMENT());
            throw new ResourceResolverException("empty", uri.getValue(), BaseURI);
       }
-      Set resultSet = dereferenceSameDocumentURI(selectedElem);
-      XMLSignatureInput result = new XMLSignatureInput(resultSet);
+      Set<Node> resultSet = dereferenceSameDocumentURI(selectedElem);
+      XMLSignatureInput result = new XMLSignatureNodeSetInput(resultSet);
 
       result.setMIMEType("text/xml");
 
@@ -132,24 +134,27 @@ public class ResolverId extends ResourceResolverSpi {
     * @return true if uri node can be resolved, false otherwise
     */
    public boolean engineCanResolve(Attr uri, String BaseURI) {
-      if (uri == null) return false;
+       if (uri == null) {
+           return false;
+       }
 
-      String uriNodeValue = uri.getNodeValue();
+       String uriNodeValue = uri.getNodeValue();
        return uriNodeValue.startsWith("#");
    }
 
-    public NamespaceContext getNamespaceContext(Document doc) {
-            NamespaceContextImpl nsContext = new NamespaceContextImpl();
-            nsContext.add(
-                    doc.getDocumentElement().getPrefix(), doc.getDocumentElement().getNamespaceURI());
-            if (doc.getDocumentElement().getNamespaceURI() == MessageConstants.SOAP_1_2_NS) {
-                nsContext.add("SOAP-ENV", MessageConstants.SOAP_1_2_NS);
-                nsContext.add("env", MessageConstants.SOAP_1_2_NS);
-            }
-            nsContext.add("wsu", MessageConstants.WSU_NS);
-            nsContext.add("wsse", MessageConstants.WSSE_NS);
-        return nsContext;
-    }
+
+   public NamespaceContext getNamespaceContext(Document doc) {
+       NamespaceContextImpl nsContext = new NamespaceContextImpl();
+       nsContext.add(
+           doc.getDocumentElement().getPrefix(), doc.getDocumentElement().getNamespaceURI());
+       if (doc.getDocumentElement().getNamespaceURI() == MessageConstants.SOAP_1_2_NS) {
+           nsContext.add("SOAP-ENV", MessageConstants.SOAP_1_2_NS);
+           nsContext.add("env", MessageConstants.SOAP_1_2_NS);
+       }
+       nsContext.add("wsu", MessageConstants.WSU_NS);
+       nsContext.add("wsse", MessageConstants.WSSE_NS);
+       return nsContext;
+   }
 
    /**
     * Looks up elements with wsu:Id or Id in xenc or dsig namespace
@@ -157,9 +162,7 @@ public class ResolverId extends ResourceResolverSpi {
     * @return element
     *
     */
-   private Element getElementById(
-                   Document doc,
-                   String id) {
+   private Element getElementById(Document doc, String id) {
 
        Element  selement = doc.getElementById(id);
        if (selement != null) {
@@ -285,12 +288,12 @@ public class ResolverId extends ResourceResolverSpi {
     *             URI fragment. If null, returns -
     *             an empty set.
     */
-   private Set dereferenceSameDocumentURI(Node node) {
-    Set nodeSet = new HashSet();
-    if (node != null) {
-        nodeSetMinusCommentNodes(node, nodeSet, null);
-    }
-    return nodeSet;
+   private Set<Node> dereferenceSameDocumentURI(Node node) {
+       Set<Node> nodeSet = new HashSet<>();
+       if (node != null) {
+           nodeSetMinusCommentNodes(node, nodeSet, null);
+       }
+       return nodeSet;
    }
 
    /**
@@ -302,45 +305,45 @@ public class ResolverId extends ResourceResolverSpi {
     */
    @SuppressWarnings("unchecked")
    private void nodeSetMinusCommentNodes(Node node, Set nodeSet,
-    Node prevSibling) {
-    switch (node.getNodeType()) {
-            case Node.ELEMENT_NODE :
-        NamedNodeMap attrs = node.getAttributes();
-        if (attrs != null) {
-                    for (int i = 0; i<attrs.getLength(); i++) {
-                        nodeSet.add(attrs.item(i));
-                    }
-        }
-                nodeSet.add(node);
-            Node pSibling = null;
-        for (Node child = node.getFirstChild(); child != null;
-                    child = child.getNextSibling()) {
-                    nodeSetMinusCommentNodes(child, nodeSet, pSibling);
-                    pSibling = child;
-        }
-                break;
-            case Node.TEXT_NODE :
-            case Node.CDATA_SECTION_NODE:
-        // emulate XPath which only returns the first node in
-        // contiguous text/cdata nodes
-        if (prevSibling != null &&
-                    (prevSibling.getNodeType() == Node.TEXT_NODE ||
-                     prevSibling.getNodeType() == Node.CDATA_SECTION_NODE)) {
-                    return;
-        }
-            case Node.PROCESSING_INSTRUCTION_NODE :
-        nodeSet.add(node);
-    }
+       Node prevSibling) {
+       switch (node.getNodeType()) {
+           case Node.ELEMENT_NODE :
+               NamedNodeMap attrs = node.getAttributes();
+               if (attrs != null) {
+                   for (int i = 0; i<attrs.getLength(); i++) {
+                       nodeSet.add(attrs.item(i));
+                   }
+               }
+               nodeSet.add(node);
+               Node pSibling = null;
+               for (Node child = node.getFirstChild(); child != null;
+                   child = child.getNextSibling()) {
+                   nodeSetMinusCommentNodes(child, nodeSet, pSibling);
+                   pSibling = child;
+               }
+               break;
+           case Node.TEXT_NODE :
+           case Node.CDATA_SECTION_NODE:
+               // emulate XPath which only returns the first node in
+               // contiguous text/cdata nodes
+               if (prevSibling != null &&
+               (prevSibling.getNodeType() == Node.TEXT_NODE ||
+               prevSibling.getNodeType() == Node.CDATA_SECTION_NODE)) {
+                   return;
+               }
+           case Node.PROCESSING_INSTRUCTION_NODE :
+               nodeSet.add(node);
+       }
    }
 
-    @Override
-    public XMLSignatureInput engineResolveURI(ResourceResolverContext rrc) throws ResourceResolverException {
-        return engineResolve(rrc.attr, rrc.baseUri);
-    }
+   @Override
+   public XMLSignatureInput engineResolveURI(ResourceResolverContext rrc) throws ResourceResolverException {
+       return engineResolve(rrc.attr, rrc.baseUri);
+   }
 
-    @Override
-    public boolean engineCanResolveURI(ResourceResolverContext rrc) {
-        return engineCanResolve(rrc.attr, rrc.baseUri);
-    }
+   @Override
+   public boolean engineCanResolveURI(ResourceResolverContext rrc) {
+       return engineCanResolve(rrc.attr, rrc.baseUri);
+   }
 }
 
