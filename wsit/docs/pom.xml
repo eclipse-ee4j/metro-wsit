@@ -20,6 +20,7 @@
         <artifactId>metro-project</artifactId>
         <groupId>org.glassfish.metro</groupId>
         <version>2.4.10-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
 
     <artifactId>docs</artifactId>
@@ -38,6 +39,7 @@
                 <pluginManagement>
                     <plugins>
                         <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
                             <artifactId>maven-antrun-plugin</artifactId>
                             <executions>
                                 <execution>
