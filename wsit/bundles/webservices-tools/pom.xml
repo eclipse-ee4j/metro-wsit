@@ -21,7 +21,7 @@ wscompile
     <parent>
         <groupId>org.glassfish.metro</groupId>
         <artifactId>bundles</artifactId>
-        <version>4.0.3-SNAPSHOT</version>
+        <version>4.0.3</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
