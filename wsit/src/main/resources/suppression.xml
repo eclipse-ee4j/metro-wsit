@@ -28,4 +28,11 @@
         <cve>CVE-2023-42794</cve>
         <cve>CVE-2023-46589</cve>
     </suppress>
+    <suppress>
+        <notes><![CDATA[
+      file name: tomcat-util-10.1.15.jar
+      ]]></notes>
+        <packageUrl regex="true">^pkg:maven/org\.apache\.tomcat/tomcat-util@.*$</packageUrl>
+        <cve>CVE-2023-46589</cve>
+    </suppress>
 </suppressions>
