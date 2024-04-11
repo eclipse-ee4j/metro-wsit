@@ -43,7 +43,7 @@
 
         <hk2.version>3.0.5</hk2.version>
         <grizzly.version>4.0.1</grizzly.version>
-        <tomcat.coyote.version>10.1.15</tomcat.coyote.version>
+        <tomcat.coyote.version>10.1.19</tomcat.coyote.version>
         <graal.sdk.version>22.3.3</graal.sdk.version>
 
         <junit.version>4.13.2</junit.version>
