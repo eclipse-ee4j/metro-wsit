@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-    Copyright (c) 2013, 2023 Oracle and/or its affiliates. All rights reserved.
+    Copyright (c) 2013, 2024 Oracle and/or its affiliates. All rights reserved.
 
     This program and the accompanying materials are made available under the
     terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -28,27 +28,27 @@
     <description>Metro Web Services Stack Dependency POM for Metro-CS</description>
 
     <properties>
-        <authentication-api.version>3.0.0</authentication-api.version>
+        <authentication-api.version>3.1.0</authentication-api.version>
         <connector-api.version>2.1.0</connector-api.version>
         <ejb-api.version>4.0.1</ejb-api.version>
         <transaction-api.version>2.0.1</transaction-api.version>
-        <interceptor-api.version>2.1.0</interceptor-api.version>
-        <cdi-api.version>4.0.1</cdi-api.version>
+        <interceptor-api.version>2.2.0</interceptor-api.version>
+        <cdi-api.version>4.1.0</cdi-api.version>
         <inject-api.version>2.0.1</inject-api.version>
-        <el-api.version>5.0.1</el-api.version>
-        <santuario.version>4.0.0</santuario.version>
-        <commons-codec.version>1.16.0</commons-codec.version>
+        <el-api.version>6.0.0</el-api.version>
+        <santuario.version>4.0.2</santuario.version>
+        <commons-codec.version>1.17.0</commons-codec.version>
 
         <stax-utils.version>20070216</stax-utils.version>
 
-        <hk2.version>3.0.5</hk2.version>
-        <grizzly.version>4.0.1</grizzly.version>
-        <tomcat.coyote.version>10.1.15</tomcat.coyote.version>
+        <hk2.version>3.1.0</hk2.version>
+        <grizzly.version>4.1.0-M1</grizzly.version>
+        <tomcat.coyote.version>11.0.0-M21</tomcat.coyote.version>
         <graal.sdk.version>22.3.3</graal.sdk.version>
 
         <junit.version>4.13.2</junit.version>
 
-        <jaxws.home.uri>http://eclipse-ee4j.github.io/metro-jax-ws</jaxws.home.uri>
+        <jaxws.home.uri>https://eclipse-ee4j.github.io/metro-jax-ws</jaxws.home.uri>
     </properties>
 
     <dependencyManagement>

@@ -22,7 +22,7 @@ jobs:
       jdk: ${{ steps.build.outputs.jdk }}
     strategy:
       matrix:
-        java_version: [ 17 ]
+        java_version: [ 21 ]
 
     steps:
       - name: Checkout for build
