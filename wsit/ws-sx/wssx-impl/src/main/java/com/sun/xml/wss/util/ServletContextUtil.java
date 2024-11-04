@@ -50,11 +50,16 @@ public class ServletContextUtil {
         if (context == null) {
             return null;
         }
+
+        if(context instanceof WSSServletContextFacade) {
+            return (WSSServletContextFacade) context;
+        }
+
         Class<?> servletContextClass = findServletContextClass();
         if (servletContextClass == null) {
             return null;
         }
-        if (servletContextClass.isInstance(servletContextClass)) {
+        if (servletContextClass.isInstance(context)) {
             return new WSSServletContextFacade(context);
         }
         return null;
