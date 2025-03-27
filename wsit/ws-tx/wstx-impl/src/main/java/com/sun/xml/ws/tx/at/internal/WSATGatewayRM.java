@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2025 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -108,7 +108,7 @@ public class WSATGatewayRM implements XAResource, WSATRuntimeConfig.RecoveryEven
 
     private static boolean setupRecovery() {
         if (!WSATRuntimeConfig.getInstance().isWSATRecoveryEnabled()) return true;
-        TransactionImportManager.registerRecoveryResourceHandler(singleton);
+        TransactionImportManager.getInstance().registerRecoveryResourceHandler(singleton);
         WSATRuntimeConfig.getInstance().setWSATRecoveryEventListener(singleton);
         setTxLogDirs();
         try {
@@ -572,7 +572,7 @@ public class WSATGatewayRM implements XAResource, WSATRuntimeConfig.RecoveryEven
         if (!delegated) {
             return;
         }
-        TransactionImportManager.registerRecoveryResourceHandler(
+        TransactionImportManager.getInstance().registerRecoveryResourceHandler(
                 new WSATGatewayRMPeerRecoveryDelegate(instance));
     }
 
