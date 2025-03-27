@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2025 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -217,7 +217,7 @@ public class TransactionImportManager implements TransactionImportWrapper {
         return getTxLogLocation.invoke(javaeeTM);
     }
 
-    public static void registerRecoveryResourceHandler(XAResource xaResource) {
+    public void registerRecoveryResourceHandler(XAResource xaResource) {
         registerRecoveryResourceHandler.invoke(javaeeTM, xaResource);
     }
 }
