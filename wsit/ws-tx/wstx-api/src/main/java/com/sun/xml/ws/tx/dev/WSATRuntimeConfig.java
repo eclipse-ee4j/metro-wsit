@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2025 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -86,7 +86,7 @@ public final class WSATRuntimeConfig {
     }
     private static WSATRuntimeConfig instance;
     private static boolean isWsatRecoveryEnabled = Boolean.parseBoolean(System.getProperty("wsat.recovery.enabled", "true"));
-    private static TxlogLocationProvider txLogLocationProvider;
+    private static TxlogLocationProvider txLogLocationProvider = () -> System.getProperty("java.io.tmpdir") + "/wsat";
     private static boolean isWsatSslEnabled = Boolean.getBoolean("wsat.ssl.enabled");
     private static boolean isRollbackOnFailedPrepare = Boolean.parseBoolean(System.getProperty("wsat.rollback.on.failed.prepare", "true"));
     private static String domainName = "domain1";
