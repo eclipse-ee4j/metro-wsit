@@ -378,6 +378,10 @@ public class WSATGatewayRM implements XAResource, WSATRuntimeConfig.RecoveryEven
             singleton.recoverPendingBranches(delegatedtxlogdirOutbound, delegatedtxlogdirInbound);
         } else if(!isReadyForRuntime){
             try {
+                // txlogdir is null when wsat.recovery.enabled=false. We need to initialize it
+                if (txlogdir == null) {
+                    setTxLogDirs();
+                }
                 initStore();
             } catch (Exception e) {
                 XAException xaEx = new XAException("WSATGatewayRM recover call failed due to StoreException:" + e);
@@ -400,7 +404,7 @@ public class WSATGatewayRM implements XAResource, WSATRuntimeConfig.RecoveryEven
         return new Xid[0];
     }
 
-    static void setTxLogDirs() {
+    private synchronized static void setTxLogDirs() {
         txlogdir = getTxLogDir();
          debug("txlogdir is" + txlogdir);
          String wstxlogdir = txlogdir;
