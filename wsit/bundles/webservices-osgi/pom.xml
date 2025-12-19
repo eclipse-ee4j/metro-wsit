@@ -181,10 +181,10 @@
                                 <!-- explicit API & grizzly to build against EE 11
                                      and run on EE 10 at the same time -->
                                 <Import-Package>
-                                    jakarta.annotation*;version="[2.1,4)",
-                                    jakarta.security.auth.message*;version="[3.0,4)",
-                                    jakarta.servlet*;version="[6.0,7)",
-                                    org.glassfish.grizzly*;version="[4.0,5)",
+                                    jakarta.annotation*;version="2.1",
+                                    jakarta.security.auth.message*;version="3.0",
+                                    jakarta.servlet*;version="6.0",
+                                    org.glassfish.grizzly*;version="4.0",
                                     com.sun.enterprise.webservice;resolution:=optional,
                                     com.sun.net.httpserver;resolution:=optional,
                                     com.sun.security.auth.callback;resolution:=optional,
