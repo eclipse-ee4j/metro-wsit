@@ -154,11 +154,6 @@
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>webservices-extra</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
             <artifactId>webservices-rt</artifactId>
             <version>${project.version}</version>
         </dependency>

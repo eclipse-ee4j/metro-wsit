@@ -34,7 +34,6 @@
         <module>webservices-api</module>
         <module>webservices-rt</module>
         <module>webservices-tools</module>
-        <module>webservices-extra</module>
         <module>webservices-api-osgi</module>
         <module>webservices-osgi</module>
         <module>webservices-extra-jdk-packages</module>
