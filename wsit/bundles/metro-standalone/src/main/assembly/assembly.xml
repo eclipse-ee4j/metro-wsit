@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-
+    Copyright (c) 2025 Contributors to the Eclipse Foundation.
     Copyright (c) 2011, 2021 Oracle and/or its affiliates. All rights reserved.
 
     This program and the accompanying materials are made available under the
@@ -11,7 +11,11 @@
 
 -->
 
-<assembly>
+<assembly
+    xmlns="http://maven.apache.org/ASSEMBLY/2.2.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/ASSEMBLY/2.2.0 https://maven.apache.org/xsd/assembly-2.2.0.xsd">
+
     <id>offline-zip-bundle</id>
     <includeBaseDirectory>false</includeBaseDirectory>
     <formats>
@@ -48,6 +52,10 @@
 
             <includes>
                 <include>jakarta.annotation:jakarta.annotation-api</include>
+                <include>jakarta.authentication:jakarta.authentication-api</include>
+                <include>jakarta.ejb:jakarta.ejb-api</include>
+                <include>jakarta.resource:jakarta.resource-api</include>
+                <include>jakarta.transaction:jakarta.transaction-api</include>
                 <include>${project.groupId}:webservices-api</include>
                 <include>${project.groupId}:webservices-extra</include>
                 <include>${project.groupId}:webservices-rt</include>
