@@ -1,6 +1,6 @@
 /*
+ * Copyright (c) 2022, 2026 Contributors to the Eclipse Foundation
  * Copyright (c) 1997, 2023 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -567,7 +567,7 @@ public class SecurityServerTube extends SecurityTubeBase {
             }
             // set the policy, issued-token-map, and extraneous properties
             //ctx.setIssuedTokenContextMap(issuedTokenContextMap);
-            if (isSCMessage || policy.getAlgorithmSuite() != null) {
+            if (policy != null && (isSCMessage || policy.getAlgorithmSuite() != null)) {
                 //override the binding level suite
                 ctx.setAlgorithmSuite(policy.getAlgorithmSuite());
             } else {
