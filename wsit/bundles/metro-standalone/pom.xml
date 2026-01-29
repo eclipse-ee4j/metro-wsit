@@ -110,11 +110,11 @@
                                 </replacement>
                                 <replacement>
                                     <token>https://jax-ws.dev.java.net/guide</token>
-                                    <value>http://metro.java.net/guide</value>
+                                    <value>https://eclipse-ee4j.github.io/metro-wsit</value>
                                 </replacement>
                                 <replacement>
                                     <token>https://jax-ws.java.net/guide</token>
-                                    <value>http://metro.java.net/guide</value>
+                                    <value>https://eclipse-ee4j.github.io/metro-wsit</value>
                                 </replacement>
                             </replacements>
                         </configuration>
