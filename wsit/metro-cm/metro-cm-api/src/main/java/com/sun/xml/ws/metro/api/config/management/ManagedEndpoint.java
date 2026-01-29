@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2026 Contributors to the Eclipse Foundation.
  * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
@@ -27,11 +28,12 @@ import com.sun.xml.ws.api.pipe.ThrowableContainerPropertySet;
 import com.sun.xml.ws.api.server.Container;
 import com.sun.xml.ws.api.server.ServiceDefinition;
 import com.sun.xml.ws.api.server.WSEndpoint;
-import com.sun.xml.ws.api.server.WSEndpoint.CompletionCallback;
-import com.sun.xml.ws.api.server.WSEndpoint.PipeHead;
-import com.sun.xml.ws.config.management.ManagementMessages;
+import com.sun.xml.ws.metro.api.config.management.ManagementMessages;
 import com.sun.xml.ws.policy.PolicyMap;
 import com.sun.xml.ws.wsdl.OperationDispatcher;
+
+import jakarta.xml.ws.EndpointReference;
+import jakarta.xml.ws.WebServiceException;
 
 import java.util.Collection;
 import java.util.LinkedList;
@@ -43,9 +45,8 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Level;
+
 import javax.xml.namespace.QName;
-import jakarta.xml.ws.EndpointReference;
-import jakarta.xml.ws.WebServiceException;
 
 import org.glassfish.gmbal.ManagedObjectManager;
 import org.w3c.dom.Element;

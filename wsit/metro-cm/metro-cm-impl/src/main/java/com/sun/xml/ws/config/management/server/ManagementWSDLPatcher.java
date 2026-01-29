@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2026 Contributors to the Eclipse Foundation.
  * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
@@ -13,7 +14,7 @@ package com.sun.xml.ws.config.management.server;
 import com.sun.istack.logging.Logger;
 import com.sun.xml.txw2.output.StaxSerializer;
 import com.sun.xml.ws.api.policy.ModelGenerator;
-import com.sun.xml.ws.config.management.ManagementMessages;
+import com.sun.xml.ws.metro.api.config.management.ManagementMessages;
 import com.sun.xml.ws.policy.Policy;
 import com.sun.xml.ws.policy.PolicyException;
 import com.sun.xml.ws.policy.sourcemodel.PolicyModelGenerator;
@@ -24,12 +25,14 @@ import com.sun.xml.ws.policy.sourcemodel.wspolicy.NamespaceVersion;
 import com.sun.xml.ws.policy.sourcemodel.wspolicy.XmlToken;
 import com.sun.xml.ws.wsdl.parser.WSDLConstants;
 
+import jakarta.xml.ws.WebServiceException;
+
 import java.net.URI;
 import java.util.Map;
+
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
-import jakarta.xml.ws.WebServiceException;
 
 import org.jvnet.staxex.util.XMLStreamReaderToXMLStreamWriter;
 

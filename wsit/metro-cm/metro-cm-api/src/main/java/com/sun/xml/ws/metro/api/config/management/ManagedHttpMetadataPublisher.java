@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2026 Contributors to the Eclipse Foundation.
  * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
@@ -14,7 +15,7 @@ import com.sun.istack.NotNull;
 import com.sun.istack.logging.Logger;
 import com.sun.xml.ws.api.Component;
 import com.sun.xml.ws.api.server.ServiceDefinition;
-import com.sun.xml.ws.config.management.ManagementMessages;
+import com.sun.xml.ws.metro.api.config.management.ManagementMessages;
 import com.sun.xml.ws.transport.http.HttpAdapter;
 import com.sun.xml.ws.transport.http.HttpMetadataPublisher;
 import com.sun.xml.ws.transport.http.WSHTTPConnection;
