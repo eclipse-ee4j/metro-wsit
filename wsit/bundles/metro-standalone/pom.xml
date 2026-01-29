@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-    Copyright (c) 2025 Contributors to the Eclipse Foundation.
+    Copyright (c) 2025, 2026 Contributors to the Eclipse Foundation.
     Copyright (c) 2011, 2023 Oracle and/or its affiliates. All rights reserved.
 
     This program and the accompanying materials are made available under the
@@ -224,6 +224,7 @@
             <groupId>com.sun.xml.ws</groupId>
             <artifactId>jaxws-ri</artifactId>
             <type>zip</type>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.sun.xml.ws</groupId>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-
+    Copyright (c) 2026 Contributors to the Eclipse Foundation.
     Copyright (c) 2013, 2025 Oracle and/or its affiliates. All rights reserved.
 
     This program and the accompanying materials are made available under the
@@ -42,9 +42,9 @@
         <stax-utils.version>20070216</stax-utils.version>
 
         <hk2.version>3.1.0</hk2.version>
-        <grizzly.version>4.1.0-M1</grizzly.version>
-        <tomcat.coyote.version>11.0.10</tomcat.coyote.version>
         <graal.sdk.version>22.3.3</graal.sdk.version>
+        <grizzly.version>5.0.0</grizzly.version>
+        <tomcat.coyote.version>11.0.18</tomcat.coyote.version>
 
         <junit.version>4.13.2</junit.version>
 

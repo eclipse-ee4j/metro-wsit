@@ -55,6 +55,8 @@
 
     <properties>
         <jaxws.ri.version>4.0.3</jaxws.ri.version>
+        <angus-activation.version>2.0.3</angus-activation.version>
+        <angus-mail.version>2.0.5</angus-mail.version>
 
         <!-- Do not autopublish by default -->
         <release.autopublish>false</release.autopublish>
@@ -98,6 +100,17 @@
                 <version>${jaxws.ri.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.eclipse.angus</groupId>
+                <artifactId>angus-activation</artifactId>
+                <version>${angus-activation.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.eclipse.angus</groupId>
+                <artifactId>angus-mail</artifactId>
+                <version>${angus-mail.version}</version>
             </dependency>
 
             <dependency>
