@@ -22,7 +22,6 @@
         <version>4.0.5-SNAPSHOT</version>
     </parent>
 
-    <groupId>org.glassfish.metro</groupId>
     <artifactId>metro-bom-gf</artifactId>
     <packaging>pom</packaging>
     <name>Metro Web Services Stack Dependency POM for Glassfish</name>

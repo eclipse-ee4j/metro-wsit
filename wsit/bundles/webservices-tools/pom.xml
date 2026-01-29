@@ -62,7 +62,6 @@ wscompile
                 </executions>
             </plugin>
             <plugin> <!-- want to unpack sources from individual modules -->
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
                 <executions>
                     <execution>
@@ -118,7 +117,6 @@ wscompile
                 </executions>
             </plugin>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
                 <executions>
                     <execution>
