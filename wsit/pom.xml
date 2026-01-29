@@ -56,7 +56,8 @@
         has its own codebase however WS-Policy related issues can be submitted into
         the Metro (WSIT) Issue tracker
     </description>
-    <url>https://github.com/eclipse-ee4j/metro-wsit</url>
+    <url>https://eclipse-ee4j.github.io/metro-wsit</url>
+
     <!-- prerequisites -->
     <issueManagement>
         <system>IssueTracker</system>
