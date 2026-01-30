@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-
+    Copyright (c) 2026 Contributors to the Eclipse Foundation.
     Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
 
     This program and the accompanying materials are made available under the
@@ -31,20 +31,20 @@
                 <artifactId>maven-antrun-plugin</artifactId>
                 <executions>
                     <execution>
-                        <configuration>
-                            <tasks>
-                                <echo message="Preparing char entities"/>
-                                <mkdir dir="${src.dir}"/>
-                                <copy todir="${src.dir}">
-                                    <fileset dir="src/docbook"/>
-                                </copy>
-                            </tasks>
-                        </configuration>
                         <id>process-entities</id>
                         <phase>package</phase>
                         <goals>
                             <goal>run</goal>
                         </goals>
+                        <configuration>
+                            <target>
+                                <echo message="Preparing char entities"/>
+                                <mkdir dir="${src.dir}"/>
+                                <copy todir="${src.dir}">
+                                    <fileset dir="src/docbook"/>
+                                </copy>
+                            </target>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>

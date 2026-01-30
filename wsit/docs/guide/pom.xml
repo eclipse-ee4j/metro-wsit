@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-
+    Copyright (c) 2026 Contributors to the Eclipse Foundation.
     Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
 
     This program and the accompanying materials are made available under the
@@ -32,8 +32,13 @@
                 <artifactId>maven-antrun-plugin</artifactId>
                 <executions>
                     <execution>
+                        <id>pre-process</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
                         <configuration>
-                            <tasks>
+                            <target>
                                 <echo message="Preparing char entities"/>
                                 <mkdir dir="${src.dir}"/>
                                 <copy todir="${src.dir}">
@@ -43,13 +48,8 @@
                                 <replace file="${src.dir}/metro.ent" token="$repository" value="${javanet.repository.id}"/>
                                 <replace file="${src.dir}/metro.ent" token="$jax-ws.version" value="${www.guide.jaxws.version}"/>
                                 <replace file="${src.dir}/metro.ent" token="$jaxws.home.uri" value="${www.guide.jaxws.home.uri}"/>
-                            </tasks>
+                            </target>
                         </configuration>
-                        <id>process-entities</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
                     </execution>
                 </executions>
             </plugin>
