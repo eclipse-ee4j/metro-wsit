@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2020, 2026 Contributors to the Eclipse Foundation.
  * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
@@ -253,6 +254,10 @@ public class SecurityClientTube extends SecurityTubeBase implements SecureConver
         ProcessingContext ctx = initializeOutgoingProcessingContext(packet, isSCMessage);
         ((ProcessingContextImpl) ctx).setIssuedTokenContextMap(issuedTokenContextMap);
         ((ProcessingContextImpl) ctx).setSCPolicyIDtoSctIdMap(scPolicyIDtoSctIdMap);
+        String sigAlg = (String)(packet.invocationProperties.get(STSIssuedTokenConfiguration.STS_SIGNATURE_ALGORITHM));
+        if (sigAlg != null && !sigAlg.isEmpty()) {
+            ((ProcessingContextImpl) ctx).getAlgorithmSuite().setSignatureAlgorithm(sigAlg);
+        }
         ctx.isClient(true);
         try {
             if (hasKerberosTokenPolicy()) {
