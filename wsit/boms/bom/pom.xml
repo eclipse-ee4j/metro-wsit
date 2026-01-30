@@ -12,7 +12,7 @@
 
 -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
@@ -137,7 +137,7 @@
                 <version>${jaxws.ri.version}</version>
             </dependency>
 
-        <!-- Distribution Artifacts -->
+            <!-- Distribution Artifacts -->
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>wstx-api</artifactId>
@@ -311,7 +311,6 @@
                 <version>${project.version}</version>
                 <type>zip</type>
             </dependency>
-
         </dependencies>
     </dependencyManagement>
 
@@ -320,17 +319,14 @@
         <pluginManagement>
             <plugins>
                 <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-enforcer-plugin</artifactId>
                     <version>3.4.1</version>
                 </plugin>
                 <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-javadoc-plugin</artifactId>
                     <version>3.6.0</version>
                 </plugin>
                 <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-source-plugin</artifactId>
                     <version>3.2.1</version>
                 </plugin>
@@ -360,6 +356,10 @@
                         <publishingServerId>central</publishingServerId>
                         <waitUntil>${release.waitUntil}</waitUntil>
                     </configuration>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-release-plugin</artifactId>
+                    <version>3.3.1</version>
                 </plugin>
             </plugins>
         </pluginManagement>

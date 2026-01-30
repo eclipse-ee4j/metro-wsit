@@ -13,7 +13,7 @@
 
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
@@ -23,9 +23,7 @@
         <version>4.0.5-SNAPSHOT</version>
     </parent>
 
-    <groupId>org.glassfish.metro</groupId>
     <artifactId>metro-project</artifactId>
-    <version>4.0.5-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Metro Web Services Stack Project</name>
 
@@ -58,7 +56,8 @@
         has its own codebase however WS-Policy related issues can be submitted into
         the Metro (WSIT) Issue tracker
     </description>
-    <url>https://github.com/eclipse-ee4j/metro-wsit</url>
+    <url>https://eclipse-ee4j.github.io/metro-wsit</url>
+
     <!-- prerequisites -->
     <issueManagement>
         <system>IssueTracker</system>
@@ -76,8 +75,6 @@
             <archive>https://dev.eclipse.org/mhonarc/lists/metro-dev</archive>
         </mailingList>
     </mailingLists>
-    <!--developers></developers-->
-    <!--contributors></contributors-->
     <licenses>
         <license>
             <name>Eclipse Distribution License - v 1.0</name>
@@ -96,7 +93,6 @@
         <pluginManagement>
             <plugins>
                 <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-war-plugin</artifactId>
                     <version>3.4.0</version>
                 </plugin>
@@ -111,12 +107,10 @@
                     <version>3.4.0</version>
                 </plugin>
                 <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-enforcer-plugin</artifactId>
                     <version>3.4.1</version>
                 </plugin>
                 <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-source-plugin</artifactId>
                     <version>3.2.1</version>
                 </plugin>
@@ -126,19 +120,16 @@
                     <version>3.2.0</version>
                 </plugin>
                 <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-clean-plugin</artifactId>
                     <version>3.3.1</version>
                 </plugin>
                 <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-assembly-plugin</artifactId>
                     <version>3.6.0</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.felix</groupId>
                     <artifactId>maven-bundle-plugin</artifactId>
-                    <!-- 5.1.6 drops (default) compatibility with OSGi R6 -->
                     <version>5.1.9</version>
                     <configuration>
                         <instructions>
@@ -147,12 +138,10 @@
                     </configuration>
                 </plugin>
                 <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>3.11.0</version>
                 </plugin>
                 <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-dependency-plugin</artifactId>
                     <version>3.6.0</version>
                 </plugin>
@@ -162,7 +151,6 @@
                     <version>${istack.plugins.version}</version>
                 </plugin>
                 <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-jar-plugin</artifactId>
                     <version>3.3.0</version>
                 </plugin>
@@ -172,22 +160,18 @@
                     <version>1.4.1</version>
                 </plugin>
                 <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-resources-plugin</artifactId>
                     <version>3.3.1</version>
                 </plugin>
                 <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-shade-plugin</artifactId>
                     <version>3.5.1</version>
                 </plugin>
                 <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
                     <version>3.1.2</version>
                 </plugin>
                 <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-antrun-plugin</artifactId>
                     <version>3.1.0</version>
                 </plugin>
@@ -269,7 +253,6 @@
                     </configuration>
                 </plugin>
                 <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-javadoc-plugin</artifactId>
                     <version>3.6.0</version>
                 </plugin>
@@ -311,7 +294,6 @@
                 </executions>
             </plugin>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-enforcer-plugin</artifactId>
                 <configuration>
                     <rules>
@@ -333,7 +315,6 @@
                 </executions>
             </plugin>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
                 <executions>
                     <execution>
@@ -352,7 +333,6 @@
                 </executions>
             </plugin>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
                 <executions>
                     <execution>
@@ -452,11 +432,9 @@
                 </executions>
             </plugin>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
             </plugin>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
                 <configuration>
                     <archive>
@@ -471,7 +449,6 @@
                 </configuration>
             </plugin>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
                 <configuration>
                     <archive>
@@ -490,7 +467,6 @@
                 </executions>
             </plugin>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <configuration>
                     <archive>
@@ -504,12 +480,9 @@
                     <minmemory>512m</minmemory>
                     <maxmemory>1024m</maxmemory>
                     <additionalJOptions>
-<!--                        <additionalJOption>-Xmaxerrs</additionalJOption>
-                        <additionalJOption>65536</additionalJOption>-->
                         <additionalJOption>-Xmaxwarns</additionalJOption>
                         <additionalJOption>10</additionalJOption>
                     </additionalJOptions>
-                    <!--<sourcepath>${project.build.sourceDirectory}:target/generated-sources/rsrc-gen</sourcepath>-->
                 </configuration>
             </plugin>
         </plugins>
@@ -538,7 +511,6 @@
     <reporting>
         <plugins>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-report-plugin</artifactId>
                 <version>3.1.2</version>
                 <configuration>
