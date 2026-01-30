@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2026 Contributors to the Eclipse Foundation.
  * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
@@ -10,20 +11,23 @@
 
 package com.sun.xml.ws.policy.testutils;
 
-import com.sun.xml.ws.api.policy.ModelTranslator;
 import com.sun.xml.stream.buffer.XMLStreamBuffer;
 import com.sun.xml.ws.api.model.wsdl.WSDLModel;
+import com.sun.xml.ws.api.policy.ModelTranslator;
 import com.sun.xml.ws.api.policy.ModelUnmarshaller;
 import com.sun.xml.ws.policy.Policy;
 import com.sun.xml.ws.policy.PolicyException;
 import com.sun.xml.ws.policy.PolicyMap;
 import com.sun.xml.ws.policy.sourcemodel.PolicySourceModel;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.net.MalformedURLException;
 import java.net.URL;
+
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 
@@ -81,7 +85,12 @@ public final class PolicyResourceLoader {
     }
 
     public static URL getResourceUrl(String resourceName) {
-        return Thread.currentThread().getContextClassLoader().getResource(POLICY_UNIT_TEST_RESOURCE_ROOT + resourceName);
+        File srcDir = new File(System.getProperty("srcDir"));
+        try {
+            return new File(srcDir, POLICY_UNIT_TEST_RESOURCE_ROOT + resourceName).toURI().toURL();
+        } catch (MalformedURLException e) {
+            throw new IllegalStateException(e);
+        }
     }
 
     public static Policy translateModel(PolicySourceModel model) throws PolicyException {
@@ -118,7 +127,7 @@ public final class PolicyResourceLoader {
         try {
             return com.sun.xml.ws.policy.parser.PolicyResourceLoader.getWsdlModel(resourceUrl, isClient);
         } catch (XMLStreamException | SAXException | IOException ex) {
-            throw new PolicyException("Failed to parse document", ex);
+            throw new PolicyException("Failed to parse document " + resourceUrl, ex);
         }
     }
 
