@@ -33,8 +33,6 @@
         <!-- IN_VM, LWHS, TOMCAT (requires tomcat.home to be set) -->
         <ws.transport>IN_VM</ws.transport>
         <ws.test>${project.basedir}/testcases</ws.test>
-        <!--        <transport.hudson.url></transport.hudson.url>
-        <wsit.hudson.url></wsit.hudson.url>-->
         <ws.jvmOpts />
     </properties>
 
@@ -70,12 +68,13 @@
         </plugins>
     </build>
 
-<!--    <modules>
-        <module>e2e</module>
-    </modules>-->
-
     <profiles>
-
+        <profile>
+            <id>oss-release</id>
+            <modules>
+                <module>e2e</module>
+            </modules>
+        </profile>
         <profile>
             <id>all-tests</id>
             <activation>
@@ -85,12 +84,6 @@
             </activation>
             <modules>
                 <module>e2e</module>
-            </modules>
-        </profile>
-        <profile>
-            <id>osgi-test</id>
-            <modules>
-                <module>osgi-test</module>
             </modules>
         </profile>
     </profiles>
