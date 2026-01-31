@@ -11,15 +11,13 @@
 
 -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
         <groupId>org.glassfish.metro</groupId>
         <artifactId>metro-project</artifactId>
-        <version>4.0.5-SNAPSHOT</version>
+        <version>4.0.5</version>
     </parent>
 
     <artifactId>wsit-tests</artifactId>
@@ -29,7 +27,7 @@
     <properties>
         <spotbugs.skip>true</spotbugs.skip>
         <test.harness.version>3.0.0-M4</test.harness.version>
-        <metro.dep.classifier></metro.dep.classifier>
+        <metro.dep.classifier />
         <!-- DEFAULT = JAXB, TOPLINK = MOXy -->
         <ws.databinding>DEFAULT</ws.databinding>
         <!-- IN_VM, LWHS, TOMCAT (requires tomcat.home to be set) -->
@@ -37,7 +35,7 @@
         <ws.test>${project.basedir}/testcases</ws.test>
         <!--        <transport.hudson.url></transport.hudson.url>
         <wsit.hudson.url></wsit.hudson.url>-->
-        <ws.jvmOpts></ws.jvmOpts>
+        <ws.jvmOpts />
     </properties>
 
     <build>

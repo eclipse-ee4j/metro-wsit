@@ -19,7 +19,7 @@
         <groupId>org.glassfish.metro</groupId>
         <artifactId>metro-bom</artifactId>
         <relativePath>../bom/pom.xml</relativePath>
-        <version>4.0.5-SNAPSHOT</version>
+        <version>4.0.5</version>
     </parent>
 
     <artifactId>metro-bom-gf</artifactId>

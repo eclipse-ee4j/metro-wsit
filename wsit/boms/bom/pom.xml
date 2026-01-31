@@ -19,14 +19,14 @@
         <groupId>org.eclipse.ee4j</groupId>
         <artifactId>project</artifactId>
         <version>1.0.9</version>
-        <relativePath/>
+        <relativePath />
     </parent>
 
     <groupId>org.glassfish.metro</groupId>
     <artifactId>metro-bom</artifactId>
     <packaging>pom</packaging>
     <name>Metro Web Services Stack Dependency POM</name>
-    <version>4.0.5-SNAPSHOT</version>
+    <version>4.0.5</version>
     <description>Metro Web Services Stack Dependency POM</description>
 
     <url>https://eclipse-ee4j.github.io/metro-wsit</url>
@@ -43,7 +43,7 @@
         <connection>scm:git:git@github.com:eclipse-ee4j/metro-wsit.git</connection>
         <developerConnection>scm:git:git@github.com:eclipse-ee4j/metro-wsit.git</developerConnection>
         <url>https://github.com/eclipse-ee4j/metro-wsit</url>
-        <tag>HEAD</tag>
+        <tag>4.0.5</tag>
     </scm>
 
     <developers>
