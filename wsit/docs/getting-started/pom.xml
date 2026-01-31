@@ -11,14 +11,12 @@
 
 -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <artifactId>docs</artifactId>
         <groupId>org.glassfish.metro</groupId>
-        <version>4.0.5-SNAPSHOT</version>
+        <version>4.0.5</version>
     </parent>
 
     <artifactId>getting-started</artifactId>
@@ -38,31 +36,30 @@
                         </goals>
                         <configuration>
                             <target>
-                                <echo message="Preparing char entities"/>
-                                <mkdir dir="${src.dir}"/>
+                                <echo message="Preparing char entities" />
+                                <mkdir dir="${src.dir}" />
                                 <copy todir="${src.dir}">
-                                    <fileset dir="${project.basedir}/src/docbook" excludes="**/samples/**"/>
+                                    <fileset dir="${project.basedir}/src/docbook" excludes="**/samples/**" />
                                 </copy>
 
                                 <copy todir="${project.build.directory}/docbook/style">
-                                    <fileset dir="${src.dir}/style"/>
+                                    <fileset dir="${src.dir}/style" />
                                 </copy>
                                 <copy todir="${project.build.directory}/docbook/icons">
-                                    <fileset dir="${src.dir}/icons"/>
+                                    <fileset dir="${src.dir}/icons" />
                                 </copy>
 
-                                <mkdir dir="${project.build.directory}/docbook/download"/>
+                                <mkdir dir="${project.build.directory}/docbook/download" />
                                 <macrodef name="java-bundle">
-                                    <attribute name="name"/>
+                                    <attribute name="name" />
                                     <sequential>
-                                        <zip destfile="${project.build.directory}/docbook/download/@{name}.zip"
-                                             basedir="${project.basedir}/src/docbook/samples/" includes="@{name}/**"/>
+                                        <zip destfile="${project.build.directory}/docbook/download/@{name}.zip" basedir="${project.basedir}/src/docbook/samples/" includes="@{name}/**" />
                                     </sequential>
                                 </macrodef>
 
-                                <java-bundle name="csclient"/>
-                                <java-bundle name="wsit-enabled-fromjava"/>
-                                <java-bundle name="wsit-enabled-fromwsdl"/>
+                                <java-bundle name="csclient" />
+                                <java-bundle name="wsit-enabled-fromjava" />
+                                <java-bundle name="wsit-enabled-fromwsdl" />
                                 <java-bundle name="wsit-jaxws-fromjava" />
                                 <java-bundle name="wsit-jaxws-fromwsdl" />
                                 <java-bundle name="wsit-external-metadata" />
