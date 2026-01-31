@@ -18,7 +18,7 @@
         <groupId>org.glassfish.metro</groupId>
         <artifactId>metro-bom-ext</artifactId>
         <relativePath>boms/bom-ext/pom.xml</relativePath>
-        <version>4.0.5</version>
+        <version>4.0.6-SNAPSHOT</version>
     </parent>
 
     <artifactId>metro-project</artifactId>
@@ -84,7 +84,7 @@
         <connection>scm:git:git@github.com:eclipse-ee4j/metro-wsit.git</connection>
         <developerConnection>scm:git:git@github.com:eclipse-ee4j/metro-wsit.git</developerConnection>
         <url>https://github.com/eclipse-ee4j/metro-wsit</url>
-        <tag>4.0.5</tag>
+        <tag>HEAD</tag>
     </scm>
 
     <build>
