@@ -26,7 +26,7 @@
     <artifactId>metro-bom</artifactId>
     <packaging>pom</packaging>
     <name>Metro Web Services Stack Dependency POM</name>
-    <version>4.0.5</version>
+    <version>4.0.6-SNAPSHOT</version>
     <description>Metro Web Services Stack Dependency POM</description>
 
     <url>https://eclipse-ee4j.github.io/metro-wsit</url>
@@ -43,7 +43,7 @@
         <connection>scm:git:git@github.com:eclipse-ee4j/metro-wsit.git</connection>
         <developerConnection>scm:git:git@github.com:eclipse-ee4j/metro-wsit.git</developerConnection>
         <url>https://github.com/eclipse-ee4j/metro-wsit</url>
-        <tag>4.0.5</tag>
+        <tag>HEAD</tag>
     </scm>
 
     <developers>
