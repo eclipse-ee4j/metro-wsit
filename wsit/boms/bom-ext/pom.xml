@@ -28,19 +28,19 @@
 
     <properties>
         <authentication-api.version>3.1.0</authentication-api.version>
+        <cdi-api.version>4.1.0</cdi-api.version>
         <connector-api.version>2.1.0</connector-api.version>
         <ejb-api.version>4.0.1</ejb-api.version>
-        <transaction-api.version>2.0.1</transaction-api.version>
-        <interceptor-api.version>2.2.0</interceptor-api.version>
-        <cdi-api.version>4.1.0</cdi-api.version>
-        <inject-api.version>2.0.1</inject-api.version>
         <el-api.version>6.0.0</el-api.version>
+        <inject-api.version>2.0.1</inject-api.version>
+        <interceptor-api.version>2.2.0</interceptor-api.version>
+        <transaction-api.version>2.0.1</transaction-api.version>
 
         <commons-codec.version>1.20.0</commons-codec.version>
-
-        <hk2.version>3.1.0</hk2.version>
         <grizzly.version>5.0.0</grizzly.version>
+        <hk2.version>3.1.1</hk2.version>
         <santuario.version>4.0.4</santuario.version>
+
         <graal.sdk.version>22.3.5</graal.sdk.version>
         <tomcat.coyote.version>11.0.18</tomcat.coyote.version>
 
@@ -60,30 +60,15 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-
-            <!-- Should this really be reexported? -->
-            <dependency>
-                <groupId>jakarta.ejb</groupId>
-                <artifactId>jakarta.ejb-api</artifactId>
-                <version>${ejb-api.version}</version>
-            </dependency>
-
             <dependency>
                 <groupId>jakarta.authentication</groupId>
                 <artifactId>jakarta.authentication-api</artifactId>
                 <version>${authentication-api.version}</version>
             </dependency>
-
             <dependency>
-                <groupId>jakarta.resource</groupId>
-                <artifactId>jakarta.resource-api</artifactId>
-                <version>${connector-api.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>jakarta.inject</groupId>
-                <artifactId>jakarta.inject-api</artifactId>
-                <version>${inject-api.version}</version>
+                <groupId>jakarta.ejb</groupId>
+                <artifactId>jakarta.ejb-api</artifactId>
+                <version>${ejb-api.version}</version>
             </dependency>
             <dependency>
                 <groupId>jakarta.el</groupId>
@@ -96,11 +81,20 @@
                 <version>${cdi-api.version}</version>
             </dependency>
             <dependency>
+                <groupId>jakarta.inject</groupId>
+                <artifactId>jakarta.inject-api</artifactId>
+                <version>${inject-api.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>jakarta.interceptor</groupId>
                 <artifactId>jakarta.interceptor-api</artifactId>
                 <version>${interceptor-api.version}</version>
             </dependency>
-
+            <dependency>
+                <groupId>jakarta.resource</groupId>
+                <artifactId>jakarta.resource-api</artifactId>
+                <version>${connector-api.version}</version>
+            </dependency>
             <dependency>
                 <groupId>jakarta.transaction</groupId>
                 <artifactId>jakarta.transaction-api</artifactId>
