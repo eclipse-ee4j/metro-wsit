@@ -35,8 +35,8 @@
         <cdi-api.version>4.1.0</cdi-api.version>
         <inject-api.version>2.0.1</inject-api.version>
         <el-api.version>6.0.0</el-api.version>
-        <commons-codec.version>1.17.0</commons-codec.version>
 
+        <commons-codec.version>1.20.0</commons-codec.version>
 
         <hk2.version>3.1.0</hk2.version>
         <grizzly.version>5.0.0</grizzly.version>
