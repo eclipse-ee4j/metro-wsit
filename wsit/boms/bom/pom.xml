@@ -54,9 +54,9 @@
     </developers>
 
     <properties>
-        <jaxws.ri.version>4.0.3</jaxws.ri.version>
         <angus-activation.version>2.0.3</angus-activation.version>
         <angus-mail.version>2.0.5</angus-mail.version>
+        <jaxws.ri.version>4.0.4-SNAPSHOT</jaxws.ri.version>
         <gmbal.version>4.1.0</gmbal.version>
     </properties>
 
