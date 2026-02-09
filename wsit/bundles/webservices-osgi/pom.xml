@@ -72,7 +72,7 @@
                         </goals>
                         <configuration>
                             <includeGroupIds>
-                                com.sun.xml.messaging.saaj,com.sun.xml.ws,org.glassfish.metro,com.sun.xml.stream.buffer,net.java.dev.stax-utils
+                                com.sun.xml.messaging.saaj,com.sun.xml.ws,org.glassfish.metro,com.sun.xml.stream.buffer
                             </includeGroupIds>
                             <excludeArtifactIds>jaxws-eclipselink-plugin,sdo-eclipselink-plugin</excludeArtifactIds>
                             <includeScope>provided</includeScope>
@@ -94,7 +94,7 @@
                         </goals>
                         <configuration>
                             <includeGroupIds>
-                                com.sun.xml.messaging.saaj,com.sun.xml.ws,org.glassfish.metro,com.sun.xml.stream.buffer,net.java.dev.stax-utils
+                                com.sun.xml.messaging.saaj,com.sun.xml.ws,org.glassfish.metro,com.sun.xml.stream.buffer
                             </includeGroupIds>
                             <excludeArtifactIds>jaxws-eclipselink-plugin,sdo-eclipselink-plugin</excludeArtifactIds>
                             <includeScope>provided</includeScope>
@@ -112,7 +112,7 @@
                         </goals>
                         <configuration>
                             <includeGroupIds>
-                                com.sun.xml.messaging.saaj,com.sun.xml.ws,org.glassfish.metro,com.sun.xml.stream.buffer,net.java.dev.stax-utils
+                                com.sun.xml.messaging.saaj,com.sun.xml.ws,org.glassfish.metro,com.sun.xml.stream.buffer
                             </includeGroupIds>
                             <excludeArtifactIds>jaxws-eclipselink-plugin,sdo-eclipselink-plugin</excludeArtifactIds>
                             <includeScope>provided</includeScope>
@@ -313,12 +313,6 @@
                     <artifactId>*</artifactId>
                 </exclusion>
             </exclusions>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>net.java.dev.stax-utils</groupId>
-            <artifactId>stax-utils</artifactId>
             <scope>provided</scope>
         </dependency>
 

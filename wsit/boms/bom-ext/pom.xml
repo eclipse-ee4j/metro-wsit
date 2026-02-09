@@ -21,7 +21,6 @@
         <version>4.0.6-SNAPSHOT</version>
     </parent>
 
-    <groupId>org.glassfish.metro</groupId>
     <artifactId>metro-bom-ext</artifactId>
     <packaging>pom</packaging>
     <name>Metro Web Services Stack Dependency POM for Metro-CS</name>
@@ -39,7 +38,6 @@
         <santuario.version>4.0.2</santuario.version>
         <commons-codec.version>1.17.0</commons-codec.version>
 
-        <stax-utils.version>20070216</stax-utils.version>
 
         <hk2.version>3.1.0</hk2.version>
         <graal.sdk.version>22.3.3</graal.sdk.version>
@@ -154,17 +152,6 @@
                 <optional>true</optional>
             </dependency>
 
-            <dependency>
-                <groupId>net.java.dev.stax-utils</groupId>
-                <artifactId>stax-utils</artifactId>
-                <version>${stax-utils.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>com.bea.xml</groupId>
-                        <artifactId>jsr173-ri</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
             <dependency>
                 <groupId>org.apache.tomcat</groupId>
                 <artifactId>tomcat-coyote</artifactId>
