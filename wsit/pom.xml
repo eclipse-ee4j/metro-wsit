@@ -673,8 +673,6 @@
         <spotbugs.version>4.7.3.6</spotbugs.version>
         <findsecbugs.version>1.11.0</findsecbugs.version>
 
-        <release.repository.url>https://jakarta.oss.sonatype.org/content/repositories/releases/</release.repository.url>
-
         <istack.plugins.version>4.1.2</istack.plugins.version>
 
         <maven.compiler.release>11</maven.compiler.release>
