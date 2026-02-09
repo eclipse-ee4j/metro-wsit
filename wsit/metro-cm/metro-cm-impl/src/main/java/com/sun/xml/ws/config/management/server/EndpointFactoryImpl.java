@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2026 Contributors to the Eclipse Foundation.
  * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
@@ -16,7 +17,7 @@ import com.sun.xml.ws.api.config.management.EndpointCreationAttributes;
 import com.sun.xml.ws.metro.api.config.management.ManagedEndpoint;
 import com.sun.xml.ws.api.config.management.ManagedEndpointFactory;
 import com.sun.xml.ws.api.config.management.policy.ManagedServiceAssertion;
-import com.sun.xml.ws.config.management.ManagementMessages;
+import com.sun.xml.ws.metro.api.config.management.ManagementMessages;
 
 /**
  * Create a ManagedEndpoint if the policy of the endpoint requires it. Otherwise

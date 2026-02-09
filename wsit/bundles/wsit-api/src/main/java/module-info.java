@@ -26,7 +26,6 @@ module org.glassfish.metro.wsit.api {
     exports com.sun.xml.ws.api.tx.at;
     exports com.sun.xml.ws.commons;
     exports com.sun.xml.ws.commons.ha;
-    exports com.sun.xml.ws.config.management;
     exports com.sun.xml.ws.config.metro;
     exports com.sun.xml.ws.metro.api.config.management;
     exports com.sun.xml.ws.policy.config;
