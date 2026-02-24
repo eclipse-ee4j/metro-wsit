@@ -57,6 +57,7 @@
         <jaxws.ri.version>4.0.3</jaxws.ri.version>
         <angus-activation.version>2.0.3</angus-activation.version>
         <angus-mail.version>2.0.5</angus-mail.version>
+        <gmbal.version>4.1.0</gmbal.version>
     </properties>
 
     <dependencyManagement>
@@ -80,6 +81,16 @@
                 <groupId>org.eclipse.angus</groupId>
                 <artifactId>angus-mail</artifactId>
                 <version>${angus-mail.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish.gmbal</groupId>
+                <artifactId>gmbal</artifactId>
+                <version>${gmbal.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish.gmbal</groupId>
+                <artifactId>gmbal-api-only</artifactId>
+                <version>${gmbal.version}</version>
             </dependency>
 
             <dependency>

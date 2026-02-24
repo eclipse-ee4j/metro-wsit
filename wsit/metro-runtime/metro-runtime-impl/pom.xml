@@ -30,10 +30,6 @@
     </properties>
 
     <dependencies>
-<!--        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>metro-config-api</artifactId>
-        </dependency>-->
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>metro-runtime-api</artifactId>
@@ -63,12 +59,6 @@
         <dependency>
             <groupId>com.sun.xml.ws</groupId>
             <artifactId>rt</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.glassfish.gmbal</groupId>
-                    <artifactId>gmbal-api-only</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
 
         <dependency>

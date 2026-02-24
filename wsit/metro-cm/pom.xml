@@ -25,13 +25,8 @@
     <packaging>pom</packaging>
     <name>Metro Configuration Management Project</name>
 
-    <!-- prerequisites -->
-
     <modules>
         <module>metro-cm-api</module>
         <module>metro-cm-impl</module>
     </modules>
-
-    <!--dependencies></dependencies-->
-    <!--properties></properties-->
 </project>
