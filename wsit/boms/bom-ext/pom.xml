@@ -31,17 +31,17 @@
         <cdi-api.version>4.1.0</cdi-api.version>
         <connector-api.version>2.1.0</connector-api.version>
         <ejb-api.version>4.0.1</ejb-api.version>
-        <el-api.version>6.0.0</el-api.version>
+        <el-api.version>6.0.1</el-api.version>
         <inject-api.version>2.0.1</inject-api.version>
         <interceptor-api.version>2.2.0</interceptor-api.version>
         <transaction-api.version>2.0.1</transaction-api.version>
 
-        <commons-codec.version>1.20.0</commons-codec.version>
+        <commons-codec.version>1.21.0</commons-codec.version>
         <grizzly.version>5.0.0</grizzly.version>
         <hk2.version>3.1.1</hk2.version>
         <santuario.version>4.0.4</santuario.version>
 
-        <graal.sdk.version>22.3.5</graal.sdk.version>
+        <graal.sdk.version>23.1.10</graal.sdk.version>
         <tomcat.coyote.version>11.0.18</tomcat.coyote.version>
 
         <junit.version>4.13.2</junit.version>
