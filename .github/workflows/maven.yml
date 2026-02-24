@@ -39,7 +39,7 @@ jobs:
         id: build
         run: |
           cd wsit
-          mvn -B -V -U -C -Dalltests=true -Pstaging,oss-release clean verify org.glassfish.copyright:glassfish-copyright-maven-plugin:check -Dgpg.skip=true
+          mvn -B -V -U -C -Dalltests=true -Poss-release clean verify org.glassfish.copyright:glassfish-copyright-maven-plugin:check -Dgpg.skip=true
           cd ..
           echo "jdk=${{ matrix.java_version }}" >> $GITHUB_OUTPUT
       - name: Upload binary image
@@ -81,4 +81,4 @@ jobs:
           wget -q -O tomcat.zip https://archive.apache.org/dist/tomcat/tomcat-10/v10.1.25/bin/apache-tomcat-10.1.25.zip
           unzip -q tomcat.zip
           cd wsit
-          mvn -B -V -U -C -am -Dalltests=true -Dgpg.skip=true -Pstaging,oss-release clean verify -pl :wsit-tests-e2e -Dtomcat.home=$ROOT/apache-tomcat-10.1.25 -Dws.transport=${{ matrix.test_suite }} -Dws.localImage=$ROOT/image
+          mvn -B -V -U -C -am -Dalltests=true -Dgpg.skip=true -Poss-release clean verify -pl :wsit-tests-e2e -Dtomcat.home=$ROOT/apache-tomcat-10.1.25 -Dws.transport=${{ matrix.test_suite }} -Dws.localImage=$ROOT/image
