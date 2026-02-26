@@ -29,6 +29,23 @@
     <build>
         <plugins>
             <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>buildnumber-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>create-timestamp</goal>
+                        </goals>
+                        <configuration>
+                            <timestampFormat>MMMM dd, yyyy</timestampFormat>
+                            <!-- Used in readme.html. -->
+                            <timestampPropertyName>release.date</timestampPropertyName>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <artifactId>maven-dependency-plugin</artifactId>
                 <executions>
                     <execution>
@@ -133,12 +150,9 @@
                 <executions>
                     <execution>
                         <id>make-assembly</id>
-                        <!-- this is used for inheritance merges -->
                         <phase>package</phase>
-                        <!-- append to the packaging phase. -->
                         <goals>
                             <goal>single</goal>
-                            <!-- goals == mojos -->
                         </goals>
                     </execution>
                 </executions>
@@ -240,9 +254,8 @@
     </dependencies>
 
     <properties>
-        <!-- Used in readme.html, however the file is obsoleted. -->
+        <!-- Used in readme.html. -->
         <product.name>Metro ${project.version}</product.name>
-        <release.date>${maven.build.timestamp}</release.date>
         <bundle.artifact.name>${project.artifactId}-${project.version}.zip</bundle.artifact.name>
         <download.link>https://central.sonatype.com/artifact/org.glassfish.metro/${project.artifactId}/${project.version}</download.link>
     </properties>

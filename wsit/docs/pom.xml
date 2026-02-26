@@ -49,7 +49,7 @@
                                         <goal>run</goal>
                                     </goals>
                                     <configuration>
-                                        <tasks>
+                                        <target>
                                             <taskdef name="soimp" classname="com.sun.istack.soimp.Soimp" classpathref="maven.plugin.classpath" />
 
                                             <copy todir="${www.upload.dir}">
@@ -67,7 +67,7 @@
                                                     create="true"
                                                     additionalOptions="no-auth-cache"
                                                     commitMessage="${project.artifactId}-${project.version}" / -->
-                                        </tasks>
+                                        </target>
                                     </configuration>
                                 </execution>
                             </executions>
