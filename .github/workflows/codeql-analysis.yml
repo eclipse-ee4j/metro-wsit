@@ -42,7 +42,7 @@ jobs:
     - name: Set up JDK
       uses: actions/setup-java@v5
       with:
-        distribution: 'zulu'
+        distribution: 'temurin'
         java-version: 21
         cache: maven
 
