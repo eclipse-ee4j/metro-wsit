@@ -24,6 +24,16 @@
     <packaging>pom</packaging>
     <name>Metro User Guide</name>
 
+    <dependencies>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>metro-standalone</artifactId>
+            <version>${project.version}</version>
+            <type>zip</type>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+
     <build>
         <plugins>
             <plugin>
@@ -163,21 +173,14 @@
                         <executions>
                             <execution>
                                 <id>prepare-readme</id>
-                                <phase>install</phase>
+                                <phase>generate-resources</phase>
                                 <goals>
-                                    <goal>unpack</goal>
+                                    <goal>unpack-dependencies</goal>
                                 </goals>
                                 <configuration>
-                                    <artifactItems>
-                                        <artifactItem>
-                                            <groupId>${project.groupId}</groupId>
-                                            <artifactId>metro-standalone</artifactId>
-                                            <version>${project.version}</version>
-                                            <type>zip</type>
-                                            <outputDirectory>${project.build.directory}/metro-standalone</outputDirectory>
-                                            <includes>**/*.html</includes>
-                                        </artifactItem>
-                                    </artifactItems>
+                                    <includeArtifactIds>metro-standalone</includeArtifactIds>
+                                    <outputDirectory>${project.build.directory}/metro-standalone</outputDirectory>
+                                    <includes>metro/readme.html</includes>
                                 </configuration>
                             </execution>
                         </executions>
@@ -192,7 +195,7 @@
                                     <goal>run</goal>
                                 </goals>
                                 <configuration>
-                                    <tasks>
+                                    <target>
                                         <taskdef name="soimp" classname="com.sun.istack.soimp.Soimp" classpathref="maven.plugin.classpath" />
 
                                         <copy tofile="${project.build.directory}/www/index.html" file="${project.build.directory}/metro-standalone/metro/readme.html" />
@@ -206,7 +209,7 @@
                                                 create="true"
                                                 additionalOptions="no-auth-cache"
                                                 commitMessage="${project.artifactId}-${project.version}" / -->
-                                    </tasks>
+                                    </target>
                                 </configuration>
                             </execution>
                         </executions>
