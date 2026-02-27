@@ -338,6 +338,12 @@
         </dependency>
         <dependency>
             <groupId>org.glassfish.gmbal</groupId>
+            <artifactId>gmbal-api-only</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <!-- Brings ManagedObjectManagerService implementation -->
+        <dependency>
+            <groupId>org.glassfish.gmbal</groupId>
             <artifactId>gmbal</artifactId>
             <scope>provided</scope>
         </dependency>

@@ -25,8 +25,6 @@
     <packaging>pom</packaging>
     <name>WS-RX Project</name>
 
-    <!-- prerequisites -->
-
     <modules>
         <module>wsmc-api</module>
         <module>wsrm-api</module>
@@ -35,7 +33,4 @@
         <module>wsrm-impl</module>
         <module>wsrx-testing</module>
     </modules>
-
-    <!--dependencies></dependencies-->
-    <!--properties></properties-->
 </project>

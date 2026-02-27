@@ -39,51 +39,39 @@
         <dependency>
             <groupId>com.sun.xml.ws</groupId>
             <artifactId>rt</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.glassfish.gmbal</groupId>
-                    <artifactId>gmbal-api-only</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
-
-        <dependency>
-            <groupId>org.glassfish.gmbal</groupId>
-            <artifactId>gmbal</artifactId>
-        </dependency>
-
         <dependency>
             <groupId>com.sun.xml.ws</groupId>
             <artifactId>policy</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>com.sun.xml.stream.buffer</groupId>
+            <artifactId>streambuffer</artifactId>
+        </dependency>
         <dependency>
             <groupId>com.sun.istack</groupId>
             <artifactId>istack-commons-runtime</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>com.sun.xml.stream.buffer</groupId>
-            <artifactId>streambuffer</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>org.glassfish.jaxb</groupId>
             <artifactId>txw2</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.jvnet.staxex</groupId>
             <artifactId>stax-ex</artifactId>
         </dependency>
+        <!-- Brings ManagedObjectManagerService implementation -->
+        <dependency>
+            <groupId>org.glassfish.gmbal</groupId>
+            <artifactId>gmbal</artifactId>
+        </dependency>
 
-        <!-- Test scope -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
-
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>metro-config-impl</artifactId>
@@ -91,5 +79,4 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-
 </project>
