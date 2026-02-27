@@ -48,18 +48,6 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>com.sun.istack</groupId>
-                <artifactId>import-properties-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <phase>validate</phase>
-                        <goals>
-                            <goal>import-pom-properties</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>build-helper-maven-plugin</artifactId>
                 <executions>

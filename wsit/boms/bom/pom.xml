@@ -54,22 +54,44 @@
     </developers>
 
     <properties>
+        <activation-api.version>2.1.4</activation-api.version>
         <angus-activation.version>2.0.3</angus-activation.version>
         <angus-mail.version>2.0.5</angus-mail.version>
+        <annotation-api.version>3.0.0</annotation-api.version>
+        <ant.version>1.10.15</ant.version>
+        <jaxws.version>4.0.2</jaxws.version>
         <jaxws.ri.version>4.0.4-SNAPSHOT</jaxws.ri.version>
+        <jaxb.version>4.0.6</jaxb.version>
         <gmbal.version>4.1.1</gmbal.version>
+        <ha-api.version>3.1.13</ha-api.version>
+        <istack.version>4.2.0</istack.version>
+        <mail-api.version>2.1.5</mail-api.version>
+        <management-api.version>3.3.0</management-api.version>
+        <mimepull.version>1.10.0</mimepull.version>
+        <saaj-impl.version>3.0.4</saaj-impl.version>
+        <servlet-api.version>6.1.0</servlet-api.version>
+        <soap-api.version>3.0.2</soap-api.version>
+        <stax-api.version>4.2.2</stax-api.version>
+        <stax-ex.version>2.1.0</stax-ex.version>
+        <streambuffer.version>2.1.0</streambuffer.version>
+        <xmlbind-api>4.0.4</xmlbind-api>
+        <woodstox.version>7.1.1</woodstox.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
-
-            <!-- Import jaxws artifacts -->
             <dependency>
-                <groupId>com.sun.xml.ws</groupId>
-                <artifactId>jaxws-ri-bom</artifactId>
-                <version>${jaxws.ri.version}</version>
+                <groupId>org.glassfish.jaxb</groupId>
+                <artifactId>jaxb-bom</artifactId>
+                <version>${jaxb.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.ant</groupId>
+                <artifactId>ant</artifactId>
+                <version>${ant.version}</version>
             </dependency>
 
             <dependency>
@@ -92,28 +114,172 @@
                 <artifactId>gmbal</artifactId>
                 <version>${gmbal.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.sun.istack</groupId>
+                <artifactId>istack-commons-runtime</artifactId>
+                <version>${istack.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>jakarta.activation</groupId>
+                <artifactId>jakarta.activation-api</artifactId>
+                <version>${activation-api.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>jakarta.annotation</groupId>
+                <artifactId>jakarta.annotation-api</artifactId>
+                <version>${annotation-api.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>jakarta.mail</groupId>
+                <artifactId>jakarta.mail-api</artifactId>
+                <version>${mail-api.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>jakarta.servlet</groupId>
+                <artifactId>jakarta.servlet-api</artifactId>
+                <version>${servlet-api.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>jakarta.xml.bind</groupId>
+                <artifactId>jakarta.xml.bind-api</artifactId>
+                <version>${xmlbind-api}</version>
+            </dependency>
+            <dependency>
+                <groupId>jakarta.xml.soap</groupId>
+                <artifactId>jakarta.xml.soap-api</artifactId>
+                <version>${soap-api.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>jakarta.xml.ws</groupId>
+                <artifactId>jakarta.xml.ws-api</artifactId>
+                <version>${jaxws.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.sun.xml.bind</groupId>
+                <artifactId>saaj-impl</artifactId>
+                <version>${saaj-impl.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.sun.xml.bind</groupId>
+                <artifactId>jaxb-osgi</artifactId>
+                <version>${jaxb.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.sun.xml.bind</groupId>
+                <artifactId>jaxb-core</artifactId>
+                <version>${jaxb.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.sun.xml.bind</groupId>
+                <artifactId>jaxb-impl</artifactId>
+                <version>${jaxb.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish.jaxb</groupId>
+                <artifactId>jaxb-runtime</artifactId>
+                <version>${jaxb.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.sun.xml.bind</groupId>
+                <artifactId>jaxb-xjc</artifactId>
+                <version>${jaxb.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.sun.xml.bind</groupId>
+                <artifactId>jaxb-jxc</artifactId>
+                <version>${jaxb.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.sun.xml.bind</groupId>
+                <artifactId>txw2</artifactId>
+                <version>${jaxb.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish.ha</groupId>
+                <artifactId>ha-api</artifactId>
+                <version>${ha-api.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish.external</groupId>
+                <artifactId>management-api</artifactId>
+                <version>${management-api.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jvnet.mimepull</groupId>
+                <artifactId>mimepull</artifactId>
+                <version>${mimepull.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.sun.xml.messaging.saaj</groupId>
+                <artifactId>saaj-impl</artifactId>
+                <version>${saaj-impl.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jvnet.staxex</groupId>
+                <artifactId>stax-ex</artifactId>
+                <version>${stax-ex.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.sun.xml.stream.buffer</groupId>
+                <artifactId>streambuffer</artifactId>
+                <version>${streambuffer.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.codehaus.woodstox</groupId>
+                <artifactId>stax2-api</artifactId>
+                <version>${stax-api.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.woodstox</groupId>
+                <artifactId>woodstox-core</artifactId>
+                <version>${woodstox.version}</version>
+            </dependency>
 
+            <!-- Import jaxws artifacts -->
             <dependency>
                 <groupId>com.sun.xml.ws</groupId>
                 <artifactId>rt</artifactId>
                 <version>${jaxws.ri.version}</version>
             </dependency>
-
             <dependency>
                 <groupId>com.sun.xml.ws</groupId>
                 <artifactId>rt-fi</artifactId>
                 <version>${jaxws.ri.version}</version>
             </dependency>
-
+            <dependency>
+                <groupId>com.sun.xml.ws</groupId>
+                <artifactId>jaxws-ri</artifactId>
+                <version>${jaxws.ri.version}</version>
+                <type>zip</type>
+            </dependency>
             <dependency>
                 <groupId>com.sun.xml.ws</groupId>
                 <artifactId>servlet</artifactId>
                 <version>${jaxws.ri.version}</version>
             </dependency>
-
             <dependency>
                 <groupId>com.sun.xml.ws</groupId>
                 <artifactId>policy</artifactId>
+                <version>${jaxws.ri.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.sun.xml.ws</groupId>
+                <artifactId>jaxws-rt</artifactId>
+                <version>${jaxws.ri.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.sun.xml.ws</groupId>
+                <artifactId>jaxws-tools</artifactId>
+                <version>${jaxws.ri.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.sun.xml.ws</groupId>
+                <artifactId>jaxws-eclipselink-plugin</artifactId>
+                <version>${jaxws.ri.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.sun.xml.ws</groupId>
+                <artifactId>sdo-eclipselink-plugin</artifactId>
                 <version>${jaxws.ri.version}</version>
             </dependency>
 

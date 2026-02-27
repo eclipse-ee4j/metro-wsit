@@ -37,6 +37,8 @@
         <transaction-api.version>2.0.1</transaction-api.version>
 
         <commons-codec.version>1.21.0</commons-codec.version>
+        <eclipselink.version>4.0.9</eclipselink.version>
+        <fastinfoset.version>2.1.1</fastinfoset.version>
         <grizzly.version>5.0.0</grizzly.version>
         <hk2.version>3.1.1</hk2.version>
         <santuario.version>4.0.4</santuario.version>
@@ -51,15 +53,6 @@
 
     <dependencyManagement>
         <dependencies>
-
-            <!-- Import jaxws artifacts -->
-            <dependency>
-                <groupId>com.sun.xml.ws</groupId>
-                <artifactId>jaxws-ri-bom-ext</artifactId>
-                <version>${jaxws.ri.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
             <dependency>
                 <groupId>jakarta.authentication</groupId>
                 <artifactId>jakarta.authentication-api</artifactId>
@@ -112,7 +105,16 @@
                 <artifactId>commons-codec</artifactId>
                 <version>${commons-codec.version}</version>
             </dependency>
-
+            <dependency>
+                <groupId>org.eclipse.persistence</groupId>
+                <artifactId>org.eclipse.persistence.moxy</artifactId>
+                <version>${eclipselink.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.eclipse.persistence</groupId>
+                <artifactId>org.eclipse.persistence.sdo</artifactId>
+                <version>${eclipselink.version}</version>
+            </dependency>
             <dependency>
                 <groupId>org.glassfish.grizzly</groupId>
                 <artifactId>grizzly-framework</artifactId>
@@ -138,7 +140,11 @@
                 <artifactId>grizzly-portunif</artifactId>
                 <version>${grizzly.version}</version>
             </dependency>
-
+            <dependency>
+                <groupId>com.sun.xml.fastinfoset</groupId>
+                <artifactId>FastInfoset</artifactId>
+                <version>${fastinfoset.version}</version>
+            </dependency>
             <dependency>
                 <groupId>org.glassfish.hk2</groupId>
                 <artifactId>hk2</artifactId>

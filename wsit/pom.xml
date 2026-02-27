@@ -95,11 +95,6 @@
                     <version>3.5.1</version>
                 </plugin>
                 <plugin>
-                    <groupId>com.sun.istack</groupId>
-                    <artifactId>import-properties-plugin</artifactId>
-                    <version>${istack.plugins.version}</version>
-                </plugin>
-                <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>build-helper-maven-plugin</artifactId>
                     <version>3.6.1</version>
@@ -372,29 +367,28 @@
                     </execution>
                 </executions>
             </plugin>
-                <plugin>
-                    <groupId>com.sun.istack</groupId>
-                    <artifactId>istack-commons-maven-plugin</artifactId>
-                    <executions>
-                        <execution>
-                            <phase>generate-sources</phase>
-                            <goals>
-                                <goal>rs-gen</goal>
-                            </goals>
-                            <configuration>
-                                <resources>
-                                    <directory>${basedir}/src/main/resources</directory>
-                                    <includes>
-                                        <include>**/*.properties</include>
-                                    </includes>
-                                </resources>
-                                <destDir>${project.build.directory}/rsrc-gen</destDir>
-                            </configuration>
-                        </execution>
-                    </executions>
-                </plugin>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
+                <groupId>com.sun.istack</groupId>
+                <artifactId>istack-commons-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>rs-gen</goal>
+                        </goals>
+                        <configuration>
+                            <resources>
+                                <directory>${basedir}/src/main/resources</directory>
+                                <includes>
+                                    <include>**/*.properties</include>
+                                </includes>
+                            </resources>
+                            <destDir>${project.build.directory}/rsrc-gen</destDir>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
                     <showDeprecation>${comp.showdetails}</showDeprecation>
@@ -517,7 +511,7 @@
             </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
-                <artifactId>findbugs-maven-plugin</artifactId>
+                <artifactId>spotbugs-maven-plugin</artifactId>
                 <version>${spotbugs.version}</version>
                 <configuration>
                     <skip>${spotbugs.skip}</skip>
