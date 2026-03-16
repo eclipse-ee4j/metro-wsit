@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2026 Contributors to the Eclipse Foundation.
  * Copyright (c) 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
@@ -9,6 +10,9 @@
  */
 
 module org.glassfish.metro.cm.impl {
+
+    requires com.sun.istack.runtime;
+    requires com.sun.xml.ws.rt;
     requires org.glassfish.metro.cm.api;
 
     provides com.sun.xml.ws.api.config.management.ManagedEndpointFactory with

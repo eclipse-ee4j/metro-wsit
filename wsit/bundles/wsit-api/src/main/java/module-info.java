@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2026 Contributors to the Eclipse Foundation.
  * Copyright (c) 2021, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
@@ -18,7 +19,7 @@ module org.glassfish.metro.wsit.api {
     requires transitive com.sun.xml.ws.rt;
     requires transitive com.sun.istack.runtime;
     requires transitive com.sun.xml.ws.policy;
-    requires transitive gmbal;
+    requires transitive org.glassfish.gmbal.api;
     requires transitive org.glassfish.ha.api;
 
     exports com.oracle.webservices.oracle_internal_api.rm;

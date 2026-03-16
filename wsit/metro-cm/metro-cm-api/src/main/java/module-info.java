@@ -11,7 +11,8 @@
 
 module org.glassfish.metro.cm.api {
 
-    requires transitive com.sun.xml.ws.rt;
+    requires com.sun.xml.ws.rt;
+    requires org.glassfish.gmbal.api;
 
     exports com.sun.xml.ws.metro.api.config.management;
 }
