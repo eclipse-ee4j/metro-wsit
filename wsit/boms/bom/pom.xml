@@ -12,7 +12,7 @@
 
 -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd" child.project.url.inherit.append.path="false">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
@@ -26,7 +26,7 @@
     <artifactId>metro-bom</artifactId>
     <packaging>pom</packaging>
     <name>Metro Web Services Stack Dependency POM</name>
-    <version>4.0.6-SNAPSHOT</version>
+    <version>4.0.7-SNAPSHOT</version>
     <description>Metro Web Services Stack Dependency POM</description>
 
     <url>https://eclipse-ee4j.github.io/metro-wsit</url>
@@ -39,7 +39,7 @@
         </license>
     </licenses>
 
-    <scm>
+    <scm child.scm.connection.inherit.append.path="false" child.scm.developerConnection.inherit.append.path="false" child.scm.url.inherit.append.path="false">
         <connection>scm:git:git@github.com:eclipse-ee4j/metro-wsit.git</connection>
         <developerConnection>scm:git:git@github.com:eclipse-ee4j/metro-wsit.git</developerConnection>
         <url>https://github.com/eclipse-ee4j/metro-wsit</url>
@@ -331,6 +331,9 @@
                 <release.projectName>Eclipse Metro WSIT</release.projectName>
                 <release.autoPublish>false</release.autoPublish>
                 <release.waitUntil>published</release.waitUntil>
+                <preparationGoals>clean package</preparationGoals>
+                <preparationProfiles>all-tests</preparationProfiles>
+                <excludeArtifacts>wsit-tests-e2e</excludeArtifacts>
             </properties>
         </profile>
     </profiles>
