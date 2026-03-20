@@ -516,8 +516,8 @@
                 </configuration>
             </plugin>
             <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>findbugs-maven-plugin</artifactId>
+                <groupId>com.github.spotbugs</groupId>
+                <artifactId>spotbugs-maven-plugin</artifactId>
                 <version>${spotbugs.version}</version>
                 <configuration>
                     <skip>${spotbugs.skip}</skip>
@@ -670,7 +670,7 @@
         <spotbugs.exclude />
         <spotbugs.skip>false</spotbugs.skip>
         <spotbugs.threshold>High</spotbugs.threshold>
-        <spotbugs.version>4.7.3.6</spotbugs.version>
+        <spotbugs.version>4.9.8.2</spotbugs.version>
         <findsecbugs.version>1.14.0</findsecbugs.version>
 
         <istack.plugins.version>4.1.2</istack.plugins.version>
