@@ -333,6 +333,9 @@
                 <release.projectName>Eclipse Metro WSIT</release.projectName>
                 <release.autoPublish>false</release.autoPublish>
                 <release.waitUntil>published</release.waitUntil>
+                <preparationGoals>clean package</preparationGoals>
+                <preparationProfiles>all-tests</preparationProfiles>
+                <excludeArtifacts>wsit-tests-e2e</excludeArtifacts>
             </properties>
         </profile>
     </profiles>

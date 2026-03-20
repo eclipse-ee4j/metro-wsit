@@ -125,6 +125,7 @@
                         <goals>
                             <goal>ws-test</goal>
                         </goals>
+                        <phase>integration-test</phase>
                         <configuration>
                             <extDir>${extensions.dir}</extDir>
                         </configuration>
