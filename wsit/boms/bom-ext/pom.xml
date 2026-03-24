@@ -38,11 +38,11 @@
 
         <commons-codec.version>1.21.0</commons-codec.version>
         <grizzly.version>5.0.0</grizzly.version>
-        <hk2.version>3.1.1</hk2.version>
+        <hk2.version>4.0.0</hk2.version>
         <santuario.version>4.0.4</santuario.version>
 
         <graal.sdk.version>22.3.5</graal.sdk.version>
-        <tomcat.coyote.version>11.0.18</tomcat.coyote.version>
+        <tomcat.coyote.version>11.0.20</tomcat.coyote.version>
 
         <junit.version>4.13.2</junit.version>
 
