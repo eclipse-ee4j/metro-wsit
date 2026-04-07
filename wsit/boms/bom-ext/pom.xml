@@ -42,7 +42,7 @@
         <santuario.version>4.0.4</santuario.version>
 
         <graal.sdk.version>22.3.5</graal.sdk.version>
-        <tomcat.coyote.version>11.0.20</tomcat.coyote.version>
+        <tomcat.coyote.version>11.0.21</tomcat.coyote.version>
 
         <junit.version>4.13.2</junit.version>
 
